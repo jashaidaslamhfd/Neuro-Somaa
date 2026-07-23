@@ -9,13 +9,15 @@ on:
         type: string
   schedule:
     # 3 videos/day for a French audience, auto-published at DATA-PROVEN Paris
-    # peaks (12:30 lunch / 19:30 prime / 21:00 soiree — 2026-07-26 analysis of
+    # peaks (12:30 lunch / 19:30 prime / 21:00 soirée — 2026-07-26 analysis of
     # all 23 videos: 19:00-22:00 = 66% of views, 12:30 winner got 1,251).
-    # Each cron fires ~40min before its slot; generation+upload takes ~15min
-    # and publishAt snaps the video to the exact slot. Year-round safe.
-    - cron: "50 9 * * *"    # generation ~11:50 Paris -> publish 12:30 (lunch peak)
-    - cron: "50 16 * * *"   # generation ~18:50 Paris -> publish 19:30 (prime — biggest avg)
-    - cron: "20 18 * * *"   # generation ~20:20 Paris -> publish 21:00 (soirée)
+    # Each cron starts generation ~2h before its slot, so the upload lands
+    # with a safe >=55min lead (publishAt needs >=15min). If a run slips past
+    # its slot, the one-video-per-slot lock moves it to the NEXT free slot —
+    # two videos can never publish at the same minute.
+    - cron: "30 8 * * *"    # generation ~10:30 Paris -> publish 12:30 (lunch peak)
+    - cron: "30 15 * * *"   # generation ~17:30 Paris -> publish 19:30 (prime — biggest avg)
+    - cron: "0 17 * * *"    # generation ~19:00 Paris -> publish 21:00 (soirée)
 
 permissions:
   contents: write

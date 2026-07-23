@@ -359,8 +359,13 @@ class SKILLORPipeline:
         logger.info("=" * 60)
 
         try:
-            # Phase 0: Check posting interval
-            if self.video_history:
+            # Phase 0: Check posting interval. With scheduled publishing ON,
+            # the one-video-per-slot lock already spaces publishes across the
+            # Paris peaks — the upload-TIME gap check here would only skip the
+            # legitimate 21:00 soirée run that follows the 19:30 upload, so it
+            # stays active for instant-publish mode only.
+            _scheduling_on = os.environ.get("YT_SCHEDULE_PUBLISH", "true").lower() == "true"
+            if self.video_history and not _scheduling_on:
                 last_posted_at = self.video_history[-1].get('posted_at')
                 if last_posted_at:
                     try:
