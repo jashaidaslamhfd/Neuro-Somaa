@@ -553,36 +553,38 @@ CTAS = [
 # ============================================
 # 6. CATEGORY TAGS (SEO)
 # ============================================
+# FRENCH tags only: English tag sets weakened French audience targeting
+# (audit 2026-07-25 — "tags_english_only" fault). Never re-add English tags.
 CATEGORY_TAGS = {
     "Brain": [
-        "neuroscience", "brainfacts", "psychologyfacts", "mindblown",
-        "brainscience", "humanbrain", "nervoussystem", "mentalhacks",
-        "brainhealth", "neuroplasticity", "cognition", "memory",
+        "cerveau", "neuroscience", "psychologie", "science du cerveau",
+        "système nerveux", "cerveau humain", "mental", "mémoire",
+        "neuroplasticité", "cognition", "esprit", "santé du cerveau",
     ],
     "Body": [
-        "humanbody", "bodyfacts", "anatomy", "bodyparts", "humanfacts",
-        "bodyawareness", "bodymystery", "yourbody", "physiology",
-        "humananatomy", "bodyscience", "healthfacts",
+        "corps humain", "anatomie", "physiologie", "corps",
+        "mystères du corps", "biologie", "organes", "réflexes",
+        "science du corps", "fonctions du corps", "santé", "faits du corps",
     ],
     "Mystery": [
-        "mysteryscience", "weirdfacts", "creepyfacts", "unknownfacts",
-        "darkscience", "bodysecrets", "themoreyouknow", "mindblowing",
-        "scaryfacts", "unexplained", "paranormal",
+        "mystère", "faits étranges", "inexpliqué", "science mystérieuse",
+        "secrets du corps", "bizarre", "phénomènes", "curiosité",
+        "inconnu", "étonnant", "surprenant", "faits cachés",
     ],
     "Health": [
-        "healthfacts", "bodyhacks", "sciencefacts", "healthscience",
-        "medicalmystery", "humanhealth", "wellness", "healthtips",
-        "wellnessjourney", "healthyliving",
+        "santé", "bien-être", "science de la santé", "conseils santé",
+        "vie saine", "faits santé", "corps et santé", "prévention",
+        "médecine", "hygiène de vie",
     ],
 }
 
 # ============================================
-# 7. BASE TAGS
+# 7. BASE TAGS — 100% FRENCH (audit 2026-07-25)
 # ============================================
 BASE_TAGS = [
-    "darkfacts", "facts", "shorts", "youtubeshorts", "science",
-    "didyouknow", "mindblowing", "funfacts", "scaryfacts", "viral",
-    "mystery", "unknown", "creepy", "interesting", "education",
+    "faits", "shorts", "science", "le saviez-vous", "étonnant",
+    "faits amusants", "viral", "mystère", "intéressant", "éducation",
+    "curiosité", "savoir", "apprendre", "culture générale", "découverte",
 ]
 
 # ============================================
@@ -716,15 +718,26 @@ def get_topic_category(topic: str) -> str:
 
 def get_seo_tags(topic: str, category: str = "Body") -> List[str]:
     """Returns YouTube-optimized tags (max 15)."""
+    _FR_STOPWORDS = {
+        'dans', 'avec', 'pour', 'quand', 'vous', 'votre', 'vos', 'notre',
+        'est', 'sont', 'être', 'avoir', 'cela', 'peut', 'plus', 'très',
+        'tout', 'toute', 'entre', 'leur', 'leurs', 'comme', 'aussi', 'sans',
+        'sous', 'chez', 'alors', 'encore', 'faire', 'fait', 'avant', 'après',
+        'pendant', 'toujours', 'jamais', 'même', 'votre', 'cette', 'quoi',
+        'your', 'this', 'that', 'what', 'when',
+    }
     topic_words = [
-        w for w in topic.lower().split()
-        if len(w) > 3 and w not in ['your', 'this', 'that', 'what', 'when']
+        w.strip(",.?!:;'’«»\"()") for w in topic.lower().split()
+    ]
+    topic_words = [
+        w for w in topic_words
+        if len(w) > 3 and w not in _FR_STOPWORDS
     ]
     tags = topic_words[:5]
     tags.extend(CATEGORY_TAGS.get(category, []))
     related_phrases = [
-        "human body", "science facts", "dark science",
-        "body secrets", "mysterious facts", "human anatomy"
+        "corps humain", "faits scientifiques", "science expliquée",
+        "secrets du corps", "faits mystérieux", "anatomie humaine"
     ]
     tags.extend(related_phrases)
     tags.extend(BASE_TAGS)

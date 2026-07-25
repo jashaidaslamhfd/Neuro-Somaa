@@ -154,6 +154,20 @@ def ensure_safe_disclaimer(script_data: Dict) -> Dict:
     return script_data
 
 
+# Last-word markers of a cut-off title: French articles, prepositions,
+# demonstratives and auxiliaries that can never end a real sentence.
+_TITLE_DANGLER_WORDS = frozenset({
+    "le", "la", "les", "un", "une", "de", "des", "du", "au", "aux", "en",
+    "et", "ou", "pour", "sur", "dans", "avec", "sans", "sous", "chez",
+    "que", "qui", "quand", "où", "dont", "ce", "cet", "cette", "ces",
+    "votre", "vos", "notre", "nos", "leur", "leurs", "son", "sa", "ses",
+    "mon", "ma", "mes", "ton", "ta", "tes", "se", "ne", "si", "car",
+    "vers", "entre", "très", "trop", "plus", "moins", "peu", "bien",
+    "mal", "même", "comme", "être", "avoir", "fait", "faire", "peut",
+    "doit", "veut", "va", "à",
+})
+
+
 def validate_publication_quality(script_data: Dict) -> Tuple[bool, Dict]:
     """Return (ok, report). Does not mutate except adding a safe disclaimer."""
     issues: List[str] = []
@@ -178,6 +192,18 @@ def validate_publication_quality(script_data: Dict) -> Tuple[bool, Dict]:
         warnings.append("Title is longer than 70 chars; mobile truncation risk")
     if title.isupper() and len(title) > 10:
         issues.append("Title is all caps; spam/clickbait risk")
+    # Hard block: a title ending on a French article/preposition/auxiliary is
+    # a TRUNCATED title (the "...battre la" incident — the language gate alone
+    # cannot catch it because every word is valid French). It looks broken to
+    # viewers and murders CTR.
+    last_word = ""
+    for word in title.lower().replace("’", " ").replace("'", " ").split():
+        last_word = word.strip(",.:;…!?«»\"()")
+    if last_word in _TITLE_DANGLER_WORDS:
+        issues.append(
+            f"Title appears truncated (ends with dangling '{last_word}'); "
+            "finish the sentence or shorten earlier words"
+        )
 
     text = _all_public_text(script_data)
     lang = language_score(text)
