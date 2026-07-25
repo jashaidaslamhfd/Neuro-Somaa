@@ -4,7 +4,9 @@ Les données Analytics de la chaîne priment toujours sur ces horaires de dépar
 from datetime import datetime, timedelta
 import pytz
 class FrancePeakTimeScheduler:
-    PEAK_TIMES=[{"hour":7,"minute":30,"name":"Matin"},{"hour":12,"minute":30,"name":"Pause déjeuner"},{"hour":19,"minute":30,"name":"Soirée"}]
+    PEAK_TIMES=[{"hour":16,"minute":0,"name":"Après-midi"},{"hour":18,"minute":30,"name":"Fin de journée"},{"hour":21,"minute":0,"name":"Soirée"}]
+    # DATA-DRIVEN (2026-07-25 autopsy): every 1k+ winner published 16:00-21:48
+    # Paris; the 07:30/12:30 slots produced all the flops. Morning slot killed.
     def __init__(self): self.paris_tz=pytz.timezone("Europe/Paris"); self.utc_tz=pytz.UTC
     def get_next_posting_times(self,count=3):
         now=datetime.now(self.paris_tz); result=[]

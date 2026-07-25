@@ -14,9 +14,9 @@ on:
     # to start generation a bit before the slot. ONE cron per slot, year-round
     # (the winter/summer twin-cron system was removed per owner request —
     # publishAt already makes it unnecessary).
-    - cron: "30 4 * * *"    # generation ~06:30 Paris -> publish 08:00
-    - cron: "0 10 * * *"    # generation ~12:00 Paris -> publish 13:00
-    - cron: "30 15 * * *"   # generation ~17:30 Paris -> publish 19:00
+    - cron: "30 12 * * *"   # generation ~14:30 Paris -> publish 16:00 (data: mornings flop)
+    - cron: "0 15 * * *"    # generation ~17:00 Paris -> publish 18:30
+    - cron: "30 17 * * *"   # generation ~19:30 Paris -> publish 21:00
 
 permissions:
   contents: write
