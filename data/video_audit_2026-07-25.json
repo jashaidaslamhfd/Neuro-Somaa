@@ -1,0 +1,191 @@
+{
+ "date": "2026-07-25",
+ "channel_video_count": 26,
+ "videos_scanned": 26,
+ "videos_clean": 13,
+ "videos_faulty": 13,
+ "fault_counts": {
+  "tags_english_only": 9,
+  "duplicate_title": 6,
+  "not_short": 6
+ },
+ "faulty_videos": [
+  {
+   "video_id": "nQI2RkTODb0",
+   "url": "https://youtu.be/nQI2RkTODb0",
+   "title": "La Vérité Sur Your Lungs Never Fully Empty",
+   "published_at": "2026-07-14T09:16:43Z",
+   "views": "1",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 1023,
+   "faults": [
+    "tags_english_only",
+    "not_short",
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "4Cg6ZMqZuts",
+   "url": "https://youtu.be/4Cg6ZMqZuts",
+   "title": "La Vérité Sur Your Lungs Never Fully Empty",
+   "published_at": "2026-07-13T20:34:22Z",
+   "views": "1",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 618,
+   "faults": [
+    "tags_english_only",
+    "not_short",
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "vAmu8qhid6w",
+   "url": "https://youtu.be/vAmu8qhid6w",
+   "title": "Pourquoi la chair de poule quand vous avez froid ?",
+   "published_at": "2026-07-14T20:29:19Z",
+   "views": "2",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 604,
+   "faults": [
+    "tags_english_only",
+    "not_short"
+   ]
+  },
+  {
+   "video_id": "b3W6KVeZuCo",
+   "url": "https://youtu.be/b3W6KVeZuCo",
+   "title": "Pourquoi vos poumons piquent quand il fait froid ?",
+   "published_at": "2026-07-13T10:32:35Z",
+   "views": "1",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 960,
+   "faults": [
+    "tags_english_only",
+    "not_short"
+   ]
+  },
+  {
+   "video_id": "6TMN07KA8g4",
+   "url": "https://youtu.be/6TMN07KA8g4",
+   "title": "Vos vaisseaux sanguins pourraient faire le tour de la Terre ?",
+   "published_at": "2026-07-12T20:19:22Z",
+   "views": "7",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 745,
+   "faults": [
+    "tags_english_only",
+    "not_short"
+   ]
+  },
+  {
+   "video_id": "oYWA48Tbcyc",
+   "url": "https://youtu.be/oYWA48Tbcyc",
+   "title": "Votre cerveau vous ment chaque jour — la preuve",
+   "published_at": "2026-07-12T16:34:29Z",
+   "views": "4",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 709,
+   "faults": [
+    "tags_english_only",
+    "not_short"
+   ]
+  },
+  {
+   "video_id": "rlPgBOtD3UE",
+   "url": "https://youtu.be/rlPgBOtD3UE",
+   "title": "Pourquoi le corps se fige quand on a peur",
+   "published_at": "2026-07-24T10:30:02Z",
+   "views": "1245",
+   "language": "fr",
+   "tags_count": 9,
+   "desc_len": 636,
+   "faults": [
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "yxoI9-KWXzI",
+   "url": "https://youtu.be/yxoI9-KWXzI",
+   "title": "Pourquoi l'effet du stress sur la mémoire ?",
+   "published_at": "2026-07-23T17:30:34Z",
+   "views": "292",
+   "language": "fr",
+   "tags_count": 14,
+   "desc_len": 507,
+   "faults": [
+    "tags_english_only"
+   ]
+  },
+  {
+   "video_id": "WxOEXbepJ40",
+   "url": "https://youtu.be/WxOEXbepJ40",
+   "title": "Pourquoi le ventre se serre lors d'une peur ?",
+   "published_at": "2026-07-23T17:30:22Z",
+   "views": "1457",
+   "language": "fr",
+   "tags_count": 14,
+   "desc_len": 507,
+   "faults": [
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "DocJNQZiwQQ",
+   "url": "https://youtu.be/DocJNQZiwQQ",
+   "title": "Pourquoi le ventre se serre lors d'une peur ?",
+   "published_at": "2026-07-22T17:30:14Z",
+   "views": "1087",
+   "language": "fr",
+   "tags_count": 14,
+   "desc_len": 529,
+   "faults": [
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "68B-7lTf8nU",
+   "url": "https://youtu.be/68B-7lTf8nU",
+   "title": "Pourquoi les genoux qui craquent en bougeant ?",
+   "published_at": "2026-07-21T18:28:11Z",
+   "views": "1509",
+   "language": "fr",
+   "tags_count": 14,
+   "desc_len": 518,
+   "faults": [
+    "tags_english_only"
+   ]
+  },
+  {
+   "video_id": "0V5ZhO3qviQ",
+   "url": "https://youtu.be/0V5ZhO3qviQ",
+   "title": "Pourquoi le corps se fige quand on a peur ?",
+   "published_at": "2026-07-21T07:17:48Z",
+   "views": "145",
+   "language": "fr",
+   "tags_count": 14,
+   "desc_len": 517,
+   "faults": [
+    "duplicate_title"
+   ]
+  },
+  {
+   "video_id": "hAb8ztZnG-k",
+   "url": "https://youtu.be/hAb8ztZnG-k",
+   "title": "Pourquoi vos oreilles grandissent toute votre vie ?",
+   "published_at": "2026-07-13T14:11:04Z",
+   "views": "6",
+   "language": "fr",
+   "tags_count": 15,
+   "desc_len": 997,
+   "faults": [
+    "tags_english_only"
+   ]
+  }
+ ]
+}
