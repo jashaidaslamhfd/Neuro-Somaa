@@ -88,6 +88,69 @@ def _normalise_topic(value: str) -> str:
     return re.sub(r"\s+", " ", re.sub(r"[^\w\s]", " ", value.lower())).strip()
 
 
+# Data-proven flop (Jul 2026): two uploads about "time feels faster with age"
+# within 48h — the first earned 800+ views, the second died at 4 views. The
+# exact-string dedupe above cannot see this, so topics that merely REWORD a
+# recent upload must also be blocked.
+_FR_STOPWORDS = {
+    "le", "la", "les", "un", "une", "de", "des", "du", "en", "et", "ou",
+    "qui", "que", "quand", "avec", "sans", "on", "vous", "tu", "ton", "ta",
+    "tes", "votre", "vos", "son", "sa", "ses", "il", "elle", "se", "ce",
+    "cette", "pour", "pourquoi", "est", "ne", "pas", "peut", "sembler",
+    "dans", "sur", "au", "aux", "a", "d", "l", "j", "qu", "n", "s", "y",
+    "comment", "quoi", "vos", "nos", "notre",
+}
+
+
+_WORD_FAMILIES = (
+    ("vieill", "age"), ("vieux", "age"),
+    ("accel", "vite"), ("rapid", "vite"), ("vitess", "vite"),
+    ("pass", "passe"), ("ecoul", "passe"),
+    ("dorm", "dort"), ("sommeil", "dort"), ("reveill", "reveil"),
+    ("mang", "mange"), ("aliment", "mange"), ("nourrit", "mange"),
+    ("peur", "peur"), ("angois", "peur"), ("stress", "peur"), ("anxie", "peur"),
+    ("froid", "froid"), ("friss", "froid"),
+    ("coeur", "coeur"), ("cardia", "coeur"),
+    ("genou", "genou"), ("articul", "genou"),
+)
+
+
+def _strip_accents(text: str) -> str:
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", text)
+                   if not unicodedata.combining(c))
+
+
+def _topic_words(value: str) -> set:
+    norm = _strip_accents(_normalise_topic(value))
+    words = set()
+    for w in norm.split():
+        if len(w) <= 2 or w in _FR_STOPWORDS:
+            continue
+        stem = w
+        for prefix, canon in _WORD_FAMILIES:
+            if w.startswith(prefix):
+                stem = canon
+                break
+        words.add(stem)
+    return words
+
+
+def _near_duplicate_of_recent(topic: str, excluded: Iterable[str]) -> bool:
+    words = _topic_words(topic)
+    if len(words) < 2:
+        return False
+    for recent in (excluded or []):
+        rwords = _topic_words(recent)
+        if not rwords:
+            continue
+        overlap = len(words & rwords)
+        score = overlap / min(len(words), len(rwords))
+        if score >= 0.6 or (rwords and rwords.issubset(words)) or (words and words.issubset(rwords)):
+            return True
+    return False
+
+
 def _clean_topic(value: object) -> str:
     """Return a short, printable title or an empty string."""
     if not isinstance(value, str):
@@ -334,6 +397,8 @@ def get_trending_topic(
     # trend feeds. This gives YouTube 500 tightly consistent audience signals.
     if strategy in {"body_glitch_series", "body_glitch_series_fr"}:
         series_topics = _deduplicate(get_body_glitch_topics(), exclude)
+        series_topics = [t for t in series_topics
+                         if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
         if series_topics:
             chosen = random.choice(series_topics)
         else:
@@ -348,6 +413,10 @@ def get_trending_topic(
     records.extend(get_reddit_trending_topics())
     real_topics = _deduplicate(records, exclude)
     proven_topics = _deduplicate(get_proven_topics(), exclude)
+    real_topics = [t for t in real_topics
+                   if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
+    proven_topics = [t for t in proven_topics
+                     if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
 
     if require_daily_trend:
         if not real_topics:
