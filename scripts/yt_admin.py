@@ -103,11 +103,55 @@ def retitle_video(token: str, vid: str, new_title: str, apply: bool) -> None:
     log.info("updated %s", vid)
 
 
+def check_scheduled(token: str) -> None:
+    """List every still-scheduled upload (private + publishAt) and flag any
+    two videos set to go live at the same minute — verifies the
+    one-video-per-slot lock against whatever was scheduled BEFORE it shipped."""
+    channels = _req("GET",
+                    "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true",
+                    token)
+    items = channels.get("items") or []
+    if not items:
+        log.warning("check_scheduled: no channel visible with this token — skipping")
+        return
+    uploads = items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
+    playlist = _req("GET",
+                    "https://www.googleapis.com/youtube/v3/playlistItems"
+                    f"?part=contentDetails&playlistId={uploads}&maxResults=25",
+                    token)
+    ids = [i["contentDetails"]["videoId"] for i in playlist.get("items", [])]
+    if not ids:
+        log.info("check_scheduled: uploads playlist empty")
+        return
+    videos = _req("GET",
+                  "https://www.googleapis.com/youtube/v3/videos"
+                  f"?part=status,snippet&id={','.join(ids)}",
+                  token)
+    pending = []
+    for v in videos.get("items", []):
+        publish_at = v.get("status", {}).get("publishAt")
+        if publish_at:
+            pending.append((publish_at, v["id"], v.get("snippet", {}).get("title", "")))
+    pending.sort()
+    log.info("check_scheduled: %d video(s) waiting to go live:", len(pending))
+    seen = {}
+    for publish_at, vid, title in pending:
+        clash = "  <-- SAME SLOT AS ANOTHER VIDEO!" if publish_at in seen else ""
+        seen[publish_at] = vid
+        log.info("  %s  %s  %s%s", publish_at, vid, title[:60], clash)
+    if len(pending) != len(seen):
+        log.warning("SLOT COLLISION PENDING on the channel — fix before it fires")
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--apply", action="store_true")
     args = ap.parse_args()
     token = _token()
+    try:
+        check_scheduled(token)
+    except Exception as exc:
+        log.warning("check_scheduled skipped: %s", exc)
     for vid in DELETE_IDS:
         delete_video(token, vid, args.apply)
         time.sleep(1)
