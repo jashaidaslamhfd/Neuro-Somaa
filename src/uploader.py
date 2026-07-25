@@ -43,6 +43,21 @@ PLAYLIST_ENABLED = os.environ.get("YT_PLAYLIST_ENABLED", "true").strip().lower()
 MIN_SCHEDULE_LEAD_SECONDS = 15 * 60  # publishAt must sit safely in the future
 
 # ---------------------------------------------------------------------------
+# ONE VIDEO PER SLOT LOCK
+# _next_publish_at used to pick the next Paris slot from the CLOCK ONLY. Two
+# runs (or two videos in a batch) could then both grab e.g. 18:30 and publish
+# at the exact same minute (the "2 videos at once" bug). Now every slot claim
+# is recorded and re-checked from THREE sources before a slot is chosen:
+#   1. _CLAIMED_PUBLISH_ATS - claims made inside this same process (batch mode)
+#   2. data/video_history.json - publish_at ledger persisted across runs by git
+#   3. the YouTube channel itself - videos already uploaded private+publishAt
+#      (best-effort: needs youtube.force-ssl; failure falls back to 1+2)
+# ---------------------------------------------------------------------------
+_CLAIMED_PUBLISH_ATS = []  # list of timezone-aware datetimes, this process only
+SLOT_CLAIM_TOLERANCE_SECONDS = 30 * 60  # slots are 2.5h apart; 30min is safe
+SCHEDULE_LOOKAHEAD_SLOTS = 12  # must exceed 6: claims may push us to tomorrow
+
+# ---------------------------------------------------------------------------
 # IMPORTANT: YouTube video uploads require OAuth 2.0 USER credentials, not a
 # service-account key. Credentials are read from THREE separate secrets/env
 # vars: GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REFRESH_TOKEN.
@@ -172,23 +187,105 @@ def _already_uploaded_to_facebook(script_data: dict) -> bool:
     )
 
 
-def _next_publish_at() -> tuple:
+def _parse_iso_quiet(value):
+    """Parse an ISO-8601 timestamp to an aware datetime, or None."""
+    if not value:
+        return None
+    try:
+        from datetime import datetime
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return dt if dt.tzinfo else dt.replace(tzinfo=__import__("datetime").timezone.utc)
+    except Exception:
+        return None
+
+
+def _channel_scheduled_publish_ats(yt) -> list:
+    """publishAt times of videos ALREADY scheduled on the channel (private +
+    publishAt). This is the cross-run source of truth: a queued cron run sees
+    the slot the previous run just claimed and moves to the next one.
+    Best-effort only: any scope/quota failure returns []."""
+    claimed = []
+    try:
+        from datetime import datetime, timezone, timedelta
+        channels = yt.channels().list(part="contentDetails", mine=True).execute()
+        items = channels.get("items") or []
+        if not items:
+            return claimed
+        uploads_playlist = items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
+        video_ids = []
+        request = yt.playlistItems().list(
+            part="contentDetails", playlistId=uploads_playlist, maxResults=25)
+        response = request.execute()
+        for item in response.get("items", []):
+            vid = item.get("contentDetails", {}).get("videoId")
+            if vid:
+                video_ids.append(vid)
+        if not video_ids:
+            return claimed
+        videos = yt.videos().list(part="status", id=",".join(video_ids)).execute()
+        cutoff = datetime.now(timezone.utc) - timedelta(hours=3)
+        for video in videos.get("items", []):
+            publish_at = _parse_iso_quiet(video.get("status", {}).get("publishAt"))
+            if publish_at and publish_at > cutoff:
+                claimed.append(publish_at)
+        if claimed:
+            logger.info("Channel already has %d scheduled slot(s): %s",
+                        len(claimed), [c.isoformat() for c in claimed])
+    except Exception as exc:
+        logger.warning("Scheduled-slot check via YouTube API skipped (%s); "
+                       "falling back to local ledger only.", exc)
+    return claimed
+
+
+def _claimed_publish_times(yt=None) -> list:
+    """Every publish time already taken, from all three sources."""
+    from datetime import datetime, timezone, timedelta
+    now = datetime.now(timezone.utc)
+    claimed = [dt for dt in _CLAIMED_PUBLISH_ATS if dt and dt > now - timedelta(hours=3)]
+    try:
+        history_path = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
+        if os.path.exists(history_path):
+            with open(history_path, "r") as handle:
+                for entry in json.load(handle):
+                    publish_at = _parse_iso_quiet(entry.get("publish_at"))
+                    if publish_at and publish_at > now - timedelta(hours=3):
+                        claimed.append(publish_at)
+    except Exception as exc:
+        logger.warning("Local publish_at ledger unreadable (%s).", exc)
+    if yt is not None:
+        claimed.extend(_channel_scheduled_publish_ats(yt))
+    return claimed
+
+
+def _slot_is_taken(when, claimed) -> bool:
+    return any(abs((when - taken).total_seconds()) < SLOT_CLAIM_TOLERANCE_SECONDS
+               for taken in claimed)
+
+
+def _next_publish_at(yt=None) -> tuple:
     """Return (publish_at_rfc3339_utc | None, slot_info | None).
 
     Picks the next Paris peak window that is at least MIN_SCHEDULE_LEAD_SECONDS
-    in the future, so YouTube always publishes inside a French peak slot -
-    never at a random moment after a 2-3h generation run.
+    in the future AND not already claimed by another video - so YouTube always
+    publishes inside a French peak slot, and never two videos at the same
+    minute (regression guard for the "2 videos at once" bug).
     """
     try:
         from datetime import datetime, timezone
         from scheduler import FrancePeakTimeScheduler
         scheduler = FrancePeakTimeScheduler()
         now_utc = datetime.now(timezone.utc)
-        for slot in scheduler.get_next_posting_times(6):
+        claimed = _claimed_publish_times(yt)
+        for slot in scheduler.get_next_posting_times(SCHEDULE_LOOKAHEAD_SLOTS):
             when = datetime.fromisoformat(slot["time_utc"])
-            if (when - now_utc).total_seconds() >= MIN_SCHEDULE_LEAD_SECONDS:
-                return when.isoformat(), slot
-        logger.warning("No upcoming Paris peak slot found far enough in the future.")
+            if (when - now_utc).total_seconds() < MIN_SCHEDULE_LEAD_SECONDS:
+                continue
+            if _slot_is_taken(when, claimed):
+                logger.info("Slot %s already taken by another upload - skipping it.",
+                            slot.get("time_paris", when.isoformat()))
+                continue
+            return when.isoformat(), slot
+        logger.warning("No free upcoming Paris peak slot found far enough in the future.")
     except Exception as exc:
         logger.warning("Could not compute publishAt (%s); uploading immediately instead.", exc)
     return None, None
@@ -290,7 +387,7 @@ def _upload_youtube(video_path, thumb_path, script_data, tags):
     # live immediately (public). A manual-review run (private) stays untouched.
     publish_at_iso, slot_info = (None, None)
     if SCHEDULE_PUBLISH and YT_PRIVACY_STATUS == "public":
-        publish_at_iso, slot_info = _next_publish_at()
+        publish_at_iso, slot_info = _next_publish_at(yt)
 
     body = {
         'snippet': {
@@ -361,6 +458,12 @@ def _upload_youtube(video_path, thumb_path, script_data, tags):
             _save_upload_state(upload_state)
             logger.info(f"YouTube upload successful: https://youtu.be/{yt_video_id}")
             youtube_success = True
+
+            # Lock this slot for the rest of THIS process run (batch mode):
+            # the next video in the batch must not publish at the same minute.
+            claimed_at = _parse_iso_quiet(publish_at_iso)
+            if claimed_at:
+                _CLAIMED_PUBLISH_ATS.append(claimed_at)
 
             if thumb_path and os.path.exists(thumb_path):
                 try:
@@ -438,10 +541,7 @@ def _upload_youtube(video_path, thumb_path, script_data, tags):
             logger.error(f"YouTube upload failed: {e}")
             break
 
-    return youtube_success, yt_video_id
-
-
-def _upload_facebook_reels(video_path, script_data, tags):
+    return youtube_success, yt_video_id, (publish_at_iso if youtube_success else None)
     """
     FIX: previously this posted to /{page-id}/videos as a plain video post.
     Facebook's 2026 recommendation algorithm gives materially better organic
@@ -558,7 +658,7 @@ def upload_all(video_path, thumb_path, script_data):
     logger.info(f"Privacy status = {YT_PRIVACY_STATUS} | scheduled publish = {SCHEDULE_PUBLISH} | synthetic disclosure = {DECLARE_SYNTHETIC_MEDIA}")
     logger.info(f"SEO tags for this video: {tags}")
 
-    youtube_success, yt_video_id = _upload_youtube(video_path, thumb_path, script_data, tags)
+    youtube_success, yt_video_id, publish_at = _upload_youtube(video_path, thumb_path, script_data, tags)
     facebook_success = _upload_facebook_reels(video_path, script_data, tags)
 
     logger.info(f"YouTube Upload: {'SUCCESS' if youtube_success else 'FAILED/SKIPPED'}")
@@ -573,4 +673,5 @@ def upload_all(video_path, thumb_path, script_data):
         "youtube_success": youtube_success,
         "youtube_video_id": yt_video_id,
         "facebook_success": facebook_success,
+        "publish_at": publish_at,
     }
