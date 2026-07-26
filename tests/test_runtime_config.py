@@ -564,3 +564,42 @@ class AnalyticsScopeTests(unittest.TestCase):
             "scopes= on refresh triggers invalid_scope; the token already "
             "carries yt-analytics.readonly",
         )
+
+
+class RetentionTopicSelectionTests(unittest.TestCase):
+    """Topic choice was random.choice() over 500 entries. Once real Analytics
+    landed, this channel's own 14 videos showed body-sensation topics
+    retaining 35.7% vs 28.1% for abstract ones (+7.6 points for identical
+    production effort), so the pipeline now weights toward them."""
+
+    def setUp(self):
+        try:
+            import trend_fetcher
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.tf = trend_fetcher
+
+    def test_classifier_matches_measured_outcomes(self):
+        physical = ["Pourquoi le ventre se serre lors d'une peur",
+                    "Pourquoi les genoux qui craquent en bougeant",
+                    "Pourquoi le silence devient inconfortable"]
+        abstract = ["Pourquoi le temps semble passer plus vite en vieillissant",
+                    "Ce que la science explique sur l'effet du stress sur la mémoire",
+                    "Ce qui se passe quand un déjà-vu semble familier"]
+        for topic in physical:
+            self.assertEqual(self.tf.classify_topic_retention(topic), "physical", topic)
+        for topic in abstract:
+            self.assertEqual(self.tf.classify_topic_retention(topic), "abstract", topic)
+
+    def test_selection_favours_physical_without_starving_the_rest(self):
+        pool = ([{"topic": "Pourquoi le ventre se serre"}] * 50
+                + [{"topic": "Pourquoi le temps semble accélérer"}] * 50)
+        picks = [self.tf.classify_topic_retention(
+            self.tf._pick_by_retention_class(pool)["topic"]) for _ in range(400)]
+        share = picks.count("physical") / len(picks)
+        self.assertGreater(share, 0.6, "physical topics must be favoured")
+        self.assertLess(share, 0.95, "abstract topics must still ship sometimes")
+
+    def test_never_crashes_when_one_pool_is_empty(self):
+        only_abstract = [{"topic": "Pourquoi le temps semble accélérer"}]
+        self.assertIsNotNone(self.tf._pick_by_retention_class(only_abstract))

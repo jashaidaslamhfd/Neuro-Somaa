@@ -345,6 +345,84 @@ def get_reddit_trending_topics() -> List[Dict]:
     return topics
 
 
+# ---------------------------------------------------------------------------
+# Retention-weighted topic selection
+# ---------------------------------------------------------------------------
+# Measured on this channel's OWN 14 videos once real YouTube Analytics finally
+# landed (2026-07-26). Grouping every published topic by what it asks the
+# viewer to feel:
+#
+#   PHYSICAL  (silence pesant, ventre serré, genoux qui craquent, rougir,
+#              se réveiller avant l'alarme)      n=9   avg retention 35.7%
+#   ABSTRACT  (le temps qui passe, la mémoire,
+#              le déjà-vu, le stress)            n=5   avg retention 28.1%
+#
+# +7.6 points for the same production effort. The reason is mechanical: a
+# Short is watched in silence while scrolling. "Ton ventre se serre" is
+# something the viewer can verify in their own body in the first second.
+# "Le temps semble accélérer" asks them to reflect — and reflection loses to
+# the thumb.
+#
+# Topic choice was pure random.choice() before this, so half the catalogue's
+# retention advantage was being thrown away at the very first step of the
+# pipeline. This is a WEIGHTING, not a ban: abstract topics still ship (they
+# keep the catalogue varied), just less often.
+PHYSICAL_SENSATION_MARKERS = {
+    "ventre", "estomac", "gorge", "poitrine", "peau", "chair", "poil",
+    "genou", "genoux", "muscle", "jambe", "bras", "main", "doigt", "pied",
+    "dos", "nuque", "épaule", "mâchoire", "dent", "langue", "lèvre",
+    "oeil", "œil", "yeux", "paupière", "oreille", "nez", "visage", "joue",
+    "rougir", "rougit", "frisson", "chair de poule", "tremble", "tressaille",
+    "craque", "craquent", "serre", "fige", "sursaut", "hoquet", "bâille",
+    "bâillement", "éternue", "démange", "picote", "engourdi", "crampe",
+    "transpire", "sueur", "battement", "souffle", "respiration", "ventre",
+    "faim", "soif", "fatigue", "lourd", "silence", "réveil", "endormir",
+    "sommeil", "dormir", "nuit", "cœur", "coeur", "pouls",
+}
+ABSTRACT_CONCEPT_MARKERS = {
+    "temps", "mémoire", "souvenir", "déjà-vu", "deja-vu", "stress",
+    "anxiété", "pensée", "conscience", "perception", "attention",
+    "émotion", "humeur", "rêve", "imagination", "vieillissant", "âge",
+}
+# Odds of picking from the physical pool when both pools are available.
+PHYSICAL_TOPIC_BIAS = float(os.environ.get("PHYSICAL_TOPIC_BIAS", "0.75"))
+
+
+def classify_topic_retention(topic: str) -> str:
+    """'physical' | 'abstract' | 'neutral' — see the measurement note above."""
+    text = (topic or "").lower()
+    physical = sum(1 for marker in PHYSICAL_SENSATION_MARKERS if marker in text)
+    abstract = sum(1 for marker in ABSTRACT_CONCEPT_MARKERS if marker in text)
+    if physical > abstract:
+        return "physical"
+    if abstract > physical:
+        return "abstract"
+    return "neutral"
+
+
+def _pick_by_retention_class(candidates: List[Dict]) -> Dict:
+    """Prefer body-sensation topics, without ever starving the catalogue."""
+    physical, other = [], []
+    for record in candidates:
+        target = physical if classify_topic_retention(
+            record.get("topic", "")) == "physical" else other
+        target.append(record)
+
+    if physical and other:
+        pool = physical if random.random() < PHYSICAL_TOPIC_BIAS else other
+    else:
+        pool = physical or other
+
+    chosen = random.choice(pool)
+    logger.info(
+        "Topic class: %s (physical pool=%d, other=%d, bias=%.2f) -> %s",
+        classify_topic_retention(chosen.get("topic", "")),
+        len(physical), len(other), PHYSICAL_TOPIC_BIAS,
+        chosen.get("topic", "")[:60],
+    )
+    return chosen
+
+
 def get_body_glitch_topics() -> List[Dict]:
     """Load the fixed 500-topic Body Glitch catalogue with series metadata."""
     try:
@@ -400,7 +478,7 @@ def get_trending_topic(
         series_topics = [t for t in series_topics
                          if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
         if series_topics:
-            chosen = random.choice(series_topics)
+            chosen = _pick_by_retention_class(series_topics)
         else:
             chosen = random.choice(get_body_glitch_topics())
             logger.warning("All Body Glitch topics were excluded; restarting the 500-topic series.")
