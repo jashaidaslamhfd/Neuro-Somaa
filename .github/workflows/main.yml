@@ -8,15 +8,14 @@ on:
         required: false
         type: string
   schedule:
-    # 3 videos/day for a French audience, auto-published at Paris peaks
-    # (08:00 / 13:00 / 19:00 Europe/Paris) via status.publishAt — the code
-    # snaps each upload to the exact next Paris slot, so the cron only needs
-    # to start generation a bit before the slot. ONE cron per slot, year-round
-    # (the winter/summer twin-cron system was removed per owner request —
-    # publishAt already makes it unnecessary).
-    - cron: "30 12 * * *"   # generation ~14:30 Paris -> publish 16:00 (data: mornings flop)
-    - cron: "0 15 * * *"    # generation ~17:00 Paris -> publish 18:30
-    - cron: "30 17 * * *"   # generation ~19:30 Paris -> publish 21:00
+    # 3 videos/day for a French audience, auto-published at DATA-PROVEN Paris
+    # peaks (12:30 lunch / 19:30 prime / 21:00 soiree — 2026-07-26 analysis of
+    # all 23 videos: 19:00-22:00 = 66% of views, 12:30 winner got 1,251).
+    # Each cron fires ~40min before its slot; generation+upload takes ~15min
+    # and publishAt snaps the video to the exact slot. Year-round safe.
+    - cron: "50 9 * * *"    # generation ~11:50 Paris -> publish 12:30 (lunch peak)
+    - cron: "50 16 * * *"   # generation ~18:50 Paris -> publish 19:30 (prime — biggest avg)
+    - cron: "20 18 * * *"   # generation ~20:20 Paris -> publish 21:00 (soirée)
 
 permissions:
   contents: write
