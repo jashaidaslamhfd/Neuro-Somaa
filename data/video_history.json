@@ -240,5 +240,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "3e210ca28a1532d8bf3f11da4e6ca61e278513e071c1af5f37a4b2962470de85",
+    "title": "Pourquoi les corps flottants visibles dans la lumi\u00e8re ?",
+    "topic": "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumi\u00e8re",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps voit des points C'est ton cerveau qui les cr\u00e9e, mais comment les interpr\u00e8te-t-il? Les photons frappent la r\u00e9tine et envoient des signaux Les signaux sont transmis au cerveau pour \u00eatre d\u00e9cod\u00e9s Le plus \u00e9trange, c'est que le cerveau les interpr\u00e8te comme des corps flottants Les corps flottants ne sont pas de petits insectes, mais plut\u00f4t des d\u00e9bris dans l'\u0153il Pour une bonne vue, il faut prendre soin de ses yeux et comprendre ces ph\u00e9nom\u00e8nes Et maintenant, tu sais ce que sont ces points et ce",
+    "posted_at": "2026-07-26T18:11:38.323167+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "YluUMs7fPtQ",
+    "publish_at": "2026-07-28T10:30:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
