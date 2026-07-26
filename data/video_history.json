@@ -224,5 +224,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "4029b1bdbb36b3590c8d16e26257414cc22ac8803f97c70fd33ee350a9812d0b",
+    "title": "Pourquoi le hoquet commence brusquement ?",
+    "topic": "Ce que votre corps vous dit quand le hoquet commence brusquement",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps hoquette sans raison apparente C'est un r\u00e9flexe nerveux qui se d\u00e9clenche, mais pourquoi exactement? Le diaphragme se contracte de mani\u00e8re involontaire, ce qui bloque la respiration Le nerf vague est stimul\u00e9 et envoie un signal qui perturbe la respiration normale Le plus \u00e9trange, c'est que cela peut se reproduire plusieurs fois de suite sans arr\u00eat Boire de l'eau ne fait pas toujours dispara\u00eetre le hoquet, contrairement \u00e0 ce que l'on pense Respirer profond\u00e9ment peut aider \u00e0 calmer le hoq",
+    "posted_at": "2026-07-26T16:38:42.197674+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "mGJQX82e9IY",
+    "publish_at": "2026-07-27T19:00:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
