@@ -6,7 +6,7 @@ import requests
 import logging
 
 from image_providers import available_providers, RateLimitError
-from media_validator import validate_scene_image
+from media_validator import validate_scene_image, MediaValidationError
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -40,10 +40,54 @@ _fallback_lock = threading.Lock()
 DARK_STYLE_SUFFIX = (
     "clean cinematic documentary lighting, realistic human detail, sharp focus, "
     "crisp high-resolution detail, natural color, professional camera quality, "
-    "vertical composition, no text, no watermark, not blurry, not dull"
+    "vertical composition, no text, no watermark, not blurry, not dull, "
+    # Anti-gore / anti-horror. Added 2026-07-27 after a published Short
+    # ("Pourquoi le sursaut du corps en s'endormant ?") shipped a
+    # blood-spattered horror face as its opening visual. The prompt asked for
+    # "dark/moody", which several providers happily read as horror. A calm
+    # French science channel must never look like a shock channel: it is
+    # off-brand and it puts advertiser suitability at risk.
+    "no blood, no gore, no wounds, no injury, no horror, no scary face, "
+    "no zombie, no monster, no body paint, no distorted anatomy, "
+    "safe for all audiences, medically respectful, educational tone"
 )
 
+# Words that must never reach a stock-footage/image search on this channel.
+# Scene descriptions such as "le corps se fige de peur" were being passed
+# through verbatim and returning horror B-roll.
+UNSAFE_QUERY_TERMS = {
+    "sang", "sanglant", "blood", "bloody", "gore", "horreur", "horror",
+    "zombie", "monstre", "monster", "cadavre", "corpse", "mort", "death",
+    "blessure", "wound", "injury", "effrayant", "scary", "terreur", "terror",
+    "cauchemar", "nightmare", "creepy", "violence", "violent",
+}
+
 FALLBACK_POOL_DIR = "assets/fallback_images"
+
+
+def _safe_query(scene_text: str, default: str) -> str:
+    """Strip shock/gore words before hitting a stock search.
+
+    Scene captions like "le corps se fige de peur" or "un cauchemar" were sent
+    verbatim to Pexels/Pixabay and returned horror B-roll, which then became
+    the opening frame of an educational Short. Removing the trigger words
+    keeps the subject while dropping the tone that pulls horror results."""
+    original = (scene_text or "").split()
+    words = [
+        word for word in original
+        if word.strip(".,;:!?()\"'").lower() not in UNSAFE_QUERY_TERMS
+    ]
+    # Once the shock words are gone, whatever remains must still describe
+    # something. "un cauchemar effrayant avec du sang" reduces to "un avec du"
+    # — grammatical debris that would return random stock. Keep only real
+    # content words, and fall back to the safe default if too little is left.
+    filler = {"un", "une", "le", "la", "les", "de", "du", "des", "avec", "sans",
+              "et", "ou", "en", "dans", "sur", "ce", "cette", "qui", "que",
+              "se", "son", "sa", "ses", "au", "aux", "pour", "par"}
+    content = [w for w in words if w.strip(".,;:!?()\"'").lower() not in filler]
+    if len(content) < 2:
+        return default
+    return " ".join(words).strip() or default
 
 
 def _save_bytes(content: bytes, index: int, ext: str = "jpg") -> str:
@@ -134,7 +178,7 @@ def _layer1_playwright_screenshot(index, scene_text):
     above; a raw webpage screenshot doesn't match the channel's visual style."""
     from playwright.sync_api import sync_playwright
 
-    query = (scene_text or "mystery science").strip()[:100]
+    query = _safe_query(scene_text, "mystery science")[:100]
     screenshot_bytes = None
 
     with sync_playwright() as p:
@@ -164,8 +208,40 @@ def _layer1_playwright_screenshot(index, scene_text):
     return _save_bytes(screenshot_bytes, index, ext="png")
 
 
+def _validate_clip_first_frame(clip_path: str, source_name: str) -> None:
+    """Run the still-image quality bar over a video clip's opening frame.
+
+    Best-effort: if the frame cannot be extracted (missing ffmpeg, odd codec)
+    the clip is allowed through rather than failing an otherwise good run."""
+    frame_path = None
+    try:
+        from moviepy.editor import VideoFileClip
+        with VideoFileClip(clip_path, audio=False) as clip:
+            # ~0.3s in: past any fade-in, still within the swipe window.
+            stamp = min(0.3, max(clip.duration - 0.05, 0.0))
+            frame = clip.get_frame(stamp)
+        from PIL import Image as _Image
+        frame_path = f"{clip_path}.firstframe.jpg"
+        _Image.fromarray(frame).convert("RGB").save(frame_path, quality=92)
+    except MediaValidationError:
+        raise
+    except Exception as exc:                      # extraction problem only
+        logger.warning("%s: could not inspect first frame (%s)", source_name, exc)
+        return
+
+    try:
+        validate_scene_image(frame_path)
+    except MediaValidationError as exc:
+        raise RuntimeError(f"{source_name}: first frame rejected — {exc}") from exc
+    finally:
+        try:
+            os.remove(frame_path)
+        except OSError:
+            pass
+
+
 def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
-    query = (scene_text or "mystery science").strip()[:80]
+    query = _safe_query(scene_text, "mystery science")[:80]
     if source == "pexels":
         key = os.environ.get("PEXELS_API_KEY")
         if not key:
@@ -222,7 +298,7 @@ def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
 
 def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     """Download a licensed stock B-roll clip for a scene when available."""
-    query = (scene_text or "human body science").strip()[:80]
+    query = _safe_query(scene_text, "human body science")[:80]
     if source == "pexels":
         key = os.environ.get("PEXELS_API_KEY")
         if not key:
@@ -324,8 +400,17 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
             path, media_type = result if isinstance(result, tuple) else (result, "image")
             if media_type == "image":
                 validate_scene_image(path)
-            elif not os.path.isfile(path) or os.path.getsize(path) < 100_000:
-                raise RuntimeError(f"{name}: invalid or too-small video clip")
+            else:
+                if not os.path.isfile(path) or os.path.getsize(path) < 100_000:
+                    raise RuntimeError(f"{name}: invalid or too-small video clip")
+                # Stock B-roll was only ever size-checked, never LOOKED at.
+                # That is how "Pourquoi un muscle tressaille tout seul ?"
+                # shipped with an almost entirely out-of-focus opening frame
+                # (edge energy 1.09). Scene 1 is the whole swipe decision on
+                # a Shorts channel, so its first frame gets the same quality
+                # bar as a generated image.
+                if index == 0:
+                    _validate_clip_first_frame(path, name)
             with open(path, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
             if file_hash in used_hashes:

@@ -39,7 +39,19 @@ class MediaValidationError(RuntimeError):
 
 
 def validate_scene_image(path: str, min_side: int = 512) -> Dict:
-    """Decode an image and reject error pages, corrupt, tiny or black assets."""
+    """Decode an image and reject error pages, corrupt, tiny, black,
+    OUT-OF-FOCUS or graphically violent assets.
+
+    Sharpness and gore checks were added after inspecting the live channel on
+    2026-07-27: two published Shorts used a scene-1 visual that this function
+    happily approved —
+      * "Pourquoi un muscle tressaille tout seul ?" — an almost entirely
+        out-of-focus frame (edge energy 1.09; anything under ~3 is mush).
+      * "Pourquoi le sursaut du corps en s'endormant ?" — a blood-spattered
+        horror face on a calm French science channel: off-brand, and the kind
+        of shock visual that suppresses advertiser suitability.
+    Both passed because the only tests were "not black" and "not blank".
+    """
     if not path or not os.path.isfile(path):
         raise MediaValidationError(f"Image does not exist: {path}")
     try:
@@ -57,7 +69,38 @@ def validate_scene_image(path: str, min_side: int = 512) -> Dict:
                 raise MediaValidationError(f"Near-black image: brightness={brightness:.1f}")
             if variation < 2.0:
                 raise MediaValidationError(f"Almost blank image: variation={variation:.1f}")
-            return {"width": width, "height": height, "brightness": brightness, "variation": variation}
+
+            # --- Focus check ------------------------------------------------
+            # Mean absolute gradient on a 512px-wide greyscale copy. A crisp
+            # render lands ~7-12; the published blurry frame measured 1.09.
+            work = image.resize((512, int(512 * height / width))) if width >= height \
+                else image.resize((int(512 * width / height), 512))
+            grey = np.asarray(work.convert("L"), dtype=np.float32)
+            sharpness = float(
+                np.abs(np.diff(grey, axis=0)).mean() + np.abs(np.diff(grey, axis=1)).mean()
+            )
+            min_sharpness = float(os.environ.get("MIN_IMAGE_SHARPNESS", "3.0"))
+            if sharpness < min_sharpness:
+                raise MediaValidationError(
+                    f"Out-of-focus image: sharpness={sharpness:.2f} "
+                    f"(minimum {min_sharpness}) — viewers swipe on mush in scene 1"
+                )
+
+            # NOTE: a colour-based "gore detector" was prototyped here and
+            # deliberately REMOVED. Measured against the real library, the
+            # blood-spattered horror frame scored only 5.1% deep-red pixels
+            # while entirely legitimate anatomy visuals scored far higher
+            # (pink brain 16.9%, blushing-face 9.2%). Red density cannot
+            # separate gore from anatomy on this channel, so the check would
+            # have blocked good science images while letting the bad one
+            # through. Shock imagery is prevented at the source instead — see
+            # the negative prompt in image_generator._build_prompt().
+
+            return {
+                "width": width, "height": height,
+                "brightness": brightness, "variation": variation,
+                "sharpness": sharpness,
+            }
     except MediaValidationError:
         raise
     except Exception as exc:

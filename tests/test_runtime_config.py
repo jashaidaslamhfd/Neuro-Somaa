@@ -262,6 +262,63 @@ class MetadataSweepTests(unittest.TestCase):
         self.assertEqual(once, twice)
 
 
+class SceneVisualSafetyTests(unittest.TestCase):
+    """Live-channel inspection on 2026-07-27 found two published Shorts whose
+    opening visual passed every existing check:
+      * "Pourquoi un muscle tressaille tout seul ?" — out-of-focus frame
+        (edge energy 1.09); stock CLIPS were only size-checked, never viewed.
+      * "Pourquoi le sursaut du corps en s'endormant ?" — blood-spattered
+        horror face on a calm French science channel.
+    """
+
+    def setUp(self):
+        try:
+            from media_validator import validate_scene_image, MediaValidationError
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.validate = validate_scene_image
+        self.error = MediaValidationError
+
+    def _write(self, array):
+        import tempfile
+        from PIL import Image
+        import numpy as np
+        path = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False).name
+        Image.fromarray(np.uint8(array)).save(path, quality=95)
+        return path
+
+    def test_out_of_focus_image_is_rejected(self):
+        import numpy as np
+        # Smooth gradient = no edges = the "mush" that shipped.
+        blur = np.tile(np.linspace(40, 90, 700, dtype=float), (900, 1)).T
+        blurry = np.dstack([blur] * 3)
+        with self.assertRaises(self.error) as ctx:
+            self.validate(self._write(blurry))
+        self.assertIn("focus", str(ctx.exception).lower())
+
+    def test_sharp_image_still_passes(self):
+        import numpy as np
+        rng = np.random.default_rng(7)
+        sharp = rng.integers(0, 255, size=(900, 700, 3))
+        result = self.validate(self._write(sharp))
+        self.assertGreater(result["sharpness"], 3.0)
+
+    def test_shock_terms_never_reach_a_stock_search(self):
+        from image_generator import _safe_query
+        for unsafe in ("un cauchemar effrayant avec du sang",
+                       "du sang partout", "une scène de zombie horreur"):
+            self.assertEqual(_safe_query(unsafe, "human body science"),
+                             "human body science", unsafe)
+        # A legitimate scene must survive untouched.
+        good = "les genoux qui craquent en bougeant"
+        self.assertEqual(_safe_query(good, "human body science"), good)
+
+    def test_prompt_carries_anti_gore_constraints(self):
+        from image_generator import DARK_STYLE_SUFFIX
+        for term in ("no blood", "no gore", "no horror"):
+            self.assertIn(term, DARK_STYLE_SUFFIX)
+
+
 class PublicApiTests(unittest.TestCase):
     """src/__init__.py once declared __all__ with zero resolvable names."""
 

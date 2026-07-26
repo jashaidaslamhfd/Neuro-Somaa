@@ -16,3 +16,8 @@ pytest>=8.0.0
 python-dotenv>=1.0.0
 requests>=2.31.0
 pytz>=2024.1
+# SceneVisualSafetyTests exercises the real sharpness maths in
+# media_validator.validate_scene_image(), so the image stack is needed here
+# even though seo_analytics keeps numpy/Pillow as lazy imports.
+numpy>=1.24.0
+Pillow>=10.0.0
