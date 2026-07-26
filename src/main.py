@@ -446,9 +446,21 @@ class SKILLORPipeline:
             image_paths, image_sources, media_types = self._generate_images_with_retry(script_data)
             logger.info(f"✅ Generated {len(image_paths)} scene visuals: {dict(Counter(media_types))}")
 
-            # Quality Gate: Check fallback ratio
+            # Quality Gate: Check fallback ratio.
+            # This used to count ONLY "Playwright-screenshot", which is disabled
+            # by default (ENABLE_SCREENSHOT_FALLBACK=false) — so the ratio was
+            # always 0.0% and the gate could never fire. The real risk is a
+            # Short built entirely from recycled local images or generic static
+            # stock, which looks templated and is what actually gets buried.
+            # Stock B-roll VIDEO is excluded on purpose: it is the intended
+            # first-choice layer for genuine motion, not a degradation.
             source_counts = Counter(image_sources)
-            unsafe_sources = {"Playwright-screenshot"}
+            unsafe_sources = {
+                "Local-fallback-pool",    # recycled images already shipped before
+                "Pexels-image",           # generic static stock
+                "Pixabay-image",
+                "Playwright-screenshot",  # raw webpage grab, off-brand
+            }
             fallback_count = sum(c for src, c in source_counts.items() if src in unsafe_sources)
             fallback_ratio = fallback_count / len(image_paths) if image_paths else 1.0
 
@@ -606,6 +618,27 @@ class SKILLORPipeline:
                         "French quality gate blocked upload: "
                         + "; ".join(final_gate_report.get('issues', []))
                     )
+
+                # FINAL duplicate-title block. The anti-spam check runs at the
+                # SCRIPT stage, but Phase 1b (SEO) and the A/B variant picker
+                # both REWRITE the title afterwards — so the string that
+                # actually reaches YouTube was never dedupe-checked. That is
+                # how the channel ended up with two videos titled
+                # "Pourquoi le ventre se serre lors d'une peur ?" (flagged in
+                # data/video_audit_2026-07-25.json).
+                final_title = (script_data.get('title') or '').strip().lower()
+                clash = next(
+                    (v for v in self.video_history
+                     if (v.get('title') or '').strip().lower() == final_title and final_title),
+                    None,
+                )
+                if clash:
+                    raise RuntimeError(
+                        f"Duplicate title blocked before upload: {script_data.get('title')!r} "
+                        f"already published as {clash.get('youtube_video_id')} "
+                        f"on {clash.get('posted_at')}"
+                    )
+
                 upload_result = upload_all(final_video, thumb_path, script_data)
                 logger.info(f"✅ Upload result: {upload_result}")
             except Exception as e:

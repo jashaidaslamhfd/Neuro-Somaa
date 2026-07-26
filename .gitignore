@@ -1,6 +1,25 @@
 __pycache__/
 *.pyc
 
+# ---- Local environment / virtualenvs ----
+.venv/
+venv/
+env/
+
+# ---- Secrets (CRITICAL) ----
+# UPDATE_ONLY_MANIFEST.md tells the operator to run `git add .`; without this
+# rule that single command publishes GROQ_API_KEY + the Google OAuth refresh
+# token to a PUBLIC repo. env.example stays tracked as the documented template.
+.env
+.env.*
+!env.example
+
+# ---- Generated run artifacts (never commit; kept in Actions artifacts) ----
+pipeline.log
+*.log
+output/*
+!output/gitkeep
+
 # ---- Auth / token artifacts (CRITICAL — never commit these) ----
 oauth_backup.json
 client_secrets*.json

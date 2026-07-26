@@ -1,5 +1,5 @@
 """Tests offline de la configuration éditoriale France-first."""
-import json, os, sys, unittest
+import sys, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from seo_generator import generate_seo_package

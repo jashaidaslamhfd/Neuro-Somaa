@@ -130,8 +130,22 @@ def _load_upload_state() -> dict:
         return {}
 
 
+# Keep roughly six months of 3-per-day uploads, matching the video_history
+# cap in main.py. Without a bound this ledger grew forever and was committed
+# back to the repo by the bot on every single run.
+MAX_UPLOAD_STATE_ENTRIES = int(os.environ.get("MAX_UPLOAD_STATE_ENTRIES", "540"))
+
+
 def _save_upload_state(state: dict) -> None:
     os.makedirs(os.path.dirname(UPLOAD_STATE_PATH) or ".", exist_ok=True)
+    if len(state) > MAX_UPLOAD_STATE_ENTRIES:
+        # Drop the oldest completions first; entries without a timestamp are
+        # in-flight records and are always kept.
+        ranked = sorted(
+            state.items(),
+            key=lambda kv: (kv[1] or {}).get("completed_at") or float("inf"),
+        )
+        state = dict(ranked[-MAX_UPLOAD_STATE_ENTRIES:])
     temp_path = UPLOAD_STATE_PATH + ".tmp"
     with open(temp_path, "w", encoding="utf-8") as file_handle:
         json.dump(state, file_handle, indent=2)

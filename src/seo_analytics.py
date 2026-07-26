@@ -33,8 +33,14 @@ import logging
 from typing import Dict, List
 from collections import defaultdict
 
-import numpy as np
-from PIL import Image
+# NOTE: numpy / Pillow are imported LAZILY inside score_thumbnail() — they are
+# the only consumers, and they are the heaviest deps in this module. Importing
+# them at module scope crashed the analytics workflow: analytics.yml installs a
+# minimal dependency set (google-api-*, requests, dotenv) and never installs
+# numpy/Pillow, so `python src/analytics_updater.py` -> `import seo_analytics`
+# died with ModuleNotFoundError before a single metric was fetched. Every
+# "YouTube Analytics Sync" run failed this way, which is why no video in
+# data/video_history.json ever received real views/CTR.
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -102,6 +108,14 @@ def score_thumbnail(thumb_path: str, title: str) -> Dict:
     modeling emotion)."""
     if not thumb_path or not os.path.exists(thumb_path):
         return {'error': f'Thumbnail not found at {thumb_path}'}
+
+    # Lazy import: keeps the analytics-only entrypoint runnable on a runner
+    # that never installed numpy/Pillow (see module header note).
+    try:
+        import numpy as np
+        from PIL import Image
+    except ImportError as exc:
+        return {'error': f'Thumbnail scoring needs numpy+Pillow: {exc}'}
 
     img = Image.open(thumb_path).convert("RGB")
     arr = np.array(img)
@@ -252,16 +266,33 @@ def _load_history() -> List[Dict]:
 
 def _title_pattern(title: str) -> str:
     """Buckets a title by which seo_generator template family produced it,
-    so patterns can be compared against each other over time."""
-    t = title.lower()
-    if 'truth about' in t:
-        return 'THE_TRUTH'
-    if "won't tell you" in t or "doctors" in t:
-        return 'DOCTORS_WONT_TELL'
-    if t.startswith('why'):
-        return 'WHY'
-    if '🫀' in title or any(e in title for e in ['🧠', '🔬']):
+    so patterns can be compared against each other over time.
+
+    These buckets are FRENCH, matching the templates seo_generator.py actually
+    emits. The previous version only recognised English patterns ('truth about',
+    "won't tell you", startswith('why')), so on this France-first channel every
+    single title fell into 'OTHER' — collapsing all videos into one bucket and
+    making the title-pattern comparison completely useless."""
+    t = title.lower().strip()
+
+    if t.startswith('pourquoi'):
+        return 'POURQUOI'                    # "Pourquoi le hoquet commence brusquement ?"
+    if t.startswith('ce que votre corps'):
+        return 'CE_QUE_VOTRE_CORPS'          # "Ce que votre corps vous dit quand..."
+    if t.startswith("ce qu'il faut comprendre") or t.startswith('ce qu’il faut comprendre'):
+        return 'CE_QUIL_FAUT_COMPRENDRE'
+    if t.startswith('ce que la science') or t.startswith('la science derrière') \
+            or t.startswith('la science derriere'):
+        return 'LA_SCIENCE'
+    if t.startswith('ce qui se passe'):
+        return 'CE_QUI_SE_PASSE'
+    if t.startswith('comment'):
+        return 'COMMENT'
+    if any(e in title for e in ('🧠', '🫀', '🔬', '⚡')):
         return 'EMOJI_ENHANCED'
+    # Short branded series labels ("Corps lourd", "Réveil avant l'alarme").
+    if len(t.split()) <= 3:
+        return 'SERIE_COURTE'
     return 'OTHER'
 
 
@@ -357,21 +388,52 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict
     end = _dt.date.today()
     start = end - _dt.timedelta(days=max(days_back, 1))
 
-    try:
-        resp = yta.reports().query(
-            ids="channel==MINE",
-            startDate=start.isoformat(),
-            endDate=end.isoformat(),
-            metrics="views,averageViewDuration,averageViewPercentage,impressions,impressionsClickThroughRate",
-            dimensions="video",
-            filters=f"video=={youtube_video_id}",
-        ).execute()
-    except HttpError as e:
-        logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
-        return {"error": f"HttpError {e.resp.status}: needs yt-analytics.readonly scope on REFRESH_TOKEN"}
-    except Exception as e:
-        logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
-        return {"error": str(e)}
+    # Self-healing metric list. `impressions` and `impressionsClickThroughRate`
+    # are NOT served for every channel (this one included — see the
+    # "_dropped_metrics" field in data/seo_diag_*.json, where the API rejected
+    # exactly these two). Requesting them unconditionally made the entire query
+    # fail with 400 "Unknown identifier", so a channel that merely cannot report
+    # CTR ended up recording no views or retention either. scripts/seo_diag.py
+    # already solved this; the same drop-and-retry loop is mirrored here so a
+    # missing OPTIONAL metric degrades gracefully instead of killing the sync.
+    import re as _re
+
+    requested = [
+        "views", "averageViewDuration", "averageViewPercentage",
+        "impressions", "impressionsClickThroughRate",
+    ]
+    resp, dropped = None, []
+    for _ in range(len(requested)):
+        try:
+            resp = yta.reports().query(
+                ids="channel==MINE",
+                startDate=start.isoformat(),
+                endDate=end.isoformat(),
+                metrics=",".join(requested),
+                dimensions="video",
+                filters=f"video=={youtube_video_id}",
+            ).execute()
+            break
+        except HttpError as e:
+            status = getattr(e.resp, "status", None)
+            raw = e.content.decode("utf-8", "replace") if isinstance(e.content, bytes) else str(e.content or e)
+            unknown = _re.search(r"Unknown identifier \((\w+)\)", raw)
+            if status == 400 and unknown and unknown.group(1) in requested and len(requested) > 1:
+                bad = unknown.group(1)
+                requested.remove(bad)
+                dropped.append(bad)
+                logger.info("Metric '%s' unavailable on this channel -> retrying without it.", bad)
+                continue
+            logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
+            if status in (401, 403):
+                return {"error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN"}
+            return {"error": f"HttpError {status}: {raw[:200]}"}
+        except Exception as e:
+            logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
+            return {"error": str(e)}
+
+    if resp is None:
+        return {"error": "No supported metric combination was accepted by the Analytics API."}
 
     rows = resp.get("rows") or []
     if not rows:
@@ -387,23 +449,31 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict
         "average_view_percentage": values.get("averageViewPercentage"),
         "impressions": values.get("impressions"),
         "actual_ctr": values.get("impressionsClickThroughRate"),
+        "unavailable_metrics": dropped,
         "fetched_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
     }
 
 
-def update_history_with_real_metrics(min_hours_old: int = 24) -> Dict:
+def update_history_with_real_metrics(min_hours_old: int = 24,
+                                     refresh_after_hours: int = 24) -> Dict:
     """Meant to run on its OWN schedule (separate cron/GitHub Action),
     NOT inside the main generation pipeline - real analytics data isn't
     available immediately after upload.
 
-    Walks output/video_history.json, finds entries with a
-    youtube_video_id but no 'actual_ctr' yet that are at least
-    `min_hours_old` hours old, fetches real numbers for each via
-    fetch_actual_performance(), and writes them back into that SAME
+    Walks data/video_history.json, finds entries with a youtube_video_id
+    that are at least `min_hours_old` hours old, fetches real numbers for
+    each via fetch_actual_performance(), and writes them back into that SAME
     history entry. Once this has run for a video,
     get_historical_insights() above automatically prefers
     'real_analytics' over predicted scores - no other code changes
-    needed, it already checks for 'actual_ctr'/'views' first."""
+    needed, it already checks for 'actual_ctr'/'views' first.
+
+    Refresh policy: an entry is re-fetched when it has never been fetched, or
+    when its last fetch is older than `refresh_after_hours`. The previous
+    version skipped any entry that merely CONTAINED an 'actual_ctr' key — on a
+    channel where the API does not serve CTR that key gets written as None, so
+    the video was permanently frozen at its first (empty) reading and its views
+    never grew. Freshness is now tracked by 'analytics_fetched_at' instead."""
     import datetime as _dt
 
     history = _load_history()
@@ -411,22 +481,36 @@ def update_history_with_real_metrics(min_hours_old: int = 24) -> Dict:
         return {"updated": 0, "note": "No history file yet."}
 
     now = _dt.datetime.now(_dt.timezone.utc)
-    updated = 0
+    updated, skipped_fresh, failed = 0, 0, 0
     for entry in history:
         vid = entry.get("youtube_video_id")
         posted_at = entry.get("posted_at")
-        if not vid or "actual_ctr" in entry or not posted_at:
+        if not vid or not posted_at:
             continue
         try:
             posted_dt = _dt.datetime.fromisoformat(posted_at)
+            if posted_dt.tzinfo is None:                     # tolerate legacy naive stamps
+                posted_dt = posted_dt.replace(tzinfo=_dt.timezone.utc)
         except Exception:
             continue
-        age_hours = (now - posted_dt).total_seconds() / 3600
-        if age_hours < min_hours_old:
+        if (now - posted_dt).total_seconds() / 3600 < min_hours_old:
             continue
+
+        last_fetch = entry.get("analytics_fetched_at")
+        if last_fetch:
+            try:
+                last_dt = _dt.datetime.fromisoformat(last_fetch)
+                if last_dt.tzinfo is None:
+                    last_dt = last_dt.replace(tzinfo=_dt.timezone.utc)
+                if (now - last_dt).total_seconds() / 3600 < refresh_after_hours:
+                    skipped_fresh += 1
+                    continue
+            except Exception:
+                pass  # unparseable stamp -> just re-fetch
 
         metrics = fetch_actual_performance(vid)
         if "error" in metrics or "note" in metrics:
+            failed += 1
             logger.info(f"{vid}: {metrics.get('error') or metrics.get('note')}")
             continue
 
@@ -442,10 +526,20 @@ def update_history_with_real_metrics(min_hours_old: int = 24) -> Dict:
         )
 
     if updated:
-        with open(HISTORY_FILE, "w") as f:
-            json.dump(history, f, indent=2)
+        # Atomic write (tmp + replace), matching the rest of the pipeline. A
+        # crash mid-write previously truncated the whole channel history.
+        os.makedirs(os.path.dirname(HISTORY_FILE) or ".", exist_ok=True)
+        tmp_path = HISTORY_FILE + ".tmp"
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2, ensure_ascii=False)
+        os.replace(tmp_path, HISTORY_FILE)
 
-    return {"updated": updated, "total_entries": len(history)}
+    return {
+        "updated": updated,
+        "skipped_fresh": skipped_fresh,
+        "failed": failed,
+        "total_entries": len(history),
+    }
 
 
 if __name__ == "__main__":

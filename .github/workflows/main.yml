@@ -140,8 +140,13 @@ jobs:
           YT_DECLARE_SYNTHETIC_MEDIA: "true"
           YT_PLAYLIST_ENABLED: "true"
           # Upload private + publishAt → YouTube auto-publishes at the exact
-          # Paris peak (08:00 / 13:00 / 19:00). Videos sit privately first,
-          # so a broken video can be deleted before it ever goes live.
+          # Paris peak (12:30 / 19:30 / 21:00 — see the cron block above).
+          # IMPORTANT: "public" here means "will become public automatically at
+          # the scheduled slot". uploader.py forces privacyStatus=private on the
+          # API call (publishAt requires it), so the video does sit private
+          # until its slot — but NO human review happens in between. Set
+          # YT_PRIVACY_STATUS=private to hold videos for manual review instead;
+          # scheduling is then skipped and nothing auto-publishes.
           YT_PRIVACY_STATUS: "public"
           YT_SCHEDULE_PUBLISH: "true"
           # ---- Anti-spam (also dedupes the DST twin crons) ----

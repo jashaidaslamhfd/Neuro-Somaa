@@ -159,5 +159,127 @@ class PublicApiTests(unittest.TestCase):
             src.DEFINITELY_NOT_A_REAL_EXPORT_123
 
 
+class SecretHygieneTests(unittest.TestCase):
+    """`.env` was NOT ignored while UPDATE_ONLY_MANIFEST.md instructs the
+    operator to run `git add .` — one command from leaking GROQ_API_KEY and
+    the Google OAuth refresh token to a public repo."""
+
+    def setUp(self):
+        self.gitignore = (ROOT / ".gitignore").read_text()
+
+    def test_dotenv_is_ignored_but_template_is_kept(self):
+        self.assertIn(".env", self.gitignore)
+        self.assertIn("!env.example", self.gitignore)
+        self.assertTrue((ROOT / "env.example").exists(), "env.example must stay tracked")
+
+    def test_run_artifacts_are_ignored(self):
+        for pattern in ("pipeline.log", "output/*", ".venv/"):
+            self.assertIn(pattern, self.gitignore, f".gitignore missing {pattern}")
+
+    def test_no_env_file_is_tracked_by_git(self):
+        tracked = subprocess.run(
+            ["git", "ls-files"], cwd=ROOT, capture_output=True, text=True
+        ).stdout.split()
+        leaked = [f for f in tracked if f == ".env" or f.startswith(".env.")]
+        self.assertEqual(leaked, [], f"secret files are tracked: {leaked}")
+
+
+class AnalyticsDependencyTests(unittest.TestCase):
+    """analytics.yml installs a light dep set (no numpy/Pillow). A
+    module-level `import numpy` in seo_analytics.py made every single
+    'YouTube Analytics Sync' run die on import, which is why no video in
+    data/video_history.json ever received real view counts."""
+
+    def test_seo_analytics_does_not_import_numpy_or_pillow_at_module_level(self):
+        import ast
+        tree = ast.parse((SRC_DIR / "seo_analytics.py").read_text())
+        top_level = set()
+        for node in tree.body:                      # module scope ONLY
+            if isinstance(node, ast.Import):
+                top_level |= {a.name.split(".")[0] for a in node.names}
+            elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
+                top_level.add(node.module.split(".")[0])
+        for heavy in ("numpy", "PIL"):
+            self.assertNotIn(
+                heavy, top_level,
+                f"{heavy} must stay a lazy import inside score_thumbnail()",
+            )
+
+    def test_analytics_entrypoint_imports_without_numpy(self):
+        """Simulates the analytics runner, where numpy/Pillow are absent."""
+        code = (
+            "import sys\n"
+            "for m in ('numpy','PIL','PIL.Image'): sys.modules[m]=None\n"
+            f"sys.path.insert(0, {str(SRC_DIR)!r})\n"
+            "import analytics_updater\n"
+        )
+        result = subprocess.run([sys.executable, "-c", code], cwd=ROOT,
+                                capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0,
+                         f"analytics entrypoint needs numpy: {result.stderr[-400:]}")
+
+    def test_optional_metrics_are_dropped_not_fatal(self):
+        """impressions/CTR are unavailable on this channel (see the
+        _dropped_metrics field in data/seo_diag_*.json). Requesting them
+        unconditionally failed the whole query, losing views AND retention."""
+        source = (SRC_DIR / "seo_analytics.py").read_text()
+        self.assertIn("Unknown identifier", source,
+                      "fetch_actual_performance must retry without unsupported metrics")
+
+
+class ThresholdParityTests(unittest.TestCase):
+    """env.example advertised 70/60 while production ran 85/85, so a local
+    run accepted scripts that CI would reject."""
+
+    def setUp(self):
+        self.workflow = (ROOT / ".github" / "workflows" / "main.yml").read_text()
+        self.env_example = (ROOT / "env.example").read_text()
+
+    def _env_value(self, text, key, sep):
+        import re
+        match = re.search(rf'^\s*{key}{sep}\s*"?([\d.]+)"?\s*$', text, re.MULTILINE)
+        self.assertIsNotNone(match, f"{key} not found")
+        return match.group(1)
+
+    def test_quality_gates_match_production(self):
+        for key in ("MIN_HOOK_SCORE", "QUALITY_APPROVAL_THRESHOLD"):
+            self.assertEqual(
+                self._env_value(self.env_example, key, "="),
+                self._env_value(self.workflow, key, ":"),
+                f"{key} differs between env.example and main.yml",
+            )
+
+
+class DestructiveWorkflowTests(unittest.TestCase):
+    """Video deletion is irreversible; the cleanup workflow hardcoded --apply,
+    so one click on 'Run workflow' destroyed videos with no confirmation."""
+
+    def test_dead_cleanup_defaults_to_dry_run(self):
+        workflow = (ROOT / ".github" / "workflows" / "yt_dead_cleanup_fr.yml").read_text()
+        self.assertIn("inputs:", workflow, "cleanup must expose an apply input")
+        self.assertIn("default: false", workflow)
+        self.assertNotIn(
+            "run: python scripts/yt_dead_cleanup_fr.py --apply", workflow,
+            "cleanup must not hardcode --apply",
+        )
+
+
+class TitlePatternTests(unittest.TestCase):
+    """_title_pattern() only knew English templates, so every French title
+    landed in 'OTHER' and the whole A/B comparison collapsed to one bucket."""
+
+    def test_french_titles_bucket_distinctly(self):
+        from seo_analytics import _title_pattern
+        cases = {
+            "Pourquoi le hoquet commence brusquement ?": "POURQUOI",
+            "Ce que votre corps vous dit quand le ventre se serre": "CE_QUE_VOTRE_CORPS",
+            "La science derrière le temps qui semble accélérer": "LA_SCIENCE",
+            "Corps lourd": "SERIE_COURTE",
+        }
+        for title, expected in cases.items():
+            self.assertEqual(_title_pattern(title), expected, title)
+        self.assertGreater(len({_title_pattern(t) for t in cases}), 1)
+
+
 if __name__ == "__main__":
     unittest.main()

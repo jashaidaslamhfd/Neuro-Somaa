@@ -24,7 +24,17 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
+          # seo_analytics.py imports numpy/Pillow lazily (inside score_thumbnail),
+          # so this sync deliberately stays on the light dependency set.
           python -m pip install "google-api-python-client>=2.100.0" "google-auth>=2.25.0" "google-auth-oauthlib>=1.1.0" "google-auth-httplib2>=0.2.0" "requests>=2.31.0" "python-dotenv>=1.0.0"
+
+      - name: Guard - analytics entrypoint must import on the light dep set
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Regression guard: a module-level `import numpy` in seo_analytics.py
+          # silently broke every analytics sync for weeks. Fail loudly here.
+          python -c "import sys; sys.path.insert(0, 'src'); import analytics_updater; print('import OK')"
       - name: Sync real analytics into video history
         shell: bash
         env:
