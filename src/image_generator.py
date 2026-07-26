@@ -208,6 +208,63 @@ def _layer1_playwright_screenshot(index, scene_text):
     return _save_bytes(screenshot_bytes, index, ext="png")
 
 
+def _perceptual_hash(path: str, media_type: str = "image") -> str | None:
+    """64-bit average hash, prefixed so it can live in the same ledger.
+
+    Survives re-encoding, rescaling and recompression — unlike SHA-256, which
+    is why the byte-level ledger let the same stock clip appear on five
+    different videos. Best-effort: returns None if the media can't be read,
+    so a decode problem never blocks an otherwise valid asset."""
+    try:
+        from PIL import Image as _Image
+        if media_type != "image":
+            from moviepy.editor import VideoFileClip
+            with VideoFileClip(path, audio=False) as clip:
+                frame = clip.get_frame(min(0.3, max(clip.duration - 0.05, 0.0)))
+            image = _Image.fromarray(frame)
+        else:
+            image = _Image.open(path)
+        small = image.convert("L").resize((8, 8))
+        pixels = list(small.getdata())
+        average = sum(pixels) / len(pixels)
+        bits = "".join("1" if pixel > average else "0" for pixel in pixels)
+        return "phash:" + f"{int(bits, 2):016x}"
+    except Exception as exc:
+        logger.warning("Perceptual hash skipped for %s: %s", path, exc)
+        return None
+
+
+# Two 64-bit average-hashes within this Hamming distance are the same shot.
+# Calibrated on the live channel: the re-used clip pair measured 1, while
+# genuinely different visuals measured 9-18.
+PERCEPTUAL_MAX_DISTANCE = int(os.environ.get("PERCEPTUAL_MAX_DISTANCE", "6"))
+
+
+def _perceptual_clash(candidate: str | None, used_hashes: set) -> int | None:
+    """Return the Hamming distance to the closest already-used visual, or None.
+
+    An exact set lookup is not enough: re-encoding flips a few bits, so the
+    re-used stock clip that shipped on two videos differed by exactly 1 bit
+    and would still have slipped through an equality check."""
+    if not candidate or not candidate.startswith("phash:"):
+        return None
+    try:
+        value = int(candidate.split(":", 1)[1], 16)
+    except ValueError:
+        return None
+    for known in used_hashes:
+        if not (isinstance(known, str) and known.startswith("phash:")):
+            continue
+        try:
+            other = int(known.split(":", 1)[1], 16)
+        except ValueError:
+            continue
+        distance = bin(value ^ other).count("1")
+        if distance <= PERCEPTUAL_MAX_DISTANCE:
+            return distance
+    return None
+
+
 def _validate_clip_first_frame(clip_path: str, source_name: str) -> None:
     """Run the still-image quality bar over a video clip's opening frame.
 
@@ -413,9 +470,25 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
                     _validate_clip_first_frame(path, name)
             with open(path, "rb") as f:
                 file_hash = hashlib.sha256(f.read()).hexdigest()
+            # Exact-byte hash catches only literally identical downloads. Live
+            # inspection on 2026-07-27 found FIVE videos sharing visuals at
+            # 93-95% similarity — the same Pexels clip re-encoded or served
+            # under a different URL produces a different SHA-256 while looking
+            # identical to a viewer. Repeating a visual across videos is what
+            # makes a channel read as templated. A perceptual hash is checked
+            # alongside the byte hash.
+            perceptual = _perceptual_hash(path, media_type)
             if file_hash in used_hashes:
                 raise RuntimeError(f"{name}: duplicate media; trying next source")
+            clash = _perceptual_clash(perceptual, used_hashes)
+            if clash:
+                raise RuntimeError(
+                    f"{name}: visually identical to media already used on this "
+                    f"channel (perceptual distance {clash}); trying next source"
+                )
             used_hashes.add(file_hash)
+            if perceptual:
+                used_hashes.add(perceptual)
 
             logger.info(f"Scene {index}: {media_type} generated via {name} -> {path}")
             return {"index": index, "path": path, "source": name, "media_type": media_type}

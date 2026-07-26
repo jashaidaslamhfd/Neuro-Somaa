@@ -319,6 +319,61 @@ class SceneVisualSafetyTests(unittest.TestCase):
             self.assertIn(term, DARK_STYLE_SUFFIX)
 
 
+class ThumbnailTextTests(unittest.TestCase):
+    """Live thumbnails on 2026-07-27 read "PRNOM OUBLI", "NUD AU VENTRE" and
+    "MCHOIRE": the word filter stripped every accented French character
+    because its regex was [^A-Z0-9']. On a France-first channel the thumbnail
+    text was literally misspelled."""
+
+    def test_accented_french_survives_the_word_filter(self):
+        import re
+        pattern = r"[^A-ZÀ-ÿŒÆ0-9'’-]"
+        cases = {
+            "PRÉNOM": "PRÉNOM", "NŒUD": "NŒUD",
+            "MÂCHOIRE": "MÂCHOIRE", "REPÈRE": "REPÈRE", "CŒUR": "CŒUR",
+        }
+        for raw, expected in cases.items():
+            self.assertEqual(re.sub(pattern, "", raw), expected)
+
+    def test_video_editor_uses_the_accent_safe_pattern(self):
+        source = (SRC_DIR / "video_editor.py").read_text()
+        self.assertNotIn(
+            'sub(r"[^A-Z0-9\']"', source,
+            "the accent-destroying regex must never come back",
+        )
+
+
+class VisualReuseTests(unittest.TestCase):
+    """Five live videos shared visuals at 93-95% similarity even though a
+    288-entry media ledger existed: it stored SHA-256, so a re-encoded copy
+    of the same stock clip hashed differently and passed."""
+
+    def setUp(self):
+        try:
+            import image_generator
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.ig = image_generator
+
+    def test_near_identical_hashes_are_blocked(self):
+        # 1-bit apart: the exact distance measured between the two live
+        # videos that reused one clip.
+        base = "phash:383a3abeb8988000"
+        near = "phash:383a3abeb8988010"
+        self.assertIsNotNone(self.ig._perceptual_clash(near, {base}))
+
+    def test_distinct_visuals_are_allowed(self):
+        base = "phash:021a1e3c3c3c3804"      # knee X-ray
+        other = "phash:90bc3c7838001800"     # time render (distance 18)
+        self.assertIsNone(self.ig._perceptual_clash(other, {base}))
+
+    def test_malformed_or_missing_hash_never_blocks(self):
+        self.assertIsNone(self.ig._perceptual_clash(None, {"phash:0000000000000000"}))
+        self.assertIsNone(self.ig._perceptual_clash("phash:zzzz", {"phash:0000000000000000"}))
+        # a byte-hash in the ledger must not be misread as perceptual
+        self.assertIsNone(self.ig._perceptual_clash("phash:383a3abeb8988000", {"a" * 64}))
+
+
 class PublicApiTests(unittest.TestCase):
     """src/__init__.py once declared __all__ with zero resolvable names."""
 
