@@ -374,6 +374,36 @@ class VisualReuseTests(unittest.TestCase):
         self.assertIsNone(self.ig._perceptual_clash("phash:383a3abeb8988000", {"a" * 64}))
 
 
+class ThumbnailAllowListTests(unittest.TestCase):
+    """thumbnail_update.py gated uploads on data/video_history.json, which was
+    reset during the France-first migration. Four genuinely published videos
+    needing a fixed thumbnail — including the 1,114-view "Pourquoi on oublie
+    un prénom…" — were refused as "not in video_history"."""
+
+    def setUp(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import thumbnail_update
+        self.tu = thumbnail_update
+
+    def test_allow_list_comes_from_the_live_channel(self):
+        source = (ROOT / "scripts" / "thumbnail_update.py").read_text()
+        self.assertIn("_channel_video_ids", source)
+        self.assertIn("relatedPlaylists", source,
+                      "the allow-list must be read from the uploads playlist")
+
+    def test_falls_back_to_history_when_the_api_fails(self):
+        # A listing failure must not abort the run; history is the fallback.
+        source = (ROOT / "scripts" / "thumbnail_update.py").read_text()
+        self.assertIn("falling back to data/video_history.json", source)
+
+    def test_staged_thumbnails_are_valid_for_youtube(self):
+        directory = ROOT / "assets" / "thumbnails_fr"
+        for image in directory.glob("*.jpg"):
+            data = image.read_bytes()
+            self.assertLess(len(data), 2 * 1024 * 1024, f"{image.name} over 2MB")
+            self.assertEqual(data[:3], b"\xff\xd8\xff", f"{image.name} not JPEG")
+
+
 class PublicApiTests(unittest.TestCase):
     """src/__init__.py once declared __all__ with zero resolvable names."""
 

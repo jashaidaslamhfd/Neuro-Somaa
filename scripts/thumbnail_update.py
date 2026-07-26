@@ -60,16 +60,64 @@ def _set_thumbnail(token: str, video_id: str, jpeg: bytes) -> None:
         raise RuntimeError(f"thumbnails.set {video_id} -> {e.code}: {payload}") from e
 
 
+def _channel_video_ids(token: str) -> set:
+    """Every video ID actually on the channel, straight from the uploads
+    playlist.
+
+    data/video_history.json is NOT a reliable allow-list: it was reset during
+    the France-first migration (see MIGRATION_FR.md), so genuine published
+    videos are missing from it. Four real videos needing a thumbnail fix —
+    including "Pourquoi on oublie un prénom…" (1,114 views) — were being
+    refused as "not in video_history". The channel itself is the source of
+    truth; history is only a local cache."""
+    import urllib.request
+
+    def _get(url: str) -> dict:
+        req = urllib.request.Request(url)
+        req.add_header("Authorization", f"Bearer {token}")
+        with urllib.request.urlopen(req, timeout=45) as response:
+            return json.load(response)
+
+    api = "https://www.googleapis.com/youtube/v3"
+    channel = _get(f"{api}/channels?part=contentDetails&mine=true")
+    uploads = channel["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
+    ids, page = set(), None
+    while True:
+        url = f"{api}/playlistItems?part=contentDetails&playlistId={uploads}&maxResults=50"
+        if page:
+            url += f"&pageToken={page}"
+        data = _get(url)
+        ids |= {i["contentDetails"]["videoId"] for i in data.get("items", [])}
+        page = data.get("nextPageToken")
+        if not page:
+            return ids
+
+
 def main() -> int:
-    known = {e["youtube_video_id"] for e in json.loads(HISTORY.read_text())}
     images = sorted(THUMB_DIR.glob("*.jpg"))
-    logger.info("Thumbnails found: %d (history covers %d videos)", len(images), len(known))
+    if not images:
+        logger.info("No thumbnails staged in %s — nothing to do.", THUMB_DIR)
+        return 0
+
+    # Authenticate first so the allow-list can come from the live channel.
+    token = _access_token()
+    try:
+        known = _channel_video_ids(token)
+        source = "live channel"
+    except Exception as exc:  # noqa: BLE001 — fall back, never hard-fail
+        logger.warning("Could not list channel uploads (%s); "
+                       "falling back to data/video_history.json", exc)
+        known = {e["youtube_video_id"] for e in json.loads(HISTORY.read_text())
+                 if e.get("youtube_video_id")}
+        source = "video_history.json"
+    logger.info("Thumbnails found: %d (allow-list from %s covers %d videos)",
+                len(images), source, len(known))
 
     jobs, skips = [], []
     for img in images:
         vid = img.stem
         if vid not in known:
-            skips.append((vid, "not in video_history — refused"))
+            skips.append((vid, f"not found on the channel ({source}) — refused"))
             continue
         data = img.read_bytes()
         if len(data) > 2 * 1024 * 1024:
@@ -86,7 +134,6 @@ def main() -> int:
 
     ok, failed = 0, []
     if jobs:
-        token = _access_token()
         for vid, data in jobs:
             try:
                 _set_thumbnail(token, vid, data)
