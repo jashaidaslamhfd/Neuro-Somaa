@@ -46,6 +46,25 @@ HOOK_MAX_WORDS = 9
 MIN_SCENE_WORDS = 11
 MAX_SCENE_WORDS = 16
 
+# Interchangeable openers that name no phenomenon. Every one of these was
+# measured on the live channel: the 11 videos starting this way average 11s
+# watched on ~39s Shorts, because the first 2 seconds carry zero information.
+# _validate_script() rejects a scene-1 caption starting with any of them.
+GENERIC_HOOK_OPENERS = (
+    "vous avez déjà", "vous avez probablement", "vous avez peut-être",
+    "tu as déjà", "tu as probablement", "vous avez l'impression",
+    "tu as l'impression", "vous avez ressenti", "tu as ressenti",
+    "vous vous réveillez", "ça vous arrive", "ca vous arrive",
+    "ça t'arrive", "n'avez-vous jamais", "navez-vous jamais",
+    "saviez-vous que", "imaginez que", "il vous est déjà arrivé",
+)
+
+# Scene 2 must open with the mechanism itself (V4 answer-first arc).
+ANSWER_FIRST_PREFIXES = (
+    "c'est", "cest", "ton cerveau", "ton corps", "votre cerveau", "votre corps",
+    "en fait", "la raison", "ce sont", "tes ", "vos ", "ton ", "votre ",
+)
+
 # A title such as "Why Got Fired Matters" is grammatically short but gives
 # viewers no scientific subject. Require a concrete channel-relevant anchor.
 TITLE_TOPIC_ANCHORS = {
@@ -392,11 +411,44 @@ def _validate_script(script_data: Dict) -> Tuple[bool, List[str]]:
     # retention levers. A script missing them is retried, never shipped.
     # ------------------------------------------------------------------
     if len(scenes) >= 3:
-        suspense = scenes[1].get('caption', '')
-        if '?' not in suspense:
+        # SCENE 1 — BANNED GENERIC OPENERS.
+        # Analytics autopsy (2026-07-26, 9 videos with data): average view
+        # duration is 11s on ~39s Shorts (27.5% retention) and viewers leave
+        # around scene 2.2/8 — i.e. DURING the setup. 11 of 17 published
+        # videos open with an interchangeable filler ("Vous avez déjà…",
+        # "Vous vous réveillez…") that names no phenomenon and burns the
+        # entire 2-second swipe window. The prompt already forbids this, but
+        # nothing enforced it, so the LLM kept shipping it. Now it retries.
+        hook_caption = scenes[0].get('caption', '').strip()
+        hook_norm = re.sub(r"[^a-zà-ÿœ' ]", "", hook_caption.lower()).strip()
+        for opener in GENERIC_HOOK_OPENERS:
+            if hook_norm.startswith(opener):
+                issues.append(
+                    f"Scene 1 (ACCROCHE) starts with the banned generic opener "
+                    f"'{opener}…' — name the exact phenomenon in the first 3 words "
+                    f"instead (viewers swipe at ~2s on openers like this)."
+                )
+                break
+
+        # SCENE 2 — must DELIVER, not stall. V4 (BODY_GLITCH_V4_ANSWER_FIRST)
+        # moved the answer to scene 2; this check previously demanded a
+        # QUESTION there, directly contradicting the prompt and rewarding the
+        # exact "setup drags on" pattern that loses viewers at scene 2.2.
+        answer = scenes[1].get('caption', '').strip()
+        answer_norm = answer.lower()
+        starts_with_answer = any(
+            answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES
+        )
+        if not starts_with_answer:
             issues.append(
-                "Scene 2 (SUSPENSE) must open one honest question ('?') — "
-                "the open loop is what stops the swipe in the first 3s."
+                "Scene 2 (RÉPONSE FLASH) must deliver the mechanism immediately, "
+                "starting with « C'est… », « Ton cerveau… », « Ton corps… » or "
+                "« En fait… ». Viewers leave at ~scene 2 — the payoff must land there."
+            )
+        if answer.endswith('?'):
+            issues.append(
+                "Scene 2 must ANSWER, not ask another question — the open loop "
+                "belongs in scene 1."
             )
         hook_concepts = _content_concepts(scenes[0].get('caption', ''))
         tail_concepts = _content_concepts(scenes[-1].get('caption', ''))

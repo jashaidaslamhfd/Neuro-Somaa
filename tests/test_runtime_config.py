@@ -84,14 +84,20 @@ class WorkflowRegressionTests(unittest.TestCase):
 
 
 def _arc_fixture():
-    """Valid French 8-scene script: Accroche → Suspense → … → Boucle."""
+    """Valid French 8-scene script, V4 ANSWER-FIRST arc:
+    Accroche (scene 1) → Réponse flash (scene 2) → mécanisme → Boucle.
+
+    Scene 2 used to hold a QUESTION here, which matched the old V3 validator
+    but contradicted BODY_GLITCH_V4_ANSWER_FIRST — and rewarded exactly the
+    "setup drags on" shape that loses viewers at scene 2.2/8 on the live
+    channel."""
     return {
         "title": "Sommeil Et Mémoire Cerveau",
-        "hook": "Votre cerveau sauvegarde vos souvenirs pendant le sommeil.",
+        "hook": "Votre cerveau trie vos souvenirs pendant le sommeil.",
         "cta": "Abonnez-vous pour la science du corps, simplement.",
         "scenes": [
-            {"visual": "cerveau lumineux pendant le sommeil", "caption": "Votre cerveau sauvegarde vos souvenirs pendant le sommeil."},
-            {"visual": "signaux de mémoire entre neurones", "caption": "Mais comment votre cerveau choisit-il les moments qui restent importants après une longue journée ?"},
+            {"visual": "cerveau lumineux pendant le sommeil", "caption": "Votre cerveau trie vos souvenirs pendant le sommeil."},
+            {"visual": "signaux de mémoire entre neurones", "caption": "C'est le sommeil profond qui rejoue et fixe chaque souvenir utile."},
             {"visual": "étudiant dans une chambre calme", "caption": "Sans assez de sommeil, une information claire aujourd'hui peut disparaître beaucoup plus vite demain."},
             {"visual": "connexions cérébrales renforcées", "caption": "Pendant le sommeil profond, votre cerveau rejoue les expériences récentes et renforce les connexions utiles."},
             {"visual": "dormeur calme avec cerveau", "caption": "Il relie aussi les idées entre elles, ce qui rend le rappel plus facile au moment où vous en avez besoin."},
@@ -120,12 +126,28 @@ class StoryArcTests(unittest.TestCase):
         valid, issues = self._validated(_arc_fixture())
         self.assertTrue(valid, issues)
 
-    def test_scene_two_without_open_question_is_rejected(self):
+    def test_scene_two_that_stalls_instead_of_answering_is_rejected(self):
+        """V4: scene 2 must DELIVER the mechanism. Analytics autopsy showed
+        viewers leave at ~scene 2.2/8, so a scene 2 that merely teases is the
+        single most expensive retention mistake."""
         data = _arc_fixture()
-        data["scenes"][1]["caption"] = "Votre cerveau continue simplement de faire cela chaque jour."
+        data["scenes"][1]["caption"] = "Mais comment votre cerveau choisit-il vraiment les moments importants ?"
         valid, issues = self._validated(data)
         self.assertFalse(valid)
-        self.assertTrue(any("SUSPENSE" in issue for issue in issues), issues)
+        self.assertTrue(any("RÉPONSE FLASH" in i or "ANSWER" in i for i in issues), issues)
+
+    def test_generic_filler_hook_is_rejected(self):
+        """11 of 17 published videos opened with an interchangeable
+        "Vous avez déjà…" filler and averaged 11s watched on ~39s Shorts.
+        The prompt forbade it; nothing enforced it."""
+        for filler in ("Vous avez déjà ressenti cela, n'est-ce pas ?",
+                       "Vous vous réveillez avant votre alarme parfois."):
+            data = _arc_fixture()
+            data["hook"] = filler
+            data["scenes"][0]["caption"] = filler
+            valid, issues = self._validated(data)
+            self.assertFalse(valid, f"should reject: {filler}")
+            self.assertTrue(any("ACCROCHE" in i for i in issues), issues)
 
     def test_final_scene_without_loopback_is_rejected(self):
         data = _arc_fixture()
@@ -142,6 +164,102 @@ class StoryArcTests(unittest.TestCase):
         self.assertIn("souvenir", hook & tail)
         self.assertNotIn("votre", hook)
         self.assertNotIn("pour", tail)
+
+
+class FrenchSeoOutputTests(unittest.TestCase):
+    """Metadata quality faults measured on the live channel on 2026-07-26:
+    107 English tags across 11 videos, 35 template-scaffolding tags, and
+    descriptions repeating the same sentence 2-3 times."""
+
+    def setUp(self):
+        try:
+            from seo_generator import generate_seo_package
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.package = generate_seo_package(
+            "Ce que votre corps vous dit quand la mâchoire craque en mâchant",
+            {
+                "title": "Pourquoi la mâchoire craque en mâchant ?",
+                "description": "Ce que votre corps vous dit quand la mâchoire craque en mâchant.",
+                "hook": "Ta mâchoire craque en mâchant",
+                "cta": "Abonne-toi pour plus de science simple.",
+            },
+        )
+
+    def test_no_english_tags_on_a_french_channel(self):
+        from seo_generator import ENGLISH_TAG_BLOCKLIST
+        for tag in self.package["tags"]:
+            self.assertNotIn(
+                tag.lower(), ENGLISH_TAG_BLOCKLIST,
+                f"English tag '{tag}' splits the French audience signal",
+            )
+
+    def test_no_template_scaffolding_tags(self):
+        # "faut", "qu'il", "comprendre" are title-template glue, not keywords.
+        for junk in ("faut", "qu'il", "quil", "comprendre", "explique", "semble"):
+            self.assertNotIn(junk, [t.lower() for t in self.package["tags"]])
+
+    def test_description_does_not_repeat_the_opening_sentence(self):
+        import re
+        description = self.package["description"]
+        sentences = [
+            re.sub(r"[^a-zà-ÿœ0-9 ]", "", s.lower()).strip()
+            for s in re.split(r"(?<=[.!?])\s+", description) if s.strip()
+        ]
+        self.assertEqual(
+            len(sentences), len(set(sentences)),
+            f"duplicate sentence in description:\n{description}",
+        )
+
+    def test_hashtags_are_unique(self):
+        import re
+        tags = [h.lower() for h in re.findall(r"#\w+", self.package["description"])]
+        self.assertEqual(len(tags), len(set(tags)), tags)
+
+
+class MetadataSweepTests(unittest.TestCase):
+    """scripts/fr_metadata_sweep.py repairs the ALREADY-PUBLISHED videos."""
+
+    def setUp(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import fr_metadata_sweep
+        self.sweep = fr_metadata_sweep
+
+    def test_strips_english_tags_keeps_french(self):
+        tags, report = self.sweep.clean_tags(
+            "Pourquoi les genoux qui craquent en bougeant ?",
+            ["anatomy", "humanbody", "bodyfacts", "yourbody", "corps", "genoux"],
+        )
+        self.assertEqual(len(report["removed_english"]), 4)
+        self.assertIn("corps", tags)
+        self.assertIn("genoux", tags)
+        for tag in tags:
+            self.assertFalse(self.sweep._is_english_tag(tag), tag)
+
+    def test_accented_french_tag_is_never_treated_as_english(self):
+        self.assertFalse(self.sweep._is_english_tag("humidité"))
+        self.assertFalse(self.sweep._is_english_tag("santé"))
+        self.assertTrue(self.sweep._is_english_tag("humanbody"))
+
+    def test_merges_repeated_hashtag_blocks(self):
+        raw = ("Phrase utile.\n\nAutre phrase.\n\n"
+               "#shorts #corps #anatomie\n\n#shorts #corps #anatomie\n\n#corps")
+        cleaned, report = self.sweep.clean_description(raw)
+        self.assertEqual(cleaned.count("#shorts"), 1)
+        self.assertEqual(cleaned.count("#corps"), 1)
+        self.assertGreaterEqual(report["hashtag_blocks_merged"], 1)
+
+    def test_is_idempotent(self):
+        """Re-running must not keep rewriting the same video (quota burn)."""
+        title = "Pourquoi le silence devient inconfortable ?"
+        first, _ = self.sweep.clean_tags(title, ["anatomy", "bodyfacts", "corps", "silence"])
+        second, _ = self.sweep.clean_tags(title, first)
+        self.assertEqual({t.lower() for t in first}, {t.lower() for t in second})
+
+        desc = "Une phrase. Une phrase.\n\n#a #b\n\n#a"
+        once, _ = self.sweep.clean_description(desc)
+        twice, _ = self.sweep.clean_description(once)
+        self.assertEqual(once, twice)
 
 
 class PublicApiTests(unittest.TestCase):

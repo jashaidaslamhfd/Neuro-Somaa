@@ -1,0 +1,63 @@
+name: "FR Metadata Sweep (tags + descriptions)"
+
+# Répare les métadonnées de TOUTES les vidéos en ligne :
+#   - tags anglais sur une chaîne française (107 relevés le 2026-07-26)
+#   - tags de gabarit non cherchés ("faut", "qu'il", "semble"…)
+#   - descriptions dupliquées 2-3 fois + blocs de hashtags répétés
+# Ne touche jamais aux titres et ne supprime aucune vidéo.
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "true = écrire sur YouTube ; false = simulation (dry-run)"
+        required: true
+        default: false
+        type: boolean
+      limit:
+        description: "Nombre max de vidéos (0 = toutes)"
+        required: false
+        default: "0"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skillor-fr-metadata-sweep
+  cancel-in-progress: false
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # Script stdlib-only : aucune dépendance à installer.
+      - name: Balayage des métadonnées FR
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          CMD="python scripts/fr_metadata_sweep.py --limit ${{ inputs.limit }}"
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            echo "::warning::Mode APPLY — les métadonnées YouTube vont être réécrites."
+            CMD="$CMD --apply"
+          else
+            echo "Simulation (dry-run). Relancer avec apply=true pour écrire."
+          fi
+          $CMD
+
+      - name: Rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fr-metadata-sweep-${{ github.run_id }}
+          path: output/fr_metadata_sweep.json
+          if-no-files-found: ignore

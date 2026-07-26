@@ -21,6 +21,34 @@ STOP = {
     "vous", "quand", "sans", "cela", "arrive", "peut", "être", "est", "sont",
     "avec", "pour", "que", "qui", "se", "sa", "son", "ses", "on", "il", "elle",
     "ne", "pas", "plus", "quoi", "leur", "leurs", "en", "y", "d", "l",
+    # --- Template scaffolding, NOT searchable keywords. ---------------
+    # _keywords() turns every long-ish title word into a tag, so the
+    # boilerplate of the title templates ("Ce qu'il FAUT COMPRENDRE sur…",
+    # "Ce que la science EXPLIQUE sur…") shipped as literal YouTube tags.
+    # Live examples on the channel: tags "faut", "qu'il", "comprendre",
+    # "explique", "semble", "avant", "moment". Nobody searches those, and
+    # they dilute the handful of tags that actually describe the video.
+    "faut", "qu'il", "quil", "qu", "comprendre", "explique", "expliquer",
+    "science", "derrière", "derriere", "passe", "semble", "sembler",
+    "avant", "après", "apres", "moment", "important", "vraiment", "toujours",
+    "jamais", "chaque", "aussi", "très", "tres", "bien", "faire", "fait",
+    "dit", "dire", "savoir", "voici", "vraie", "vrai", "raison", "chose",
+    "choses", "tout", "tous", "toute", "toutes", "autre", "autres", "ainsi",
+    "alors", "donc", "mais", "lors", "lorsque", "parfois", "souvent",
+    "notre", "nos", "mon", "ma", "mes", "ton", "ta", "tes", "tu", "te",
+}
+
+# Hard block: this is a France-first channel. English tags were shipped on 11
+# live videos ("anatomy", "humanbody", "bodyfacts", "yourbody", …) — on 9 of
+# them English outnumbered French tags 10-to-4. That tells YouTube's classifier
+# the video targets an English-speaking audience while the audio, captions and
+# metadata are French, splitting the very signal the channel depends on.
+ENGLISH_TAG_BLOCKLIST = {
+    "anatomy", "physiology", "humanbody", "human body", "yourbody", "your body",
+    "bodyfacts", "body facts", "bodyparts", "body parts", "bodymystery",
+    "bodyawareness", "humanfacts", "humananatomy", "human anatomy",
+    "brainfacts", "brain facts", "sciencefacts", "science facts", "didyouknow",
+    "facts", "body", "brain", "health", "mindblown", "amazingfacts",
 }
 
 CATEGORY_HASHTAGS = {
@@ -295,12 +323,47 @@ def generate_seo_package(topic: str, script_data: Dict) -> Dict:
 
     keyword_intro = _clean_topic(topic)
     keyword_intro = keyword_intro[0].upper() + keyword_intro[1:] if keyword_intro else ""
-    description = (
-        f"{keyword_intro}. {desc}\n\n{hook}\n\n{cta}\n\n" + " ".join(hashtags)
-    ).strip()
+    # De-duplicate the opening line. `desc` (the LLM summary) very often
+    # already restates the topic verbatim, which published descriptions like:
+    #   "Ce que votre corps vous dit quand la mâchoire craque en mâchant.
+    #    Ce que votre corps vous dit quand la mâchoire craque en mâchant.
+    #    Découvrez ce que votre corps vous dit quand votre mâchoire craque…"
+    # — the same sentence three times before any real information. That is a
+    # duplicate-content signal and wastes the only two lines YouTube shows.
+    def _norm(text: str) -> str:
+        return re.sub(r"[^a-zà-ÿœ0-9 ]", "", (text or "").lower()).strip()
+
+    intro_norm = _norm(keyword_intro)
+    desc_norm = _norm(desc)
+    if intro_norm and desc_norm and (
+        desc_norm.startswith(intro_norm) or intro_norm in desc_norm
+    ):
+        opening = desc.strip()                      # summary already says it
+    elif desc.strip():
+        # Avoid "…craque en mâchant ?." when the topic already ends in
+        # punctuation.
+        sep = "" if keyword_intro.rstrip().endswith(("?", "!", ".", "…")) else "."
+        opening = f"{keyword_intro.rstrip()}{sep} {desc.strip()}"
+    else:
+        sep = "" if keyword_intro.rstrip().endswith(("?", "!", ".", "…")) else "."
+        opening = f"{keyword_intro.rstrip()}{sep}"
+
+    # Drop the hook line when it merely repeats the opening.
+    blocks = [opening]
+    if hook and _norm(hook) not in _norm(opening):
+        blocks.append(hook.strip())
+    if cta:
+        blocks.append(cta.strip())
+    blocks.append(" ".join(hashtags))
+    description = "\n\n".join(b for b in blocks if b).strip()
 
     cat_tags = CATEGORY_TAGS.get(category, CATEGORY_TAGS["Science"])
-    tags = list(dict.fromkeys(keys + cat_tags + ["français"]))[:15]
+    # French-only guarantee: drop any English tag that slips in from a category
+    # list or a topic string, and keep only tags that read as real search terms.
+    tags = [
+        t for t in dict.fromkeys(keys + cat_tags + ["français"])
+        if t.lower().strip() not in ENGLISH_TAG_BLOCKLIST and len(t.strip()) > 2
+    ][:15]
 
     topic_short = _truncate_title(_bare_phenomenon(topic), fallback=series_title or "ce phénomène")
     pinned_comment = random.choice(PINNED_QUESTION_TEMPLATES).format(
@@ -339,6 +402,29 @@ def generate_seo_package(topic: str, script_data: Dict) -> Dict:
 def generate_description(script_data: Dict, tags: List[str] | None = None) -> str:
     """Description unique, en français, utilisée par l'upload YouTube."""
     package = generate_seo_package(script_data.get("topic") or script_data.get("title", "science"), script_data)
-    extra = ["#" + re.sub(r"[^\w]", "", str(t)) for t in (tags or [])[:3] if t]
-    return (package["description"] + "\n" + " ".join(extra)).strip()[:DESCRIPTION_MAX_LEN]
+    description = package["description"]
+
+    # Only append hashtags that are genuinely NEW and genuinely searchable.
+    # This used to blindly convert the first 3 tags into hashtags and staple
+    # them on, which is how live descriptions ended with the template
+    # scaffolding "#quil #faut #comprendre" duplicated after the existing
+    # hashtag line.
+    existing = {h.lower() for h in re.findall(r"#\w+", description)}
+    extra = []
+    for tag in (tags or []):
+        slug = re.sub(r"[^\w]", "", str(tag)).lower()
+        if (
+            len(slug) > 3
+            and slug not in STOP
+            and slug not in ENGLISH_TAG_BLOCKLIST
+            and f"#{slug}" not in existing
+            and f"#{slug}" not in extra
+        ):
+            extra.append(f"#{slug}")
+        if len(extra) == 3:
+            break
+
+    if extra:
+        description = f"{description} {' '.join(extra)}"
+    return description.strip()[:DESCRIPTION_MAX_LEN]
     
