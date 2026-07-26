@@ -208,5 +208,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "9e6291fa502aff8fb61eedf8230206b018e6514cdfe27918f2811a8079be7f3b",
+    "title": "Pourquoi le sursaut du corps en s'endormant ?",
+    "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps fait un bond C'est ton cerveau qui r\u00e9agit, mais pourquoi exactement se produit-il ? Les neurones se d\u00e9clenchent pour prot\u00e9ger ton corps de mani\u00e8re instinctive Les muscles se contractent pour \u00e9viter les dangers potentiels et assurer ta s\u00e9curit\u00e9 Le plus \u00e9trange : c'est un m\u00e9canisme involontaire et automatique qui nous intrigue Ce n'est pas un signe de maladie, mais plut\u00f4t un r\u00e9flexe naturel qui nous prot\u00e8ge Il faut simplement se d\u00e9tendre et cr\u00e9er un environnement de sommeil propice pour ",
+    "posted_at": "2026-07-26T16:26:44.678239+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "XECgrg709Og",
+    "publish_at": "2026-07-27T17:30:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
