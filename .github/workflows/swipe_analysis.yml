@@ -1,0 +1,42 @@
+name: "Analyse du balayage (courbe de rétention)"
+
+# Récupère la courbe audienceWatchRatio seconde par seconde : la seule donnée
+# qui montre À QUELLE SECONDE le spectateur balaie. Lecture seule.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  swipe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Courbes de rétention (lecture seule)
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: python scripts/swipe_analysis.py
+      - name: Sauvegarder les courbes
+        if: always()
+        run: |
+          git config user.name "skillor-bot"
+          git config user.email "skillor-bot@users.noreply.github.com"
+          git add data/swipe_curves.json 2>/dev/null || true
+          git diff --cached --quiet || {
+            git commit -m "chore: swipe retention curves [skip ci]"
+            git push
+          }
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: swipe-curves-${{ github.run_id }}
+          path: data/swipe_curves.json
+          if-no-files-found: ignore
