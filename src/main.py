@@ -547,6 +547,21 @@ class SKILLORPipeline:
                     issues = shorts_report.get('caption_pacing', {}).get('issues', [])
                     raise RuntimeError("Caption pacing failed: " + "; ".join(issues[:3]))
 
+                # The 4-9s cliff: measured from YouTube's own retention
+                # curves, EVERY video's steepest drop lands in this window,
+                # and survival at 10s predicts final retention at +0.88.
+                # Nobody leaves during the hook (101% still watching at 3s),
+                # so this window — not the opening line — is what decides the
+                # video. Warn rather than abort: it is one signal, and killing
+                # an otherwise good render costs more than a weak scene 2.
+                cliff = shorts_report.get('five_second_cliff', {})
+                if not cliff.get('ok', True):
+                    for issue in cliff.get('issues', []):
+                        logger.warning("⚠️ 5s cliff: %s", issue)
+                else:
+                    logger.info("✅ 4-9s cliff window carries %.0f words",
+                                cliff.get('words_in_window', 0))
+
                 hook_score = shorts_report.get('hook_detail', {}).get('score', 0)
                 if hook_score < MIN_HOOK_SCORE:
                     raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")

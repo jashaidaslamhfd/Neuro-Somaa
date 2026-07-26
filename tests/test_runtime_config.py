@@ -603,3 +603,48 @@ class RetentionTopicSelectionTests(unittest.TestCase):
     def test_never_crashes_when_one_pool_is_empty(self):
         only_abstract = [{"topic": "Pourquoi le temps semble accélérer"}]
         self.assertIsNotNone(self.tf._pick_by_retention_class(only_abstract))
+
+
+class FiveSecondCliffTests(unittest.TestCase):
+    """YouTube's audienceRetention curves (pulled 2026-07-26) show every one
+    of the 14 videos losing its biggest chunk between 4.6s and 9.0s, while
+    ~101% are still watching at 3s. Survival at 10s correlates +0.88 with
+    final retention — the strongest signal in this channel's data."""
+
+    def setUp(self):
+        try:
+            from shorts_enhancer import check_five_second_cliff
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.check = check_five_second_cliff
+
+    def _seg(self, text, duration):
+        return {"text": text, "duration": duration}
+
+    def test_filler_in_the_cliff_window_is_flagged(self):
+        segments = [
+            self._seg("Ton ventre se serre avant de parler.", 3.5),
+            self._seg("Mais pourquoi ?", 5.0),          # 3 words over 5s
+            self._seg("Le nerf vague relie ton cerveau à ton estomac.", 4.0),
+        ]
+        result = self.check(segments)
+        self.assertFalse(result["ok"], result)
+        self.assertTrue(any("cliff" in i for i in result["issues"]))
+
+    def test_substantial_content_passes(self):
+        segments = [
+            self._seg("Ton ventre se serre avant de parler.", 3.0),
+            self._seg("C'est le nerf vague qui contracte ton estomac en une seconde.", 4.5),
+            self._seg("Ton cerveau prépare le corps à réagir très vite.", 3.5),
+        ]
+        self.assertTrue(self.check(segments)["ok"])
+
+    def test_never_crashes_on_empty_or_short_input(self):
+        self.assertTrue(self.check([])["ok"])
+        self.assertTrue(self.check([self._seg("Court.", 1.0)])["ok"])
+
+    def test_report_exposes_the_cliff(self):
+        from shorts_enhancer import build_shorts_report
+        segments = [self._seg("Ton corps réagit vite et fort ici.", 4.0)] * 3
+        report = build_shorts_report({"hook": "Ton corps réagit vite"}, segments, ["corps"])
+        self.assertIn("five_second_cliff", report)
