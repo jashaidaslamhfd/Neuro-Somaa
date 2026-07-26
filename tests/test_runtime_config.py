@@ -648,3 +648,39 @@ class FiveSecondCliffTests(unittest.TestCase):
         segments = [self._seg("Ton corps réagit vite et fort ici.", 4.0)] * 3
         report = build_shorts_report({"hook": "Ton corps réagit vite"}, segments, ["corps"])
         self.assertIn("five_second_cliff", report)
+
+
+class DurationExperimentTests(unittest.TestCase):
+    """Six script-level explanations for the 4-9s cliff were tested against
+    real retention curves and rejected — including my own. Duration is the
+    last open variable, and the observed 36-43s spread is too narrow to
+    settle it (longer actually won: 35.6% vs 31.6%). So this ships an A/B
+    test, not another guess."""
+
+    def setUp(self):
+        sys.path.insert(0, str(ROOT / "scripts"))
+        import duration_experiment
+        self.de = duration_experiment
+
+    def test_arms_are_distinct_and_sane(self):
+        arms = self.de.ARMS
+        self.assertEqual(len(arms), 2)
+        for name, cfg in arms.items():
+            self.assertLess(cfg["min"], cfg["max"], name)
+            self.assertGreaterEqual(cfg["min"], 20, "never go below Shorts viability")
+            self.assertLessEqual(cfg["max"], 60, "must stay a Short")
+
+    def test_control_arm_matches_current_format(self):
+        # The control must reproduce today's videos, or the test measures noise.
+        control = self.de.ARMS["control_long"]
+        self.assertLessEqual(control["min"], 43)
+        self.assertGreaterEqual(control["max"], 43)
+
+    def test_workflow_wires_the_experiment(self):
+        workflow = (ROOT / ".github" / "workflows" / "main.yml").read_text()
+        self.assertIn("duration_experiment.py --assign", workflow)
+        self.assertIn("--record", workflow)
+        self.assertIn("EXPERIMENT_ARM", workflow)
+
+    def test_report_is_safe_with_no_data(self):
+        self.assertEqual(self.de.report(), 0)

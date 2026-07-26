@@ -97,6 +97,15 @@ jobs:
           [ "$missing" -eq 0 ] && echo "✓ All required secrets present"
           exit "$missing"
 
+      # Duration A/B. Six script-level hypotheses for the 4-9s cliff were
+      # tested against real retention curves and rejected; duration is the
+      # last open variable and the current 36-43s spread is too narrow to
+      # settle it. This alternates arms and writes TARGET_MIN/MAX into the
+      # env for the generation step below.
+      - name: Assign duration experiment arm
+        shell: bash
+        run: python scripts/duration_experiment.py --assign
+
       - name: Generate and upload Short
         shell: bash
         env:
@@ -152,8 +161,11 @@ jobs:
           # ---- Anti-spam (also dedupes the DST twin crons) ----
           ENFORCE_POSTING_GAP: "true"
           # ---- Quality gates ----
-          TARGET_MIN_SECONDS: "40"
-          TARGET_MAX_SECONDS: "55"
+          # Set by the "Assign duration experiment arm" step above; these are
+          # only the fallback if that step ever fails to run.
+          TARGET_MIN_SECONDS: ${{ env.TARGET_MIN_SECONDS || '40' }}
+          TARGET_MAX_SECONDS: ${{ env.TARGET_MAX_SECONDS || '55' }}
+          EXPERIMENT_ARM: ${{ env.EXPERIMENT_ARM || 'control_long' }}
           CHATTERBOX_TEMPO: "0.96"
           CHATTERBOX_EXAGGERATION: "0.35"
           CHATTERBOX_CFG_WEIGHT: "0.70"
@@ -176,6 +188,18 @@ jobs:
               if [ $attempt -eq 3 ]; then exit $rc; fi; sleep $((attempt * 60))
             fi
           done
+
+      - name: Record which experiment arm produced this video
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          VID=$(python3 scripts/duration_experiment.py --last-video-id)
+          if [ -n "$VID" ]; then
+            python scripts/duration_experiment.py --record "$VID" "${EXPERIMENT_ARM:-control_long}"
+          else
+            echo "No new video id; nothing to record."
+          fi
 
       - name: Persist durable channel state (with rebase retry)
         if: always()
