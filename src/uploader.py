@@ -542,6 +542,9 @@ def _upload_youtube(video_path, thumb_path, script_data, tags):
             break
 
     return youtube_success, yt_video_id, (publish_at_iso if youtube_success else None)
+
+
+def _upload_facebook_reels(video_path, script_data, tags):
     """
     FIX: previously this posted to /{page-id}/videos as a plain video post.
     Facebook's 2026 recommendation algorithm gives materially better organic
