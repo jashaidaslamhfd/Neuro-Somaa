@@ -377,11 +377,19 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict
     if missing:
         return {"error": f"Missing credentials: {missing}"}
 
+    # Do NOT pass `scopes=` here. google-auth then sends a `scope` parameter
+    # on the refresh call, and Google rejects any refresh that tries to
+    # narrow/alter the scope set the refresh token was minted with —
+    # returning `invalid_scope: Bad Request`. That failed all 14 videos on
+    # 2026-07-26 even though the token is perfectly valid: scripts/seo_diag.py
+    # pulls the same Analytics data with the same token precisely because it
+    # posts a bare refresh_token grant with no scope field.
+    # The token already carries yt-analytics.readonly; the access token
+    # inherits it automatically.
     creds = google.oauth2.credentials.Credentials(
         token=None, refresh_token=refresh_token,
         token_uri="https://oauth2.googleapis.com/token",
         client_id=client_id, client_secret=client_secret,
-        scopes=["https://www.googleapis.com/auth/yt-analytics.readonly"],
     )
     yta = _build("youtubeAnalytics", "v2", credentials=creds)
 

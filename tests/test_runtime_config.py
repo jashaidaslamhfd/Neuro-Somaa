@@ -543,3 +543,24 @@ class TitlePatternTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AnalyticsScopeTests(unittest.TestCase):
+    """Passing `scopes=` to Credentials makes google-auth send a `scope`
+    field on refresh, which Google rejects with `invalid_scope: Bad Request`
+    because a refresh may not alter the scopes the token was minted with.
+    That silently failed all 14 videos on 2026-07-26 while the token was
+    fine — scripts/seo_diag.py reads the same data because it posts a bare
+    refresh_token grant."""
+
+    def test_credentials_do_not_pin_scopes_on_refresh(self):
+        import re
+        source = (SRC_DIR / "seo_analytics.py").read_text()
+        block = re.search(
+            r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.S)
+        self.assertIsNotNone(block, "Credentials(...) call not found")
+        self.assertNotIn(
+            "scopes=", block.group(1),
+            "scopes= on refresh triggers invalid_scope; the token already "
+            "carries yt-analytics.readonly",
+        )
