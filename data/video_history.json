@@ -374,5 +374,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "eb810fa78ce0a8a4c942e925a583ef9e6f1365ecc418b57a291afb33ba67894e",
+    "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+    "topic": "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps se fige de peur C'est ton syst\u00e8me nerveux qui r\u00e9agit Qui envoie des signaux \u00e9lectriques pour prot\u00e9ger ton corps Pour faire r\u00e9agir tes muscles et te pr\u00e9parer \u00e0 l'action Le plus \u00e9trange : tes poils se dressent et tu frissonnes Ce n'est pas d\u00fb au froid, mais \u00e0 une r\u00e9action instinctive Si cela te pr\u00e9occupe, consulte un m\u00e9decin pour plus de s\u00e9curit\u00e9 Alors, ton corps se fige moins souvent et tu comprends tes r\u00e9actions",
+    "posted_at": "2026-07-27T18:33:37.590797+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "XLIFrONS2rc",
+    "publish_at": "2026-07-29T17:30:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
