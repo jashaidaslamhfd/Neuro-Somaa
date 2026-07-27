@@ -736,3 +736,57 @@ class HashtagQualityTests(unittest.TestCase):
         tags = self._hashtags("Pourquoi les genoux qui craquent en bougeant")
         self.assertIn("#shorts", tags)
         self.assertTrue(any("genou" in t for t in tags), tags)
+
+
+class DurationBudgetTests(unittest.TestCase):
+    """The duration A/B would have destroyed its own short arm.
+
+    script_generator hardcoded MIN_WORDS=86 / MAX_WORDS=110 (~33-42s of
+    narration) while main.py aborts a run when narration exceeds
+    TARGET_MAX_SECONDS * 1.12. On the 26-32s arm that ceiling is 35.8s,
+    so any script over ~93 words died — about 70% of the allowed range,
+    and all three retries with it. Every short-arm run would have failed
+    and the experiment would have "proven" short videos are impossible.
+    """
+
+    def _budget(self, low, high):
+        import importlib, os
+        os.environ["TARGET_MIN_SECONDS"] = str(low)
+        os.environ["TARGET_MAX_SECONDS"] = str(high)
+        import script_generator
+        importlib.reload(script_generator)
+        return script_generator
+
+    def tearDown(self):
+        import importlib, os
+        os.environ["TARGET_MIN_SECONDS"] = "40"
+        os.environ["TARGET_MAX_SECONDS"] = "55"
+        import script_generator
+        importlib.reload(script_generator)
+
+    def test_word_budget_never_exceeds_the_abort_threshold(self):
+        for low, high in ((40, 48), (26, 32), (40, 55)):
+            sg = self._budget(low, high)
+            narration = sg.MAX_WORDS / 2.6          # measured Kokoro FR pace
+            self.assertLessEqual(
+                narration, high * 1.12,
+                f"{low}-{high}s arm: {sg.MAX_WORDS} words = {narration:.1f}s "
+                f"exceeds the {high * 1.12:.1f}s abort threshold",
+            )
+
+    def test_short_arm_gets_a_smaller_budget_than_long_arm(self):
+        short = self._budget(26, 32).MAX_WORDS
+        long = self._budget(40, 48).MAX_WORDS
+        self.assertLess(short, long)
+
+    def test_prompt_states_the_active_target_not_a_fixed_range(self):
+        sg = self._budget(26, 32)
+        prompt = sg._default_prompt("Pourquoi le ventre se serre")
+        self.assertIn("26 à 32 secondes", prompt)
+        self.assertNotIn("32 à 42 secondes", prompt)
+
+    def test_eight_scenes_can_still_reach_the_minimum(self):
+        for low, high in ((40, 48), (26, 32)):
+            sg = self._budget(low, high)
+            capacity = sg.HOOK_MAX_WORDS + 7 * sg.MAX_SCENE_WORDS
+            self.assertGreaterEqual(capacity, sg.MIN_WORDS)

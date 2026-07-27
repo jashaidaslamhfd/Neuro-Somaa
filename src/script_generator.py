@@ -33,8 +33,30 @@ MIN_SCENES = 8
 MAX_SCENES = 8
 # 96 words at the cloned-voice pace reliably reaches ~40 seconds while
 # leaving normal language room; forcing 104+ made the LLM pad or fail scenes.
-MIN_WORDS = 86
-MAX_WORDS = 110
+def _duration_word_budget() -> tuple:
+    """Word count derived from the ACTIVE duration target, not hardcoded.
+
+    The duration A/B experiment sets TARGET_MIN/MAX_SECONDS per run. These
+    constants used to be fixed at 86-110 words (~33-42s of narration), which
+    silently broke the short arm: main.py aborts when narration exceeds
+    TARGET_MAX * 1.12, so on a 26-32s target anything over ~93 words died —
+    roughly 70% of the allowed range, and all 3 retries with it. The whole
+    experiment arm would have produced nothing but failed runs.
+
+    ~2.6 words/sec is the measured Kokoro FR pace on this channel.
+    """
+    import os as _os
+    words_per_second = 2.6
+    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "40"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "55"))
+    # Aim inside the window with headroom: never plan narration longer than
+    # the target max, since the pipeline aborts at target_max * 1.12.
+    low = max(40, int(target_min * words_per_second * 0.80))
+    high = max(low + 12, int(target_max * words_per_second * 0.92))
+    return low, high
+
+
+MIN_WORDS, MAX_WORDS = _duration_word_budget()
 MAX_RETRIES = 3
 SCRIPT_POLICY_VERSION = "BODY_GLITCH_V4_ANSWER_FIRST"
 TEMPERATURE = 0.65
@@ -107,8 +129,13 @@ RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Explique ce qui se produit habituellement, avec une conclusion simple et prudente.
 - Si nécessaire, rappelle que des symptômes nouveaux, persistants, sévères ou inquiétants justifient l'avis d'un professionnel qualifié.
 """ if body_glitch_mode else ""
+    # Duration comes from the active experiment arm, not a hardcoded range —
+    # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
+    # targeting 26-32s, and every short-arm run aborts on narration length.
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "40")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "55")))
     return f"""
-Crée un YouTube Short original de 32 à 42 secondes sur ce sujet :
+Crée un YouTube Short original de {target_min} à {target_max} secondes sur ce sujet :
 SUJET : {topic}
 {series_rules}
 
