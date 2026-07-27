@@ -17,7 +17,18 @@ class FranceChannelTests(unittest.TestCase):
         self.assertFalse(_is_relevant('Résultat du match de football'))
     def test_seo_is_french(self):
         package=generate_seo_package('Pourquoi une paupière tressaille',{'title':'Pourquoi la paupière tressaille','thumbnail_text':'ŒIL QUI SAUTE','hook':'Pourquoi votre paupière saute parfois','description':'Un réflexe musculaire courant peut faire tressauter une paupière.','cta':'Abonnez-vous pour plus de science simple.'})
-        self.assertIn('#science',package['hashtags'])
+        # Hashtags must be French and Shorts-tagged. '#science' is no longer
+        # asserted: it was the lead category hashtag and is far too broad to
+        # help a Short, so it was replaced with #culturegenerale /
+        # #saviezvous / #corpshumain (see CATEGORY_HASHTAGS).
+        self.assertIn('#shorts',package['hashtags'])
+        self.assertTrue(any(h in package['hashtags'] for h in
+                            ('#culturegenerale','#saviezvous','#corpshumain',
+                             '#anatomie','#cerveau','#neurosciences')),
+                        package['hashtags'])
+        # No template scaffolding may reach the hashtag line.
+        for junk in ('#quil','#faut','#comprendre','#semble','#explique','#passe'):
+            self.assertNotIn(junk,[h.lower() for h in package['hashtags']])
         self.assertIn('français',package['tags'])
         # Pinned comment is now topic-specific (varied per video) instead of
         # one hardcoded string reused on every single upload - identical

@@ -38,6 +38,15 @@ STOP = {
     "notre", "nos", "mon", "ma", "mes", "ton", "ta", "tes", "tu", "te",
 }
 
+# Words that are legitimate TAGS but useless as HASHTAGS. "science" is a fine
+# YouTube tag (people search it) yet as "#science" it is so broad it adds
+# nothing to a Short and pushes out a specific one. Kept separate from STOP so
+# the tag list is unaffected.
+HASHTAG_STOPLIST = {
+    "science", "sciences", "corps", "chose", "choses", "facon", "façon",
+    "maniere", "manière", "effet", "cause", "raison", "phenomene", "phénomène",
+}
+
 # Hard block: this is a France-first channel. English tags were shipped on 11
 # live videos ("anatomy", "humanbody", "bodyfacts", "yourbody", …) — on 9 of
 # them English outnumbered French tags 10-to-4. That tells YouTube's classifier
@@ -55,7 +64,11 @@ CATEGORY_HASHTAGS = {
     "Cerveau": ["#cerveau", "#neurosciences", "#psychologie", "#memoire"],
     "Corps": ["#corpshumain", "#anatomie", "#biologie", "#sante"],
     "Sommeil": ["#sommeil", "#reves", "#insomnie", "#biologie"],
-    "Science": ["#science", "#culturegenerale", "#saviezvous", "#faitsscientifiques"],
+    # "#science" was the lead hashtag here and it is far too broad to help a
+    # Short — it competes with every science video on the platform while
+    # saying nothing about this channel's niche. Replaced with terms a French
+    # viewer of everyday-body-science content actually browses.
+    "Science": ["#culturegenerale", "#saviezvous", "#faitsscientifiques", "#corpshumain"],
 }
 
 CATEGORY_TAGS = {
@@ -318,7 +331,24 @@ def generate_seo_package(topic: str, script_data: Dict) -> Dict:
     cta = script_data.get("cta", "Abonnez-vous pour plus de science simple.").strip()
 
     cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Science"])
-    hashtags = ["#shorts"] + cat_hashtags[:2] + ["#" + re.sub(r"[^\w]", "", k) for k in keys[:3]]
+    # Only turn a keyword into a hashtag if it is a real search term.
+    # `keys` comes from _keywords(), which strips STOP words from the topic —
+    # but the *hashtag* line was built straight from keys[:3] with no second
+    # filter, so template scaffolding still reached the live descriptions as
+    # "#quil #faut #comprendre", "#explique", "#passe", "#semble" and
+    # "#derrière" (19 junk hashtags across 8 videos, found 2026-07-27).
+    # Fixing the tag list alone was not enough: hashtags are a separate path.
+    def _hashtag_ok(word: str) -> bool:
+        slug = re.sub(r"[^\w]", "", word).lower()
+        return (
+            len(slug) > 3
+            and slug not in STOP
+            and slug not in ENGLISH_TAG_BLOCKLIST
+            and slug not in HASHTAG_STOPLIST
+        )
+
+    keyword_hashtags = ["#" + re.sub(r"[^\w]", "", k) for k in keys if _hashtag_ok(k)][:3]
+    hashtags = ["#shorts"] + cat_hashtags[:2] + keyword_hashtags
     hashtags = list(dict.fromkeys(hashtags))[:8]
 
     keyword_intro = _clean_topic(topic)

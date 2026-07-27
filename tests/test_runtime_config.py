@@ -684,3 +684,46 @@ class DurationExperimentTests(unittest.TestCase):
 
     def test_report_is_safe_with_no_data(self):
         self.assertEqual(self.de.report(), 0)
+
+
+class HashtagQualityTests(unittest.TestCase):
+    """Live audit 2026-07-27 found 19 junk hashtags across 8 published
+    videos: '#quil #faut #comprendre', '#explique', '#passe', '#semble',
+    '#derrière'. Cleaning the TAG list in an earlier commit did not fix
+    this — hashtags are built on a separate code path (keys[:3]) that had
+    no filter at all."""
+
+    def setUp(self):
+        try:
+            from seo_generator import generate_seo_package
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.build = generate_seo_package
+
+    def _hashtags(self, topic):
+        return [h.lower() for h in self.build(
+            topic, {"title": "X", "hook": "h", "cta": "c", "description": "d"}
+        )["hashtags"]]
+
+    def test_template_scaffolding_never_becomes_a_hashtag(self):
+        topics = [
+            "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+            "Ce que la science explique sur le sursaut du corps en s'endormant",
+            "Ce qui se passe quand un déjà-vu semble étrangement familier",
+        ]
+        for topic in topics:
+            tags = self._hashtags(topic)
+            for junk in ("#quil", "#faut", "#comprendre", "#semble",
+                         "#explique", "#passe", "#derrière"):
+                self.assertNotIn(junk, tags, f"{junk} in {tags}")
+
+    def test_overly_broad_hashtags_are_dropped(self):
+        # '#science' competes with the entire platform and says nothing
+        # about this niche.
+        tags = self._hashtags("Ce que la science explique sur la mémoire")
+        self.assertNotIn("#science", tags)
+
+    def test_specific_topic_hashtags_survive(self):
+        tags = self._hashtags("Pourquoi les genoux qui craquent en bougeant")
+        self.assertIn("#shorts", tags)
+        self.assertTrue(any("genou" in t for t in tags), tags)
