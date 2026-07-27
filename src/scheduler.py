@@ -2,9 +2,12 @@
 Les données Analytics de la chaîne priment toujours sur ces horaires de départ.
 """
 from datetime import datetime, timedelta
+
 import pytz
+
+
 class FrancePeakTimeScheduler:
-    PEAK_TIMES=[{"hour":12,"minute":30,"name":"Déjeuner"},{"hour":19,"minute":30,"name":"Prime"},{"hour":21,"minute":0,"name":"Soirée"}]
+    PEAK_TIMES=({"hour":12,"minute":30,"name":"Déjeuner"},{"hour":19,"minute":30,"name":"Prime"},{"hour":21,"minute":0,"name":"Soirée"})
     # DATA-DRIVEN (2026-07-26 per-video time/views analysis, 23 videos):
     # 19:00-22:00 Paris = 66% of ALL views (avg 932/vid; every 1k+ winner).
     # 12:30 lunch produced the #3 winner (1,251). 16:00 demoted (avg 424);

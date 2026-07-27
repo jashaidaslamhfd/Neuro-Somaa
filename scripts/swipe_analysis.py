@@ -29,6 +29,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from datetime import date, timedelta
+import itertools
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("swipe")
@@ -123,7 +124,8 @@ def main() -> int:
     start = end - timedelta(days=90)
 
     try:
-        history = json.load(open(HISTORY, encoding="utf-8"))
+        with open(HISTORY, encoding="utf-8") as fh:
+            history = json.load(fh)
     except OSError:
         history = []
     ids = [v["youtube_video_id"] for v in history if v.get("youtube_video_id")]
@@ -151,7 +153,7 @@ def main() -> int:
 
         # steepest drop between consecutive samples
         worst_drop, worst_at = 0.0, None
-        for (r1, w1), (r2, w2) in zip(curve, curve[1:]):
+        for (_r1, w1), (r2, w2) in itertools.pairwise(curve):
             drop = w1 - w2
             if drop > worst_drop:
                 worst_drop, worst_at = drop, r2 * duration

@@ -1,10 +1,14 @@
 """Tests offline de la configuration éditoriale France-first."""
-import sys, unittest
+import sys
+import unittest
 from pathlib import Path
+
 ROOT=Path(__file__).resolve().parents[1]; sys.path.insert(0,str(ROOT/'src'))
 from seo_generator import generate_seo_package
-from trend_fetcher import get_body_glitch_topics, _is_relevant
 from shorts_enhancer import score_hook
+from trend_fetcher import _is_relevant, get_body_glitch_topics
+
+
 class FranceChannelTests(unittest.TestCase):
     def test_catalogue_is_french_and_complete(self):
         records=get_body_glitch_topics()
@@ -53,6 +57,7 @@ class FranceChannelTests(unittest.TestCase):
 
     def test_catalogue_angles_are_grammatical_french(self):
         import re
+
         from french_quality_gate import _DANGLING_CAPTION_END
         records=get_body_glitch_topics()
         angles=[r['angle'] for r in records]
@@ -69,7 +74,7 @@ class FranceChannelTests(unittest.TestCase):
         self.assertFalse(any(a.startswith('Pourquoi le cerveau remarque') for a in angles))
 
     def test_long_angle_falls_back_to_branded_series_title(self):
-        from seo_generator import _truncate_title, _DANGLING_ENDINGS
+        from seo_generator import _DANGLING_ENDINGS, _truncate_title
         # Historical incident: cutting a long angle produced a visible
         # truncated-fragment title on the channel. The default pick must now
         # be the short branded series title instead.
@@ -121,5 +126,26 @@ class FranceChannelTests(unittest.TestCase):
                      'Voilà pourquoi votre cœur semble battre plus fort la nuit.']]}
         approved,report=validate_publication_quality(clean)
         self.assertTrue(approved,report['issues'])
+class SeoKeywordTests(unittest.TestCase):
+    """Lock in the French-elision tag fix (junk tag 'd'une' bug)."""
+    def test_elision_articles_not_emitted_as_tags(self):
+        from seo_generator import _keywords
+        # 'd'une' must NOT survive as a keyword — it stripped to 'une' (a STOP word).
+        self.assertNotIn("d'une", _keywords("Pourquoi le ventre se serre lors d'une peur"))
+        self.assertNotIn("l'on", _keywords("Ce que l'on ressent"))
+
+    def test_real_keywords_survive(self):
+        from seo_generator import _keywords
+        self.assertIn("peur", _keywords("Pourquoi le ventre se serre lors d'une peur"))
+
+    def test_generated_package_has_no_elision_tag(self):
+        pkg = generate_seo_package(
+            "Pourquoi le ventre se serre lors d'une peur",
+            {"title": "Pourquoi le ventre se serre", "hook": "x", "description": "x"},
+        )
+        for tag in pkg["tags"]:
+            self.assertFalse("'" in tag and len(tag) <= 5, f"junk elision tag: {tag!r}")
+
+
 if __name__=='__main__': unittest.main()
         

@@ -25,10 +25,11 @@ generate_images() aur generate_fallback_images.py mein kuch badalne ki
 zaroorat nahi.
 """
 
-import os
-import time
-import random
 import base64
+import os
+import random
+import time
+
 import requests
 
 REQUEST_TIMEOUT = 30
@@ -49,7 +50,6 @@ GEMINI_IMAGE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemi
 
 class RateLimitError(RuntimeError):
     """Provider ka quota/rate-limit khatam ho gaya — turant agle provider pe jump karo."""
-    pass
 
 
 # ---------------------------------------------------------------------------

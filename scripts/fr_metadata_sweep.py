@@ -58,7 +58,7 @@ ENGLISH_TAGS = {
     "brainfacts", "brain facts", "sciencefacts", "science facts",
     "didyouknow", "facts", "body", "brain", "health", "mindblown",
     "amazingfacts", "shortsfeed", "viral", "fyp", "bodyscience",
-    "body science", "bodyhacks", "healthfacts", "science facts",
+    "body science", "bodyhacks", "healthfacts",
 }
 
 # Préfixes anglais : attrape les variantes composées non listées

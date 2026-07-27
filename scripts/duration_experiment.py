@@ -61,7 +61,7 @@ def _load(path: Path, default):
 def assign() -> int:
     """Alterne strictement pour équilibrer les bras."""
     state = _load(STATE, {"assignments": []})
-    counts = {arm: 0 for arm in ARMS}
+    counts = dict.fromkeys(ARMS, 0)
     for record in state["assignments"]:
         counts[record["arm"]] = counts.get(record["arm"], 0) + 1
     arm = min(counts, key=lambda a: (counts[a], a))

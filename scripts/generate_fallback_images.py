@@ -22,18 +22,18 @@ Usage:
     python scripts/generate_fallback_images.py --count 300 --out-dir assets/fallback_images --delay 5
 """
 
-import os
-import sys
-import time
-import random
 import argparse
 import logging
+import os
+import random
+import sys
+import time
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 
-from image_providers import available_providers, RateLimitError  # noqa: E402
-from image_generator import _build_prompt  # noqa: E402
-from niche_strategy import DARK_TOPICS  # noqa: E402
+from image_generator import _build_prompt
+from image_providers import RateLimitError, available_providers
+from niche_strategy import DARK_TOPICS
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)

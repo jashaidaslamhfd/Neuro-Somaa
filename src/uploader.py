@@ -1,13 +1,16 @@
-import os
+import hashlib
 import json
 import logging
+import os
 import time
-import hashlib
+from datetime import UTC
+
 import google.oauth2.credentials
-from googleapiclient.discovery import build
-from googleapiclient.http import MediaFileUpload
-from googleapiclient.errors import HttpError
 import requests
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+from googleapiclient.http import MediaFileUpload
+
 from seo_generator import generate_description
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -207,7 +210,7 @@ def _parse_iso_quiet(value):
         return None
     try:
         from datetime import datetime
-        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(str(value))
         return dt if dt.tzinfo else dt.replace(tzinfo=__import__("datetime").timezone.utc)
     except Exception:
         return None
@@ -220,7 +223,7 @@ def _channel_scheduled_publish_ats(yt) -> list:
     Best-effort only: any scope/quota failure returns []."""
     claimed = []
     try:
-        from datetime import datetime, timezone, timedelta
+        from datetime import datetime, timedelta
         channels = yt.channels().list(part="contentDetails", mine=True).execute()
         items = channels.get("items") or []
         if not items:
@@ -237,7 +240,7 @@ def _channel_scheduled_publish_ats(yt) -> list:
         if not video_ids:
             return claimed
         videos = yt.videos().list(part="status", id=",".join(video_ids)).execute()
-        cutoff = datetime.now(timezone.utc) - timedelta(hours=3)
+        cutoff = datetime.now(UTC) - timedelta(hours=3)
         for video in videos.get("items", []):
             publish_at = _parse_iso_quiet(video.get("status", {}).get("publishAt"))
             if publish_at and publish_at > cutoff:
@@ -253,13 +256,13 @@ def _channel_scheduled_publish_ats(yt) -> list:
 
 def _claimed_publish_times(yt=None) -> list:
     """Every publish time already taken, from all three sources."""
-    from datetime import datetime, timezone, timedelta
-    now = datetime.now(timezone.utc)
+    from datetime import datetime, timedelta
+    now = datetime.now(UTC)
     claimed = [dt for dt in _CLAIMED_PUBLISH_ATS if dt and dt > now - timedelta(hours=3)]
     try:
         history_path = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
         if os.path.exists(history_path):
-            with open(history_path, "r") as handle:
+            with open(history_path) as handle:
                 for entry in json.load(handle):
                     publish_at = _parse_iso_quiet(entry.get("publish_at"))
                     if publish_at and publish_at > now - timedelta(hours=3):
@@ -285,10 +288,11 @@ def _next_publish_at(yt=None) -> tuple:
     minute (regression guard for the "2 videos at once" bug).
     """
     try:
-        from datetime import datetime, timezone
+        from datetime import datetime
+
         from scheduler import FrancePeakTimeScheduler
         scheduler = FrancePeakTimeScheduler()
-        now_utc = datetime.now(timezone.utc)
+        now_utc = datetime.now(UTC)
         claimed = _claimed_publish_times(yt)
         for slot in scheduler.get_next_posting_times(SCHEDULE_LOOKAHEAD_SLOTS):
             when = datetime.fromisoformat(slot["time_utc"])

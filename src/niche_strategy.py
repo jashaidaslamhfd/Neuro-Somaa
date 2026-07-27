@@ -13,7 +13,6 @@ OPTIMIZED FOR: HIGH RETENTION + PSYCHOLOGICAL PACING
 import logging
 import random
 import re
-from typing import List, Dict, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -407,7 +406,7 @@ DARK_TOPICS = [
 _DYNAMIC_TOPIC_CACHE: list = []  # filled on first shortfall
 
 
-def _generate_dynamic_topics(count: int = 50) -> List[str]:
+def _generate_dynamic_topics(count: int = 50) -> list[str]:
     """Use the same Groq LLM the script generator uses to mint fresh,
     unique topic strings that fit the channel's dark-body-science niche.
 
@@ -417,6 +416,7 @@ def _generate_dynamic_topics(count: int = 50) -> List[str]:
     """
     try:
         import os
+
         from groq import Groq
         api_key = os.environ.get("GROQ_API_KEY")
         if not api_key:
@@ -611,7 +611,7 @@ _MEDICAL_ADVICE_RED_FLAGS = [
 
 def get_script_prompt_for_niche(
     topic: str,
-    hook_preference: Optional[str] = None,
+    hook_preference: str | None = None,
 ) -> str:
     """Compatibility wrapper for the unified script policy.
 
@@ -629,7 +629,7 @@ def get_random_transition_hook() -> str:
     return random.choice(TRANSITION_HOOKS)
 
 
-def get_transition_hooks(count: int = 3) -> List[str]:
+def get_transition_hooks(count: int = 3) -> list[str]:
     """Get multiple transition hooks"""
     return random.sample(TRANSITION_HOOKS, min(count, len(TRANSITION_HOOKS)))
 
@@ -637,7 +637,7 @@ def get_transition_hooks(count: int = 3) -> List[str]:
 # 11. CORE FUNCTIONS
 # ============================================
 
-def get_random_topic(exclude: Optional[List[str]] = None) -> str:
+def get_random_topic(exclude: list[str] | None = None) -> str:
     """
     Picks a topic for the next video.
 
@@ -716,14 +716,14 @@ def get_topic_category(topic: str) -> str:
         return "Body"  # Default
 
 
-def get_seo_tags(topic: str, category: str = "Body") -> List[str]:
+def get_seo_tags(topic: str, category: str = "Body") -> list[str]:
     """Returns YouTube-optimized tags (max 15)."""
     _FR_STOPWORDS = {
         'dans', 'avec', 'pour', 'quand', 'vous', 'votre', 'vos', 'notre',
         'est', 'sont', 'être', 'avoir', 'cela', 'peut', 'plus', 'très',
         'tout', 'toute', 'entre', 'leur', 'leurs', 'comme', 'aussi', 'sans',
         'sous', 'chez', 'alors', 'encore', 'faire', 'fait', 'avant', 'après',
-        'pendant', 'toujours', 'jamais', 'même', 'votre', 'cette', 'quoi',
+        'pendant', 'toujours', 'jamais', 'même', 'cette', 'quoi',
         'your', 'this', 'that', 'what', 'when',
     }
     topic_words = [
@@ -755,12 +755,12 @@ def get_seo_tags(topic: str, category: str = "Body") -> List[str]:
     return result
 
 
-def generate_seo_tags(topic: str, category: str = "Body", title: str = "") -> List[str]:
+def generate_seo_tags(topic: str, category: str = "Body", title: str = "") -> list[str]:
     """Wrapper for get_seo_tags for compatibility."""
     return get_seo_tags(topic, category)
 
 
-def validate_script_for_medical_accuracy(script_data: Dict) -> Dict:
+def validate_script_for_medical_accuracy(script_data: dict) -> dict:
     """Validates that script doesn't contain medical advice."""
     voiceover = script_data.get('voiceover', '')
     if not voiceover:
@@ -780,7 +780,7 @@ def validate_script_for_medical_accuracy(script_data: Dict) -> Dict:
     }
 
 
-def auto_add_disclaimer(script_data: Dict) -> Dict:
+def auto_add_disclaimer(script_data: dict) -> dict:
     """Adds medical disclaimer to script."""
     disclaimer = "Cette vidéo est éducative et ne remplace pas un avis médical. En cas de question de santé, consultez un professionnel qualifié."
 
@@ -863,7 +863,7 @@ def make_seo_title(title: str, topic: str) -> str:
 # 12. UTILITY FUNCTIONS
 # ============================================
 
-def get_random_hook(topic: Optional[str] = None) -> str:
+def get_random_hook(topic: str | None = None) -> str:
     """Get a random hook formula, optionally with topic."""
     hook = random.choice(HOOK_FORMULAS)
     if topic and "{topic}" in hook:
@@ -881,7 +881,7 @@ def get_random_cta() -> str:
     return random.choice(CTAS)
 
 
-def get_category_tags(category: str) -> List[str]:
+def get_category_tags(category: str) -> list[str]:
     """Get tags for a specific category."""
     return CATEGORY_TAGS.get(category, CATEGORY_TAGS["Body"])
 
@@ -894,7 +894,7 @@ def get_scene_count() -> int:
 # 13. RETENTION ANALYSIS FUNCTIONS
 # ============================================
 
-def analyze_retention_potential(script_data: Dict) -> Dict:
+def analyze_retention_potential(script_data: dict) -> dict:
     """Analyzes script for retention potential."""
     scenes = script_data.get('scenes', [])
     score = 0
@@ -961,16 +961,16 @@ if __name__ == "__main__":
     print("="*60)
 
     print("\n1. Topic Selection:")
-    for i in range(3):
+    for _i in range(3):
         topic = get_random_topic()
         print(f"   - {topic}")
 
     print("\n2. Hooks (no clickbait):")
-    for i in range(3):
+    for _i in range(3):
         print(f"   - {get_random_hook('your brain')}")
 
     print("\n3. CTAs (natural, no engagement bait):")
-    for i in range(3):
+    for _i in range(3):
         print(f"   - {get_random_cta()}")
 
     print("\n" + "="*60)

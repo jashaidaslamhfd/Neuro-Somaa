@@ -3,14 +3,14 @@ Script Generator Module for SKILLOR Pipeline
 FULLY FIXED - JSON Cleaning + Native Tone + Retention Optimization
 """
 
-import os
 import json
-import time
 import logging
+import os
 import re
-from typing import Dict, List, Optional, Tuple
+import time
+
 try:
-    from groq import Groq, BadRequestError
+    from groq import BadRequestError, Groq
 except ImportError:  # lets offline validation/tests import this module
     Groq = None
     BadRequestError = Exception
@@ -188,7 +188,7 @@ JSON UNIQUEMENT :
 # 3. JSON CLEANING FUNCTION
 # ============================================
 
-def _clean_json_response(raw_reply: str) -> Dict:
+def _clean_json_response(raw_reply: str) -> dict:
     """
     Cleans and extracts JSON from LLM response.
     Handles markdown code blocks, extra text, and malformed JSON.
@@ -280,7 +280,7 @@ def _clean_json_response(raw_reply: str) -> Dict:
             logger.info("✅ Extracted data using regex fallback")
             return fallback
         
-        raise ValueError(f"Could not parse JSON from response: {raw_reply[:200]}")
+        raise ValueError(f"Could not parse JSON from response: {raw_reply[:200]}") from e
 
 
 # ============================================
@@ -318,7 +318,7 @@ def _trim_to_word_limit(caption: str, max_words: int) -> str:
     return truncated
 
 
-def _normalize_scenes(script_data: Dict) -> Dict:
+def _normalize_scenes(script_data: dict) -> dict:
     """
     Normalizes scene data from various formats.
     Ensures all required fields are present.
@@ -367,7 +367,7 @@ def _normalize_scenes(script_data: Dict) -> Dict:
     return script_data
 
 
-def _validate_script(script_data: Dict) -> Tuple[bool, List[str]]:
+def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     """
     Validates script for quality and completeness.
     
@@ -506,12 +506,12 @@ _ARC_STOPWORDS = {
     "tous", "toute", "fait", "faite", "aussi", "encore", "comme", "chose",
     "choses", "corps", "bien", "dont", "leur", "leurs", "elles", "alors",
     "peut", "faut", "sans", "soit", "rien", "jamais", "toujours", "parce",
-    "notre", "nos", "votre", "vos", "ceci", "cela", "celles", "ceux",
+    "notre", "nos", "vos", "ceci", "cela", "celles", "ceux",
     "quoi", "quel", "quelle", "même", "moins", "vraiment", "souvent",
     "pendant", "après", "avant", "entre", "chez", "vers", "depuis",
     "contre", "selon", "afin", "grâce", "malgré", "enfin", "puis", "dès",
-    "voici", "voilà", "autre", "autres", "chaque", "quand", "veut", "sont",
-    "avons", "avez", "suis", "es", "est", "était", "sera", "avoir",
+    "voici", "voilà", "autre", "autres", "chaque", "veut", "sont",
+    "avons", "avez", "suis", "es", "est", "était", "sera",
 }
 
 
@@ -532,7 +532,7 @@ def _content_concepts(text: str) -> set:
 # PUBLIC API — stable importable interface.
 # ---------------------------------------------------------------------------
 
-def validate_script(script_data: Dict) -> Tuple[bool, List[str]]:
+def validate_script(script_data: dict) -> tuple[bool, list[str]]:
     """Validate a generated script for structural completeness.
 
     Public wrapper around the internal ``_validate_script``.
@@ -556,7 +556,7 @@ def validate_script(script_data: Dict) -> Tuple[bool, List[str]]:
 # 5. RETENTION ANALYSIS
 # ============================================
 
-def analyze_retention_potential(script_data: Dict) -> Dict:
+def analyze_retention_potential(script_data: dict) -> dict:
     """
     Analyzes script for retention potential.
     Returns score (0-100) and suggestions.
@@ -633,9 +633,9 @@ def analyze_retention_potential(script_data: Dict) -> Dict:
 
 def generate_script(
     topic: str, 
-    custom_prompt: Optional[str] = None, 
+    custom_prompt: str | None = None, 
     max_retries: int = MAX_RETRIES
-) -> Dict:
+) -> dict:
     """
     Generates a RETENTION-OPTIMIZED script using Groq LLM.
     
@@ -796,10 +796,10 @@ def generate_script(
 # ============================================
 
 def generate_multiple_scripts(
-    topics: List[str],
+    topics: list[str],
     max_retries: int = MAX_RETRIES,
     delay: float = 2.0
-) -> List[Dict]:
+) -> list[dict]:
     """
     Generates scripts for multiple topics.
     
@@ -839,7 +839,7 @@ def generate_multiple_scripts(
 # 8. SCRIPT EXPORT
 # ============================================
 
-def export_script(script_data: Dict, output_path: str = "output/script.json") -> str:
+def export_script(script_data: dict, output_path: str = "output/script.json") -> str:
     """
     Exports script data to JSON file.
     """

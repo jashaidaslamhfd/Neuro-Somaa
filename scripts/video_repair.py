@@ -36,7 +36,7 @@ import urllib.parse
 import urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from video_audit import _classify  # noqa: E402  (same robust FR/EN heuristics)
+from video_audit import _classify
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("video-repair")

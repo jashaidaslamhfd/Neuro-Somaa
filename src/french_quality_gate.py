@@ -15,7 +15,6 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Dict, List, Tuple
 
 logger = logging.getLogger(__name__)
 
@@ -71,10 +70,10 @@ _DANGLING_CAPTION_END = {
 }
 
 
-def _broken_narration_issues(scenes: List) -> List[str]:
+def _broken_narration_issues(scenes: list) -> list[str]:
     """Detect sentence fragments produced when scene captions are joined."""
     captions = [str(s.get("caption", "")).strip() for s in scenes if isinstance(s, dict)]
-    issues: List[str] = []
+    issues: list[str] = []
     joined = " ".join(captions)
     match = BROKEN_CONTINUATION.search(joined)
     if match:
@@ -99,8 +98,8 @@ def _broken_narration_issues(scenes: List) -> List[str]:
     return issues
 
 
-def _all_public_text(script_data: Dict) -> str:
-    parts: List[str] = []
+def _all_public_text(script_data: dict) -> str:
+    parts: list[str] = []
     for key in ("title", "hook", "cta", "description", "topic"):
         if script_data.get(key):
             parts.append(str(script_data[key]))
@@ -115,11 +114,11 @@ def _all_public_text(script_data: Dict) -> str:
     return "\n".join(parts)
 
 
-def _tokens(text: str) -> List[str]:
+def _tokens(text: str) -> list[str]:
     return re.findall(r"[a-zA-ZÀ-ÿ']+", text.lower())
 
 
-def language_score(text: str) -> Dict:
+def language_score(text: str) -> dict:
     tokens = _tokens(text)
     if not tokens:
         return {"french_hits": 0, "english_hits": 0, "english_ratio": 0.0, "ok": False}
@@ -136,8 +135,8 @@ def language_score(text: str) -> Dict:
     }
 
 
-def medical_policy_flags(text: str) -> List[str]:
-    flags: List[str] = []
+def medical_policy_flags(text: str) -> list[str]:
+    flags: list[str] = []
     lowered = text.lower()
     for pat in FORBIDDEN_MEDICAL_PATTERNS:
         if re.search(pat, lowered, flags=re.IGNORECASE):
@@ -145,7 +144,7 @@ def medical_policy_flags(text: str) -> List[str]:
     return flags
 
 
-def ensure_safe_disclaimer(script_data: Dict) -> Dict:
+def ensure_safe_disclaimer(script_data: dict) -> dict:
     desc = script_data.get("description", "") or ""
     cta = script_data.get("cta", "") or ""
     if SAFE_DISCLAIMER.lower() not in (desc + " " + cta).lower():
@@ -168,10 +167,10 @@ _TITLE_DANGLER_WORDS = frozenset({
 })
 
 
-def validate_publication_quality(script_data: Dict) -> Tuple[bool, Dict]:
+def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
     """Return (ok, report). Does not mutate except adding a safe disclaimer."""
-    issues: List[str] = []
-    warnings: List[str] = []
+    issues: list[str] = []
+    warnings: list[str] = []
 
     scenes = script_data.get("scenes", []) or []
     if not (8 <= len(scenes) <= 12):
