@@ -32,8 +32,8 @@ sys.path.insert(0, str(ROOT / "src"))
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("metadata_repair")
 
-from seo_generator import _truncate_title  # noqa: E402 — clean dangling-safe truncation
 from niche_strategy import generate_seo_tags  # noqa: E402
+from seo_generator import _truncate_title  # noqa: E402 — clean dangling-safe truncation
 
 
 # --------------------------------------------------------------------------- #
@@ -148,7 +148,7 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
             dedup_t.append(t)
     new_tags = dedup_t[:14]
     old_tags = snip.get("tags") or []
-    if new_tags and set(t.lower() for t in new_tags) != set(t.lower() for t in old_tags):
+    if new_tags and {t.lower() for t in new_tags} != {t.lower() for t in old_tags}:
         changes["tags"] = new_tags
 
     # --- DESCRIPTION ---

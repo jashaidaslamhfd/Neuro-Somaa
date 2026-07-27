@@ -104,7 +104,7 @@ def main() -> int:
     try:
         known = _channel_video_ids(token)
         source = "live channel"
-    except Exception as exc:  # noqa: BLE001 — fall back, never hard-fail
+    except Exception as exc:
         logger.warning("Could not list channel uploads (%s); "
                        "falling back to data/video_history.json", exc)
         known = {e["youtube_video_id"] for e in json.loads(HISTORY.read_text())
@@ -139,7 +139,7 @@ def main() -> int:
                 _set_thumbnail(token, vid, data)
                 ok += 1
                 logger.info("UPLOADED  %s  (%d KB)", vid, len(data) // 1024)
-            except Exception as exc:  # noqa: BLE001 — report and continue
+            except Exception as exc:
                 failed.append((vid, str(exc)))
                 logger.error("FAILED    %s  %s", vid, exc)
             time.sleep(1.5)

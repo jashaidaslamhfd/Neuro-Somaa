@@ -26,7 +26,6 @@ quality_result looks like:
 
 import logging
 import os
-from typing import Dict
 
 from script_generator import (
     _validate_script,
@@ -54,7 +53,7 @@ class QualityChecker:
     def __init__(self, approval_threshold: int = APPROVAL_THRESHOLD):
         self.approval_threshold = approval_threshold
 
-    def check_script_quality(self, script_data: Dict) -> Dict:
+    def check_script_quality(self, script_data: dict) -> dict:
         if not script_data:
             return {
                 'approved': False,

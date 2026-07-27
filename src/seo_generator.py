@@ -1,7 +1,6 @@
 """SEO français, pensé pour la découverte sur YouTube France et la francophonie."""
-import re
 import random
-from typing import Dict, List
+import re
 
 TITLE_MAX_LEN = 60          # Shorts feed truncates ~60-70 chars; keep it fully visible
 TITLE_MAX_WORDS = 11        # room for a real curiosity/keyword phrase, not just a label
@@ -143,7 +142,7 @@ _DANGLING_ENDINGS = {
     "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses",
     "au", "aux", "à", "en", "dans", "sur", "sous", "chez", "avec", "sans",
     "pour", "par", "et", "ou", "ni", "mais", "donc", "car", "que", "qui",
-    "quand", "lorsque", "si", "ce", "cette", "ses", "leur", "leurs", "y",
+    "quand", "lorsque", "si", "ce", "cette", "leur", "leurs", "y",
     # Truncation-safe verbs/adverbs: a title must NEVER end on these — they
     # scream "clipped mid-sentence" in the feed (analytics: dangling verb
     # titles were published live).
@@ -151,7 +150,7 @@ _DANGLING_ENDINGS = {
     "vont", "fait", "faire", "dit", "passe", "se", "est", "sont", "peut",
     "peuvent", "votre", "notre", "vous", "on", "toujours", "souvent",
     "parfois", "soudain", "tout", "tous", "toute", "très", "plus",
-    "aussi", "encore", "quand", "comment", "pourquoi", "vraiment",
+    "aussi", "encore", "comment", "pourquoi", "vraiment",
     "arrive", "arrivent", "paraît", "commence", "revient", "reste",
     "deviennent", "semble-t", "donne", "montre", "voit", "entend",
 }
@@ -256,10 +255,17 @@ def _category(topic):
     return "Science"
 
 
+# French elisions that _words() captures as part of a token ("d'une", "l'on",
+# "qu'il"). Stripping them turns "d'une" -> "une" (then STOP drops it) instead
+# of shipping "d'une" as a literal YouTube tag — a real junk-tag bug on the
+# channel. Order in the alternation matters: longer prefixes first.
+_ELISION = re.compile(r"^(?:lorsqu|puisqu|jusqu|aujourd|presqu|qu|nous|vous|l|d|j|m|t|s|c|n)'", re.IGNORECASE)
+
+
 def _keywords(topic, n=8):
     seen, out = set(), []
     for w in _words(topic):
-        lw = w.lower()
+        lw = _ELISION.sub("", w.lower())
         if len(lw) > 3 and lw not in STOP and lw not in seen:
             seen.add(lw)
             out.append(lw)
@@ -268,7 +274,7 @@ def _keywords(topic, n=8):
     return out
 
 
-def _build_title_options(topic: str, series_title: str) -> List[str]:
+def _build_title_options(topic: str, series_title: str) -> list[str]:
     """Generate real, distinct SEO title candidates from the full French angle
     (topic), not from the already-short branded series title.
 
@@ -318,7 +324,7 @@ def _build_title_options(topic: str, series_title: str) -> List[str]:
     return list(dict.fromkeys([o for o in options if o]))[:5]
 
 
-def generate_seo_package(topic: str, script_data: Dict) -> Dict:
+def generate_seo_package(topic: str, script_data: dict) -> dict:
     series_title = script_data.get("series_title") or script_data.get("title") or ""
     category = _category(topic)
     keys = _keywords(topic)
@@ -429,7 +435,7 @@ def generate_seo_package(topic: str, script_data: Dict) -> Dict:
     }
 
 
-def generate_description(script_data: Dict, tags: List[str] | None = None) -> str:
+def generate_description(script_data: dict, tags: list[str] | None = None) -> str:
     """Description unique, en français, utilisée par l'upload YouTube."""
     package = generate_seo_package(script_data.get("topic") or script_data.get("title", "science"), script_data)
     description = package["description"]

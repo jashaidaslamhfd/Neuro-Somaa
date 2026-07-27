@@ -25,9 +25,9 @@ Example GitHub Actions cron (runs daily at 06:00 UTC):
       schedule:
         - cron: '0 6 * * *'
 """
+import logging
 import os
 import sys
-import logging
 
 sys.path.insert(0, os.path.dirname(__file__))
 from seo_analytics import update_history_with_real_metrics

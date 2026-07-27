@@ -18,6 +18,7 @@ Les 10 gabarits n'utilisent que ces deux formes, donc les 500 titres produits
 sont tous des phrases françaises grammaticalement valides.
 """
 from __future__ import annotations
+
 import json
 from pathlib import Path
 

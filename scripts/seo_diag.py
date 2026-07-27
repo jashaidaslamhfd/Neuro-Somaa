@@ -109,7 +109,7 @@ def main() -> int:
         if ids:
             out["videos_detail"] = get_json(
                 DATA + "videos?part=snippet,statistics,contentDetails&id=" + ",".join(ids), tok)
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         out["recent_uploads_error"] = str(e)
 
     os.makedirs("data", exist_ok=True)

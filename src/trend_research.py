@@ -21,6 +21,7 @@ instead of breaking the pipeline.
 """
 import logging
 import re
+
 import requests
 
 logger = logging.getLogger(__name__)

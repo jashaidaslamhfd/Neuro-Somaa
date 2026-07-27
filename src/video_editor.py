@@ -1,8 +1,8 @@
-import os
-import re
-import random
 import logging
-from typing import Dict
+import os
+import random
+import re
+
 import numpy as np
 import soundfile as sf
 from PIL import Image, ImageDraw, ImageFont
@@ -20,13 +20,18 @@ from PIL import Image, ImageDraw, ImageFont
 if not hasattr(Image, "ANTIALIAS"):
     Image.ANTIALIAS = Image.LANCZOS
 
-from moviepy.editor import (
-    ImageClip, VideoFileClip, ColorClip, CompositeVideoClip,
-    AudioFileClip, concatenate_videoclips, concatenate_audioclips,
-    CompositeAudioClip,
-)
-import moviepy.video.fx.all as vfx
 import moviepy.audio.fx.all as afx
+import moviepy.video.fx.all as vfx
+from moviepy.editor import (
+    AudioFileClip,
+    ColorClip,
+    CompositeAudioClip,
+    CompositeVideoClip,
+    ImageClip,
+    VideoFileClip,
+    concatenate_audioclips,
+    concatenate_videoclips,
+)
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -170,7 +175,7 @@ def _is_important_word(word: str) -> bool:
     return word_clean in IMPORTANT_WORDS
 
 
-def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: Dict = None) -> ImageClip:
+def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: dict = None) -> ImageClip:
     """
     Renders caption with RETENTION OPTIMIZATIONS:
     - Large, readable text
@@ -261,7 +266,7 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
     return txt.set_position(('center', CAPTION_Y_FRACTION), relative=True)
 
 
-def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = None):
+def _word_by_word_clips(text: str, total_duration: float, color_theme: dict = None):
     """Show short, punchy 1-2 word phrases instead of dense multi-word blocks.
 
     Timing is punctuation/word-length weighted. This is still lightweight and
@@ -285,7 +290,7 @@ def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = No
     total_weight = sum(weights)
     durations = [total_duration * w / total_weight for w in weights]
     clips, cursor = [], 0.0
-    for phrase, duration in zip(groups, durations):
+    for phrase, duration in zip(groups, durations, strict=False):
         important = any(_is_important_word(w) for w in phrase.split())
         clip = _caption_clip(phrase, duration, important, color_theme).set_start(cursor)
         clips.append(clip)
@@ -539,7 +544,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     audio_clips = []
     t_cursor = 0.0
 
-    for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types)):
+    for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types, strict=False)):
         duration = max(seg['duration'], 0.6)
 
         # ✅ Priority: Check if caption has important words
@@ -795,7 +800,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
         draw_overlay.line([(0, y), (THUMB_W, y)], fill=(0, 0, 0, alpha))
     
     # ✅ Priority: Glow effect (center radial)
-    for i in range(100):
+    for _i in range(100):
         x = random.randint(250, 830)
         y = random.randint(150, 700)
         radius = random.randint(150, 300)
@@ -885,7 +890,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
 # 6. RETENTION ANALYSIS FUNCTION
 # ============================================
 
-def analyze_video_retention_potential(video_path: str) -> Dict:
+def analyze_video_retention_potential(video_path: str) -> dict:
     """
     Analyzes video for retention potential.
     Checks: duration, scene count, caption pacing, etc.

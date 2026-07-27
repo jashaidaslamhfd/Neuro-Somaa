@@ -5,7 +5,6 @@ import json
 import os
 import shutil
 import subprocess
-from typing import Dict
 
 import numpy as np
 from PIL import Image
@@ -38,7 +37,7 @@ class MediaValidationError(RuntimeError):
     pass
 
 
-def validate_scene_image(path: str, min_side: int = 512) -> Dict:
+def validate_scene_image(path: str, min_side: int = 512) -> dict:
     """Decode an image and reject error pages, corrupt, tiny, black,
     OUT-OF-FOCUS or graphically violent assets.
 
@@ -164,7 +163,7 @@ def pad_video_to_minimum(path: str, min_seconds: float) -> str:
         raise
 
 
-def probe_video(path: str) -> Dict:
+def probe_video(path: str) -> dict:
     """Use ffprobe to enforce a playable 9:16 Short with audio."""
     if not os.path.isfile(path) or os.path.getsize(path) < 100_000:
         raise MediaValidationError(f"Video missing or too small: {path}")

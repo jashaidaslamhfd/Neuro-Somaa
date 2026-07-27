@@ -1,12 +1,13 @@
+import hashlib
+import logging
 import os
 import random
-import hashlib
 import threading
-import requests
-import logging
 
-from image_providers import available_providers, RateLimitError
-from media_validator import validate_scene_image, MediaValidationError
+import requests
+
+from image_providers import RateLimitError, available_providers
+from media_validator import MediaValidationError, validate_scene_image
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -447,8 +448,8 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
         ("Local-fallback-pool",   lambda: _layer_local_pool(index, used_fallbacks)),
         ("Pexels-image",          lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
         ("Pixabay-image",         lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
-        *(([("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]
-            if os.environ.get("ENABLE_SCREENSHOT_FALLBACK", "false").lower() == "true" else [])),
+        *([("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]
+            if os.environ.get("ENABLE_SCREENSHOT_FALLBACK", "false").lower() == "true" else []),
     ]
 
     for name, fn in layers:

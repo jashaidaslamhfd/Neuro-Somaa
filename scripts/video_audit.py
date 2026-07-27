@@ -41,7 +41,7 @@ FR_MARKERS = {
     "cette", "ces", "aux", "du", "au", "il", "elle", "on", "ne", "se",
     "sa", "son", "ses", "par", "mais", "aussi", "comme", "peut", "encore",
     "quand", "pourquoi", "comment", "sans", "sous", "chez", "leur", "notre",
-    "votre", "corps", "cerveau", "coeur", "temps", "vie", "toute", "fait",
+    "corps", "cerveau", "coeur", "temps", "vie", "toute", "fait",
     "entre", "tres", "apres", "avant", "chaque", "pendant", "toujours",
     "quoi", "voici", "cela", "cet", "effet", "raison", "vraiment",
 }
@@ -52,7 +52,7 @@ EN_MARKERS = {
     "about", "after", "before", "between", "because", "every", "really",
     "science", "brain", "body", "time", "years", "sleep", "water", "heart",
     "blood", "morning", "night", "truth", "secret", "hidden", "reason",
-    "happens", "strange", "weird", "actually", "ever", "when", "during",
+    "happens", "strange", "weird", "actually", "ever", "during",
 }
 # A title ending on one of these almost certainly got cut mid-sentence.
 FR_DANGLERS = ("le", "la", "les", "un", "une", "de", "des", "du", "et",

@@ -21,7 +21,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("yt-dead-cleanup-fr")
@@ -76,8 +76,8 @@ def main() -> int:
             snippet = video.get("snippet", {})
             status = video.get("status", {})
             stats = video.get("statistics", {})
-            published = datetime.fromisoformat(snippet["publishedAt"].replace("Z", "+00:00"))
-            age_days = (datetime.now(timezone.utc) - published).total_seconds() / 86400
+            published = datetime.fromisoformat(snippet["publishedAt"])
+            age_days = (datetime.now(UTC) - published).total_seconds() / 86400
             rows.append({
                 "id": video["id"],
                 "title": snippet.get("title", "")[:60],

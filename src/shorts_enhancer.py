@@ -21,10 +21,9 @@ What DOES apply and add value on top of the existing pipeline:
     reusing timing that's otherwise only baked into burned-in captions
 """
 
+import logging
 import os
 import re
-import logging
-from typing import Dict, List
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -49,7 +48,7 @@ _CURIOSITY_TRIGGERS = ["mythe", "vrai", "saviez", "pourquoi", "comment", "étran
 _POWER_WORDS = ["science", "cerveau", "corps", "mémoire", "sommeil", "réflexe"]
 
 
-def score_hook_detailed(hook: str) -> Dict:
+def score_hook_detailed(hook: str) -> dict:
     """Score a hook for clarity and specificity without rewarding clickbait."""
     hook = (hook or "").strip()
     words = hook.split()
@@ -92,7 +91,7 @@ def score_hook_detailed(hook: str) -> Dict:
 # 'suggestions' list in the result (used for hook_result.get('suggestions')),
 # so this wraps score_hook_detailed to accept either input shape and always
 # include 'suggestions' alongside the original 'checks' detail.
-def score_hook(hook_or_script_data) -> Dict:
+def score_hook(hook_or_script_data) -> dict:
     """Score a hook. Accepts either the hook string directly, or a
     script_data dict (uses its 'hook' field) - main.py passes the dict.
     Returns {'score', 'checks', 'suggestions'} - 'suggestions' is a plain
@@ -116,7 +115,7 @@ def score_hook(hook_or_script_data) -> Dict:
 # Per-scene caption pacing
 # ---------------------------------------------------------------------------
 
-def check_caption_pacing(scenes: List[Dict], audio_segments: List[Dict]) -> Dict:
+def check_caption_pacing(scenes: list[dict], audio_segments: list[dict]) -> dict:
     """Flags any individual scene whose words-per-second falls outside the
     readable range, even if the video's overall pacing (checked in
     quality_checker) looks fine on average. audio_segments come from
@@ -125,7 +124,7 @@ def check_caption_pacing(scenes: List[Dict], audio_segments: List[Dict]) -> Dict
     issues = []
     per_scene = []
 
-    for i, (scene, seg) in enumerate(zip(scenes, audio_segments)):
+    for i, (scene, seg) in enumerate(zip(scenes, audio_segments, strict=False)):
         caption = scene.get('caption', '')
         duration = max(seg.get('duration', 0), 0.01)
         word_count = len(caption.split())
@@ -152,7 +151,7 @@ def check_caption_pacing(scenes: List[Dict], audio_segments: List[Dict]) -> Dict
 # Autofix: trim captions that read too fast for their scene's spoken duration
 # ---------------------------------------------------------------------------
 
-def autofix_too_fast_captions(scenes: List[Dict], audio_segments: List[Dict]) -> List[Dict]:
+def autofix_too_fast_captions(scenes: list[dict], audio_segments: list[dict]) -> list[dict]:
     """For any scene whose words-per-second (per check_caption_pacing) is
     above MAX_WORDS_PER_SEC, trim the on-screen caption down to the number
     of words that actually fit its spoken duration at a readable pace.
@@ -201,7 +200,7 @@ _IDEAL_MIN_SECONDS = 40.0
 _IDEAL_MAX_SECONDS = 55.0
 
 
-def predict_retention(script_data: Dict, audio_segments: List[Dict]) -> Dict:
+def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
     """Heuristic (non-ML) retention estimate combining hook strength,
     caption pacing, and total video length. Returns predicted_avg_retention
     and predicted_swipe_away as 0-1 fractions, plus actionable suggestions.
@@ -269,7 +268,7 @@ def predict_retention(script_data: Dict, audio_segments: List[Dict]) -> Dict:
 # Shorts hashtags
 # ---------------------------------------------------------------------------
 
-def generate_shorts_hashtags(topic_tags: List[str], n: int = 5) -> List[str]:
+def generate_shorts_hashtags(topic_tags: list[str], n: int = 5) -> list[str]:
     """#shorts-family tags first (near-mandatory for Shorts shelf
     placement), then the top niche tags already computed by
     seo_generator/niche_strategy - avoids re-deriving tags from scratch."""
@@ -295,7 +294,7 @@ def _seconds_to_srt_timestamp(seconds: float) -> str:
     return f"{hours:02d}:{minutes:02d}:{secs:02d},{millis:03d}"
 
 
-def generate_srt(scenes: List[Dict], audio_segments: List[Dict], output_path: str = None) -> str:
+def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: str = None) -> str:
     """Builds standard SRT subtitle content from each scene's caption and
     its real audio duration (same timing source video_editor.py uses for
     burned-in captions, so the uploaded closed-caption file matches what's
@@ -303,7 +302,7 @@ def generate_srt(scenes: List[Dict], audio_segments: List[Dict], output_path: st
     text either way."""
     lines = []
     t = 0.0
-    for i, (scene, seg) in enumerate(zip(scenes, audio_segments), start=1):
+    for i, (scene, seg) in enumerate(zip(scenes, audio_segments, strict=False), start=1):
         duration = max(seg.get('duration', 0), 0.6)
         start, end = t, t + duration
         lines.append(str(i))
@@ -327,7 +326,7 @@ def generate_srt(scenes: List[Dict], audio_segments: List[Dict], output_path: st
 # Combined report
 # ---------------------------------------------------------------------------
 
-def check_five_second_cliff(audio_segments: List[Dict]) -> Dict:
+def check_five_second_cliff(audio_segments: list[dict]) -> dict:
     """Guard the 4.6-9.0s window where THIS channel actually loses viewers.
 
     Measured 2026-07-26 from YouTube's audienceRetention curves (the
@@ -370,7 +369,7 @@ def check_five_second_cliff(audio_segments: List[Dict]) -> Dict:
         return {'ok': True, 'note': 'video shorter than the cliff window'}
 
     words_in_window = 0
-    for index, segment, start, end in covering:
+    for _index, segment, start, end in covering:
         overlap = min(end, CLIFF_END) - max(start, CLIFF_START)
         text = (segment.get('text') or segment.get('caption') or '')
         if not text:
@@ -398,7 +397,7 @@ def check_five_second_cliff(audio_segments: List[Dict]) -> Dict:
     }
 
 
-def build_shorts_report(script_data: Dict, audio_segments: List[Dict], topic_tags: List[str]) -> Dict:
+def build_shorts_report(script_data: dict, audio_segments: list[dict], topic_tags: list[str]) -> dict:
     """Single entry point main.py can call alongside quality_checker /
     anti_spam. Doesn't gate publishing on its own (quality_checker already
     owns the approve/reject decision) - this is diagnostic + asset output."""

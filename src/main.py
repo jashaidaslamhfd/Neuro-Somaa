@@ -1,19 +1,21 @@
-import os
-import sys
+import hashlib
 import json
 import logging
-from collections import Counter
-from media_validator import probe_video, pad_video_to_minimum
-from datetime import datetime, timezone
+import os
+import sys
 import time
 import traceback
-import hashlib
+from collections import Counter
+from datetime import UTC, datetime
+
+from media_validator import pad_video_to_minimum, probe_video
 
 # Add current directory to path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
 
 # Load environment variables
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # Configure logging
@@ -29,23 +31,31 @@ logger = logging.getLogger(__name__)
 
 # Import modules with error handling
 try:
-    from script_generator import generate_script
+    from anti_spam import AntiSpamSystem
+    from french_quality_gate import validate_publication_quality
     from image_generator import generate_scene_image as generate_images
-    from voice_generator import generate_voice_segments
-    from video_editor import build_video, generate_thumbnail
-    from uploader import upload_all
     from niche_strategy import (
-        get_topic_category, generate_seo_tags, validate_script_for_medical_accuracy,
         auto_add_disclaimer,
+        generate_seo_tags,
+        get_topic_category,
+        validate_script_for_medical_accuracy,
     )
     from quality_checker import QualityChecker
     from scheduler import FrancePeakTimeScheduler
-    from anti_spam import AntiSpamSystem
-    from french_quality_gate import validate_publication_quality
+    from script_generator import generate_script
+    from seo_analytics import (
+        generate_ab_variants,
+        get_historical_insights,
+        predict_ctr,
+        rank_hashtags,
+        score_thumbnail,
+    )
     from seo_generator import generate_seo_package
     from shorts_enhancer import build_shorts_report, generate_srt, score_hook
-    from seo_analytics import predict_ctr, score_thumbnail, rank_hashtags, generate_ab_variants, get_historical_insights
     from trend_fetcher import get_trending_topic
+    from uploader import upload_all
+    from video_editor import build_video, generate_thumbnail
+    from voice_generator import generate_voice_segments
 except ImportError as e:
     logger.error(f"Failed to import modules: {e}")
     logger.error("Make sure all required modules are in the same directory")
@@ -96,7 +106,7 @@ class SKILLORPipeline:
         history_file = VIDEO_HISTORY_PATH
         if os.path.exists(history_file):
             try:
-                with open(history_file, 'r') as f:
+                with open(history_file) as f:
                     return json.load(f)
             except json.JSONDecodeError:
                 logger.warning("History file corrupted, creating new one")
@@ -112,7 +122,7 @@ class SKILLORPipeline:
         path = MEDIA_HASH_HISTORY_PATH
         if os.path.exists(path):
             try:
-                with open(path, 'r') as f:
+                with open(path) as f:
                     data = json.load(f)
                 return set(data) if isinstance(data, list) else set()
             except Exception as e:
@@ -674,7 +684,7 @@ class SKILLORPipeline:
                 'trend_source': script_data.get('trend_source'),
                 'trend_url': script_data.get('trend_url'),
                 'voiceover': script_data.get('voiceover', '')[:500],
-                'posted_at': datetime.now(timezone.utc).isoformat() if (upload_result.get('youtube_success') or upload_result.get('facebook_success')) else None,
+                'posted_at': datetime.now(UTC).isoformat() if (upload_result.get('youtube_success') or upload_result.get('facebook_success')) else None,
                 'facebook_success': upload_result.get('facebook_success', False),
                 'youtube_video_id': upload_result.get('youtube_video_id'),
                 # Scheduled-slot ledger: future runs skip this Paris slot when

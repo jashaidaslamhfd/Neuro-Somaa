@@ -282,7 +282,7 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
     def setUp(self):
         try:
-            from media_validator import validate_scene_image, MediaValidationError
+            from media_validator import MediaValidationError, validate_scene_image
         except ModuleNotFoundError as exc:
             self.skipTest(f"deps not installed here: {exc}")
         self.validate = validate_scene_image
@@ -290,9 +290,11 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
     def _write(self, array):
         import tempfile
-        from PIL import Image
+
         import numpy as np
-        path = tempfile.NamedTemporaryFile(suffix=".jpg", delete=False).name
+        from PIL import Image
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
+            path = tmp.name
         Image.fromarray(np.uint8(array)).save(path, quality=95)
         return path
 
@@ -566,7 +568,7 @@ class AnalyticsScopeTests(unittest.TestCase):
         import re
         source = (SRC_DIR / "seo_analytics.py").read_text()
         block = re.search(
-            r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.S)
+            r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.DOTALL)
         self.assertIsNotNone(block, "Credentials(...) call not found")
         self.assertNotIn(
             "scopes=", block.group(1),
@@ -750,7 +752,8 @@ class DurationBudgetTests(unittest.TestCase):
     """
 
     def _budget(self, low, high):
-        import importlib, os
+        import importlib
+        import os
         os.environ["TARGET_MIN_SECONDS"] = str(low)
         os.environ["TARGET_MAX_SECONDS"] = str(high)
         import script_generator
@@ -758,7 +761,8 @@ class DurationBudgetTests(unittest.TestCase):
         return script_generator
 
     def tearDown(self):
-        import importlib, os
+        import importlib
+        import os
         os.environ["TARGET_MIN_SECONDS"] = "40"
         os.environ["TARGET_MAX_SECONDS"] = "55"
         import script_generator

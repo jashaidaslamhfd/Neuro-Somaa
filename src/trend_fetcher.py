@@ -13,15 +13,15 @@ medical/scientific claim: the script/fact-review layer must still verify it.
 from __future__ import annotations
 
 import base64
-import logging
 import json
+import logging
 import os
 import random
 import re
 import time
 import xml.etree.ElementTree as ET
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Set
 
 import requests
 
@@ -98,7 +98,7 @@ _FR_STOPWORDS = {
     "tes", "votre", "vos", "son", "sa", "ses", "il", "elle", "se", "ce",
     "cette", "pour", "pourquoi", "est", "ne", "pas", "peut", "sembler",
     "dans", "sur", "au", "aux", "a", "d", "l", "j", "qu", "n", "s", "y",
-    "comment", "quoi", "vos", "nos", "notre",
+    "comment", "quoi", "nos", "notre",
 }
 
 
@@ -170,7 +170,7 @@ def _is_relevant(title: str) -> bool:
     return any(re.search(r"\b" + re.escape(term) + r"\b", lowered) for term in RELEVANCE_TERMS)
 
 
-def _request(method: str, url: str, *, source: str, **kwargs) -> Optional[requests.Response]:
+def _request(method: str, url: str, *, source: str, **kwargs) -> requests.Response | None:
     """Perform a bounded request and log useful diagnostics on failure."""
     kwargs.setdefault("timeout", REQUEST_TIMEOUT)
     headers = dict(kwargs.pop("headers", {}) or {})
@@ -196,16 +196,16 @@ def _request(method: str, url: str, *, source: str, **kwargs) -> Optional[reques
     return None
 
 
-def _topic_record(topic: str, source: str, **extra: object) -> Dict:
-    record: Dict[str, object] = {"topic": topic, "title": topic, "source": source}
+def _topic_record(topic: str, source: str, **extra: object) -> dict:
+    record: dict[str, object] = {"topic": topic, "title": topic, "source": source}
     record.update(extra)
     return record
 
 
-def _deduplicate(records: Iterable[Dict], excluded: Optional[Iterable[str]] = None) -> List[Dict]:
-    excluded_keys: Set[str] = {_normalise_topic(x) for x in (excluded or []) if x}
-    seen: Set[str] = set()
-    result: List[Dict] = []
+def _deduplicate(records: Iterable[dict], excluded: Iterable[str] | None = None) -> list[dict]:
+    excluded_keys: set[str] = {_normalise_topic(x) for x in (excluded or []) if x}
+    seen: set[str] = set()
+    result: list[dict] = []
     for record in records:
         title = _clean_topic(record.get("topic", ""))
         key = _normalise_topic(title)
@@ -219,7 +219,7 @@ def _deduplicate(records: Iterable[Dict], excluded: Optional[Iterable[str]] = No
     return result
 
 
-def get_google_trends_topics(region: Optional[str] = None) -> List[Dict]:
+def get_google_trends_topics(region: str | None = None) -> list[dict]:
     """Fetch daily Google trends through its XML RSS feed.
 
     The former ``/trends/api/dailytrends`` JSON endpoint used by this project
@@ -239,7 +239,7 @@ def get_google_trends_topics(region: Optional[str] = None) -> List[Dict]:
         logger.warning("Google Trends RSS returned invalid XML: %s", exc)
         return []
 
-    topics: List[Dict] = []
+    topics: list[dict] = []
     for item in root.findall("./channel/item"):
         title = _clean_topic(item.findtext("title", default=""))
         if title and _is_relevant(title):
@@ -251,7 +251,7 @@ def get_google_trends_topics(region: Optional[str] = None) -> List[Dict]:
     return _deduplicate(topics)
 
 
-def get_youtube_trending_topics(region: Optional[str] = None) -> List[Dict]:
+def get_youtube_trending_topics(region: str | None = None) -> list[dict]:
     """Use the official YouTube Data API; never scrape the changing HTML UI."""
     api_key = os.environ.get("YOUTUBE_API_KEY")
     if not api_key:
@@ -273,7 +273,7 @@ def get_youtube_trending_topics(region: Optional[str] = None) -> List[Dict]:
         logger.warning("YouTube Data API returned non-JSON data: %s", exc)
         return []
 
-    topics: List[Dict] = []
+    topics: list[dict] = []
     for item in payload.get("items", []):
         snippet = item.get("snippet", {})
         title = _clean_topic(snippet.get("title", ""))
@@ -288,14 +288,14 @@ def get_youtube_trending_topics(region: Optional[str] = None) -> List[Dict]:
     return _deduplicate(topics)
 
 
-def _reddit_access_token() -> Optional[str]:
+def _reddit_access_token() -> str | None:
     """Return an app-only Reddit OAuth token, or None when not configured."""
     client_id = os.environ.get("REDDIT_CLIENT_ID")
     client_secret = os.environ.get("REDDIT_CLIENT_SECRET")
     if not client_id or not client_secret:
         logger.info("Reddit trends skipped: REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET are not configured.")
         return None
-    basic = base64.b64encode(f"{client_id}:{client_secret}".encode("utf-8")).decode("ascii")
+    basic = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode("ascii")
     response = _request(
         "POST", "https://www.reddit.com/api/v1/access_token", source="Reddit OAuth",
         headers={"Authorization": f"Basic {basic}"}, data={"grant_type": "client_credentials"},
@@ -311,12 +311,12 @@ def _reddit_access_token() -> Optional[str]:
     return token
 
 
-def get_reddit_trending_topics() -> List[Dict]:
+def get_reddit_trending_topics() -> list[dict]:
     """Fetch niche-relevant posts trending today through Reddit OAuth."""
     token = _reddit_access_token()
     if not token:
         return []
-    topics: List[Dict] = []
+    topics: list[dict] = []
     headers = {"Authorization": f"Bearer {token}"}
     for subreddit in REDDIT_SUBREDDITS:
         response = _request(
@@ -375,8 +375,7 @@ PHYSICAL_SENSATION_MARKERS = {
     "rougir", "rougit", "frisson", "chair de poule", "tremble", "tressaille",
     "craque", "craquent", "serre", "fige", "sursaut", "hoquet", "bâille",
     "bâillement", "éternue", "démange", "picote", "engourdi", "crampe",
-    "transpire", "sueur", "battement", "souffle", "respiration", "ventre",
-    "faim", "soif", "fatigue", "lourd", "silence", "réveil", "endormir",
+    "transpire", "sueur", "battement", "souffle", "respiration", "faim", "soif", "fatigue", "lourd", "silence", "réveil", "endormir",
     "sommeil", "dormir", "nuit", "cœur", "coeur", "pouls",
 }
 ABSTRACT_CONCEPT_MARKERS = {
@@ -400,7 +399,7 @@ def classify_topic_retention(topic: str) -> str:
     return "neutral"
 
 
-def _pick_by_retention_class(candidates: List[Dict]) -> Dict:
+def _pick_by_retention_class(candidates: list[dict]) -> dict:
     """Prefer body-sensation topics, without ever starving the catalogue."""
     physical, other = [], []
     for record in candidates:
@@ -423,7 +422,7 @@ def _pick_by_retention_class(candidates: List[Dict]) -> Dict:
     return chosen
 
 
-def get_body_glitch_topics() -> List[Dict]:
+def get_body_glitch_topics() -> list[dict]:
     """Load the fixed 500-topic Body Glitch catalogue with series metadata."""
     try:
         with BODY_GLITCH_CATALOGUE_PATH.open(encoding="utf-8") as file_handle:
@@ -450,16 +449,16 @@ def get_body_glitch_topics() -> List[Dict]:
     return result
 
 
-def get_proven_topics() -> List[Dict]:
+def get_proven_topics() -> list[dict]:
     """Return channel-fit evergreen topics based on proven content pillars."""
     return [_topic_record(topic, "proven_channel_pillar") for topic in PROVEN_TOPIC_POOL]
 
 
 def get_trending_topic(
-    exclude: Optional[List[str]] = None,
+    exclude: list[str] | None = None,
     *,
     return_metadata: bool = False,
-) -> str | Dict:
+) -> str | dict:
     """Select a fresh topic using channel fit first and trends second.
 
     ``TOPIC_STRATEGY=proven_evergreen`` is the production default because the
@@ -485,7 +484,7 @@ def get_trending_topic(
         logger.info("Selected Body Glitch #%s: %s", chosen.get("series_number"), chosen["topic"])
         return chosen if return_metadata else str(chosen["topic"])
 
-    records: List[Dict] = []
+    records: list[dict] = []
     records.extend(get_google_trends_topics())
     records.extend(get_youtube_trending_topics())
     records.extend(get_reddit_trending_topics())

@@ -178,14 +178,15 @@ def repair_broken_titles(token) -> None:
     import sys
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
     try:
-        from seo_generator import _truncate_title  # noqa: PLC0415
-    except Exception as exc:  # noqa: BLE001
+        from seo_generator import _truncate_title
+    except Exception as exc:
         print("TITLE REPAIR: seo_generator import failed:", exc)
         return
     hist_path = os.path.join(os.path.dirname(__file__), "..", "data", "video_history.json")
     try:
-        hist = json.load(open(hist_path, encoding="utf-8"))
-    except Exception as exc:  # noqa: BLE001
+        with open(hist_path, encoding="utf-8") as fh:
+            hist = json.load(fh)
+    except Exception as exc:
         print("TITLE REPAIR: history unreadable:", exc)
         return
     topics = {v["youtube_video_id"]: (v.get("topic") or "")
@@ -237,7 +238,7 @@ def repair_broken_titles(token) -> None:
             _api("videos?part=snippet", token, method="PUT", body=body)
             fixed += 1
             print(f"TITLE FIX {v['id']}\n   old: {sn['title'][:90]}\n   new: {new_title[:90]}")
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             failed += 1
             print(f"TITLE FAIL {v['id']} | {exc}")
     print(f"BROKEN TITLE REPAIR: fixed={fixed} already_ok={skipped} failed={failed}")
@@ -281,7 +282,7 @@ def repair_video_languages(token) -> None:
             got = (resp or {}).get("snippet", {}).get("defaultLanguage")
             fixed += 1
             print(f"LANG FIX  {v['id']} | {lang or 'None'} -> {got or 'fr?'} | {sn['title'][:60]}")
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             failed += 1
             print(f"LANG FAIL {v['id']} | {exc}")
     print(f"VIDEO LANG REPAIR: fixed={fixed} already_ok={skipped} failed={failed}")

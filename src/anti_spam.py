@@ -1,8 +1,7 @@
+import hashlib
 import logging
 import re
-from typing import Dict, List
 from collections import Counter
-import hashlib
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -33,7 +32,7 @@ class AntiSpamSystem:
         self.keyword_frequency_threshold = 0.15  # 15% max
         self.similarity_threshold = 0.7  # 70% similarity = potential spam
     
-    def check_for_spam_risks(self, video: Dict, previous_videos: List[Dict]) -> Dict:
+    def check_for_spam_risks(self, video: dict, previous_videos: list[dict]) -> dict:
         """
         Comprehensive spam risk check.
         """
@@ -81,7 +80,7 @@ class AntiSpamSystem:
             'recommendation': self._get_spam_recommendation(spam_risk, risks)
         }
     
-    def _check_keyword_stuffing(self, video: Dict) -> float:
+    def _check_keyword_stuffing(self, video: dict) -> float:
         """
         Detect keyword stuffing (0-100, where 100 is worst).
         """
@@ -106,7 +105,7 @@ class AntiSpamSystem:
         
         return min(stuffing_score, 100)
     
-    def _check_content_similarity(self, video: Dict, previous_videos: List[Dict]) -> List[str]:
+    def _check_content_similarity(self, video: dict, previous_videos: list[dict]) -> list[str]:
         """
         Check if video is too similar to previous uploads.
         """
@@ -149,7 +148,7 @@ class AntiSpamSystem:
         
         return issues
     
-    def _check_duplicates(self, video: Dict, previous_videos: List[Dict]) -> List[str]:
+    def _check_duplicates(self, video: dict, previous_videos: list[dict]) -> list[str]:
         """
         Check for duplicate titles or descriptions.
         """
@@ -178,7 +177,7 @@ class AntiSpamSystem:
         
         return issues
     
-    def _check_title_quality(self, title: str) -> List[str]:
+    def _check_title_quality(self, title: str) -> list[str]:
         """
         Check if title has spam characteristics.
         """
@@ -210,7 +209,7 @@ class AntiSpamSystem:
         
         return issues
     
-    def _check_engagement_bait(self, video: Dict) -> float:
+    def _check_engagement_bait(self, video: dict) -> float:
         """
         Detect engagement bait (0-100, where 100 is worst).
         """
@@ -237,7 +236,7 @@ class AntiSpamSystem:
         
         return min(bait_score, 100)
     
-    def _calculate_overall_spam_risk(self, scores: Dict) -> str:
+    def _calculate_overall_spam_risk(self, scores: dict) -> str:
         """
         Calculate overall spam risk level.
 
@@ -271,7 +270,7 @@ class AntiSpamSystem:
         else:
             return 'LOW'
     
-    def _get_spam_recommendation(self, risk_level: str, risks: List[str]) -> str:
+    def _get_spam_recommendation(self, risk_level: str, risks: list[str]) -> str:
         """
         Get recommendation based on spam risk.
         """
@@ -284,7 +283,7 @@ class AntiSpamSystem:
         else:
             return "🟢 SAFE - Low spam risk. Can publish."
     
-    def _calculate_similarity(self, video1: Dict, video2: Dict) -> float:
+    def _calculate_similarity(self, video1: dict, video2: dict) -> float:
         """
         Calculate overall content similarity (0-1).
         """
@@ -335,14 +334,14 @@ class AntiSpamSystem:
         
         return common / total > 0.7
     
-    def _get_content_hash(self, video: Dict) -> str:
+    def _get_content_hash(self, video: dict) -> str:
         """
         Get hash of video content for quick comparison.
         """
         content = (video.get('title', '') + video.get('voiceover', '')).lower()
         return hashlib.md5(content.encode()).hexdigest()
     
-    def generate_anti_spam_report(self, video: Dict, previous_videos: List[Dict]) -> str:
+    def generate_anti_spam_report(self, video: dict, previous_videos: list[dict]) -> str:
         """
         Generate detailed anti-spam report.
         """

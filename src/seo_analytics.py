@@ -27,10 +27,9 @@ Honest scope note up front, since it matters for how much to trust this:
     without any code changes needed here.
 """
 
-import os
 import json
 import logging
-from typing import Dict, List
+import os
 from collections import defaultdict
 
 # NOTE: numpy / Pillow are imported LAZILY inside score_thumbnail() — they are
@@ -52,7 +51,7 @@ HISTORY_FILE = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
 # 1. CTR Prediction (heuristic, not ML-trained on real data - see module note)
 # ---------------------------------------------------------------------------
 
-def predict_ctr(script_data: Dict) -> Dict:
+def predict_ctr(script_data: dict) -> dict:
     """Combines signals already computed elsewhere in the pipeline
     (hook score, SEO score, title pattern) into a single 0-10 CTR estimate
     with a confidence label reflecting how many of those signals were
@@ -99,7 +98,7 @@ def predict_ctr(script_data: Dict) -> Dict:
 # 2. Thumbnail SEO scoring (real image analysis via PIL/numpy)
 # ---------------------------------------------------------------------------
 
-def score_thumbnail(thumb_path: str, title: str) -> Dict:
+def score_thumbnail(thumb_path: str, title: str) -> dict:
     """Analyzes the actual generated thumbnail file. Only measures what's
     computable without an ML model: contrast in the text-overlay strip,
     text length/line-wrap readability, and dominant-color warmth (a cheap
@@ -119,7 +118,7 @@ def score_thumbnail(thumb_path: str, title: str) -> Dict:
 
     img = Image.open(thumb_path).convert("RGB")
     arr = np.array(img)
-    h, w, _ = arr.shape
+    h = arr.shape[0]
 
     # video_editor.generate_thumbnail() draws the title in the bottom
     # ~220px strip over a dark gradient - check contrast there specifically,
@@ -178,7 +177,7 @@ _BROAD_TAG_HINTS = {
 }
 
 
-def rank_hashtags(tags: List[str]) -> List[Dict]:
+def rank_hashtags(tags: list[str]) -> list[dict]:
     """Returns each tag with proxy discovery/competition/trend scores and
     a recommendation, ranked by an overall 'discovery value' that favors a
     realistic broad+niche+long-tail mix over an all-broad or all-long-tail
@@ -213,7 +212,7 @@ def rank_hashtags(tags: List[str]) -> List[Dict]:
 # 4. A/B variant generation + auto-ranking
 # ---------------------------------------------------------------------------
 
-def generate_ab_variants(script_data: Dict, title_options: List[str]) -> Dict:
+def generate_ab_variants(script_data: dict, title_options: list[str]) -> dict:
     """Builds description variants (short-punchy vs longer-context) for
     each of the already-generated title options, scores every
     title+description pairing with predict_ctr(), and returns them ranked
@@ -254,11 +253,11 @@ def generate_ab_variants(script_data: Dict, title_options: List[str]) -> Dict:
 # 5. Historical learning over output/video_history.json
 # ---------------------------------------------------------------------------
 
-def _load_history() -> List[Dict]:
+def _load_history() -> list[dict]:
     if not os.path.exists(HISTORY_FILE):
         return []
     try:
-        with open(HISTORY_FILE, 'r') as f:
+        with open(HISTORY_FILE) as f:
             return json.load(f)
     except Exception:
         return []
@@ -296,7 +295,7 @@ def _title_pattern(title: str) -> str:
     return 'OTHER'
 
 
-def get_historical_insights(min_sample: int = 3) -> Dict:
+def get_historical_insights(min_sample: int = 3) -> dict:
     """Groups past videos by title pattern and compares average performance.
     Uses 'actual_ctr'/'views' from history entries when present (once a
     YouTube Analytics puller is added upstream); otherwise falls back to
@@ -357,12 +356,13 @@ def get_historical_insights(min_sample: int = 3) -> Dict:
 # of raising, so a missing scope never crashes the pipeline.
 # ---------------------------------------------------------------------------
 
-def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict:
+def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict:
     """Pulls real lifetime-to-date performance for one video: views,
     averageViewDuration (seconds), averageViewPercentage (retention %),
     impressions, and impressionsClickThroughRate (real CTR - the actual
     metric predict_ctr() above can only estimate)."""
     import datetime as _dt
+
     import google.oauth2.credentials
     from googleapiclient.discovery import build as _build
     from googleapiclient.errors import HttpError
@@ -448,7 +448,7 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict
         return {"note": "No analytics rows yet - data can take 24-48h to populate after upload."}
 
     headers = [h["name"] for h in resp.get("columnHeaders", [])]
-    values = dict(zip(headers, rows[0]))
+    values = dict(zip(headers, rows[0], strict=False))
 
     return {
         "video_id": youtube_video_id,
@@ -458,12 +458,12 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> Dict
         "impressions": values.get("impressions"),
         "actual_ctr": values.get("impressionsClickThroughRate"),
         "unavailable_metrics": dropped,
-        "fetched_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+        "fetched_at": _dt.datetime.now(_dt.UTC).isoformat(),
     }
 
 
 def update_history_with_real_metrics(min_hours_old: int = 24,
-                                     refresh_after_hours: int = 24) -> Dict:
+                                     refresh_after_hours: int = 24) -> dict:
     """Meant to run on its OWN schedule (separate cron/GitHub Action),
     NOT inside the main generation pipeline - real analytics data isn't
     available immediately after upload.
@@ -488,7 +488,7 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
     if not history:
         return {"updated": 0, "note": "No history file yet."}
 
-    now = _dt.datetime.now(_dt.timezone.utc)
+    now = _dt.datetime.now(_dt.UTC)
     updated, skipped_fresh, failed = 0, 0, 0
     for entry in history:
         vid = entry.get("youtube_video_id")
@@ -498,7 +498,7 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
         try:
             posted_dt = _dt.datetime.fromisoformat(posted_at)
             if posted_dt.tzinfo is None:                     # tolerate legacy naive stamps
-                posted_dt = posted_dt.replace(tzinfo=_dt.timezone.utc)
+                posted_dt = posted_dt.replace(tzinfo=_dt.UTC)
         except Exception:
             continue
         if (now - posted_dt).total_seconds() / 3600 < min_hours_old:
@@ -509,7 +509,7 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
             try:
                 last_dt = _dt.datetime.fromisoformat(last_fetch)
                 if last_dt.tzinfo is None:
-                    last_dt = last_dt.replace(tzinfo=_dt.timezone.utc)
+                    last_dt = last_dt.replace(tzinfo=_dt.UTC)
                 if (now - last_dt).total_seconds() / 3600 < refresh_after_hours:
                     skipped_fresh += 1
                     continue

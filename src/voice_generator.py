@@ -1,10 +1,10 @@
-import os
-import numpy as np
-import soundfile as sf
 import logging
+import os
 import re
 import time
-from typing import List, Dict
+
+import numpy as np
+import soundfile as sf
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -139,7 +139,6 @@ def _get_chatterbox():
     if _chatterbox_model is not None or _chatterbox_load_failed:
         return _chatterbox_model
     try:
-        import torch
         # ------------------------------------------------------------------
         # Known bug workaround (resemble-ai/chatterbox GitHub issue #198):
         # in some environments perth.PerthImplicitWatermarker silently
@@ -155,6 +154,7 @@ def _get_chatterbox():
         # - the actual voice cloning is completely unaffected.
         # ------------------------------------------------------------------
         import perth
+        import torch
         if getattr(perth, "PerthImplicitWatermarker", None) is None:
             logger.warning(
                 "perth.PerthImplicitWatermarker is None (known chatterbox/perth "
@@ -197,6 +197,7 @@ def _apply_tempo(audio: np.ndarray, sr: int, tempo: float) -> np.ndarray:
     try:
         import subprocess
         import tempfile
+
         import imageio_ffmpeg
 
         ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
@@ -274,11 +275,11 @@ def _synthesize_chatterbox(text: str, attempt: int = 1) -> tuple:
             "Retrying won't help since the reference won't magically fix itself."
         )
 
-    kwargs = dict(
-        exaggeration=CHATTERBOX_EXAGGERATION,
-        cfg_weight=CHATTERBOX_CFG_WEIGHT,
-        temperature=CHATTERBOX_TEMPERATURE,
-    )
+    kwargs = {
+        'exaggeration': CHATTERBOX_EXAGGERATION,
+        'cfg_weight': CHATTERBOX_CFG_WEIGHT,
+        'temperature': CHATTERBOX_TEMPERATURE,
+    }
     if use_clone:
         kwargs["audio_prompt_path"] = VOICE_REFERENCE_PATH
         logger.info(f"Chatterbox attempt {attempt}/{CHATTERBOX_MAX_RETRIES}: using CLONED voice from {VOICE_REFERENCE_PATH}")
@@ -358,7 +359,7 @@ def _synthesize_kokoro(text: str, voice: str, speed: float):
 
     generator = kokoro(text, voice=voice, speed=speed)
     chunks = []
-    for gs, ps, audio in generator:
+    for _gs, _ps, audio in generator:
         if audio is not None:
             chunks.append(audio)
 
@@ -461,15 +462,15 @@ def generate_voice(text: str, voice: str = "ff_siwis", output_path: str = "outpu
         return output_path
     except Exception as e:
         logger.error(f"Voice generation failed: {e}")
-        raise RuntimeError(f"Voice generation error: {e}")
+        raise RuntimeError(f"Voice generation error: {e}") from e
 
 
 def generate_voice_segments(
-    scenes: List[dict],
+    scenes: list[dict],
     voice: str = "ff_siwis",  # only used if a segment falls back to Kokoro
     output_dir: str = "output/segments",
     speed: float = 1.0,      # only used if a segment falls back to Kokoro
-) -> List[Dict]:
+) -> list[dict]:
     """
     Each scene gets clear, conversational narration via Chatterbox using the
     creator's voice reference, with Kokoro as a technical per-segment fallback.
