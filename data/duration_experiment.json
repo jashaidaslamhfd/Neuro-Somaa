@@ -7,6 +7,10 @@
     {
       "video_id": "TbbiAMubfu8",
       "arm": "test_short"
+    },
+    {
+      "video_id": "VRWySzxXsyE",
+      "arm": "control_long"
     }
   ]
 }

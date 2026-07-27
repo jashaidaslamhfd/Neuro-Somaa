@@ -358,5 +358,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "3d1bf86e220f04778663024f9711d637800cf77de4ea5d4a06e7dc9a902120e0",
+    "title": "Pourquoi on sent une vibration de t\u00e9l\u00e9phone imaginaire ?",
+    "topic": "Pourquoi on sent une vibration de t\u00e9l\u00e9phone imaginaire peut sembler \u00e9trange",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps vibre sans raison C'est ton cerveau qui joue un r\u00f4le dans ces vibrations Ton cerveau attend une vibration et peut cr\u00e9er une fausse alerte Les neurones se connectent pour cr\u00e9er cette sensation de vibration Le plus \u00e9trange, c'est que ton cerveau peut cr\u00e9er cette illusion de vibration sans aucun signal Ce n'est pas \u00e0 cause d'une addiction aux t\u00e9l\u00e9phones, mais plut\u00f4t de notre cerveau en alerte Il est important de rester calme et de ne pas s'inqui\u00e9ter de ces fausses vibrations Maintenant, t",
+    "posted_at": "2026-07-27T17:25:18.601024+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "VRWySzxXsyE",
+    "publish_at": "2026-07-29T10:30:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
