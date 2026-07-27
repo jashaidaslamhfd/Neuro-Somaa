@@ -243,11 +243,20 @@ class MetadataSweepTests(unittest.TestCase):
 
     def test_merges_repeated_hashtag_blocks(self):
         raw = ("Phrase utile.\n\nAutre phrase.\n\n"
-               "#shorts #corps #anatomie\n\n#shorts #corps #anatomie\n\n#corps")
+               "#shorts #anatomie #genoux\n\n#shorts #anatomie #genoux\n\n#genoux")
         cleaned, report = self.sweep.clean_description(raw)
         self.assertEqual(cleaned.count("#shorts"), 1)
-        self.assertEqual(cleaned.count("#corps"), 1)
+        self.assertEqual(cleaned.count("#genoux"), 1)
         self.assertGreaterEqual(report["hashtag_blocks_merged"], 1)
+
+    def test_junk_hashtags_are_stripped_from_published_descriptions(self):
+        # Exactly what is live on 8 videos today.
+        raw = ("Le nœud au ventre avant un moment important.\n\n"
+               "#shorts #corpshumain #anatomie #quil #faut #comprendre #science")
+        cleaned, _ = self.sweep.clean_description(raw)
+        for junk in ("#quil", "#faut", "#comprendre", "#science"):
+            self.assertNotIn(junk, cleaned.lower())
+        self.assertIn("#anatomie", cleaned)
 
     def test_is_idempotent(self):
         """Re-running must not keep rewriting the same video (quota burn)."""

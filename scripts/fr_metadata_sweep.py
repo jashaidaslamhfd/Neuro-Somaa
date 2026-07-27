@@ -228,7 +228,20 @@ def clean_description(description: str) -> tuple[str, dict]:
             body.append(block)
 
     hashtags_removed = sum(1 for b in deduped if _is_hashtag_block(b))
-    final_blocks = body + ([" ".join(merged_hashtags[:15])] if merged_hashtags else [])
+    # Drop junk hashtags from the merged line too. The published
+    # descriptions carry template scaffolding as hashtags — "#quil #faut
+    # #comprendre", "#explique", "#passe", "#semble", "#derrière" — plus the
+    # far-too-broad "#science" (19 of them across 8 videos on 2026-07-27).
+    # Merging duplicates alone left all of them in place.
+    HASHTAG_JUNK = TEMPLATE_TAGS | {"science", "sciences", "corps", "chose",
+                                    "choses", "effet", "cause", "raison"}
+    kept_hashtags = [
+        tag for tag in merged_hashtags
+        if len(tag.lstrip("#")) > 3
+        and tag.lstrip("#").lower() not in HASHTAG_JUNK
+        and not _is_english_tag(tag.lstrip("#"))
+    ]
+    final_blocks = body + ([" ".join(kept_hashtags[:15])] if kept_hashtags else [])
 
     cleaned = "\n\n".join(final_blocks).strip()[:4900]
     return cleaned, {
