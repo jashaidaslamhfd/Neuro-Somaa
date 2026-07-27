@@ -3,6 +3,10 @@
     {
       "video_id": "ZXNvo9birZM",
       "arm": "control_long"
+    },
+    {
+      "video_id": "TbbiAMubfu8",
+      "arm": "test_short"
     }
   ]
 }

@@ -342,5 +342,21 @@
     "predicted_ctr": 9.9,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "a65552fc3738663cfe7c643fdd395d75699004edf60d4fdbf1cbda76587aa419",
+    "title": "Ce qui change lorsque une lumi\u00e8re vive fait \u00e9ternuer ?",
+    "topic": "Ce qui change lorsque une lumi\u00e8re vive fait \u00e9ternuer",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Lumi\u00e8re vive, \u00e9ternuement soudain intense C'est ton nerf nasal qui r\u00e9agit rapidement Ton cerveau re\u00e7oit les signaux lumineux Et d\u00e9clenche la r\u00e9action d'\u00e9ternuement Le plus \u00e9trange, c'est la vitesse de r\u00e9action Ce n'est pas la poussi\u00e8re qui cause l'\u00e9ternuement mais la lumi\u00e8re Il est important de comprendre pour \u00e9viter les malentendus sur la sant\u00e9 Et maintenant, tu comprends pourquoi la lumi\u00e8re vive te fait \u00e9ternuer soudainement",
+    "posted_at": "2026-07-27T12:05:42.582878+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "TbbiAMubfu8",
+    "publish_at": "2026-07-28T19:00:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
