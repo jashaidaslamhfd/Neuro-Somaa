@@ -473,57 +473,103 @@ OUT_THUMBS = os.path.join(ROOT, "output", "thumbnails_repaired")
 
 
 def regenerate_thumbnail(video_id: str, thumbnail_text: str) -> str | None:
-    """Overlay clean high-contrast text on the EXISTING thumbnail image.
+    """Overlay a scroll-stopping, high-CTR text treatment on the EXISTING
+    thumbnail image.
 
-    Reuses the channel's proven look (dark bottom gradient + big bold yellow
-    text) but runs on Pillow only — no moviepy — so it works offline. Returns
-    the new path, or None if there is no base image to improve.
+    Viral-thumbnail levers applied (Pillow-only, no moviepy, runs offline):
+      - a SOLID dark band behind the text (guaranteed contrast vs. any base)
+      - the LAST word highlighted white on a red accent (visual hierarchy +
+        curiosity emphasis - the eye lands on the payoff word)
+      - a bright "?" badge top-centre that signals a curiosity Short
+      - large bold text with a thick dark stroke for mobile legibility.
+    Returns the new path, or None if there is no base image to improve.
     """
     try:
         from PIL import Image, ImageDraw, ImageFont
     except ImportError:
-        log.warning("Pillow not installed — skipping thumbnail regeneration")
+        log.warning("Pillow not installed - skipping thumbnail regeneration")
         return None
     base = os.path.join(THUMBS_DIR, f"{video_id}.jpg")
     if not os.path.exists(base):
-        log.info("no existing thumbnail for %s — skipping (need a base image)", video_id)
+        log.info("no existing thumbnail for %s - skipping (need a base image)", video_id)
         return None
     os.makedirs(OUT_THUMBS, exist_ok=True)
     img = Image.open(base).convert("RGB")
     w, h = img.size
-    draw = ImageDraw.Draw(img, "RGBA")
-    # Bottom gradient strip for legibility.
-    strip_h = int(h * 0.42)
-    for y in range(h - strip_h, h):
-        alpha = int(255 * (y - (h - strip_h)) / strip_h * 0.82)
-        draw.rectangle([0, y, w, y + 1], fill=(0, 0, 0, alpha))
-    # Word-wrap the thumbnail text into up to 4 centred lines.
-    font_size = int(w * 0.11)
-    font = ImageFont.truetype(THUMB_FONT, font_size) if os.path.exists(THUMB_FONT) else ImageFont.load_default()
-    words = thumbnail_text.upper().strip().split()
-    lines: list[str] = []
-    cur = ""
-    for word in words:
-        trial = (cur + " " + word).strip()
-        if draw.textlength(trial, font=font) <= w * 0.9:
-            cur = trial
+    overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    font_big = ImageFont.truetype(THUMB_FONT, int(w * 0.135)) if os.path.exists(THUMB_FONT) else ImageFont.load_default()
+    font_badge = ImageFont.truetype(THUMB_FONT, int(w * 0.06)) if os.path.exists(THUMB_FONT) else ImageFont.load_default()
+
+    def _wrap(text: str, font, max_w: float) -> list[str]:
+        words, lines, cur = text.split(), [], ""
+        for word in words:
+            trial = (cur + " " + word).strip()
+            if draw.textlength(trial, font=font) <= max_w:
+                cur = trial
+            else:
+                if cur:
+                    lines.append(cur)
+                cur = word
+        if cur:
+            lines.append(cur)
+        return lines
+
+    lines = _wrap(thumbnail_text.upper().strip(), font_big, w * 0.9)[:4]
+    line_h = int(w * 0.135) + int(w * 0.045)
+
+    # ---- Solid contrast band behind the text block. ----
+    block_h = line_h * len(lines) + int(h * 0.06)
+    band_top = h - block_h - int(h * 0.02)
+    draw.rectangle([0, band_top, w, h], fill=(8, 8, 12, 205))
+
+    # ---- Curiosity "?" badge, top-centre. ----
+    badge_txt = "POURQUOI ?"
+    bw = draw.textlength(badge_txt, font=font_badge) + int(w * 0.08)
+    bh = int(w * 0.105)
+    bx, by = (w - bw) / 2, int(h * 0.04)
+    try:
+        draw.rounded_rectangle([bx, by, bx + bw, by + bh], radius=int(bh * 0.4), fill=(230, 40, 40, 255))
+    except AttributeError:  # older Pillow without rounded_rectangle
+        draw.rectangle([bx, by, bx + bw, by + bh], fill=(230, 40, 40, 255))
+    draw.text((bx + int(w * 0.04), by + int(h * 0.012)), badge_txt, font=font_badge, fill=(255, 255, 255, 255))
+
+    # ---- Text lines: last word of the last line highlighted for emphasis. ----
+    y = band_top + int(h * 0.03)
+    for i, ln in enumerate(lines):
+        is_last_line = i == len(lines) - 1
+        words = ln.split()
+        x = (w - draw.textlength(ln, font=font_big)) / 2
+        if is_last_line and len(words) > 1:
+            head = " ".join(words[:-1])
+            tail = words[-1]
+            head_w = draw.textlength(head + " ", font=font_big) if head else 0
+            tail_w = draw.textlength(tail, font=font_big)
+            chip_pad = int(w * 0.015)
+            cx = x + head_w
+            try:
+                draw.rounded_rectangle(
+                    [cx - chip_pad, y - chip_pad, cx + tail_w + chip_pad, y + int(w * 0.135) + chip_pad],
+                    radius=int(w * 0.02), fill=(220, 30, 30, 255),
+                )
+            except AttributeError:
+                draw.rectangle([cx - chip_pad, y - chip_pad, cx + tail_w + chip_pad, y + int(w * 0.135) + chip_pad], fill=(220, 30, 30, 255))
+            if head:
+                for dx, dy in [(-3, 0), (3, 0), (0, -3), (0, 3)]:
+                    draw.text((x + dx, y + dy), head, font=font_big, fill=(0, 0, 0, 240))
+                draw.text((x, y), head, font=font_big, fill=(255, 230, 60, 255))
+            for dx, dy in [(-3, 0), (3, 0), (0, -3), (0, 3)]:
+                draw.text((cx + dx, y + dy), tail, font=font_big, fill=(0, 0, 0, 240))
+            draw.text((cx, y), tail, font=font_big, fill=(255, 255, 255, 255))
         else:
-            if cur:
-                lines.append(cur)
-            cur = word
-    if cur:
-        lines.append(cur)
-    lines = lines[:4]
-    line_h = font_size + int(font_size * 0.35)
-    y = h - line_h * len(lines) - int(h * 0.05)
-    for ln in lines:
-        x = (w - draw.textlength(ln, font=font)) / 2
-        for dx, dy in [(-3, 0), (3, 0), (0, -3), (0, 3), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
-            draw.text((x + dx, y + dy), ln, font=font, fill=(0, 0, 0, 230))
-        draw.text((x, y), ln, font=font, fill=(255, 235, 80))
+            for dx, dy in [(-3, 0), (3, 0), (0, -3), (0, 3), (-2, -2), (2, 2), (-2, 2), (2, -2)]:
+                draw.text((x + dx, y + dy), ln, font=font_big, fill=(0, 0, 0, 240))
+            draw.text((x, y), ln, font=font_big, fill=(255, 230, 60, 255))
         y += line_h
+
     out = os.path.join(OUT_THUMBS, f"{video_id}.jpg")
-    img.save(out, "JPEG", quality=92)
+    Image.alpha_composite(img.convert("RGBA"), overlay).convert("RGB").save(out, "JPEG", quality=92)
     return out
 
 
