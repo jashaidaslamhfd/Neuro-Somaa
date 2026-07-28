@@ -19,6 +19,10 @@
     {
       "video_id": "KMXIpcpoDX4",
       "arm": "control_long"
+    },
+    {
+      "video_id": "KMXIpcpoDX4",
+      "arm": "test_short"
     }
   ]
 }
