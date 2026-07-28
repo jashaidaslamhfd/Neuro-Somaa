@@ -15,6 +15,10 @@
     {
       "video_id": "XLIFrONS2rc",
       "arm": "test_short"
+    },
+    {
+      "video_id": "KMXIpcpoDX4",
+      "arm": "control_long"
     }
   ]
 }
