@@ -695,7 +695,7 @@ def generate_script(
                 # but produces weaker French hooks/titles; a 70B class model
                 # (set in the workflow) materially improves curiosity-driven
                 # openings and clickable titles -> better CTR/retention.
-                model=os.environ.get("GROQ_MODEL", "llama-3.1-8b-instant"),
+                model=os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
                 response_format={"type": "json_object"},
                 temperature=TEMPERATURE,
                 max_tokens=MAX_TOKENS

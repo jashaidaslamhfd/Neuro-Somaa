@@ -28,7 +28,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import date, timedelta
+from datetime import datetime, timezone, timedelta
 import itertools
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -120,7 +120,7 @@ def survival_at(curve: list, duration: int, second: float) -> float | None:
 
 def main() -> int:
     token = access_token()
-    end = date.today()
+    end = datetime.now(timezone.utc).date()
     start = end - timedelta(days=90)
 
     try:
