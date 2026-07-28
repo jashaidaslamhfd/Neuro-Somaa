@@ -104,7 +104,7 @@ def audit(item):
 def geo_report(token, days=90):
     """Audience geography from YouTube Analytics API (needs yt-analytics.readonly)."""
     import datetime
-    end = datetime.date.today()
+    end = datetime.datetime.now(datetime.timezone.utc).date()
     start = end - datetime.timedelta(days=days)
     path = ("https://youtubeanalytics.googleapis.com/v2/reports"
             f"?ids=channel==MINE&startDate={start}&endDate={end}"

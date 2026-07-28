@@ -253,8 +253,9 @@ def main() -> int:
     clean = [e for e in report if not e["faults"]]
     faulty = [e for e in report if e["faults"]]
 
+    today_iso = dt.datetime.now(dt.timezone.utc).date().isoformat()
     out = {
-        "date": dt.date.today().isoformat(),
+        "date": today_iso,
         "channel_video_count": total_uploads,
         "videos_scanned": len(report),
         "videos_clean": len(clean),
@@ -263,7 +264,7 @@ def main() -> int:
         "faulty_videos": sorted(faulty, key=lambda e: -len(e["faults"])),
     }
     os.makedirs("data", exist_ok=True)
-    path = f"data/video_audit_{dt.date.today().isoformat()}.json"
+    path = f"data/video_audit_{today_iso}.json"
     with open(path, "w") as fh:
         json.dump(out, fh, ensure_ascii=False, indent=1)
 

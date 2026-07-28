@@ -81,10 +81,10 @@ def ana(token, start, end, metrics, dims=None, sort=None, maxr=None, filters=Non
 
 def main() -> int:
     tok = access_token()
-    today = dt.date.today()
+    today = dt.datetime.now(dt.timezone.utc).date()
     start = (today - dt.timedelta(days=28)).isoformat()
     end = today.isoformat()
-    out = {"window": {"start": start, "end": end, "generated_at_utc": dt.datetime.utcnow().isoformat()}}
+    out = {"window": {"start": start, "end": end, "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat()}}
 
     out["daily_28d"] = ana(tok, start, end,
         "views,impressions,impressionsClickThroughRate,averageViewDuration,subscribersGained,likes,shares,comments",
