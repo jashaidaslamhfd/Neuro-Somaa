@@ -406,5 +406,21 @@
     "predicted_ctr": 7.4,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "5b792fd399062aadbbd5e6061730ff3dbc5204c4ea88a716090fc14fbec8657f",
+    "title": "Pourquoi un n\u0153ud au ventre appara\u00eet avant un moment ?",
+    "topic": "Ce qui change lorsque un n\u0153ud au ventre appara\u00eet avant un moment important",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton ventre se serre fort C'est ton cerveau qui r\u00e9agit au stress avec des hormones sp\u00e9cifiques Les hormones du stress circulent dans ton sang et atteignent ton ventre Tes muscles abdominaux se contractent fortement, cr\u00e9ant un n\u0153ud Le plus \u00e9trange, c'est que ton syst\u00e8me nerveux est en alerte maximale Mais ce n'est pas juste dans ta t\u00eate, ton corps r\u00e9agit aussi avec des sympt\u00f4mes physiques Respire profond\u00e9ment pour calmer ton ventre et ton esprit, et r\u00e9duire le stress Et retrouve ta s\u00e9r\u00e9nit\u00e9, ton v",
+    "posted_at": "2026-07-28T18:25:09.285882+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "n1TgqGp2PQ0",
+    "publish_at": "2026-07-30T10:30:00+00:00",
+    "seo_score": 85,
+    "predicted_ctr": 7.6,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
