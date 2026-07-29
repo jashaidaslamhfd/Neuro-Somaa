@@ -31,6 +31,10 @@
     {
       "video_id": "chwfdQe-Mt0",
       "arm": "test_short"
+    },
+    {
+      "video_id": "_b2DE7BA1E4",
+      "arm": "control_long"
     }
   ]
 }

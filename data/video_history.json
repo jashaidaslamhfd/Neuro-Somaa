@@ -438,5 +438,21 @@
     "predicted_ctr": 7.6,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "9bfc549a172116f5d10f89c05e957600efeb9f40f7ed435e8bbbf56d32ed862d",
+    "title": "Comprendre pourquoi le corps frissonne sous le stress",
+    "topic": "Comprendre pourquoi le corps frissonne sous le stress",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps frissonne de peur soudainement C'est le stress qui active tes r\u00e9flexes de d\u00e9fense instinctifs Des hormones comme l'adr\u00e9naline et le cortisol sont lib\u00e9r\u00e9es rapidement Ton corps se pr\u00e9pare \u00e0 fuir ou \u00e0 se battre pour faire face au danger Le plus \u00e9trange : le frisson peut \u00eatre intense et difficile \u00e0 contr\u00f4ler Mais ce n'est pas juste d\u00fb au froid ou \u00e0 la temp\u00e9rature ambiante \u00c0 retenir : le frisson peut \u00eatre un signe de stress ou d'anxi\u00e9t\u00e9 sous-jacente Et maintenant, tu sais pourquoi ton corp",
+    "posted_at": "2026-07-29T17:00:24.760003+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "_b2DE7BA1E4",
+    "publish_at": "2026-07-30T19:00:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
