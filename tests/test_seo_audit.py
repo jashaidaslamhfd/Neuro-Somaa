@@ -80,6 +80,16 @@ class AnalyzeVideosTests(unittest.TestCase):
         self.assertFalse(rows[0]["too_new"])
 
 
+class RepairTitleSafetyTests(unittest.TestCase):
+    def test_rejects_description_leak_inside_groq_title(self):
+        self.assertFalse(
+            audit._repair_title_is_safe("Pourquoi se réveiller avant son réveil Dans ce Short on e ?")
+        )
+
+    def test_accepts_clean_million_view_style_question(self):
+        self.assertTrue(audit._repair_title_is_safe("Pourquoi ton corps est lourd au réveil ?"))
+
+
 class CleanTitleTests(unittest.TestCase):
     def test_strips_comprendre_prefix(self):
         self.assertEqual(

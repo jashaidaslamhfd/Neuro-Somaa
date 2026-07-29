@@ -477,6 +477,30 @@ def clean_title_from_topic(topic: str) -> str:
     return t
 
 
+def _repair_title_is_safe(title: str) -> bool:
+    """Reject AI title proposals that accidentally include description/body text.
+
+    A live repair run exposed this exact failure mode: Groq returned
+    "Pourquoi se réveiller avant son réveil Dans ce Short on e ?". It starts
+    with Pourquoi and is under 70 chars, so the old analyzer accepted it even
+    though it is clearly polluted by description copy. Keep Groq as an optional
+    enhancer, but never trust it without these publication guards.
+    """
+    t = (title or "").strip()
+    low = t.lower()
+    if not t or len(t) > 70 or len(t.split()) > 12:
+        return False
+    banned = (
+        "dans ce short", "ce short", "abonne", "abonnez", "hashtags", "tags",
+        "description", "titre", "voici", "```", "#", "http", "www.", " on e",
+    )
+    if any(token in low for token in banned):
+        return False
+    if analyze_title(t):
+        return False
+    return True
+
+
 def build_repair_package(row: dict, groq_client) -> dict:
     """Produce improved title + description + tags + thumbnail_text.
 
@@ -501,19 +525,27 @@ def build_repair_package(row: dict, groq_client) -> dict:
     }
     pkg = sg.generate_seo_package(topic, script_data)
     chosen = pkg.get("chosen_title") or pkg.get("title") or row.get("title", "")
-    # Groq can make a cleaner curiosity title if a key is configured.
-    chosen = propose_title(groq_client, topic, chosen) or chosen
-    # Guardrail: never ship a title that STILL has issues. Prefer, in order:
+    deterministic = chosen
+    # Groq can make a cleaner curiosity title if a key is configured, but the
+    # proposal must pass stricter guards than ordinary title scoring.
+    groq_title = propose_title(groq_client, topic, chosen)
+    if groq_title and _repair_title_is_safe(groq_title):
+        chosen = groq_title
+    # Guardrail: never ship a title that STILL has issues or contains leaked
+    # description/body text. Prefer, in order:
     #   1. the first clean option seo_generator produced,
-    #   2. a deterministic cleanup of the topic (no API needed).
-    if analyze_title(chosen):
-        clean_opt = next((opt for opt in pkg.get("title_options", []) if not analyze_title(opt)), None)
+    #   2. a deterministic cleanup of the topic (no API needed),
+    #   3. the original deterministic chosen title if it is safe.
+    if not _repair_title_is_safe(chosen):
+        clean_opt = next((opt for opt in pkg.get("title_options", []) if _repair_title_is_safe(opt)), None)
         if clean_opt:
             chosen = clean_opt
         else:
             cleaned = clean_title_from_topic(topic)
-            if cleaned:
+            if _repair_title_is_safe(cleaned):
                 chosen = cleaned
+            elif _repair_title_is_safe(deterministic):
+                chosen = deterministic
     return {
         "title": chosen,
         "description": pkg.get("description", ""),
