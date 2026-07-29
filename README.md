@@ -48,8 +48,9 @@ Le système envoie des signaux cohérents et honnêtes : langue du script, voix 
 Le repo peut aussi apprendre des Shorts français déjà gagnants :
 
 1. renseignez `YOUTUBE_API_KEY` ;
-2. ajoutez des IDs de chaînes concurrentes dans la variable GitHub `COMPETITOR_CHANNEL_IDS` (ou laissez les requêtes `COMPETITOR_QUERIES_FR`) ;
-3. lancez le workflow **SKILLOR - French Competitor Intelligence**.
+2. laissez `COMPETITOR_CHANNEL_IDS` vide si vous voulez l'auto-découverte : le système choisit lui-même les concurrents à partir de requêtes FR à fort volume ;
+3. optionnellement, ajoutez des IDs de chaînes dans `COMPETITOR_CHANNEL_IDS` pour forcer certaines références ;
+4. lancez le workflow **SKILLOR - French Competitor Intelligence**.
 
 Le fichier `data/competitor_intel_fr.json` apprend les **patterns** gagnants (ex. formats de titres, tags de niche), puis `seo_generator.py` les mélange aux titres/tags SKILLOR. Par sécurité, le système **ne copie pas mot pour mot** les titres/tags concurrents : il crée des métadonnées originales à partir du sujet SKILLOR et bloque les correspondances exactes.
 

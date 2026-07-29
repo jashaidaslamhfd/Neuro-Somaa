@@ -40,11 +40,20 @@ from typing import Iterable
 
 LOG = logging.getLogger("competitor-intel")
 API = "https://www.googleapis.com/youtube/v3"
+# Auto competitor discovery. The owner does NOT need to hand-pick channels:
+# these French queries discover high-view Shorts across the niche, then the
+# script learns from whichever channels/videos actually crossed the view filter.
 DEFAULT_QUERIES = (
     "shorts science corps humain français",
     "shorts cerveau sommeil français",
+    "shorts santé corps humain français",
+    "shorts psychologie cerveau français",
+    "shorts curiosités scientifiques français",
     "pourquoi le corps humain shorts",
+    "pourquoi le cerveau shorts français",
     "vulgarisation scientifique shorts français",
+    "science du quotidien shorts français",
+    "faits scientifiques shorts français",
 )
 
 FRENCH_MARKERS = {
@@ -487,10 +496,11 @@ def main(argv: list[str] | None = None) -> int:
 
     api_key = os.environ.get("YOUTUBE_API_KEY")
     channels = _split_env(args.channels)
-    queries = _split_env(args.queries)
+    queries = _split_env(args.queries) or list(DEFAULT_QUERIES)
     sources = {
         "channels": channels,
         "queries": queries,
+        "selection_mode": "auto-discover from French high-view query winners" if not channels else "channels + auto-discovery queries",
         "max_duration_seconds": args.max_duration,
     }
 
