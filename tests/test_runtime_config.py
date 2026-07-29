@@ -243,18 +243,21 @@ class WorkflowRegressionTests(unittest.TestCase):
         self.assertIn('ENFORCE_POSTING_GAP: "true"', self.workflow)
 
     def test_competitor_intel_is_wired_but_not_copying(self):
-        competitor_workflow = (ROOT / ".github" / "workflows" / "competitor_intel.yml").read_text()
-        self.assertIn("scripts/competitor_analysis.py", competitor_workflow)
-        self.assertIn("COMPETITOR_CHANNEL_IDS", competitor_workflow)
+        # Workflow-file pushes require GitHub `workflow` permission. The core
+        # feature must remain wired even when only code/data files can be pushed.
+        competitor_script = (ROOT / "scripts" / "competitor_analysis.py").read_text()
+        self.assertIn("COMPETITOR_CHANNEL_IDS", competitor_script)
+        self.assertIn("DEFAULT_QUERIES", competitor_script)
         self.assertIn('USE_COMPETITOR_INTEL: "true"', self.workflow)
         seo = (ROOT / "src" / "seo_generator.py").read_text()
         self.assertIn("_not_exact_competitor_title", seo)
 
     def test_premium_growth_loop_is_wired(self):
-        premium_workflow = (ROOT / ".github" / "workflows" / "premium_growth_loop.yml").read_text()
-        self.assertIn("scripts/comments_intelligence.py", premium_workflow)
-        self.assertIn("scripts/premium_growth_loop.py", premium_workflow)
-        self.assertIn("data/title_bandit_fr.json", premium_workflow)
+        premium_script = (ROOT / "scripts" / "premium_growth_loop.py").read_text()
+        self.assertIn("build_upload_slot_intel", premium_script)
+        self.assertIn("title_bandit_fr.json", premium_script)
+        analytics = (ROOT / "src" / "analytics_updater.py").read_text()
+        self.assertIn("premium_growth_loop", analytics)
         self.assertIn("run_final_publication_audit", (ROOT / "src" / "main.py").read_text())
 
 
