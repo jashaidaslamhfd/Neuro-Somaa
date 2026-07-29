@@ -25,6 +25,7 @@ from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
@@ -54,6 +55,12 @@ DEFAULT_PATTERN_PRIOR = {
     "la-science": 0.9,
     "ce-quil-faut": 0.8,
 }
+DEFAULT_UPLOAD_SLOT_PRIOR = {
+    "12:30": 2.2,
+    "19:30": 2.8,
+    "21:00": 2.6,
+}
+PARIS_TZ = ZoneInfo("Europe/Paris")
 
 
 def _load_json(path: Path, default):
@@ -167,6 +174,133 @@ def _catalogue_text() -> str:
     return "\n".join(parts).lower()
 
 
+def _round_to_half_hour(dt: datetime) -> tuple[int, int]:
+    minute = 30 if dt.minute >= 15 and dt.minute < 45 else 0
+    hour = dt.hour
+    if dt.minute >= 45:
+        hour = (hour + 1) % 24
+    return hour, minute
+
+
+def _slot_key(hour: int, minute: int) -> str:
+    return f"{hour:02d}:{minute:02d}"
+
+
+def _slot_distance_minutes(a: str, b: str) -> int:
+    ah, am = map(int, a.split(":"))
+    bh, bm = map(int, b.split(":"))
+    av = ah * 60 + am
+    bv = bh * 60 + bm
+    diff = abs(av - bv)
+    return min(diff, 24 * 60 - diff)
+
+
+def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_minutes: int = 90) -> dict:
+    """Learn the Paris publish slots that produce the most views/retention.
+
+    Uses each video's scheduled `publish_at` when available, otherwise
+    `posted_at`, converts to Europe/Paris, rounds to a half-hour bucket, and
+    ranks buckets by real views + retention. Default French peak slots are
+    blended as priors so a tiny sample never jumps to a weird one-off time.
+    """
+    groups: dict[str, list[float]] = defaultdict(list)
+    examples: dict[str, list[dict]] = defaultdict(list)
+
+    for entry in history:
+        ts = entry.get("publish_at") or entry.get("posted_at")
+        dt = _parse_dt(ts)
+        if not dt:
+            continue
+        views = entry.get("views")
+        if views is None:
+            continue
+        try:
+            views_i = int(views)
+        except (TypeError, ValueError):
+            continue
+        paris_dt = dt.astimezone(PARIS_TZ)
+        hour, minute = _round_to_half_hour(paris_dt)
+        key = _slot_key(hour, minute)
+        retention = entry.get("average_view_percentage") or entry.get("predicted_retention") or 0
+        try:
+            retention_f = float(retention)
+        except (TypeError, ValueError):
+            retention_f = 0.0
+        if retention_f > 2:
+            retention_f /= 100
+        score = math.log10(max(views_i, 1) + 10) + 1.2 * retention_f
+        groups[key].append(score)
+        examples[key].append({
+            "video_id": entry.get("youtube_video_id"),
+            "title": entry.get("title"),
+            "views": views_i,
+            "published_paris": paris_dt.strftime("%Y-%m-%d %H:%M"),
+        })
+
+    rows = []
+    all_slots = set(groups) | set(DEFAULT_UPLOAD_SLOT_PRIOR)
+    for key in sorted(all_slots):
+        values = groups.get(key, [])
+        observed_avg = sum(values) / len(values) if values else 0.0
+        prior = DEFAULT_UPLOAD_SLOT_PRIOR.get(key, 0.0)
+        prior_samples = 2 if prior else 0
+        blended = (observed_avg * len(values) + prior * prior_samples) / max(len(values) + prior_samples, 1)
+        hour, minute = map(int, key.split(":"))
+        rows.append({
+            "slot": key,
+            "hour": hour,
+            "minute": minute,
+            "score": round(blended, 4),
+            "observed_samples": len(values),
+            "observed_avg": round(observed_avg, 4),
+            "prior": round(prior, 4),
+            "examples": sorted(examples.get(key, []), key=lambda item: item.get("views", 0), reverse=True)[:3],
+        })
+    rows.sort(key=lambda item: item["score"], reverse=True)
+
+    selected = []
+    for row in rows:
+        if all(_slot_distance_minutes(row["slot"], chosen["slot"]) >= min_gap_minutes for chosen in selected):
+            selected.append(row)
+        if len(selected) >= max_slots:
+            break
+    # Guarantee three daily slots even on no-data repos.
+    if len(selected) < max_slots:
+        for key in DEFAULT_UPLOAD_SLOT_PRIOR:
+            if any(row["slot"] == key for row in selected):
+                continue
+            hour, minute = map(int, key.split(":"))
+            selected.append({
+                "slot": key, "hour": hour, "minute": minute,
+                "score": DEFAULT_UPLOAD_SLOT_PRIOR[key], "observed_samples": 0,
+                "observed_avg": 0.0, "prior": DEFAULT_UPLOAD_SLOT_PRIOR[key], "examples": [],
+            })
+            if len(selected) >= max_slots:
+                break
+
+    recommended = []
+    for rank, row in enumerate(sorted(selected, key=lambda item: (item["hour"], item["minute"])), start=1):
+        recommended.append({
+            "rank": rank,
+            "slot": row["slot"],
+            "hour": row["hour"],
+            "minute": row["minute"],
+            "name": f"Dynamique {row['slot']}",
+            "score": row["score"],
+            "samples": row["observed_samples"],
+            "prior": row["prior"],
+        })
+
+    return {
+        "schema_version": 1,
+        "generated_at_utc": datetime.now(UTC).isoformat(),
+        "timezone": "Europe/Paris",
+        "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
+        "recommended_slots": recommended,
+        "ranked_slots": rows[:12],
+    }
+
+
 def build_topic_gaps(competitor: dict, comments: dict, limit: int = 30) -> list[dict]:
     catalogue = _catalogue_text()
     candidates: dict[str, dict[str, Any]] = {}
@@ -266,7 +400,14 @@ def build_auto_repair_plan(history: list[dict], min_age_hours: int, low_views: i
     }
 
 
-def build_dashboard(history: list[dict], bandit: dict, repairs: dict, gaps: list[dict], comments: dict) -> str:
+def build_dashboard(
+    history: list[dict],
+    bandit: dict,
+    repairs: dict,
+    gaps: list[dict],
+    comments: dict,
+    slot_intel: dict,
+) -> str:
     uploaded = [v for v in history if v.get("youtube_video_id")]
     recent = uploaded[-10:]
     lines = [
@@ -276,7 +417,14 @@ def build_dashboard(history: list[dict], bandit: dict, repairs: dict, gaps: list
         f"- Videos in history: **{len(uploaded)}**\n",
         f"- 48h repair candidates: **{len(repairs.get('repairs', []))}**\n",
         f"- Topic-gap ideas: **{len(gaps)}**\n",
+        "- Dynamic publish slots: " + ", ".join(s["slot"] for s in slot_intel.get("recommended_slots", [])) + "\n",
     ]
+    if slot_intel.get("recommended_slots"):
+        lines.append("\n## Dynamic publish-time learning\n")
+        lines.append("| Paris slot | Score | Samples | Prior |\n|---|---:|---:|---:|\n")
+        for row in slot_intel.get("recommended_slots", []):
+            lines.append(f"| `{row['slot']}` | {row['score']} | {row['samples']} | {row['prior']} |\n")
+
     top_patterns = bandit.get("preferred_patterns", [])[:5]
     if top_patterns:
         lines.append("\n## Title-pattern bandit\n")
@@ -326,22 +474,28 @@ def main(argv: list[str] | None = None) -> int:
     competitor = _load_json(Path(args.competitor), {})
     comments = _load_json(Path(args.comments), {})
 
-    bandit = build_title_bandit(history, competitor if isinstance(competitor, dict) else {})
-    gaps = build_topic_gaps(competitor if isinstance(competitor, dict) else {}, comments if isinstance(comments, dict) else {})
+    competitor_data = competitor if isinstance(competitor, dict) else {}
+    comments_data = comments if isinstance(comments, dict) else {}
+    bandit = build_title_bandit(history, competitor_data)
+    slot_intel = build_upload_slot_intel(history)
+    gaps = build_topic_gaps(competitor_data, comments_data)
     repairs = build_auto_repair_plan(history, args.min_age_hours, args.low_views)
 
     bandit_path = DATA / "title_bandit_fr.json"
+    slot_path = DATA / "upload_slot_intel_fr.json"
     gaps_path = DATA / f"topic_gap_recommendations_{TODAY.strftime('%Y%m%d')}.json"
     repair_path = DATA / f"auto_repair_plan_{TODAY.strftime('%Y%m%d')}.json"
     dashboard_path = DATA / f"premium_growth_dashboard_{TODAY.strftime('%Y%m%d')}.md"
 
     _write_json(bandit_path, bandit)
+    _write_json(slot_path, slot_intel)
     _write_json(gaps_path, {"generated_at_utc": datetime.now(UTC).isoformat(), "gaps": gaps})
     _write_json(repair_path, repairs)
-    dashboard = build_dashboard(history, bandit, repairs, gaps, comments if isinstance(comments, dict) else {})
+    dashboard = build_dashboard(history, bandit, repairs, gaps, comments_data, slot_intel)
     dashboard_path.write_text(dashboard, encoding="utf-8")
 
     LOG.info("Wrote title bandit: %s", bandit_path)
+    LOG.info("Wrote upload slot intelligence: %s", slot_path)
     LOG.info("Wrote topic gaps: %s", gaps_path)
     LOG.info("Wrote auto-repair plan: %s", repair_path)
     LOG.info("Wrote dashboard: %s", dashboard_path)

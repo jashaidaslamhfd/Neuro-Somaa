@@ -8,7 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT / "src"
+SCRIPTS_DIR = ROOT / "scripts"
 sys.path.insert(0, str(SRC_DIR))
+sys.path.insert(0, str(SCRIPTS_DIR))
 
 
 class GitignoreSafetyTests(unittest.TestCase):
@@ -52,6 +54,58 @@ class RequirementsTests(unittest.TestCase):
         for pkg in ("chatterbox-tts", "torchaudio", "transformers"):
             self.assertNotIn(pkg, self.core)
             self.assertIn(pkg, self.optional)
+
+
+class DynamicScheduleTests(unittest.TestCase):
+    """Upload times should be learned from analytics, with static Paris slots as fallback."""
+
+    def test_scheduler_reads_dynamic_paris_slots(self):
+        import json
+        import os
+        import tempfile
+
+        from scheduler import FrancePeakTimeScheduler
+
+        old_path = os.environ.get("DYNAMIC_SCHEDULE_PATH")
+        old_enabled = os.environ.get("USE_DYNAMIC_SCHEDULE")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "upload_slot_intel_fr.json"
+            path.write_text(json.dumps({
+                "recommended_slots": [
+                    {"hour": 21, "minute": 0, "name": "winner", "score": 9},
+                    {"hour": 12, "minute": 30, "name": "lunch", "score": 7},
+                    {"hour": 19, "minute": 30, "name": "prime", "score": 8},
+                ]
+            }), encoding="utf-8")
+            os.environ["DYNAMIC_SCHEDULE_PATH"] = str(path)
+            os.environ["USE_DYNAMIC_SCHEDULE"] = "true"
+            try:
+                slots = FrancePeakTimeScheduler().peak_times
+            finally:
+                if old_path is None:
+                    os.environ.pop("DYNAMIC_SCHEDULE_PATH", None)
+                else:
+                    os.environ["DYNAMIC_SCHEDULE_PATH"] = old_path
+                if old_enabled is None:
+                    os.environ.pop("USE_DYNAMIC_SCHEDULE", None)
+                else:
+                    os.environ["USE_DYNAMIC_SCHEDULE"] = old_enabled
+        self.assertEqual([(s["hour"], s["minute"]) for s in slots], [(12, 30), (19, 30), (21, 0)])
+        self.assertTrue(all(s.get("dynamic") for s in slots))
+
+    def test_growth_loop_builds_dynamic_upload_slots(self):
+        from premium_growth_loop import build_upload_slot_intel
+
+        history = [
+            {"publish_at": "2026-07-20T17:30:00+00:00", "views": 1500, "average_view_percentage": 0.35},
+            {"publish_at": "2026-07-21T10:30:00+00:00", "views": 1000, "average_view_percentage": 0.32},
+            {"publish_at": "2026-07-21T19:00:00+00:00", "views": 1200, "average_view_percentage": 0.33},
+        ]
+        intel = build_upload_slot_intel(history)
+        slots = intel["recommended_slots"]
+        self.assertEqual(len(slots), 3)
+        self.assertTrue(all(0 <= s["hour"] <= 23 for s in slots))
+        self.assertEqual(slots, sorted(slots, key=lambda s: (s["hour"], s["minute"])))
 
 
 class CompetitorIntelTests(unittest.TestCase):

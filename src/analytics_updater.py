@@ -29,7 +29,9 @@ import logging
 import os
 import sys
 
+ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(ROOT_DIR, "scripts"))
 from seo_analytics import update_history_with_real_metrics
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -38,3 +40,14 @@ logger = logging.getLogger(__name__)
 if __name__ == "__main__":
     result = update_history_with_real_metrics(min_hours_old=24)
     logger.info(f"Analytics update complete: {result}")
+
+    # After real metrics land in video_history.json, refresh every learned
+    # growth signal that depends on them — especially dynamic publish slots.
+    # Non-fatal: analytics sync must not fail just because a dashboard report
+    # could not be generated.
+    try:
+        from premium_growth_loop import main as premium_growth_main
+        premium_growth_main([])
+        logger.info("Premium growth intelligence refreshed after analytics sync")
+    except Exception as exc:
+        logger.warning("Premium growth intelligence refresh skipped: %s", exc)

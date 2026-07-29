@@ -59,6 +59,7 @@ Pour les vidéos déjà publiées, le workflow **SEO Repair (uploaded videos)** 
 ## Boucle premium de croissance
 Le workflow **SKILLOR - Premium Growth Loop** ajoute la couche d'apprentissage continue :
 
+- **Dynamic publish slots** : apprend les heures Paris qui génèrent le plus de vues/rétention et écrit `data/upload_slot_intel_fr.json`; les prochains `publishAt` utilisent ces créneaux automatiquement (`USE_DYNAMIC_SCHEDULE=true`).
 - **Title bandit** : compare les patterns de titres avec les performances réelles de la chaîne et réordonne les futurs titres dans `data/title_bandit_fr.json`.
 - **48h auto-repair plan** : repère les vidéos qui sous-performent après 48 h et génère un plan de réparation sans écrire sur YouTube.
 - **Topic gaps** : compare les mots-clés concurrents + demandes en commentaires avec le catalogue de 500 sujets.
