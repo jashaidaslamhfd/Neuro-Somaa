@@ -43,3 +43,24 @@ Les garde-fous qui remplacent la relecture en mode automatique : double contrôl
 
 ## Signaux qui aident YouTube à identifier l'audience française
 Le système envoie des signaux cohérents et honnêtes : langue du script, voix FR, titre/description/tags FR, région de tendances `FR`, créneaux Paris et thèmes cohérents. **Aucun réglage ne garantit une recommandation** : l'algorithme apprend surtout des spectateurs qui choisissent et regardent réellement les vidéos.
+
+## Couche premium : intelligence concurrentielle française
+Le repo peut aussi apprendre des Shorts français déjà gagnants :
+
+1. renseignez `YOUTUBE_API_KEY` ;
+2. ajoutez des IDs de chaînes concurrentes dans la variable GitHub `COMPETITOR_CHANNEL_IDS` (ou laissez les requêtes `COMPETITOR_QUERIES_FR`) ;
+3. lancez le workflow **SKILLOR - French Competitor Intelligence**.
+
+Le fichier `data/competitor_intel_fr.json` apprend les **patterns** gagnants (ex. formats de titres, tags de niche), puis `seo_generator.py` les mélange aux titres/tags SKILLOR. Par sécurité, le système **ne copie pas mot pour mot** les titres/tags concurrents : il crée des métadonnées originales à partir du sujet SKILLOR et bloque les correspondances exactes.
+
+Pour les vidéos déjà publiées, le workflow **SEO Repair (uploaded videos)** peut reconstruire titre/description/tags avec cette intelligence concurrentielle. Il reste en dry-run par défaut ; choisir `mode=apply` pour écrire sur YouTube.
+
+## Boucle premium de croissance
+Le workflow **SKILLOR - Premium Growth Loop** ajoute la couche d'apprentissage continue :
+
+- **Title bandit** : compare les patterns de titres avec les performances réelles de la chaîne et réordonne les futurs titres dans `data/title_bandit_fr.json`.
+- **48h auto-repair plan** : repère les vidéos qui sous-performent après 48 h et génère un plan de réparation sans écrire sur YouTube.
+- **Topic gaps** : compare les mots-clés concurrents + demandes en commentaires avec le catalogue de 500 sujets.
+- **Comments intelligence** : lit les vrais commentaires pour détecter les sujets demandés, sans automatiser les vues/commentaires.
+- **Final publication audit** : avant upload, le MP4, l'audio, la vignette, les sous-titres et les métadonnées finales sont vérifiés ensemble.
+- **Francophonie subtile** : tags France/francophonie activables via `FRANCOPHONE_LOCALE_TAGS=true` sans changer la voix `fr-FR`.

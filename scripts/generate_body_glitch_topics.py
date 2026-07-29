@@ -152,8 +152,10 @@ def build_catalogue() -> list[dict]:
             records.append({
                 "series_number": number,
                 "series_title": label,
-                "topic": n,          # base_phenomenon (forme nominale)
-                "angle": angle,      # sujet parlant : phrase française complète
+                "topic": n,              # base_phenomenon (forme nominale)
+                "nominal_phrase": n,     # ex. "la paupière qui tressaille..."
+                "question_phrase": q,    # ex. "une paupière tressaille..."
+                "angle": angle,          # sujet parlant : phrase française complète
                 "thumbnail_text": thumbnail,
                 "pillar": "reflexes_du_corps",
             })

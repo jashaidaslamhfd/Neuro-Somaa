@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-07-29T19:29:34.125306+00:00",
+  "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
+  "preferred_patterns": [
+    {
+      "pattern": "ce-que-corps-revele",
+      "score": 2.8408,
+      "observed_samples": 3,
+      "observed_avg": 3.6681,
+      "competitor_prior": 1.6
+    },
+    {
+      "pattern": "pourquoi-declarative",
+      "score": 2.6944,
+      "observed_samples": 4,
+      "observed_avg": 4.0416,
+      "competitor_prior": 0.0
+    },
+    {
+      "pattern": "ce-quil-faut",
+      "score": 2.4499,
+      "observed_samples": 2,
+      "observed_avg": 4.0997,
+      "competitor_prior": 0.8
+    },
+    {
+      "pattern": "la-science",
+      "score": 2.294,
+      "observed_samples": 2,
+      "observed_avg": 3.6881,
+      "competitor_prior": 0.9
+    },
+    {
+      "pattern": "pourquoi-question",
+      "score": 2.0,
+      "observed_samples": 0,
+      "observed_avg": 0.0,
+      "competitor_prior": 2.0
+    },
+    {
+      "pattern": "ce-qui-se-passe",
+      "score": 1.965,
+      "observed_samples": 1,
+      "observed_avg": 3.395,
+      "competitor_prior": 1.25
+    },
+    {
+      "pattern": "other",
+      "score": 1.9113,
+      "observed_samples": 2,
+      "observed_avg": 3.8226,
+      "competitor_prior": 0.0
+    }
+  ]
+}

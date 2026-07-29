@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import random
@@ -85,6 +86,20 @@ COLOR_THEMES = [
     {'primary': (50, 255, 150), 'secondary': (50, 200, 100), 'bg': (20, 40, 30)},   # Green
     {'primary': (200, 100, 255), 'secondary': (150, 50, 255), 'bg': (30, 20, 40)},  # Purple
 ]
+
+
+def _competitor_thumbnail_style() -> dict:
+    """Optional public-data thumbnail style learned from competitor winners."""
+    if os.environ.get("USE_COMPETITOR_INTEL", "true").lower() == "false":
+        return {}
+    path = os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
+    try:
+        with open(path, encoding="utf-8") as handle:
+            intel = json.load(handle)
+        thumb = intel.get("thumbnail_intel") or {}
+        return thumb if isinstance(thumb, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
 
 # ============================================
 # 1. IMAGE PROCESSING FUNCTIONS
@@ -817,8 +832,24 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
     try:
         font = ImageFont.truetype(font_path, 90)
+        badge_font = ImageFont.truetype(font_path, 54)
     except Exception:
         font = ImageFont.load_default()
+        badge_font = ImageFont.load_default()
+
+    competitor_style = _competitor_thumbnail_style()
+    if competitor_style:
+        badge = "POURQUOI ?"
+        bw = draw.textlength(badge, font=badge_font) + 70
+        bh = 86
+        bx = (THUMB_W - bw) / 2
+        by = 70
+        badge_color = (225, 35, 35) if float(competitor_style.get("avg_warm_bias", 0) or 0) >= 0 else (30, 120, 230)
+        try:
+            draw.rounded_rectangle([bx, by, bx + bw, by + bh], radius=38, fill=badge_color)
+        except AttributeError:
+            draw.rectangle([bx, by, bx + bw, by + bh], fill=badge_color)
+        draw.text((bx + 35, by + 12), badge, font=badge_font, fill=(255, 255, 255), stroke_width=2, stroke_fill="black")
 
     # Keep only 3-4 meaningful words. Taking the first five words produced
     # vague phrases such as "SECRET RHYTHMS OF YOUR BODY" on mobile.
@@ -854,8 +885,12 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     if current:
         lines.append(current)
 
-    # ✅ Priority: Text color
-    text_color = CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))
+    # ✅ Priority: Text color. If competitor thumbnail intelligence exists,
+    # bias toward the warm high-contrast palette that dominates French winners.
+    if competitor_style and float(competitor_style.get("avg_warm_bias", 0) or 0) >= 0:
+        text_color = (255, 230, 60)
+    else:
+        text_color = CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))
 
     # ✅ Priority: Object outline effect
     y = THUMB_H - 60 - (len(lines) * 82)

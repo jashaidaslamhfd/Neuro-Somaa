@@ -441,6 +441,8 @@ def get_body_glitch_topics() -> list[dict]:
             "series_title": item.get("series_title"),
             "thumbnail_text": item.get("thumbnail_text"),
             "base_phenomenon": item.get("topic"),
+            "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
+            "question_phrase": item.get("question_phrase"),
             "angle": item.get("angle"),
         })
         result.append(record)

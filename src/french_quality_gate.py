@@ -47,6 +47,18 @@ SAFE_DISCLAIMER = (
     "Contenu éducatif, pas un avis médical. Si un symptôme persiste, parle à un professionnel de santé."
 )
 
+# Fact-safety / lightweight RAG gate. We do not require citations in a 40s
+# Short, but we block patterns that usually mean the model invented authority
+# ("une étude prouve", exact percentages, named research without a source) or
+# overstates weak body-science explanations.
+UNSUPPORTED_AUTHORITY_PATTERNS = [
+    r"\b(une|des) [ée]tudes? (prouve|prouvent|confirme|confirment|montre|montrent)\b",
+    r"\bdes chercheurs (ont )?(prouv[ée]|d[ée]couvert|confirm[ée])\b",
+    r"\bselon (une|des) [ée]tudes?\b",
+    r"\b\d+(?:[,.]\d+)?\s*%\b",
+    r"\b\d+\s*(fois|secondes|minutes|heures|jours)\b.*\b(prouve|garantit|explique tout)\b",
+]
+
 # ---------------------------------------------------------------------------
 # Broken-French detectors. Two real artifacts shipped to the public channel:
 #   1. "...mais votre cerveau. Et écoute les sons..." - a sentence cut by a
@@ -144,6 +156,15 @@ def medical_policy_flags(text: str) -> list[str]:
     return flags
 
 
+def unsupported_fact_flags(text: str) -> list[str]:
+    flags: list[str] = []
+    lowered = text.lower()
+    for pat in UNSUPPORTED_AUTHORITY_PATTERNS:
+        if re.search(pat, lowered, flags=re.IGNORECASE):
+            flags.append(pat)
+    return flags
+
+
 def ensure_safe_disclaimer(script_data: dict) -> dict:
     desc = script_data.get("description", "") or ""
     cta = script_data.get("cta", "") or ""
@@ -216,6 +237,10 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
     if med_flags:
         issues.append("Risky medical/guarantee language detected: " + ", ".join(med_flags[:5]))
 
+    fact_flags = unsupported_fact_flags(text)
+    if fact_flags:
+        issues.append("Unsupported authority/statistical claim detected: " + ", ".join(fact_flags[:5]))
+
     # Always add educational disclaimer for body/health science content.
     ensure_safe_disclaimer(script_data)
 
@@ -225,6 +250,7 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
         "warnings": warnings,
         "language": lang,
         "medical_flags": med_flags,
+        "fact_flags": fact_flags,
         "disclaimer": SAFE_DISCLAIMER,
     }
 
