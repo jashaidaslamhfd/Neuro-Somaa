@@ -8,7 +8,9 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SRC_DIR = ROOT / "src"
+SCRIPTS_DIR = ROOT / "scripts"
 sys.path.insert(0, str(SRC_DIR))
+sys.path.insert(0, str(SCRIPTS_DIR))
 
 
 class GitignoreSafetyTests(unittest.TestCase):
@@ -54,6 +56,164 @@ class RequirementsTests(unittest.TestCase):
             self.assertIn(pkg, self.optional)
 
 
+class DynamicScheduleTests(unittest.TestCase):
+    """Upload times should be learned from analytics, with static Paris slots as fallback."""
+
+    def test_scheduler_reads_dynamic_paris_slots(self):
+        import json
+        import os
+        import tempfile
+
+        from scheduler import FrancePeakTimeScheduler
+
+        old_path = os.environ.get("DYNAMIC_SCHEDULE_PATH")
+        old_enabled = os.environ.get("USE_DYNAMIC_SCHEDULE")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "upload_slot_intel_fr.json"
+            path.write_text(json.dumps({
+                "recommended_slots": [
+                    {"hour": 21, "minute": 0, "name": "winner", "score": 9},
+                    {"hour": 12, "minute": 30, "name": "lunch", "score": 7},
+                    {"hour": 19, "minute": 30, "name": "prime", "score": 8},
+                ]
+            }), encoding="utf-8")
+            os.environ["DYNAMIC_SCHEDULE_PATH"] = str(path)
+            os.environ["USE_DYNAMIC_SCHEDULE"] = "true"
+            try:
+                slots = FrancePeakTimeScheduler().peak_times
+            finally:
+                if old_path is None:
+                    os.environ.pop("DYNAMIC_SCHEDULE_PATH", None)
+                else:
+                    os.environ["DYNAMIC_SCHEDULE_PATH"] = old_path
+                if old_enabled is None:
+                    os.environ.pop("USE_DYNAMIC_SCHEDULE", None)
+                else:
+                    os.environ["USE_DYNAMIC_SCHEDULE"] = old_enabled
+        self.assertEqual([(s["hour"], s["minute"]) for s in slots], [(12, 30), (19, 30), (21, 0)])
+        self.assertTrue(all(s.get("dynamic") for s in slots))
+
+    def test_growth_loop_builds_dynamic_upload_slots(self):
+        from premium_growth_loop import build_upload_slot_intel
+
+        history = [
+            {"publish_at": "2026-07-20T17:30:00+00:00", "views": 1500, "average_view_percentage": 0.35},
+            {"publish_at": "2026-07-21T10:30:00+00:00", "views": 1000, "average_view_percentage": 0.32},
+            {"publish_at": "2026-07-21T19:00:00+00:00", "views": 1200, "average_view_percentage": 0.33},
+        ]
+        intel = build_upload_slot_intel(history)
+        slots = intel["recommended_slots"]
+        self.assertEqual(len(slots), 3)
+        self.assertTrue(all(0 <= s["hour"] <= 23 for s in slots))
+        self.assertEqual(slots, sorted(slots, key=lambda s: (s["hour"], s["minute"])))
+
+
+class CompetitorIntelTests(unittest.TestCase):
+    """The premium competitor layer must transfer patterns, not copy metadata."""
+
+    def test_competitor_patterns_are_used_without_exact_title_copying(self):
+        import json
+        import os
+        import tempfile
+
+        from seo_generator import _normalised_title_hash, generate_seo_package
+
+        copied_title = "Ce que ton corps révèle quand le hoquet commence"
+        intel = {
+            "schema_version": 1,
+            "safe_title_templates": [
+                {"id": "ce-que-corps-revele", "score": 20, "count": 4},
+                {"id": "pourquoi-question", "score": 18, "count": 3},
+            ],
+            "high_value_tags": [
+                {"tag": "vulgarisation scientifique", "score": 10},
+                {"tag": "anatomie", "score": 9},
+                {"tag": "bodyfacts", "score": 99},
+            ],
+            "exact_title_hashes": [_normalised_title_hash(copied_title)],
+        }
+
+        old_path = os.environ.get("COMPETITOR_INTEL_PATH")
+        old_enabled = os.environ.get("USE_COMPETITOR_INTEL")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "competitor_intel_fr.json")
+            with open(path, "w", encoding="utf-8") as handle:
+                json.dump(intel, handle, ensure_ascii=False)
+            os.environ["COMPETITOR_INTEL_PATH"] = path
+            os.environ["USE_COMPETITOR_INTEL"] = "true"
+            try:
+                package = generate_seo_package(
+                    "Ce que la science explique sur le hoquet qui commence brusquement",
+                    {
+                        "series_title": "Hoquet soudain",
+                        "question_phrase": "le hoquet commence",
+                        "nominal_phrase": "le hoquet qui commence brusquement",
+                        "title": "Hoquet soudain",
+                        "hook": "Ton hoquet démarre sans prévenir.",
+                        "description": "Une réaction du diaphragme explique ce réflexe.",
+                        "cta": "Abonne-toi pour plus de science simple.",
+                    },
+                )
+            finally:
+                if old_path is None:
+                    os.environ.pop("COMPETITOR_INTEL_PATH", None)
+                else:
+                    os.environ["COMPETITOR_INTEL_PATH"] = old_path
+                if old_enabled is None:
+                    os.environ.pop("USE_COMPETITOR_INTEL", None)
+                else:
+                    os.environ["USE_COMPETITOR_INTEL"] = old_enabled
+
+        self.assertNotIn(copied_title, package["title_options"])
+        self.assertEqual(package["chosen_title"], "Pourquoi le hoquet commence ?")
+        self.assertIn("vulgarisation scientifique", package["tags"])
+        self.assertNotIn("bodyfacts", [tag.lower() for tag in package["tags"]])
+
+    def test_title_bandit_can_re_rank_safe_candidates(self):
+        import json
+        import os
+        import tempfile
+
+        from seo_generator import generate_seo_package
+
+        old_path = os.environ.get("TITLE_BANDIT_PATH")
+        old_enabled = os.environ.get("USE_TITLE_BANDIT")
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "title_bandit_fr.json")
+            with open(path, "w", encoding="utf-8") as handle:
+                json.dump({
+                    "preferred_patterns": [
+                        {"pattern": "ce-qui-se-passe", "score": 99},
+                        {"pattern": "pourquoi-question", "score": 1},
+                    ]
+                }, handle)
+            os.environ["TITLE_BANDIT_PATH"] = path
+            os.environ["USE_TITLE_BANDIT"] = "true"
+            try:
+                package = generate_seo_package(
+                    "Ce qui se passe quand le hoquet commence brusquement",
+                    {
+                        "series_title": "Hoquet soudain",
+                        "question_phrase": "le hoquet commence brusquement",
+                        "title": "Hoquet soudain",
+                        "hook": "Ton hoquet démarre sans prévenir.",
+                        "description": "Une réaction du diaphragme explique ce réflexe.",
+                        "cta": "Abonne-toi pour plus de science simple.",
+                    },
+                )
+            finally:
+                if old_path is None:
+                    os.environ.pop("TITLE_BANDIT_PATH", None)
+                else:
+                    os.environ["TITLE_BANDIT_PATH"] = old_path
+                if old_enabled is None:
+                    os.environ.pop("USE_TITLE_BANDIT", None)
+                else:
+                    os.environ["USE_TITLE_BANDIT"] = old_enabled
+
+        self.assertTrue(package["chosen_title"].lower().startswith("ce qui se passe"), package["title_options"])
+
+
 class WorkflowRegressionTests(unittest.TestCase):
     """File-level guards against the two production bugs found in the run
     history: immediate/scattered publishing and the dead Groq model."""
@@ -81,6 +241,21 @@ class WorkflowRegressionTests(unittest.TestCase):
 
     def test_posting_gap_is_enforced(self):
         self.assertIn('ENFORCE_POSTING_GAP: "true"', self.workflow)
+
+    def test_competitor_intel_is_wired_but_not_copying(self):
+        competitor_workflow = (ROOT / ".github" / "workflows" / "competitor_intel.yml").read_text()
+        self.assertIn("scripts/competitor_analysis.py", competitor_workflow)
+        self.assertIn("COMPETITOR_CHANNEL_IDS", competitor_workflow)
+        self.assertIn('USE_COMPETITOR_INTEL: "true"', self.workflow)
+        seo = (ROOT / "src" / "seo_generator.py").read_text()
+        self.assertIn("_not_exact_competitor_title", seo)
+
+    def test_premium_growth_loop_is_wired(self):
+        premium_workflow = (ROOT / ".github" / "workflows" / "premium_growth_loop.yml").read_text()
+        self.assertIn("scripts/comments_intelligence.py", premium_workflow)
+        self.assertIn("scripts/premium_growth_loop.py", premium_workflow)
+        self.assertIn("data/title_bandit_fr.json", premium_workflow)
+        self.assertIn("run_final_publication_audit", (ROOT / "src" / "main.py").read_text())
 
 
 def _arc_fixture():

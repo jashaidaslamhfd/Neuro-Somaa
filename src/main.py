@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 # Import modules with error handling
 try:
     from anti_spam import AntiSpamSystem
+    from final_video_audit import run_final_publication_audit
     from french_quality_gate import validate_publication_quality
     from image_generator import generate_scene_image as generate_images
     from niche_strategy import (
@@ -258,6 +259,9 @@ class SKILLORPipeline:
                     generated['trend_url'] = trend_record.get('source_url')
                     generated['series_number'] = trend_record.get('series_number')
                     generated['series_title'] = trend_record.get('series_title')
+                    generated['base_phenomenon'] = trend_record.get('base_phenomenon')
+                    generated['nominal_phrase'] = trend_record.get('nominal_phrase')
+                    generated['question_phrase'] = trend_record.get('question_phrase')
                     generated['thumbnail_text'] = trend_record.get('thumbnail_text', '')
                     # series_title reste en métadonnée (numérotation d'épisodes) —
                     # il ne remplace plus le titre LLM: les étiquettes 2-3 mots
@@ -630,6 +634,23 @@ class SKILLORPipeline:
             except Exception as e:
                 logger.warning(f"Thumbnail scoring failed: {e}")
 
+            # Phase 4b: Final rendered-asset audit
+            logger.info("\n🧪 PHASE 4b: FINAL PUBLICATION AUDIT")
+            try:
+                final_audit_ok, final_audit_report = run_final_publication_audit(
+                    final_video, thumb_path, script_data, audio_segments
+                )
+                script_data['final_audit'] = final_audit_report
+                if not final_audit_ok:
+                    raise RuntimeError(
+                        "Final publication audit blocked upload: "
+                        + "; ".join(final_audit_report.get('issues', [])[:5])
+                    )
+                logger.info("✅ Final publication audit passed")
+            except Exception as e:
+                logger.error(f"Final publication audit failed: {e}")
+                raise
+
             # Phase 5: Upload
             logger.info("\n📤 PHASE 5: UPLOAD")
             # FINAL hard gate on the exact metadata that will be published.
@@ -681,6 +702,10 @@ class SKILLORPipeline:
                 'content_fingerprint': content_fingerprint,
                 'title': script_data.get('title', 'Untitled'),
                 'topic': script_data.get('topic'),
+                'series_title': script_data.get('series_title'),
+                'base_phenomenon': script_data.get('base_phenomenon'),
+                'nominal_phrase': script_data.get('nominal_phrase'),
+                'question_phrase': script_data.get('question_phrase'),
                 'trend_source': script_data.get('trend_source'),
                 'trend_url': script_data.get('trend_url'),
                 'voiceover': script_data.get('voiceover', '')[:500],

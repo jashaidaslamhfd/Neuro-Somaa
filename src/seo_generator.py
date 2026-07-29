@@ -1,4 +1,7 @@
 """SEO français, pensé pour la découverte sur YouTube France et la francophonie."""
+import hashlib
+import json
+import os
 import random
 import re
 
@@ -77,6 +80,154 @@ CATEGORY_TAGS = {
     "Science": ["science", "culture generale", "faits scientifiques", "curiosites", "phenomenes"],
 }
 
+# ---------------------------------------------------------------------------
+# Competitor intelligence (optional, public-data based)
+# ---------------------------------------------------------------------------
+# Premium setup principle: learn patterns from French Shorts that already won
+# millions of views, but never clone exact competitor titles/tags wholesale.
+# `scripts/competitor_analysis.py` writes this file. If it is absent, SEO falls
+# back to the deterministic France-first logic above.
+COMPETITOR_INTEL_PATH = os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
+TITLE_BANDIT_PATH = os.environ.get("TITLE_BANDIT_PATH", "data/title_bandit_fr.json")
+USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lower() != "false"
+USE_TITLE_BANDIT = os.environ.get("USE_TITLE_BANDIT", "true").strip().lower() != "false"
+
+SAFE_COMPETITOR_TAG_ALLOWLIST = {
+    "vulgarisation", "vulgarisation scientifique", "science", "sciences",
+    "corps humain", "cerveau", "neurosciences", "psychologie", "anatomie",
+    "biologie", "physiologie", "sante", "santé", "sommeil", "memoire",
+    "mémoire", "curiosité", "curiosite", "culture generale", "culture générale",
+    "faits scientifiques", "france", "français", "francais",
+}
+LOCALE_TAGS = ["france", "francophonie"]
+
+
+def _load_competitor_intel() -> dict:
+    enabled = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lower() != "false"
+    if not (USE_COMPETITOR_INTEL and enabled):
+        return {}
+    path = os.environ.get("COMPETITOR_INTEL_PATH", COMPETITOR_INTEL_PATH)
+    try:
+        if not os.path.exists(path):
+            return {}
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+        return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _normalised_title_hash(title: str) -> str:
+    norm = re.sub(r"[^a-z0-9à-ÿœæ ]", "", (title or "").lower()).strip()
+    return hashlib.sha256(norm.encode("utf-8")).hexdigest()
+
+
+def _not_exact_competitor_title(title: str, intel: dict) -> bool:
+    hashes = set(intel.get("exact_title_hashes") or [])
+    return not hashes or _normalised_title_hash(title) not in hashes
+
+
+def _safe_competitor_tags(topic: str, category: str, intel: dict, limit: int = 4) -> list[str]:
+    """Blend only relevant competitor-derived tags into our tag list.
+
+    We do NOT dump a competitor's entire tag set onto a video. A tag survives
+    only if it is a clean French/niche term and either appears in this topic,
+    belongs to the category vocabulary, or is a safe broad French-science tag.
+    """
+    topic_words = set(_keywords(topic, n=12))
+    category_words = {t.lower() for t in CATEGORY_TAGS.get(category, [])}
+    out: list[str] = []
+    for item in intel.get("high_value_tags", []) or []:
+        tag = str(item.get("tag", "")).strip().lower()
+        if not tag or tag in STOP or tag in ENGLISH_TAG_BLOCKLIST:
+            continue
+        if tag in out:
+            continue
+        compact = re.sub(r"\s+", " ", tag)
+        overlaps_topic = any(part in topic_words for part in compact.split()) or compact in topic.lower()
+        category_safe = compact in category_words or compact in SAFE_COMPETITOR_TAG_ALLOWLIST
+        if overlaps_topic or category_safe:
+            out.append(compact)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _load_title_bandit() -> dict:
+    enabled = os.environ.get("USE_TITLE_BANDIT", "true").strip().lower() != "false"
+    if not (USE_TITLE_BANDIT and enabled):
+        return {}
+    path = os.environ.get("TITLE_BANDIT_PATH", TITLE_BANDIT_PATH)
+    try:
+        if not os.path.exists(path):
+            return {}
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+        return data if isinstance(data, dict) else {}
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _title_pattern_id(title: str) -> str:
+    t = (title or "").strip().lower()
+    if re.match(r"^pourquoi\b.+\?\s*$", t):
+        return "pourquoi-question"
+    if t.startswith("pourquoi"):
+        return "pourquoi-declarative"
+    if t.startswith("ce qui se passe") or t.startswith("ce qui arrive") or t.startswith("ce qui change"):
+        return "ce-qui-se-passe"
+    if t.startswith("ce que ton corps") or t.startswith("ce que votre corps") or t.startswith("ce que le corps"):
+        return "ce-que-corps-revele"
+    if t.startswith("ce qu'il faut") or t.startswith("ce qu’il faut"):
+        return "ce-quil-faut"
+    if t.startswith("la science") or t.startswith("ce que la science"):
+        return "la-science"
+    if t.startswith("comment"):
+        return "comment"
+    return "other"
+
+
+def _candidate_title_ok(title: str) -> bool:
+    low = (title or "").lower()
+    if "remarque entendre" in low:
+        return False
+    words = title.split()
+    if not words:
+        return False
+    last = re.sub(r"[^a-zà-ÿœ]", "", words[-1].lower())
+    return last not in _DANGLING_ENDINGS
+
+
+def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
+    """Order candidate titles with the channel-learning bandit.
+
+    The bandit is updated by `scripts/premium_growth_loop.py` from our real
+    analytics. If absent, the SEO generator's deterministic order is preserved.
+    """
+    if not options or not bandit:
+        return options
+    pattern_scores: dict[str, float] = {}
+    for row in bandit.get("preferred_patterns", []) or []:
+        pattern = row.get("pattern") or row.get("id")
+        if pattern:
+            try:
+                pattern_scores[str(pattern)] = float(row.get("score", 0))
+            except (TypeError, ValueError):
+                continue
+    if not pattern_scores:
+        return options
+    original_index = {title: idx for idx, title in enumerate(options)}
+    return sorted(
+        options,
+        key=lambda title: (
+            pattern_scores.get(_title_pattern_id(title), 0.0),
+            1 if title.endswith("?") else 0,
+            -original_index.get(title, 0),
+        ),
+        reverse=True,
+    )
+
+
 # The `topic` fed into this module is already a fully-formed French angle
 # sentence produced upstream (e.g. "Pourquoi une paupière qui tressaille sans
 # raison arrive" or "La science derrière le déjà-vu") - see
@@ -142,7 +293,7 @@ _DANGLING_ENDINGS = {
     "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses",
     "au", "aux", "à", "en", "dans", "sur", "sous", "chez", "avec", "sans",
     "pour", "par", "et", "ou", "ni", "mais", "donc", "car", "que", "qui",
-    "quand", "lorsque", "si", "ce", "cette", "leur", "leurs", "y",
+    "quand", "lorsque", "avant", "après", "apres", "si", "ce", "cette", "leur", "leurs", "y",
     # Truncation-safe verbs/adverbs: a title must NEVER end on these — they
     # scream "clipped mid-sentence" in the feed (analytics: dangling verb
     # titles were published live).
@@ -158,8 +309,11 @@ _DANGLING_ENDINGS = {
 
 # Subordinate-clause openers: cutting BEFORE one of these leaves a head that
 # is a complete French phrase, not a mid-sentence chop.
-_CLAUSE_BREAKS = (" parce que ", " lorsque ", " pendant que ", " pendant ",
-                  " quand ", " que ")
+_CLAUSE_BREAKS = (
+    " parce que ", " lorsque ", " pendant que ", " pendant ", " quand ",
+    " avant ", " après ", " apres ", " sous ", " face à ", " face a ",
+    " lors de ", " lors d'", " dans ", " que ",
+)
 
 _QUESTION_STARTERS = ("pourquoi", "comment", "combien", "ce qui", "ce qu'")
 
@@ -274,13 +428,54 @@ def _keywords(topic, n=8):
     return out
 
 
-def _build_title_options(topic: str, series_title: str) -> list[str]:
+def _question_title_from_phrase(phrase: str) -> str:
+    """Build a natural curiosity title from the catalogue's subject+verb
+    phrase (`q` in scripts/generate_body_glitch_topics.py).
+
+    The live channel exposed an end-to-end bug: `_build_title_options()` placed
+    a short safe series label first when an angle was long, but the later A/B
+    heuristic then promoted the longer secondary angle solely because it had a
+    better length score. That produced awkward public titles such as
+    "Pourquoi l'apparition soudaine de la chair de poule ?" and
+    "Comprendre pourquoi le corps frissonne sous le stress". The catalogue
+    already knows the grammatical question form — use it directly.
+    """
+    p = _clean_topic(phrase or "").strip().rstrip(" .?")
+    if not p:
+        return ""
+
+    lowered = p.lower()
+    if lowered.startswith("comprendre pourquoi "):
+        p = p[len("comprendre "):]
+    elif lowered.startswith("voici pourquoi "):
+        p = p[len("voici "):]
+
+    lowered = p.lower()
+    core = p[len("pourquoi "):].strip() if lowered.startswith("pourquoi ") else p
+
+    # Remove catalogue/fluent-angle padding from fallback phrases. The stored
+    # `question_phrase` normally has none of this, but user-supplied topics and
+    # older data files can still pass the longer angle through this helper.
+    for suffix in (" peut sembler étrange", " semble soudain"):
+        if core.lower().endswith(suffix):
+            core = core[: -len(suffix)].strip()
+            break
+
+    if not core:
+        return ""
+    return _truncate_title(f"Pourquoi {_clean_topic(core)} ?")
+
+
+def _build_title_options(topic: str, series_title: str, question_phrase: str = "") -> list[str]:
     """Generate real, distinct SEO title candidates from the full French angle
     (topic), not from the already-short branded series title.
 
-    `topic` already starts with a phrase like "Pourquoi ...", "La science
-    derrière ...", "Ce qui se passe quand ...", etc. so options are built by
-    reformatting that sentence, not by re-wrapping it in another template."""
+    `topic` starts with a phrase like "Pourquoi ...", "La science derrière ...",
+    "Ce qui se passe quand ...", etc. When the Body Glitch catalogue supplies
+    its grammatical subject+verb form (`question_phrase`), it becomes the first
+    candidate so the A/B scorer cannot accidentally promote a clumsy truncated
+    noun phrase over a natural French title.
+    """
     raw = (topic or "").strip()
     if not raw:
         return [_truncate_title(series_title)] if series_title else []
@@ -289,19 +484,25 @@ def _build_title_options(topic: str, series_title: str) -> list[str]:
     full_angle_text = " ".join(_words(capitalized))
     angle_option = _truncate_title(capitalized)
 
-    # If the full angle doesn't fit the Shorts title limits, the truncated
-    # version may look clipped even after dangling-word cleanup. In that case
-    # prefer the short branded series title as the DEFAULT pick (it is always
-    # clean and grammatical), and keep the angle as a secondary candidate.
-    # This is what prevented "...entendre son cœur battre la" from being the
-    # visible title while the catalogue angle was too long.
-    angle_truncated = len(angle_option) != len(full_angle_text)
+    # Compare word content, not raw character length: `_truncate_title()` adds
+    # a final question mark to question-like titles, and that punctuation alone
+    # is not truncation. The old length comparison falsely demoted every clean
+    # "Pourquoi ..." angle to the short series label.
+    angle_truncated = " ".join(_words(angle_option)).lower() != full_angle_text.lower()
     series_option = _truncate_title(series_title) if series_title else ""
 
+    question_option = _question_title_from_phrase(question_phrase)
+    if not question_option and raw.lower().startswith(("comprendre pourquoi ", "voici pourquoi ")):
+        question_option = _question_title_from_phrase(raw)
+
+    options = []
+    if question_option:
+        options.append(question_option)
+
     if angle_truncated and series_option:
-        options = [series_option, angle_option]
+        options.extend([series_option, angle_option])
     else:
-        options = [angle_option]
+        options.append(angle_option)
 
     starts_with_starter = raw.lower().startswith(_LEADING_STARTERS)
 
@@ -324,13 +525,70 @@ def _build_title_options(topic: str, series_title: str) -> list[str]:
     return list(dict.fromkeys([o for o in options if o]))[:5]
 
 
+def _competitor_title_options(topic: str, script_data: dict, intel: dict) -> list[str]:
+    """Generate original titles from competitor-winning templates.
+
+    The templates come from `competitor_intel_fr.json`, but the subject phrase
+    comes from OUR catalogue/script. Exact title hashes from competitors are
+    blocked, so this is pattern transfer, not metadata copying.
+    """
+    if not intel:
+        return []
+    question_phrase = script_data.get("question_phrase") or script_data.get("base_question") or ""
+    nominal_phrase = (
+        script_data.get("nominal_phrase")
+        or script_data.get("base_phenomenon")
+        or _bare_phenomenon(topic)
+    )
+    out: list[str] = []
+    for item in intel.get("safe_title_templates", []) or []:
+        template_id = item.get("id") or item.get("pattern")
+        title = ""
+        if template_id == "pourquoi-question" and question_phrase:
+            title = _question_title_from_phrase(question_phrase)
+        elif template_id == "ce-qui-se-passe" and question_phrase:
+            title = _truncate_title(f"Ce qui se passe quand {_clean_topic(question_phrase)}")
+        elif template_id == "ce-que-corps-revele" and question_phrase:
+            title = _truncate_title(f"Ce que ton corps révèle quand {_clean_topic(question_phrase)}")
+        elif template_id == "la-science" and nominal_phrase:
+            title = _truncate_title(f"La science derrière {_clean_topic(nominal_phrase)}")
+        elif template_id == "ce-quil-faut" and nominal_phrase:
+            title = _truncate_title(f"Ce qu'il faut savoir sur {_clean_topic(nominal_phrase)}")
+
+        # If competitor intel has no catalogue phrase but the current angle is
+        # already a `Pourquoi...` title, we can still produce the safe core
+        # question from our own topic.
+        if not title and template_id == "pourquoi-question":
+            title = _question_title_from_phrase(topic)
+
+        if title and _not_exact_competitor_title(title, intel):
+            out.append(title)
+    return list(dict.fromkeys(out))[:4]
+
+
 def generate_seo_package(topic: str, script_data: dict) -> dict:
     series_title = script_data.get("series_title") or script_data.get("title") or ""
     category = _category(topic)
     keys = _keywords(topic)
 
-    title_options = _build_title_options(topic, series_title)
-    chosen_title = title_options[0] if title_options else _truncate_title(series_title or topic)
+    question_phrase = script_data.get("question_phrase") or script_data.get("base_question") or ""
+    competitor_intel = _load_competitor_intel()
+    title_bandit = _load_title_bandit()
+    base_title_options = _build_title_options(topic, series_title, question_phrase)
+    competitor_title_options = _competitor_title_options(topic, script_data, competitor_intel)
+    combined_title_options = list(dict.fromkeys(competitor_title_options + base_title_options))
+    combined_title_options = [title for title in combined_title_options if _candidate_title_ok(title)]
+    if competitor_intel:
+        combined_title_options = [
+            title for title in combined_title_options
+            if _not_exact_competitor_title(title, competitor_intel)
+        ]
+    title_options = _rank_title_options(combined_title_options, title_bandit)[:5]
+    if title_options:
+        chosen_title = title_options[0]
+    else:
+        fallback_title = _truncate_title(series_title or topic)
+        chosen_title = fallback_title if _not_exact_competitor_title(fallback_title, competitor_intel) else "Science du quotidien"
 
     hook = script_data.get("hook", "").strip()
     desc = script_data.get("description", "").strip()
@@ -394,10 +652,13 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     description = "\n\n".join(b for b in blocks if b).strip()
 
     cat_tags = CATEGORY_TAGS.get(category, CATEGORY_TAGS["Science"])
+    competitor_tags = _safe_competitor_tags(topic, category, competitor_intel)
+    locale_tags = LOCALE_TAGS if os.environ.get("FRANCOPHONE_LOCALE_TAGS", "true").lower() == "true" else []
     # French-only guarantee: drop any English tag that slips in from a category
-    # list or a topic string, and keep only tags that read as real search terms.
+    # list, a topic string or competitor intel, and keep only tags that read as
+    # real search terms. Competitor tags are blended, never copied wholesale.
     tags = [
-        t for t in dict.fromkeys(keys + cat_tags + ["français"])
+        t for t in dict.fromkeys(keys + competitor_tags + cat_tags + locale_tags + ["français"])
         if t.lower().strip() not in ENGLISH_TAG_BLOCKLIST and len(t.strip()) > 2
     ][:15]
 

@@ -60,6 +60,9 @@ MIN_AGE_DAYS_FOR_STATS = 4
 LEAKED_FRAGMENTS = (
     "peut sembler", "semble étrange", "semble etrangement",
     "peut paraître", "peut paraitre", "semble familier",
+    # Old catalogue grammar bug: "Pourquoi le cerveau remarque entendre..."
+    # is literal/robotic French and must be rewritten, not reused in repairs.
+    "remarque entendre",
 )
 # Trailing connectives / articles that mean a title was cut mid-thought.
 TRUNCATION_TAILS = re.compile(
@@ -174,6 +177,10 @@ def analyze_videos(videos: list[dict]) -> list[dict]:
             "id": v.get("youtube_video_id", ""),
             "title": title,
             "topic": v.get("topic", ""),
+            "series_title": v.get("series_title", ""),
+            "base_phenomenon": v.get("base_phenomenon", ""),
+            "nominal_phrase": v.get("nominal_phrase", ""),
+            "question_phrase": v.get("question_phrase", ""),
             "views": views,
             "opener": classify_opener(title),
             "retention_pct": round(retention * 100, 1) if isinstance(retention, (int, float)) else None,
@@ -394,13 +401,51 @@ def clean_topic(topic: str) -> str:
     topic, so the cleaned topic feeds BOTH the title and the description/tags
     (otherwise 'peut sembler étrange' leaks into the description too)."""
     t = (topic or "").strip()
+    t = re.sub(
+        r"^pourquoi\s+le\s+cerveau\s+remarque\s+entendre\s+son\s+c[œo]ur\s+battre",
+        "Pourquoi on entend son cœur battre",
+        t,
+        flags=re.IGNORECASE,
+    )
     for frag in LEAKED_FRAGMENTS:
+        if frag == "remarque entendre":
+            continue
         t = re.sub(re.escape(frag) + r"[^.?!]*", "", t, flags=re.IGNORECASE)
     t = re.sub(
         r"\s+(de|du|la|le|les|un|une|des|se|ne|ce|que|qui|pour|sur|dans|avec)$",
         "", t, flags=re.IGNORECASE,
     )
     return t.strip(" .,") or (topic or "").strip()
+
+
+CATALOGUE_CACHE = None
+
+
+def _catalogue_meta_for_topic(topic: str) -> dict:
+    """Best-effort lookup of Body Glitch grammar metadata for repair rows.
+
+    Old `video_history.json` entries predate `question_phrase`; this lets the
+    repair workflow still rebuild natural titles from the regenerated 500-topic
+    catalogue instead of guessing from a noun phrase.
+    """
+    global CATALOGUE_CACHE
+    if CATALOGUE_CACHE is None:
+        path = os.path.join(DATA, "body_glitch_topics.json")
+        try:
+            with open(path, encoding="utf-8") as handle:
+                CATALOGUE_CACHE = json.load(handle)
+        except (OSError, json.JSONDecodeError):
+            CATALOGUE_CACHE = []
+    norm = re.sub(r"[^a-zà-ÿœæ0-9 ]", "", (topic or "").lower()).strip()
+    if not norm:
+        return {}
+    for item in CATALOGUE_CACHE:
+        candidates = [item.get("angle", ""), item.get("topic", ""), item.get("series_title", "")]
+        for candidate in candidates:
+            c_norm = re.sub(r"[^a-zà-ÿœæ0-9 ]", "", (candidate or "").lower()).strip()
+            if c_norm and (c_norm == norm or c_norm in norm or norm in c_norm):
+                return item if isinstance(item, dict) else {}
+    return {}
 
 
 def clean_title_from_topic(topic: str) -> str:
@@ -418,12 +463,42 @@ def clean_title_from_topic(topic: str) -> str:
     t = re.sub(r"^ce que (votre |ton |le )?corps (vous )?dit quand\s+", "pourquoi ", t, flags=re.IGNORECASE)
     t = re.sub(r"^ce que la science explique sur\s+", "pourquoi ", t, flags=re.IGNORECASE)
     t = re.sub(r"^ce qui se passe quand\s+", "pourquoi ", t, flags=re.IGNORECASE)
+    t = re.sub(
+        r"^pourquoi\s+le\s+cerveau\s+remarque\s+entendre\s+son\s+c[œo]ur\s+battre",
+        "pourquoi on entend son cœur battre",
+        t,
+        flags=re.IGNORECASE,
+    )
     t = t.strip(" .,")
     if t:
         t = t[0].upper() + t[1:]
     if re.match(r"^pourquoi\b", t, re.IGNORECASE) and not t.endswith("?"):
         t = t.rstrip(" .") + " ?"
     return t
+
+
+def _repair_title_is_safe(title: str) -> bool:
+    """Reject AI title proposals that accidentally include description/body text.
+
+    A live repair run exposed this exact failure mode: Groq returned
+    "Pourquoi se réveiller avant son réveil Dans ce Short on e ?". It starts
+    with Pourquoi and is under 70 chars, so the old analyzer accepted it even
+    though it is clearly polluted by description copy. Keep Groq as an optional
+    enhancer, but never trust it without these publication guards.
+    """
+    t = (title or "").strip()
+    low = t.lower()
+    if not t or len(t) > 70 or len(t.split()) > 12:
+        return False
+    banned = (
+        "dans ce short", "ce short", "abonne", "abonnez", "hashtags", "tags",
+        "description", "titre", "voici", "```", "#", "http", "www.", " on e",
+    )
+    if any(token in low for token in banned):
+        return False
+    if analyze_title(t):
+        return False
+    return True
 
 
 def build_repair_package(row: dict, groq_client) -> dict:
@@ -437,28 +512,40 @@ def build_repair_package(row: dict, groq_client) -> dict:
     # Clean the topic ONCE so leaked fragments / weak prefixes don't reach the
     # title, the description AND the tags through seo_generator.
     topic = clean_topic(row.get("topic") or row.get("title") or "")
+    catalogue_meta = _catalogue_meta_for_topic(row.get("topic") or row.get("title") or "")
     script_data = {
         "title": row.get("title", ""),
-        "series_title": row.get("title", ""),
+        "series_title": row.get("series_title") or catalogue_meta.get("series_title") or row.get("title", ""),
+        "base_phenomenon": row.get("base_phenomenon") or catalogue_meta.get("topic") or "",
+        "nominal_phrase": row.get("nominal_phrase") or catalogue_meta.get("nominal_phrase") or catalogue_meta.get("topic") or "",
+        "question_phrase": row.get("question_phrase") or catalogue_meta.get("question_phrase") or "",
         "hook": topic,
         "description": topic,
         "cta": "Abonne-toi pour plus de science simple.",
     }
     pkg = sg.generate_seo_package(topic, script_data)
     chosen = pkg.get("chosen_title") or pkg.get("title") or row.get("title", "")
-    # Groq can make a cleaner curiosity title if a key is configured.
-    chosen = propose_title(groq_client, topic, chosen) or chosen
-    # Guardrail: never ship a title that STILL has issues. Prefer, in order:
+    deterministic = chosen
+    # Groq can make a cleaner curiosity title if a key is configured, but the
+    # proposal must pass stricter guards than ordinary title scoring.
+    groq_title = propose_title(groq_client, topic, chosen)
+    if groq_title and _repair_title_is_safe(groq_title):
+        chosen = groq_title
+    # Guardrail: never ship a title that STILL has issues or contains leaked
+    # description/body text. Prefer, in order:
     #   1. the first clean option seo_generator produced,
-    #   2. a deterministic cleanup of the topic (no API needed).
-    if analyze_title(chosen):
-        clean_opt = next((opt for opt in pkg.get("title_options", []) if not analyze_title(opt)), None)
+    #   2. a deterministic cleanup of the topic (no API needed),
+    #   3. the original deterministic chosen title if it is safe.
+    if not _repair_title_is_safe(chosen):
+        clean_opt = next((opt for opt in pkg.get("title_options", []) if _repair_title_is_safe(opt)), None)
         if clean_opt:
             chosen = clean_opt
         else:
             cleaned = clean_title_from_topic(topic)
-            if cleaned:
+            if _repair_title_is_safe(cleaned):
                 chosen = cleaned
+            elif _repair_title_is_safe(deterministic):
+                chosen = deterministic
     return {
         "title": chosen,
         "description": pkg.get("description", ""),

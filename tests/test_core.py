@@ -15,6 +15,7 @@ class FranceChannelTests(unittest.TestCase):
         self.assertGreaterEqual(len(records),500)
         self.assertEqual(records[0]['series_title'],'Paupière qui saute')
         self.assertEqual(records[0]['source'],'body_glitch_series_fr')
+        self.assertEqual(records[0]['question_phrase'],'une paupière tressaille sans raison')
         self.assertTrue(all(x['pillar']=='reflexes_du_corps' for x in records))
     def test_french_relevance_filter(self):
         self.assertTrue(_is_relevant('Pourquoi le cerveau a besoin de sommeil'))
@@ -73,17 +74,36 @@ class FranceChannelTests(unittest.TestCase):
         self.assertFalse(any('remarque entendre' in a for a in angles))
         self.assertFalse(any(a.startswith('Pourquoi le cerveau remarque') for a in angles))
 
-    def test_long_angle_falls_back_to_branded_series_title(self):
+    def test_long_angle_uses_catalogue_question_before_secondary_titles(self):
+        from seo_analytics import generate_ab_variants
         from seo_generator import _DANGLING_ENDINGS, _truncate_title
-        # Historical incident: cutting a long angle produced a visible
-        # truncated-fragment title on the channel. The default pick must now
-        # be the short branded series title instead.
+        # End-to-end regression: the SEO package used to put the safe series
+        # title first for overlong angles, but the A/B heuristic later promoted
+        # the longer secondary angle just because it had a better length score.
+        # That shipped awkward public titles like "Pourquoi l'apparition... ?".
         package=generate_seo_package(
+            "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+            {'series_title':'Chair de poule','title':'Chair de poule',
+             'question_phrase':'la chair de poule apparaît soudainement',
+             'hook':'Ta peau fait chair de poule soudainement.',
+             'description':'Une réaction nerveuse simple explique ce frisson.',
+             'cta':'Abonnez-vous.'})
+        self.assertEqual(package['chosen_title'],'Pourquoi la chair de poule apparaît soudainement ?')
+        ranked=generate_ab_variants({'title':package['chosen_title'],
+                                     'seo_score':package['seo_score'],
+                                     'hook':'Ta peau fait chair de poule soudainement.',
+                                     'description':package['description'],
+                                     'cta':'Abonnez-vous.'},
+                                    package['title_options'])
+        self.assertEqual(ranked['recommended']['title'],
+                         'Pourquoi la chair de poule apparaît soudainement ?')
+        old_broken=generate_seo_package(
             'Pourquoi le cerveau remarque entendre son cœur battre la nuit',
             {'series_title':'Battements entendus','title':'Battements entendus',
-             'hook':'On entend son cœur la nuit','description':'Le calme laisse mieux entendre le corps.',
+             'hook':'On entend son cœur la nuit',
+             'description':'Le calme laisse mieux entendre le corps.',
              'cta':'Abonnez-vous.'})
-        self.assertEqual(package['chosen_title'],'Battements entendus')
+        self.assertEqual(old_broken['chosen_title'],'Battements entendus')
         # Truncator by itself must never leave a dangling connector at the end.
         for sample in ('Ce qu\u2019il faut comprendre sur le visage qui rougit par gêne',
                        'Pourquoi le cerveau remarque entendre son cœur battre la nuit'):
