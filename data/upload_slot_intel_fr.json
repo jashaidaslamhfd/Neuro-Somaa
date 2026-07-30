@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated_at_utc": "2026-07-30T16:16:31.253873+00:00",
+ "generated_at_utc": "2026-07-30T16:33:57.590469+00:00",
  "timezone": "Europe/Paris",
  "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
  "recommended_slots": [
@@ -10,7 +10,7 @@
    "hour": 17,
    "minute": 30,
    "name": "Dynamique 17:30",
-   "score": 3.2405,
+   "score": 3.225,
    "samples": 1,
    "prior": 0.0
   },
@@ -20,9 +20,9 @@
    "hour": 19,
    "minute": 30,
    "name": "Dynamique 19:30",
-   "score": 3.3813,
-   "samples": 0,
-   "prior": 3.3813
+   "score": 3.3349,
+   "samples": 1,
+   "prior": 3.3581
   },
   {
    "rank": 3,
@@ -30,7 +30,7 @@
    "hour": 21,
    "minute": 30,
    "name": "Dynamique 21:30",
-   "score": 3.2085,
+   "score": 3.193,
    "samples": 1,
    "prior": 0.0
   }
@@ -40,17 +40,24 @@
    "slot": "19:30",
    "hour": 19,
    "minute": 30,
-   "score": 3.3813,
-   "observed_samples": 0,
-   "observed_avg": 0.0,
-   "prior": 3.3813,
-   "examples": []
+   "score": 3.3349,
+   "observed_samples": 1,
+   "observed_avg": 3.0108,
+   "prior": 3.3581,
+   "examples": [
+    {
+     "video_id": "XECgrg709Og",
+     "title": "Pourquoi le sursaut du corps en s'endormant ?",
+     "views": 512,
+     "published_paris": "2026-07-27 19:30"
+    }
+   ]
   },
   {
    "slot": "20:30",
    "hour": 20,
    "minute": 30,
-   "score": 3.2656,
+   "score": 3.2501,
    "observed_samples": 1,
    "observed_avg": 3.5674,
    "prior": 0.0,
@@ -67,7 +74,7 @@
    "slot": "19:00",
    "hour": 19,
    "minute": 0,
-   "score": 3.2415,
+   "score": 3.2259,
    "observed_samples": 1,
    "observed_avg": 3.4951,
    "prior": 0.0,
@@ -84,7 +91,7 @@
    "slot": "17:30",
    "hour": 17,
    "minute": 30,
-   "score": 3.2405,
+   "score": 3.225,
    "observed_samples": 1,
    "observed_avg": 3.4921,
    "prior": 0.0,
@@ -101,7 +108,7 @@
    "slot": "21:30",
    "hour": 21,
    "minute": 30,
-   "score": 3.2085,
+   "score": 3.193,
    "observed_samples": 1,
    "observed_avg": 3.3962,
    "prior": 0.0,
@@ -118,16 +125,22 @@
    "slot": "21:00",
    "hour": 21,
    "minute": 0,
-   "score": 3.1881,
-   "observed_samples": 1,
-   "observed_avg": 3.2832,
-   "prior": 3.1813,
+   "score": 3.1599,
+   "observed_samples": 2,
+   "observed_avg": 3.1663,
+   "prior": 3.1581,
    "examples": [
     {
      "video_id": "x15ltzEHaB8",
      "title": "Pourquoi le temps semble passer plus vite en vieillissant",
      "views": 868,
      "published_paris": "2026-07-20 20:58"
+    },
+    {
+     "video_id": "mGJQX82e9IY",
+     "title": "Pourquoi le hoquet commence brusquement ?",
+     "views": 396,
+     "published_paris": "2026-07-27 21:00"
     }
    ]
   },
@@ -135,7 +148,7 @@
    "slot": "06:00",
    "hour": 6,
    "minute": 0,
-   "score": 3.1496,
+   "score": 3.1341,
    "observed_samples": 1,
    "observed_avg": 3.2194,
    "prior": 0.0,
@@ -152,7 +165,7 @@
    "slot": "16:00",
    "hour": 16,
    "minute": 0,
-   "score": 3.1481,
+   "score": 3.1326,
    "observed_samples": 1,
    "observed_avg": 3.2149,
    "prior": 0.0,
@@ -169,7 +182,7 @@
    "slot": "18:30",
    "hour": 18,
    "minute": 30,
-   "score": 3.0356,
+   "score": 3.0278,
    "observed_samples": 2,
    "observed_avg": 2.9961,
    "prior": 0.0,
@@ -192,7 +205,7 @@
    "slot": "15:00",
    "hour": 15,
    "minute": 0,
-   "score": 3.0134,
+   "score": 2.9978,
    "observed_samples": 1,
    "observed_avg": 2.8107,
    "prior": 0.0,
@@ -209,7 +222,7 @@
    "slot": "02:30",
    "hour": 2,
    "minute": 30,
-   "score": 2.9835,
+   "score": 2.968,
    "observed_samples": 1,
    "observed_avg": 2.7212,
    "prior": 0.0,
@@ -223,19 +236,25 @@
    ]
   },
   {
-   "slot": "10:30",
-   "hour": 10,
+   "slot": "08:30",
+   "hour": 8,
    "minute": 30,
-   "score": 2.9617,
-   "observed_samples": 1,
-   "observed_avg": 2.6557,
+   "score": 2.9495,
+   "observed_samples": 2,
+   "observed_avg": 2.8786,
    "prior": 0.0,
    "examples": [
     {
-     "video_id": "TaXxSn0YoMc",
-     "title": "Ce que votre corps vous dit quand le silence devient",
-     "views": 116,
-     "published_paris": "2026-07-22 10:18"
+     "video_id": "diImyvMyKig",
+     "title": "La science derrière le temps qui semble accélérer",
+     "views": 675,
+     "published_paris": "2026-07-22 08:15"
+    },
+    {
+     "video_id": "0V5ZhO3qviQ",
+     "title": "Ce que votre corps vous dit quand le corps se fige",
+     "views": 145,
+     "published_paris": "2026-07-21 08:22"
     }
    ]
   }
