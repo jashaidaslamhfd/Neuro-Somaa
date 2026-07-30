@@ -489,5 +489,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "c1c1104b7ff92652e56d7f76b5c12016adfb125e43257cc261e68a92afd744fc",
+    "title": "Pourquoi le ventre gargouille sans faim ?",
+    "topic": "Pourquoi le ventre gargouille sans faim",
+    "series_title": "Ventre qui gargouille",
+    "base_phenomenon": "le ventre qui gargouille sans faim",
+    "nominal_phrase": "le ventre qui gargouille sans faim",
+    "question_phrase": "le ventre gargouille sans faim",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton ventre gargouille sans raison apparente C'est ton intestin qui se contracte r\u00e9guli\u00e8rement Les muscles de ton intestin se d\u00e9tendent et se contractent pour dig\u00e9rer M\u00eame sans faim, la digestion se poursuit pour \u00e9liminer les d\u00e9chets Le plus \u00e9trange, c'est les gaz qui font du bruit et provoquent ces gargouillements Ce n'est pas parce que tu as faim, mais parce que ton corps fonctionne normalement \u00c0 retenir, \u00e9coute ton corps sans te soucier de ces bruits naturels Et maintenant, tu sais pourquoi to",
+    "posted_at": "2026-07-30T18:31:03.596313+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "8EylhDaAE_4",
+    "publish_at": "2026-07-31T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
