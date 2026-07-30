@@ -43,6 +43,10 @@
     {
       "video_id": "_b2DE7BA1E4",
       "arm": "control_long"
+    },
+    {
+      "video_id": "xsB78sHX6Fc",
+      "arm": "test_short"
     }
   ]
 }
