@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-07-29T20:29:36.100835+00:00",
+  "generated_at_utc": "2026-07-30T07:45:09.661740+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -162,6 +162,29 @@
       ]
     },
     {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 2.8832,
+      "observed_samples": 2,
+      "observed_avg": 3.1663,
+      "prior": 2.6,
+      "examples": [
+        {
+          "video_id": "x15ltzEHaB8",
+          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+          "views": 868,
+          "published_paris": "2026-07-20 20:58"
+        },
+        {
+          "video_id": "mGJQX82e9IY",
+          "title": "Pourquoi le hoquet commence brusquement ?",
+          "views": 396,
+          "published_paris": "2026-07-27 21:00"
+        }
+      ]
+    },
+    {
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
@@ -185,19 +208,19 @@
       ]
     },
     {
-      "slot": "21:00",
-      "hour": 21,
-      "minute": 0,
-      "score": 2.8277,
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 2.8703,
       "observed_samples": 1,
-      "observed_avg": 3.2832,
-      "prior": 2.6,
+      "observed_avg": 3.0108,
+      "prior": 2.8,
       "examples": [
         {
-          "video_id": "x15ltzEHaB8",
-          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-          "views": 868,
-          "published_paris": "2026-07-20 20:58"
+          "video_id": "XECgrg709Og",
+          "title": "Pourquoi le sursaut du corps en s'endormant ?",
+          "views": 512,
+          "published_paris": "2026-07-27 19:30"
         }
       ]
     },
@@ -217,16 +240,6 @@
           "published_paris": "2026-07-23 14:47"
         }
       ]
-    },
-    {
-      "slot": "19:30",
-      "hour": 19,
-      "minute": 30,
-      "score": 2.8,
-      "observed_samples": 0,
-      "observed_avg": 0.0,
-      "prior": 2.8,
-      "examples": []
     },
     {
       "slot": "02:30",
