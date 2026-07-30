@@ -195,14 +195,46 @@ def check_publishing_cadence(history: list[dict], days: int = 3) -> dict:
 
 
 def _ends_mid_phrase(title: str) -> bool:
-    """True when a French title stops on a word that cannot end a sentence."""
+    """True when a French title stops before it says anything."""
     cleaned = title.strip().rstrip("?!.…").strip()
     if title.strip().endswith(("...", "…")):
         return True
     if not cleaned:
         return False
     last = cleaned.split()[-1].strip(",;:'\u2019").lower()
-    return last in DANGLING_FRENCH_ENDINGS
+    if last in DANGLING_FRENCH_ENDINGS:
+        return True
+    # A subordinate clause that never resolves. "Ce que votre corps vous dit
+    # quand le silence" ends on a real noun, so the dangling-word check above
+    # passes it, yet the promise ("quand ... WHAT?") is never paid off. This
+    # title was still live after the 2026-07-30 repair run for exactly that
+    # reason, so the monitor has to catch it independently.
+    padded = f" {cleaned.lower()} "
+    for opener in (" quand ", " lorsque ", " lorsqu'", " si "):
+        if opener in padded:
+            tail = padded.rsplit(opener, 1)[1].strip()
+            if len(tail.split()) <= 2:
+                return True
+    return False
+
+
+def _carries_description_text(title: str) -> bool:
+    """True when description/body copy leaked into the title.
+
+    Real example left live by a repair run: "Pourquoi se réveiller avant son
+    réveil Dans ce Short on e ?".
+    """
+    low = (title or "").lower()
+    leaked = (
+        "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
+        "description", "voici", "```", "#", "http", "www.",
+    )
+    if any(token in low for token in leaked):
+        return True
+    # A bare trailing "on e" is the tail of a cut-off "on explique". Matching
+    # it as a substring would also hit the perfectly good
+    # "Pourquoi on entend son cœur battre ?", so anchor it to the end.
+    return low.rstrip("?!. ").endswith(" on e")
 
 
 def _is_malformed_question(title: str) -> bool:
@@ -244,6 +276,8 @@ def find_uploaded_video_defects(history: list[dict]) -> list[dict]:
                 issues.append(f"title {len(title)} chars — truncated in the Shorts UI")
             if _ends_mid_phrase(title):
                 issues.append("title ends mid-phrase — the payload is missing")
+            if _carries_description_text(title):
+                issues.append("description copy leaked into the title")
             if _is_malformed_question(title):
                 issues.append("question mark on a phrase with no conjugated verb")
             if len(title) < MIN_USEFUL_TITLE_CHARS:

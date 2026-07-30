@@ -90,7 +90,39 @@ def _looks_truncated(title: str) -> bool:
         return True
     last = t.split()[-1].lower().rstrip("?!.")
     from seo_generator import _DANGLING_ENDINGS
-    return last in _DANGLING_ENDINGS
+    if last in _DANGLING_ENDINGS:
+        return True
+    # A dangling ARTICLE is not the only way a title gets cut. "Ce que votre
+    # corps vous dit quand le silence" ends on a perfectly good noun, yet the
+    # subordinate clause opened by "quand/lorsque/si" never resolves — the
+    # viewer is never told what happens. Live example: TaXxSn0YoMc, which the
+    # first repair pass left untouched because the last word looked fine.
+    lowered = t.lower().rstrip("?!. ")
+    for opener in (" quand ", " lorsque ", " lorsqu'", " si "):
+        if opener in f" {lowered} ":
+            tail = f" {lowered} ".rsplit(opener, 1)[1].strip()
+            # "quand le silence" = article + noun and nothing else: unresolved.
+            if len(tail.split()) <= 2:
+                return True
+    return False
+
+
+def _carries_description_text(title: str) -> bool:
+    """True when body/description copy leaked into the title.
+
+    A previous repair run published
+    "Pourquoi se réveiller avant son réveil Dans ce Short on e ?" (1XVYcxQqDqo)
+    — the description template bled into the title and was then truncated
+    mid-word. scripts/channel_seo_audit.py already guards against this via
+    _repair_title_is_safe(), but metadata_repair.py had no equivalent check,
+    so it treated the polluted title as healthy and left it live.
+    """
+    low = (title or "").lower()
+    leaked = (
+        "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
+        "description", "voici", "```", "#", "http", "www.", " on e",
+    )
+    return any(token in low for token in leaked)
 
 
 def _is_label_title(title: str) -> bool:
@@ -115,12 +147,19 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
     # 2-3 word label). A full grammatical question/sentence title is left
     # alone even if it differs from the catalogue angle — question titles in
     # second person ("Pourquoi ton corps... ?") are the winning style.
-    title_broken = _looks_truncated(old_title) or _is_label_title(old_title)
+    title_broken = (
+        _looks_truncated(old_title)
+        or _is_label_title(old_title)
+        or _carries_description_text(old_title)
+    )
     if topic_full and title_broken:
         cap = topic_full[0].upper() + topic_full[1:]
         new_title = _truncate_title(cap)
         if new_title and new_title != old_title and len(new_title.split()) >= 3 \
-                and not _looks_truncated(new_title):
+                and not _looks_truncated(new_title) \
+                and not _carries_description_text(new_title):
+            # Never write a replacement that is itself polluted or unresolved —
+            # that is how "…Dans ce Short on e ?" reached the channel.
             changes["title"] = new_title
 
     # --- TAGS ---

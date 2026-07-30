@@ -174,6 +174,48 @@ class UploadedVideoRepairTests(unittest.TestCase):
         defects = self_maintenance.find_uploaded_video_defects(history)
         self.assertTrue(any("too thin" in i for d in defects for i in d["issues"]))
 
+    def test_titles_still_broken_after_the_live_repair_run_are_caught(self):
+        # The 2026-07-30 apply=true run fixed 4 of 6 videos. These two were
+        # left live because neither the repair script nor this monitor could
+        # see the defect.
+        now = datetime.now(UTC)
+        history = [
+            _video("TaXxSn0YoMc", now, 10,
+                   "Ce que votre corps vous dit quand le silence"),
+            _video("1XVYcxQqDqo", now, 10,
+                   "Pourquoi se réveiller avant son réveil Dans ce Short on e ?"),
+        ]
+        defects = self_maintenance.find_uploaded_video_defects(history)
+        self.assertEqual(len(defects), 2)
+
+    def test_unresolved_quand_clause_is_flagged(self):
+        now = datetime.now(UTC)
+        history = [_video("x", now, 10,
+                          "Ce que votre corps vous dit quand le silence")]
+        defects = self_maintenance.find_uploaded_video_defects(history)
+        self.assertTrue(any("mid-phrase" in i for d in defects for i in d["issues"]))
+
+    def test_on_entend_is_not_mistaken_for_leaked_copy(self):
+        # "Pourquoi on entend son cœur battre ?" contains the substring
+        # " on e" but is a correct, repaired title. A naive substring match
+        # flagged it and would have sent a healthy video back for rewriting.
+        now = datetime.now(UTC)
+        history = [_video("FteL-0nbHWk", now, 10,
+                          "Pourquoi on entend son cœur battre ?")]
+        self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
+
+    def test_repaired_titles_now_live_are_all_clean(self):
+        # Exactly what the channel serves after the repair run.
+        now = datetime.now(UTC)
+        repaired = [
+            "Pourquoi on entend son cœur battre ?",
+            "Pourquoi un muscle tressaille tout seul ?",
+            "Pourquoi la chair de poule apparaît soudainement ?",
+            "Pourquoi ton corps est lourd au réveil ?",
+        ]
+        history = [_video(f"r{i}", now, 10, t) for i, t in enumerate(repaired)]
+        self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
+
     def test_healthy_french_titles_are_never_flagged(self):
         # Guard against a detector that fires on everything and makes the
         # report useless. These are all real, correct titles from the channel.
