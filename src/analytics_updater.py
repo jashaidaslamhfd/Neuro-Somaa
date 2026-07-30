@@ -51,3 +51,15 @@ if __name__ == "__main__":
         logger.info("Premium growth intelligence refreshed after analytics sync")
     except Exception as exc:
         logger.warning("Premium growth intelligence refresh skipped: %s", exc)
+
+    # Self-healing pass. Must run AFTER the growth loop rewrote the publish
+    # slots, so it validates the schedule the channel will actually use today.
+    # Repairing already-uploaded videos also belongs here rather than in
+    # main.py: it needs the real analytics numbers this job just fetched, and
+    # it must not add minutes to the time-critical generate-and-upload run.
+    try:
+        from self_maintenance import main as self_maintenance_main
+        self_maintenance_main([])
+        logger.info("Self-maintenance pass complete")
+    except Exception as exc:
+        logger.warning("Self-maintenance pass skipped: %s", exc)

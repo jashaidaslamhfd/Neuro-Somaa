@@ -60,7 +60,38 @@ DEFAULT_UPLOAD_SLOT_PRIOR = {
     "19:30": 2.8,
     "21:00": 2.6,
 }
+# How many real videos a slot needs before its measured score is trusted at
+# full weight, and how many videos the French default priors are worth. These
+# stop a single lucky (or unlucky) upload from redefining the daily schedule.
+MIN_CONFIDENT_SLOT_SAMPLES = 3
+PRIOR_STRENGTH_VIDEOS = 4
 PARIS_TZ = ZoneInfo("Europe/Paris")
+
+
+def _global_average_score(groups: dict[str, list[float]]) -> float:
+    """Mean score across every measured video — the neutral expectation for a
+    slot the channel knows nothing about."""
+    values = [score for scores in groups.values() for score in scores]
+    return sum(values) / len(values) if values else 0.0
+
+
+def _prior_on_observed_scale(slot: str, groups: dict[str, list[float]]) -> float:
+    """Express a French default prior on the same scale as measured scores.
+
+    The raw priors (2.2-2.8) are hand-set preferences, while measured scores
+    are log10(views+10) + 1.2*retention and sit near 3.5 for any slot with a
+    single ordinary video. Comparing the two directly meant every prior lost
+    to every one-off upload. Only the priors' RELATIVE ordering is meaningful,
+    so re-centre them on the channel's own average score.
+    """
+    prior = DEFAULT_UPLOAD_SLOT_PRIOR.get(slot)
+    if prior is None:
+        return 0.0
+    baseline = _global_average_score(groups)
+    if not baseline:
+        return prior
+    prior_mean = sum(DEFAULT_UPLOAD_SLOT_PRIOR.values()) / len(DEFAULT_UPLOAD_SLOT_PRIOR)
+    return baseline + (prior - prior_mean)
 
 
 def _load_json(path: Path, default):
@@ -242,9 +273,22 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
     for key in sorted(all_slots):
         values = groups.get(key, [])
         observed_avg = sum(values) / len(values) if values else 0.0
-        prior = DEFAULT_UPLOAD_SLOT_PRIOR.get(key, 0.0)
-        prior_samples = 2 if prior else 0
+        prior = _prior_on_observed_scale(key, groups)
+        # The score floor is log10(0 views + 10) = 1.0, so EVERY slot that ever
+        # hosted a single video scored ~3.5 and outranked the proven French
+        # priors (2.2-2.8). One accidental upload could therefore capture a
+        # daily slot forever. Two corrections keep this honest:
+        #   1. Priors are weighted like a real sample of videos, not like 2
+        #      points of a differently-scaled scale.
+        #   2. Slots the channel has barely tested are shrunk toward the
+        #      global average instead of being trusted at face value.
+        prior_samples = PRIOR_STRENGTH_VIDEOS if prior else 0
         blended = (observed_avg * len(values) + prior * prior_samples) / max(len(values) + prior_samples, 1)
+        if 0 < len(values) < MIN_CONFIDENT_SLOT_SAMPLES:
+            # Linear shrink: 1 sample keeps 1/3 of its deviation at MIN=3.
+            confidence = len(values) / MIN_CONFIDENT_SLOT_SAMPLES
+            baseline = prior if prior else _global_average_score(groups)
+            blended = baseline + (blended - baseline) * confidence
         hour, minute = map(int, key.split(":"))
         rows.append({
             "slot": key,

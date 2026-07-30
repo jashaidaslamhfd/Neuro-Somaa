@@ -248,7 +248,17 @@ class WorkflowRegressionTests(unittest.TestCase):
         competitor_script = (ROOT / "scripts" / "competitor_analysis.py").read_text()
         self.assertIn("COMPETITOR_CHANNEL_IDS", competitor_script)
         self.assertIn("DEFAULT_QUERIES", competitor_script)
-        self.assertIn('USE_COMPETITOR_INTEL: "true"', self.workflow)
+        # The feature must be ON unless explicitly disabled, and that default
+        # has to live in CODE — asserting on the workflow file contradicted the
+        # note above and broke every scheduled run once the workflow could no
+        # longer be edited. Both readers must opt OUT on "false", never opt in.
+        for module in ("seo_generator.py", "video_editor.py"):
+            source = (ROOT / "src" / module).read_text()
+            self.assertIn(
+                'os.environ.get("USE_COMPETITOR_INTEL", "true")',
+                source,
+                f"{module} must default USE_COMPETITOR_INTEL to enabled",
+            )
         seo = (ROOT / "src" / "seo_generator.py").read_text()
         self.assertIn("_not_exact_competitor_title", seo)
 
