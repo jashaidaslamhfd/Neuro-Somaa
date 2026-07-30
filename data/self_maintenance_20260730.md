@@ -1,5 +1,5 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-07-30T16:16:31.292600+00:00_
+_Généré 2026-07-30T16:20:41.862960+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
@@ -11,7 +11,13 @@ Créneaux appris : 17:30, 19:30, 21:30
 ✅ 2026-07-28 : 3/3
 
 ## 3. Vidéos déjà publiées à réparer
-✅ Aucun défaut détecté dans les métadonnées historisées.
+6 vidéo(s) présentent des défauts :
+- `r7URDUokZh0` — title only 11 chars — too thin to earn a click
+- `1XVYcxQqDqo` — title only 21 chars — too thin to earn a click
+- `FteL-0nbHWk` — title ends mid-phrase — the payload is missing
+- `TaXxSn0YoMc` — title ends mid-phrase — the payload is missing
+- `XLIFrONS2rc` — question mark on a phrase with no conjugated verb
+- `KMXIpcpoDX4` — question mark on a phrase with no conjugated verb
 
 ## 4. Réparation exécutée
-⏭️ Ignorée : aucun défaut détecté, rien à réparer
+⏭️ Ignorée : YouTube OAuth secrets absent — repair skipped

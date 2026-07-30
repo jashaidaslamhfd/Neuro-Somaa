@@ -139,6 +139,55 @@ class UploadedVideoRepairTests(unittest.TestCase):
         defects = self_maintenance.find_uploaded_video_defects(history)
         self.assertTrue(any("duplicate" in i for d in defects for i in d["issues"]))
 
+    def test_real_truncated_titles_from_this_channel_are_caught(self):
+        # Both shipped to YouTube and neither was detected before this fix.
+        now = datetime.now(UTC)
+        history = [
+            _video("FteL-0nbHWk", now, 10,
+                   "Pourquoi le cerveau remarque entendre son cœur battre la"),
+            _video("TaXxSn0YoMc", now, 10,
+                   "Ce que votre corps vous dit quand le silence devient"),
+        ]
+        defects = self_maintenance.find_uploaded_video_defects(history)
+        self.assertEqual(len(defects), 2)
+        for defect in defects:
+            self.assertTrue(any("mid-phrase" in i for i in defect["issues"]))
+
+    def test_malformed_question_titles_are_caught(self):
+        now = datetime.now(UTC)
+        history = [_video("KMXIpcpoDX4", now, 10,
+                          "Pourquoi le muscle qui tressaille tout seul ?")]
+        defects = self_maintenance.find_uploaded_video_defects(history)
+        self.assertTrue(any("conjugated verb" in i
+                            for d in defects for i in d["issues"]))
+
+    def test_well_formed_question_is_not_flagged(self):
+        # This one is correct French and must survive the check.
+        now = datetime.now(UTC)
+        history = [_video("mGJQX82e9IY", now, 10,
+                          "Pourquoi le hoquet commence brusquement ?")]
+        self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
+
+    def test_too_short_title_is_caught(self):
+        now = datetime.now(UTC)
+        history = [_video("r7URDUokZh0", now, 10, "Corps lourd")]
+        defects = self_maintenance.find_uploaded_video_defects(history)
+        self.assertTrue(any("too thin" in i for d in defects for i in d["issues"]))
+
+    def test_healthy_french_titles_are_never_flagged(self):
+        # Guard against a detector that fires on everything and makes the
+        # report useless. These are all real, correct titles from the channel.
+        now = datetime.now(UTC)
+        good = [
+            "Ce qu'il faut comprendre sur les genoux qui craquent",
+            "Pourquoi le temps semble passer plus vite en vieillissant",
+            "La science derrière le temps qui semble accélérer",
+            "Comprendre pourquoi le corps frissonne sous le stress",
+            "Ce qui se passe quand le cœur s'emballe sous le stress ?",
+        ]
+        history = [_video(f"ok{i}", now, 10, t) for i, t in enumerate(good)]
+        self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
+
     def test_clean_history_reports_no_defects(self):
         now = datetime.now(UTC)
         history = [_video(f"ok{i}", now, 10, f"Pourquoi le corps réagit {i}") for i in range(3)]

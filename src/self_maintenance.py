@@ -62,6 +62,29 @@ EXPECTED_VIDEOS_PER_DAY = 3
 MIN_SLOT_GAP_MINUTES = 90
 # YouTube titles are cut in the Shorts UI well before the API's 100-char cap.
 MAX_SAFE_TITLE_CHARS = 70
+# Below this a title carries no searchable topic — "Corps lourd" tells a
+# scroller nothing and ranks for nothing.
+MIN_USEFUL_TITLE_CHARS = 25
+
+# A French title that stops on one of these words was cut off by a length
+# budget mid-sentence — the reader never gets the payload. Real examples from
+# this channel: "...entendre son cœur battre la", "...quand le silence devient".
+# Articles/prepositions/auxiliaries can never legitimately end a French title.
+DANGLING_FRENCH_ENDINGS = {
+    "le", "la", "les", "l", "un", "une", "des", "du", "de", "d",
+    "au", "aux", "à", "et", "ou", "en", "dans", "sur", "sous", "par",
+    "pour", "avec", "sans", "que", "qui", "quand", "dont", "où",
+    "ce", "cet", "cette", "ces", "son", "sa", "ses", "leur", "leurs",
+    "mon", "ma", "mes", "ton", "ta", "tes", "notre", "votre",
+    "est", "sont", "être", "avoir", "peut", "semble", "devient", "fait",
+    "plus", "moins", "très", "trop", "si", "ne", "se", "on",
+}
+
+# "Pourquoi le hoquet commence brusquement ?" is a question. "Pourquoi le
+# muscle qui tressaille tout seul ?" is not — it is a noun phrase with a
+# question mark bolted on, which reads as broken French. A real question needs
+# a conjugated verb, and a relative "qui/que" clause swallowing it is the tell.
+INTERROGATIVE_OPENERS = ("pourquoi", "comment", "quand", "où", "qui", "que", "quoi")
 
 
 def _apply_enabled() -> bool:
@@ -171,6 +194,37 @@ def check_publishing_cadence(history: list[dict], days: int = 3) -> dict:
     }
 
 
+def _ends_mid_phrase(title: str) -> bool:
+    """True when a French title stops on a word that cannot end a sentence."""
+    cleaned = title.strip().rstrip("?!.…").strip()
+    if title.strip().endswith(("...", "…")):
+        return True
+    if not cleaned:
+        return False
+    last = cleaned.split()[-1].strip(",;:'\u2019").lower()
+    return last in DANGLING_FRENCH_ENDINGS
+
+
+def _is_malformed_question(title: str) -> bool:
+    """True for 'Pourquoi <noun phrase> ?' with no conjugated verb.
+
+    A relative clause ("qui tressaille", "de la chair de poule") leaves the
+    interrogative opener with nothing to ask about, so the title reads as an
+    unfinished thought even though it carries a question mark.
+    """
+    stripped = title.strip()
+    if not stripped.endswith("?"):
+        return False
+    words = stripped.rstrip("? ").split()
+    if not words or words[0].lower() not in INTERROGATIVE_OPENERS:
+        return False
+    # "Pourquoi X qui/de ..." — the opener never reaches a main verb.
+    lowered = [w.lower().strip(",;:") for w in words]
+    if "qui" in lowered[1:] or "l'apparition" in lowered or "le sursaut" in lowered:
+        return True
+    return False
+
+
 def find_uploaded_video_defects(history: list[dict]) -> list[dict]:
     """Scan already-published videos for the defects newer gates would block."""
     defects: list[dict] = []
@@ -188,9 +242,12 @@ def find_uploaded_video_defects(history: list[dict]) -> list[dict]:
         else:
             if len(title) > MAX_SAFE_TITLE_CHARS:
                 issues.append(f"title {len(title)} chars — truncated in the Shorts UI")
-            # A title cut mid-word reads as broken and depresses click-through.
-            if title.endswith(("...", "…")) or title.endswith(" de") or title.endswith(" du"):
-                issues.append("title ends mid-phrase")
+            if _ends_mid_phrase(title):
+                issues.append("title ends mid-phrase — the payload is missing")
+            if _is_malformed_question(title):
+                issues.append("question mark on a phrase with no conjugated verb")
+            if len(title) < MIN_USEFUL_TITLE_CHARS:
+                issues.append(f"title only {len(title)} chars — too thin to earn a click")
             previous = seen_titles.get(title.lower())
             if previous:
                 issues.append(f"duplicate title of {previous}")
