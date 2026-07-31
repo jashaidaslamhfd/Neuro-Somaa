@@ -1,262 +1,268 @@
 {
- "schema_version": 1,
- "generated_at_utc": "2026-07-30T16:33:57.590469+00:00",
- "timezone": "Europe/Paris",
- "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
- "recommended_slots": [
-  {
-   "rank": 1,
-   "slot": "17:30",
-   "hour": 17,
-   "minute": 30,
-   "name": "Dynamique 17:30",
-   "score": 3.225,
-   "samples": 1,
-   "prior": 0.0
-  },
-  {
-   "rank": 2,
-   "slot": "19:30",
-   "hour": 19,
-   "minute": 30,
-   "name": "Dynamique 19:30",
-   "score": 3.3349,
-   "samples": 1,
-   "prior": 3.3581
-  },
-  {
-   "rank": 3,
-   "slot": "21:30",
-   "hour": 21,
-   "minute": 30,
-   "name": "Dynamique 21:30",
-   "score": 3.193,
-   "samples": 1,
-   "prior": 0.0
-  }
- ],
- "ranked_slots": [
-  {
-   "slot": "19:30",
-   "hour": 19,
-   "minute": 30,
-   "score": 3.3349,
-   "observed_samples": 1,
-   "observed_avg": 3.0108,
-   "prior": 3.3581,
-   "examples": [
+  "schema_version": 1,
+  "generated_at_utc": "2026-07-31T08:14:53.085368+00:00",
+  "timezone": "Europe/Paris",
+  "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
+  "recommended_slots": [
     {
-     "video_id": "XECgrg709Og",
-     "title": "Pourquoi le sursaut du corps en s'endormant ?",
-     "views": 512,
-     "published_paris": "2026-07-27 19:30"
-    }
-   ]
-  },
-  {
-   "slot": "20:30",
-   "hour": 20,
-   "minute": 30,
-   "score": 3.2501,
-   "observed_samples": 1,
-   "observed_avg": 3.5674,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "68B-7lTf8nU",
-     "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-     "views": 1510,
-     "published_paris": "2026-07-21 20:27"
-    }
-   ]
-  },
-  {
-   "slot": "19:00",
-   "hour": 19,
-   "minute": 0,
-   "score": 3.2259,
-   "observed_samples": 1,
-   "observed_avg": 3.4951,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "WxOEXbepJ40",
-     "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-     "views": 1456,
-     "published_paris": "2026-07-23 19:10"
-    }
-   ]
-  },
-  {
-   "slot": "17:30",
-   "hour": 17,
-   "minute": 30,
-   "score": 3.225,
-   "observed_samples": 1,
-   "observed_avg": 3.4921,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "DocJNQZiwQQ",
-     "title": "Ce que votre corps vous dit quand le ventre se serre",
-     "views": 1087,
-     "published_paris": "2026-07-22 17:29"
-    }
-   ]
-  },
-  {
-   "slot": "21:30",
-   "hour": 21,
-   "minute": 30,
-   "score": 3.193,
-   "observed_samples": 1,
-   "observed_avg": 3.3962,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "r7URDUokZh0",
-     "title": "Corps lourd",
-     "views": 1006,
-     "published_paris": "2026-07-19 21:42"
-    }
-   ]
-  },
-  {
-   "slot": "21:00",
-   "hour": 21,
-   "minute": 0,
-   "score": 3.1599,
-   "observed_samples": 2,
-   "observed_avg": 3.1663,
-   "prior": 3.1581,
-   "examples": [
-    {
-     "video_id": "x15ltzEHaB8",
-     "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-     "views": 868,
-     "published_paris": "2026-07-20 20:58"
+      "rank": 1,
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "name": "Dynamique 17:30",
+      "score": 3.253,
+      "samples": 1,
+      "prior": 0.0
     },
     {
-     "video_id": "mGJQX82e9IY",
-     "title": "Pourquoi le hoquet commence brusquement ?",
-     "views": 396,
-     "published_paris": "2026-07-27 21:00"
-    }
-   ]
-  },
-  {
-   "slot": "06:00",
-   "hour": 6,
-   "minute": 0,
-   "score": 3.1341,
-   "observed_samples": 1,
-   "observed_avg": 3.2194,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "RV4LGjp89-U",
-     "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
-     "views": 579,
-     "published_paris": "2026-07-23 06:07"
-    }
-   ]
-  },
-  {
-   "slot": "16:00",
-   "hour": 16,
-   "minute": 0,
-   "score": 3.1326,
-   "observed_samples": 1,
-   "observed_avg": 3.2149,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "rR7yLwzBakA",
-     "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
-     "views": 630,
-     "published_paris": "2026-07-20 16:03"
-    }
-   ]
-  },
-  {
-   "slot": "18:30",
-   "hour": 18,
-   "minute": 30,
-   "score": 3.0278,
-   "observed_samples": 2,
-   "observed_avg": 2.9961,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "FteL-0nbHWk",
-     "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
-     "views": 796,
-     "published_paris": "2026-07-20 18:29"
+      "rank": 2,
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "name": "Dynamique 19:30",
+      "score": 3.4281,
+      "samples": 2,
+      "prior": 3.4001
     },
     {
-     "video_id": "Re4VU9lryhQ",
-     "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
-     "views": 266,
-     "published_paris": "2026-07-21 18:20"
+      "rank": 3,
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "name": "Dynamique 21:30",
+      "score": 3.221,
+      "samples": 1,
+      "prior": 0.0
     }
-   ]
-  },
-  {
-   "slot": "15:00",
-   "hour": 15,
-   "minute": 0,
-   "score": 2.9978,
-   "observed_samples": 1,
-   "observed_avg": 2.8107,
-   "prior": 0.0,
-   "examples": [
+  ],
+  "ranked_slots": [
     {
-     "video_id": "yxoI9-KWXzI",
-     "title": "Ce que la science explique sur l'effet du stress",
-     "views": 292,
-     "published_paris": "2026-07-23 14:47"
-    }
-   ]
-  },
-  {
-   "slot": "02:30",
-   "hour": 2,
-   "minute": 30,
-   "score": 2.968,
-   "observed_samples": 1,
-   "observed_avg": 2.7212,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "1XVYcxQqDqo",
-     "title": "Réveil avant l'alarme",
-     "views": 154,
-     "published_paris": "2026-07-20 02:32"
-    }
-   ]
-  },
-  {
-   "slot": "08:30",
-   "hour": 8,
-   "minute": 30,
-   "score": 2.9495,
-   "observed_samples": 2,
-   "observed_avg": 2.8786,
-   "prior": 0.0,
-   "examples": [
-    {
-     "video_id": "diImyvMyKig",
-     "title": "La science derrière le temps qui semble accélérer",
-     "views": 675,
-     "published_paris": "2026-07-22 08:15"
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 3.4281,
+      "observed_samples": 2,
+      "observed_avg": 3.5258,
+      "prior": 3.4001,
+      "examples": [
+        {
+          "video_id": "XECgrg709Og",
+          "title": "Pourquoi le sursaut du corps en s'endormant ?",
+          "views": 954,
+          "published_paris": "2026-07-27 19:30"
+        },
+        {
+          "video_id": "ZXNvo9birZM",
+          "title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
+          "views": 765,
+          "published_paris": "2026-07-28 19:30"
+        }
+      ]
     },
     {
-     "video_id": "0V5ZhO3qviQ",
-     "title": "Ce que votre corps vous dit quand le corps se fige",
-     "views": 145,
-     "published_paris": "2026-07-21 08:22"
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 3.2781,
+      "observed_samples": 1,
+      "observed_avg": 3.5674,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 1510,
+          "published_paris": "2026-07-21 20:27"
+        }
+      ]
+    },
+    {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 3.254,
+      "observed_samples": 1,
+      "observed_avg": 3.4951,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 1456,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.253,
+      "observed_samples": 1,
+      "observed_avg": 3.4921,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
+        }
+      ]
+    },
+    {
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "score": 3.221,
+      "observed_samples": 1,
+      "observed_avg": 3.3962,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "r7URDUokZh0",
+          "title": "Corps lourd",
+          "views": 1006,
+          "published_paris": "2026-07-19 21:42"
+        }
+      ]
+    },
+    {
+      "slot": "06:00",
+      "hour": 6,
+      "minute": 0,
+      "score": 3.1621,
+      "observed_samples": 1,
+      "observed_avg": 3.2194,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "RV4LGjp89-U",
+          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
+          "views": 579,
+          "published_paris": "2026-07-23 06:07"
+        }
+      ]
+    },
+    {
+      "slot": "16:00",
+      "hour": 16,
+      "minute": 0,
+      "score": 3.1606,
+      "observed_samples": 1,
+      "observed_avg": 3.2149,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "rR7yLwzBakA",
+          "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+          "views": 630,
+          "published_paris": "2026-07-20 16:03"
+        }
+      ]
+    },
+    {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 3.15,
+      "observed_samples": 3,
+      "observed_avg": 3.0832,
+      "prior": 3.2001,
+      "examples": [
+        {
+          "video_id": "x15ltzEHaB8",
+          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+          "views": 868,
+          "published_paris": "2026-07-20 20:58"
+        },
+        {
+          "video_id": "mGJQX82e9IY",
+          "title": "Pourquoi le hoquet commence brusquement ?",
+          "views": 747,
+          "published_paris": "2026-07-27 21:00"
+        },
+        {
+          "video_id": "TbbiAMubfu8",
+          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+          "views": 204,
+          "published_paris": "2026-07-28 21:00"
+        }
+      ]
+    },
+    {
+      "slot": "18:30",
+      "hour": 18,
+      "minute": 30,
+      "score": 3.0419,
+      "observed_samples": 2,
+      "observed_avg": 2.9961,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "FteL-0nbHWk",
+          "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
+          "views": 796,
+          "published_paris": "2026-07-20 18:29"
+        },
+        {
+          "video_id": "Re4VU9lryhQ",
+          "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
+          "views": 266,
+          "published_paris": "2026-07-21 18:20"
+        }
+      ]
+    },
+    {
+      "slot": "15:00",
+      "hour": 15,
+      "minute": 0,
+      "score": 3.0259,
+      "observed_samples": 1,
+      "observed_avg": 2.8107,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "yxoI9-KWXzI",
+          "title": "Ce que la science explique sur l'effet du stress",
+          "views": 292,
+          "published_paris": "2026-07-23 14:47"
+        }
+      ]
+    },
+    {
+      "slot": "02:30",
+      "hour": 2,
+      "minute": 30,
+      "score": 2.9961,
+      "observed_samples": 1,
+      "observed_avg": 2.7212,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "1XVYcxQqDqo",
+          "title": "Réveil avant l'alarme",
+          "views": 154,
+          "published_paris": "2026-07-20 02:32"
+        }
+      ]
+    },
+    {
+      "slot": "10:30",
+      "hour": 10,
+      "minute": 30,
+      "score": 2.9742,
+      "observed_samples": 1,
+      "observed_avg": 2.6557,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "TaXxSn0YoMc",
+          "title": "Ce que votre corps vous dit quand le silence devient",
+          "views": 116,
+          "published_paris": "2026-07-22 10:18"
+        }
+      ]
     }
-   ]
-  }
- ]
+  ]
 }
