@@ -579,5 +579,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630",
+    "title": "Pourquoi la chair de poule appara\u00eet soudainement ?",
+    "topic": "Ce que votre corps vous dit quand la chair de poule appara\u00eet soudainement",
+    "series_title": "Chair de poule",
+    "base_phenomenon": "l'apparition soudaine de la chair de poule",
+    "nominal_phrase": "l'apparition soudaine de la chair de poule",
+    "question_phrase": "la chair de poule appara\u00eet soudainement",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ta peau se crispe soudain C'est ton syst\u00e8me nerveux qui r\u00e9agit Au froid ou au stress, tes muscles se contractent C'est un r\u00e9flexe de d\u00e9fense pour te prot\u00e9ger Le plus \u00e9trange, c'est la r\u00e9action en cha\u00eene des muscles Ce n'est pas d\u00fb \u00e0 un courant d'air, mais \u00e0 ton cerveau Alors, respire profond\u00e9ment et d\u00e9tends-toi Et ta peau retrouvera son calme",
+    "posted_at": "2026-07-31T18:29:19.589245+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "HJb7xCMIYWQ",
+    "publish_at": "2026-08-01T17:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
