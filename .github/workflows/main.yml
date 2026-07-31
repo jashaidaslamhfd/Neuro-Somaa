@@ -123,7 +123,7 @@ jobs:
           TREND_REGION: "FR"
           YOUTUBE_REGION_CODE: "FR"
           CONTENT_SERIES: "body_glitches_fr"
-          TOPIC_STRATEGY: "body_glitch_series_fr"
+          TOPIC_STRATEGY: "viral_hijack"
           REQUIRE_DAILY_TREND: "false"
           CHANNEL_LANGUAGE: "fr-FR"
           CHANNEL_COUNTRY: "FR"
