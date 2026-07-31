@@ -539,5 +539,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "d1d312f3e64be40cd8725feb648931ffd7fcd1c5ddddee8e09819d06c9b2bb07",
+    "title": "Pourquoi un aliment froid provoque un mal de t\u00eate ?",
+    "topic": "Pourquoi un aliment froid provoque un mal de t\u00eate semble soudain",
+    "series_title": "Gel du cerveau",
+    "base_phenomenon": "le mal de t\u00eate apr\u00e8s un aliment froid",
+    "nominal_phrase": "le mal de t\u00eate apr\u00e8s un aliment froid",
+    "question_phrase": "un aliment froid provoque un mal de t\u00eate",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps r\u00e9agit au froid C'est ton cerveau qui r\u00e9agit rapidement Les nerfs transmettent des impulsions de douleur Les vaisseaux sanguins se contractent fortement Le plus \u00e9trange, c'est que le sang afflue vers le cerveau Les gens pensent que c'est d\u00fb au froid lui-m\u00eame, mais ce n'est pas tout Mais il faut rester calme et boire de l'eau pour aider ton corps Et ton corps retrouve son \u00e9quilibre, m\u00eame apr\u00e8s un aliment froid",
+    "posted_at": "2026-07-31T11:20:21.085369+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "8b9CONZ5ntY",
+    "publish_at": "2026-07-31T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
