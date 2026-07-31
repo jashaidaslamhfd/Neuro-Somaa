@@ -559,5 +559,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "aa92055e153b273cf89a16a187aaa2eba253347bac9f167e64ddde27460992bd",
+    "title": "Pourquoi les oreilles sifflent dans le silence ?",
+    "topic": "Ce qui change lorsque les oreilles sifflent dans le silence",
+    "series_title": "Oreilles qui sifflent",
+    "base_phenomenon": "les oreilles qui sifflent dans le silence",
+    "nominal_phrase": "les oreilles qui sifflent dans le silence",
+    "question_phrase": "les oreilles sifflent dans le silence",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "C'est ton cerveau qui essaie de compenser le silence Ton cerveau produit des signaux pour combler le vide sonore Les ondes sonores internes sont amplifi\u00e9es pour d\u00e9tecter les sons faibles L'oreille interne amplifie ces signaux pour les envoyer au cerveau Le plus \u00e9trange : c'est un m\u00e9canisme de protection pour d\u00e9tecter les dangers potentiels Contrairement \u00e0 ce que l'on pense, ce n'est pas d\u00fb \u00e0 une perte d'audition Il est important de consulter un professionnel si ces sifflements sont persistants o",
+    "posted_at": "2026-07-31T17:11:13.341639+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "_QBHLbu9s7Y",
+    "publish_at": "2026-08-01T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75
   }
 ]
