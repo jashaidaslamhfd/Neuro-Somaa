@@ -634,5 +634,25 @@
     "predicted_ctr": 9.9,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b",
+    "title": "Pourquoi votre corps refuse de mentir ?",
+    "topic": "Pourquoi votre corps refuse de mentir",
+    "series_title": null,
+    "base_phenomenon": null,
+    "nominal_phrase": null,
+    "question_phrase": null,
+    "trend_source": "youtube_autosuggest_fr",
+    "trend_url": null,
+    "voiceover": "C'est ton cerveau qui r\u00e9v\u00e8le la v\u00e9rit\u00e9 Ton corps r\u00e9agit avant m\u00eame que tu ne puisses mentir Le stress d\u00e9clenche des r\u00e9actions physiques Le plus \u00e9trange, c'est que tu ne peux pas les contr\u00f4ler L'id\u00e9e que l'on peut contr\u00f4ler son corps est fausse \u00c0 retenir, les micro-expressions trahissent nos \u00e9motions Et surtout, \u00eatre conscient de nos r\u00e9actions Alors ton corps trahit encore la v\u00e9rit\u00e9",
+    "posted_at": "2026-08-01T16:36:37.998260+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "SFrpDq6c9Dk",
+    "publish_at": "2026-08-02T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75
   }
 ]
