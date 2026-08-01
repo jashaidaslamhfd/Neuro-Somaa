@@ -654,5 +654,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "b58437818eb2533d8d71853647a421d63a36bdd6694c907194517acb1cec11a3",
+    "title": "Pourquoi votre corps refuse de maigrir ?",
+    "topic": "Pourquoi votre corps refuse de maigrir",
+    "series_title": null,
+    "base_phenomenon": null,
+    "nominal_phrase": null,
+    "question_phrase": null,
+    "trend_source": "youtube_autosuggest_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps stocke les graisses pour une raison pr\u00e9cise C'est ton cerveau qui g\u00e8re les r\u00e9serves de graisse pour survivre Il r\u00e9gule la faim et la sati\u00e9t\u00e9 pour maintenir un \u00e9quilibre fragile M\u00eame avec de l'exercice, il r\u00e9siste au changement pour pr\u00e9server les r\u00e9serves Le plus \u00e9trange, c'est que l'\u00e9quilibre est fragile et influenc\u00e9 par de nombreux facteurs Ce n'est pas une question de volont\u00e9, mais de biologie et de r\u00e9gulation hormonale Il faut comprendre son corps pour l'aider \u00e0 maigrir de mani\u00e8re s",
+    "posted_at": "2026-08-01T18:13:36.451878+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "FX6vqwymE0Y",
+    "publish_at": "2026-08-02T17:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
