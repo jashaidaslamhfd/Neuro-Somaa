@@ -709,5 +709,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "e762eb1a73bf2502a92a23fa5bb3594aec0bf989780c7f25b8dba4ab40ded431",
+    "title": "Pourquoi la peau se fripe dans leau ?",
+    "topic": "Pourquoi la peau se fripe dans leau",
+    "series_title": null,
+    "base_phenomenon": null,
+    "nominal_phrase": null,
+    "question_phrase": null,
+    "trend_source": null,
+    "trend_url": null,
+    "voiceover": "Ta peau se fripe dans l'eau C'est l'eau qui p\u00e9n\u00e8tre les cellules de peau Les cellules gonflent et se d\u00e9tendent rapidement Et se contractent pour se prot\u00e9ger du dess\u00e8chement Le plus \u00e9trange c'est la vitesse de r\u00e9cup\u00e9ration Mais ta peau retrouve sa forme initiale avec le temps",
+    "posted_at": "2026-08-02T19:30:50.582412+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "C6PyY8IDY-A",
+    "publish_at": "2026-08-03T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
