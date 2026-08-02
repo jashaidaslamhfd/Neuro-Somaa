@@ -1,14 +1,23 @@
 # Musiques de fond — provenance et licences
 
-Les pistes de `assets/music/` sont mixées à faible volume (`MUSIC_VOLUME=0.07`)
-sous la narration de chaque Short. Elles sont **committées dans un dépôt public**,
-il faut donc que leur licence autorise à la fois la redistribution et l'usage
-commercial (monétisation YouTube).
+## ✅ ORIGINALES (sécurisées pour la monétisation — aucune risque Content ID)
 
-⚠️ **À COMPLÉTER PAR LE PROPRIÉTAIRE DU DÉPÔT.** Les noms de fichiers suivent la
-convention Pixabay Music (`<auteur>-<titre>-<id>.mp3`), mais l'origine exacte n'a
-jamais été documentée. Tant que ce tableau n'est pas rempli et vérifié, chaque
-piste est un risque de réclamation Content ID sur toutes les vidéos concernées.
+Les pistes `own_*.wav` sont **générées dans ce dépôt** (scripts/generate_own_music.py,
+synthèse procédurale originale). Elles sont 100% originales : aucune réclamation
+Content ID possible. **La pipeline les utilise PAR DÉFAUT depuis 2026-08-02**
+(`MUSIC_SOURCE=own`).
+
+| Fichier | Origine | Licence | Vérifié |
+|---|---|---|---|
+| `own_dark_drone.wav` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
+| `own_suspense_thrum.wav` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
+
+## 🚫 TIERCES (licence NON vérifiée — risque Content ID)
+
+Les pistes suivantes ne sont utilisées QUE si `MUSIC_SOURCE=assets` est défini
+explicitement. **Avant toute demande de monétisation, supprime-les ou vérifie
+leur licence** — sinon chaque vidéo qui les utilise peut recevoir une
+réclamation Content ID qui bloque les revenus.
 
 | Fichier | Auteur présumé | Source | Licence | Vérifié |
 |---|---|---|---|---|
@@ -18,19 +27,9 @@ piste est un risque de réclamation Content ID sur toutes les vidéos concernée
 | `the_mountain-brain-science-136923.mp3` | the_mountain | Pixabay ? (id 136923) | à confirmer | ❌ |
 
 ## Comment vérifier
+1. Ouvre la page Pixabay Music du fichier (cherche l'ID dans le nom).
+2. Confirme la licence "Pixabay Content License" (usage commercial autorisé).
+3. Colle le lien + la licence dans ce tableau et passe ✅.
 
-1. Ouvrir `https://pixabay.com/music/search/?q=` et rechercher l'identifiant numérique.
-2. Confirmer l'auteur et la licence (la **Pixabay Content License** autorise
-   l'usage commercial sans attribution, mais interdit la redistribution du
-   fichier « tel quel » — ici les pistes sont mixées dans une vidéo, ce qui est
-   conforme ; les committer dans un dépôt public est la zone grise).
-3. Renseigner l'URL exacte et cocher ✅.
-
-Si une piste ne peut pas être tracée, la remplacer par une source clairement
-licenciée (YouTube Audio Library, Kevin MacLeod / CC-BY avec crédit en
-description, ou une bibliothèque payante) plutôt que de la conserver « au cas où ».
-
-## Règle pour toute nouvelle piste
-
-Aucun fichier n'est ajouté à `assets/music/` sans une ligne correspondante,
-vérifiée, dans le tableau ci-dessus.
+**Recommandation 2026-08-02:** supprime les 4 fichiers tiers — les pistes
+originales suffisent et éliminent tout risque.

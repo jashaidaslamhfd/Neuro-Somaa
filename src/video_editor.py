@@ -459,20 +459,25 @@ def _synthesize_ambient_bed(duration: float, seed: int = None) -> np.ndarray:
 
 
 def _get_music_track(duration: float, output_dir: str) -> str:
-    """Select a licensed background track from ``assets/music``.
+    """Select a MONETIZATION-SAFE background track.
+
+    Since 2026-08-02 the pipeline prefers the repo's OWN procedurally
+    generated beds (assets/music/own_*.wav) — they are 100% original, so
+    zero Content ID claim risk, which keeps monetization unblocked.
+    The 4 third-party tracks (paulyudin / lnplusmusic / mfcc / the_mountain)
+    have UNVERIFIED licenses (see ATTRIBUTION.md) and are only used when
+    MUSIC_SOURCE=assets is set explicitly.
 
     ``MUSIC_TRACK`` may name one exact file (for example
-    ``paulyudin-suspense-513011.mp3``). When it is empty, one real local track
-    is selected at random. The procedural drone exists only as an explicit
-    last-resort fallback when the asset folder is missing/empty; normal videos
-    always use the creator-provided music files.
+    ``own_dark_drone.wav``). When it is empty, one original track is
+    selected at random. The procedural drone exists as a final fallback
+    when the asset folder is missing/empty.
     """
     configured_track = os.environ.get("MUSIC_TRACK", "").strip()
     supported_extensions = (".wav", ".mp3", ".m4a", ".ogg", ".aac", ".flac")
 
+    # 1) exact requested track (any file in the approved dir)
     if configured_track:
-        # Accept only a filename, not an arbitrary path outside the approved
-        # music directory.
         candidate = os.path.join(MUSIC_DIR, os.path.basename(configured_track))
         if not os.path.isfile(candidate):
             raise FileNotFoundError(
@@ -483,16 +488,26 @@ def _get_music_track(duration: float, output_dir: str) -> str:
         logger.info("Using configured asset music: %s", candidate)
         return candidate
 
+    # 2) default: ORIGINAL beds only (monetization-safe). The unverified
+    #    third-party tracks are excluded unless MUSIC_SOURCE=assets.
+    music_source = os.environ.get("MUSIC_SOURCE", "own").strip().lower()
     if os.path.isdir(MUSIC_DIR):
-        real_tracks = sorted(
-            os.path.join(MUSIC_DIR, filename)
-            for filename in os.listdir(MUSIC_DIR)
-            if filename.lower().endswith(supported_extensions)
-            and os.path.getsize(os.path.join(MUSIC_DIR, filename)) > 10_000
-        )
-        if real_tracks:
-            selected = random.choice(real_tracks)
-            logger.info("Using asset music: %s", selected)
+        if music_source == "own":
+            candidates = sorted(
+                os.path.join(MUSIC_DIR, filename)
+                for filename in os.listdir(MUSIC_DIR)
+                if filename.startswith("own_") and filename.lower().endswith(supported_extensions)
+            )
+        else:  # "assets" — explicit opt-in to unverified third-party tracks
+            candidates = sorted(
+                os.path.join(MUSIC_DIR, filename)
+                for filename in os.listdir(MUSIC_DIR)
+                if not filename.startswith("own_") and filename.lower().endswith(supported_extensions)
+            )
+        candidates = [c for c in candidates if os.path.getsize(c) > 10_000]
+        if candidates:
+            selected = random.choice(candidates)
+            logger.info("Using %s music: %s", music_source, selected)
             return selected
 
     logger.warning("No playable track found in %s; using generated ambient fallback.", MUSIC_DIR)
