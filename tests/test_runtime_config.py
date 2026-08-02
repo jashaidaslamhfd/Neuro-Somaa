@@ -310,9 +310,29 @@ class StoryArcTests(unittest.TestCase):
     def setUp(self):
         try:
             import importlib
+            import os
+            # FIXED 2026-08-02: the arc fixture is a 6-scene SHORT-format
+            # script. script_generator reads MIN_WORDS/MAX_WORDS from
+            # TARGET_MIN/MAX_SECONDS at import time, and DurationBudgetTests
+            # mutates those env vars + reloads the module. Without pinning
+            # the short-format env here, this test depends on test ORDER
+            # (58 words fails against the old 88-word floor).
+            os.environ["TARGET_MIN_SECONDS"] = "20"
+            os.environ["TARGET_MAX_SECONDS"] = "26"
+            import importlib
             self.sg = importlib.import_module("script_generator")
+            importlib.reload(self.sg)
         except ModuleNotFoundError as exc:
             self.skipTest(f"deps not installed here: {exc}")
+
+    def tearDown(self):
+        try:
+            import os, importlib
+            os.environ["TARGET_MIN_SECONDS"] = "20"
+            os.environ["TARGET_MAX_SECONDS"] = "26"
+            importlib.reload(self.sg)
+        except Exception:
+            pass
 
     def _validated(self, data):
         return self.sg.validate_script(self.sg._normalize_scenes(data))
