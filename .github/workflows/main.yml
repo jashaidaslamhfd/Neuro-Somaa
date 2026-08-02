@@ -198,7 +198,7 @@ jobs:
           set -euo pipefail
           VID=$(python3 scripts/duration_experiment.py --last-video-id)
           if [ -n "$VID" ]; then
-            python scripts/duration_experiment.py --record "$VID" "${EXPERIMENT_ARM:-control_long}"
+            python scripts/duration_experiment.py --record "$VID" "${EXPERIMENT_ARM:-short_b}"
           else
             echo "No new video id; nothing to record."
           fi

@@ -102,16 +102,15 @@ def _fetch_stats(yt) -> dict:
 
 def _build_analytics(yt):
     from googleapiclient.discovery import build
-    creds = yt._http  # reuse http (auth) — simpler: rebuild from env
     import google.oauth2.credentials
     cid = os.environ.get("GOOGLE_CLIENT_ID")
     csec = os.environ.get("GOOGLE_CLIENT_SECRET")
     rtok = os.environ.get("REFRESH_TOKEN")
-    creds2 = google.oauth2.credentials.Credentials(
+    creds = google.oauth2.credentials.Credentials(
         token=None, refresh_token=rtok,
         token_uri="https://oauth2.googleapis.com/token",
         client_id=cid, client_secret=csec)
-    return build("youtubeAnalytics", "v2", credentials=creds2)
+    return build("youtubeAnalytics", "v2", credentials=creds)
 
 
 # ── obstacle audit (monetization blockers) ──

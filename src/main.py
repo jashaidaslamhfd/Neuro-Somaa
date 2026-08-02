@@ -609,8 +609,11 @@ class SKILLORPipeline:
                 )
                 
                 # Pad video if slightly too short
-                target_min = float(os.environ.get("TARGET_MIN_SECONDS", "40"))
-                min_seconds = max(0.0, target_min - 5.0)
+                # FIXED 2026-08-02: default 20 (short format). The old 40s
+                # fallback conflicted with the 20-26s retention format and
+                # would pad every video up to ~35s minimum.
+                target_min = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
+                min_seconds = max(0.0, target_min - 3.0)
                 logger.info(f"Checking video duration against minimum {min_seconds:.2f}s...")
                 
                 try:
