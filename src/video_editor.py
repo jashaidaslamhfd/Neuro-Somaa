@@ -701,7 +701,21 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     ducked_music = music_clip.fl(_apply_ducking)
 
     logger.info("Mixing voice + ducked background music...")
-    final_audio = CompositeAudioClip([ducked_music, voice_audio])
+    audio_tracks = [ducked_music, voice_audio]
+
+    # 🚀 MYSTERY STINGER: Inject jump-scare stinger at the start of Scene 2 (The Payoff)
+    # The payoff starts exactly when the first audio segment ends.
+    stinger_path = os.path.join("assets", "music", "mystery_stinger.wav")
+    if os.path.exists(stinger_path) and len(audio_segments) > 1:
+        try:
+            payoff_start = audio_segments[0]["duration"]
+            stinger = AudioFileClip(stinger_path).volumex(0.8).set_start(payoff_start)
+            audio_tracks.append(stinger)
+            logger.info("Jump-scare stinger injected at %.1fs (Scene 2 Payoff)", payoff_start)
+        except Exception as exc:
+            logger.warning("Could not inject stinger: %s", exc)
+
+    final_audio = CompositeAudioClip(audio_tracks)
     final_video = final_video.set_audio(final_audio)
 
     # ---- Strict Shorts duration gate ----
