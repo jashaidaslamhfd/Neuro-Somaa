@@ -435,12 +435,51 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
         logger.info("Kokoro fallback SUCCESS")
         return audio, sr, "kokoro"
     except Exception as kokoro_err:
-        # ---- STEP 3: Both engines failed — NO SILENCE, raise hard error ----
-        error_msg = (
-            f"VOICE GENERATION FAILED — both engines exhausted for this segment. "
+        # ---- STEP 2.5: edge-tts cloud fallback (added 2026-08-02 audit) ----
+        # Previously a Chatterbox+Kokoro double failure raised a HARD error and
+        # killed the whole video even though edge-tts (a free, reliable
+        # Microsoft endpoint already in requirements) was sitting unused.
+        try:
+            import edge_tts as _edge
+            import asyncio as _asyncio
+
+            async def _collect():
+                chunks = []
+                c = _edge.Communicate(narration_text, "fr-FR-HenriNeural",
+                                      rate="-5%")
+                async for chunk in c.stream():
+                    if chunk["type"] == "audio":
+                        chunks.append(chunk["data"])
+                return b"".join(chunks)
+
+            mp3_bytes = _asyncio.run(_collect())
+            if len(mp3_bytes) < 4000:
+                raise RuntimeError("edge-tts returned empty audio")
+
+            # decode mp3 -> wav via ffmpeg-free path: moviepy's AudioFileClip
+            # can read mp3 directly, but we need raw numpy for the pipeline.
+            # Simplest reliable path: write mp3, use ffmpeg (system dep).
+            import subprocess, tempfile
+            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
+                fh.write(mp3_bytes)
+                mp3_path = fh.name
+            wav_path = mp3_path + ".wav"
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
+                 "-acodec", "pcm_s16le", wav_path],
+                check=True, capture_output=True)
+            import soundfile as _sf
+            audio, sr = _sf.read(wav_path)
+            logger.info("edge-tts fallback SUCCESS (fr-FR-HenriNeural)")
+            return audio, sr, "edge_fr"
+        except Exception as edge_err:
+            # ---- STEP 3: Both engines failed — NO SILENCE, raise hard error ----
+            error_msg = (
+            f"VOICE GENERATION FAILED — all engines exhausted for this segment. "
             f"Chatterbox errors ({CHATTERBOX_MAX_RETRIES} attempts): "
             f"[{' | '.join(chatterbox_errors)}]. "
             f"Kokoro error: [{kokoro_err}]. "
+            f"edge-tts error: [{edge_err}]. "
             f"Pipeline CANNOT continue without voiceover."
         )
         logger.error(error_msg)

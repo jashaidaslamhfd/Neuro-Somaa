@@ -4,6 +4,7 @@ import os
 import random
 import re
 
+import compat  # patch PIL Image.ANTIALIAS before moviepy import
 import numpy as np
 import soundfile as sf
 from PIL import Image, ImageDraw, ImageFont
