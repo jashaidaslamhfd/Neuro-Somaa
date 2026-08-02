@@ -194,8 +194,16 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
     warnings: list[str] = []
 
     scenes = script_data.get("scenes", []) or []
-    if not (8 <= len(scenes) <= 12):
-        issues.append(f"Scene count should be 8-12 for Shorts; got {len(scenes)}")
+    # FIXED 2026-08-02: the channel moved to the SHORT format (20-26s,
+    # 6 scenes x 7-10 words) after the 40-55s format measured 27-38% AVP.
+    # Accept BOTH: short format 4-8 scenes OR legacy long format 8-12.
+    n = len(scenes)
+    if not (4 <= n <= 12):
+        issues.append(f"Scene count should be 4-12 for Shorts; got {n}")
+    elif n > 8:
+        # legacy long format is still allowed to pass the gate (already live
+        # videos), but warn so it isn't silently re-produced.
+        warnings.append(f"Scene count {n} = legacy long format (short format is 4-8)")
 
     # Spoken French must never contain cut sentences - viewers hear these
     # instantly (retention and channel-trust killers).
@@ -204,8 +212,9 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
     for i, scene in enumerate(scenes, start=1):
         caption = scene.get("caption", "") if isinstance(scene, dict) else ""
         wc = len(caption.split())
-        if wc < 8 or wc > 24:
-            warnings.append(f"Scene {i} caption has {wc} words; target 12-20")
+        # Short format: 6-12 words/scene. Long format: 12-24.
+        if wc < 6 or wc > 24:
+            warnings.append(f"Scene {i} caption has {wc} words; target 7-16 (short) / 12-20 (long)")
 
     title = script_data.get("title", "") or ""
     if len(title) > 70:

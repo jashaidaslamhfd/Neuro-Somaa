@@ -140,17 +140,18 @@ RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
     # Duration comes from the active experiment arm, not a hardcoded range —
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
-    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "40")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "55")))
+    # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "20")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "26")))
     return f"""
 Crée un YouTube Short original de {target_min} à {target_max} secondes sur ce sujet :
 SUJET : {topic}
 {series_rules}
 
-Utilise EXACTEMENT huit scènes et retourne le schéma JSON ci-dessous.
+Utilise EXACTEMENT {MAX_SCENES} scènes et retourne le schéma JSON ci-dessous.
 
-ARC NARRATIF (LA RÉPONSE DÈS LA SCÈNE 2 — les analytics montrent que le
-spectateur part à 10 s si la réponse tarde) :
+ARC NARRATIF COMPACT ({MAX_SCENES} scènes — LA RÉPONSE DÈS LA SCÈNE 2, les
+analytics montrent que le spectateur part à ~10 s si la réponse tarde) :
 1. ACCROCHE — scène 1 (0–3 s) ; RUPTURE DE PATTERN à la deuxième personne
    (« tu/vous/votre corps ») : nomme LE phénomène précis du sujet puis le
    détail inattendu qui crée une boucle ouverte. BON : « Pourquoi ta voix
@@ -159,18 +160,15 @@ spectateur part à 10 s si la réponse tarde) :
    vidéo à l'autre (« Vous avez déjà ressenti cela ? », « Ça vous arrive
    aussi ? ») ou phrases plates — chaque accroche est UNIQUE et cite le
    phénomène exact.
-2. RÉPONSE FLASH — scène 2 (3–8 s) ; LE MÉCANISME CENTRAL EN UNE PHRASE qui
+2. RÉPONSE FLASH — scène 2 ; LE MÉCANISME CENTRAL EN UNE PHRASE qui
    commence par « C'est… », « Ton cerveau… » ou « Ton corps… ». Le
    spectateur est récompensé immédiatement — et une nouvelle boucle
    s'ouvre (« mais comment ? »). Jamais de préparation ici.
 3. MÉCANISME — scènes 3–5 ; comment ça marche, étape par étape, concret et
    oral. La scène 5 commence par une micro-relance : « Le plus étrange ? »,
    « Encore plus fort : » ou « Et surtout : ».
-4. IDÉE REÇUE — scène 6 ; démonte l'explication fausse que tout le monde
-   croit vraie.
-5. À RETENIR — scène 7 ; conclusion pratique et prudente, sans diagnostiquer.
-6. BOUCLE — scène 8 ; retour satisfaisant à l'accroche, sans la répéter mot
-   à mot, pour relancer un nouveau visionnage.
+4. BOUCLE — scène {MAX_SCENES} ; retour satisfaisant à l'accroche, sans la
+   répéter mot à mot, pour relancer un nouveau visionnage.
 
 RÈGLES DE FORMAT :
 - Total des légendes parlées : {MIN_WORDS}–{MAX_WORDS} mots français.
