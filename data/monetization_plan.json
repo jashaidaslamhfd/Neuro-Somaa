@@ -1,0 +1,83 @@
+{
+  "generated_at": "2026-08-02T16:30:35.777688+00:00",
+  "target_date": "2026-08-30T00:00:00+00:00",
+  "days_left": 27,
+  "channel": {
+    "subs": 76,
+    "total_views": 27259,
+    "videos": 40,
+    "watch_hours_12mo": 41.4
+  },
+  "tiers": [
+    {
+      "tier": "ypp_full",
+      "label": "Full YPP (ad revenue)",
+      "subs_needed": 924,
+      "subs_per_day": 34.2,
+      "views_needed_90d": 9972741,
+      "views_per_day": 369361,
+      "reachable_by_aug30_subs": false
+    },
+    {
+      "tier": "ypp_tier1",
+      "label": "Tier-1 (fan funding)",
+      "subs_needed": 424,
+      "subs_per_day": 15.7,
+      "views_needed_90d": 2972741,
+      "views_per_day": 110102,
+      "reachable_by_aug30_subs": true
+    }
+  ],
+  "obstacles": [
+    {
+      "status": "manual",
+      "item": "AdSense account linked",
+      "detail": "YouTube Studio → Earn → AdSense"
+    },
+    {
+      "status": "manual",
+      "item": "2-step verification ON",
+      "detail": "required for YPP application"
+    },
+    {
+      "status": "manual",
+      "item": "No active Community Guidelines strikes",
+      "detail": "YouTube Studio → Channel health"
+    },
+    {
+      "status": "manual",
+      "item": "Country eligible for YPP",
+      "detail": "Pakistan accounts CAN monetize"
+    },
+    {
+      "status": "ok",
+      "item": "Music licensing safe",
+      "detail": "unverified third-party tracks deleted; only original own_* beds"
+    },
+    {
+      "status": "ok",
+      "item": "No duplicate titles",
+      "detail": "title sweep applied 2026-08-02"
+    },
+    {
+      "status": "ok",
+      "item": "Synthetic-media disclosure ON",
+      "detail": "YT_DECLARE_SYNTHETIC_MEDIA=true"
+    },
+    {
+      "status": "ok",
+      "item": "Made-for-kids correctly false",
+      "detail": "science content"
+    },
+    {
+      "status": "ok",
+      "item": "Channel country = FR",
+      "detail": "matches French audience"
+    },
+    {
+      "status": "ok",
+      "item": "Educational disclaimer in descriptions",
+      "detail": "medical disclaimer in every description"
+    }
+  ]
+}
