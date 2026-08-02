@@ -139,6 +139,11 @@ _REPAIR_PRIORS = _load_repo_repair_priors()
 # (e.g. two live videos on the same phenomenon — the duplicate-guard would
 # otherwise demote the broken-title one to a generic fallback). These are
 # human-reviewed, natural French titles that DIFFER from the sibling video.
+#
+# Verified 2026-08-02 against the LIVE channel (42 videos): several phenomena
+# were uploaded twice with identical titles. The LOWER-view sibling gets the
+# override so the audience favourite keeps its title and the twin gets a
+# distinct natural angle.
 _MANUAL_TITLE_OVERRIDES = {
     # broken 'remarque entendre' title, while -4pgrbC9uaQ already holds the
     # clean 'Pourquoi on entend son cœur battre la nuit ?' — differentiate
@@ -148,6 +153,24 @@ _MANUAL_TITLE_OVERRIDES = {
     # curiosity angle instead of the same question title.
     "WxOEXbepJ40": "Pourquoi le ventre se serre quand on a peur ?",
     "DocJNQZiwQQ": "Pourquoi le ventre se serre avant un moment important ?",
+    # live duplicate: 'Pourquoi le corps sursaute en s'endormant ?'
+    # (XECgrg709Og 1031v vs lk2es6al_JA 1569v — lk2es keeps the title)
+    "XECgrg709Og": "Pourquoi le corps sursaute au moment de s'endormir ?",
+    # live duplicate: 'Pourquoi un muscle tressaille tout seul ?'
+    # (KMXIpcpoDX4 1168v vs DMVQvMsl-zE 1579v — DMVQv keeps)
+    "KMXIpcpoDX4": "Pourquoi un muscle tressaille sans prévenir ?",
+    # live duplicate: 'Pourquoi un nœud au ventre apparaît ?'
+    # (n1TgqGp2PQ0 1007v vs T755Q7yX-DA 888v — n1Tgq keeps)
+    "T755Q7yX-DA": "Pourquoi un nœud au ventre apparaît avant un moment important ?",
+    # live duplicate: 'Pourquoi la chair de poule apparaît soudainement ?'
+    # (XLIFrONS2rc 1205v vs HJb7xCMIYWQ 707v — XLIFr keeps)
+    "HJb7xCMIYWQ": "Pourquoi la chair de poule apparaît d'un coup ?",
+    # live duplicate: 'Pourquoi le temps semble passer plus vite en vieillissant ?'
+    # (x15ltzEHaB8 868v vs diImyvMyKig 675v — x15 keeps)
+    "diImyvMyKig": "Pourquoi le temps semble accélérer en vieillissant ?",
+    # live duplicate: 'Pourquoi le cerveau réclame du sommeil profond ?'
+    # (ZXNvo9birZM 765v vs uUTyRmWUXn8 204v — ZXNvo keeps)
+    "uUTyRmWUXn8": "Pourquoi le cerveau réclame tant de sommeil ?",
 }
 
 
@@ -174,12 +197,11 @@ def _optimize_title(current: str, topic: str, history_titles: list,
             return prior
     if ok_cur and current.strip().rstrip().endswith("?") and len(current) >= 25:
         return current.strip()
-    cand = _title_from_topic(topic or current)
-    # avoid duplicates within the channel: if the rebuilt title already exists
-    # (or equals another video's NEW title), differentiate it with a qualifier
-    if cand.strip().lower() in [t.strip().lower() for t in history_titles]:
-        cand = _title_from_topic(f"{topic} de votre corps")
-    return cand
+    # rebuild from topic with the leak-gate — NO history dedup here; real
+    # collisions are resolved in main() with a two-pass sweep (a title is
+    # not a duplicate of ITSELF, which the old history check got wrong and
+    # turned clean titles into "...de votre corps ?" garbage).
+    return _title_from_topic(topic or current)
 
 
 # ── French description template ──
@@ -319,25 +341,42 @@ def main() -> int:
     if args.apply:
         yt_update = yt.videos()
 
-    # live duplicate-guard: track titles as we assign them so two videos can
-    # never end up with the same title after this sweep (YouTube demotes
-    # near-identical titles, and the channel already burned duplicate-title
-    # episodes in July).
-    used_titles = {t.strip().lower() for t in history_titles}
+    # ── TWO-PASS TITLE DEDUP ──
+    # Pass 1: build the proposed title for EVERY video with no history-based
+    # dedup (a title is not a duplicate of itself — the old single-pass code
+    # checked the video's OWN title against the history set, which turned
+    # clean titles into "...de votre corps ?" and threw away good titles
+    # into "fait ce signe N ?" garbage).
+    for v in videos:
+        v["_new_title"] = _optimize_title(
+            v["title"], v["title"], history_titles,
+            video_id=v["id"], views=v["views"])
 
-    for i, v in enumerate(videos):
-        topic = v["title"]  # best available source of the topic phrase
-        new_title = _optimize_title(v["title"], topic, history_titles,
-                                    video_id=v["id"], views=v["views"])
-        # enforce uniqueness against titles already assigned in THIS sweep
-        k = new_title.strip().lower()
-        if k in used_titles:
-            alt = _title_from_topic(f"{topic} de votre corps")
-            if alt.strip().lower() not in used_titles:
-                new_title = alt
+    # Pass 2: only REAL collisions — the same proposed title landing on TWO
+    # DIFFERENT video IDs — are resolved. The higher-view video keeps its
+    # title; the sibling gets a manual override (human-reviewed, distinct
+    # natural French angle) or, if none exists, a topic-rebuild that differs.
+    from collections import defaultdict
+    by_title = defaultdict(list)
+    for v in videos:
+        by_title[v["_new_title"].strip().lower()].append(v)
+    for group in by_title.values():
+        if len(group) < 2:
+            continue
+        group.sort(key=lambda x: -(x.get("views") or 0))
+        for v in group[1:]:
+            ov = _MANUAL_TITLE_OVERRIDES.get(v["id"])
+            if ov:
+                v["_new_title"] = ov
             else:
-                new_title = _title_from_topic(f"Pourquoi votre corps fait ce signe {i}")
-        used_titles.add(new_title.strip().lower())
+                alt = _title_from_topic(f"{v['title']} en détail")
+                v["_new_title"] = alt
+                log.warning("No manual override for duplicate %s -> %r",
+                            v["id"], alt)
+
+    for v in videos:
+        new_title = v["_new_title"]
+        topic = v["title"]
         new_desc = _optimize_description(new_title, v["description"])
         new_tags = _optimize_tags(v["tags"], new_title, topic)
         changed = (new_title != v["title"] or new_desc != v["description"]
