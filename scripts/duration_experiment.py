@@ -42,12 +42,14 @@ STATE = ROOT / "data" / "duration_experiment.json"
 HISTORY = ROOT / "data" / "video_history.json"
 CURVES = ROOT / "data" / "swipe_curves.json"
 
-# Bras courts vs longs. Le bras "long" reproduit le format actuel (témoin) ;
-# le bras "court" descend juste sous la plage observée pour tester la
-# direction, sans sauter à 20s où l'on n'a aucune donnée.
+# FIXED 2026-08-02: the 40-48s "control" arm measured 27-38% AVP (channel
+# average 32.8%, viewers leave ~10s in) — the long format CANNOT clear the
+# ~50% feed gate, so it is removed as a production arm. Both arms now test
+# short windows inside the 20-26s band that produced the channel's only
+# healthy video (59.65% AVP on "Pourquoi le sursaut du corps en s'endormant ?").
 ARMS = {
-    "control_long": {"min": 40, "max": 48},
-    "test_short": {"min": 26, "max": 32},
+    "short_a": {"min": 18, "max": 22},
+    "short_b": {"min": 22, "max": 26},
 }
 
 

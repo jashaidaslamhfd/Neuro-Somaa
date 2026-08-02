@@ -97,13 +97,19 @@ class FranceChannelTests(unittest.TestCase):
                                     package['title_options'])
         self.assertEqual(ranked['recommended']['title'],
                          'Pourquoi la chair de poule apparaît soudainement ?')
+        # FIXED 2026-08-02: a leaky LLM title used to fall back to the bare
+        # 2-word series label ("Battements entendus") — which the channel's own
+        # audits flagged as a low-CTR label. The leak-gate now rejects BOTH the
+        # leaky title AND the bare label, so the fallback must be a clean
+        # "Pourquoi ... ?" title that contains NO leaked fragment.
         old_broken=generate_seo_package(
             'Pourquoi le cerveau remarque entendre son cœur battre la nuit',
             {'series_title':'Battements entendus','title':'Battements entendus',
              'hook':'On entend son cœur la nuit',
              'description':'Le calme laisse mieux entendre le corps.',
              'cta':'Abonnez-vous.'})
-        self.assertEqual(old_broken['chosen_title'],'Battements entendus')
+        self.assertNotIn("remarque entendre", old_broken['chosen_title'].lower())
+        self.assertTrue(old_broken['chosen_title'].strip().endswith("?"))
         # Truncator by itself must never leave a dangling connector at the end.
         for sample in ('Ce qu\u2019il faut comprendre sur le visage qui rougit par gêne',
                        'Pourquoi le cerveau remarque entendre son cœur battre la nuit'):

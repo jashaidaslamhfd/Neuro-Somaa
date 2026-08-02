@@ -1,0 +1,62 @@
+name: "Auto-Apply Verified Metadata Repairs (daily)"
+
+# FIXED 2026-08-02: broken titles used to publish and only get REPAIRED when
+# someone manually runs the repair workflow with apply=true — which nobody did,
+# leaving 17+ defective titles live and killing CTR for days. This workflow
+# auto-applies ONLY fixes that pass the repo's own safety gates
+# (metadata_repair verifies each proposed title against the live video via
+# oEmbed before writing, and rejects leaks/labels/dangling clauses), so the
+# daily loop closes on its own.
+
+on:
+  schedule:
+    - cron: "0 8 * * *"   # after the 07:43 analytics/self-maintenance pass
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: skillor-metadata-repair
+  cancel-in-progress: false
+
+jobs:
+  auto-repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Apply verified metadata repairs
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          python scripts/metadata_repair.py --apply --limit 10 \
+            | tee output/auto_repair_output.log
+      - name: Commit repair journal back
+        if: always()
+        run: |
+          git config user.name "skillor-bot"
+          git config user.email "skillor-bot@users.noreply.github.com"
+          git add data/ output/auto_repair_output.log 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "chore: auto-repair journal [skip ci]" && git push origin "HEAD:${GITHUB_REF_NAME}")
+        continue-on-error: true
+      - name: Upload repair report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auto-repair-${{ github.run_id }}
+          path: output/auto_repair_output.log
+          if-no-files-found: ignore

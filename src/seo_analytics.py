@@ -356,11 +356,61 @@ def get_historical_insights(min_sample: int = 3) -> dict:
 # of raising, so a missing scope never crashes the pipeline.
 # ---------------------------------------------------------------------------
 
+def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
+    """Data API v3 fallback: views/likes/comments via videos.list(statistics).
+
+    The youtubeAnalytics v2 API needs the `yt-analytics.readonly` scope on the
+    REFRESH_TOKEN. If that scope was never granted (a very common cause of
+    silently-dead analytics — the upload token only needs youtube.upload +
+    youtube.force-ssl), we fall back here: `videos.list(part=statistics)` works
+    with the SAME upload token and returns lifetime views/likes/comments.
+    Retention/CTR are unavailable on this path, but VIEWS coming back alone
+    un-blinds the growth loop (bandit, repair thresholds, dashboards).
+
+    Returns {'views': int, 'likes': int, 'comments': int, 'via': 'statistics'}
+    or {'error': ...}.
+    """
+    try:
+        import google.oauth2.credentials
+        from googleapiclient.discovery import build as _build
+
+        client_id = os.environ.get("GOOGLE_CLIENT_ID")
+        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
+        refresh_token = os.environ.get("REFRESH_TOKEN")
+        if not (client_id and client_secret and refresh_token):
+            return {"error": "Missing Google credentials for statistics fallback"}
+        creds = google.oauth2.credentials.Credentials(
+            token=None, refresh_token=refresh_token,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id, client_secret=client_secret,
+        )
+        yt = _build("youtube", "v3", credentials=creds)
+        resp = yt.videos().list(
+            part="statistics", id=youtube_video_id).execute()
+        items = resp.get("items") or []
+        if not items:
+            return {"error": f"video {youtube_video_id} not found via Data API"}
+        stats = items[0].get("statistics", {})
+        return {
+            "views": int(stats.get("viewCount", 0)),
+            "likes": int(stats.get("likeCount", 0)),
+            "comments": int(stats.get("commentCount", 0)),
+            "via": "statistics",
+        }
+    except Exception as exc:  # noqa: BLE001 - fallback must never crash the sync
+        return {"error": f"statistics fallback failed: {str(exc)[:200]}"}
+
+
 def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict:
     """Pulls real lifetime-to-date performance for one video: views,
     averageViewDuration (seconds), averageViewPercentage (retention %),
     impressions, and impressionsClickThroughRate (real CTR - the actual
-    metric predict_ctr() above can only estimate)."""
+    metric predict_ctr() above can only estimate).
+
+    If the Analytics API is unreachable (missing yt-analytics.readonly scope,
+    expired creds, quota), falls back to videos.list(statistics) so at least
+    views/likes/comments keep flowing — a channel must never go blind just
+    because one optional scope is missing."""
     import datetime as _dt
 
     import google.oauth2.credentials
@@ -434,10 +484,17 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
                 continue
             logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
             if status in (401, 403):
-                return {"error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN"}
+                # scope missing/expired -> fall back to Data API statistics
+                fb = _fetch_statistics_fallback(youtube_video_id)
+                if "error" not in fb:
+                    return fb
+                return {"error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN (fallback also failed: {fb['error']})"}
             return {"error": f"HttpError {status}: {raw[:200]}"}
         except Exception as e:
             logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
+            fb = _fetch_statistics_fallback(youtube_video_id)
+            if "error" not in fb:
+                return fb
             return {"error": str(e)}
 
     if resp is None:
@@ -522,15 +579,22 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
             logger.info(f"{vid}: {metrics.get('error') or metrics.get('note')}")
             continue
 
-        entry["views"] = metrics["views"]
-        entry["actual_ctr"] = metrics["actual_ctr"]
-        entry["average_view_duration_sec"] = metrics["average_view_duration_sec"]
-        entry["average_view_percentage"] = metrics["average_view_percentage"]
-        entry["analytics_fetched_at"] = metrics["fetched_at"]
+        entry["views"] = metrics.get("views")
+        entry["actual_ctr"] = metrics.get("actual_ctr")
+        entry["average_view_duration_sec"] = metrics.get("average_view_duration_sec")
+        entry["average_view_percentage"] = metrics.get("average_view_percentage")
+        if metrics.get("likes") is not None:
+            entry["likes"] = metrics["likes"]
+        if metrics.get("comments") is not None:
+            entry["comments"] = metrics["comments"]
+        entry["analytics_fetched_at"] = metrics.get("fetched_at") or (
+            _dt.datetime.now(_dt.UTC).isoformat())
+        entry["analytics_via"] = metrics.get("via", "analytics")
         updated += 1
         logger.info(
-            f"Updated real metrics for {vid}: views={metrics['views']}, "
-            f"CTR={metrics['actual_ctr']}, avg_view_pct={metrics['average_view_percentage']}"
+            f"Updated real metrics for {vid} (via {metrics.get('via','analytics')}): "
+            f"views={metrics.get('views')}, "
+            f"CTR={metrics.get('actual_ctr')}, avg_view_pct={metrics.get('average_view_percentage')}"
         )
 
     if updated:

@@ -27,10 +27,13 @@ logger = logging.getLogger(__name__)
 # ============================================
 # CONSTANTS
 # ============================================
-# One unified policy for a 40–55 second Body Glitch Short. Eight scenes give
-# enough room for a complete, accurate explanation without rushed claims.
-MIN_SCENES = 8
-MAX_SCENES = 8
+# One unified policy for a 20–26 second Body Glitch Short (FIXED 2026-08-02:
+# the 40-55s format measured 27-38% average-view-percentage on this channel —
+# viewers leave around ~10s, so the long format guarantees sub-50% retention
+# and the feed demotes it. Six fast scenes give a complete explanation with a
+# ~2.5-3s per-scene pace, the format that scored 59.65% retention here).
+MIN_SCENES = 6
+MAX_SCENES = 6
 # 96 words at the cloned-voice pace reliably reaches ~40 seconds while
 # leaving normal language room; forcing 104+ made the LLM pad or fail scenes.
 def _duration_word_budget() -> tuple:
@@ -47,12 +50,15 @@ def _duration_word_budget() -> tuple:
     """
     import os as _os
     words_per_second = 2.6
-    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "40"))
-    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "55"))
+    # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
+    # The old floor of max(40, ...) forced >=40 words (~15s narration) even
+    # when a short arm was requested, silently breaking the whole experiment.
+    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "20"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "26"))
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
-    low = max(40, int(target_min * words_per_second * 0.80))
-    high = max(low + 12, int(target_max * words_per_second * 0.92))
+    low = max(24, int(target_min * words_per_second * 0.85))
+    high = max(low + 8, int(target_max * words_per_second * 0.92))
     return low, high
 
 
@@ -65,8 +71,10 @@ MAX_TOKENS = 1400
 # A fast, clear opening that comfortably fits in the first 2–3 seconds.
 HOOK_MIN_WORDS = 5
 HOOK_MAX_WORDS = 9
-MIN_SCENE_WORDS = 11
-MAX_SCENE_WORDS = 16
+# Short-format scene budget (FIXED 2026-08-02): 6 scenes x 7-10 words ≈
+# 42-60 words ≈ 16-23s narration — the 20-26s target window.
+MIN_SCENE_WORDS = 7
+MAX_SCENE_WORDS = 10
 
 # Interchangeable openers that name no phenomenon. Every one of these was
 # measured on the live channel: the 11 videos starting this way average 11s
@@ -166,7 +174,7 @@ spectateur part à 10 s si la réponse tarde) :
 
 RÈGLES DE FORMAT :
 - Total des légendes parlées : {MIN_WORDS}–{MAX_WORDS} mots français.
-- Scène 1 : {HOOK_MIN_WORDS}–{HOOK_MAX_WORDS} mots. Scènes 2–8 : {MIN_SCENE_WORDS}–{MAX_SCENE_WORDS} mots chacune.
+- Scène 1 : {HOOK_MIN_WORDS}–{HOOK_MAX_WORDS} mots. Scènes 2–{MAX_SCENES} : {MIN_SCENE_WORDS}–{MAX_SCENE_WORDS} mots chacune.
 - `hook` doit correspondre exactement à la légende de la scène 1.
 - Visuel scène 1 : GROS PLAN humain concret (bouche devant un miroir, main sur
   la poitrine, yeux qui s'ouvrent au réveil) — un visage/proche arrête le

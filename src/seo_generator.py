@@ -1,9 +1,12 @@
 """SEO français, pensé pour la découverte sur YouTube France et la francophonie."""
 import hashlib
 import json
+import logging
 import os
 import random
 import re
+
+logger = logging.getLogger(__name__)
 
 TITLE_MAX_LEN = 60          # Shorts feed truncates ~60-70 chars; keep it fully visible
 TITLE_MAX_WORDS = 11        # room for a real curiosity/keyword phrase, not just a label
@@ -566,6 +569,87 @@ def _competitor_title_options(topic: str, script_data: dict, intel: dict) -> lis
     return list(dict.fromkeys(out))[:4]
 
 
+_LEAK_TOKENS = (
+    # description-copy bleed (mirrors metadata_repair._carries_description_text)
+    # NOTE: " on e " from the 1XVYcxQqDqo incident is NOT a standalone token —
+    # it matched "on entend"/"on est" and false-rejected good titles. The real
+    # leak was "Dans ce Short on e ?", which "dans ce short" already catches.
+    "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
+    "description", "```", "http", "www.",
+    # LLM template fragments that reached live titles (2026-07 audits)
+    "remarque entendre", "remarque ", "peut sembler ", "peut s",
+    "semble soudain", "il faut savoir que", "on va voir",
+)
+# subordinate-clause openers: a title ending on one is incomplete
+_SUBORDINATE_ENDINGS = {"quand", "lorsque", "lorsqu", "si", "que", "qui",
+                        "qu'", "parce", "car", "dès", "avant", "après"}
+
+
+def _title_is_clean(title: str) -> tuple[bool, str]:
+    """Prevention gate (FIXED 2026-08-02): reject a FINAL title that carries
+    leaked template fragments, description copy, dangling subordinate clauses,
+    or is a bare 1-2 word label. Broken titles used to publish and only get
+    caught by the repair layer days later — costing CTR the whole time.
+
+    Returns (clean, reason)."""
+    low = (title or "").strip().lower()
+    if not low:
+        return False, "empty title"
+    for token in _LEAK_TOKENS:
+        if token in low:
+            return False, f"leaked fragment '{token.strip()}'"
+    words = [w for w in low.split()]
+    if len(words) < 3:
+        return False, f"bare label ({len(words)} words)"
+    # the '?' may be its own token ("...tout seul ?"); resolve to the last real word
+    last = words[-1].rstrip("?!.")
+    if last == "" and len(words) >= 2:
+        last = words[-2].rstrip("?!.")
+    # A COMPLETE question ending with '?' legitimately ends on its verb
+    # ("Pourquoi le hoquet commence ?" — 'commence' is the verb, not a dangling
+    # fragment). The dangling-word check exists for truncated STATEMENTS, so it
+    # only applies to titles that do NOT end with a question mark.
+    is_question = low.rstrip().endswith("?")
+    if not is_question and (last in _DANGLING_ENDINGS
+                            or last in _SUBORDINATE_ENDINGS or last == ""):
+        return False, f"ends on dangling word '{last}'"
+    # a question title must end with '?' — an LLM 'pourquoi...' sentence that
+    # got cut before the question mark is a leak signal
+    if low.startswith("pourquoi") and not low.rstrip().endswith("?"):
+        return False, "pourquoi-title without closing '?'"
+    return True, "ok"
+
+
+def _scrub_leaks(text: str) -> str:
+    """Remove known LLM leak fragments from a topic/title so a fallback title
+    can never ship the same defect the leak-gate is meant to block."""
+    out = text or ""
+    for token in ("remarque entendre", "peut sembler", "semble soudain",
+                  "remarque", "peut s"):
+        out = re.sub(re.escape(token), " ", out, flags=re.IGNORECASE)
+    return re.sub(r"\s+", " ", out).strip(" .?")
+
+
+def _clean_title_fallback(topic: str, series_title: str, question_phrase: str = "") -> str:
+    """Deterministic clean title when every candidate fails the leak gate.
+
+    Tries, in order: the catalogue's grammatical question → a leak-scrubbed
+    truncation of the topic → a remodelled 'Pourquoi {phénomène} ?' → the
+    series title. Every candidate must pass the leak-gate itself."""
+    q = _question_title_from_phrase(question_phrase)
+    if q and _title_is_clean(q)[0]:
+        return q
+    scrubbed = _scrub_leaks(topic or "")
+    base = _truncate_title(scrubbed or series_title)
+    if _title_is_clean(base)[0]:
+        return base
+    # last resort: Pourquoi {bare phenomenon} ?
+    bare = _bare_phenomenon(scrubbed or "")
+    if bare and len(bare.split()) >= 2:
+        return _truncate_title(f"Pourquoi {bare} ?")
+    return _truncate_title(series_title or "La science du quotidien")
+
+
 def generate_seo_package(topic: str, script_data: dict) -> dict:
     series_title = script_data.get("series_title") or script_data.get("title") or ""
     category = _category(topic)
@@ -584,11 +668,20 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
             if _not_exact_competitor_title(title, competitor_intel)
         ]
     title_options = _rank_title_options(combined_title_options, title_bandit)[:5]
+    # FIXED 2026-08-02: leak-gate every candidate BEFORE it can be chosen.
+    # Broken titles ("remarque entendre...", "peut s...", bare labels) used to
+    # win the A/B ranking and publish — caught only days later by the repair
+    # layer. A title that fails the gate is dropped; if none survive, a clean
+    # deterministic title is built from the topic instead.
+    title_options = [t for t in title_options if _title_is_clean(t)[0]]
     if title_options:
         chosen_title = title_options[0]
     else:
         fallback_title = _truncate_title(series_title or topic)
         chosen_title = fallback_title if _not_exact_competitor_title(fallback_title, competitor_intel) else "Science du quotidien"
+    if not _title_is_clean(chosen_title)[0]:
+        chosen_title = _clean_title_fallback(topic, series_title, question_phrase)
+        logger.warning("SEO title failed leak-gate -> deterministic fallback: %r", chosen_title)
 
     hook = script_data.get("hook", "").strip()
     desc = script_data.get("description", "").strip()

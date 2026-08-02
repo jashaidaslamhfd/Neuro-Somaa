@@ -8,16 +8,17 @@ on:
         required: false
         type: string
   schedule:
-    # 3 videos/day for a French audience, auto-published at DATA-PROVEN Paris
-    # peaks (12:30 lunch / 19:30 prime / 21:00 soirée — 2026-07-26 analysis of
-    # all 23 videos: 19:00-22:00 = 66% of views, 12:30 winner got 1,251).
+    # FIXED 2026-08-02: 3x/day → 2x/day.
+    # Reason: 3 Shorts/day from the same niche reads as repetitive/inauthentic
+    # to the feed (a channel-level demotion signal), and the channel's own
+    # data showed the lunch + prime peaks carry the views (19:00-22:00 = 66%).
+    # Quality > quantity until retention clears the gate.
     # Each cron starts generation ~2h before its slot, so the upload lands
     # with a safe >=55min lead (publishAt needs >=15min). If a run slips past
     # its slot, the one-video-per-slot lock moves it to the NEXT free slot —
     # two videos can never publish at the same minute.
     - cron: "30 8 * * *"    # generation ~10:30 Paris -> publish 12:30 (lunch peak)
     - cron: "30 15 * * *"   # generation ~17:30 Paris -> publish 19:30 (prime — biggest avg)
-    - cron: "0 17 * * *"    # generation ~19:00 Paris -> publish 21:00 (soirée)
 
 permissions:
   contents: write
@@ -161,11 +162,12 @@ jobs:
           # ---- Anti-spam (also dedupes the DST twin crons) ----
           ENFORCE_POSTING_GAP: "true"
           # ---- Quality gates ----
-          # Set by the "Assign duration experiment arm" step above; these are
-          # only the fallback if that step ever fails to run.
-          TARGET_MIN_SECONDS: ${{ env.TARGET_MIN_SECONDS || '40' }}
-          TARGET_MAX_SECONDS: ${{ env.TARGET_MAX_SECONDS || '55' }}
-          EXPERIMENT_ARM: ${{ env.EXPERIMENT_ARM || 'control_long' }}
+          # FIXED 2026-08-02: short-format defaults (20-26s). The long format
+          # measured 27-38% AVP — below the feed gate — so production now
+          # defaults short even if the experiment-assign step ever fails.
+          TARGET_MIN_SECONDS: ${{ env.TARGET_MIN_SECONDS || '20' }}
+          TARGET_MAX_SECONDS: ${{ env.TARGET_MAX_SECONDS || '26' }}
+          EXPERIMENT_ARM: ${{ env.EXPERIMENT_ARM || 'short_b' }}
           CHATTERBOX_TEMPO: "0.96"
           CHATTERBOX_EXAGGERATION: "0.35"
           CHATTERBOX_CFG_WEIGHT: "0.70"
