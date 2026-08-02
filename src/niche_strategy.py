@@ -664,6 +664,13 @@ def get_random_topic(exclude: list[str] | None = None) -> str:
 
     trend_candidates = [t for t in trending if t.strip().lower() not in exclude_set]
 
+    # 🚀 BRAIN UPGRADE: Apply learned weights to candidates
+    try:
+        from autonomous_brain import apply_learned_weights_to_topics
+        trend_candidates = apply_learned_weights_to_topics(trend_candidates)
+    except Exception:
+        pass
+
     if trend_candidates and random.random() < 0.6:
         chosen = random.choice(trend_candidates)
         logger.info(f"Selected trending topic: {chosen}")
