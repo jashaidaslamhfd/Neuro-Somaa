@@ -75,6 +75,10 @@
     {
       "video_id": "FX6vqwymE0Y",
       "arm": "control_long"
+    },
+    {
+      "video_id": "yj_LbgNw39k",
+      "arm": "test_short"
     }
   ]
 }
