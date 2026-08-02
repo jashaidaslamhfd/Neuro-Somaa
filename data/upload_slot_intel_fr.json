@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-01T07:41:01.584360+00:00",
+  "generated_at_utc": "2026-08-02T07:43:29.465029+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,7 +10,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.2691,
+      "score": 3.306,
       "samples": 1,
       "prior": 0.0
     },
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.4643,
-      "samples": 3,
-      "prior": 3.4243
+      "score": 3.4723,
+      "samples": 4,
+      "prior": 3.4796
     },
     {
       "rank": 3,
@@ -30,8 +30,8 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.2371,
-      "samples": 1,
+      "score": 3.348,
+      "samples": 2,
       "prior": 0.0
     }
   ],
@@ -40,10 +40,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.4643,
-      "observed_samples": 3,
-      "observed_avg": 3.5177,
-      "prior": 3.4243,
+      "score": 3.4723,
+      "observed_samples": 4,
+      "observed_avg": 3.4651,
+      "prior": 3.4796,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -54,14 +54,37 @@
         {
           "video_id": "XECgrg709Og",
           "title": "Pourquoi le sursaut du corps en s'endormant ?",
-          "views": 954,
+          "views": 1044,
           "published_paris": "2026-07-27 19:30"
         },
         {
           "video_id": "ZXNvo9birZM",
           "title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
-          "views": 765,
+          "views": 767,
           "published_paris": "2026-07-28 19:30"
+        }
+      ]
+    },
+    {
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "score": 3.348,
+      "observed_samples": 2,
+      "observed_avg": 3.4155,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "r7URDUokZh0",
+          "title": "Corps lourd",
+          "views": 1006,
+          "published_paris": "2026-07-19 21:42"
+        },
+        {
+          "video_id": "xsB78sHX6Fc",
+          "title": "Pourquoi on frissonne quand on a froid ?",
+          "views": 921,
+          "published_paris": "2026-07-30 21:30"
         }
       ]
     },
@@ -69,7 +92,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2942,
+      "score": 3.3311,
       "observed_samples": 1,
       "observed_avg": 3.5674,
       "prior": 0.0,
@@ -83,10 +106,39 @@
       ]
     },
     {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 3.3083,
+      "observed_samples": 4,
+      "observed_avg": 3.337,
+      "prior": 3.2796,
+      "examples": [
+        {
+          "video_id": "KMXIpcpoDX4",
+          "title": "Pourquoi le muscle qui tressaille tout seul ?",
+          "views": 1170,
+          "published_paris": "2026-07-29 21:00"
+        },
+        {
+          "video_id": "TbbiAMubfu8",
+          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+          "views": 987,
+          "published_paris": "2026-07-28 21:00"
+        },
+        {
+          "video_id": "x15ltzEHaB8",
+          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+          "views": 868,
+          "published_paris": "2026-07-20 20:58"
+        }
+      ]
+    },
+    {
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2701,
+      "score": 3.307,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -103,7 +155,7 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.2691,
+      "score": 3.306,
       "observed_samples": 1,
       "observed_avg": 3.4921,
       "prior": 0.0,
@@ -117,56 +169,10 @@
       ]
     },
     {
-      "slot": "21:30",
-      "hour": 21,
-      "minute": 30,
-      "score": 3.2371,
-      "observed_samples": 1,
-      "observed_avg": 3.3962,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "r7URDUokZh0",
-          "title": "Corps lourd",
-          "views": 1006,
-          "published_paris": "2026-07-19 21:42"
-        }
-      ]
-    },
-    {
-      "slot": "21:00",
-      "hour": 21,
-      "minute": 0,
-      "score": 3.201,
-      "observed_samples": 4,
-      "observed_avg": 3.1777,
-      "prior": 3.2243,
-      "examples": [
-        {
-          "video_id": "KMXIpcpoDX4",
-          "title": "Pourquoi le muscle qui tressaille tout seul ?",
-          "views": 1165,
-          "published_paris": "2026-07-29 21:00"
-        },
-        {
-          "video_id": "x15ltzEHaB8",
-          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-          "views": 868,
-          "published_paris": "2026-07-20 20:58"
-        },
-        {
-          "video_id": "mGJQX82e9IY",
-          "title": "Pourquoi le hoquet commence brusquement ?",
-          "views": 747,
-          "published_paris": "2026-07-27 21:00"
-        }
-      ]
-    },
-    {
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.1782,
+      "score": 3.2151,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -183,7 +189,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.1767,
+      "score": 3.2136,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -197,10 +203,27 @@
       ]
     },
     {
+      "slot": "15:00",
+      "hour": 15,
+      "minute": 0,
+      "score": 3.0789,
+      "observed_samples": 1,
+      "observed_avg": 2.8107,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "yxoI9-KWXzI",
+          "title": "Ce que la science explique sur l'effet du stress",
+          "views": 292,
+          "published_paris": "2026-07-23 14:47"
+        }
+      ]
+    },
+    {
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0499,
+      "score": 3.0683,
       "observed_samples": 2,
       "observed_avg": 2.9961,
       "prior": 0.0,
@@ -220,27 +243,10 @@
       ]
     },
     {
-      "slot": "15:00",
-      "hour": 15,
-      "minute": 0,
-      "score": 3.042,
-      "observed_samples": 1,
-      "observed_avg": 2.8107,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "yxoI9-KWXzI",
-          "title": "Ce que la science explique sur l'effet du stress",
-          "views": 292,
-          "published_paris": "2026-07-23 14:47"
-        }
-      ]
-    },
-    {
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0121,
+      "score": 3.049,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -257,7 +263,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 2.9903,
+      "score": 3.0272,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
