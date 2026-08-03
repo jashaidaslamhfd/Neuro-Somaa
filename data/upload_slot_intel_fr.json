@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-02T07:43:29.465029+00:00",
+  "generated_at_utc": "2026-08-03T08:47:07.609598+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,8 +10,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.306,
-      "samples": 1,
+      "score": 3.3254,
+      "samples": 2,
       "prior": 0.0
     },
     {
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.4723,
-      "samples": 4,
-      "prior": 3.4796
+      "score": 3.4724,
+      "samples": 5,
+      "prior": 3.5003
     },
     {
       "rank": 3,
@@ -30,8 +30,8 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.348,
-      "samples": 2,
+      "score": 3.4705,
+      "samples": 3,
       "prior": 0.0
     }
   ],
@@ -40,10 +40,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.4723,
-      "observed_samples": 4,
-      "observed_avg": 3.4651,
-      "prior": 3.4796,
+      "score": 3.4724,
+      "observed_samples": 5,
+      "observed_avg": 3.45,
+      "prior": 3.5003,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -54,14 +54,14 @@
         {
           "video_id": "XECgrg709Og",
           "title": "Pourquoi le sursaut du corps en s'endormant ?",
-          "views": 1044,
+          "views": 1032,
           "published_paris": "2026-07-27 19:30"
         },
         {
-          "video_id": "ZXNvo9birZM",
-          "title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
-          "views": 767,
-          "published_paris": "2026-07-28 19:30"
+          "video_id": "chwfdQe-Mt0",
+          "title": "Ce qui se passe quand le cœur s'emballe sous le stress ?",
+          "views": 772,
+          "published_paris": "2026-07-30 19:30"
         }
       ]
     },
@@ -69,11 +69,17 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.348,
-      "observed_samples": 2,
-      "observed_avg": 3.4155,
+      "score": 3.4705,
+      "observed_samples": 3,
+      "observed_avg": 3.4705,
       "prior": 0.0,
       "examples": [
+        {
+          "video_id": "8b9CONZ5ntY",
+          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
+          "views": 1246,
+          "published_paris": "2026-07-31 21:30"
+        },
         {
           "video_id": "r7URDUokZh0",
           "title": "Corps lourd",
@@ -83,7 +89,7 @@
         {
           "video_id": "xsB78sHX6Fc",
           "title": "Pourquoi on frissonne quand on a froid ?",
-          "views": 921,
+          "views": 924,
           "published_paris": "2026-07-30 21:30"
         }
       ]
@@ -92,7 +98,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.3311,
+      "score": 3.3449,
       "observed_samples": 1,
       "observed_avg": 3.5674,
       "prior": 0.0,
@@ -106,31 +112,25 @@
       ]
     },
     {
-      "slot": "21:00",
-      "hour": 21,
-      "minute": 0,
-      "score": 3.3083,
-      "observed_samples": 4,
-      "observed_avg": 3.337,
-      "prior": 3.2796,
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.3254,
+      "observed_samples": 2,
+      "observed_avg": 3.3712,
+      "prior": 0.0,
       "examples": [
         {
-          "video_id": "KMXIpcpoDX4",
-          "title": "Pourquoi le muscle qui tressaille tout seul ?",
-          "views": 1170,
-          "published_paris": "2026-07-29 21:00"
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
         },
         {
-          "video_id": "TbbiAMubfu8",
-          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
-          "views": 987,
-          "published_paris": "2026-07-28 21:00"
-        },
-        {
-          "video_id": "x15ltzEHaB8",
-          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-          "views": 868,
-          "published_paris": "2026-07-20 20:58"
+          "video_id": "8EylhDaAE_4",
+          "title": "Pourquoi le ventre gargouille sans faim ?",
+          "views": 632,
+          "published_paris": "2026-07-31 17:30"
         }
       ]
     },
@@ -138,7 +138,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.307,
+      "score": 3.3208,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -152,19 +152,31 @@
       ]
     },
     {
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "score": 3.306,
-      "observed_samples": 1,
-      "observed_avg": 3.4921,
-      "prior": 0.0,
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 3.3185,
+      "observed_samples": 4,
+      "observed_avg": 3.3366,
+      "prior": 3.3003,
       "examples": [
         {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
+          "video_id": "KMXIpcpoDX4",
+          "title": "Pourquoi le muscle qui tressaille tout seul ?",
+          "views": 1171,
+          "published_paris": "2026-07-29 21:00"
+        },
+        {
+          "video_id": "TbbiAMubfu8",
+          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+          "views": 989,
+          "published_paris": "2026-07-28 21:00"
+        },
+        {
+          "video_id": "x15ltzEHaB8",
+          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+          "views": 868,
+          "published_paris": "2026-07-20 20:58"
         }
       ]
     },
@@ -172,7 +184,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.2151,
+      "score": 3.2289,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -189,7 +201,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2136,
+      "score": 3.2274,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -206,7 +218,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0789,
+      "score": 3.0927,
       "observed_samples": 1,
       "observed_avg": 2.8107,
       "prior": 0.0,
@@ -223,15 +235,15 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0683,
+      "score": 3.0754,
       "observed_samples": 2,
-      "observed_avg": 2.9961,
+      "observed_avg": 2.9963,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "FteL-0nbHWk",
           "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
-          "views": 796,
+          "views": 797,
           "published_paris": "2026-07-20 18:29"
         },
         {
@@ -246,15 +258,15 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.049,
+      "score": 3.062,
       "observed_samples": 1,
-      "observed_avg": 2.7212,
+      "observed_avg": 2.7186,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "1XVYcxQqDqo",
           "title": "Réveil avant l'alarme",
-          "views": 154,
+          "views": 153,
           "published_paris": "2026-07-20 02:32"
         }
       ]
@@ -263,7 +275,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0272,
+      "score": 3.041,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
