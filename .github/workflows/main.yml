@@ -1,36 +1,31 @@
-name: "SKILLOR - YouTube Shorts Automation (FR)"
+name: "Neuro-Somaa - French Shorts Automation"
 
 on:
   workflow_dispatch:
     inputs:
       topic:
-        description: "Optional video topic (empty = next Body Glitch episode)"
+        description: "Topic optionnel"
         required: false
         type: string
   schedule:
-    # FIXED 2026-08-02: 3x/day → 2x/day.
-    # Reason: 3 Shorts/day from the same niche reads as repetitive/inauthentic
-    # to the feed (a channel-level demotion signal), and the channel's own
-    # data showed the lunch + prime peaks carry the views (19:00-22:00 = 66%).
-    # Quality > quantity until retention clears the gate.
-    # Each cron starts generation ~2h before its slot, so the upload lands
-    # with a safe >=55min lead (publishAt needs >=15min). If a run slips past
-    # its slot, the one-video-per-slot lock moves it to the NEXT free slot —
-    # two videos can never publish at the same minute.
-    - cron: "30 8 * * *"    # generation ~10:30 Paris -> publish 12:30 (lunch peak)
-    - cron: "30 15 * * *"   # generation ~17:30 Paris -> publish 19:30 (prime — biggest avg)
+    # 3 videos per day for France/CET peaks:
+    # 12:30 / 19:30 / 21:00 Paris Time.
+    - cron: "30 10 * * *"
+    - cron: "30 17 * * *"
+    - cron: "0 19 * * *"
 
 permissions:
   contents: write
 
 concurrency:
-  group: skillor-video-generation
+  group: neurosomaa-pipeline
   cancel-in-progress: false
 
 jobs:
   generate-and-upload:
     runs-on: ubuntu-latest
-    timeout-minutes: 180
+    timeout-minutes: 200
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -42,190 +37,71 @@ jobs:
           cache: "pip"
           cache-dependency-path: requirements.txt
 
-      - name: Cache TTS model downloads for CPU reliability
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cache/huggingface
-            ~/.cache/torch
-          key: skillor-tts-models-${{ runner.os }}-${{ hashFiles('requirements.txt') }}-v3
-          restore-keys: |
-            skillor-tts-models-${{ runner.os }}-
-
       - name: Install system dependencies
         shell: bash
         run: |
           set -euo pipefail
           sudo apt-get update
-          # ffmpeg: video assembly · fonts-dejavu-core: PIL captions ·
-          # espeak-ng: Kokoro French phonemizer. (imagemagick removed —
-          # captions are drawn with PIL; nothing reads IMAGEMAGICK_BINARY.)
-          sudo apt-get install -y --no-install-recommends ffmpeg fonts-dejavu-core espeak-ng
-          python -m pip install --upgrade pip setuptools wheel
-          for i in 1 2 3; do python -m pip install -r requirements.txt && break || { echo "pip install failed, retry $i"; sleep 15; }; done
+          sudo apt-get install -y --no-install-recommends ffmpeg fonts-noto
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Run offline quality regression tests
+      - name: Run offline tests
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/generate_body_glitch_topics.py
+          python scripts/generate_mystery_music.py
           python -m compileall -q src scripts tests
           python -m unittest discover -s tests -v
 
-      - name: Validate required secrets (fail fast, before burning compute)
+      - name: Generate and upload Short (French)
         shell: bash
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-        run: |
-          set -euo pipefail
-          echo "Checking required secrets..."
-          missing=0
-          if [ -z "${GROQ_API_KEY:-}" ]; then
-            echo "::error::GROQ_API_KEY missing."
-            missing=1
-          fi
-          # YouTube OAuth trio — without these a run used to fail in phase 5
-          # AFTER up to 3h of generation. Fail in seconds instead.
-          for var in GOOGLE_CLIENT_ID GOOGLE_CLIENT_SECRET REFRESH_TOKEN; do
-            if [ -z "${!var:-}" ]; then
-              echo "::error::$var missing — the video would fail at upload time."
-              missing=1
-            fi
-          done
-          [ "$missing" -eq 0 ] && echo "✓ All required secrets present"
-          exit "$missing"
-
-      # Duration A/B. Six script-level hypotheses for the 4-9s cliff were
-      # tested against real retention curves and rejected; duration is the
-      # last open variable and the current 36-43s spread is too narrow to
-      # settle it. This alternates arms and writes TARGET_MIN/MAX into the
-      # env for the generation step below.
-      - name: Assign duration experiment arm
-        shell: bash
-        run: python scripts/duration_experiment.py --assign
-
-      - name: Generate and upload Short
-        shell: bash
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          # Stronger model = better French hooks/titles (higher CTR/retention).
-          # NOTE: llama-3.1-70b-versatile was DECOMMISSIONED by Groq — using it
-          # returned a model-not-found error on every script call (the likely
-          # cause of recent generation failures). 3.3 is the drop-in upgrade;
-          # delete this line to fall back to llama-3.1-8b-instant.
-          GROQ_MODEL: "llama-3.3-70b-versatile"
-          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
-          REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
-          REDDIT_CLIENT_SECRET: ${{ secrets.REDDIT_CLIENT_SECRET }}
-          # ---- FRENCH AUDIENCE (all genuinely wired into code) ----
-          TREND_REGION: "FR"
-          YOUTUBE_REGION_CODE: "FR"
-          CONTENT_SERIES: "body_glitches_fr"
-          TOPIC_STRATEGY: "viral_hijack"
-          REQUIRE_DAILY_TREND: "false"
-          CHANNEL_LANGUAGE: "fr-FR"
-          CHANNEL_COUNTRY: "FR"
-          TTS_ENGINE: "kokoro"
-          KOKORO_LANG_CODE: "f"
-          KOKORO_VOICE: "ff_siwis"
-          REQUIRE_CLONED_VOICE: "false"
-          # ---- Image providers (optional keys auto-skipped if missing) ----
+          
+          FB_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          
+          YT_PRIVACY_STATUS: "private"
+          YT_SCHEDULE_PUBLISH: "true"
+          CHANNEL_LANGUAGE: "fr"
+          PUBLISH_TIMEZONE: "Europe/Paris"
+          
           AI_HORDE_API_KEY: ${{ secrets.AI_HORDE_API_KEY }}
-          AI_HORDE_MAX_WAIT: "300"
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           HF_API_KEY: ${{ secrets.HF_API_KEY }}
-          DEEPAI_API_KEY: ${{ secrets.DEEPAI_API_KEY }}
-          MODELSLAB_API_KEY: ${{ secrets.MODELSLAB_API_KEY }}
-          REPLICATE_API_TOKEN: ${{ secrets.REPLICATE_API_TOKEN }}
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-          # ---- YouTube OAuth ----
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          YT_MADE_FOR_KIDS: "false"
-          YT_DECLARE_SYNTHETIC_MEDIA: "true"
-          YT_PLAYLIST_ENABLED: "true"
-          # Upload private + publishAt → YouTube auto-publishes at the exact
-          # Paris peak (12:30 / 19:30 / 21:00 — see the cron block above).
-          # IMPORTANT: "public" here means "will become public automatically at
-          # the scheduled slot". uploader.py forces privacyStatus=private on the
-          # API call (publishAt requires it), so the video does sit private
-          # until its slot — but NO human review happens in between. Set
-          # YT_PRIVACY_STATUS=private to hold videos for manual review instead;
-          # scheduling is then skipped and nothing auto-publishes.
-          YT_PRIVACY_STATUS: "public"
-          YT_SCHEDULE_PUBLISH: "true"
-          # ---- Anti-spam (also dedupes the DST twin crons) ----
-          ENFORCE_POSTING_GAP: "true"
-          # ---- Quality gates ----
-          # FIXED 2026-08-02: short-format defaults (20-26s). The long format
-          # measured 27-38% AVP — below the feed gate — so production now
-          # defaults short even if the experiment-assign step ever fails.
-          TARGET_MIN_SECONDS: ${{ env.TARGET_MIN_SECONDS || '20' }}
-          TARGET_MAX_SECONDS: ${{ env.TARGET_MAX_SECONDS || '26' }}
-          EXPERIMENT_ARM: ${{ env.EXPERIMENT_ARM || 'short_b' }}
-          CHATTERBOX_TEMPO: "0.96"
-          CHATTERBOX_EXAGGERATION: "0.35"
-          CHATTERBOX_CFG_WEIGHT: "0.70"
-          CHATTERBOX_TEMPERATURE: "0.60"
-          MUSIC_VOLUME: "0.07"
-          ENABLE_SCREENSHOT_FALLBACK: "false"
-          MIN_HOOK_SCORE: "85"
-          QUALITY_APPROVAL_THRESHOLD: "85"
-          MAX_HOOK_SECONDS: "5.0"
-          FALLBACK_ABORT_RATIO: "0.80"
+          
           VIDEO_TOPIC: ${{ inputs.topic || '' }}
           PYTHONUNBUFFERED: "1"
         run: |
           set -euo pipefail
-          for attempt in 1 2 3; do
-            echo "=== Attempt $attempt / 3 ==="
-            if python src/main.py; then break
-            else
-              rc=$?; echo "::warning::Failed attempt $attempt code $rc"
-              if [ $attempt -eq 3 ]; then exit $rc; fi; sleep $((attempt * 60))
-            fi
-          done
+          python src/main.py
 
-      - name: Record which experiment arm produced this video
+      - name: Persist durable channel state
         if: always()
         shell: bash
         run: |
           set -euo pipefail
-          VID=$(python3 scripts/duration_experiment.py --last-video-id)
-          if [ -n "$VID" ]; then
-            python scripts/duration_experiment.py --record "$VID" "${EXPERIMENT_ARM:-short_b}"
-          else
-            echo "No new video id; nothing to record."
-          fi
-
-      - name: Persist durable channel state (with rebase retry)
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -z "$(git status --porcelain -- data/)" ]; then echo "No state changes."; exit 0; fi
-          git config user.name "skillor-bot"
-          git config user.email "skillor-bot@users.noreply.github.com"
+          if [ -z "$(git status --porcelain -- data/)" ]; then exit 0; fi
+          git config user.name "neurosomaa-bot"
+          git config user.email "bot@neuro-somaa.fr"
           git add -A data/
-          git commit -m "chore: persist SKILLOR channel state [skip ci]"
+          git commit -m "chore: persist Neuro-Somaa channel state [skip ci]"
           for i in 1 2 3; do
-            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then break
-            else echo "Push failed retry $i"; sleep $((i*5)); if [ $i -eq 3 ]; then echo "::warning::State push failed; recovery copy is in the run artifact."; exit 0; fi; fi
+            if git pull --rebase origin main && git push origin HEAD:main; then break
+            else sleep $((i * 5)); fi
           done
 
-      - name: Upload video, thumbnail, state backup and logs
+      - name: Upload artifacts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: skillor-run-${{ github.run_id }}
+          name: neurosomaa-run-${{ github.run_id }}
           path: |
             output/
-            pipeline.log
             data/
-          if-no-files-found: ignore
           retention-days: 14
