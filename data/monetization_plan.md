@@ -1,20 +1,20 @@
 # 🎯 SKILLOR — Monetization Readiness (30 août 2026)
-_Updated 2026-08-02 (musique sécurisée) — rapport initial 16:29 UTC — 27 jours restants_
+_Generated 2026-08-03T11:11:07.079222+00:00 — 26 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **76** | Vues totales: 27,259 | Vidéos: 40
-- Watch hours (12 mois): 41.4
+- Abonnés: **78** | Vues totales: 27,259 | Vidéos: 42
+- Watch hours (12 mois): 43.6
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +924 subs (34.2/jour) · +9,972,741 vues Shorts (369,360.8/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +424 subs (15.7/jour) · +2,972,741 vues Shorts (110,101.5/jour)
+- **Full YPP (ad revenue)**: +922 subs (35.5/jour) · +9,972,741 vues Shorts (383,567.0/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +422 subs (16.2/jour) · +2,972,741 vues Shorts (114,336.2/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
 - 👤 **2-step verification ON** — Google account security — required for YPP application.
 - 👤 **No active Community Guidelines strikes** — Check YouTube Studio → Channel health.
 - 👤 **Country eligible for YPP** — Pakistan accounts CAN monetize (YT supports PK); verify in Studio.
-- ✅ **Music licensing safe** — unverified third-party tracks DELETED 2026-08-02; only original own_* beds remain (zero Content ID risk).
+- ✅ **Music licensing safe** — own_* original beds only — zero Content ID risk.
 - ✅ **No duplicate titles** — title sweep applied 2026-08-02
 - ✅ **Synthetic-media disclosure ON** — YT_DECLARE_SYNTHETIC_MEDIA=true in workflow → honest, no reuse flags.
 - ✅ **Made-for-kids correctly false** — science content, not kids-targeted
@@ -22,9 +22,8 @@ _Updated 2026-08-02 (musique sécurisée) — rapport initial 16:29 UTC — 27 j
 - ✅ **Educational disclaimer in descriptions** — Every optimized description carries the medical disclaimer.
 
 ## 🎵 Musique
-- ✅ `own_dark_drone.wav` — original (générée dans ce dépôt)
-- ✅ `own_suspense_thrum.wav` — original (générée dans ce dépôt)
-- ℹ️ 4 pistes tierces non vérifiées SUPPRIMÉES le 2026-08-02 (risque Content ID éliminé).
+- ✅ `own_dark_drone.wav` — original (generated in-repo)
+- ✅ `own_suspense_thrum.wav` — original (generated in-repo)
 
 ## 🗓️ Plan quotidien (honnête)
 - **2 Shorts/jour** à 12:30 & 19:30 Paris (déjà automatisé).
