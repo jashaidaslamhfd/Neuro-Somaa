@@ -1,9 +1,9 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-04T07:59:33.504450+00:00_
+_Généré 2026-08-04T11:33:05.995192+00:00_
 
 ## 1. Créneaux de publication
-Créneaux appris : 06:00, 19:30, 21:00
-⚠️ slot(s) 06:00 rest on a single video; treat their ranking as provisional
+Créneaux appris : 17:30, 19:30, 21:00
+✅ Trois pics quotidiens distincts sont couverts.
 
 ## 2. Cadence réelle (3 vidéos/jour attendues)
 ⚠️ 2026-08-04 : 0/3

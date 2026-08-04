@@ -17,7 +17,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 32.44,
-    "analytics_fetched_at": "2026-08-03T08:46:55.684426+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:41.222665+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -34,11 +34,11 @@
     "predicted_ctr": 7.6,
     "hook_score": 100,
     "predicted_retention": 0.8,
-    "views": 153,
+    "views": 154,
     "actual_ctr": null,
     "average_view_duration_sec": 17,
     "average_view_percentage": 42.2,
-    "analytics_fetched_at": "2026-08-03T08:46:56.091478+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:41.870253+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -59,7 +59,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 34.06,
-    "analytics_fetched_at": "2026-08-03T08:46:56.485233+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:42.560847+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -80,7 +80,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 29.059999999999995,
-    "analytics_fetched_at": "2026-08-03T08:46:56.884812+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:43.244992+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -101,7 +101,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 28.309999999999995,
-    "analytics_fetched_at": "2026-08-03T08:46:57.294024+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:43.912011+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -122,7 +122,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 31.52,
-    "analytics_fetched_at": "2026-08-03T08:46:57.687538+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:44.517896+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -143,7 +143,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 24.67,
-    "analytics_fetched_at": "2026-08-03T08:46:58.024756+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:45.135560+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -164,7 +164,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 32.13,
-    "analytics_fetched_at": "2026-08-03T08:46:58.390831+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:45.844077+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -185,7 +185,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 29.13,
-    "analytics_fetched_at": "2026-08-03T08:46:58.788154+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:46.451036+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -206,7 +206,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 19,
     "average_view_percentage": 46.28,
-    "analytics_fetched_at": "2026-08-03T08:46:59.116172+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:47.106106+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -227,7 +227,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 14,
     "average_view_percentage": 37.66,
-    "analytics_fetched_at": "2026-08-03T08:46:59.433379+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:47.775732+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -248,7 +248,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 37.44,
-    "analytics_fetched_at": "2026-08-03T08:46:59.834158+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:48.417362+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -269,7 +269,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 27.560000000000002,
-    "analytics_fetched_at": "2026-08-03T08:47:00.235357+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:49.084430+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -290,7 +290,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 27.41,
-    "analytics_fetched_at": "2026-08-03T08:47:00.624868+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:49.769740+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -308,11 +308,11 @@
     "predicted_ctr": 7.6,
     "hook_score": 85,
     "predicted_retention": 0.682,
-    "views": 1032,
+    "views": 1045,
     "actual_ctr": null,
     "average_view_duration_sec": 22,
-    "average_view_percentage": 59.52,
-    "analytics_fetched_at": "2026-08-03T08:47:01.044347+00:00",
+    "average_view_percentage": 59.650000000000006,
+    "analytics_fetched_at": "2026-08-04T11:32:50.422473+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -330,11 +330,11 @@
     "predicted_ctr": 7.6,
     "hook_score": 85,
     "predicted_retention": 0.682,
-    "views": 756,
+    "views": 762,
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 30.240000000000002,
-    "analytics_fetched_at": "2026-08-03T08:47:01.431455+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:50.938651+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -374,11 +374,11 @@
     "predicted_ctr": 9.9,
     "hook_score": 100,
     "predicted_retention": 0.75,
-    "views": 765,
+    "views": 768,
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 34.7,
-    "analytics_fetched_at": "2026-08-03T08:47:02.181591+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:51.763943+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -400,7 +400,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 29.31,
-    "analytics_fetched_at": "2026-08-03T08:47:02.527386+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:52.415536+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -422,7 +422,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 28.9,
-    "analytics_fetched_at": "2026-08-03T08:47:02.847458+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:52.881280+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -444,7 +444,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 34.47,
-    "analytics_fetched_at": "2026-08-03T08:47:03.170866+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:53.488617+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -462,11 +462,11 @@
     "predicted_ctr": 7.4,
     "hook_score": 90,
     "predicted_retention": 0.705,
-    "views": 1171,
+    "views": 1172,
     "actual_ctr": null,
     "average_view_duration_sec": 12,
-    "average_view_percentage": 32.72,
-    "analytics_fetched_at": "2026-08-03T08:47:03.551747+00:00",
+    "average_view_percentage": 32.78,
+    "analytics_fetched_at": "2026-08-04T11:32:54.107126+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -488,7 +488,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 29.049999999999997,
-    "analytics_fetched_at": "2026-08-03T08:47:03.930957+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:54.784015+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -506,11 +506,11 @@
     "predicted_ctr": 7.6,
     "hook_score": 100,
     "predicted_retention": 0.75,
-    "views": 772,
+    "views": 782,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
-    "average_view_percentage": 36.03,
-    "analytics_fetched_at": "2026-08-03T08:47:04.315223+00:00",
+    "average_view_percentage": 36.39,
+    "analytics_fetched_at": "2026-08-04T11:32:55.426420+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -552,7 +552,7 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 38.83,
-    "analytics_fetched_at": "2026-08-03T08:47:04.907566+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:56.660125+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -574,11 +574,11 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705,
-    "views": 632,
+    "views": 687,
     "actual_ctr": null,
-    "average_view_duration_sec": 13,
-    "average_view_percentage": 36.9,
-    "analytics_fetched_at": "2026-08-03T08:47:05.352491+00:00",
+    "average_view_duration_sec": 17,
+    "average_view_percentage": 47.8,
+    "analytics_fetched_at": "2026-08-04T11:32:58.012324+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -600,11 +600,11 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75,
-    "views": 643,
+    "views": 645,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 47.54,
-    "analytics_fetched_at": "2026-08-03T08:47:05.677350+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:58.686912+00:00",
     "analytics_via": "analytics"
   },
   {
@@ -626,11 +626,11 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682,
-    "views": 1246,
+    "views": 1251,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 39.99,
-    "analytics_fetched_at": "2026-08-03T08:47:05.971740+00:00",
+    "analytics_fetched_at": "2026-08-04T11:32:59.336809+00:00",
     "analytics_via": "analytics"
   },
   {

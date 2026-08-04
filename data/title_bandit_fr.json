@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-04T07:59:28.547151+00:00",
+  "generated_at_utc": "2026-08-04T11:33:01.832587+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.6935,
-      "observed_samples": 9,
-      "observed_avg": 4.0698,
+      "score": 3.8081,
+      "observed_samples": 11,
+      "observed_avg": 4.1368,
       "competitor_prior": 2.0
     },
     {
@@ -19,9 +19,9 @@
     },
     {
       "pattern": "ce-qui-se-passe",
-      "score": 2.8128,
+      "score": 2.8152,
       "observed_samples": 3,
-      "observed_avg": 3.8546,
+      "observed_avg": 3.8586,
       "competitor_prior": 1.25
     },
     {
@@ -40,9 +40,9 @@
     },
     {
       "pattern": "other",
-      "score": 2.4269,
+      "score": 2.4276,
       "observed_samples": 4,
-      "observed_avg": 3.6404,
+      "observed_avg": 3.6415,
       "competitor_prior": 0.0
     },
     {
