@@ -1,0 +1,292 @@
+{
+  "generated_at": "2026-08-04T11:34:06.214021+00:00",
+  "competitors_scanned": 0,
+  "subniches_analyzed": 7,
+  "trending_topics_found": 0,
+  "subniche_scores": {
+    "brain_mysteries": {
+      "label": "🧠 Brain Mysteries",
+      "demand_rating": "HIGH",
+      "competitor_avg_views": 450000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 72.5,
+      "content_angles": [
+        "why your brain does [weird thing]",
+        "the neuroscience behind [everyday phenomenon]",
+        "your brain on [situation]"
+      ],
+      "keywords": [
+        "brain",
+        "memory",
+        "forget",
+        "deja vu",
+        "dream",
+        "subconscious",
+        "neuron",
+        "mind"
+      ]
+    },
+    "body_reactions": {
+      "label": "⚡ Body Reactions",
+      "demand_rating": "VERY HIGH",
+      "competitor_avg_views": 680000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 81.8,
+      "content_angles": [
+        "why your body [reaction] without warning",
+        "the real reason you [reaction]",
+        "your body's hidden reflex when [trigger]"
+      ],
+      "keywords": [
+        "twitch",
+        "cramp",
+        "spasm",
+        "jerk",
+        "reflex",
+        "reaction",
+        "goosebumps",
+        "shiver"
+      ]
+    },
+    "sensory_phenomena": {
+      "label": "👁️ Sensory Phenomena",
+      "demand_rating": "VERY HIGH",
+      "competitor_avg_views": 520000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 81.8,
+      "content_angles": [
+        "why you [sense] when [situation]",
+        "the strange reason your [body part] [sensation]",
+        "your [sense] is lying to you — here's why"
+      ],
+      "keywords": [
+        "ringing",
+        "ears",
+        "tinnitus",
+        "vision",
+        "spots",
+        "floaters",
+        "taste",
+        "smell"
+      ]
+    },
+    "sleep_body": {
+      "label": "😴 Sleep & Body",
+      "demand_rating": "HIGH",
+      "competitor_avg_views": 390000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 68.9,
+      "content_angles": [
+        "what your body does while you sleep",
+        "why you [sleep phenomenon]",
+        "the scary truth about [sleep state]"
+      ],
+      "keywords": [
+        "sleep",
+        "dream",
+        "nightmare",
+        "insomnia",
+        "wake",
+        "tired",
+        "rest",
+        "circadian"
+      ]
+    },
+    "pain_signals": {
+      "label": "🩺 Pain & Signals",
+      "demand_rating": "HIGH",
+      "competitor_avg_views": 410000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 70.1,
+      "content_angles": [
+        "why [body part] hurts when [action]",
+        "the hidden cause of your [pain]",
+        "your body's warning signal you ignore"
+      ],
+      "keywords": [
+        "pain",
+        "ache",
+        "sore",
+        "hurt",
+        "headache",
+        "migraine",
+        "cramp",
+        "sting"
+      ]
+    },
+    "aging_body": {
+      "label": "⏳ Aging & Body",
+      "demand_rating": "MEDIUM",
+      "competitor_avg_views": 320000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 58.5,
+      "content_angles": [
+        "after 25, your body stops [doing thing]",
+        "the age your body secretly changes",
+        "why your body ages faster when [habit]"
+      ],
+      "keywords": [
+        "aging",
+        "age",
+        "wrinkle",
+        "grey hair",
+        "old",
+        "youth",
+        "longevity",
+        "lifespan"
+      ]
+    },
+    "heart_circulation": {
+      "label": "💓 Heart & Circulation",
+      "demand_rating": "HIGH",
+      "competitor_avg_views": 380000,
+      "our_video_count": 0,
+      "coverage_gap": "🟢 UNTAPPED",
+      "total_score": 68.3,
+      "content_angles": [
+        "your heart does [weird thing] every day",
+        "why your heartbeat [reaction]",
+        "the one-second body check for heart health"
+      ],
+      "keywords": [
+        "heart",
+        "blood",
+        "pulse",
+        "beat",
+        "circulation",
+        "pressure",
+        "vein",
+        "artery"
+      ]
+    }
+  },
+  "opportunity_ranking": [
+    {
+      "label": "⚡ Body Reactions",
+      "score": 81.8,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "👁️ Sensory Phenomena",
+      "score": 81.8,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "🧠 Brain Mysteries",
+      "score": 72.5,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "🩺 Pain & Signals",
+      "score": 70.1,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "😴 Sleep & Body",
+      "score": 68.9,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "💓 Heart & Circulation",
+      "score": 68.3,
+      "gap": "🟢 UNTAPPED"
+    },
+    {
+      "label": "⏳ Aging & Body",
+      "score": 58.5,
+      "gap": "🟢 UNTAPPED"
+    }
+  ],
+  "trending_topics": [],
+  "attack_plan": {
+    "generated_at": "2026-08-04T11:34:06.214048+00:00",
+    "overall_strategy": "Attack UNTAPPED high-demand sub-niches with 5-10 videos each",
+    "priority_targets": [
+      {
+        "subniche": "⚡ Body Reactions",
+        "score": 81.8,
+        "our_coverage": 0,
+        "gap": "🟢 UNTAPPED",
+        "competitor_avg_views": 680000,
+        "recommended_videos": 10,
+        "content_angles": [
+          "why your body [reaction] without warning",
+          "the real reason you [reaction]",
+          "your body's hidden reflex when [trigger]"
+        ],
+        "sample_topics": [
+          "a sudden charley horse cramp in your calf at night",
+          "why your body jerks awake right as you fall asleep",
+          "goosebumps — your body ancient survival reflex",
+          "why your eyes water when you laugh uncontrollably",
+          "hiccups — your body strangest glitch explained",
+          "the real reason you yawn when someone else yawns",
+          "why brushing back teeth triggers a sudden gag reflex",
+          "your body freezes when scared — here is the neuroscience"
+        ]
+      },
+      {
+        "subniche": "👁️ Sensory Phenomena",
+        "score": 81.8,
+        "our_coverage": 0,
+        "gap": "🟢 UNTAPPED",
+        "competitor_avg_views": 520000,
+        "recommended_videos": 10,
+        "content_angles": [
+          "why you [sense] when [situation]",
+          "the strange reason your [body part] [sensation]",
+          "your [sense] is lying to you — here's why"
+        ],
+        "sample_topics": [
+          "your ears ringing in absolute silence — explained",
+          "why your foot falls asleep and feels like static",
+          "why you see glowing spots after looking at bright light",
+          "your hands wrinkling in water — not what you think",
+          "why your nose runs when you cry or eat hot food",
+          "phantom phone vibration — your body strangest illusion",
+          "why you lose taste sensation after burning your tongue",
+          "your voice sounds different in recordings — the real reason"
+        ]
+      },
+      {
+        "subniche": "🧠 Brain Mysteries",
+        "score": 72.5,
+        "our_coverage": 0,
+        "gap": "🟢 UNTAPPED",
+        "competitor_avg_views": 450000,
+        "recommended_videos": 10,
+        "content_angles": [
+          "why your brain does [weird thing]",
+          "the neuroscience behind [everyday phenomenon]",
+          "your brain on [situation]"
+        ],
+        "sample_topics": [
+          "why your brain forgets names immediately after hearing them",
+          "deja vu — your brain glitching in real time",
+          "why your brain plays random songs on repeat at 2am",
+          "your brain can predict the future by 0.5 seconds",
+          "why your brain decides to forget traumatic memories",
+          "the strange reason your brain feels foggy after bad sleep",
+          "why your brain makes you forget why you walked into a room",
+          "your brain physically changes when you learn something new"
+        ]
+      }
+    ],
+    "content_ideas": []
+  },
+  "our_coverage": {
+    "brain_mysteries": 0,
+    "body_reactions": 0,
+    "sensory_phenomena": 0,
+    "sleep_body": 0,
+    "pain_signals": 0,
+    "aging_body": 0,
+    "heart_circulation": 0
+  }
+}
