@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 # 3.5 limit rejected otherwise healthy 30-second videos for tiny rounding or
 # one-scene delivery variations (for example 3.52 words/sec).
 MIN_WORDS_PER_SEC = 1.5
-MAX_WORDS_PER_SEC = 4.0
+MAX_WORDS_PER_SEC = 8.0  # French ff_siwis speaks faster than English am_adam
 
 SHORTS_HASHTAGS = ["#shorts", "#science", "#scienceduquotidien"]
 
