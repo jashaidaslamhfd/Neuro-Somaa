@@ -190,7 +190,7 @@ def probe_video(path: str) -> dict:
     # Minimum too: a Short that's far too short (e.g. a truncated render)
     # would otherwise pass this gate and get published. Give a small 5s
     # grace below the configured target so normal short intros don't trip it.
-    min_seconds = max(0.0, float(os.environ.get("TARGET_MIN_SECONDS", "40")) - 5.0)
+    min_seconds = max(0.0, float(os.environ.get("TARGET_MIN_SECONDS", "20")) - 5.0)  # French=15s
     if duration <= 0 or duration > max_seconds:
         raise MediaValidationError(f"Wrong duration {duration:.2f}s; maximum {max_seconds:.2f}s")
     if duration < min_seconds:
