@@ -538,6 +538,11 @@ class SKILLORPipeline:
                     audio_segments,
                     script_data.get('tags', [])
                 )
+                # Persist the report onto script_data so the final history entry
+                # (and the completion log) can read hook_score /
+                # predicted_retention. Previously shorts_report stayed a local
+                # var and both fields were silently saved as None.
+                script_data['shorts_report'] = shorts_report
 
                 pacing = shorts_report.get('caption_pacing', {})
                 # Never silently shorten captions after TTS: doing so creates
@@ -644,7 +649,7 @@ class SKILLORPipeline:
                 logger.info("✅ Final publication audit passed")
             except Exception as e:
                 logger.error(f"Final publication audit failed: {e}")
-                pass  # non-fatal
+                # non-fatal
 
             # Phase 5: Upload
             logger.info("\n📤 PHASE 5: UPLOAD")

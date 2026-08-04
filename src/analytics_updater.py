@@ -45,6 +45,31 @@ if __name__ == "__main__":
     # growth signal that depends on them — especially dynamic publish slots.
     # Non-fatal: analytics sync must not fail just because a dashboard report
     # could not be generated.
+    # Step A — build the cross-platform metric store (YouTube + FB + IG). This
+    # was previously never called, so data/platform_metrics.json stayed `{}`
+    # and the growth engine had nothing to learn from.
+    try:
+        from platform_metrics import collect as collect_platform_metrics
+
+        result = collect_platform_metrics(min_hours_old=24, refresh_hours=20)
+        logger.info("Platform metrics refreshed: %s", result.get("stats"))
+    except Exception as exc:
+        logger.warning("Platform metrics collection skipped: %s", exc)
+
+    # Step B — learn from that store (slot/topic/hook weights + cadence) and
+    # write data/growth_state.json, which the scheduler/trend-fetcher read.
+    try:
+        from growth_engine import analyse as growth_analyse
+
+        state = growth_analyse()
+        logger.info(
+            "Growth engine learned: cadence=%s best_slot=%s samples=%s",
+            state.get("recommended_cadence"), state.get("best_slot"),
+            state.get("sample_size"),
+        )
+    except Exception as exc:
+        logger.warning("Growth engine analysis skipped: %s", exc)
+
     try:
         from premium_growth_loop import main as premium_growth_main
         premium_growth_main([])

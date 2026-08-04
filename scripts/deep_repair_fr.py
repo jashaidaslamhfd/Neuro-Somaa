@@ -1,8 +1,8 @@
-import argparse
 import json
 import logging
 import os
 import re
+import sys
 import time
 from pathlib import Path
 
@@ -65,7 +65,7 @@ def repair_video(vid, current_snip, token):
 
     if needs_fix:
         try:
-            _api(f"videos?part=snippet", token, method="PUT", body={"id": vid, "snippet": current_snip})
+            _api("videos?part=snippet", token, method="PUT", body={"id": vid, "snippet": current_snip})
             logger.info(f"✅ Repaired: {vid}")
             return True
         except Exception as e:

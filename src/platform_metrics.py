@@ -44,8 +44,7 @@ import json
 import logging
 import os
 import time
-from datetime import datetime, timezone
-from typing import Dict, List
+from datetime import UTC, datetime
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -100,7 +99,7 @@ def _save_json_atomic(path: str, payload) -> None:
     os.replace(tmp, path)
 
 
-def _graph_get(node: str, **params) -> Dict:
+def _graph_get(node: str, **params) -> dict:
     """GET a Graph API node. Returns {'error': ...} instead of raising, because
     a missing Meta permission must never take the learning run down."""
     import requests  # imported lazily so offline tests can import this module
@@ -117,11 +116,11 @@ def _graph_get(node: str, **params) -> Dict:
             message = str(data.get("error", {}).get("message", response.status_code))
             return {"error": message[:200]}
         return data
-    except Exception as exc:  # noqa: BLE001 - network/parse issues are expected
+    except Exception as exc:
         return {"error": str(exc)[:200]}
 
 
-def _probe_insights(node: str, metrics, token: str, endpoint: str = "insights") -> Dict:
+def _probe_insights(node: str, metrics, token: str, endpoint: str = "insights") -> dict:
     """Fetch each metric separately; return {metric: value} for the ones that
     work plus an 'unsupported' map explaining the rest. Honest partial data
     beats a single opaque failure."""
@@ -141,7 +140,7 @@ def _probe_insights(node: str, metrics, token: str, endpoint: str = "insights") 
 # per-platform fetchers
 # ---------------------------------------------------------------------------
 
-def fetch_youtube(video_id: str) -> Dict:
+def fetch_youtube(video_id: str) -> dict:
     """Real YouTube Analytics for one video, normalised.
 
     Delegates to seo_analytics.fetch_actual_performance, which already handles
@@ -171,7 +170,7 @@ def fetch_youtube(video_id: str) -> Dict:
     }
 
 
-def fetch_instagram(media_id: str, clip_seconds: float, token: str) -> Dict:
+def fetch_instagram(media_id: str, clip_seconds: float, token: str) -> dict:
     """Instagram Reel insights, normalised.
 
     `ig_reels_avg_watch_time` is milliseconds. Dividing by the clip's own
@@ -211,11 +210,11 @@ def fetch_instagram(media_id: str, clip_seconds: float, token: str) -> Dict:
         "saves_per_reach": round(saves / reach, 5) if reach else None,
         "likes_per_reach": round(likes / reach, 5) if reach else None,
         "unsupported": probe["unsupported"] or None,
-        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "fetched_at": datetime.now(UTC).isoformat(),
     }
 
 
-def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> Dict:
+def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> dict:
     """Facebook Reel data, normalised. Uses direct video fields for views
     (video_insights API returns empty for most metrics on Page Reels).
     Only post_video_avg_time_watched works from the insights endpoint."""
@@ -244,7 +243,7 @@ def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> Dict:
         "views": views,
         "completion": completion,
         "avg_watch_seconds": round(float(avg_ms) / 1000.0, 2) if avg_ms else None,
-        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "fetched_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -252,7 +251,7 @@ def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> Dict:
 # collection
 # ---------------------------------------------------------------------------
 
-def _clip_seconds(entry: Dict, platform: str) -> float:
+def _clip_seconds(entry: dict, platform: str) -> float:
     """Length of the cut THAT PLATFORM received.
 
     Since the dual-cut change, Facebook and Instagram get a shorter edit than
@@ -306,7 +305,7 @@ def _instagram_user_id() -> str:
                 (diag.get("account") or {}).get("username", "unknown"),
             )
             return recorded
-    except Exception:  # noqa: BLE001 - a missing diagnostic is not an error
+    except Exception:
         pass
     return ""
 
@@ -325,7 +324,7 @@ def _meta_token() -> str:
     return ""
 
 
-def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
+def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> dict:
     """Fetch metrics for every upload old enough to have data.
 
     min_hours_old : platforms need ~24h before numbers mean anything.
@@ -336,9 +335,9 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
     """
     from algorithm_policy import FACEBOOK, INSTAGRAM, YOUTUBE
 
-    history: List[Dict] = _load_json(VIDEO_HISTORY_PATH, [])
-    upload_state: Dict = _load_json(UPLOAD_STATE_PATH, {})
-    store: Dict = _load_json(PLATFORM_METRICS_PATH, {})
+    history: list[dict] = _load_json(VIDEO_HISTORY_PATH, [])
+    upload_state: dict = _load_json(UPLOAD_STATE_PATH, {})
+    store: dict = _load_json(PLATFORM_METRICS_PATH, {})
     if not isinstance(store, dict):
         store = {}
 
@@ -350,7 +349,7 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
             "will report no_data even if their permissions are correct."
         )
 
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     stats = {"checked": 0, "updated": 0, "skipped_young": 0, "skipped_fresh": 0, "errors": {}}
 
     for entry in history:
@@ -360,7 +359,7 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
             continue
         try:
             posted = datetime.fromisoformat(str(posted_at))
-            posted = posted if posted.tzinfo else posted.replace(tzinfo=timezone.utc)
+            posted = posted if posted.tzinfo else posted.replace(tzinfo=UTC)
         except ValueError:
             continue
 
@@ -374,7 +373,7 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
         if last:
             try:
                 last_dt = datetime.fromisoformat(last)
-                last_dt = last_dt if last_dt.tzinfo else last_dt.replace(tzinfo=timezone.utc)
+                last_dt = last_dt if last_dt.tzinfo else last_dt.replace(tzinfo=UTC)
                 if (now - last_dt).total_seconds() / 3600.0 < refresh_hours:
                     stats["skipped_fresh"] += 1
                     continue
@@ -403,14 +402,23 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
                 stats["errors"].setdefault(YOUTUBE, result["error"])
 
         platform_state = upload_state.get(fingerprint, {})
-        fb_id = (platform_state.get("facebook") or {}).get("video_id")
+        # Backward-compatible: accept both the nested schema
+        # (facebook.video_id / instagram.media_id) and the older flat keys
+        # (facebook_video_id / instagram_media_id).
+        fb_id = (
+            (platform_state.get("facebook") or {}).get("video_id")
+            or platform_state.get("facebook_video_id")
+        )
         if fb_id and meta_token:
             result = fetch_facebook(fb_id, _clip_seconds(record, FACEBOOK), meta_token)
             record[FACEBOOK] = result
             if "error" in result:
                 stats["errors"].setdefault(FACEBOOK, result.get("detail") or result["error"])
 
-        ig_id = (platform_state.get("instagram") or {}).get("media_id")
+        ig_id = (
+            (platform_state.get("instagram") or {}).get("media_id")
+            or platform_state.get("instagram_media_id")
+        )
         if ig_id and meta_token:
             result = fetch_instagram(ig_id, _clip_seconds(record, INSTAGRAM), meta_token)
             record[INSTAGRAM] = result
@@ -427,7 +435,7 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> Dict:
     return {"stats": stats, "total_records": len(store)}
 
 
-def load_metrics() -> Dict:
+def load_metrics() -> dict:
     """Read the merged store (used by growth_engine and the report)."""
     data = _load_json(PLATFORM_METRICS_PATH, {})
     return data if isinstance(data, dict) else {}

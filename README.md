@@ -20,7 +20,7 @@ Pipeline Python **France-first** pour une chaîne YouTube Shorts de science du q
 | Voix de secours/principale | Kokoro français `ff_siwis` |
 | Moteur vocal | `TTS_ENGINE=kokoro` |
 | Série | `body_glitches_fr` |
-| Seuils qualité (production) | `MIN_HOOK_SCORE=85`, `QUALITY_APPROVAL_THRESHOLD=85` |
+| Seuils qualité (production) | `MIN_HOOK_SCORE=70`, `QUALITY_APPROVAL_THRESHOLD=60` (alignés `env.example` ↔ `main.yml` via `tests/test_runtime_config.py`) |
 
 ## Démarrage
 ```bash
@@ -35,7 +35,7 @@ python src/main.py
 | Mode | Réglage | Comportement |
 |---|---|---|
 | **Revue manuelle** (défaut de `env.example`) | `YT_PRIVACY_STATUS=private` | La vidéo reste privée indéfiniment. Rien n'est publié sans vous. |
-| **Automatique** (défaut du workflow) | `YT_PRIVACY_STATUS=public` + `YT_SCHEDULE_PUBLISH=true` | La vidéo est envoyée en privé avec un `publishAt`, puis **YouTube la rend publique automatiquement** au prochain créneau libre. **Aucune relecture humaine n'a lieu entre les deux.** |
+| **Automatique** (défaut du workflow) | `YT_PRIVACY_STATUS=private` + `YT_SCHEDULE_PUBLISH=true` | La vidéo est envoyée en privé avec un `publishAt` (au prochain créneau Paris appris), puis **YouTube la rend publique automatiquement** à cette minute. **Aucune relecture humaine n'a lieu entre les deux.** |
 
 `.github/workflows/main.yml` tourne en mode **automatique** : c'est ce qui permet les 3 Shorts/jour sans intervention. Si vous préférez relire chaque vidéo, passez `YT_PRIVACY_STATUS` à `private` dans le workflow.
 

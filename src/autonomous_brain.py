@@ -5,9 +5,7 @@ Allows the system to make decisions based on French audience performance.
 
 import json
 import logging
-import os
 from pathlib import Path
-from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 GROWTH_PLAN_PATH = ROOT / "data" / "fr_optimize_plan.json"
@@ -19,7 +17,7 @@ logger = logging.getLogger("autonomous_brain")
 def get_performance_weights():
     """Extract topic and hook weights from history data."""
     try:
-        with open(HISTORY_PATH, "r", encoding="utf-8") as f:
+        with open(HISTORY_PATH, encoding="utf-8") as f:
             history = json.load(f)
     except:
         return {}
@@ -27,8 +25,16 @@ def get_performance_weights():
     topic_stats = {}
     for entry in history:
         topic = entry.get("topic", "unknown").lower()
-        views = int(entry.get("youtube_shorts", {}).get("views", 0) or 0)
-        
+        # history stores real view counts flat at the top level (the uploader
+        # writes 'views'); the nested 'youtube_shorts' key is the growth-engine
+        # schema and never exists on these entries. Read both so this keeps
+        # working however history is written.
+        views = int(
+            entry.get("views")
+            or (entry.get("youtube_shorts") or {}).get("views")
+            or 0
+        )
+
         if topic not in topic_stats:
             topic_stats[topic] = []
         topic_stats[topic].append(views)
