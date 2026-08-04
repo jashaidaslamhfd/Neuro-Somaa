@@ -778,6 +778,19 @@ def generate_script(
                 break
             
         except Exception as e:
+            # Handle Groq rate limits with proper wait
+            err_str = str(e)
+            if "rate_limit" in err_str or "429" in err_str:
+                import re as _re
+                m = _re.search(r"try again in (\d+)m(\d+)?", err_str)
+                wait_sec = 300
+                if m:
+                    mins = int(m.group(1))
+                    secs = int(m.group(2)) if m.group(2) else 0
+                    wait_sec = mins * 60 + secs + 10
+                logger.warning("Groq rate limited — waiting %ds", wait_sec)
+                time.sleep(wait_sec)
+                continue
             logger.error(f"❌ Unexpected error: {e}")
             last_error = e
             if attempt < max_retries:
