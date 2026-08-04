@@ -67,8 +67,8 @@ jobs:
           
           ENFORCE_POSTING_GAP: "true"
           GROQ_MODEL: "llama-3.3-70b-versatile"
-          MIN_HOOK_SCORE: "85"
-          QUALITY_APPROVAL_THRESHOLD: "85"
+          MIN_HOOK_SCORE: "70"
+          QUALITY_APPROVAL_THRESHOLD: "60"
           EXPERIMENT_ARM: "control"
           DURATION_EXPERIMENT: "false"
           YT_PRIVACY_STATUS: "private"
