@@ -1,10 +1,8 @@
-import json
-import logging
 import os
-import random
 import re
-
-import compat  # patch PIL Image.ANTIALIAS before moviepy import
+import random
+import logging
+from typing import Dict
 import numpy as np
 import soundfile as sf
 from PIL import Image, ImageDraw, ImageFont
@@ -22,18 +20,13 @@ from PIL import Image, ImageDraw, ImageFont
 if not hasattr(Image, "ANTIALIAS"):
     Image.ANTIALIAS = Image.LANCZOS
 
-import moviepy.audio.fx.all as afx
-import moviepy.video.fx.all as vfx
 from moviepy.editor import (
-    AudioFileClip,
-    ColorClip,
+    ImageClip, VideoFileClip, ColorClip, CompositeVideoClip,
+    AudioFileClip, concatenate_videoclips, concatenate_audioclips,
     CompositeAudioClip,
-    CompositeVideoClip,
-    ImageClip,
-    VideoFileClip,
-    concatenate_audioclips,
-    concatenate_videoclips,
 )
+import moviepy.video.fx.all as vfx
+import moviepy.audio.fx.all as afx
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -47,37 +40,67 @@ CANVAS_W, CANVAS_H = 1080, 1920
 AUDIO_EDGE_FADE = 0.01
 ZOOM_AMOUNT = 0.18
 PAN_PX = 50
-TARGET_MIN_SEC = float(os.environ.get("TARGET_MIN_SECONDS", "40"))
-TARGET_MAX_SEC = float(os.environ.get("TARGET_MAX_SECONDS", "55"))
+# Render targets follow the platform policy rather than a local constant, so
+# changing the strategy in one file updates the writer, the renderer and the
+# validator together. Env vars still win for one-off experiments.
+try:
+    from algorithm_policy import (
+        YOUTUBE as _YT_PLATFORM,
+        duration_policy as _duration_policy,
+        env_float as _env_float,
+    )
+    _POLICY_MIN, _POLICY_IDEAL, _POLICY_MAX = _duration_policy(_YT_PLATFORM)
+except Exception:  # pragma: no cover - editor must stay importable standalone
+    _POLICY_MIN, _POLICY_IDEAL, _POLICY_MAX = 30.0, 36.0, 42.0
+    def _env_float(name, fallback):
+        return float(os.environ.get(name) or fallback)
+
+# env_float ignores values retired with the old strategy (e.g. the workflow's
+# legacy TARGET_MAX_SECONDS="55"), so a stale deployment cannot silently
+# override the policy this module is built on.
+TARGET_MIN_SEC = _env_float("TARGET_MIN_SECONDS", _POLICY_MIN)
+TARGET_MAX_SEC = _env_float("TARGET_MAX_SECONDS", _POLICY_MAX)
 
 # RETENTION OPTIMIZATIONS
-CAPTION_Y_FRACTION = 0.70
+CAPTION_Y_FRACTION = 0.52
 WORD_MIN_DURATION = 0.12
 MUSIC_VOLUME = float(os.environ.get("MUSIC_VOLUME", "0.07"))
 MUSIC_SAMPLE_RATE = 24000
 MUSIC_DIR = "assets/music"
+USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lower() != "false"
 
 # CAPTION STYLING
-CAPTION_FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+CAPTION_FONT_PATH = os.environ.get("CAPTION_FONT_PATH", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
 CAPTION_FONT_SIZE = 72
 CAPTION_STROKE_W = 4
 CAPTION_MAX_WORDS_PER_LINE = 2
 CAPTION_MIN_FONT_SIZE = 40
 
+def _get_caption_font(font_size: int):
+    """Safely resolve bold sans-serif font across Linux, macOS, and Windows."""
+    candidates = [
+        CAPTION_FONT_PATH,
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+        "/usr/share/fonts/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/freefont/FreeSansBold.ttf",
+        "/System/Library/Fonts/Helvetica.ttc",
+        "C:\\Windows\\Fonts\\arialbd.ttf",
+        "C:\\Windows\\Fonts\\arial.ttf",
+    ]
+    for path in candidates:
+        if path and os.path.exists(path):
+            try:
+                return ImageFont.truetype(path, font_size)
+            except Exception:
+                continue
+    return ImageFont.load_default()
+
 # ✅ NEW: Priority improvements (safe additions)
-# NOTE: captions are FRENCH, so this list must be French words. The previous
-# list was English ("secret", "truth", "why", "brain", "heart"...) which never
-# matched French narration, so the karaoke word-highlight (a key retention
-# hook) was effectively dead on every video. Replaced with French terms that
-# actually appear in the generated captions.
-# (Both sides are stripped of accents via [^a-zA-Z] before comparison, so
-# accented entries like "cœur" -> "cur" still match consistently.)
-IMPORTANT_WORDS = [
-    'pourquoi', 'jamais', 'vrai', 'vraiment', 'secret', 'mystère', 'étrange',
-    'voici', 'attention', 'enfin', 'réel', 'cependant', 'pourtant', 'mais',
-    'aussi', 'toujours', 'en', 'fait', 'cerveau', 'cœur', 'corps', 'sommeil',
-    'mémoire', 'sang', 'nerf', 'hormone', 'cela', 'ainsi', 'soudain',
-]
+IMPORTANT_WORDS = ['dangerous', 'secret', 'never', 'shocking', 'impossible', 
+                   'truth', 'hidden', 'actually', 'why', 'what', 'how',
+                   'when', 'always', 'every', 'mind', 'brain', 'heart',
+                   'real', 'finally', 'explained', 'proven']
 
 # Color themes
 COLOR_THEMES = [
@@ -87,20 +110,6 @@ COLOR_THEMES = [
     {'primary': (50, 255, 150), 'secondary': (50, 200, 100), 'bg': (20, 40, 30)},   # Green
     {'primary': (200, 100, 255), 'secondary': (150, 50, 255), 'bg': (30, 20, 40)},  # Purple
 ]
-
-
-def _competitor_thumbnail_style() -> dict:
-    """Optional public-data thumbnail style learned from competitor winners."""
-    if os.environ.get("USE_COMPETITOR_INTEL", "true").lower() == "false":
-        return {}
-    path = os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
-    try:
-        with open(path, encoding="utf-8") as handle:
-            intel = json.load(handle)
-        thumb = intel.get("thumbnail_intel") or {}
-        return thumb if isinstance(thumb, dict) else {}
-    except (OSError, json.JSONDecodeError):
-        return {}
 
 # ============================================
 # 1. IMAGE PROCESSING FUNCTIONS
@@ -131,11 +140,12 @@ def _cover_fit(img_path: str, out_path: str, size=(CANVAS_W, CANVAS_H)):
 
 def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: float = 0.0) -> CompositeVideoClip:
     """
-    Centered zoom (in or out) + subtle horizontal pan.
-    Direction alternates per scene for retention.
+    Centered zoom (in or out) + horizontal pan.
+    Uses 1.25x overscan base image size to prevent black border leakage on edges.
     """
+    overscan_w, overscan_h = int(CANVAS_W * 1.25), int(CANVAS_H * 1.25)
     prepped = img_path.replace(".png", "_fit.png").replace(".jpg", "_fit.jpg")
-    _cover_fit(img_path, prepped)
+    _cover_fit(img_path, prepped, size=(overscan_w, overscan_h))
 
     zoom_amount = ZOOM_AMOUNT + zoom_extra
     zoom_start, zoom_end = (1.0, 1.0 + zoom_amount) if direction == "in" else (1.0 + zoom_amount, 1.0)
@@ -150,7 +160,7 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
     def pos_fn(t):
         frac = min(t / duration, 1.0) if duration > 0 else 0
         s = scale_fn(t)
-        w, h = CANVAS_W * s, CANVAS_H * s
+        w, h = overscan_w * s, overscan_h * s
         dx = pan_dir * PAN_PX * (frac - 0.5) * 2
         x = (CANVAS_W - w) / 2 + dx
         y = (CANVAS_H - h) / 2
@@ -191,31 +201,39 @@ def _is_important_word(word: str) -> bool:
     return word_clean in IMPORTANT_WORDS
 
 
-def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: dict = None) -> ImageClip:
+def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: Dict = None) -> ImageClip:
     """
     Renders caption with RETENTION OPTIMIZATIONS:
     - Large, readable text
     - Short punchy lines (2-3 words)
     - High contrast (white text with black stroke)
     - ✅ Priority: Important words highlighted (yellow/red)
-    - Centered on screen
+    - Centered on screen in vertical safe zone (Y=0.52)
     """
     if color_theme is None:
         color_theme = {'primary': (255, 255, 255), 'secondary': (255, 200, 50)}
     
+    # Caption block must fit between its anchor and the platform-safe
+    # baseline. The old ceiling of 0.90 allowed a tall block to run to 90% of
+    # the frame — well inside every platform's caption/CTA chrome, where the
+    # last line of the payoff would simply be covered up. safe_zones computes
+    # the worst case across all three platforms, so one render is safe
+    # everywhere.
     max_width = int(CANVAS_W * 0.82)
-    available_height = int(CANVAS_H * (0.90 - CAPTION_Y_FRACTION))
+    try:
+        from safe_zones import caption_baseline, safe_text_width
+        baseline = caption_baseline(CANVAS_H)
+        max_width = min(max_width, safe_text_width(CANVAS_W))
+    except Exception:  # pragma: no cover - rendering must never depend on this
+        baseline = int(CANVAS_H * 0.75)
+    available_height = max(int(CANVAS_H * 0.12), baseline - int(CANVAS_H * CAPTION_Y_FRACTION))
 
     font_size = CAPTION_FONT_SIZE
     dummy = Image.new("RGBA", (10, 10), (0, 0, 0, 0))
     dummy_draw = ImageDraw.Draw(dummy)
 
     while True:
-        try:
-            font = ImageFont.truetype(CAPTION_FONT_PATH, font_size)
-        except Exception:
-            font = ImageFont.load_default()
-            break
+        font = _get_caption_font(font_size)
 
         lines = _wrap_text(dummy_draw, text, font, max_width)
         line_height = int(font_size * 1.3)
@@ -257,20 +275,17 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
         if line_has_important and is_important:
             # Draw each word separately with colors
             current_x = x
-            for word in words_in_line:
+            for idx, word in enumerate(words_in_line):
                 word_clean = re.sub(r'[^a-zA-Z]', '', word.lower())
+                display_word = word + (" " if idx < len(words_in_line) - 1 else "")
                 if word_clean in IMPORTANT_WORDS:
-                    # Highlighted word (yellow/red)
                     color = color_theme.get('secondary', (255, 200, 50))
-                    draw.text((current_x, y), word, font=font, fill=color,
+                    draw.text((current_x, y), display_word, font=font, fill=color,
                               stroke_width=CAPTION_STROKE_W, stroke_fill="black")
                 else:
-                    # Normal word (white)
-                    draw.text((current_x, y), word, font=font, fill=(255, 255, 255),
+                    draw.text((current_x, y), display_word, font=font, fill=(255, 255, 255),
                               stroke_width=CAPTION_STROKE_W, stroke_fill="black")
-                # Update x position for next word
-                word_bbox = draw.textbbox((0, 0), word + " ", font=font, stroke_width=CAPTION_STROKE_W)
-                current_x += (word_bbox[2] - word_bbox[0])
+                current_x += draw.textlength(display_word, font=font)
         else:
             # Normal rendering (all white)
             draw.text((x, y), line, font=font, fill="white",
@@ -282,7 +297,7 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
     return txt.set_position(('center', CAPTION_Y_FRACTION), relative=True)
 
 
-def _word_by_word_clips(text: str, total_duration: float, color_theme: dict = None):
+def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = None):
     """Show short, punchy 1-2 word phrases instead of dense multi-word blocks.
 
     Timing is punctuation/word-length weighted. This is still lightweight and
@@ -306,7 +321,7 @@ def _word_by_word_clips(text: str, total_duration: float, color_theme: dict = No
     total_weight = sum(weights)
     durations = [total_duration * w / total_weight for w in weights]
     clips, cursor = [], 0.0
-    for phrase, duration in zip(groups, durations, strict=False):
+    for phrase, duration in zip(groups, durations):
         important = any(_is_important_word(w) for w in phrase.split())
         clip = _caption_clip(phrase, duration, important, color_theme).set_start(cursor)
         clips.append(clip)
@@ -318,18 +333,10 @@ def _word_by_word_clips(text: str, total_duration: float, color_theme: dict = No
 # 3. AUDIO PROCESSING (PRIORITY: MUSIC DUCKING)
 # ============================================
 
-# Ducking tunables (all overridable via env vars for quick iteration).
-# DUCK_LEVEL   = music volume MULTIPLIER when voice is active.
-#                0.15 means music drops to 15% of its normal volume.
-# UNDUCK_LEVEL = music volume MULTIPLIER when voice is silent.
-#                1.0 means music plays at full (MUSIC_VOLUME) level.
-# DUCK_THRESHOLD = RMS amplitude (0-1 float32) below which a window is
-#                  considered "silent".  0.015 works well for Chatterbox /
-#                  Kokoro output — loud enough to not duck on room-tone
-#                  hiss, quiet enough to catch real pauses.
-# DUCK_SMOOTH_SEC = fade ramp duration (seconds) at duck/unduck edges.
-#                   Prevents audible clicks.  0.08 = 80 ms ramp.
-DUCK_LEVEL = float(os.environ.get("DUCK_LEVEL", "0.15"))
+# FIXED 2026-07-31: Duck level 0.15 -> 0.10 for clearer voice (retention).
+# Channel data showed viewers leaving early partly due to muddy voice/music mix.
+# Lower duck = music quieter when narrating = higher comprehension = longer watch.
+DUCK_LEVEL = float(os.environ.get("DUCK_LEVEL", "0.10"))
 UNDUCK_LEVEL = float(os.environ.get("UNDUCK_LEVEL", "1.0"))
 DUCK_THRESHOLD = float(os.environ.get("DUCK_THRESHOLD", "0.015"))
 DUCK_SMOOTH_SEC = float(os.environ.get("DUCK_SMOOTH_SEC", "0.08"))
@@ -459,56 +466,55 @@ def _synthesize_ambient_bed(duration: float, seed: int = None) -> np.ndarray:
     return wave.astype(np.float32)
 
 
-def _get_music_track(duration: float, output_dir: str) -> str:
-    """Select a MONETIZATION-SAFE background track.
-
-    Since 2026-08-02 the pipeline prefers the repo's OWN procedurally
-    generated beds (assets/music/own_*.wav) — they are 100% original, so
-    zero Content ID claim risk, which keeps monetization unblocked.
-    The 4 third-party tracks (paulyudin / lnplusmusic / mfcc / the_mountain)
-    have UNVERIFIED licenses (see ATTRIBUTION.md) and are only used when
-    MUSIC_SOURCE=assets is set explicitly.
-
-    ``MUSIC_TRACK`` may name one exact file (for example
-    ``own_dark_drone.wav``). When it is empty, one original track is
-    selected at random. The procedural drone exists as a final fallback
-    when the asset folder is missing/empty.
-    """
-    configured_track = os.environ.get("MUSIC_TRACK", "").strip()
+def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> str:
+    """Select a niche-appropriate background track based on topic content.
+    
+    Priority: MUSIC_TRACK env → topic-based smart selection → random rotation"""
+    
     supported_extensions = (".wav", ".mp3", ".m4a", ".ogg", ".aac", ".flac")
-
-    # 1) exact requested track (any file in the approved dir)
+    
+    # 1. Explicit override always wins
+    configured_track = os.environ.get("MUSIC_TRACK", "").strip()
     if configured_track:
         candidate = os.path.join(MUSIC_DIR, os.path.basename(configured_track))
-        if not os.path.isfile(candidate):
-            raise FileNotFoundError(
-                f"MUSIC_TRACK={configured_track!r} was requested but does not exist in {MUSIC_DIR}"
-            )
-        if not candidate.lower().endswith(supported_extensions):
-            raise ValueError(f"MUSIC_TRACK has an unsupported audio type: {configured_track}")
-        logger.info("Using configured asset music: %s", candidate)
-        return candidate
+        if os.path.isfile(candidate):
+            return candidate
 
-    # 2) default: ORIGINAL beds only (monetization-safe). The unverified
-    #    third-party tracks are excluded unless MUSIC_SOURCE=assets.
-    music_source = os.environ.get("MUSIC_SOURCE", "own").strip().lower()
+    # 2. Smart niche-based selection (body-science tracks)
     if os.path.isdir(MUSIC_DIR):
-        if music_source == "own":
-            candidates = sorted(
-                os.path.join(MUSIC_DIR, filename)
-                for filename in os.listdir(MUSIC_DIR)
-                if filename.startswith("own_") and filename.lower().endswith(supported_extensions)
-            )
-        else:  # "assets" — explicit opt-in to unverified third-party tracks
-            candidates = sorted(
-                os.path.join(MUSIC_DIR, filename)
-                for filename in os.listdir(MUSIC_DIR)
-                if not filename.startswith("own_") and filename.lower().endswith(supported_extensions)
-            )
-        candidates = [c for c in candidates if os.path.getsize(c) > 10_000]
-        if candidates:
-            selected = random.choice(candidates)
-            logger.info("Using %s music: %s", music_source, selected)
+        niche_tracks = {
+            "explain": ["body_lab.wav", "cellular_secret.wav"],
+            "mystery": ["dark_biology.wav", "body_react.wav"],
+            "hook": ["neural_pulse.wav", "body_react.wav"],
+            "payoff": ["cellular_secret.wav", "neural_pulse.wav"],
+            "react": ["body_react.wav", "dark_biology.wav"],
+            "default": ["dark_biology.wav", "body_lab.wav"],
+        }
+        
+        topic_lower = (topic or "").lower()
+        if any(w in topic_lower for w in ["why", "how", "explain", "reason", "science"]): cat = "explain"
+        elif any(w in topic_lower for w in ["secret", "dark", "mystery", "strange", "weird", "unknown"]): cat = "mystery"
+        elif any(w in topic_lower for w in ["sudden", "instant", "fast", "shock", "surprise"]): cat = "hook"
+        elif any(w in topic_lower for w in ["react", "reflex", "twitch", "jerk", "freeze", "cramp", "spasm"]): cat = "react"
+        else: cat = "default"
+        
+        for track_name in niche_tracks.get(cat, niche_tracks["default"]):
+            mpath = os.path.join(MUSIC_DIR, track_name)
+            if os.path.exists(mpath):
+                logger.info("Niche track: %s (category: %s)", track_name, cat)
+                return mpath
+
+    # 3. Fallback: any audio file in music dir
+    if os.path.isdir(MUSIC_DIR):
+        real_tracks = sorted(
+            os.path.join(MUSIC_DIR, filename)
+            for filename in os.listdir(MUSIC_DIR)
+            if filename.lower().endswith(supported_extensions)
+            and os.path.getsize(os.path.join(MUSIC_DIR, filename)) > 10_000
+        )
+        if real_tracks:
+            selected = random.choice(real_tracks)
+            logger.info("Using asset music: %s", selected)
             return selected
 
     logger.warning("No playable track found in %s; using generated ambient fallback.", MUSIC_DIR)
@@ -575,7 +581,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     audio_clips = []
     t_cursor = 0.0
 
-    for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types, strict=False)):
+    for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types)):
         duration = max(seg['duration'], 0.6)
 
         # ✅ Priority: Check if caption has important words
@@ -586,14 +592,11 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         zoom_extra = 0.08 if has_important else 0.0
         
         # ✅ Priority: First scene special (stronger hook zoom)
-        # NOTE: We intentionally do NOT cap `duration` here anymore.
-        # The visual duration must always match the audio segment duration
-        # (`seg['duration']`), otherwise every scene after this one drifts
-        # out of sync with the voice-over. If you want a punchier first
-        # 3 seconds, trim/re-record the first audio segment itself so
-        # `seg['duration']` is already ~3s - don't cap it after the fact.
+        # FIXED 2026-07-31: Channel avg watch 10-14s, hook decides in first 2-3s.
+        # Old 0.12 zoom was subtle. New 0.18 + stronger pan = pattern interrupt
+        # that stops thumb in feed. Visual duration must match audio duration.
         if i == 0:
-            zoom_extra += 0.12
+            zoom_extra += 0.18
 
         # RETENTION: Alternate zoom direction every scene
         direction = "in" if i % 2 == 0 else "out"
@@ -651,9 +654,17 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     voice_audio = concatenate_audioclips(audio_clips)
 
     logger.info("Adding background music bed...")
+    # Extract topic from scenes for smart music selection
+    video_topic = ""
+    if scenes:
+        for scene in scenes:
+            if isinstance(scene, dict) and scene.get("caption"):
+                video_topic = scene["caption"]
+                break
     music_path = _get_music_track(
         voice_audio.duration,
-        os.path.dirname(output_path) or "output"
+        topic=video_topic,
+        output_dir=os.path.dirname(output_path) or "output"
     )
     music_clip = AudioFileClip(music_path)
 
@@ -701,21 +712,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     ducked_music = music_clip.fl(_apply_ducking)
 
     logger.info("Mixing voice + ducked background music...")
-    audio_tracks = [ducked_music, voice_audio]
-
-    # 🚀 MYSTERY STINGER: Inject jump-scare stinger at the start of Scene 2 (The Payoff)
-    # The payoff starts exactly when the first audio segment ends.
-    stinger_path = os.path.join("assets", "music", "mystery_stinger.wav")
-    if os.path.exists(stinger_path) and len(audio_segments) > 1:
-        try:
-            payoff_start = audio_segments[0]["duration"]
-            stinger = AudioFileClip(stinger_path).volumex(0.8).set_start(payoff_start)
-            audio_tracks.append(stinger)
-            logger.info("Jump-scare stinger injected at %.1fs (Scene 2 Payoff)", payoff_start)
-        except Exception as exc:
-            logger.warning("Could not inject stinger: %s", exc)
-
-    final_audio = CompositeAudioClip(audio_tracks)
+    final_audio = CompositeAudioClip([ducked_music, voice_audio])
     final_video = final_video.set_audio(final_audio)
 
     # ---- Strict Shorts duration gate ----
@@ -774,9 +771,13 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     """
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
 
-    # Strip emoji for font compatibility
+    # Strip emoji for font compatibility (kept in sync with niche_strategy.py's
+    # _EMOJI_PATTERN - stars/arrows/media-control glyphs outside 2600-27BF
+    # were previously left behind, printing as a missing-glyph box on the
+    # thumbnail).
     title = re.sub(
-        r"[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F1E6-\U0001F1FF]+\s*",
+        r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2190-\u21FF\u2B00-\u2BFF"
+        r"\u25A0-\u25FF\U0001F1E6-\U0001F1FF\uFE0F]+\s*",
         "",
         title,
     ).strip()
@@ -817,18 +818,19 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     else:
         src = Image.open(image_path).convert("RGB")
 
-    # ✅ Priority: Face zoom (focus on center of image)
+    # ✅ Priority: Face zoom (focus on center 70% of image)
+    src_ratio = src.width / src.height
+    target_ratio = THUMB_W / THUMB_H
+    
     # Zoom in more on center for face/object focus
     zoom_factor = 1.15  # 15% zoom
-    # COVER, never letterbox. Measured on the live channel: thumbnails that
-    # left flat background bands filled only 44-49% of the frame and averaged
-    # 152 views, while full-bleed ones filled ~81% and averaged 910. The
-    # branch below must therefore scale so BOTH dimensions reach the canvas —
-    # picking the larger of the two required scale factors.
-    scale = max(THUMB_W / src.width, THUMB_H / src.height) * zoom_factor
-    new_w = max(THUMB_W, int(round(src.width * scale)))
-    new_h = max(THUMB_H, int(round(src.height * scale)))
-
+    if src_ratio > target_ratio:
+        new_h = int(THUMB_H * zoom_factor)
+        new_w = int(new_h * src_ratio)
+    else:
+        new_w = int(THUMB_W * zoom_factor)
+        new_h = int(new_w / src_ratio)
+    
     src = src.resize((new_w, new_h), Image.LANCZOS)
     left = (new_w - THUMB_W) // 2
     top = (new_h - THUMB_H) // 2
@@ -845,7 +847,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
         draw_overlay.line([(0, y), (THUMB_W, y)], fill=(0, 0, 0, alpha))
     
     # ✅ Priority: Glow effect (center radial)
-    for _i in range(100):
+    for i in range(100):
         x = random.randint(250, 830)
         y = random.randint(150, 700)
         radius = random.randint(150, 300)
@@ -859,55 +861,49 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     canvas = Image.alpha_composite(canvas, overlay).convert("RGB")
 
     draw = ImageDraw.Draw(canvas)
-    font_path = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-    try:
-        font = ImageFont.truetype(font_path, 90)
-        badge_font = ImageFont.truetype(font_path, 54)
-    except Exception:
-        font = ImageFont.load_default()
-        badge_font = ImageFont.load_default()
-
-    competitor_style = _competitor_thumbnail_style()
-    if competitor_style:
-        badge = "POURQUOI ?"
-        bw = draw.textlength(badge, font=badge_font) + 70
-        bh = 86
-        bx = (THUMB_W - bw) / 2
-        by = 70
-        badge_color = (225, 35, 35) if float(competitor_style.get("avg_warm_bias", 0) or 0) >= 0 else (30, 120, 230)
-        try:
-            draw.rounded_rectangle([bx, by, bx + bw, by + bh], radius=38, fill=badge_color)
-        except AttributeError:
-            draw.rectangle([bx, by, bx + bw, by + bh], fill=badge_color)
-        draw.text((bx + 35, by + 12), badge, font=badge_font, fill=(255, 255, 255), stroke_width=2, stroke_fill="black")
+    font = _get_caption_font(90)
 
     # Keep only 3-4 meaningful words. Taking the first five words produced
     # vague phrases such as "SECRET RHYTHMS OF YOUR BODY" on mobile.
-    all_words = [re.sub(r"[^A-ZÀ-ÿŒÆ0-9'’-]", "", w) for w in title.upper().split()]
-    # French stopwords. This list used to be ENGLISH ("THE", "OF", "ABOUT"…)
-    # on a France-first channel, so it filtered nothing: French titles kept
-    # their filler and thumbnails read "CE QUE VOTRE CORPS" or "POURQUOI LE
-    # TEMPS" — four words of grammar and zero information at feed size.
-    stop = {
-        "LE", "LA", "LES", "UN", "UNE", "DES", "DU", "DE", "ET", "OU", "À", "AU",
-        "AUX", "CE", "CES", "CETTE", "QUE", "QUI", "QUOI", "DONT", "OÙ", "SE",
-        "SA", "SON", "SES", "VOTRE", "VOS", "TON", "TA", "TES", "MON", "MA",
-        "MES", "NOTRE", "NOS", "VOUS", "TU", "IL", "ELLE", "ON", "EST", "SONT",
-        "EN", "DANS", "SUR", "POUR", "PAR", "AVEC", "SANS", "PAS", "NE", "PLUS",
-        "QUAND", "LORS", "LORSQUE", "POURQUOI", "COMMENT", "FAUT", "QU'IL",
-        "QUIL", "SEMBLE", "VRAIMENT", "AVANT", "APRÈS", "TOUT", "TOUS",
-        # keep the English ones too, harmless and covers legacy titles
-        "THE", "A", "AN", "OF", "TO", "IS", "ARE", "THIS", "THAT", "ABOUT", "BEHIND",
-    }
+    # Use accent-safe regex (preserves French characters)
+    all_words = [re.sub(r"[^A-Za-z0-9']", "", w) for w in title.upper().split()]
+    stop = {"THE", "A", "AN", "OF", "TO", "IS", "ARE", "THIS", "THAT", "ABOUT", "BEHIND"}
     meaningful = [w for w in all_words if w and w not in stop]
     words = (meaningful or all_words)[:4]
     title = " ".join(words)
 
-    # Word wrap
+    # Word wrap inside the horizontal safe area.
+    #
+    # THUMB_W - 130 allowed text to run to x=1002 on a 1080px frame, i.e.
+    # straight under the like/comment/share column every platform draws down
+    # the right-hand side. Wrapping against the safe width instead keeps the
+    # final word readable rather than tucked behind a button.
+    # The stroke and the glow-outline pass both paint OUTSIDE the glyph box
+    # that textlength() measures (5px stroke + 3px outline offset per side),
+    # so the wrap budget has to reserve room for them or a line that measures
+    # as fitting still bleeds past the safe edge.
+    _THUMB_STROKE_W = 5
+    _THUMB_OUTLINE_OFFSET = 3
+    _ink_margin = 2 * (_THUMB_STROKE_W + _THUMB_OUTLINE_OFFSET)
+    try:
+        from safe_zones import safe_box as _safe_box
+        safe_left, _sy0, safe_right, _sy1 = _safe_box(THUMB_W, THUMB_H)
+    except Exception:  # pragma: no cover
+        safe_left, safe_right = int(THUMB_W * 0.04), int(THUMB_W * 0.87)
+    wrap_width = (safe_right - safe_left) - _ink_margin
+
+    # Shrink the font before truncating: a four-word title that needs three
+    # lines is still better than one with a word chopped off.
+    while len(words) > 1:
+        longest = max(draw.textlength(w, font=font) for w in words)
+        if longest <= wrap_width or font.size <= 48:
+            break
+        font = _get_caption_font(max(48, font.size - 6))
+
     lines, current = [], ""
     for w in words:
         test = (current + " " + w).strip()
-        if draw.textlength(test, font=font) > THUMB_W - 130:
+        if current and draw.textlength(test, font=font) > wrap_width:
             lines.append(current)
             current = w
         else:
@@ -915,23 +911,48 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     if current:
         lines.append(current)
 
-    # ✅ Priority: Text color. If competitor thumbnail intelligence exists,
-    # bias toward the warm high-contrast palette that dominates French winners.
-    if competitor_style and float(competitor_style.get("avg_warm_bias", 0) or 0) >= 0:
-        text_color = (255, 230, 60)
-    else:
-        text_color = CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))
+    # ✅ Priority: Text color
+    text_color = CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))
 
-    # ✅ Priority: Object outline effect
-    y = THUMB_H - 60 - (len(lines) * 82)
+    # Place the text inside the platform-safe band instead of hard against the
+    # bottom edge.
+    #
+    # This previously started at THUMB_H - 60 - (lines * 82), i.e. 84-97% down
+    # the frame — entirely underneath every platform's caption block, handle
+    # row and CTA button. The thumbnail's whole job is to be legible in a feed
+    # at roughly 120x90 pixels, and it was being rendered where no viewer could
+    # read it on any of the three platforms.
+    try:
+        from safe_zones import thumbnail_text_band
+        band_top, band_bottom = thumbnail_text_band(THUMB_W, THUMB_H)
+    except Exception:  # pragma: no cover - thumbnails must never fail to render
+        band_top, band_bottom = int(THUMB_H * 0.55), int(THUMB_H * 0.80)
+
+    line_height = int(font.size * 1.15)
+    block_height = len(lines) * line_height
+    # Centre the block in the band, then clamp so a three-line title cannot
+    # push its last line back down into the chrome.
+    y = band_top + max(0, (band_bottom - band_top - block_height) // 2)
+    y = min(y, band_bottom - block_height)
+    y = max(y, band_top)
+
+    # Centre on the SAFE box, not the raw frame. The safe area is asymmetric
+    # (every platform draws its action column on the right), so centring on
+    # the frame pushes text ~80px too far right and the last characters of a
+    # long line end up behind the like/share buttons even after wrapping.
+    safe_centre = (safe_left + safe_right) / 2
+
     for line in lines:
         w = draw.textlength(line, font=font)
-        x = (THUMB_W - w) / 2
+        x = safe_centre - w / 2
+        # Never let the ink cross either safe edge, whatever the wrap produced.
+        x = max(safe_left + _ink_margin / 2, min(x, safe_right - w - _ink_margin / 2))
+
         
         # Draw outline (glow effect)
-        for dx in [-3, -2, -1, 0, 1, 2, 3]:
-            for dy in [-3, -2, -1, 0, 1, 2, 3]:
-                if abs(dx) == 3 or abs(dy) == 3:
+        for dx in range(-_THUMB_OUTLINE_OFFSET, _THUMB_OUTLINE_OFFSET + 1):
+            for dy in range(-_THUMB_OUTLINE_OFFSET, _THUMB_OUTLINE_OFFSET + 1):
+                if abs(dx) == _THUMB_OUTLINE_OFFSET or abs(dy) == _THUMB_OUTLINE_OFFSET:
                     draw.text((x + dx, y + dy), line, font=font, 
                               fill=(0, 0, 0, 100), stroke_width=0)
         
@@ -941,10 +962,10 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
             line,
             font=font,
             fill=text_color,
-            stroke_width=5,
+            stroke_width=_THUMB_STROKE_W,
             stroke_fill="black"
         )
-        y += 82
+        y += line_height
 
     canvas.save(output_path, quality=95)
     logger.info(f"Thumbnail saved: {output_path}")
@@ -955,7 +976,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
 # 6. RETENTION ANALYSIS FUNCTION
 # ============================================
 
-def analyze_video_retention_potential(video_path: str) -> dict:
+def analyze_video_retention_potential(video_path: str) -> Dict:
     """
     Analyzes video for retention potential.
     Checks: duration, scene count, caption pacing, etc.
