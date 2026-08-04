@@ -26,7 +26,7 @@ jobs:
           python -m pip install --upgrade pip
           # seo_analytics.py imports numpy/Pillow lazily (inside score_thumbnail),
           # so this sync deliberately stays on the light dependency set.
-          python -m pip install "google-api-python-client>=2.100.0" "google-auth>=2.25.0" "google-auth-oauthlib>=1.1.0" "google-auth-httplib2>=0.2.0" "requests>=2.31.0" "python-dotenv>=1.0.0"
+          python -m pip install "google-api-python-client>=2.100.0" "google-auth>=2.25.0" "google-auth-oauthlib>=1.1.0" "google-auth-httplib2>=0.2.0" "requests>=2.31.0" "python-dotenv>=1.0.0" "pytz>=2024.1" "numpy>=1.24.0"
 
       - name: Guard - analytics entrypoint must import on the light dep set
         shell: bash
@@ -41,6 +41,10 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          FACEBOOK_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
+          FB_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
           VIDEO_HISTORY_PATH: "data/video_history.json"
           PYTHONUNBUFFERED: "1"
         run: |

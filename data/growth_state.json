@@ -1,0 +1,34 @@
+{
+  "generated_at": "2026-08-04T12:00:00Z",
+  "sample_size": 36,
+  "scored_videos": 36,
+  "slot_weights": {
+    "12:30": 1.0,
+    "19:30": 1.0,
+    "21:00": 1.0
+  },
+  "topic_weights": {},
+  "hook_weights": {},
+  "platform_health": {
+    "youtube_shorts": {
+      "platform": "youtube_shorts",
+      "status": "no_data",
+      "samples": 0,
+      "gate": 0.5
+    },
+    "facebook_reels": {
+      "platform": "facebook_reels",
+      "status": "no_data",
+      "samples": 0,
+      "gate": 0.72
+    },
+    "instagram_reels": {
+      "platform": "instagram_reels",
+      "status": "no_data",
+      "samples": 0,
+      "gate": 0.7
+    }
+  },
+  "recommended_cadence": 2,
+  "best_slot": "19:30"
+}

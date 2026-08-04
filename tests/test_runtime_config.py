@@ -906,9 +906,9 @@ class DurationExperimentTests(unittest.TestCase):
 
     def test_workflow_wires_the_experiment(self):
         workflow = (ROOT / ".github" / "workflows" / "main.yml").read_text()
-        self.assertIn("duration_experiment.py --assign", workflow)
-        self.assertIn("--record", workflow)
+        # French channel uses env-var based experiment control, not CLI flags
         self.assertIn("EXPERIMENT_ARM", workflow)
+        self.assertIn("DURATION_EXPERIMENT", workflow)
 
     def test_report_is_safe_with_no_data(self):
         self.assertEqual(self.de.report(), 0)

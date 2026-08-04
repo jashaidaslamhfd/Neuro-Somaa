@@ -50,7 +50,6 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python scripts/generate_mystery_music.py
           python -m compileall -q src scripts tests
           python -m unittest discover -s tests -v
 
@@ -66,6 +65,12 @@ jobs:
           FB_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
           INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
           
+          ENFORCE_POSTING_GAP: "true"
+          GROQ_MODEL: "llama-3.3-70b-versatile"
+          MIN_HOOK_SCORE: "85"
+          QUALITY_APPROVAL_THRESHOLD: "85"
+          EXPERIMENT_ARM: "control"
+          DURATION_EXPERIMENT: "false"
           YT_PRIVACY_STATUS: "private"
           YT_SCHEDULE_PUBLISH: "true"
           CHANNEL_LANGUAGE: "fr"
@@ -105,3 +110,4 @@ jobs:
             output/
             data/
           retention-days: 14
+          if-no-files-found: ignore

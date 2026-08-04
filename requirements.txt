@@ -11,7 +11,7 @@ groq>=0.9.0
 # ---- Text-to-Speech ----
 # Kokoro = moteur de production (rapide sur CPU, voix française ff_siwis).
 # torch est une dépendance obligatoire de Kokoro, donc il reste ici.
-kokoro==0.9.4
+kokoro>=0.7.0,<0.8.0
 torch>=2.1.2
 soundfile>=0.12.1
 # Repli cloud d'urgence utilisé par voice_generator._synthesize_cloud_tts()
