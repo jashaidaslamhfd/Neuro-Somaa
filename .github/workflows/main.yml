@@ -66,7 +66,8 @@ jobs:
           INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
           
           ENFORCE_POSTING_GAP: "true"
-          GROQ_MODEL: "llama-3.3-70b-versatile"
+          GROQ_MODEL: "llama-3.1-8b-instant"
+          GROQ_MODEL_FALLBACK: "llama-3.3-70b-versatile"
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           EXPERIMENT_ARM: "control"
