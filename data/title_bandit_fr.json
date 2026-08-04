@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-03T11:39:17.383092+00:00",
+  "generated_at_utc": "2026-08-04T07:59:28.547151+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.5986,
-      "observed_samples": 7,
-      "observed_avg": 4.0553,
+      "score": 3.6935,
+      "observed_samples": 9,
+      "observed_avg": 4.0698,
       "competitor_prior": 2.0
     },
     {

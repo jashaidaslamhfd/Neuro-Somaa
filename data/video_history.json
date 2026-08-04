@@ -651,7 +651,13 @@
     "seo_score": 100,
     "predicted_ctr": 10.0,
     "hook_score": 100,
-    "predicted_retention": 0.75
+    "predicted_retention": 0.75,
+    "views": 268,
+    "actual_ctr": null,
+    "average_view_duration_sec": 10,
+    "average_view_percentage": 28.660000000000004,
+    "analytics_fetched_at": "2026-08-04T07:59:25.499818+00:00",
+    "analytics_via": "analytics"
   },
   {
     "content_fingerprint": "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630",
@@ -671,7 +677,13 @@
     "seo_score": 100,
     "predicted_ctr": 10.0,
     "hook_score": 90,
-    "predicted_retention": 0.705
+    "predicted_retention": 0.705,
+    "views": 704,
+    "actual_ctr": null,
+    "average_view_duration_sec": 18,
+    "average_view_percentage": 80.94,
+    "analytics_fetched_at": "2026-08-04T07:59:25.964368+00:00",
+    "analytics_via": "analytics"
   },
   {
     "content_fingerprint": "340b2f96fb0a82158c4f50647c9430350f5fddab92faa45de862dc03e2d013e8",
@@ -691,7 +703,13 @@
     "seo_score": 98,
     "predicted_ctr": 9.9,
     "hook_score": 100,
-    "predicted_retention": 0.75
+    "predicted_retention": 0.75,
+    "views": 192,
+    "actual_ctr": null,
+    "average_view_duration_sec": 12,
+    "average_view_percentage": 32.18,
+    "analytics_fetched_at": "2026-08-04T07:59:26.483819+00:00",
+    "analytics_via": "analytics"
   },
   {
     "content_fingerprint": "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b",
