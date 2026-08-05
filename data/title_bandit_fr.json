@@ -1,14 +1,28 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-04T11:33:01.832587+00:00",
+  "generated_at_utc": "2026-08-05T08:00:53.814097+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.8081,
-      "observed_samples": 11,
-      "observed_avg": 4.1368,
+      "score": 3.8995,
+      "observed_samples": 13,
+      "observed_avg": 4.1917,
       "competitor_prior": 2.0
+    },
+    {
+      "pattern": "other",
+      "score": 3.8209,
+      "observed_samples": 4,
+      "observed_avg": 3.6415,
+      "competitor_prior": 4.1798
+    },
+    {
+      "pattern": "pourquoi-declarative",
+      "score": 3.0425,
+      "observed_samples": 4,
+      "observed_avg": 4.0416,
+      "competitor_prior": 1.0441
     },
     {
       "pattern": "ce-que-corps-revele",
@@ -25,13 +39,6 @@
       "competitor_prior": 1.25
     },
     {
-      "pattern": "pourquoi-declarative",
-      "score": 2.6944,
-      "observed_samples": 4,
-      "observed_avg": 4.0416,
-      "competitor_prior": 0.0
-    },
-    {
       "pattern": "ce-quil-faut",
       "score": 2.4499,
       "observed_samples": 2,
@@ -39,18 +46,18 @@
       "competitor_prior": 0.8
     },
     {
-      "pattern": "other",
-      "score": 2.4276,
-      "observed_samples": 4,
-      "observed_avg": 3.6415,
-      "competitor_prior": 0.0
-    },
-    {
       "pattern": "la-science",
       "score": 2.294,
       "observed_samples": 2,
       "observed_avg": 3.6881,
       "competitor_prior": 0.9
+    },
+    {
+      "pattern": "numbered-list",
+      "score": 0.4821,
+      "observed_samples": 0,
+      "observed_avg": 0.0,
+      "competitor_prior": 0.4821
     }
   ]
 }

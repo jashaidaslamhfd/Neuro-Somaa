@@ -1,34 +1,109 @@
 {
-  "generated_at": "2026-08-04T12:00:00Z",
+  "generated_at": "2026-08-05T08:00:53.767360+00:00",
   "sample_size": 36,
-  "scored_videos": 36,
+  "scored_videos": 33,
+  "channel_gate_ratio": 0.685,
   "slot_weights": {
-    "12:30": 1.0,
-    "19:30": 1.0,
-    "21:00": 1.0
+    "15:30": 1.028,
+    "21:00": 1.0,
+    "10:00": 1.0,
+    "12:30": 0.947,
+    "14:30": 1.0,
+    "02:00": 1.0,
+    "14:00": 1.0,
+    "04:00": 1.0,
+    "11:00": 1.0,
+    "00:00": 1.0,
+    "08:30": 1.0,
+    "13:30": 1.023,
+    "15:00": 0.981,
+    "06:30": 0.971,
+    "11:30": 1.0
   },
-  "topic_weights": {},
-  "hook_weights": {},
+  "topic_weights": {
+    "other": 1.0,
+    "skin": 1.0,
+    "muscle": 1.0
+  },
+  "hook_weights": {
+    "statement": 0.99,
+    "question": 1.009
+  },
+  "slot_samples": {
+    "15:30": 5,
+    "21:00": 1,
+    "10:00": 1,
+    "12:30": 3,
+    "14:30": 1,
+    "02:00": 2,
+    "14:00": 1,
+    "04:00": 1,
+    "11:00": 1,
+    "00:00": 1,
+    "08:30": 1,
+    "13:30": 7,
+    "15:00": 3,
+    "06:30": 3,
+    "11:30": 2
+  },
+  "topic_samples": {
+    "other": 30,
+    "skin": 2,
+    "muscle": 1
+  },
+  "hook_samples": {
+    "statement": 15,
+    "question": 18
+  },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
-      "status": "no_data",
-      "samples": 0,
-      "gate": 0.5
+      "label": "YouTube Shorts",
+      "status": "below_gate",
+      "samples": 33,
+      "gate": 0.5,
+      "avg_completion": 0.3427,
+      "gate_ratio": 0.685,
+      "avg_views": 724.9,
+      "action": "Averaging 34% against a 50% bar. Shorten the cut toward 27s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
+      "label": "Facebook Reels",
       "status": "no_data",
       "samples": 0,
-      "gate": 0.72
+      "gate": 0.72,
+      "blocking_error": null,
+      "action": "No metrics yet — publish and wait 24h, or connect this platform's analytics."
     },
     "instagram_reels": {
       "platform": "instagram_reels",
+      "label": "Instagram Reels",
       "status": "no_data",
       "samples": 0,
-      "gate": 0.7
+      "gate": 0.7,
+      "blocking_error": null,
+      "action": "No metrics yet — publish and wait 24h, or connect this platform's analytics."
     }
   },
+  "instagram_sends": null,
   "recommended_cadence": 2,
-  "best_slot": "19:30"
+  "cadence_reason": "Retention is 69% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "alerts": [
+    {
+      "level": "warn",
+      "message": "Slot 12:30 NY is under-performing across 3 videos — its weight has been reduced automatically."
+    },
+    {
+      "level": "warn",
+      "message": "Slot 15:00 NY is under-performing across 3 videos — its weight has been reduced automatically."
+    },
+    {
+      "level": "warn",
+      "message": "Slot 06:30 NY is under-performing across 3 videos — its weight has been reduced automatically."
+    }
+  ],
+  "best_slot": null,
+  "best_topics": [],
+  "best_hook_frame": null
 }

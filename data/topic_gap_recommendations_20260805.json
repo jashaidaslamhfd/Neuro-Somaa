@@ -1,0 +1,277 @@
+{
+  "generated_at_utc": "2026-08-05T08:00:53.872968+00:00",
+  "gaps": [
+    {
+      "term": "illusion",
+      "score": 10.619,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "youtube",
+      "score": 10.619,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "métal",
+      "score": 7.108,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "destructeur",
+      "score": 7.108,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "chimie",
+      "score": 7.108,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "mateooo",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "enfants",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "voient",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "personne",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "handicapée",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "animation",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "humour",
+      "score": 6.715,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "faux",
+      "score": 6.707,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "bébés",
+      "score": 6.707,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "sont",
+      "score": 6.707,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "fabriqués",
+      "score": 6.707,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "chine",
+      "score": 6.707,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "faire",
+      "score": 6.637,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "oublier",
+      "score": 6.637,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "youtubeshorts",
+      "score": 6.637,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "dribbleur",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "sang",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "lamine",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "yamal",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "saigne",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "match",
+      "score": 6.552,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "pitbull",
+      "score": 6.413,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "chien",
+      "score": 6.413,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "dangereuse",
+      "score": 6.413,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "voici",
+      "score": 6.413,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    }
+  ]
+}

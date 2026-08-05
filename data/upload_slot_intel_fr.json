@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-04T11:33:01.832989+00:00",
+  "generated_at_utc": "2026-08-05T08:00:53.814422+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,8 +10,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.2323,
-      "samples": 3,
+      "score": 3.2897,
+      "samples": 4,
       "prior": 0.0
     },
     {
@@ -20,19 +20,19 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.507,
-      "samples": 6,
-      "prior": 3.4938
+      "score": 3.3474,
+      "samples": 7,
+      "prior": 3.4691
     },
     {
       "rank": 3,
-      "slot": "21:00",
+      "slot": "21:30",
       "hour": 21,
-      "minute": 0,
-      "name": "Dynamique 21:00",
-      "score": 3.3158,
-      "samples": 4,
-      "prior": 3.2938
+      "minute": 30,
+      "name": "Dynamique 21:30",
+      "score": 3.327,
+      "samples": 5,
+      "prior": 0.0
     }
   ],
   "ranked_slots": [
@@ -40,10 +40,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.507,
-      "observed_samples": 6,
-      "observed_avg": 3.5158,
-      "prior": 3.4938,
+      "score": 3.3474,
+      "observed_samples": 7,
+      "observed_avg": 3.2778,
+      "prior": 3.4691,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -58,73 +58,10 @@
           "published_paris": "2026-07-27 19:30"
         },
         {
-          "video_id": "chwfdQe-Mt0",
-          "title": "Ce qui se passe quand le cœur s'emballe sous le stress ?",
-          "views": 782,
-          "published_paris": "2026-07-30 19:30"
-        }
-      ]
-    },
-    {
-      "slot": "20:30",
-      "hour": 20,
-      "minute": 30,
-      "score": 3.3406,
-      "observed_samples": 1,
-      "observed_avg": 3.5674,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "68B-7lTf8nU",
-          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 1510,
-          "published_paris": "2026-07-21 20:27"
-        }
-      ]
-    },
-    {
-      "slot": "19:00",
-      "hour": 19,
-      "minute": 0,
-      "score": 3.3165,
-      "observed_samples": 1,
-      "observed_avg": 3.4951,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "WxOEXbepJ40",
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "views": 1456,
-          "published_paris": "2026-07-23 19:10"
-        }
-      ]
-    },
-    {
-      "slot": "21:00",
-      "hour": 21,
-      "minute": 0,
-      "score": 3.3158,
-      "observed_samples": 4,
-      "observed_avg": 3.3377,
-      "prior": 3.2938,
-      "examples": [
-        {
-          "video_id": "KMXIpcpoDX4",
-          "title": "Pourquoi le muscle qui tressaille tout seul ?",
-          "views": 1172,
-          "published_paris": "2026-07-29 21:00"
-        },
-        {
-          "video_id": "TbbiAMubfu8",
-          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
-          "views": 989,
-          "published_paris": "2026-07-28 21:00"
-        },
-        {
-          "video_id": "x15ltzEHaB8",
-          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-          "views": 868,
-          "published_paris": "2026-07-20 20:58"
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 953,
+          "published_paris": "2026-08-01 19:30"
         }
       ]
     },
@@ -132,9 +69,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.2761,
-      "observed_samples": 4,
-      "observed_avg": 3.2761,
+      "score": 3.327,
+      "observed_samples": 5,
+      "observed_avg": 3.327,
       "prior": 0.0,
       "examples": [
         {
@@ -158,12 +95,75 @@
       ]
     },
     {
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 3.3241,
+      "observed_samples": 1,
+      "observed_avg": 3.5674,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 1510,
+          "published_paris": "2026-07-21 20:27"
+        }
+      ]
+    },
+    {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 3.3034,
+      "observed_samples": 4,
+      "observed_avg": 3.3377,
+      "prior": 3.2691,
+      "examples": [
+        {
+          "video_id": "KMXIpcpoDX4",
+          "title": "Pourquoi le muscle qui tressaille tout seul ?",
+          "views": 1172,
+          "published_paris": "2026-07-29 21:00"
+        },
+        {
+          "video_id": "TbbiAMubfu8",
+          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+          "views": 989,
+          "published_paris": "2026-07-28 21:00"
+        },
+        {
+          "video_id": "x15ltzEHaB8",
+          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+          "views": 868,
+          "published_paris": "2026-07-20 20:58"
+        }
+      ]
+    },
+    {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 3.3,
+      "observed_samples": 1,
+      "observed_avg": 3.4951,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 1456,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.2323,
-      "observed_samples": 3,
-      "observed_avg": 3.2323,
+      "score": 3.2897,
+      "observed_samples": 4,
+      "observed_avg": 3.2897,
       "prior": 0.0,
       "examples": [
         {
@@ -173,16 +173,16 @@
           "published_paris": "2026-07-22 17:29"
         },
         {
+          "video_id": "_QBHLbu9s7Y",
+          "title": "Pourquoi les oreilles sifflent dans le silence ?",
+          "views": 809,
+          "published_paris": "2026-08-01 17:30"
+        },
+        {
           "video_id": "8EylhDaAE_4",
           "title": "Pourquoi le ventre gargouille sans faim ?",
           "views": 687,
           "published_paris": "2026-07-31 17:30"
-        },
-        {
-          "video_id": "_QBHLbu9s7Y",
-          "title": "Pourquoi les oreilles sifflent dans le silence ?",
-          "views": 268,
-          "published_paris": "2026-08-01 17:30"
         }
       ]
     },
@@ -190,7 +190,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.2246,
+      "score": 3.2081,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -207,7 +207,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2231,
+      "score": 3.2066,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -224,7 +224,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0883,
+      "score": 3.0719,
       "observed_samples": 1,
       "observed_avg": 2.8107,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0732,
+      "score": 3.065,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,7 +264,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0585,
+      "score": 3.0421,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0367,
+      "score": 3.0202,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,

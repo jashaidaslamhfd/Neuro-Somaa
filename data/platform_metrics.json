@@ -1,1 +1,707 @@
-{}
+{
+  "db206c048c143b3e8620dc9c54fc7d9bb1b69305cddf09600b480711fa6b3dda": {
+    "title": "Corps lourd",
+    "topic": "Pourquoi le corps lourd quand on est fatigué arrive",
+    "posted_at": "2026-07-19T19:42:44.705682+00:00",
+    "publish_at": null,
+    "age_hours": 396.3,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1006,
+      "completion": 0.3244,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:22.448241+00:00"
+    }
+  },
+  "ac782bb3f04eeb2b6c7cc5799ea120f98a253ce02d65f55b76dbac68e8bfa9ee": {
+    "title": "Réveil avant l'alarme",
+    "topic": "Pourquoi se réveiller avant son réveil peut sembler étrange",
+    "posted_at": "2026-07-20T00:32:30.530915+00:00",
+    "publish_at": null,
+    "age_hours": 391.5,
+    "hook_score": 100,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 154,
+      "completion": 0.422,
+      "avg_view_seconds": 17,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:23.388508+00:00"
+    }
+  },
+  "8c6b12a5dee2c70dadc7035938d3535911471970bccd4277d0be8675188602b5": {
+    "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+    "topic": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+    "posted_at": "2026-07-20T14:03:07.135002+00:00",
+    "publish_at": null,
+    "age_hours": 378.0,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 630,
+      "completion": 0.3406,
+      "avg_view_seconds": 12,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:24.376187+00:00"
+    }
+  },
+  "8727005c0dac29e6d88d306953770646ed956bb4b50c6b82acc4ab3093d9e195": {
+    "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
+    "topic": "Pourquoi le cerveau remarque entendre son cœur battre la nuit",
+    "posted_at": "2026-07-20T16:29:59.480445+00:00",
+    "publish_at": null,
+    "age_hours": 375.5,
+    "hook_score": 100,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 797,
+      "completion": 0.2906,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:25.329962+00:00"
+    }
+  },
+  "4ed746bb4b2a2885530474396659974206f091ceabdfc00c318794bcf0e63f0a": {
+    "title": "Pourquoi le temps semble passer plus vite en vieillissant",
+    "topic": "Pourquoi le temps semble passer plus vite en vieillissant",
+    "posted_at": "2026-07-20T18:58:59.841641+00:00",
+    "publish_at": null,
+    "age_hours": 373.0,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 868,
+      "completion": 0.2831,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:26.231020+00:00"
+    }
+  },
+  "b9980f417d50db90c500a0150b01c322c54bf223ca44270e06b261afe511a250": {
+    "title": "Ce que votre corps vous dit quand le corps se fige",
+    "topic": "Ce que votre corps vous dit quand le corps se fige quand on a peur",
+    "posted_at": "2026-07-21T06:22:21.757408+00:00",
+    "publish_at": null,
+    "age_hours": 361.6,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 146,
+      "completion": 0.3152,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:27.150548+00:00"
+    }
+  },
+  "0147e48d3de772c6a47c76ac39a7ccea5531c22ea3b5c455c4ec123adaa5c47a": {
+    "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
+    "topic": "Ce qui se passe quand un déjà-vu semble étrangement familier",
+    "posted_at": "2026-07-21T16:20:03.747876+00:00",
+    "publish_at": null,
+    "age_hours": 351.7,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 266,
+      "completion": 0.2467,
+      "avg_view_seconds": 9,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:28.106902+00:00"
+    }
+  },
+  "61c29bb0890c66ad102ae379266b45b67a3292f9493e38cf3b4607639793dd0f": {
+    "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+    "topic": "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+    "posted_at": "2026-07-21T18:27:51.400574+00:00",
+    "publish_at": null,
+    "age_hours": 349.5,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1510,
+      "completion": 0.3213,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:29.096085+00:00"
+    }
+  },
+  "2cbce7a2ac313a4780b2afb6367fac3df28982edb3579c2065f388095b1ca5d2": {
+    "title": "La science derrière le temps qui semble accélérer",
+    "topic": "La science derrière le temps qui semble accélérer en vieillissant",
+    "posted_at": "2026-07-22T06:15:36.057658+00:00",
+    "publish_at": null,
+    "age_hours": 337.7,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 675,
+      "completion": 0.2913,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:29.925000+00:00"
+    }
+  },
+  "9cf8a04f0b4c614d77dd9f6c283fa71d40002888ceb30adb66169c67992b4f02": {
+    "title": "Ce que votre corps vous dit quand le silence devient",
+    "topic": "Ce que votre corps vous dit quand le silence devient inconfortable",
+    "posted_at": "2026-07-22T08:18:22.626706+00:00",
+    "publish_at": null,
+    "age_hours": 335.7,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 116,
+      "completion": 0.4628,
+      "avg_view_seconds": 19,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:30.846901+00:00"
+    }
+  },
+  "596699060f044de2d1e4ae41b6be5f9d6b7a02a56563bb48934ff4c3126ea4b7": {
+    "title": "Ce que votre corps vous dit quand le ventre se serre",
+    "topic": "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+    "posted_at": "2026-07-22T15:29:57.707450+00:00",
+    "publish_at": null,
+    "age_hours": 328.5,
+    "hook_score": 100,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1087,
+      "completion": 0.3766,
+      "avg_view_seconds": 14,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:31.681845+00:00"
+    }
+  },
+  "ebe3038da6496d4b3f534033b139156029b5fd524708b5eff48f08815443e5a5": {
+    "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
+    "topic": "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
+    "posted_at": "2026-07-23T04:07:48.183726+00:00",
+    "publish_at": null,
+    "age_hours": 315.9,
+    "hook_score": 100,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 579,
+      "completion": 0.3744,
+      "avg_view_seconds": 16,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:32.642966+00:00"
+    }
+  },
+  "b76c6fa4abfb0a05f2968df53676ec2f395b4201758d8bf60f98d93c29765483": {
+    "title": "Ce que la science explique sur l'effet du stress",
+    "topic": "Ce que la science explique sur l'effet du stress sur la mémoire",
+    "posted_at": "2026-07-23T12:47:42.329404+00:00",
+    "publish_at": null,
+    "age_hours": 307.2,
+    "hook_score": 90,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 294,
+      "completion": 0.2934,
+      "avg_view_seconds": 12,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:33.594776+00:00"
+    }
+  },
+  "ef9ce3f640408ca51892a80e2b0de9aa45c970813553f30dfd78ac7a4c9bcff2": {
+    "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+    "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+    "posted_at": "2026-07-23T17:10:16.892479+00:00",
+    "publish_at": null,
+    "age_hours": 302.8,
+    "hook_score": 90,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1456,
+      "completion": 0.2741,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:34.522563+00:00"
+    }
+  },
+  "9e6291fa502aff8fb61eedf8230206b018e6514cdfe27918f2811a8079be7f3b": {
+    "title": "Pourquoi le sursaut du corps en s'endormant ?",
+    "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
+    "posted_at": "2026-07-26T16:26:44.678239+00:00",
+    "publish_at": "2026-07-27T17:30:00+00:00",
+    "age_hours": 231.6,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1032,
+      "completion": 0.289,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:35.402366+00:00"
+    }
+  },
+  "4029b1bdbb36b3590c8d16e26257414cc22ac8803f97c70fd33ee350a9812d0b": {
+    "title": "Pourquoi le hoquet commence brusquement ?",
+    "topic": "Ce que votre corps vous dit quand le hoquet commence brusquement",
+    "posted_at": "2026-07-26T16:38:42.197674+00:00",
+    "publish_at": "2026-07-27T19:00:00+00:00",
+    "age_hours": 231.4,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 756,
+      "completion": 0.3024,
+      "avg_view_seconds": 12,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:36.302677+00:00"
+    }
+  },
+  "3e210ca28a1532d8bf3f11da4e6ca61e278513e071c1af5f37a4b2962470de85": {
+    "title": "Pourquoi les corps flottants visibles dans la lumière ?",
+    "topic": "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
+    "posted_at": "2026-07-26T18:11:38.323167+00:00",
+    "publish_at": "2026-07-28T10:30:00+00:00",
+    "age_hours": 229.8,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 349,
+      "completion": 0.3119,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:37.090729+00:00"
+    }
+  },
+  "8955bb7e285be624ce4d80d40c9bf4a22722a271bde42127e93c9f32e8b5a100": {
+    "title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
+    "topic": "Comprendre pourquoi le cerveau réclame du sommeil profond",
+    "posted_at": "2026-07-27T07:09:09.033173+00:00",
+    "publish_at": "2026-07-28T17:30:00+00:00",
+    "age_hours": 216.9,
+    "hook_score": 100,
+    "seo_score": 98,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 765,
+      "completion": 0.347,
+      "avg_view_seconds": 12,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:38.061655+00:00"
+    }
+  },
+  "a65552fc3738663cfe7c643fdd395d75699004edf60d4fdbf1cbda76587aa419": {
+    "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+    "topic": "Ce qui change lorsque une lumière vive fait éternuer",
+    "posted_at": "2026-07-27T12:05:42.582878+00:00",
+    "publish_at": "2026-07-28T19:00:00+00:00",
+    "age_hours": 211.9,
+    "hook_score": 90,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 989,
+      "completion": 0.2931,
+      "avg_view_seconds": 8,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:39.017686+00:00"
+    }
+  },
+  "3d1bf86e220f04778663024f9711d637800cf77de4ea5d4a06e7dc9a902120e0": {
+    "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
+    "topic": "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
+    "posted_at": "2026-07-27T17:25:18.601024+00:00",
+    "publish_at": "2026-07-29T10:30:00+00:00",
+    "age_hours": 206.6,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 524,
+      "completion": 0.289,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:39.817455+00:00"
+    }
+  },
+  "eb810fa78ce0a8a4c942e925a583ef9e6f1365ecc418b57a291afb33ba67894e": {
+    "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+    "topic": "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+    "posted_at": "2026-07-27T18:33:37.590797+00:00",
+    "publish_at": "2026-07-29T17:30:00+00:00",
+    "age_hours": 205.4,
+    "hook_score": 85,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1214,
+      "completion": 0.3447,
+      "avg_view_seconds": 9,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:40.784748+00:00"
+    }
+  },
+  "01b7f27f599366365ed5efb6a37f1fc62e8f65759b9bb93e8be3492b09904c03": {
+    "title": "Pourquoi le muscle qui tressaille tout seul ?",
+    "topic": "Ce que la science explique sur le muscle qui tressaille tout seul",
+    "posted_at": "2026-07-28T11:08:56.755039+00:00",
+    "publish_at": "2026-07-29T19:00:00+00:00",
+    "age_hours": 188.9,
+    "hook_score": 90,
+    "seo_score": 82,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1172,
+      "completion": 0.3278,
+      "avg_view_seconds": 12,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:41.587200+00:00"
+    }
+  },
+  "5b792fd399062aadbbd5e6061730ff3dbc5204c4ea88a716090fc14fbec8657f": {
+    "title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
+    "topic": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+    "posted_at": "2026-07-28T18:25:09.285882+00:00",
+    "publish_at": "2026-07-30T10:30:00+00:00",
+    "age_hours": 181.6,
+    "hook_score": 90,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1010,
+      "completion": 0.2905,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:42.395707+00:00"
+    }
+  },
+  "d52b2ba0f6244ed4fdc587b48f5d6a397109165b764fe895ca5206d1a92556d0": {
+    "title": "Ce qui se passe quand le cœur s'emballe sous le stress ?",
+    "topic": "Ce qui se passe quand le cœur s'emballe sous le stress",
+    "posted_at": "2026-07-29T11:11:32.970076+00:00",
+    "publish_at": "2026-07-30T17:30:00+00:00",
+    "age_hours": 164.8,
+    "hook_score": 100,
+    "seo_score": 85,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 782,
+      "completion": 0.3639,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:43.374624+00:00"
+    }
+  },
+  "9bfc549a172116f5d10f89c05e957600efeb9f40f7ed435e8bbbf56d32ed862d": {
+    "title": "Comprendre pourquoi le corps frissonne sous le stress",
+    "topic": "Comprendre pourquoi le corps frissonne sous le stress",
+    "posted_at": "2026-07-29T17:00:24.760003+00:00",
+    "publish_at": "2026-07-30T19:00:00+00:00",
+    "age_hours": 159.0,
+    "hook_score": 85,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
+    }
+  },
+  "d922f452689625fa54def208d879db2a7ae7ba34e3c1afd6bb9894a165ea94b9": {
+    "title": "Pourquoi on frissonne quand on a froid ?",
+    "topic": "Pourquoi on frissonne quand on a froid peut sembler étrange",
+    "posted_at": "2026-07-30T17:08:43.486064+00:00",
+    "publish_at": "2026-07-30T19:30:00+00:00",
+    "age_hours": 134.9,
+    "hook_score": 85,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 924,
+      "completion": 0.3883,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:45.238223+00:00"
+    }
+  },
+  "c1c1104b7ff92652e56d7f76b5c12016adfb125e43257cc261e68a92afd744fc": {
+    "title": "Pourquoi le ventre gargouille sans faim ?",
+    "topic": "Pourquoi le ventre gargouille sans faim",
+    "posted_at": "2026-07-30T18:31:03.596313+00:00",
+    "publish_at": "2026-07-31T15:30:00+00:00",
+    "age_hours": 133.5,
+    "hook_score": 90,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 712,
+      "completion": 0.4751,
+      "avg_view_seconds": 17,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:46.054215+00:00"
+    }
+  },
+  "d9675f41a6217d41597524875e635cfa9b9ef491918b5cd4241e4cc383290775": {
+    "title": "Pourquoi on entend son cœur battre la nuit ?",
+    "topic": "Pourquoi on entend son cœur battre la nuit semble soudain",
+    "posted_at": "2026-07-31T10:17:08.302336+00:00",
+    "publish_at": "2026-07-31T17:30:00+00:00",
+    "age_hours": 117.7,
+    "hook_score": 100,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 646,
+      "completion": 0.4738,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:46.826530+00:00"
+    }
+  },
+  "d1d312f3e64be40cd8725feb648931ffd7fcd1c5ddddee8e09819d06c9b2bb07": {
+    "title": "Pourquoi un aliment froid provoque un mal de tête ?",
+    "topic": "Pourquoi un aliment froid provoque un mal de tête semble soudain",
+    "posted_at": "2026-07-31T11:20:21.085369+00:00",
+    "publish_at": "2026-07-31T19:30:00+00:00",
+    "age_hours": 116.7,
+    "hook_score": 85,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 1252,
+      "completion": 0.3999,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:47.685190+00:00"
+    }
+  },
+  "aa92055e153b273cf89a16a187aaa2eba253347bac9f167e64ddde27460992bd": {
+    "title": "Pourquoi les oreilles sifflent dans le silence ?",
+    "topic": "Ce qui change lorsque les oreilles sifflent dans le silence",
+    "posted_at": "2026-07-31T17:11:13.341639+00:00",
+    "publish_at": "2026-08-01T15:30:00+00:00",
+    "age_hours": 110.8,
+    "hook_score": 100,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "error": "HttpError 500: {\n  \"error\": {\n    \"code\": 500,\n    \"message\": \"Internal error encountered.\",\n    \"errors\": [\n      {\n        \"message\": \"Internal error encountered.\",\n        \"domain\": \"global\",\n        \"reason\": \"b"
+    }
+  },
+  "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630": {
+    "title": "Pourquoi la chair de poule apparaît soudainement ?",
+    "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
+    "posted_at": "2026-07-31T18:29:19.589245+00:00",
+    "publish_at": "2026-08-01T17:30:00+00:00",
+    "age_hours": 109.5,
+    "hook_score": 90,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 953,
+      "completion": 0.6611,
+      "avg_view_seconds": 15,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:49.016117+00:00"
+    }
+  },
+  "340b2f96fb0a82158c4f50647c9430350f5fddab92faa45de862dc03e2d013e8": {
+    "title": "Pourquoi dit on que le cerveau est immature ?",
+    "topic": "Pourquoi dit on que le cerveau est immature",
+    "posted_at": "2026-08-01T10:28:41.907316+00:00",
+    "publish_at": "2026-08-01T19:30:00+00:00",
+    "age_hours": 93.5,
+    "hook_score": 100,
+    "seo_score": 98,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 324,
+      "completion": 0.345,
+      "avg_view_seconds": 13,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:49.962884+00:00"
+    }
+  },
+  "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b": {
+    "title": "Pourquoi votre corps refuse de mentir ?",
+    "topic": "Pourquoi votre corps refuse de mentir",
+    "posted_at": "2026-08-01T16:36:37.998260+00:00",
+    "publish_at": "2026-08-02T15:30:00+00:00",
+    "age_hours": 87.4,
+    "hook_score": 100,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 191,
+      "completion": 0.45,
+      "avg_view_seconds": 11,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:50.801240+00:00"
+    }
+  },
+  "b58437818eb2533d8d71853647a421d63a36bdd6694c907194517acb1cec11a3": {
+    "title": "Pourquoi votre corps refuse de maigrir ?",
+    "topic": "Pourquoi votre corps refuse de maigrir",
+    "posted_at": "2026-08-01T18:13:36.451878+00:00",
+    "publish_at": "2026-08-02T17:30:00+00:00",
+    "age_hours": 85.8,
+    "hook_score": 85,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 2,
+      "completion": 0.0,
+      "avg_view_seconds": 0,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:51.576861+00:00"
+    }
+  },
+  "c7e8c562e2da103a14017fa10eb7c205e8d22675964f2aa2fb02a4d4547d789d": {
+    "title": "Pourquoi le cerveau des femmes est divisé en 5 ?",
+    "topic": "Pourquoi le cerveau des femmes est divisé en 5",
+    "posted_at": "2026-08-02T10:24:56.740826+00:00",
+    "publish_at": "2026-08-02T19:30:00+00:00",
+    "age_hours": 69.6,
+    "hook_score": 100,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "views": 740,
+      "completion": 0.3408,
+      "avg_view_seconds": 10,
+      "impressions": null,
+      "ctr": null,
+      "fetched_at": "2026-08-05T08:00:52.556078+00:00"
+    }
+  },
+  "e762eb1a73bf2502a92a23fa5bb3594aec0bf989780c7f25b8dba4ab40ded431": {
+    "title": "Pourquoi la peau se fripe dans leau ?",
+    "topic": "Pourquoi la peau se fripe dans leau",
+    "posted_at": "2026-08-02T19:30:50.582412+00:00",
+    "publish_at": "2026-08-03T15:30:00+00:00",
+    "age_hours": 60.5,
+    "hook_score": 90,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-05T08:00:21.802406+00:00",
+    "youtube_shorts": {
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
+    }
+  }
+}
