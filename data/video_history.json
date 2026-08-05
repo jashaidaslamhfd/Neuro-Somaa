@@ -928,5 +928,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615
+  },
+  {
+    "content_fingerprint": "beea1a54e1c41352deedf92d1cdbafaf8b65bd1ca2f6b877f9d49e0cf8cb17db",
+    "title": "Pourquoi la m\u00e2choire craque en m\u00e2chant ?",
+    "topic": "Ce que la science explique sur la m\u00e2choire qui craque en m\u00e2chant",
+    "series_title": "M\u00e2choire qui craque",
+    "base_phenomenon": "la m\u00e2choire qui craque en m\u00e2chant",
+    "nominal_phrase": "la m\u00e2choire qui craque en m\u00e2chant",
+    "question_phrase": "la m\u00e2choire craque en m\u00e2chant",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ta m\u00e2choire crache en m\u00e2chant, pourquoi ? C'est parce que vos m\u00e2choires s'adaptaient \u00e0 la pression, mais... Les muscles de la m\u00e2choire se contractent pour mordre. Le nerf facial transmet les signaux pour contr\u00f4ler la m\u00e2choire. La pression sur les gencives d\u00e9clenche la r\u00e9action. Et la m\u00e2choire fonctionne normalement, mais...",
+    "posted_at": "2026-08-05T19:11:30.657120+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "0giDXoVx72E",
+    "publish_at": "2026-08-05T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]
