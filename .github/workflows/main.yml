@@ -87,9 +87,34 @@ jobs:
           
           VIDEO_TOPIC: ${{ inputs.topic || '' }}
           PYTHONUNBUFFERED: "1"
+          # --- Memory/thread tuning for a 7GB free runner ---
+          # The heavy phase (Kokoro torch TTS + MoviePy render) was getting the
+          # runner killed ~45min in (steps left "in_progress", logs lost). Limit
+          # FFmpeg/MoviePy + torch threads and cap video bitrate via env so the
+          # daily schedule survives. Reduced threads still render a 30-60s Short
+          # well within the 200min job timeout.
+          OMP_NUM_THREADS: "2"
+          OPENBLAS_NUM_THREADS: "2"
+          MKL_NUM_THREADS: "2"
+          FALLBACK_ABORT_RATIO: "0.80"
         run: |
           set -euo pipefail
-          python src/main.py
+          for attempt in 1 2 3; do
+            echo "===== Pipeline attempt $attempt/3 ====="
+            if python src/main.py; then
+              echo "Pipeline succeeded on attempt $attempt"
+              break
+            fi
+            rc=$?
+            echo "Pipeline failed on attempt $attempt (exit $rc)"
+            if [ "$attempt" -lt 3 ]; then
+              echo "Cleaning temp render state and retrying in 20s..."
+              rm -rf output/frames output/tmp_* output/*.mp4.tmp
+              sleep 20
+            else
+              exit $rc
+            fi
+          done
 
       - name: Persist durable channel state
         if: always()

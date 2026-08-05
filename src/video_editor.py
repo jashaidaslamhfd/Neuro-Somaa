@@ -744,9 +744,18 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # YouTube's own guidance recommends ~8 Mbps for 1080p/30fps SDR
         # uploads; 6 Mbps was leaving quality on the table before YouTube's
         # own re-compression even runs. 10 Mbps gives it more to work with.
-        bitrate="10000k",
+        bitrate="8000k",
         audio_bitrate="192k",
-        preset="slow",
+        # "slow" preset on a free 7GB runner frequently OOM'd/killed the render
+        # ~45min in. "medium" produces visually near-identical 1080p30 output
+        # (YouTube re-compresses anyway) while using far less RAM and time —
+        # critical so the daily 3-video schedule survives the runner. Bitrate
+        # trimmed to 8 Mbps, the high end of YouTube's own SDR guidance.
+        preset="medium",
+        # 2 threads keeps the FFmpeg encode memory-footprint down on the free
+        # 7GB runner (prevents the mid-render OOM kill). Quality is unchanged;
+        # a 30-60s 1080p Short still encodes in well under the timeout.
+        threads=int(os.environ.get("FFMPEG_THREADS", "2")),
         ffmpeg_params=["-pix_fmt", "yuv420p", "-movflags", "+faststart", "-aspect", "9:16"]
     )
     logger.info(f"Video created: {output_path} ({final_video.duration:.1f}s)")
