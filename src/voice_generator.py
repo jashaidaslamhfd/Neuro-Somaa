@@ -394,42 +394,58 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     "no voice / stuck visuals" bug). edge-tts produces full-length, natural
     French and has no heavy native build deps, so it works on the CI runner.
 
-    Voice/rate come from EDGE_FR_VOICE / EDGE_FR_RATE env (see env.example).
+    Voice auto-fallback: EDGE_FR_VOICE is tried first; on "No audio received"
+    (some voices intermittently fail on the runner, e.g. RemyNeural) it falls
+    through to EDGE_FR_VOICE_ALT1 / EDGE_FR_VOICE_ALT2 before giving up. This
+    keeps the pipeline robust without pinning a single voice.
+
+    Voice/rate come from EDGE_FR_VOICE* / EDGE_FR_RATE env (see env.example).
 
     Returns (audio np.ndarray float32, sample_rate int).
     """
     import asyncio as _asyncio
     import edge_tts as _edge
 
-    voice = voice or os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
-    rate = rate or os.environ.get("EDGE_FR_RATE", "-5%")
+    candidates = [
+        voice or os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural"),
+        os.environ.get("EDGE_FR_VOICE_ALT1", "fr-FR-RemyNeural"),
+        os.environ.get("EDGE_FR_VOICE_ALT2", "fr-FR-DeniseNeural"),
+    ]
+    rate = rate or os.environ.get("EDGE_FR_RATE", "-8%")
 
-    async def _collect():
+    async def _collect(use_voice: str):
         chunks = []
-        c = _edge.Communicate(text, voice, rate=rate)
+        c = _edge.Communicate(text, use_voice, rate=rate)
         async for chunk in c.stream():
             if chunk["type"] == "audio":
                 chunks.append(chunk["data"])
         return b"".join(chunks)
 
-    mp3_bytes = _asyncio.run(_collect())
-    if len(mp3_bytes) < 4000:
-        raise RuntimeError("edge-tts returned empty/too-short audio")
-
-    # decode mp3 -> wav for the pipeline (raw numpy)
-    import subprocess
-    import tempfile
-    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
-        fh.write(mp3_bytes)
-        mp3_path = fh.name
-    wav_path = mp3_path + ".wav"
-    subprocess.run(
-        ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
-         "-acodec", "pcm_s16le", wav_path],
-        check=True, capture_output=True)
-    import soundfile as _sf
-    audio, sr = _sf.read(wav_path)
-    return audio, sr
+    last_err = None
+    for use_voice in dict.fromkeys(candidates):  # de-dup, keep order
+        try:
+            mp3_bytes = _asyncio.run(_collect(use_voice))
+            if len(mp3_bytes) < 4000:
+                raise RuntimeError("edge-tts returned empty/too-short audio")
+            # decode mp3 -> wav for the pipeline (raw numpy)
+            import subprocess
+            import tempfile
+            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
+                fh.write(mp3_bytes)
+                mp3_path = fh.name
+            wav_path = mp3_path + ".wav"
+            subprocess.run(
+                ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
+                 "-acodec", "pcm_s16le", wav_path],
+                check=True, capture_output=True)
+            import soundfile as _sf
+            audio, sr = _sf.read(wav_path)
+            logger.info("edge-tts voice OK: %s", use_voice)
+            return audio, sr
+        except Exception as exc:
+            last_err = exc
+            logger.warning("edge-tts voice %s failed: %s", use_voice, exc)
+    raise RuntimeError(f"edge-tts failed on all voices: {last_err}")
 
 
 def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
