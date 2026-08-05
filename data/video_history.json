@@ -850,5 +850,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615
+  },
+  {
+    "content_fingerprint": "734635deaceabc8975916bb29046dccd200cc5a2f353ea5f281a714fff74bfd9",
+    "title": "Pourquoi les oreilles deviennent chaudes ?",
+    "topic": "La science derri\u00e8re les oreilles qui deviennent chaudes",
+    "series_title": "Oreilles chaudes",
+    "base_phenomenon": "les oreilles qui deviennent chaudes",
+    "nominal_phrase": "les oreilles qui deviennent chaudes",
+    "question_phrase": "les oreilles deviennent chaudes",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Tes oreilles deviennent chaudes ? C'est ton cerveau qui envoie plus de sang Pour r\u00e9agir \u00e0 un stress ou un stress \u00e9motionnel Le syst\u00e8me nerveux r\u00e9pond en augmentant la fr\u00e9quence cardiaque Et en dilatant les vaisseaux sanguins locaux Et c'est la raison pour laquelle tes oreilles deviennent chaudes",
+    "posted_at": "2026-08-05T07:52:55.711900+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "T-6i-QBToiM",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]
