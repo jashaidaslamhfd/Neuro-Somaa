@@ -305,5 +305,18 @@
     },
     "publish_at": "2026-08-05T19:30:00+00:00",
     "completed_at": 1785957090.65642
+  },
+  "6ed58f6d2de488446ff471f1e6a6e3c77fd3e38bb4abc29dde5b0701740461d8": {
+    "status": "completed",
+    "title": "Pourquoi un pied s'endort tout seul ?",
+    "youtube_video_id": "JIg1-eBYols",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-06T15:30:00+00:00",
+    "completed_at": 1785961847.689469
   }
 }

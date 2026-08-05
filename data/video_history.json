@@ -948,5 +948,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615
+  },
+  {
+    "content_fingerprint": "6ed58f6d2de488446ff471f1e6a6e3c77fd3e38bb4abc29dde5b0701740461d8",
+    "title": "Pourquoi un pied s'endort tout seul ?",
+    "topic": "Pourquoi un pied s'endort tout seul peut sembler \u00e9trange",
+    "series_title": "Pied endormi",
+    "base_phenomenon": "le pied qui s'endort tout seul",
+    "nominal_phrase": "le pied qui s'endort tout seul",
+    "question_phrase": "un pied s'endort tout seul",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton pied s'endort tout seul, c'est \u00e9trange C'est parce que ton cerveau envoie des signaux de sommeil Les nerfs qui contr\u00f4lent les muscles de ton pied re\u00e7oivent. Les muscles de ton pied se rel\u00e2chent et s'endorment Le cerveau continue \u00e0 envoyer des signaux de sommeil \u00e0. C'est pourquoi ton pied peut s'endormir tout seul",
+    "posted_at": "2026-08-05T20:30:47.690116+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "JIg1-eBYols",
+    "publish_at": "2026-08-06T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]
