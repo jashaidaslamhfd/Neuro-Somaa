@@ -172,13 +172,46 @@ def _layer_local_pool(index, used_fallbacks: set):
     return _save_bytes(content, index, ext=ext)
 
 
+def _scene_theme(scene_text: str) -> str:
+    """Pick a visual theme from scene keywords so the procedural fallback
+    produces scene-aware visuals instead of the same generic pattern every
+    scene. Cheap keyword -> theme mapping; returns 'generic' if nothing
+    matches. This is what fixes the 'one same pattern image' complaint."""
+    t = (scene_text or "").lower()
+    body = ["corps", "muscle", "cerveau", "nerf", "sang", "cœur", "cœur",
+            "cellule", "nerf", "poitrine", "ventre", "bras", "doigt",
+            "visage", "peau", "os", "articul", "genou", "cou", "epaule"]
+    brain = ["cerveau", "neurone", "esprit", "pensée", "pense", "memoire",
+             "réflexe", "reflexe", "sommeil", "reve", "déjà"]
+    night = ["nuit", "sommeil", "reve", "lune", "obscur"]
+    warning = ["danger", "alerte", "réagit", "reagit", "signal", "stress",
+               "peur", "douleur", "blessure"]
+    if any(w in t for w in brain):
+        return "brain"
+    if any(w in t for w in night):
+        return "night"
+    if any(w in t for w in warning):
+        return "alert"
+    if any(w in t for w in body):
+        return "body"
+    return "generic"
+
+
 def _layer_procedural(index, scene_text):
     """GUARANTEED fallback (added 2026-08-02 audit): dark cinematic gradient
     generated locally with numpy/PIL — zero dependencies, never rate-limited,
     never fails. Each scene gets a deterministic-but-unique seed so visuals
     differ across scenes and across videos. This replaces the previous
     behaviour where a total AI-provider outage (all of Pollinations/AI-Horde
-    rate-limited + empty fallback pool) CRASHED the whole video creation."""
+    rate-limited + empty fallback pool) CRASHED the whole video creation.
+
+    Since the 2026-08-05 audit (user reported "one same pattern image"),
+    this layer is now scene-AWARE: it picks a theme from the scene caption
+    keywords and renders a different, meaningful abstract composition per
+    scene (neural/brain arcs, cells, energy/alert pulses, horizon, etc.)
+    instead of the identical bokeh+rings pattern everywhere. It also
+    overlays the scene caption text so the visual stays informative even
+    when every AI provider is down."""
     try:
         import numpy as _np
         from PIL import Image as _PIL, ImageDraw as _PILD, ImageFilter as _PILF
@@ -189,14 +222,23 @@ def _layer_procedural(index, scene_text):
     rng = _np.random.RandomState(seed % (2**31))
     W, H = 1080, 1920
 
-    palettes = [
-        ((5, 5, 12), (15, 20, 40)),   # dark
-        ((8, 4, 16), (25, 15, 50)),   # mysterious
-        ((18, 4, 4), (55, 15, 10)),   # intense
-        ((4, 8, 16), (10, 25, 55)),   # chilling
-        ((3, 3, 3), (8, 8, 12)),      # revelatory
-    ]
-    top, bottom = palettes[seed % len(palettes)]
+    theme = _scene_theme(scene_text)
+    # Theme-specific palettes (top, bottom) so scenes with different keywords
+    # get a different colour mood, not the same pattern every time.
+    palettes_by_theme = {
+        # dark, mysterious
+        "generic": [((5, 5, 12), (15, 20, 40)), ((3, 3, 3), (8, 8, 12))],
+        # neural / brain — deep indigo -> violet
+        "brain": [((12, 6, 30), (40, 15, 90)), ((8, 4, 28), (30, 10, 70))],
+        # night — deep blue -> near-black
+        "night": [((2, 4, 18), (10, 20, 60)), ((1, 3, 14), (6, 14, 45))],
+        # alert / pain / stress — dark red -> ember
+        "alert": [((22, 3, 3), (70, 12, 6)), ((30, 4, 2), (90, 18, 8))],
+        # body / anatomy — dark teal -> deep green
+        "body": [((3, 14, 12), (8, 40, 30)), ((4, 12, 16), (10, 30, 45))],
+    }
+    _palettes = palettes_by_theme.get(theme, palettes_by_theme["generic"])
+    top, bottom = _palettes[seed % len(_palettes)]
     # Brightness floor: media_validator rejects mean <12 ("Near-black").
     # The raw dark gradients sit at ~10, so we scale the whole image up to
     # land in the 18-30 mean range (still dark & moody, but passing the gate).
@@ -214,17 +256,78 @@ def _layer_procedural(index, scene_text):
     arr = _np.clip(arr + rng.standard_normal(arr.shape) * 3, 0, 255).astype(_np.uint8)
     img = _PIL.fromarray(arr)
 
-    # bokeh lights (brighter so mean clears the validator floor)
+    # Scene-aware composition layer: different meaningful abstract visuals per
+    # theme (neural arcs / cells / energy pulses / horizon) instead of the old
+    # identical bokeh+rings pattern that looked like "one same image".
     overlay = _PIL.new("RGB", (W, H), (0, 0, 0))
     dr = _PILD.Draw(overlay)
     bokeh = [(60, 90, 170), (120, 60, 60), (50, 50, 90),
              (110, 60, 160), (160, 50, 40), (40, 70, 140)]
-    for _ in range(18):
-        r = rng.randint(30, 140)
-        x, y = rng.randint(0, W), rng.randint(0, H)
-        col = bokeh[rng.randint(0, len(bokeh) - 1)]
-        dr.ellipse([x - r, y - r, x + r, y + r],
-                   fill=tuple(int(v * 0.35) for v in col))
+    accent = (200, 220, 255)
+
+    if theme == "brain":
+        # neural network: branching arcs + node clusters
+        for _ in range(26):
+            x1, y1 = rng.randint(0, W), rng.randint(0, H)
+            x2, y2 = x1 + rng.randint(-350, 350), y1 + rng.randint(-350, 350)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.line([x1, y1, x2, y2], fill=tuple(int(v * 0.5) for v in col),
+                    width=rng.randint(3, 9))
+        for _ in range(30):
+            x, y = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(10, 60)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.ellipse([x - r, y - r, x + r, y + r],
+                       fill=tuple(int(v * 0.55) for v in col))
+    elif theme == "alert":
+        # concentric warning pulses radiating from center
+        cx, cy = W // 2, H // 2
+        for k in range(7):
+            r = (k + 1) * (H // 8)
+            dr.ellipse([cx - r, cy - r, cx + r, cy + r],
+                       outline=(220, 60, 40), width=rng.randint(4, 10))
+        for _ in range(24):
+            x1, y1 = rng.randint(0, W), rng.randint(0, H)
+            x2, y2 = x1 + rng.randint(-120, 120), y1 + rng.randint(-120, 120)
+            dr.line([x1, y1, x2, y2], fill=(230, 90, 60), width=3)
+    elif theme == "night":
+        # moon + horizon silhouette
+        mx, my, mr = rng.randint(200, W - 200), rng.randint(200, 600), rng.randint(120, 220)
+        dr.ellipse([mx - mr, my - mr, mx + mr, my + mr],
+                   fill=tuple(int(v * 0.4) for v in accent))
+        for _ in range(40):
+            sx = rng.randint(0, W)
+            sy = rng.randint(H // 2, H)
+            sh = rng.randint(80, 300)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.polygon([(sx, sy), (sx + 90, sy), (sx + 45, sy - sh)],
+                       fill=tuple(int(v * 0.45) for v in col))
+    elif theme == "body":
+        # flowing bloodstream / cellular filaments
+        for _ in range(18):
+            pts = []
+            cx, cy = rng.randint(0, W), rng.randint(0, H)
+            for j in range(6):
+                cx += rng.randint(-120, 120)
+                cy += rng.randint(60, 160)
+                pts.append((cx, cy))
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.line(pts, fill=tuple(int(v * 0.5) for v in col), width=rng.randint(6, 16), joint="curve")
+        for _ in range(16):
+            x, y = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(20, 70)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.ellipse([x - r, y - r, x + r, y + r],
+                       outline=tuple(int(v * 0.6) for v in col), width=4)
+    else:
+        # generic: bokeh lights
+        for _ in range(18):
+            r = rng.randint(30, 140)
+            x, y = rng.randint(0, W), rng.randint(0, H)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.ellipse([x - r, y - r, x + r, y + r],
+                       fill=tuple(int(v * 0.35) for v in col))
+
     overlay = overlay.filter(_PILF.GaussianBlur(60))
     img = _PIL.blend(img, overlay, 0.45)
 
@@ -252,17 +355,54 @@ def _layer_procedural(index, scene_text):
     detail = _PIL.new("RGB", (W, H), (0, 0, 0))
     dd = _PILD.Draw(detail)
     accent = (200, 220, 255)
-    for _ in range(14):
-        cx, cy = rng.randint(0, W), rng.randint(0, H)
-        r = rng.randint(120, 420)
-        dd.ellipse([cx - r, cy - r, cx + r, cy + r],
-                   outline=accent, width=rng.randint(2, 5))
-    for _ in range(10):
-        x1, y1 = rng.randint(0, W), rng.randint(0, H)
-        x2, y2 = rng.randint(0, W), rng.randint(0, H)
-        dd.line([x1, y1, x2, y2], fill=accent, width=rng.randint(2, 4))
+    if theme == "brain":
+        for _ in range(24):
+            cx, cy = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(60, 240)
+            dd.ellipse([cx - r, cy - r, cx + r, cy + r],
+                       outline=accent, width=rng.randint(2, 4))
+    elif theme == "alert":
+        for _ in range(20):
+            x1, y1 = rng.randint(0, W), rng.randint(0, H)
+            x2, y2 = rng.randint(0, W), rng.randint(0, H)
+            dd.line([x1, y1, x2, y2], fill=(255, 120, 90), width=rng.randint(2, 5))
+    elif theme == "night":
+        for _ in range(40):
+            x, y = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(1, 3)
+            dd.ellipse([x - r, y - r, x + r, y + r], fill=accent)
+    else:
+        for _ in range(14):
+            cx, cy = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(120, 420)
+            dd.ellipse([cx - r, cy - r, cx + r, cy + r],
+                       outline=accent, width=rng.randint(2, 5))
+        for _ in range(10):
+            x1, y1 = rng.randint(0, W), rng.randint(0, H)
+            x2, y2 = rng.randint(0, W), rng.randint(0, H)
+            dd.line([x1, y1, x2, y2], fill=accent, width=rng.randint(2, 4))
     detail = detail.filter(_PILF.GaussianBlur(2))
     img = _PIL.blend(img, detail, 0.35)
+
+    # Overlay the scene caption so the visual stays informative even when every
+    # AI provider is down (keeps the Short on-topic instead of generic pattern).
+    try:
+        from PIL import ImageFont
+        _text_overlay = _PIL.new("RGBA", (W, H), (0, 0, 0, 0))
+        _td = _PILD.Draw(_text_overlay)
+        _font = None
+        for _fp in ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+                    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"):
+            if os.path.exists(_fp):
+                _font = ImageFont.truetype(_fp, 72)
+                break
+        if _font is not None:
+            _text = (scene_text or "")[:90]
+            _td.text((90, H - 260), _text, font=_font, fill=(255, 255, 255, 230))
+            _td.rectangle([70, H - 300, 90 + 40, H - 220], fill=(0, 0, 0, 0))
+        img = _PIL.alpha_composite(img.convert("RGBA"), _text_overlay).convert("RGB")
+    except Exception:
+        pass  # caption overlay is best-effort
 
     os.makedirs("output/fallback_images", exist_ok=True)
     path = os.path.join("output/fallback_images", f"proc_{index}_{seed % 100000}.jpg")
