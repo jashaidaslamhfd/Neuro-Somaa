@@ -810,5 +810,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "d3fd472d9e4f908e4efd34b6b17bc071149b86605c3205d056268558e218cf37",
+    "title": "Pourquoi des fourmillements apparaissent ?",
+    "topic": "Ce qu'il faut comprendre sur les fourmillements apr\u00e8s une mauvaise position",
+    "series_title": "Fourmillements",
+    "base_phenomenon": "les fourmillements apr\u00e8s une mauvaise position",
+    "nominal_phrase": "les fourmillements apr\u00e8s une mauvaise position",
+    "question_phrase": "des fourmillements apparaissent apr\u00e8s une mauvaise position",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps se fige-t-il apr\u00e8s une mauvaise position ? C'est ton syst\u00e8me nerveux qui r\u00e9agit \u00e0 la pression Il lib\u00e8re une substance pour avertir les muscles Les muscles se contractent pour pr\u00e9venir les blessures Mais ce ph\u00e9nom\u00e8ne peut \u00eatre g\u00eanant et douloureux Mais en ajustant ta position, tu peux les pr\u00e9venir",
+    "posted_at": "2026-08-05T06:24:01.457925+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "Qax8WLMXgQU",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
