@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-05T05:50:39.827584+00:00",
+  "generated_at_utc": "2026-08-05T05:54:01.199961+00:00",
   "copy_policy": "Use competitor data as pattern inspiration only. Do not copy exact titles, descriptions, thumbnails or tag dumps. seo_generator blocks exact-title reuse.",
   "filters": {
     "min_views": 1000000,
@@ -23,19 +23,19 @@
     "selection_mode": "auto-discover from French high-view query winners",
     "max_duration_seconds": 90
   },
-  "video_count": 10,
+  "video_count": 11,
   "patterns": [
     {
       "pattern": "other",
-      "score": 45.85,
-      "count": 7,
-      "avg_views": 4566102
+      "score": 52.248,
+      "count": 8,
+      "avg_views": 4307904
     },
     {
       "pattern": "pourquoi-declarative",
       "score": 13.051,
       "count": 2,
-      "avg_views": 3651140
+      "avg_views": 3651138
     },
     {
       "pattern": "numbered-list",
@@ -54,11 +54,11 @@
     }
   ],
   "thumbnail_intel": {
-    "sample_size": 10,
-    "avg_brightness": 76.961,
-    "avg_contrast": 59.44,
-    "avg_warm_bias": 44.866,
-    "avg_red_yellow_ratio": 0.021,
+    "sample_size": 11,
+    "avg_brightness": 72.358,
+    "avg_contrast": 56.612,
+    "avg_warm_bias": 42.424,
+    "avg_red_yellow_ratio": 0.02,
     "recommendation": "high-contrast warm text band"
   },
   "high_value_tags": [
@@ -191,39 +191,43 @@
       "score": 6.637
     },
     {
-      "tag": "animaux",
-      "score": 6.344
+      "tag": "ina",
+      "score": 6.398
     },
     {
-      "tag": "biologie",
-      "score": 6.344
+      "tag": "archive",
+      "score": 6.398
     },
     {
-      "tag": "étude",
-      "score": 6.344
+      "tag": "institut national de l'audiovisuel",
+      "score": 6.398
     },
     {
-      "tag": "peur",
-      "score": 6.344
+      "tag": "interview",
+      "score": 6.398
     },
     {
-      "tag": "anecdote corps humain",
-      "score": 6.026
+      "tag": "politique",
+      "score": 6.398
     },
     {
-      "tag": "anecdote humain",
-      "score": 6.026
+      "tag": "laicité",
+      "score": 6.398
     },
     {
-      "tag": "anecdote corps",
-      "score": 6.026
+      "tag": "école",
+      "score": 6.398
     },
     {
-      "tag": "salive",
-      "score": 6.026
+      "tag": "france",
+      "score": 6.398
     }
   ],
   "title_keywords": [
+    {
+      "keyword": "cerveau",
+      "score": 12.767
+    },
     {
       "keyword": "métal",
       "score": 7.108
@@ -361,8 +365,12 @@
       "score": 6.413
     },
     {
-      "keyword": "cerveau",
-      "score": 6.369
+      "keyword": "aussi",
+      "score": 6.398
+    },
+    {
+      "keyword": "j'ai",
+      "score": 6.398
     },
     {
       "keyword": "einstein",
@@ -374,14 +382,6 @@
     },
     {
       "keyword": "animaux",
-      "score": 6.344
-    },
-    {
-      "keyword": "peur",
-      "score": 6.344
-    },
-    {
-      "keyword": "nous",
       "score": 6.344
     }
   ],
@@ -395,7 +395,8 @@
     "7820d97149013be5aab64224ee08fb20647781f49284df562caa6df0d279e0eb",
     "9f196ea73d79194cf9e38cd49be0aa331cd3af7a985c90f1c4fb3f3a1a8ad8b9",
     "b9d559df39cb25ab4e7717d1dcea79470baf4dabd9fc75babde3d0fb0efe6f67",
-    "c2484b3c9be7fdbf92cfc0a974e913ffba9e5638b75a572d070b9a4d929e8262"
+    "c2484b3c9be7fdbf92cfc0a974e913ffba9e5638b75a572d070b9a4d929e8262",
+    "c9bf23115311c6c1c4bb9bfd52280e013e7aa332b908bc4df93c73b4b9d828f1"
   ],
   "reference_videos_for_human_review": [
     {
@@ -412,7 +413,7 @@
       "url": "https://youtu.be/uoHD9fiSc4Q",
       "title": "⁠@mateooo.k - Les enfants quand ils voient une personne handicapée 🫠 #shorts #animation #humour",
       "channel_title": "Koda",
-      "views": 5185052,
+      "views": 5185057,
       "pattern": "other",
       "tags_sample": []
     },
@@ -462,6 +463,24 @@
       "tags_sample": []
     },
     {
+      "video_id": "Y_aBew736D0",
+      "url": "https://youtu.be/Y_aBew736D0",
+      "title": "\"Moi aussi j'ai un cerveau\" 😡 🧠  #INA #shorts",
+      "channel_title": "INA Politique",
+      "views": 2500510,
+      "pattern": "other",
+      "tags_sample": [
+        "ina",
+        "archive",
+        "institut national de l'audiovisuel",
+        "interview",
+        "politique",
+        "laicité",
+        "école",
+        "france"
+      ]
+    },
+    {
       "video_id": "9B5mPW_qiAw",
       "url": "https://youtu.be/9B5mPW_qiAw",
       "title": "Le cerveau d’Einstein a été volé. #shorts",
@@ -475,7 +494,7 @@
       "url": "https://youtu.be/dWpC78e4FUc",
       "title": "Pourquoi les ANIMAUX ont PEUR de nous ? 😨🦁",
       "channel_title": "Science Trash",
-      "views": 2208252,
+      "views": 2208246,
       "pattern": "pourquoi-declarative",
       "tags_sample": [
         "animaux",
@@ -489,7 +508,7 @@
       "url": "https://youtu.be/btaa4TUCY-0",
       "title": "😱Mais POURQUOI ?!🤯 #kpopdemonhunters #netflix #shorts",
       "channel_title": "RikuSama Théorie",
-      "views": 1141464,
+      "views": 1141469,
       "pattern": "other",
       "tags_sample": []
     },
