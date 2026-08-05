@@ -720,14 +720,23 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
             perceptual = _perceptual_hash(path, media_type)
             if file_hash in used_hashes:
                 raise RuntimeError(f"{name}: duplicate media; trying next source")
-            clash = _perceptual_clash(perceptual, used_hashes)
+            # Procedural-fallback is the GUARANTEED last resort — it must never
+            # fail. Its deterministic-but-unique seed already prevents literal
+            # duplicates (byte-hash above) and gives each scene a distinct
+            # composition. The perceptual-clash check is intentionally SKIPPED
+            # for it: the old one-pattern fallback images live in the channel
+            # history, and those perceptually resemble the dark-abstract style,
+            # so enforcing phash here made the whole video fail (2026-08-05)
+            # exactly when the fallback was most needed.
+            is_procedural = name == "Procedural-fallback"
+            clash = _perceptual_clash(perceptual, used_hashes) if not is_procedural else None
             if clash:
                 raise RuntimeError(
                     f"{name}: visually identical to media already used on this "
                     f"channel (perceptual distance {clash}); trying next source"
                 )
             used_hashes.add(file_hash)
-            if perceptual:
+            if perceptual and not is_procedural:
                 used_hashes.add(perceptual)
 
             logger.info(f"Scene {index}: {media_type} generated via {name} -> {path}")
