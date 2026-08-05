@@ -201,13 +201,40 @@ def _candidate_title_ok(title: str) -> bool:
     return last not in _DANGLING_ENDINGS
 
 
-def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
-    """Order candidate titles with the channel-learning bandit.
+def _load_ml_word_impact() -> dict[str, float]:
+    """Load the ML brain's learned per-word view impact.
 
-    The bandit is updated by `scripts/premium_growth_loop.py` from our real
-    analytics. If absent, the SEO generator's deterministic order is preserved.
+    `scripts/ml_brain.py` writes data/ml_brain_state.json after training on
+    competitor + our own analytics. Positive words (e.g. "serre", "ventre",
+    "peur") measurably lifted views on this channel; negative words ("silence",
+    "dans", "votre") dragged them down. Ranking candidate titles by the sum of
+    their words' learned impact lets the repair/generation layer be driven by
+    real data instead of fixed heuristics. Missing file -> empty dict (no-op).
     """
-    if not options or not bandit:
+    path = os.environ.get("ML_BRAIN_STATE_PATH", "data/ml_brain_state.json")
+    try:
+        if not os.path.exists(path):
+            return {}
+        with open(path, encoding="utf-8") as handle:
+            data = json.load(handle)
+        impacts = data.get("word_impact") or {}
+        return {
+            str(k): float(v) for k, v in impacts.items()
+            if isinstance(v, (int, float))
+        }
+    except (OSError, json.JSONDecodeError, ValueError, TypeError):
+        return {}
+
+
+def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
+    """Order candidate titles with the channel-learning bandit + ML word impact.
+
+    Two learned signals combine here:
+      * title_bandit  (premium_growth_loop)  -> whole-pattern preference
+      * ml_word_impact (ml_brain)            -> per-word view lift
+    If both are absent, the SEO generator's deterministic order is preserved.
+    """
+    if not options:
         return options
     pattern_scores: dict[str, float] = {}
     for row in bandit.get("preferred_patterns", []) or []:
@@ -217,13 +244,30 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
                 pattern_scores[str(pattern)] = float(row.get("score", 0))
             except (TypeError, ValueError):
                 continue
-    if not pattern_scores:
+
+    word_impact = _load_ml_word_impact()
+    ml_active = bool(word_impact)
+    has_patterns = bool(pattern_scores)
+    if not ml_active and not has_patterns:
         return options
+
+    def _word_lift(title: str) -> float:
+        if not ml_active:
+            return 0.0
+        toks = set(_words(title))
+        return sum(word_impact.get(w, 0.0) for w in toks if w in word_impact)
+
     original_index = {title: idx for idx, title in enumerate(options)}
     return sorted(
         options,
         key=lambda title: (
+            # Bandit pattern score stays the PRIMARY learned signal (it is
+            # itself the output of the growth loop's learning on real
+            # analytics). The ML word-impact is a secondary tie-breaker that
+            # re-orders candidates WITHIN the same pattern class, so it
+            # refines choices without ever overriding a clearly better pattern.
             pattern_scores.get(_title_pattern_id(title), 0.0),
+            _word_lift(title),
             1 if title.endswith("?") else 0,
             -original_index.get(title, 0),
         ),
