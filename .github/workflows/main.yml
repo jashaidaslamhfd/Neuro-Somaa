@@ -87,6 +87,16 @@ jobs:
           # Licensed stock B-roll (genuine motion, monetization-safe)
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+
+          # --- French audience voice ---
+          # fr-FR-RemyNeural is the modern, energetic French male neural voice
+          # (natural for Shorts/sci-facts); rate -8% keeps it clear for native
+          # and learner audiences without sounding rushed.
+          TTS_ENGINE: "edge"
+          EDGE_FR_VOICE: "fr-FR-RemyNeural"
+          EDGE_FR_RATE: "-8%"
+          # --- Background music: original in-repo beds (Content-ID safe) ---
+          MUSIC_VOLUME: "0.09"
           
           VIDEO_TOPIC: ${{ inputs.topic || '' }}
           PYTHONUNBUFFERED: "1"

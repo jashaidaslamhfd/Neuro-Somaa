@@ -344,10 +344,19 @@ def prepare_natural_narration(text: str) -> str:
     “you too” for a dark/suspense delivery. Those artificial pauses make a
     clone sound unlike the real creator. Respect the script's punctuation and
     only clean whitespace and accidental repeated punctuation.
+
+    French additions (2026-08-05): normalise unicode to NFC and replace the
+    literal "…" with a comma so edge-tts doesn't read it as a hard cut — a
+    natural spoken pause, closer to how a French presenter delivers a fact.
     """
-    cleaned = re.sub(r"\s+", " ", text).strip()
-    cleaned = re.sub(r"(?<![.!?])\.{2}(?!\.)", ".", cleaned)
+    import unicodedata
+    cleaned = unicodedata.normalize("NFC", text or "")
+    cleaned = re.sub(r"\s+", " ", cleaned).strip()
+    cleaned = re.sub(r"(?<![.!?])\.{2}(?!\.)", ",", cleaned)
+    cleaned = cleaned.replace("…", ",").replace("...", ",")
     cleaned = re.sub(r"([!?]){2,}", r"\1", cleaned)
+    cleaned = re.sub(r"\s+([,.;!?])", r"\1", cleaned)
+    cleaned = re.sub(r",+", ",", cleaned)
     return cleaned
 
 
