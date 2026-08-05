@@ -240,5 +240,18 @@
     },
     "publish_at": "2026-08-05T15:30:00+00:00",
     "completed_at": 1785911041.457281
+  },
+  "e020e55decf00c91020cf59270f60dcb3a8f219064ff5e470faa99c4b68d3ec4": {
+    "status": "completed",
+    "title": "Pourquoi la voix tremble par nervosit\u00e9 ?",
+    "youtube_video_id": "-5LwOlxLemw",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "completed_at": 1785915924.52292
   }
 }

@@ -830,5 +830,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "e020e55decf00c91020cf59270f60dcb3a8f219064ff5e470faa99c4b68d3ec4",
+    "title": "Pourquoi la voix tremble par nervosit\u00e9 ?",
+    "topic": "Pourquoi la voix tremble par nervosit\u00e9 peut sembler \u00e9trange",
+    "series_title": "Voix qui tremble",
+    "base_phenomenon": "la voix qui tremble par nervosit\u00e9",
+    "nominal_phrase": "la voix qui tremble par nervosit\u00e9",
+    "question_phrase": "la voix tremble par nervosit\u00e9",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Quand ta voix tremble sans raison. C'est ton cerveau qui r\u00e9agit trop vite \u00e0 la tension Les nerfs vibreurs envahissent ton cou, entra\u00eenant la tremblement Le signal \u00ab danger \u00bb est envoy\u00e9 trop vite. Ton corps se fige pour r\u00e9agir, mais la voix tremble Et voil\u00e0 pourquoi ta voix tremble de nervosit\u00e9 sans raison",
+    "posted_at": "2026-08-05T07:45:24.523625+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "-5LwOlxLemw",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]
