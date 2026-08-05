@@ -266,5 +266,18 @@
     },
     "publish_at": "2026-08-05T15:30:00+00:00",
     "completed_at": 1785916375.711243
+  },
+  "e4ac7722c888b995ec6e8107905c0ac24850cfed2c9bec5cfbc1c66e73f466fc": {
+    "status": "completed",
+    "title": "Pourquoi les mains se fripent dans l'eau ?",
+    "youtube_video_id": "B_vxS96X-sg",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "completed_at": 1785917771.416322
   }
 }
