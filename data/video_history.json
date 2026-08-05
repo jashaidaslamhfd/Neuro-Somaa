@@ -908,5 +908,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "2331113a6fefa9d909e5d727baed2f3deb5d147fb2ac7b581db9d7ed3a8a52e4",
+    "title": "Pourquoi les yeux pleurent quand on rit ?",
+    "topic": "Pourquoi les yeux pleurent quand on rit",
+    "series_title": "Larmes de rire",
+    "base_phenomenon": "les larmes qui coulent quand on rit",
+    "nominal_phrase": "les larmes qui coulent quand on rit",
+    "question_phrase": "les yeux pleurent quand on rit",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Les yeux sont en train de pleurer quand on. C'est ton cerveau qui r\u00e9agit ainsi naturellement Le syst\u00e8me nerveux autonome est impliqu\u00e9 dans ce ph\u00e9nom\u00e8ne Les glandes lacrymales sont stimul\u00e9es par l'\u00e9motion La r\u00e9ponse \u00e9motionnelle est amplifi\u00e9e par le cerveau C'est la raison pour laquelle tes yeux pleurent de rire.",
+    "posted_at": "2026-08-05T12:35:00.863577+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "egwYCVNXnPQ",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]
