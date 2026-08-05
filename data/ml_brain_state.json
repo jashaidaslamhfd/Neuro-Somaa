@@ -1,124 +1,124 @@
 {
-  "trained_at": "2026-08-04T11:34:00.797743+00:00",
-  "n_samples": 36,
-  "views_r2": 0.25886016447532445,
-  "viral_accuracy": 0.8055555555555556,
+  "trained_at": "2026-08-05T05:50:40.074023+00:00",
+  "n_samples": 37,
+  "views_r2": 0.2510195881785118,
+  "viral_accuracy": 0.7837837837837838,
   "hook_pattern_weights": {
-    "pourquoi": 563.75,
-    "ce": 724.2352941176471,
-    "comprendre": 382.5
+    "pourquoi": 534.2941176470588,
+    "ce": 726.0,
+    "comprendre": 384.0
   },
   "word_impact": {
-    "corps": -160.19191919191917,
-    "pourquoi": -88.94444444444446,
-    "quand": 9.333333333333371,
-    "sembler": 94.6444444444445,
-    "trange": 94.6444444444445,
-    "peut": 94.6444444444445,
-    "avant": -51.05555555555554,
-    "comprendre": 18.24444444444441,
-    "faut": 197.1111111111111,
-    "nuit": 87.44444444444446,
-    "cerveau": -165.95555555555552,
-    "battre": 87.44444444444446,
-    "semble": 107.04444444444448,
-    "vieillissant": 138.94444444444446,
-    "temps": 138.94444444444446,
-    "vous": -70.75555555555559,
-    "peur": 263.7777777777778,
-    "votre": -231.26984126984127,
-    "passe": -113.55555555555554,
-    "science": 244.2444444444444,
-    "silence": -440.55555555555554,
-    "lors": 638.9444444444445,
-    "ventre": 413.69444444444446,
-    "serre": 638.9444444444445,
-    "stress": -277.88888888888886,
-    "explique": 294.69444444444446,
-    "lumi": 36.44444444444446,
-    "dans": -426.8888888888889,
-    "lorsque": 123.11111111111109,
-    "change": 123.11111111111109,
-    "chair": 326.44444444444446,
-    "poule": 326.44444444444446,
-    "appara": 224.44444444444446,
-    "sous": -246.55555555555554,
-    "frissonne": -170.55555555555554,
-    "froid": 452.44444444444446,
-    "soudain": 311.94444444444446,
-    "refuse": -632.5555555555555
+    "quand": -38.75405405405411,
+    "pourquoi": -99.5803698435277,
+    "corps": -143.963144963145,
+    "peut": 109.34594594594591,
+    "avant": -36.05405405405406,
+    "trange": 109.34594594594591,
+    "sembler": 109.34594594594591,
+    "faut": 211.61261261261257,
+    "comprendre": 33.345945945945914,
+    "battre": 102.94594594594594,
+    "nuit": 102.94594594594594,
+    "cerveau": -150.85405405405407,
+    "semble": 122.94594594594594,
+    "temps": 153.44594594594594,
+    "vieillissant": 153.44594594594594,
+    "votre": -215.9111969111969,
+    "vous": -55.05405405405406,
+    "peur": 278.2792792792793,
+    "passe": -94.05405405405406,
+    "science": 261.54594594594596,
+    "silence": -426.05405405405406,
+    "lors": 653.4459459459459,
+    "serre": 653.4459459459459,
+    "ventre": 441.94594594594594,
+    "stress": -260.05405405405406,
+    "explique": 312.69594594594594,
+    "lumi": 50.94594594594594,
+    "dans": -412.38738738738743,
+    "lorsque": 137.61261261261257,
+    "change": 137.61261261261257,
+    "chair": 340.94594594594594,
+    "poule": 340.94594594594594,
+    "appara": 238.94594594594594,
+    "sous": -227.05405405405406,
+    "frissonne": -156.05405405405406,
+    "froid": 469.44594594594594,
+    "soudain": 329.94594594594594,
+    "refuse": -618.0540540540541
   },
   "best_word_patterns": [
     [
       "lors",
-      638.9444444444445
+      653.4459459459459
     ],
     [
       "serre",
-      638.9444444444445
+      653.4459459459459
     ],
     [
       "froid",
-      452.44444444444446
+      469.44594594594594
     ],
     [
       "ventre",
-      413.69444444444446
+      441.94594594594594
     ],
     [
       "chair",
-      326.44444444444446
+      340.94594594594594
     ],
     [
       "poule",
-      326.44444444444446
+      340.94594594594594
     ],
     [
       "soudain",
-      311.94444444444446
+      329.94594594594594
     ],
     [
       "explique",
-      294.69444444444446
+      312.69594594594594
     ],
     [
       "peur",
-      263.7777777777778
+      278.2792792792793
     ],
     [
       "science",
-      244.2444444444444
+      261.54594594594596
     ],
     [
       "appara",
-      224.44444444444446
+      238.94594594594594
     ],
     [
       "faut",
-      197.1111111111111
-    ],
-    [
-      "vieillissant",
-      138.94444444444446
+      211.61261261261257
     ],
     [
       "temps",
-      138.94444444444446
+      153.44594594594594
+    ],
+    [
+      "vieillissant",
+      153.44594594594594
     ],
     [
       "lorsque",
-      123.11111111111109
+      137.61261261261257
     ]
   ],
   "pillar_performance": {
     "other": {
-      "avg_views": 605.6176470588235,
-      "avg_retention": 30.860882352941175,
-      "count": 34
+      "avg_views": 591.0285714285715,
+      "avg_retention": 30.304571428571425,
+      "count": 35
     },
     "muscular": {
-      "avg_views": 1171.0,
-      "avg_retention": 32.72,
+      "avg_views": 1172.0,
+      "avg_retention": 32.78,
       "count": 1
     },
     "temporal": {
@@ -139,14 +139,14 @@
       "Comprendre pourquoi le cerveau réclame du sommeil profond",
       "Ce qui change lorsque une lumière vive fait éternuer",
       "Comprendre pourquoi le corps frissonne sous le stress",
-      "Pourquoi on frissonne quand on a froid peut sembler étrange",
       "Pourquoi le ventre gargouille sans faim",
       "Ce qui change lorsque les oreilles sifflent dans le silence",
       "Pourquoi dit on que le cerveau est immature",
       "Pourquoi votre corps refuse de mentir",
       "Pourquoi votre corps refuse de maigrir",
       "Pourquoi le cerveau des femmes est divisé en 5",
-      "Pourquoi la peau se fripe dans leau"
+      "Pourquoi la peau se fripe dans leau",
+      "Pourquoi le nez coule quand on pleure"
     ],
     "0": [
       "Pourquoi se réveiller avant son réveil peut sembler étrange",
@@ -155,27 +155,28 @@
       "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
       "La science derrière le temps qui semble accélérer en vieillissant",
+      "Ce que votre corps vous dit quand le silence devient inconfortable",
       "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
-      "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
       "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
-      "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
-      "Ce qui se passe quand le cœur s'emballe sous le stress",
+      "Pourquoi on frissonne quand on a froid peut sembler étrange",
       "Pourquoi on entend son cœur battre la nuit semble soudain",
       "Pourquoi un aliment froid provoque un mal de tête semble soudain"
     ],
-    "3": [
+    "2": [
       "Ce que votre corps vous dit quand le corps se fige quand on a peur",
-      "Ce que votre corps vous dit quand le silence devient inconfortable",
       "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
-      "Ce que votre corps vous dit quand le hoquet commence brusquement",
-      "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
       "Ce que votre corps vous dit quand la chair de poule apparaît soudainement"
     ],
-    "2": [
+    "3": [
       "Ce que la science explique sur l'effet du stress sur la mémoire",
+      "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
       "Ce que la science explique sur le sursaut du corps en s'endormant",
+      "Ce que votre corps vous dit quand le hoquet commence brusquement",
+      "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
       "Ce que la science explique sur l'apparition soudaine de la chair de poule",
-      "Ce que la science explique sur le muscle qui tressaille tout seul"
+      "Ce que la science explique sur le muscle qui tressaille tout seul",
+      "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "Ce qui se passe quand le cœur s'emballe sous le stress"
     ]
   }
 }
