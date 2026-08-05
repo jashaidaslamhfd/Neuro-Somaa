@@ -498,6 +498,18 @@ class SKILLORPipeline:
                 logger.info(f"✅ Generated {len(audio_segments)} audio segments")
                 narration_seconds = sum(float(seg.get("duration", 0)) for seg in audio_segments)
                 target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "55"))
+                target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
+                # Minimum-narration guard: a voiceover far shorter than the
+                # target produces a video that is mostly silent / static (the
+                # "no voice, stuck visuals" bug, caused by Kokoro emitting
+                # ~0.5s blips). Abort loudly instead of shipping a broken Short.
+                min_narration = max(10.0, target_min_seconds * 0.55)
+                if narration_seconds < min_narration:
+                    raise RuntimeError(
+                        f"Narration too short: {narration_seconds:.1f}s "
+                        f"(minimum before shipping: {min_narration:.1f}s). "
+                        f"TTS likely failed to generate full-length audio."
+                    )
                 # video_editor may make a small (<=12%) transparent speed
                 # correction. Anything beyond that must be regenerated instead
                 # of producing rushed, low-retention narration.

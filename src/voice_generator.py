@@ -377,6 +377,52 @@ def _synthesize_kokoro(text: str, voice: str, speed: float):
     return full_audio, KOKORO_SAMPLE_RATE
 
 
+def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | None = None):
+    """Synthesize French via Microsoft edge-tts (cloud, reliable neural voice).
+
+    Primary engine for French because Kokoro frequently returned truncated
+    ~0.50s blips per long caption (a 3s total voiceover on a 17s video — the
+    "no voice / stuck visuals" bug). edge-tts produces full-length, natural
+    French and has no heavy native build deps, so it works on the CI runner.
+
+    Voice/rate come from EDGE_FR_VOICE / EDGE_FR_RATE env (see env.example).
+
+    Returns (audio np.ndarray float32, sample_rate int).
+    """
+    import asyncio as _asyncio
+    import edge_tts as _edge
+
+    voice = voice or os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
+    rate = rate or os.environ.get("EDGE_FR_RATE", "-5%")
+
+    async def _collect():
+        chunks = []
+        c = _edge.Communicate(text, voice, rate=rate)
+        async for chunk in c.stream():
+            if chunk["type"] == "audio":
+                chunks.append(chunk["data"])
+        return b"".join(chunks)
+
+    mp3_bytes = _asyncio.run(_collect())
+    if len(mp3_bytes) < 4000:
+        raise RuntimeError("edge-tts returned empty/too-short audio")
+
+    # decode mp3 -> wav for the pipeline (raw numpy)
+    import subprocess
+    import tempfile
+    with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
+        fh.write(mp3_bytes)
+        mp3_path = fh.name
+    wav_path = mp3_path + ".wav"
+    subprocess.run(
+        ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
+         "-acodec", "pcm_s16le", wav_path],
+        check=True, capture_output=True)
+    import soundfile as _sf
+    audio, sr = _sf.read(wav_path)
+    return audio, sr
+
+
 def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
     """Synthesize a single segment with retry logic.
 
@@ -401,9 +447,32 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
 
     narration_text = prepare_natural_narration(text)
 
-    # French is rendered by the native French Kokoro voice unless an explicitly French cloned voice is enabled.
-    prefer_kokoro = os.environ.get("TTS_ENGINE", "kokoro").lower() == "kokoro"
+    # Engine selection:
+    #   * edge   -> Microsoft neural French (primary, reliable, no truncation)
+    #   * kokoro -> Kokoro French (fallback engine)
+    #   * (any other / unset) -> edge primary, kokoro fallback
+    # Kokoro 0.7.x was producing ~0.50s blips per caption -> a ~3s voiceover on
+    # a 17s video (silent/stuck-visual Shorts). edge-tts is the robust default;
+    # kokoro remains available via TTS_ENGINE=kokoro and as a last resort.
+    engine_choice = os.environ.get("TTS_ENGINE", "edge").strip().lower()
+    prefer_kokoro = engine_choice == "kokoro"
+    prefer_edge = engine_choice in ("edge", "edge_fr", "edge-tts")
     chatterbox_errors = []
+
+    def _try_edge():
+        try:
+            audio, sr = _synthesize_edge_french(narration_text)
+            _validate_generated_audio(audio, sr, min_duration=0.3)
+            return audio, sr
+        except Exception as exc:
+            logger.warning("edge-tts primary failed: %s", exc)
+            return None, None
+
+    if prefer_edge or (not prefer_kokoro):
+        audio, sr = _try_edge()
+        if audio is not None:
+            return audio, sr, "edge_fr"
+
     if prefer_kokoro:
         audio, sr = _synthesize_kokoro(narration_text, voice, speed)
         return audio, sr, "kokoro_fr"
