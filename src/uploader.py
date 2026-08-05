@@ -129,9 +129,14 @@ def _yt_client():
         client_id=os.environ.get("GOOGLE_CLIENT_ID"),
         client_secret=os.environ.get("GOOGLE_CLIENT_SECRET"),
         scopes=[
+            # Only the two scopes a normal channel needs to upload Shorts +
+            # set metadata. youtubepartner was previously included but it is
+            # only grantable to MCN/Content-ID partners — a normal OAuth token
+            # lacks it, so every upload died with 'invalid_scope: Bad Request'.
+            # Analytics uses a separate token/scope (yt-analytics.readonly)
+            # via analytics_updater.py.
             "https://www.googleapis.com/auth/youtube.upload",
             "https://www.googleapis.com/auth/youtube.force-ssl",
-            "https://www.googleapis.com/auth/youtubepartner",
         ],
     )
     return build("youtube", "v3", credentials=creds)

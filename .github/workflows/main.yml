@@ -98,23 +98,33 @@ jobs:
           MKL_NUM_THREADS: "2"
           FALLBACK_ABORT_RATIO: "0.80"
         run: |
+          # set +e around the pipeline call so we control the exit code
+          # explicitly. Under `set -e`, an `if`-guard can mask the real code,
+          # which is exactly what made the last run report "exit 0" after the
+          # upload failed with invalid_scope.
           set -euo pipefail
+          rc=1
           for attempt in 1 2 3; do
             echo "===== Pipeline attempt $attempt/3 ====="
-            if python src/main.py; then
+            set +e
+            python src/main.py
+            rc=$?
+            set -e
+            echo "Pipeline attempt $attempt finished (exit $rc)"
+            if [ "$rc" -eq 0 ]; then
               echo "Pipeline succeeded on attempt $attempt"
               break
             fi
-            rc=$?
-            echo "Pipeline failed on attempt $attempt (exit $rc)"
             if [ "$attempt" -lt 3 ]; then
               echo "Cleaning temp render state and retrying in 20s..."
               rm -rf output/frames output/tmp_* output/*.mp4.tmp
               sleep 20
-            else
-              exit $rc
             fi
           done
+          if [ "$rc" -ne 0 ]; then
+            echo "Pipeline failed after $attempt attempt(s) with exit $rc"
+            exit "$rc"
+          fi
 
       - name: Persist durable channel state
         if: always()
