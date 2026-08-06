@@ -261,19 +261,15 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
     return sorted(
         options,
         key=lambda title: (
-            # Bandit pattern score stays the PRIMARY learned signal (it is
-            # itself the output of the growth loop's learning on real
-            # analytics).
-            pattern_scores.get(_title_pattern_id(title), 0.0),
-            # A closing '?' question title ALWAYS beats a bare label, even when
-            # the ML word-impact would otherwise favour a 2-word label. This is
-            # the channel's own quality policy (leak-gate audits flagged bare
-            # labels as low-CTR). Ordering it above word-lift makes the choice
-            # robust to whatever ml_brain_state the analytics sync commits.
+            # A '?' question title ALWAYS outranks everything, including the
+            # bandit's favourite pattern. This is the channel's own quality
+            # policy: bare/short series labels measured low CTR, and a short
+            # 2-3 word label can masquerade as the high-scoring 'other' pattern
+            # (e.g. "Chair de poule") — letting it win ships a bad title.
+            # Ordering question-ness above the bandit score makes the choice
+            # robust no matter what the analytics sync learns.
             1 if title.endswith("?") else 0,
-            # ML word-impact re-orders candidates WITHIN the same pattern and
-            # question-ness, refining without ever overriding a clearly better
-            # (question) title.
+            pattern_scores.get(_title_pattern_id(title), 0.0),
             _word_lift(title),
             -original_index.get(title, 0),
         ),
