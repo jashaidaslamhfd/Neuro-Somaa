@@ -318,5 +318,18 @@
     },
     "publish_at": "2026-08-06T15:30:00+00:00",
     "completed_at": 1785961847.689469
+  },
+  "19d2be3e3627cdcf5c1175ff058e1852f5deeadcf8e290048ff7d752e8c29e6f": {
+    "status": "completed",
+    "title": "Pourquoi un vertige appara\u00eet apr\u00e8s s'\u00eatre lev\u00e9 ?",
+    "youtube_video_id": "Ubg7rTtym84",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-07T15:30:00+00:00",
+    "completed_at": 1786047933.039177
   }
 }
