@@ -763,5 +763,50 @@
     "youtube_shorts": {
       "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
     }
+  },
+  "e4ac7722c888b995ec6e8107905c0ac24850cfed2c9bec5cfbc1c66e73f466fc": {
+    "title": "Pourquoi les mains se fripent dans l'eau ?",
+    "topic": "Ce qui change lorsque les mains se fripent dans l'eau",
+    "posted_at": "2026-08-05T08:16:11.417005+00:00",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "age_hours": 36.2,
+    "hook_score": 90,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-06T20:30:05.485657+00:00",
+    "youtube_shorts": {
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
+    }
+  },
+  "2331113a6fefa9d909e5d727baed2f3deb5d147fb2ac7b581db9d7ed3a8a52e4": {
+    "title": "Pourquoi les yeux pleurent quand on rit ?",
+    "topic": "Pourquoi les yeux pleurent quand on rit",
+    "posted_at": "2026-08-05T12:35:00.863577+00:00",
+    "publish_at": "2026-08-05T15:30:00+00:00",
+    "age_hours": 31.9,
+    "hook_score": 70,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-06T20:30:05.485657+00:00",
+    "youtube_shorts": {
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
+    }
+  },
+  "beea1a54e1c41352deedf92d1cdbafaf8b65bd1ca2f6b877f9d49e0cf8cb17db": {
+    "title": "Pourquoi la mâchoire craque en mâchant ?",
+    "topic": "Ce que la science explique sur la mâchoire qui craque en mâchant",
+    "posted_at": "2026-08-05T19:11:30.657120+00:00",
+    "publish_at": "2026-08-05T19:30:00+00:00",
+    "age_hours": 25.3,
+    "hook_score": 70,
+    "seo_score": 100,
+    "duration_seconds": null,
+    "meta_cut_seconds": null,
+    "fetched_at": "2026-08-06T20:30:05.485657+00:00",
+    "youtube_shorts": {
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
+    }
   }
 }

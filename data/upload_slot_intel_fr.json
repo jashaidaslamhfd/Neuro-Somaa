@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-06T08:00:14.136770+00:00",
+  "generated_at_utc": "2026-08-06T20:30:07.997437+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,7 +10,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.334,
+      "score": 3.3361,
       "samples": 5,
       "prior": 0.0
     },
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3126,
+      "score": 3.3127,
       "samples": 7,
-      "prior": 3.4678
+      "prior": 3.4689
     },
     {
       "rank": 3,
@@ -30,7 +30,7 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.327,
+      "score": 3.334,
       "samples": 5,
       "prior": 0.0
     }
@@ -40,9 +40,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.334,
+      "score": 3.3361,
       "observed_samples": 5,
-      "observed_avg": 3.334,
+      "observed_avg": 3.3361,
       "prior": 0.0,
       "examples": [
         {
@@ -60,7 +60,7 @@
         {
           "video_id": "_QBHLbu9s7Y",
           "title": "Pourquoi les oreilles sifflent dans le silence ?",
-          "views": 809,
+          "views": 828,
           "published_paris": "2026-08-01 17:30"
         }
       ]
@@ -69,9 +69,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.327,
+      "score": 3.334,
       "observed_samples": 5,
-      "observed_avg": 3.327,
+      "observed_avg": 3.334,
       "prior": 0.0,
       "examples": [
         {
@@ -98,7 +98,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.3232,
+      "score": 3.324,
       "observed_samples": 1,
       "observed_avg": 3.5674,
       "prior": 0.0,
@@ -115,10 +115,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3126,
+      "score": 3.3127,
       "observed_samples": 7,
-      "observed_avg": 3.2239,
-      "prior": 3.4678,
+      "observed_avg": 3.2235,
+      "prior": 3.4689,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -135,7 +135,7 @@
         {
           "video_id": "HJb7xCMIYWQ",
           "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 953,
+          "views": 947,
           "published_paris": "2026-08-01 19:30"
         }
       ]
@@ -144,10 +144,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3023,
+      "score": 3.3029,
       "observed_samples": 4,
       "observed_avg": 3.3369,
-      "prior": 3.2678,
+      "prior": 3.2689,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -173,7 +173,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2991,
+      "score": 3.2999,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -190,7 +190,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.2072,
+      "score": 3.208,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -207,7 +207,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2057,
+      "score": 3.2065,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -224,7 +224,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0791,
+      "score": 3.0798,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0646,
+      "score": 3.0649,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,7 +264,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0412,
+      "score": 3.0419,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0193,
+      "score": 3.0201,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,

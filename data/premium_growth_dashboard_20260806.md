@@ -1,7 +1,7 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-06T08:00:14.201844+00:00_
+_Generated 2026-08-06T20:30:08.063016+00:00_
 ## Executive summary
-- Videos in history: **44**
+- Videos in history: **45**
 - 48h repair candidates: **20**
 - Topic-gap ideas: **30**
 - Dynamic publish slots: 17:30, 19:30, 21:30
@@ -9,28 +9,28 @@ _Generated 2026-08-06T08:00:14.201844+00:00_
 ## Dynamic publish-time learning
 | Paris slot | Score | Samples | Prior |
 |---|---:|---:|---:|
-| `17:30` | 3.334 | 5 | 0.0 |
-| `19:30` | 3.3126 | 7 | 3.4678 |
-| `21:30` | 3.327 | 5 | 0.0 |
+| `17:30` | 3.3361 | 5 | 0.0 |
+| `19:30` | 3.3127 | 7 | 3.4689 |
+| `21:30` | 3.334 | 5 | 0.0 |
 
 ## Title-pattern bandit
 | Pattern | Score | Samples | Competitor prior |
 |---|---:|---:|---:|
 | `other` | 3.8206 | 4 | 4.1798 |
-| `pourquoi-question` | 3.7232 | 16 | 2.0 |
+| `pourquoi-question` | 3.7742 | 18 | 2.0 |
 | `pourquoi-declarative` | 3.0425 | 4 | 1.0441 |
 | `ce-que-corps-revele` | 2.8404 | 3 | 1.6 |
 | `ce-qui-se-passe` | 2.8152 | 3 | 1.25 |
 
 ## 48h auto-repair plan
 - [Corps lourd](https://youtu.be/r7URDUokZh0) → **Pourquoi le corps semble lourd quand on est fatigué ?** (`very short (11 chars) — gives viewers no specific hook`)
-- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 415h: 154 < 200`)
+- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 428h: 154 < 200`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Pourquoi on entend son cœur battre la nuit ?** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
 - [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low retention: 28.3%`)
-- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 386h: 146 < 200`)
+- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 398h: 146 < 200`)
 - [Ce qui se passe quand un déjà-vu semble étrangement familier](https://youtu.be/Re4VU9lryhQ) → **Pourquoi un déjà-vu semble étrangement familier ?** (`low retention: 24.7%`)
 - [La science derrière le temps qui semble accélérer](https://youtu.be/diImyvMyKig) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low retention: 29.1%`)
-- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 360h: 116 < 200`)
+- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 372h: 116 < 200`)
 - [Pourquoi le cerveau repère son propre prénom peut sembler](https://youtu.be/RV4LGjp89-U) → **Pourquoi le cerveau repère son propre prénom ?** (`leaked template fragment « peut sembler » — looks unfinished`)
 - [Ce que la science explique sur l'effet du stress](https://youtu.be/yxoI9-KWXzI) → **Pourquoi le stress brouille la mémoire ?** (`low retention: 29.3%`)
 
@@ -52,6 +52,7 @@ _Generated 2026-08-06T08:00:14.201844+00:00_
 - **sont** — new gap, score 6.707 (competitor_title)
 
 ## Latest uploads
+- 2026-08-06T20:25:33.039987+00:00: Pourquoi un vertige apparaît après s'être levé ? (n/a views)
 - 2026-08-05T20:30:47.690116+00:00: Pourquoi un pied s'endort tout seul ? (n/a views)
 - 2026-08-05T19:11:30.657120+00:00: Pourquoi la mâchoire craque en mâchant ? (n/a views)
 - 2026-08-05T12:35:00.863577+00:00: Pourquoi les yeux pleurent quand on rit ? (n/a views)
@@ -61,4 +62,3 @@ _Generated 2026-08-06T08:00:14.201844+00:00_
 - 2026-08-05T06:24:01.457925+00:00: Pourquoi des fourmillements apparaissent ? (n/a views)
 - 2026-08-05T04:51:26.067292+00:00: Pourquoi le nez coule quand on pleure ? (n/a views)
 - 2026-08-02T19:30:50.582412+00:00: Pourquoi la peau se fripe dans leau ? (844 views)
-- 2026-08-02T10:24:56.740826+00:00: Pourquoi le cerveau des femmes est divisé en 5 ? (740 views)

@@ -1,5 +1,5 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-06T08:00:19.097380+00:00_
+_Généré 2026-08-06T20:30:13.562121+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
@@ -24,9 +24,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi la mâchoire craque en mâchant ?
-      new: Pourquoi la mâchoire craque en mâchant ?
-    FIX   JIg1-eBYols
       old: Pourquoi un pied s'endort tout seul ?
       new: Pourquoi un pied s'endort tout seul ?
+    FIX   Ubg7rTtym84
+      old: Pourquoi un vertige apparaît après s'être levé ?
+      new: Pourquoi un vertige apparaît après s'être levé ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.
