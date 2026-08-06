@@ -263,12 +263,18 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
         key=lambda title: (
             # Bandit pattern score stays the PRIMARY learned signal (it is
             # itself the output of the growth loop's learning on real
-            # analytics). The ML word-impact is a secondary tie-breaker that
-            # re-orders candidates WITHIN the same pattern class, so it
-            # refines choices without ever overriding a clearly better pattern.
+            # analytics).
             pattern_scores.get(_title_pattern_id(title), 0.0),
-            _word_lift(title),
+            # A closing '?' question title ALWAYS beats a bare label, even when
+            # the ML word-impact would otherwise favour a 2-word label. This is
+            # the channel's own quality policy (leak-gate audits flagged bare
+            # labels as low-CTR). Ordering it above word-lift makes the choice
+            # robust to whatever ml_brain_state the analytics sync commits.
             1 if title.endswith("?") else 0,
+            # ML word-impact re-orders candidates WITHIN the same pattern and
+            # question-ness, refining without ever overriding a clearly better
+            # (question) title.
+            _word_lift(title),
             -original_index.get(title, 0),
         ),
         reverse=True,
