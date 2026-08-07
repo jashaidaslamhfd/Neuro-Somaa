@@ -1054,5 +1054,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615
+  },
+  {
+    "content_fingerprint": "fe661f9902e86c80d6c2533d900f2a50a0a3fb7fc01526a454a7d01e09c3e7c1",
+    "title": "Pourquoi la faim revient \u00e0 la m\u00eame heure chaque jour ?",
+    "topic": "Ce qui change lorsque la faim revient \u00e0 la m\u00eame heure chaque jour",
+    "series_title": "Horloge de la faim",
+    "base_phenomenon": "la faim qui revient \u00e0 la m\u00eame heure",
+    "nominal_phrase": "la faim qui revient \u00e0 la m\u00eame heure",
+    "question_phrase": "la faim revient \u00e0 la m\u00eame heure chaque jour",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps a un r\u00e9veil pour la faim chaque. C'est parce que ton cerveau est programm\u00e9 pour r\u00e9agir \u00e0. La grelinit\u00e9 s'active pour signaler \u00e0 ton cerveau que tu. La glande pituitaire produit de la grelinit\u00e9 pour pr\u00e9parer ton. Et c'est pourquoi ta faim revient \u00e0 la m\u00eame heure. Ton corps a un r\u00e9veil pour la faim chaque jour",
+    "posted_at": "2026-08-07T19:22:53.989369+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "1Y3DfG_Opg4",
+    "publish_at": "2026-08-08T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
