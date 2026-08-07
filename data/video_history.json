@@ -1034,5 +1034,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "11a988a6817b301a453ff03216a5b810e77dcac080eddf73b384133155c19fb6",
+    "title": "Pourquoi le b\u00e2illement se transmet aux autres ?",
+    "topic": "Comprendre pourquoi le b\u00e2illement se transmet aux autres",
+    "series_title": "B\u00e2illement contagieux",
+    "base_phenomenon": "le b\u00e2illement qui se transmet aux autres",
+    "nominal_phrase": "le b\u00e2illement qui se transmet aux autres",
+    "question_phrase": "le b\u00e2illement se transmet aux autres",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Le b\u00e2illement se propage entre amis C'est ton cerveau qui envoie des signaux de b\u00e2illement Les neurones se connectent pour transmettre les signaux de b\u00e2illement Les hormones de sommeil sont lib\u00e9r\u00e9es pour entra\u00eener le b\u00e2illement Le b\u00e2illement se propage rapidement entre les personnes Et c'est pourquoi ton b\u00e2illement se transmet aux autres",
+    "posted_at": "2026-08-07T18:20:11.875305+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "Ux9-vAHrTqk",
+    "publish_at": "2026-08-07T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]

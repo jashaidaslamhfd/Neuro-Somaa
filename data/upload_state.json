@@ -357,5 +357,18 @@
     },
     "publish_at": "2026-08-07T15:30:00+00:00",
     "completed_at": 1786102453.341232
+  },
+  "11a988a6817b301a453ff03216a5b810e77dcac080eddf73b384133155c19fb6": {
+    "status": "completed",
+    "title": "Pourquoi le b\u00e2illement se transmet aux autres ?",
+    "youtube_video_id": "Ux9-vAHrTqk",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-07T19:30:00+00:00",
+    "completed_at": 1786126811.874521
   }
 }
