@@ -1,13 +1,20 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-07T19:14:05.855023+00:00",
+  "generated_at_utc": "2026-08-07T19:29:08.196826+00:00",
   "copy_policy": "Use competitor data as pattern inspiration only. Do not copy exact titles, descriptions, thumbnails or tag dumps. seo_generator blocks exact-title reuse.",
   "filters": {
     "min_views": 150000,
     "max_duration_seconds": 90
   },
   "sources": {
-    "channels": [],
+    "channels": [
+      "@H3lixSquar3d",
+      "@Dr.Skeleton0",
+      "@BodyHubYT",
+      "@AsapSCIENCE",
+      "@ZackDFilms",
+      "@FactSmack"
+    ],
     "queries": [
       "shorts science corps humain français",
       "shorts cerveau sommeil français",
@@ -20,34 +27,30 @@
       "science du quotidien shorts français",
       "faits scientifiques shorts français"
     ],
-    "selection_mode": "auto-discover from French high-view query winners",
-    "max_duration_seconds": 90
+    "selection_mode": "channels + auto-discovery queries",
+    "max_duration_seconds": 90,
+    "resolved_channel_ids": [
+      "UCMB4ByaZHyhungeOJ4VN2CA",
+      "UCywX1-COe-SP_WHNfwykLRg",
+      "UChHGLkJhREITw1Gsv_Tvv9g",
+      "UCC552Sd-3nyi_tk2BudLUzA",
+      "UCvz84_Q0BbvZThy75mbd-Dg",
+      "UCGsFenNHgeu0E5HjxxR8Diw"
+    ]
   },
-  "video_count": 27,
+  "video_count": 9,
   "patterns": [
     {
       "pattern": "other",
-      "score": 90.221,
-      "count": 15,
-      "avg_views": 2373001
+      "score": 35.343,
+      "count": 6,
+      "avg_views": 1428369
     },
     {
       "pattern": "numbered-list",
-      "score": 33.176,
-      "count": 6,
-      "avg_views": 419659
-    },
-    {
-      "pattern": "pourquoi-declarative",
-      "score": 30.372,
-      "count": 5,
-      "avg_views": 2190863
-    },
-    {
-      "pattern": "comment",
-      "score": 5.526,
-      "count": 1,
-      "avg_views": 335377
+      "score": 16.91,
+      "count": 3,
+      "avg_views": 551445
     }
   ],
   "safe_title_templates": [
@@ -60,65 +63,17 @@
     }
   ],
   "thumbnail_intel": {
-    "sample_size": 27,
-    "avg_brightness": 70.603,
-    "avg_contrast": 54.457,
-    "avg_warm_bias": 42.016,
-    "avg_red_yellow_ratio": 0.027,
+    "sample_size": 9,
+    "avg_brightness": 65.109,
+    "avg_contrast": 52.743,
+    "avg_warm_bias": 35.636,
+    "avg_red_yellow_ratio": 0.021,
     "recommendation": "high-contrast warm text band"
   },
   "high_value_tags": [
     {
       "tag": "santé",
-      "score": 22.333
-    },
-    {
-      "tag": "corps",
-      "score": 16.728
-    },
-    {
-      "tag": "vulgarisation",
-      "score": 16.664
-    },
-    {
-      "tag": "animaux",
-      "score": 12.832
-    },
-    {
-      "tag": "lifehack",
-      "score": 11.233
-    },
-    {
-      "tag": "vie pratique",
-      "score": 11.233
-    },
-    {
-      "tag": "anecdote",
-      "score": 11.202
-    },
-    {
-      "tag": "découverte",
-      "score": 11.202
-    },
-    {
-      "tag": "vulgarisation scientifique",
-      "score": 11.202
-    },
-    {
-      "tag": "explore",
-      "score": 11.202
-    },
-    {
-      "tag": "explore media",
-      "score": 11.202
-    },
-    {
-      "tag": "explorefr",
-      "score": 11.202
-    },
-    {
-      "tag": "peau",
-      "score": 10.804
+      "score": 11.632
     },
     {
       "tag": "hero quiz",
@@ -227,24 +182,68 @@
     {
       "tag": "vidéos drôles",
       "score": 6.638
+    },
+    {
+      "tag": "film complet en français",
+      "score": 6.638
+    },
+    {
+      "tag": "redkill",
+      "score": 6.638
+    },
+    {
+      "tag": "dessin",
+      "score": 6.638
+    },
+    {
+      "tag": "jeux",
+      "score": 6.638
+    },
+    {
+      "tag": "eliaqim",
+      "score": 6.638
+    },
+    {
+      "tag": "anecdote corps humain",
+      "score": 6.026
+    },
+    {
+      "tag": "anecdote humain",
+      "score": 6.026
+    },
+    {
+      "tag": "anecdote corps",
+      "score": 6.026
+    },
+    {
+      "tag": "salive",
+      "score": 6.026
+    },
+    {
+      "tag": "coude",
+      "score": 6.026
+    },
+    {
+      "tag": "résolution homme",
+      "score": 6.026
+    },
+    {
+      "tag": "homme",
+      "score": 6.026
     }
   ],
   "title_keywords": [
     {
       "keyword": "corps",
-      "score": 39.179
+      "score": 22.85
     },
     {
       "keyword": "humain",
-      "score": 22.421
+      "score": 17.244
     },
     {
       "keyword": "quiz",
       "score": 16.497
-    },
-    {
-      "keyword": "animation",
-      "score": 12.323
     },
     {
       "keyword": "cerveau",
@@ -257,82 +256,6 @@
     {
       "keyword": "volé",
       "score": 12.1
-    },
-    {
-      "keyword": "voici",
-      "score": 11.589
-    },
-    {
-      "keyword": "saviez",
-      "score": 11.233
-    },
-    {
-      "keyword": "conseil",
-      "score": 11.233
-    },
-    {
-      "keyword": "faits",
-      "score": 11.202
-    },
-    {
-      "keyword": "santé",
-      "score": 10.503
-    },
-    {
-      "keyword": "métal",
-      "score": 7.108
-    },
-    {
-      "keyword": "destructeur",
-      "score": 7.108
-    },
-    {
-      "keyword": "chimie",
-      "score": 7.108
-    },
-    {
-      "keyword": "mateooo",
-      "score": 6.716
-    },
-    {
-      "keyword": "enfants",
-      "score": 6.716
-    },
-    {
-      "keyword": "voient",
-      "score": 6.716
-    },
-    {
-      "keyword": "personne",
-      "score": 6.716
-    },
-    {
-      "keyword": "handicapée",
-      "score": 6.716
-    },
-    {
-      "keyword": "humour",
-      "score": 6.716
-    },
-    {
-      "keyword": "faux",
-      "score": 6.708
-    },
-    {
-      "keyword": "bébés",
-      "score": 6.708
-    },
-    {
-      "keyword": "sont",
-      "score": 6.708
-    },
-    {
-      "keyword": "fabriqués",
-      "score": 6.708
-    },
-    {
-      "keyword": "chine",
-      "score": 6.708
     },
     {
       "keyword": "illusion",
@@ -355,105 +278,124 @@
       "score": 6.638
     },
     {
-      "keyword": "dribbleur",
-      "score": 6.553
+      "keyword": "faits",
+      "score": 6.026
     },
     {
-      "keyword": "sang",
-      "score": 6.553
+      "keyword": "incroyables",
+      "score": 6.026
     },
     {
-      "keyword": "lamine",
-      "score": 6.553
+      "keyword": "découvrez",
+      "score": 5.968
     },
     {
-      "keyword": "yamal",
-      "score": 6.553
+      "keyword": "fascinant",
+      "score": 5.968
     },
     {
-      "keyword": "saigne",
-      "score": 6.553
+      "keyword": "albert",
+      "score": 5.731
     },
     {
-      "keyword": "chaque",
-      "score": 6.553
+      "keyword": "saviez",
+      "score": 5.606
     },
     {
-      "keyword": "match",
-      "score": 6.553
+      "keyword": "gens",
+      "score": 5.606
     },
     {
-      "keyword": "chameaux",
-      "score": 6.488
+      "keyword": "savent",
+      "score": 5.606
     },
     {
-      "keyword": "crachent",
-      "score": 6.488
+      "keyword": "leur",
+      "score": 5.606
+    },
+    {
+      "keyword": "fait",
+      "score": 5.606
+    },
+    {
+      "keyword": "conseil",
+      "score": 5.606
+    },
+    {
+      "keyword": "cours",
+      "score": 5.387
+    },
+    {
+      "keyword": "d'anatomie",
+      "score": 5.387
+    },
+    {
+      "keyword": "bien",
+      "score": 5.387
+    },
+    {
+      "keyword": "spécial",
+      "score": 5.387
+    },
+    {
+      "keyword": "minimum",
+      "score": 5.279
+    },
+    {
+      "keyword": "réussir",
+      "score": 5.279
+    },
+    {
+      "keyword": "test",
+      "score": 5.279
+    },
+    {
+      "keyword": "culture",
+      "score": 5.279
+    },
+    {
+      "keyword": "anatomie",
+      "score": 5.279
+    },
+    {
+      "keyword": "saviezvousque",
+      "score": 5.25
+    },
+    {
+      "keyword": "frenchquiz",
+      "score": 5.25
+    },
+    {
+      "keyword": "apprendre",
+      "score": 5.25
+    },
+    {
+      "keyword": "apprends",
+      "score": 5.25
+    },
+    {
+      "keyword": "quizchallenge",
+      "score": 5.25
     }
   ],
   "exact_title_hashes": [
-    "01c68cd0f46bfa0b222cf15c2e2184cd8deed530ebeba6863ac49aa8cd306245",
     "07fa75622c3dd947b86bb1ba0eaf18a016457db98b1e5da201063a34647ced0c",
     "105ca594d92f2281f0ff7be7121dfc55f7dd6703cfe63830084fba80b7a03b87",
-    "17de8aee26fcb6c2b5a22fd5294289e7aff56d2d7e0abbf9a57e2ce11c82e9d6",
-    "1ccdb386705bd0dcf5ebc825d010aceb55843b42a742918eaf503f27fa63b874",
     "284ca378a285c6eed8614ebbbf06078e29569e367cd670f0243e254375e68067",
-    "2bc22126cee7813d10d13397e4cb87042db57995fb0ed283422aa308c5b69357",
-    "4560e6c83cc7fde4c3572e767e3888efeaeef3f89cf650403ee6e395458120ef",
     "45885c6106ae9ab150031244aea610b334bd19169aebf1aec98d5785dc969f3e",
-    "48d8e81e4b6824468c8a67f8900a50a06cf0cd04c7bd31f0d51b53ac57671a20",
-    "57c07de034351cb3e9827f455995b35b0b23d30743703004069342b024abfd49",
     "5c0195d70cc4d8cd7a9b421c0de5526953c568a9c3319711cce0bb263bd3f339",
-    "627fbeb4623bb41a126e29d1a191effd032d391706739f2f11c306920d8f70ec",
-    "6f4fabc108a86fb8e2427e56e8f2dc9e7880f2c21335f955cc0de64b670bb506",
-    "7820d97149013be5aab64224ee08fb20647781f49284df562caa6df0d279e0eb",
     "7f1fac58489cb07a6bd79922e953977ea2444c1c9783062c6ca0a93c4b724ed4",
-    "8f96af56b689856b9bc0f0d3ba038b1bfc2a67b56aeb35109f62340cd47b2f08",
-    "9f196ea73d79194cf9e38cd49be0aa331cd3af7a985c90f1c4fb3f3a1a8ad8b9",
     "a957fb6499e52e311ec2d2599ae8a5bdecbfa29a2a2e34e36f596c5d16033a23",
     "b9d559df39cb25ab4e7717d1dcea79470baf4dabd9fc75babde3d0fb0efe6f67",
-    "ba2fa3cead77f350011b9a1f106208e2eb79f1b5518d4578ac1c6e6b2d06b116",
-    "bf2e5d1d793b48fb8f857f0d84bcf3fb71c7e27b693592832e46075738e74aad",
-    "c072f274458fe0dc6b3c399b88a1b5f2e545b3f10041e6dc8612070b84018d18",
-    "c2484b3c9be7fdbf92cfc0a974e913ffba9e5638b75a572d070b9a4d929e8262",
-    "d06155380f28c581a835d31ae92591be971d3a3fff375508b46c5e85b70c1839",
-    "d198f8be90dbf527c9fac25afa008a5a6320353c9fbf0154b957a99931f24bce",
-    "f598b8a99689fd67584d94ef5ff52cb99044ac6a7466efae650f8dbdee7df231"
+    "d198f8be90dbf527c9fac25afa008a5a6320353c9fbf0154b957a99931f24bce"
   ],
   "reference_videos_for_human_review": [
-    {
-      "video_id": "FnZL5xM0yiI",
-      "url": "https://youtu.be/FnZL5xM0yiI",
-      "title": "Ce métal est destructeur ! #science #chimie",
-      "channel_title": "Gauthier Dm - Science",
-      "views": 12828853,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "uoHD9fiSc4Q",
-      "url": "https://youtu.be/uoHD9fiSc4Q",
-      "title": "⁠@mateooo.k - Les enfants quand ils voient une personne handicapée 🫠 #shorts #animation #humour",
-      "channel_title": "Koda",
-      "views": 5201096,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "Bd_ArNy6zgg",
-      "url": "https://youtu.be/Bd_ArNy6zgg",
-      "title": "Pourquoi les faux bébés sont-ils fabriqués en Chine 😳 #shorts",
-      "channel_title": "Etrange Minute",
-      "views": 5100112,
-      "pattern": "pourquoi-declarative",
-      "tags_sample": []
-    },
     {
       "video_id": "kB6Qq5MEyDc",
       "url": "https://youtu.be/kB6Qq5MEyDc",
       "title": "CETTE ILLUSION VA VOUS FAIRE OUBLIER VOTRE NOM #youtubeshorts #youtube #illusion #shorts",
       "channel_title": "EliaQim",
-      "views": 4342611,
+      "views": 4342659,
       "pattern": "other",
       "tags_sample": [
         "hero quiz",
@@ -467,70 +409,11 @@
       ]
     },
     {
-      "video_id": "iGCReuLUL9g",
-      "url": "https://youtu.be/iGCReuLUL9g",
-      "title": "Le dribbleur au sang : pourquoi Lamine Yamal saigne-t-il à chaque match ? #yamal #shorts",
-      "channel_title": "Chill_edit",
-      "views": 3574246,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "ByLB-KJZlf0",
-      "url": "https://youtu.be/ByLB-KJZlf0",
-      "title": "Pourquoi Les Chameaux Crachent Leurs Organes ? 😨 #shorts",
-      "channel_title": "Kumo",
-      "views": 3072837,
-      "pattern": "pourquoi-declarative",
-      "tags_sample": [
-        "chameau",
-        "chameaux",
-        "chameau bruit",
-        "chameau qui mange",
-        "chameau qui court",
-        "chameau mange cactus",
-        "camel",
-        "dromadaire"
-      ]
-    },
-    {
-      "video_id": "YMfommDMVZ8",
-      "url": "https://youtu.be/YMfommDMVZ8",
-      "title": "Le pitbull: Le chien le plus dangereuse, voici pourquoi. #viral #short #reels #sport",
-      "channel_title": "ALÉATOIRE TV",
-      "views": 2587995,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
       "video_id": "9B5mPW_qiAw",
       "url": "https://youtu.be/9B5mPW_qiAw",
       "title": "Le cerveau d’Einstein a été volé. #shorts",
       "channel_title": "lexaneuf",
       "views": 2337962,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "dWpC78e4FUc",
-      "url": "https://youtu.be/dWpC78e4FUc",
-      "title": "Pourquoi les ANIMAUX ont PEUR de nous ? 😨🦁",
-      "channel_title": "Science Trash",
-      "views": 2208379,
-      "pattern": "pourquoi-declarative",
-      "tags_sample": [
-        "animaux",
-        "biologie",
-        "étude",
-        "peur"
-      ]
-    },
-    {
-      "video_id": "btaa4TUCY-0",
-      "url": "https://youtu.be/btaa4TUCY-0",
-      "title": "😱Mais POURQUOI ?!🤯 #kpopdemonhunters #netflix #shorts",
-      "channel_title": "RikuSama Théorie",
-      "views": 1141896,
       "pattern": "other",
       "tags_sample": []
     },
@@ -553,24 +436,6 @@
       ]
     },
     {
-      "video_id": "2J-gVCctHNA",
-      "url": "https://youtu.be/2J-gVCctHNA",
-      "title": "La blague la plus drôle de TOTO🤣🤣",
-      "channel_title": "KI-JAY",
-      "views": 991852,
-      "pattern": "other",
-      "tags_sample": [
-        "toto",
-        "comédie",
-        "blague",
-        "la blague du jour",
-        "meilleur blague",
-        "rire",
-        "vidéo drôle",
-        "vidéo captivant"
-      ]
-    },
-    {
       "video_id": "EUL55hx1ROo",
       "url": "https://youtu.be/EUL55hx1ROo",
       "title": "Découvrez ce quiz fascinant sur le corps humain ! 🧠💡",
@@ -589,34 +454,11 @@
       "tags_sample": []
     },
     {
-      "video_id": "nB_RjB-Aysk",
-      "url": "https://youtu.be/nB_RjB-Aysk",
-      "title": "Le saviez-vous ? 3 solutions naturelles pour votre corps #shorts #français #conseil #astuce",
-      "channel_title": "La Voix des Choses",
-      "views": 423896,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "lifehack",
-        "astuce",
-        "vie pratique",
-        "peau"
-      ]
-    },
-    {
-      "video_id": "eeEh9DIYwBw",
-      "url": "https://youtu.be/eeEh9DIYwBw",
-      "title": "Pourquoi la grossesse ne se produit-elle pas toujours ? 🤔 | Animation | #shorts",
-      "channel_title": "Mini BoBo",
-      "views": 404792,
-      "pattern": "pourquoi-declarative",
-      "tags_sample": []
-    },
-    {
       "video_id": "ITa7KTZh01I",
       "url": "https://youtu.be/ITa7KTZh01I",
       "title": "Le saviez-vous ? 99 % des gens ne savent pas pourquoi leur corps fait ça #short #français #conseil",
       "channel_title": "La Voix des Choses",
-      "views": 403501,
+      "views": 403550,
       "pattern": "numbered-list",
       "tags_sample": [
         "lifehack",
@@ -625,77 +467,20 @@
       ]
     },
     {
-      "video_id": "N6jxSLqCvxk",
-      "url": "https://youtu.be/N6jxSLqCvxk",
-      "title": "La Preuve scientifique que l’islam est vérité ! #islam #science #short #shorts",
-      "channel_title": "Dini Rappels",
-      "views": 339818,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "5EG32Yf2qrE",
-      "url": "https://youtu.be/5EG32Yf2qrE",
-      "title": "Comment activer tout votre corps le matin, commencez la journée du bon pied",
-      "channel_title": "Sadhguru Français",
-      "views": 335377,
-      "pattern": "comment",
-      "tags_sample": [
-        "sadhguru",
-        "isha",
-        "yoga",
-        "yoga paris",
-        "depression",
-        "santé",
-        "sadhguru français",
-        "developpement personnel"
-      ]
-    },
-    {
-      "video_id": "BXPk-zuzw7c",
-      "url": "https://youtu.be/BXPk-zuzw7c",
-      "title": "Le plus grand physicien inconnu (short n°67)",
-      "channel_title": "Julien Bobroff",
-      "views": 289679,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "bobroff",
-        "quantique",
-        "vulgarisation"
-      ]
-    },
-    {
       "video_id": "LlYkvP6KfYQ",
       "url": "https://youtu.be/LlYkvP6KfYQ",
       "title": "Un Cours D'Anatomie Bien Spécial",
       "channel_title": "terr",
-      "views": 243696,
+      "views": 243668,
       "pattern": "other",
       "tags_sample": []
-    },
-    {
-      "video_id": "896ZKaAQcv8",
-      "url": "https://youtu.be/896ZKaAQcv8",
-      "title": "Attention au nettoyage des oreilles ! #shorts #santé",
-      "channel_title": "Doctissimo",
-      "views": 200081,
-      "pattern": "other",
-      "tags_sample": [
-        "nettoyage oreilles",
-        "oreilles",
-        "tympan",
-        "coton tige",
-        "nettoyer oreilles",
-        "attention",
-        "tendance tik tok"
-      ]
     },
     {
       "video_id": "dMx7jeV6mJs",
       "url": "https://youtu.be/dMx7jeV6mJs",
       "title": "Il te faut minimum 5/7 pour réussir ce test ✅️#quiz #culture #anatomie",
       "channel_title": "Quiz_Time",
-      "views": 189923,
+      "views": 189927,
       "pattern": "numbered-list",
       "tags_sample": []
     },
@@ -706,15 +491,6 @@
       "channel_title": "French Quiz Hub",
       "views": 177926,
       "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "L9HoLvb0xWY",
-      "url": "https://youtu.be/L9HoLvb0xWY",
-      "title": "Pourquoi tes muscles tremblent à l’échec ? #musculation #nervoussystem  #shorts #gym",
-      "channel_title": "Jacala",
-      "views": 168197,
-      "pattern": "pourquoi-declarative",
       "tags_sample": []
     }
   ],

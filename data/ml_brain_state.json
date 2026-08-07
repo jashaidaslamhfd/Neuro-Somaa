@@ -1,126 +1,127 @@
 {
-  "trained_at": "2026-08-07T19:14:32.248341+00:00",
-  "n_samples": 48,
-  "views_r2": 0.10157146793301741,
-  "viral_accuracy": 0.75,
+  "trained_at": "2026-08-07T19:29:26.149328+00:00",
+  "n_samples": 49,
+  "views_r2": 0.08602842224141782,
+  "viral_accuracy": 0.7346938775510204,
   "hook_pattern_weights": {
     "pourquoi": 527.3809523809524,
-    "ce": 596.6363636363636,
+    "ce": 570.695652173913,
     "la": 337.5,
     "comprendre": 255.0
   },
   "word_impact": {
-    "corps": -101.1105769230769,
-    "pourquoi": -40.854166666666686,
-    "quand": -31.6875,
-    "peut": -14.616071428571445,
-    "trange": -14.616071428571445,
-    "sembler": -14.616071428571445,
-    "avant": 47.8125,
-    "comprendre": -69.61607142857144,
-    "faut": 87.5625,
-    "cerveau": 113.41250000000002,
-    "battre": 187.3125,
-    "nuit": 187.3125,
-    "semble": 83.64583333333337,
-    "vieillissant": 237.3125,
-    "temps": 237.3125,
-    "votre": -128.5625,
-    "vous": -25.520833333333314,
-    "peur": 362.14583333333337,
-    "passe": -10.1875,
-    "derri": -196.6875,
-    "science": 14.1875,
-    "silence": -62.1875,
-    "lors": 737.3125,
-    "ventre": 537.8125,
-    "serre": 737.3125,
-    "stress": -175.52083333333331,
-    "explique": 84.47916666666663,
-    "endormant": -18.1875,
-    "lumi": 133.8125,
-    "dans": -29.4375,
-    "change": 172.5625,
-    "lorsque": 172.5625,
-    "poule": 546.3125,
-    "chair": 546.3125,
-    "tout": 51.8125,
-    "seul": 51.8125,
-    "appara": 118.14583333333337,
-    "sous": -143.1875,
-    "frissonne": -72.1875,
-    "froid": 553.8125,
-    "soudain": 98.47916666666663,
-    "oreilles": -120.1875,
-    "refuse": -437.6875
+    "quand": -20.785714285714334,
+    "pourquoi": -29.95238095238102,
+    "corps": -90.20879120879124,
+    "sembler": -3.7142857142857792,
+    "peut": -3.7142857142857792,
+    "avant": 58.714285714285666,
+    "trange": -3.7142857142857792,
+    "faut": 98.46428571428567,
+    "comprendre": -58.71428571428578,
+    "nuit": 198.21428571428567,
+    "cerveau": 124.31428571428569,
+    "battre": 198.21428571428567,
+    "semble": 94.54761904761904,
+    "vieillissant": 248.21428571428567,
+    "temps": 248.21428571428567,
+    "peur": 373.04761904761904,
+    "votre": -117.66071428571433,
+    "vous": -14.619047619047649,
+    "passe": 0.7142857142856656,
+    "science": 25.089285714285666,
+    "derri": -185.78571428571433,
+    "silence": -51.285714285714334,
+    "ventre": 548.7142857142857,
+    "lors": 748.2142857142857,
+    "serre": 748.2142857142857,
+    "explique": 95.3809523809523,
+    "stress": -164.61904761904765,
+    "endormant": -7.285714285714334,
+    "lumi": 144.71428571428567,
+    "dans": -18.535714285714334,
+    "lorsque": 42.11428571428564,
+    "change": 42.11428571428564,
+    "poule": 557.2142857142857,
+    "chair": 557.2142857142857,
+    "tout": 62.714285714285666,
+    "seul": 62.714285714285666,
+    "appara": 129.04761904761904,
+    "sous": -132.28571428571433,
+    "frissonne": -61.285714285714334,
+    "froid": 564.7142857142857,
+    "faim": -155.78571428571433,
+    "soudain": 109.3809523809523,
+    "oreilles": -109.28571428571433,
+    "refuse": -426.78571428571433
   },
   "best_word_patterns": [
     [
       "lors",
-      737.3125
+      748.2142857142857
     ],
     [
       "serre",
-      737.3125
+      748.2142857142857
     ],
     [
       "froid",
-      553.8125
+      564.7142857142857
     ],
     [
       "poule",
-      546.3125
+      557.2142857142857
     ],
     [
       "chair",
-      546.3125
+      557.2142857142857
     ],
     [
       "ventre",
-      537.8125
+      548.7142857142857
     ],
     [
       "peur",
-      362.14583333333337
+      373.04761904761904
     ],
     [
       "vieillissant",
-      237.3125
+      248.21428571428567
     ],
     [
       "temps",
-      237.3125
-    ],
-    [
-      "battre",
-      187.3125
+      248.21428571428567
     ],
     [
       "nuit",
-      187.3125
+      198.21428571428567
     ],
     [
-      "change",
-      172.5625
-    ],
-    [
-      "lorsque",
-      172.5625
+      "battre",
+      198.21428571428567
     ],
     [
       "lumi",
-      133.8125
+      144.71428571428567
     ],
     [
       "appara",
-      118.14583333333337
+      129.04761904761904
+    ],
+    [
+      "cerveau",
+      124.31428571428569
+    ],
+    [
+      "soudain",
+      109.3809523809523
     ]
   ],
   "pillar_performance": {
     "other": {
-      "avg_views": 509.9782608695652,
-      "avg_retention": 25.166304347826088,
-      "count": 46
+      "avg_views": 499.1276595744681,
+      "avg_retention": 24.630851063829788,
+      "count": 47
     },
     "muscular": {
       "avg_views": 1172.0,
@@ -151,10 +152,50 @@
     "11:30": 1.193
   },
   "topic_clusters": {
-    "1": [
+    "3": [
       "Pourquoi le corps lourd quand on est fatigué arrive",
+      "Pourquoi le cerveau remarque entendre son cœur battre la nuit",
+      "Pourquoi le temps semble passer plus vite en vieillissant",
+      "Ce que votre corps vous dit quand le hoquet commence brusquement",
+      "Pourquoi on frissonne quand on a froid peut sembler étrange",
+      "Ce qui change lorsque les mains se fripent dans l'eau",
+      "Pourquoi un pied s'endort tout seul peut sembler étrange",
+      "Pourquoi le corps sursaute en s'endormant semble soudain"
+    ],
+    "0": [
+      "Pourquoi se réveiller avant son réveil peut sembler étrange",
+      "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+      "Ce qui se passe quand un déjà-vu semble étrangement familier",
+      "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+      "La science derrière le temps qui semble accélérer en vieillissant",
+      "Ce que votre corps vous dit quand le silence devient inconfortable",
+      "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
+      "Ce que la science explique sur l'effet du stress sur la mémoire",
+      "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+      "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
+      "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
+      "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+      "Ce que la science explique sur le muscle qui tressaille tout seul",
+      "Ce qui se passe quand le cœur s'emballe sous le stress",
+      "Pourquoi on entend son cœur battre la nuit semble soudain",
+      "Pourquoi un aliment froid provoque un mal de tête semble soudain",
+      "Ce qu'il faut comprendre sur les fourmillements après une mauvaise position",
+      "Ce qui change lorsque la faim revient à la même heure chaque jour"
+    ],
+    "2": [
+      "Ce que votre corps vous dit quand le corps se fige quand on a peur",
+      "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+      "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
+      "Ce que la science explique sur la mâchoire qui craque en mâchant",
+      "Ce que votre corps vous dit quand un vertige apparaît après s'être levé",
+      "Ce que la science explique sur les nuances de vert que l'œil distingue"
+    ],
+    "1": [
       "Ce que la science explique sur le sursaut du corps en s'endormant",
+      "Comprendre pourquoi le cerveau réclame du sommeil profond",
       "Ce qui change lorsque une lumière vive fait éternuer",
+      "Comprendre pourquoi le corps frissonne sous le stress",
       "Pourquoi le ventre gargouille sans faim",
       "Ce qui change lorsque les oreilles sifflent dans le silence",
       "Pourquoi dit on que le cerveau est immature",
@@ -163,49 +204,10 @@
       "Pourquoi le cerveau des femmes est divisé en 5",
       "Pourquoi la peau se fripe dans leau",
       "Pourquoi le nez coule quand on pleure",
+      "Pourquoi la voix tremble par nervosité peut sembler étrange",
       "La science derrière les oreilles qui deviennent chaudes",
       "Pourquoi les yeux pleurent quand on rit",
-      "Pourquoi le corps sursaute en s'endormant semble soudain"
-    ],
-    "3": [
-      "Pourquoi se réveiller avant son réveil peut sembler étrange",
-      "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
-      "Pourquoi le cerveau remarque entendre son cœur battre la nuit",
-      "Ce qui se passe quand un déjà-vu semble étrangement familier",
-      "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
-      "La science derrière le temps qui semble accélérer en vieillissant",
-      "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
-      "Ce que la science explique sur l'effet du stress sur la mémoire",
-      "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
-      "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
-      "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
-      "Ce que la science explique sur le muscle qui tressaille tout seul",
-      "Ce qui se passe quand le cœur s'emballe sous le stress",
-      "Pourquoi on entend son cœur battre la nuit semble soudain",
-      "Pourquoi un aliment froid provoque un mal de tête semble soudain"
-    ],
-    "0": [
-      "Pourquoi le temps semble passer plus vite en vieillissant",
-      "Ce que votre corps vous dit quand le silence devient inconfortable",
-      "Ce que votre corps vous dit quand le hoquet commence brusquement",
-      "Comprendre pourquoi le cerveau réclame du sommeil profond",
-      "Comprendre pourquoi le corps frissonne sous le stress",
-      "Pourquoi on frissonne quand on a froid peut sembler étrange",
-      "Ce qu'il faut comprendre sur les fourmillements après une mauvaise position",
-      "Pourquoi la voix tremble par nervosité peut sembler étrange",
-      "Ce qui change lorsque les mains se fripent dans l'eau",
-      "Pourquoi un pied s'endort tout seul peut sembler étrange",
       "Comprendre pourquoi le bâillement se transmet aux autres"
-    ],
-    "2": [
-      "Ce que votre corps vous dit quand le corps se fige quand on a peur",
-      "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
-      "Ce que la science explique sur l'apparition soudaine de la chair de poule",
-      "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
-      "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
-      "Ce que la science explique sur la mâchoire qui craque en mâchant",
-      "Ce que votre corps vous dit quand un vertige apparaît après s'être levé",
-      "Ce que la science explique sur les nuances de vert que l'œil distingue"
     ]
   }
 }
