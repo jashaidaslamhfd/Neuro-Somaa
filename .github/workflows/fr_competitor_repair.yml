@@ -56,21 +56,34 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
           COMPETITOR_INTEL_PATH: "data/competitor_intel_fr.json"
           COMPETITOR_QUERIES_FR: ${{ vars.COMPETITOR_QUERIES_FR || '' }}
-          COMPETITOR_MIN_VIEWS: "1000000"
+          # Top body-science / skeleton faceless Shorts channels in this niche
+          # (S-tier per 2026 faceless-niche data). Scraping them directly gives
+          # the ML far more viral pattern samples than a 1M-view filter alone.
+          COMPETITOR_CHANNEL_IDS: ${{ vars.COMPETITOR_CHANNEL_IDS || '' }}
+          COMPETITOR_MIN_VIEWS: "150000"
           COMPETITOR_MAX_DURATION_SECONDS: "90"
+          COMPETITOR_MAX_VIDEOS_PER_CHANNEL: "40"
+          COMPETITOR_MAX_RESULTS_PER_QUERY: "25"
         run: |
           set -euo pipefail
           python scripts/competitor_analysis.py
           echo "--- competitor_intel_fr.json ---"
           python -c "import json;d=json.load(open('data/competitor_intel_fr.json'));print('configured:',d.get('configured'));print('safe_title_templates:',len(d.get('safe_title_templates') or []));print('high_value_tags:',len(d.get('high_value_tags') or []))"
 
-      - name: ML learns patterns (train on our + competitor data)
+      - name: ML learns from top viral channels + our analytics (niche intel feed)
         shell: bash
         env:
           SKILLOR_DATA_DIR: "data"
           ML_BRAIN_STATE_PATH: "data/ml_brain_state.json"
+          COMPETITOR_INTEL_PATH: "data/competitor_intel_fr.json"
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: |
           set -euo pipefail
+          # niche_intel builds competitor + demand intel and feeds it into ML
+          # training, so the brain learns from TOP viral channels in the niche,
+          # not just our own channel history.
+          python scripts/niche_intel.py || echo "niche_intel partial; continuing"
+          # train the brain on the combined (ours + competitor) dataset
           python scripts/ml_brain.py || echo "ML train produced no output; continuing with existing state"
 
       - name: Repair uploaded videos (French, competitor + ML driven)

@@ -59,6 +59,14 @@ COMPETITOR_CHANNELS = [
     {"handle": "@BEAMAZED", "name": "Be Amazed", "niche": "body_facts"},
     {"handle": "@BrainBurstShorts", "name": "Brain Burst", "niche": "brain_facts"},
     {"handle": "@DailyDoseOfInternet", "name": "Daily Dose Of Internet", "niche": "viral_moments"},
+
+    # 2026 S-TIER "Skeleton / 3D Body Science" faceless Shorts niche — the
+    # highest-performing body-science shorts on the platform right now.
+    {"handle": "@H3lixSquar3d", "name": "Helix2", "niche": "skeleton_body_science"},
+    {"handle": "@CoreyOnTheFloor", "name": "Corey On The Floor", "niche": "body_mystery"},
+    {"handle": "@FactSmack", "name": "Fact Smack", "niche": "body_facts"},
+    {"handle": "@NatureLovesMath", "name": "Nature Loves Math", "niche": "body_science"},
+    {"handle": "@TheSqueezeTV", "name": "The Squeeze", "niche": "anatomy"},
 ]
 
 # ═══════════════════════════════════════════════════════════════════
