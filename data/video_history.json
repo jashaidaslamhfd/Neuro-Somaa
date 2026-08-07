@@ -1074,5 +1074,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "3b0296b84784b72194c7141462a231963c3b251c496ad7209c63f10210a512f6",
+    "title": "Pourquoi une paupi\u00e8re tressaille sans raison ?",
+    "topic": "Ce qui change lorsque une paupi\u00e8re tressaille sans raison",
+    "series_title": "Paupi\u00e8re qui saute",
+    "base_phenomenon": "la paupi\u00e8re qui tressaille sans raison",
+    "nominal_phrase": "la paupi\u00e8re qui tressaille sans raison",
+    "question_phrase": "une paupi\u00e8re tressaille sans raison",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ta paupi\u00e8re tressaille sans raison C'est ton cerveau qui joue un jeu de nervosit\u00e9 Ton syst\u00e8me nerveux transmet des signaux de stress Un muscle de ta paupi\u00e8re se contracte et se d\u00e9tend Un circuit de r\u00e9flexe se d\u00e9clenche sans raison Et c'est pourquoi ta paupi\u00e8re tressaille sans raison",
+    "posted_at": "2026-08-07T19:42:56.877252+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "vdo5z45bKcg",
+    "publish_at": "2026-08-08T17:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615
   }
 ]

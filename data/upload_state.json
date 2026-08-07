@@ -383,5 +383,18 @@
     },
     "publish_at": "2026-08-08T15:30:00+00:00",
     "completed_at": 1786130573.988536
+  },
+  "3b0296b84784b72194c7141462a231963c3b251c496ad7209c63f10210a512f6": {
+    "status": "completed",
+    "title": "Pourquoi une paupi\u00e8re tressaille sans raison ?",
+    "youtube_video_id": "vdo5z45bKcg",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-08T17:30:00+00:00",
+    "completed_at": 1786131776.876587
   }
 }
