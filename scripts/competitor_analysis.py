@@ -130,7 +130,7 @@ def _resolve_channel_handle(handle: str, api_key: str) -> str | None:
         return None
 
 
-def _request(path: str, params: dict, api_key: str, *, retries: int = 2) -> dict:
+def _request(path: str, params: dict, api_key: str, *, retries: int = 3) -> dict:
     query = dict(params)
     query["key"] = api_key
     url = f"{API}/{path}?{urllib.parse.urlencode(query)}"
@@ -145,10 +145,17 @@ def _request(path: str, params: dict, api_key: str, *, retries: int = 2) -> dict
             last_error = RuntimeError(f"HTTP {exc.code}: {body}")
             if exc.code in {400, 401, 403, 404}:
                 break
+            if exc.code == 429:
+                # YouTube rate limit: honor Retry-After, back off longer.
+                retry_after = exc.headers.get("Retry-After")
+                wait = float(retry_after) if retry_after else 8.0 * attempt
+                LOG.warning("YouTube API rate-limited (429); waiting %.0fs (attempt %d/%d)", wait, attempt, retries)
+                time.sleep(wait)
+                continue
         except Exception as exc:  # network timeout/transient
             last_error = exc
         if attempt < retries:
-            time.sleep(1.5 * attempt)
+            time.sleep(2.0 * attempt)
     raise RuntimeError(f"YouTube API {path} failed: {last_error}")
 
 
