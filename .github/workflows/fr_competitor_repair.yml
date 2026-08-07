@@ -48,7 +48,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m pip install --upgrade pip
-          python -m pip install "google-api-python-client>=2.100.0" "google-auth>=2.25.0" "google-auth-oauthlib>=1.1.0" "google-auth-httplib2>=0.2.0" "requests>=2.31.0" "python-dotenv>=1.0.0" "numpy>=1.24.0" "Pillow>=10.0.0"
+          python -m pip install "google-api-python-client>=2.100.0" "google-auth>=2.25.0" "google-auth-oauthlib>=1.1.0" "google-auth-httplib2>=0.2.0" "requests>=2.31.0" "python-dotenv>=1.0.0" "numpy>=1.24.0" "Pillow>=10.0.0" "moviepy>=1.0.3,<2.0.0" "imageio-ffmpeg>=0.4.8"
 
       - name: Scrape top French niche channels (competitor intel)
         shell: bash
@@ -98,9 +98,9 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ inputs.apply }}" == "true" ]; then
-            python scripts/fr_competitor_repair.py --apply --limit ${{ inputs.limit }}
+            python scripts/fr_competitor_repair.py --apply --with-thumbnails --limit ${{ inputs.limit }}
           else
-            python scripts/fr_competitor_repair.py --limit ${{ inputs.limit }}
+            python scripts/fr_competitor_repair.py --with-thumbnails --limit ${{ inputs.limit }}
           fi
 
       - name: Persist updated state

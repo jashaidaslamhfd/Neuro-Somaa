@@ -107,6 +107,41 @@ def _update_snippet(token: str, vid: str, sn: dict, *, title, description, tags,
 
 
 # --------------------------------------------------------------------------- #
+# Thumbnails (ML/SEO-aware)
+# --------------------------------------------------------------------------- #
+def _set_thumbnail(token: str, vid: str, jpeg_path: str) -> None:
+    """Upload a rendered thumbnail for a video via thumbnails.set."""
+    from googleapiclient.discovery import build
+    from googleapiclient.http import MediaFileUpload
+    from google.oauth2 import credentials as gc
+    cid = os.environ.get("GOOGLE_CLIENT_ID")
+    csec = os.environ.get("GOOGLE_CLIENT_SECRET")
+    rtok = os.environ.get("REFRESH_TOKEN")
+    if not (cid and csec and rtok):
+        raise RuntimeError("Missing Google creds for thumbnail upload")
+    creds = gc.Credentials(token=None, refresh_token=rtok,
+                           token_uri="https://oauth2.googleapis.com/token",
+                           client_id=cid, client_secret=csec)
+    yt = build("youtube", "v3", credentials=creds)
+    yt.thumbnails().set(
+        videoId=vid,
+        media_body=MediaFileUpload(jpeg_path, mimetype="image/jpeg"),
+    ).execute()
+    log.info("thumbnail set on %s", vid)
+
+
+def _make_thumbnail(title: str, out_path: str) -> str:
+    """Render an ML/SEO-aware thumbnail using the pipeline's generate_thumbnail."""
+    from video_editor import generate_thumbnail
+    src = os.path.join(ROOT, "assets", "thumbnails_fr", "_base.jpg")
+    if not os.path.exists(src):
+        from PIL import Image
+        os.makedirs(os.path.dirname(src), exist_ok=True)
+        Image.new("RGB", (1080, 1920), (12, 14, 34)).save(src)
+    return generate_thumbnail(src, title, output_path=out_path, category="Body")
+
+
+# --------------------------------------------------------------------------- #
 # Repair
 # --------------------------------------------------------------------------- #
 def _video_topic(entry: dict) -> str:
@@ -137,7 +172,7 @@ def _needs_repair(sn_title: str, sn_desc: str, new_title: str) -> bool:
     return False
 
 
-def repair(apply: bool, limit: int = 0, only_topic: str | None = None):
+def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thumbnails: bool = False):
     if not os.path.exists(VIDEO_HISTORY_PATH):
         log.error("No %s found. Run the pipeline first.", VIDEO_HISTORY_PATH)
         return 1
@@ -196,6 +231,21 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None):
             stats["errors"] += 1
             continue
 
+        # ML/SEO-aware thumbnail for this video: generate + upload regardless
+        # of whether the SEO metadata needs changing, so every uploaded video
+        # gets an optimized thumbnail.
+        if with_thumbnails:
+            try:
+                os.makedirs(os.path.join(ROOT, "output", "thumbs"), exist_ok=True)
+                thumb_path = os.path.join(ROOT, "output", "thumbs", f"{vid}.jpg")
+                _make_thumbnail(new_title or live_title or topic, thumb_path)
+                if apply and token:
+                    _set_thumbnail(token, vid, thumb_path)
+                stats["thumbnails"] = stats.get("thumbnails", 0) + 1
+            except Exception as exc:
+                log.warning("thumbnail failed for %s: %s", vid, exc)
+                stats["errors"] += 1
+
         if not _needs_repair(live_title, live_desc, new_title):
             stats["skipped"] += 1
             continue
@@ -209,6 +259,7 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None):
             stats["errors"] += 1
         if not apply:
             stats["applied"] += 1  # count as "would apply" in dry-run
+
         time.sleep(1)
 
     log.info("=" * 60)
@@ -221,8 +272,11 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="write changes to YouTube (default: dry-run)")
     ap.add_argument("--limit", type=int, default=0, help="max videos to process")
     ap.add_argument("--topic", default=None, help="only repair a specific topic")
+    ap.add_argument("--with-thumbnails", action="store_true",
+                    help="also render and upload an optimized thumbnail for every video")
     args = ap.parse_args()
-    return repair(apply=args.apply, limit=args.limit, only_topic=args.topic)
+    return repair(apply=args.apply, limit=args.limit, only_topic=args.topic,
+                  with_thumbnails=args.with_thumbnails)
 
 
 if __name__ == "__main__":
