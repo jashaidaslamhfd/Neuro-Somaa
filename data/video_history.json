@@ -1094,5 +1094,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615
+  },
+  {
+    "content_fingerprint": "52d133ee835d4ad2f73189d350c529493e29779f28d058625402da4332762748",
+    "title": "Pourquoi les paumes transpirent par nervosit\u00e9 ?",
+    "topic": "Pourquoi les paumes transpirent par nervosit\u00e9 semble soudain",
+    "series_title": "Mains moites",
+    "base_phenomenon": "les paumes qui transpirent par nervosit\u00e9",
+    "nominal_phrase": "les paumes qui transpirent par nervosit\u00e9",
+    "question_phrase": "les paumes transpirent par nervosit\u00e9",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps r\u00e9pond ainsi \u00e0 la pression soudaine C'est ton cerveau qui lib\u00e8re l'adr\u00e9naline rapidement Elle provoque une r\u00e9ponse d'alerte imm\u00e9diate Et ton corps r\u00e9agit en transpirant pour se pr\u00e9parer Pour te pr\u00e9server des situations stressantes C'est ainsi que ton corps te pr\u00e9serve des probl\u00e8mes",
+    "posted_at": "2026-08-07T20:02:42.985525+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "3RgqrdkBruA",
+    "publish_at": "2026-08-08T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]

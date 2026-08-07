@@ -396,5 +396,18 @@
     },
     "publish_at": "2026-08-08T17:30:00+00:00",
     "completed_at": 1786131776.876587
+  },
+  "52d133ee835d4ad2f73189d350c529493e29779f28d058625402da4332762748": {
+    "status": "completed",
+    "title": "Pourquoi les paumes transpirent par nervosit\u00e9 ?",
+    "youtube_video_id": "3RgqrdkBruA",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-08T19:30:00+00:00",
+    "completed_at": 1786132962.984647
   }
 }
