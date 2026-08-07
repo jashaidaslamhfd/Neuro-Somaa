@@ -82,23 +82,50 @@ def _next_publish_time() -> dict | None:
 
     Returns a dict with the ISO `publishAt` (UTC) plus human-friendly context,
     or None when the operator disabled scheduling or no slot can be found.
+
+    IMPORTANT (2026-08-07): previously every run picked the FIRST available
+    future slot, so if 3 runs happened in quick succession they all claimed
+    the SAME 15:30 slot -> 3+ videos published at once. Now we read the set of
+    already-scheduled publishAt times from upload_state + video_history and
+    skip any slot that is already taken, so each run gets a distinct slot.
     """
     if os.environ.get("YT_SCHEDULE_PUBLISH", "true").lower() != "true":
         return None
     try:
         from scheduler import FrancePeakTimeScheduler
 
+        # Collect already-taken publish timestamps (UTC ISO).
+        taken = set()
+        for record in list(_load_upload_state().values()):
+            pa = (record.get("publish_at") or "") if isinstance(record, dict) else ""
+            if pa:
+                taken.add(pa)
+        # Also honor video_history published entries.
+        try:
+            import json as _json
+            vh = _json.loads(open(os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8").read())
+            for rec in (vh if isinstance(vh, list) else []):
+                pa = rec.get("publish_at") if isinstance(rec, dict) else None
+                if pa:
+                    taken.add(pa)
+        except Exception:
+            pass
+
         sched = FrancePeakTimeScheduler()
-        slots = sched.get_next_posting_times(count=1)
-        if not slots:
-            return None
-        slot = slots[0]
-        return {
-            "publishAt": slot["time_utc"],
-            "peak_name": slot["peak_name"],
-            "time_paris": slot["time_paris"],
-            "reason": slot["reason"],
-        }
+        # Ask for many future slots so we can skip the ones already taken.
+        slots = sched.get_next_posting_times(count=24)
+        for slot in slots:
+            if slot["time_utc"] in taken:
+                logger.info("Skipping already-taken publish slot %s", slot["time_utc"])
+                continue
+            return {
+                "publishAt": slot["time_utc"],
+                "peak_name": slot["peak_name"],
+                "time_paris": slot["time_paris"],
+                "reason": slot["reason"],
+            }
+        logger.warning("No free publish slot found in the next 7 days")
+        return None
     except Exception as exc:
         logger.warning("Scheduled publish slot lookup failed: %s", exc)
         return None
