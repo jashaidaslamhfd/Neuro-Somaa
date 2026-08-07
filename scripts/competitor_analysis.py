@@ -110,6 +110,26 @@ def _split_env(value: str | None) -> list[str]:
     return [item.strip() for item in re.split(r"[,|\n]", value) if item.strip()]
 
 
+def _resolve_channel_handle(handle: str, api_key: str) -> str | None:
+    """Resolve a '@handle' (or bare handle) to a channel UC... id via the
+    channels.list forHandle endpoint. If the input already looks like a UC...
+    id, return it unchanged. Returns None if resolution fails."""
+    h = handle.strip().lstrip("@").strip()
+    if h.startswith("UC") and len(h) == 24:
+        return handle.strip()
+    try:
+        payload = _request(
+            "channels",
+            {"part": "id", "forHandle": h},
+            api_key,
+        )
+        items = payload.get("items") or []
+        return items[0]["id"] if items else None
+    except Exception as exc:
+        LOG.warning("Could not resolve handle %r to channel id: %s", handle, exc)
+        return None
+
+
 def _request(path: str, params: dict, api_key: str, *, retries: int = 2) -> dict:
     query = dict(params)
     query["key"] = api_key
@@ -519,9 +539,18 @@ def main(argv: list[str] | None = None) -> int:
         })
         return 0
 
+    # Resolve any @handle entries to UC... channel ids so COMPETITOR_CHANNEL_IDS
+    # accepts both handles and ids. Keep the original for the sources report.
+    resolved_channels = []
+    for ch in channels:
+        resolved = _resolve_channel_handle(ch, api_key) or ch
+        resolved_channels.append(resolved)
+    sources["channels"] = channels
+    sources["resolved_channel_ids"] = resolved_channels
+
     records = collect_competitor_records(
         api_key=api_key,
-        channel_ids=channels,
+        channel_ids=resolved_channels,
         queries=queries,
         min_views=args.min_views,
         max_duration=args.max_duration,

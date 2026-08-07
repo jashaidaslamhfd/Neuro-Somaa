@@ -493,8 +493,18 @@ def get_trending_topic(
             series_topics = [t for t in series_topics if not should_skip_topic(t.get("topic", ""))]
             if pre and len(series_topics) < pre:
                 logger.info("Autonomous ML blocked %d flop topic(s) from selection", pre - len(series_topics))
+            # IMPLEMENTATION-BASED: proven winner topics get priority (moved to
+            # the front), not just advice. This makes ML actively PICK winners
+            # instead of passively reporting them.
+            from autonomous_controller import get_controls
+            winners = set(get_controls().get("winner_topics", []))
+            if winners:
+                winners_in_pool = [t for t in series_topics if (t.get("topic") or "").strip().lower() in winners]
+                if winners_in_pool:
+                    logger.info("Autonomous ML prioritizing %d proven winner topic(s)", len(winners_in_pool))
+                    series_topics = winners_in_pool + [t for t in series_topics if t not in winners_in_pool]
         except Exception as exc:
-            logger.warning("Autonomous topic blocklist unavailable: %s", exc)
+            logger.warning("Autonomous topic control unavailable: %s", exc)
         if series_topics:
             chosen = _pick_by_retention_class(series_topics)
         else:
