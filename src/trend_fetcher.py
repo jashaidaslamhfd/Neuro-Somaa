@@ -484,6 +484,17 @@ def get_trending_topic(
         series_topics = _deduplicate(get_body_glitch_topics(), exclude)
         series_topics = [t for t in series_topics
                          if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
+        # AUTONOMOUS CONTROL: the ML brain auto-bans topics that flopped hard
+        # (avg views below threshold after min samples). Skip them here so a
+        # proven flop can't be re-picked and hurt the feed again.
+        try:
+            from autonomous_controller import should_skip_topic
+            pre = len(series_topics)
+            series_topics = [t for t in series_topics if not should_skip_topic(t.get("topic", ""))]
+            if pre and len(series_topics) < pre:
+                logger.info("Autonomous ML blocked %d flop topic(s) from selection", pre - len(series_topics))
+        except Exception as exc:
+            logger.warning("Autonomous topic blocklist unavailable: %s", exc)
         if series_topics:
             chosen = _pick_by_retention_class(series_topics)
         else:

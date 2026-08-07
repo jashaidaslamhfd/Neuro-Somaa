@@ -797,11 +797,34 @@ def main():
             logger.info(f"Using specific topic: {topic}")
             pipeline.run_pipeline(topic=topic)
         else:
+            # AUTONOMOUS CONTROL: the ML brain decides the cadence (how many
+            # videos/day) from real performance, and throttles the batch when
+            # recent videos flopped. BATCH_COUNT is now a ceiling, not a fixed
+            # number. This is the "ML manages the system" part.
+            num_videos = int(os.environ.get("BATCH_COUNT", "3"))
+            try:
+                from autonomous_controller import get_controls
+                controls = get_controls()
+                ml_cadence = int(controls.get("recommended_cadence", num_videos))
+                throttle = bool(controls.get("throttle"))
+                if throttle:
+                    logger.warning(
+                        "Autonomous ML: recent videos flopped -> throttling batch to 1 "
+                        "(recommended cadence was %d)", ml_cadence)
+                    num_videos = 1
+                else:
+                    num_videos = max(1, min(ml_cadence, num_videos))
+                logger.info("Autonomous ML cadence: %d video(s) this run (throttle=%s)",
+                            num_videos, throttle)
+            except Exception as exc:
+                logger.warning("Autonomous cadence control unavailable, using default: %s", exc)
+
             batch_mode = os.environ.get("BATCH_MODE", "false").lower() == "true"
             if batch_mode:
-                num_videos = int(os.environ.get("BATCH_COUNT", "3"))
                 pipeline.run_daily_batch(num_videos)
             else:
+                # Single run by default, but honour the ML cadence ceiling for
+                # the daily scheduled batch.
                 pipeline.run_pipeline()
 
     except KeyboardInterrupt:

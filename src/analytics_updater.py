@@ -70,6 +70,22 @@ if __name__ == "__main__":
     except Exception as exc:
         logger.warning("Growth engine analysis skipped: %s", exc)
 
+    # Step C — AUTONOMOUS CONTROLS: turn learned signals into enforced
+    # decisions (cadence, topic blocklist, throttle, auto-repair list). This
+    # is what lets the ML actually MANAGE the system instead of just reporting.
+    try:
+        from autonomous_controller import analyse as autonomous_analyse
+
+        controls = autonomous_analyse()
+        logger.info(
+            "Autonomous controls: cadence=%d throttle=%s block=%d repairs=%d",
+            controls.get("recommended_cadence"), controls.get("throttle"),
+            len(controls.get("topic_blocklist", [])),
+            controls.get("auto_repair_count", 0),
+        )
+    except Exception as exc:
+        logger.warning("Autonomous controls skipped: %s", exc)
+
     try:
         from premium_growth_loop import main as premium_growth_main
         premium_growth_main([])
