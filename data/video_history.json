@@ -1014,5 +1014,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "a04fc26adb6267a3ddd47cd01de54d5b381306aeabf7bfcfe60080bdbc3efbbf",
+    "title": "Pourquoi le corps sursaute en s'endormant ?",
+    "topic": "Pourquoi le corps sursaute en s'endormant semble soudain",
+    "series_title": "Sursaut du sommeil",
+    "base_phenomenon": "le sursaut du corps en s'endormant",
+    "nominal_phrase": "le sursaut du corps en s'endormant",
+    "question_phrase": "le corps sursaute en s'endormant",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "La peur soudaine de ton sommeil C'est ton cerveau qui active la r\u00e9ponse de peur Le syst\u00e8me nerveux va chercher une r\u00e9f\u00e9rence dans les souvenirs Et si ton cerveau trouve une r\u00e9f\u00e9rence traumatique Alors, ton corps va r\u00e9agir comme si c'\u00e9tait en train. C'est pourquoi ton corps a peur de s'endormir soudain",
+    "posted_at": "2026-08-07T11:34:13.342015+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "IYs-jKSscTE",
+    "publish_at": "2026-08-07T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
