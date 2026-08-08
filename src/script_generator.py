@@ -748,15 +748,29 @@ def generate_script(
                 if score >= 80:
                     logger.info(f"✅ Excellent script! Retention score: {score}/100")
                     logger.info(f"📊 {len(script_data['scenes'])} scenes, {len(script_data['voiceover'].split())} words")
+                    # FEEDBACK LOOP: persist this script as part of the channel
+                    # baseline so the NEXT script compares against it.
+                    try:
+                        from viral_baseline import record_script
+                        record_script(script_data, score)
+                    except Exception as exc:
+                        logger.warning("Baseline record skipped: %s", exc)
                     return script_data
                 else:
                     logger.warning(f"⚠️ Good but could be better (Score: {score}/100)")
                     # Add corrective feedback
                     messages.append({"role": "assistant", "content": raw_reply})
+                    baseline_fb = ""
+                    try:
+                        from viral_baseline import feedback_to_beat_baseline
+                        baseline_fb = " | ".join(feedback_to_beat_baseline(script_data, score))
+                    except Exception as exc:
+                        logger.warning("Baseline feedback skipped: %s", exc)
                     messages.append({"role": "user", "content": (
                         f"The script is good but retention could be improved. "
                         f"Current score: {score}/100. Issues: {', '.join(retention['suggestions'][:3])}. "
-                        f"Rewrite the script with these improvements while keeping the topic '{topic}'. "
+                        + (f"BEAT THE CHANNEL BASELINE: {baseline_fb}. " if baseline_fb else "")
+                        + f"Rewrite the script with these improvements while keeping the topic '{topic}'. "
                         f"Return ONLY valid JSON with the same structure."
                     )})
             else:
