@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-08T06:50:07.868189+00:00",
+  "generated_at_utc": "2026-08-08T20:04:21.751148+00:00",
   "copy_policy": "Use competitor data as pattern inspiration only. Do not copy exact titles, descriptions, thumbnails or tag dumps. seo_generator blocks exact-title reuse.",
   "filters": {
     "min_views": 150000,
@@ -38,31 +38,31 @@
       "UCGsFenNHgeu0E5HjxxR8Diw"
     ]
   },
-  "video_count": 22,
+  "video_count": 27,
   "patterns": [
     {
       "pattern": "other",
-      "score": 64.849,
-      "count": 11,
-      "avg_views": 1510713
+      "score": 90.227,
+      "count": 15,
+      "avg_views": 2374831
     },
     {
       "pattern": "numbered-list",
       "score": 33.176,
       "count": 6,
-      "avg_views": 419702
+      "avg_views": 419729
     },
     {
       "pattern": "pourquoi-declarative",
-      "score": 24.028,
-      "count": 4,
-      "avg_views": 2186732
+      "score": 30.372,
+      "count": 5,
+      "avg_views": 2191346
     },
     {
       "pattern": "comment",
       "score": 5.526,
       "count": 1,
-      "avg_views": 335506
+      "avg_views": 335765
     }
   ],
   "safe_title_templates": [
@@ -75,11 +75,11 @@
     }
   ],
   "thumbnail_intel": {
-    "sample_size": 22,
-    "avg_brightness": 70.838,
-    "avg_contrast": 52.948,
-    "avg_warm_bias": 38.312,
-    "avg_red_yellow_ratio": 0.025,
+    "sample_size": 27,
+    "avg_brightness": 70.603,
+    "avg_contrast": 54.457,
+    "avg_warm_bias": 42.016,
+    "avg_red_yellow_ratio": 0.027,
     "recommendation": "high-contrast warm text band"
   },
   "high_value_tags": [
@@ -96,8 +96,8 @@
       "score": 16.664
     },
     {
-      "tag": "viral",
-      "score": 12.141
+      "tag": "animaux",
+      "score": 12.832
     },
     {
       "tag": "lifehack",
@@ -247,11 +247,11 @@
   "title_keywords": [
     {
       "keyword": "corps",
-      "score": 45.324
+      "score": 39.18
     },
     {
       "keyword": "humain",
-      "score": 28.565
+      "score": 22.421
     },
     {
       "keyword": "quiz",
@@ -274,6 +274,10 @@
       "score": 12.1
     },
     {
+      "keyword": "voici",
+      "score": 11.589
+    },
+    {
       "keyword": "saviez",
       "score": 11.233
     },
@@ -290,28 +294,40 @@
       "score": 10.504
     },
     {
+      "keyword": "métal",
+      "score": 7.108
+    },
+    {
+      "keyword": "destructeur",
+      "score": 7.108
+    },
+    {
+      "keyword": "chimie",
+      "score": 7.108
+    },
+    {
       "keyword": "mateooo",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "enfants",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "voient",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "personne",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "handicapée",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "humour",
-      "score": 6.716
+      "score": 6.717
     },
     {
       "keyword": "faux",
@@ -354,71 +370,59 @@
       "score": 6.638
     },
     {
+      "keyword": "dribbleur",
+      "score": 6.554
+    },
+    {
+      "keyword": "sang",
+      "score": 6.554
+    },
+    {
+      "keyword": "lamine",
+      "score": 6.554
+    },
+    {
+      "keyword": "yamal",
+      "score": 6.554
+    },
+    {
+      "keyword": "saigne",
+      "score": 6.554
+    },
+    {
+      "keyword": "chaque",
+      "score": 6.554
+    },
+    {
+      "keyword": "match",
+      "score": 6.554
+    },
+    {
       "keyword": "chameaux",
       "score": 6.488
     },
     {
       "keyword": "crachent",
       "score": 6.488
-    },
-    {
-      "keyword": "leurs",
-      "score": 6.488
-    },
-    {
-      "keyword": "organes",
-      "score": 6.488
-    },
-    {
-      "keyword": "quelle",
-      "score": 6.144
-    },
-    {
-      "keyword": "hauteur",
-      "score": 6.144
-    },
-    {
-      "keyword": "survit",
-      "score": 6.144
-    },
-    {
-      "keyword": "reellement",
-      "score": 6.144
-    },
-    {
-      "keyword": "incroyables",
-      "score": 6.026
-    },
-    {
-      "keyword": "blague",
-      "score": 5.997
-    },
-    {
-      "keyword": "drôle",
-      "score": 5.997
-    },
-    {
-      "keyword": "toto",
-      "score": 5.997
-    },
-    {
-      "keyword": "découvrez",
-      "score": 5.968
     }
   ],
   "exact_title_hashes": [
     "01c68cd0f46bfa0b222cf15c2e2184cd8deed530ebeba6863ac49aa8cd306245",
     "07fa75622c3dd947b86bb1ba0eaf18a016457db98b1e5da201063a34647ced0c",
-    "0f6bf897bd5fbee0d246548918f2442cf9d3cb2980587755cde8850f0a28c07a",
     "105ca594d92f2281f0ff7be7121dfc55f7dd6703cfe63830084fba80b7a03b87",
     "17de8aee26fcb6c2b5a22fd5294289e7aff56d2d7e0abbf9a57e2ce11c82e9d6",
+    "1ccdb386705bd0dcf5ebc825d010aceb55843b42a742918eaf503f27fa63b874",
     "284ca378a285c6eed8614ebbbf06078e29569e367cd670f0243e254375e68067",
+    "2bc22126cee7813d10d13397e4cb87042db57995fb0ed283422aa308c5b69357",
     "4560e6c83cc7fde4c3572e767e3888efeaeef3f89cf650403ee6e395458120ef",
     "45885c6106ae9ab150031244aea610b334bd19169aebf1aec98d5785dc969f3e",
+    "48d8e81e4b6824468c8a67f8900a50a06cf0cd04c7bd31f0d51b53ac57671a20",
     "57c07de034351cb3e9827f455995b35b0b23d30743703004069342b024abfd49",
     "5c0195d70cc4d8cd7a9b421c0de5526953c568a9c3319711cce0bb263bd3f339",
     "627fbeb4623bb41a126e29d1a191effd032d391706739f2f11c306920d8f70ec",
     "6f4fabc108a86fb8e2427e56e8f2dc9e7880f2c21335f955cc0de64b670bb506",
+    "7820d97149013be5aab64224ee08fb20647781f49284df562caa6df0d279e0eb",
+    "7f1fac58489cb07a6bd79922e953977ea2444c1c9783062c6ca0a93c4b724ed4",
     "8f96af56b689856b9bc0f0d3ba038b1bfc2a67b56aeb35109f62340cd47b2f08",
     "9f196ea73d79194cf9e38cd49be0aa331cd3af7a985c90f1c4fb3f3a1a8ad8b9",
     "a957fb6499e52e311ec2d2599ae8a5bdecbfa29a2a2e34e36f596c5d16033a23",
@@ -426,17 +430,27 @@
     "ba2fa3cead77f350011b9a1f106208e2eb79f1b5518d4578ac1c6e6b2d06b116",
     "bf2e5d1d793b48fb8f857f0d84bcf3fb71c7e27b693592832e46075738e74aad",
     "c072f274458fe0dc6b3c399b88a1b5f2e545b3f10041e6dc8612070b84018d18",
+    "c2484b3c9be7fdbf92cfc0a974e913ffba9e5638b75a572d070b9a4d929e8262",
     "d06155380f28c581a835d31ae92591be971d3a3fff375508b46c5e85b70c1839",
     "d198f8be90dbf527c9fac25afa008a5a6320353c9fbf0154b957a99931f24bce",
     "f598b8a99689fd67584d94ef5ff52cb99044ac6a7466efae650f8dbdee7df231"
   ],
   "reference_videos_for_human_review": [
     {
+      "video_id": "FnZL5xM0yiI",
+      "url": "https://youtu.be/FnZL5xM0yiI",
+      "title": "Ce métal est destructeur ! #science #chimie",
+      "channel_title": "Gauthier Dm - Science",
+      "views": 12837622,
+      "pattern": "other",
+      "tags_sample": []
+    },
+    {
       "video_id": "uoHD9fiSc4Q",
       "url": "https://youtu.be/uoHD9fiSc4Q",
       "title": "⁠@mateooo.k - Les enfants quand ils voient une personne handicapée 🫠 #shorts #animation #humour",
       "channel_title": "Koda",
-      "views": 5204119,
+      "views": 5208407,
       "pattern": "other",
       "tags_sample": []
     },
@@ -445,7 +459,7 @@
       "url": "https://youtu.be/Bd_ArNy6zgg",
       "title": "Pourquoi les faux bébés sont-ils fabriqués en Chine 😳 #shorts",
       "channel_title": "Etrange Minute",
-      "views": 5101022,
+      "views": 5102290,
       "pattern": "pourquoi-declarative",
       "tags_sample": []
     },
@@ -454,7 +468,7 @@
       "url": "https://youtu.be/kB6Qq5MEyDc",
       "title": "CETTE ILLUSION VA VOUS FAIRE OUBLIER VOTRE NOM #youtubeshorts #youtube #illusion #shorts",
       "channel_title": "EliaQim",
-      "views": 4344108,
+      "views": 4346853,
       "pattern": "other",
       "tags_sample": [
         "hero quiz",
@@ -468,11 +482,20 @@
       ]
     },
     {
+      "video_id": "iGCReuLUL9g",
+      "url": "https://youtu.be/iGCReuLUL9g",
+      "title": "Le dribbleur au sang : pourquoi Lamine Yamal saigne-t-il à chaque match ? #yamal #shorts",
+      "channel_title": "Chill_edit",
+      "views": 3577352,
+      "pattern": "other",
+      "tags_sample": []
+    },
+    {
       "video_id": "ByLB-KJZlf0",
       "url": "https://youtu.be/ByLB-KJZlf0",
       "title": "Pourquoi Les Chameaux Crachent Leurs Organes ? 😨 #shorts",
       "channel_title": "Kumo",
-      "views": 3072906,
+      "views": 3072983,
       "pattern": "pourquoi-declarative",
       "tags_sample": [
         "chameau",
@@ -486,33 +509,52 @@
       ]
     },
     {
-      "video_id": "9B5mPW_qiAw",
-      "url": "https://youtu.be/9B5mPW_qiAw",
-      "title": "Le cerveau d’Einstein a été volé. #shorts",
-      "channel_title": "lexaneuf",
-      "views": 2337968,
+      "video_id": "YMfommDMVZ8",
+      "url": "https://youtu.be/YMfommDMVZ8",
+      "title": "Le pitbull: Le chien le plus dangereuse, voici pourquoi. #viral #short #reels #sport",
+      "channel_title": "ALÉATOIRE TV",
+      "views": 2588403,
       "pattern": "other",
       "tags_sample": []
     },
     {
-      "video_id": "u_nbBRrQR8k",
-      "url": "https://youtu.be/u_nbBRrQR8k",
-      "title": "À QUELLE HAUTEUR LE CORPS HUMAIN SURVIT-IL REELLEMENT ?",
-      "channel_title": "Le squelette",
-      "views": 1393551,
+      "video_id": "9B5mPW_qiAw",
+      "url": "https://youtu.be/9B5mPW_qiAw",
+      "title": "Le cerveau d’Einstein a été volé. #shorts",
+      "channel_title": "lexaneuf",
+      "views": 2337980,
       "pattern": "other",
+      "tags_sample": []
+    },
+    {
+      "video_id": "dWpC78e4FUc",
+      "url": "https://youtu.be/dWpC78e4FUc",
+      "title": "Pourquoi les ANIMAUX ont PEUR de nous ? 😨🦁",
+      "channel_title": "Science Trash",
+      "views": 2208433,
+      "pattern": "pourquoi-declarative",
       "tags_sample": [
-        "viral",
+        "animaux",
         "biologie",
-        "corpshumain"
+        "étude",
+        "peur"
       ]
+    },
+    {
+      "video_id": "btaa4TUCY-0",
+      "url": "https://youtu.be/btaa4TUCY-0",
+      "title": "😱Mais POURQUOI ?!🤯 #kpopdemonhunters #netflix #shorts",
+      "channel_title": "RikuSama Théorie",
+      "views": 1142081,
+      "pattern": "other",
+      "tags_sample": []
     },
     {
       "video_id": "1ghW7awJ9JU",
       "url": "https://youtu.be/1ghW7awJ9JU",
       "title": "3 faits incroyables sur le corps humain ! 😯👫 #shorts",
       "channel_title": "AVRE (Explore Media)",
-      "views": 1060869,
+      "views": 1060883,
       "pattern": "numbered-list",
       "tags_sample": [
         "anecdote corps humain",
@@ -530,7 +572,7 @@
       "url": "https://youtu.be/2J-gVCctHNA",
       "title": "La blague la plus drôle de TOTO🤣🤣",
       "channel_title": "KI-JAY",
-      "views": 992764,
+      "views": 993849,
       "pattern": "other",
       "tags_sample": [
         "toto",
@@ -548,7 +590,7 @@
       "url": "https://youtu.be/EUL55hx1ROo",
       "title": "Découvrez ce quiz fascinant sur le corps humain ! 🧠💡",
       "channel_title": "French Mind",
-      "views": 929538,
+      "views": 929539,
       "pattern": "other",
       "tags_sample": []
     },
@@ -557,7 +599,7 @@
       "url": "https://youtu.be/dwRvx7UzQHo",
       "title": "Albert Einstein : Cerveau Volé #shorts",
       "channel_title": "HistoFlash",
-      "views": 538469,
+      "views": 538476,
       "pattern": "other",
       "tags_sample": []
     },
@@ -566,7 +608,7 @@
       "url": "https://youtu.be/nB_RjB-Aysk",
       "title": "Le saviez-vous ? 3 solutions naturelles pour votre corps #shorts #français #conseil #astuce",
       "channel_title": "La Voix des Choses",
-      "views": 423922,
+      "views": 423942,
       "pattern": "numbered-list",
       "tags_sample": [
         "lifehack",
@@ -580,7 +622,7 @@
       "url": "https://youtu.be/eeEh9DIYwBw",
       "title": "Pourquoi la grossesse ne se produit-elle pas toujours ? 🤔 | Animation | #shorts",
       "channel_title": "Mini BoBo",
-      "views": 404805,
+      "views": 404823,
       "pattern": "pourquoi-declarative",
       "tags_sample": []
     },
@@ -589,7 +631,7 @@
       "url": "https://youtu.be/ITa7KTZh01I",
       "title": "Le saviez-vous ? 99 % des gens ne savent pas pourquoi leur corps fait ça #short #français #conseil",
       "channel_title": "La Voix des Choses",
-      "views": 403690,
+      "views": 403789,
       "pattern": "numbered-list",
       "tags_sample": [
         "lifehack",
@@ -602,7 +644,7 @@
       "url": "https://youtu.be/N6jxSLqCvxk",
       "title": "La Preuve scientifique que l’islam est vérité ! #islam #science #short #shorts",
       "channel_title": "Dini Rappels",
-      "views": 339943,
+      "views": 340037,
       "pattern": "other",
       "tags_sample": []
     },
@@ -611,7 +653,7 @@
       "url": "https://youtu.be/5EG32Yf2qrE",
       "title": "Comment activer tout votre corps le matin, commencez la journée du bon pied",
       "channel_title": "Sadhguru Français",
-      "views": 335506,
+      "views": 335765,
       "pattern": "comment",
       "tags_sample": [
         "sadhguru",
@@ -629,7 +671,7 @@
       "url": "https://youtu.be/BXPk-zuzw7c",
       "title": "Le plus grand physicien inconnu (short n°67)",
       "channel_title": "Julien Bobroff",
-      "views": 289684,
+      "views": 289691,
       "pattern": "numbered-list",
       "tags_sample": [
         "bobroff",
@@ -638,11 +680,20 @@
       ]
     },
     {
+      "video_id": "LlYkvP6KfYQ",
+      "url": "https://youtu.be/LlYkvP6KfYQ",
+      "title": "Un Cours D'Anatomie Bien Spécial",
+      "channel_title": "terr",
+      "views": 244185,
+      "pattern": "other",
+      "tags_sample": []
+    },
+    {
       "video_id": "896ZKaAQcv8",
       "url": "https://youtu.be/896ZKaAQcv8",
       "title": "Attention au nettoyage des oreilles ! #shorts #santé",
       "channel_title": "Doctissimo",
-      "views": 200268,
+      "views": 200346,
       "pattern": "other",
       "tags_sample": [
         "nettoyage oreilles",
@@ -659,7 +710,7 @@
       "url": "https://youtu.be/dMx7jeV6mJs",
       "title": "Il te faut minimum 5/7 pour réussir ce test ✅️#quiz #culture #anatomie",
       "channel_title": "Quiz_Time",
-      "views": 189951,
+      "views": 189973,
       "pattern": "numbered-list",
       "tags_sample": []
     },
@@ -677,45 +728,9 @@
       "url": "https://youtu.be/L9HoLvb0xWY",
       "title": "Pourquoi tes muscles tremblent à l’échec ? #musculation #nervoussystem  #shorts #gym",
       "channel_title": "Jacala",
-      "views": 168197,
+      "views": 168199,
       "pattern": "pourquoi-declarative",
       "tags_sample": []
-    },
-    {
-      "video_id": "sx5UFkaUeAU",
-      "url": "https://youtu.be/sx5UFkaUeAU",
-      "title": "Les aliments qui dérangent l’estomac#santé #shorts",
-      "channel_title": "Santé Minute",
-      "views": 159187,
-      "pattern": "other",
-      "tags_sample": [
-        "aliments qui dérangent l’estomac",
-        "digestion difficile",
-        "santé digestive",
-        "brûlures d’estomac",
-        "ballonnements",
-        "alimentation saine",
-        "nutrition naturelle",
-        "estomac sensible"
-      ]
-    },
-    {
-      "video_id": "GYDauENZc7M",
-      "url": "https://youtu.be/GYDauENZc7M",
-      "title": "Voici 5 faits étonnants sur le corps humain ! 😯 #shorts",
-      "channel_title": "AVRE (Explore Media)",
-      "views": 150096,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "faits surprenants corps humains",
-        "facts corps humain",
-        "corps humain",
-        "vaisseau sanguin",
-        "intestin",
-        "peau",
-        "corps",
-        "santé"
-      ]
     }
   ],
   "configured": true
