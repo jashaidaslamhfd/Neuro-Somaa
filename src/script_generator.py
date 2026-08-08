@@ -139,7 +139,9 @@ RÈGLES D'ENGINEERING VIRAL (rétention) :
 
 def _default_prompt(topic: str) -> str:
     """Build a French-France short-form script brief."""
-    body_glitch_mode = os.environ.get("CONTENT_SERIES", "").lower() == "body_glitches_fr"
+    _series = os.environ.get("CONTENT_SERIES", "").lower()
+    body_glitch_mode = _series == "body_glitches_fr"
+    evolution_mode = _series == "body_evolution_fr"
     series_rules = """
 RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Traite un phénomène quotidien, familier et à faible risque.
@@ -147,6 +149,21 @@ RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Explique ce qui se produit habituellement, avec une conclusion simple et prudente.
 - Si nécessaire, rappelle que des symptômes nouveaux, persistants, sévères ou inquiétants justifient l'avis d'un professionnel qualifié.
 """ if body_glitch_mode else ""
+    if evolution_mode:
+        # UNIQUE ANGLE: evolutionary-biology framing. Most body-glitch channels
+        # only ask "why does X happen?". This series answers that AND adds the
+        # distinct throughline "why did our ancestors' bodies keep this reflex?"
+        # — a clear POV that sets the channel apart from the crowded niche.
+        series_rules += """
+ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
+- Après avoir expliqué le mécanisme, donne TOUJOURS la raison évolutive : ce
+  réflexe servait (ou sert encore) à nos ancêtres / à la survie de l'espèce.
+- Cadre le phénomène comme un héritage : « votre corps a gardé ce réflexe de
+  l'époque où... ». Cela crée une perspicacité que les chaînes concurrentes
+  (qui ne font que « pourquoi ça arrive ? ») n'apportent pas.
+- Reste vérifiable et prudent : aucune invention d'études, de dates ou de
+  scénarios médicaux ; reste sur des mécanismes évolutifs reconnus.
+"""
     # Duration comes from the active experiment arm, not a hardcoded range —
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
