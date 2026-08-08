@@ -137,6 +137,46 @@ RÈGLES D'ENGINEERING VIRAL (rétention) :
 # 2. PROMPT GENERATION
 # ============================================
 
+
+
+def _viral_inspiration() -> str:
+    """Read competitor_intel_fr.json (real viral Shorts from top niche
+    channels, 150k+ views) and return a short prompt block listing the most
+    viral title patterns + high-value tags so the LLM writes hooks/titles in
+    the same proven direction. Never copies exact titles — pattern inspiration
+    only. Empty when no intel exists."""
+    try:
+        import json as _json
+        path = os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
+        if not os.path.exists(path):
+            return ""
+        with open(path, encoding="utf-8") as f:
+            intel = _json.load(f)
+        parts = []
+        # Top viral title patterns by avg_views
+        patterns = sorted(
+            (p for p in intel.get("patterns", []) if p.get("avg_views", 0) > 0),
+            key=lambda p: p["avg_views"], reverse=True,
+        )[:4]
+        if patterns:
+            pts = ", ".join(
+                f"{p['pattern']} ({p['avg_views']//1000}k vues moyennes)"
+                for p in patterns
+            )
+            parts.append(f"Les schémas de titres les plus viraux du créneau : {pts}.")
+        # A few safe title keywords from viral winners
+        kws = intel.get("title_keywords", []) or []
+        if kws:
+            safe = [k for k in kws if isinstance(k, str) and k][:8]
+            if safe:
+                parts.append(f"Mots-clés viraux à intégrer naturellement : {', '.join(safe)}.")
+        if not parts:
+            return ""
+        return "INSPIRATION DONNÉES VIRALES (ne pas copier, seulement s'inspirer) : " + " ".join(parts)
+    except Exception:
+        return ""
+
+
 def _default_prompt(topic: str) -> str:
     """Build a French-France short-form script brief."""
     _series = os.environ.get("CONTENT_SERIES", "").lower()
@@ -170,10 +210,12 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
     target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "20")))
     target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "26")))
+    viral_hint = _viral_inspiration()
     return f"""
 Crée un YouTube Short original de {target_min} à {target_max} secondes sur ce sujet :
 SUJET : {topic}
 {series_rules}
+{viral_hint}
 
 Utilise EXACTEMENT {MAX_SCENES} scènes et retourne le schéma JSON ci-dessous.
 
