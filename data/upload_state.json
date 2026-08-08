@@ -422,5 +422,18 @@
     },
     "publish_at": "2026-08-09T15:30:00+00:00",
     "completed_at": 1786171145.162852
+  },
+  "57c3f57287e256a930d3697b931a915dd98f167eaa8ad640b713394525361a2d": {
+    "status": "completed",
+    "title": "Pourquoi une lumi\u00e8re vive fait \u00e9ternuer ?",
+    "youtube_video_id": "tZntNlbCnLI",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-09T17:30:00+00:00",
+    "completed_at": 1786188122.559547
   }
 }

@@ -1158,5 +1158,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "57c3f57287e256a930d3697b931a915dd98f167eaa8ad640b713394525361a2d",
+    "title": "Pourquoi une lumi\u00e8re vive fait \u00e9ternuer ?",
+    "topic": "La science derri\u00e8re l'\u00e9ternuement face \u00e0 une lumi\u00e8re vive",
+    "series_title": "\u00c9ternuement lumineux",
+    "base_phenomenon": "l'\u00e9ternuement face \u00e0 une lumi\u00e8re vive",
+    "nominal_phrase": "l'\u00e9ternuement face \u00e0 une lumi\u00e8re vive",
+    "question_phrase": "une lumi\u00e8re vive fait \u00e9ternuer",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "L'\u00e9ternuement face \u00e0 une lumi\u00e8re vive, un ph\u00e9nom\u00e8ne courant C'est les nerfs olfactifs qui sont responsables Quand la lumi\u00e8re frappe les yeux. Cela active la zone de l'\u00e9ternuement dans le cerveau Le cerveau envoie un signal pour \u00e9ternuer Et voil\u00e0, ton corps a r\u00e9agi \u00e0 la lumi\u00e8re vive.",
+    "posted_at": "2026-08-08T11:22:02.560418+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "tZntNlbCnLI",
+    "publish_at": "2026-08-09T17:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 90,
+    "predicted_retention": 0.705
   }
 ]
