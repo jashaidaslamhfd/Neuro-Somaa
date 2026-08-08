@@ -31,3 +31,6 @@ secrets*.json
 
 # Private voice-clone reference — keep locally, never on a public repo.
 assets/voice_reference.wav
+
+# ML feedback-loop runtime state (regenerated every run)
+data/script_history.json
