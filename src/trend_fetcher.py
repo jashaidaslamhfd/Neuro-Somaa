@@ -493,11 +493,24 @@ def get_trending_topic(
             series_topics = [t for t in series_topics if not should_skip_topic(t.get("topic", ""))]
             if pre and len(series_topics) < pre:
                 logger.info("Autonomous ML blocked %d flop topic(s) from selection", pre - len(series_topics))
-            # IMPLEMENTATION-BASED: proven winner topics get priority (moved to
-            # the front), not just advice. This makes ML actively PICK winners
-            # instead of passively reporting them.
+            # IMPLEMENTATION-BASED: proven winner topics AND winner pillars get
+            # priority (moved to the front). Winner pillars are body-system
+            # clusters (gut/heart/skin/muscle/brain) that the ML found perform
+            # best, so even brand-new topics in those clusters are preferred.
             from autonomous_controller import get_controls
-            winners = set(get_controls().get("winner_topics", []))
+            controls = get_controls()
+            winners = set(controls.get("winner_topics", []))
+            winner_pillars = set(controls.get("winner_pillars", []))
+            if winner_pillars:
+                try:
+                    from growth_engine import topic_pillar
+                    wpillar = [t for t in series_topics if topic_pillar(t.get("topic", "")) in winner_pillars]
+                    if wpillar:
+                        logger.info("Autonomous ML prioritizing %d topic(s) from winner pillars %s",
+                                    len(wpillar), sorted(winner_pillars))
+                        series_topics = wpillar + [t for t in series_topics if t not in wpillar]
+                except Exception:
+                    pass
             if winners:
                 winners_in_pool = [t for t in series_topics if (t.get("topic") or "").strip().lower() in winners]
                 if winners_in_pool:

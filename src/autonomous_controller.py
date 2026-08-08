@@ -95,13 +95,25 @@ def analyse() -> dict:
     cadence = max(1, min(cadence, 5))
 
     # --- Topic performance: block flops, reward winners ---
+    # Topic-level AND pillar-level. Pillar grouping (growth_engine.topic_pillar)
+    # lets the ML learn from body-system clusters even before any single topic
+    # has 2 repeats — this is what makes the brain useful at 50+ unique topics.
     topic_views: dict[str, list] = {}
+    pillar_views: dict[str, list] = {}
+    hook_views: dict[str, list] = {}
     for entry in history:
         topic = (entry.get("topic") or "").strip().lower()
         views = int(entry.get("views") or (entry.get("youtube_shorts") or {}).get("views") or 0)
-        if not topic:
-            continue
-        topic_views.setdefault(topic, []).append(views)
+        if topic:
+            topic_views.setdefault(topic, []).append(views)
+        try:
+            from growth_engine import hook_frame, topic_pillar
+            pillar = topic_pillar(topic or entry.get("title") or "")
+            pillar_views.setdefault(pillar, []).append(views)
+            hf = hook_frame(entry.get("title") or "")
+            hook_views.setdefault(hf, []).append(views)
+        except Exception:
+            pass
 
     blocklist: list[str] = []
     winner_topics: list[str] = []
@@ -115,6 +127,36 @@ def analyse() -> dict:
             winner_topics.append(topic)
     winner_topics.sort(key=lambda t: -sum(topic_views[t]) / len(topic_views[t]))
 
+    # Pillar-level verdicts (avg views per body-system cluster), robust to
+    # single-sample topics. blocklist_pillars skip a whole cluster.
+    pillar_stats: dict[str, dict] = {}
+    for pillar, views in pillar_views.items():
+        n = len(views)
+        avg = sum(views) / n if n else 0
+        pillar_stats[pillar] = {"n": n, "avg_views": round(avg, 1)}
+    blocklist_pillars = [
+        p for p, s in pillar_stats.items()
+        if s["n"] >= 2 and s["avg_views"] < FLOP_VIEW_THRESHOLD
+    ]
+    winner_pillars = [
+        p for p, s in pillar_stats.items()
+        if s["n"] >= 2 and s["avg_views"] >= 500
+    ]
+    winner_pillars.sort(key=lambda p: -pillar_stats[p]["avg_views"])
+
+    # Hook-level preference (which opening frame performs best).
+    hook_stats: dict[str, dict] = {}
+    for hf, views in hook_views.items():
+        n = len(views)
+        hook_stats[hf] = {"n": n, "avg_views": round(sum(views) / n, 1) if n else 0}
+    preferred_hook = None
+    if hook_stats:
+        candidates = {h: s for h, s in hook_stats.items() if s["n"] >= 2}
+        if candidates:
+            preferred_hook = max(candidates, key=lambda h: candidates[h]["avg_views"])
+    if preferred_hook is None:
+        preferred_hook = growth.get("best_hook_frame")
+
     # --- Post-health throttle: if recent videos flopped, suggest slower cadence ---
     mature = [v for v in history if _hours_since(v.get("posted_at")) is not None]
     recent = mature[-POST_THROTTLE_WINDOW:]
@@ -123,9 +165,6 @@ def analyse() -> dict:
         recent_views = [int(v.get("views") or 0) for v in recent]
         recent_avg = sum(recent_views) / len(recent_views)
     throttled = bool(recent_avg < POST_THROTTLE_VIEWS and len(recent) >= 3)
-
-    # --- Preferred hook frame from growth_engine ---
-    preferred_hook = growth.get("best_hook_frame")
 
     # --- Auto-repair candidates (under-performing, old enough) ---
     repair_list = []
@@ -150,6 +189,10 @@ def analyse() -> dict:
         "throttle_reason": f"last {len(recent)} videos avg {recent_avg:.0f} views",
         "topic_blocklist": blocklist,
         "winner_topics": winner_topics,
+        "blocklist_pillars": blocklist_pillars,
+        "winner_pillars": winner_pillars,
+        "pillar_stats": pillar_stats,
+        "hook_stats": hook_stats,
         "preferred_hook_frame": preferred_hook,
         "auto_repair_candidates": repair_list,
         "auto_repair_count": len(repair_list),
