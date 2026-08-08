@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-07T06:43:33.754388+00:00",
-  "sample_size": 38,
-  "scored_videos": 35,
-  "channel_gate_ratio": 0.697,
+  "generated_at": "2026-08-08T06:05:07.782700+00:00",
+  "sample_size": 44,
+  "scored_videos": 39,
+  "channel_gate_ratio": 0.726,
   "slot_weights": {
-    "15:30": 1.03,
+    "15:30": 1.016,
     "21:00": 1.0,
     "10:00": 1.0,
-    "12:30": 0.836,
+    "12:30": 0.806,
     "14:30": 1.0,
     "02:00": 1.0,
     "14:00": 1.0,
@@ -15,10 +15,10 @@
     "11:00": 1.0,
     "00:00": 1.0,
     "08:30": 1.0,
-    "13:30": 1.019,
-    "15:00": 0.918,
-    "06:30": 0.894,
-    "11:30": 1.193
+    "13:30": 1.038,
+    "15:00": 0.894,
+    "06:30": 0.868,
+    "11:30": 1.195
   },
   "topic_weights": {
     "other": 1.0,
@@ -26,11 +26,11 @@
     "muscle": 1.0
   },
   "hook_weights": {
-    "statement": 0.965,
-    "question": 1.027
+    "statement": 0.949,
+    "question": 1.035
   },
   "slot_samples": {
-    "15:30": 5,
+    "15:30": 6,
     "21:00": 1,
     "10:00": 1,
     "12:30": 3,
@@ -44,28 +44,28 @@
     "13:30": 7,
     "15:00": 3,
     "06:30": 3,
-    "11:30": 4
+    "11:30": 7
   },
   "topic_samples": {
-    "other": 32,
+    "other": 36,
     "skin": 2,
     "muscle": 1
   },
   "hook_samples": {
     "statement": 15,
-    "question": 20
+    "question": 24
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 35,
+      "samples": 39,
       "gate": 0.5,
-      "avg_completion": 0.3485,
-      "gate_ratio": 0.697,
-      "avg_views": 733.1,
-      "action": "Averaging 35% against a 50% bar. Shorten the cut toward 27s and tighten the first 3 seconds — the gap is retention, not reach."
+      "avg_completion": 0.363,
+      "gate_ratio": 0.726,
+      "avg_views": 737.7,
+      "action": "Averaging 36% against a 50% bar. Shorten the cut toward 27s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
@@ -88,7 +88,7 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 70% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 73% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
     {
       "level": "warn",
