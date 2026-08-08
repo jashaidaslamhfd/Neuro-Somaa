@@ -86,6 +86,19 @@ if __name__ == "__main__":
     except Exception as exc:
         logger.warning("Autonomous controls skipped: %s", exc)
 
+    # Step C2 — ACTUAL-PERFORMANCE FEEDBACK LOOP: read the REAL YouTube
+    # views+retention now in video_history and learn which topics/hooks the
+    # channel actually does well on. This is the true "make every video
+    # better" loop — it corrects the script-level prediction with real data.
+    try:
+        from viral_baseline import learn_from_actual_performance
+        perf = learn_from_actual_performance()
+        logger.info("Viral baseline learned from real performance: best_topic=%s best_hook_words=%s",
+                    (perf.get("best_topic") or {}).get("topic"),
+                    perf.get("best_hook_words"))
+    except Exception as exc:
+        logger.warning("Actual-performance learning skipped: %s", exc)
+
     try:
         from premium_growth_loop import main as premium_growth_main
         premium_growth_main([])
