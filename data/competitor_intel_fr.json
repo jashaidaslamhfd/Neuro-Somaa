@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-08T20:04:21.751148+00:00",
+  "generated_at_utc": "2026-08-08T20:12:40.098038+00:00",
   "copy_policy": "Use competitor data as pattern inspiration only. Do not copy exact titles, descriptions, thumbnails or tag dumps. seo_generator blocks exact-title reuse.",
   "filters": {
     "min_views": 150000,
@@ -44,25 +44,25 @@
       "pattern": "other",
       "score": 90.227,
       "count": 15,
-      "avg_views": 2374831
+      "avg_views": 2374844
     },
     {
       "pattern": "numbered-list",
       "score": 33.176,
       "count": 6,
-      "avg_views": 419729
+      "avg_views": 419730
     },
     {
       "pattern": "pourquoi-declarative",
       "score": 30.372,
       "count": 5,
-      "avg_views": 2191346
+      "avg_views": 2191348
     },
     {
       "pattern": "comment",
       "score": 5.526,
       "count": 1,
-      "avg_views": 335765
+      "avg_views": 335767
     }
   ],
   "safe_title_templates": [
@@ -441,7 +441,7 @@
       "url": "https://youtu.be/FnZL5xM0yiI",
       "title": "Ce métal est destructeur ! #science #chimie",
       "channel_title": "Gauthier Dm - Science",
-      "views": 12837622,
+      "views": 12837656,
       "pattern": "other",
       "tags_sample": []
     },
@@ -450,7 +450,7 @@
       "url": "https://youtu.be/uoHD9fiSc4Q",
       "title": "⁠@mateooo.k - Les enfants quand ils voient une personne handicapée 🫠 #shorts #animation #humour",
       "channel_title": "Koda",
-      "views": 5208407,
+      "views": 5208446,
       "pattern": "other",
       "tags_sample": []
     },
@@ -459,7 +459,7 @@
       "url": "https://youtu.be/Bd_ArNy6zgg",
       "title": "Pourquoi les faux bébés sont-ils fabriqués en Chine 😳 #shorts",
       "channel_title": "Etrange Minute",
-      "views": 5102290,
+      "views": 5102298,
       "pattern": "pourquoi-declarative",
       "tags_sample": []
     },
@@ -468,7 +468,7 @@
       "url": "https://youtu.be/kB6Qq5MEyDc",
       "title": "CETTE ILLUSION VA VOUS FAIRE OUBLIER VOTRE NOM #youtubeshorts #youtube #illusion #shorts",
       "channel_title": "EliaQim",
-      "views": 4346853,
+      "views": 4346881,
       "pattern": "other",
       "tags_sample": [
         "hero quiz",
@@ -486,7 +486,7 @@
       "url": "https://youtu.be/iGCReuLUL9g",
       "title": "Le dribbleur au sang : pourquoi Lamine Yamal saigne-t-il à chaque match ? #yamal #shorts",
       "channel_title": "Chill_edit",
-      "views": 3577352,
+      "views": 3577376,
       "pattern": "other",
       "tags_sample": []
     },
@@ -531,7 +531,7 @@
       "url": "https://youtu.be/dWpC78e4FUc",
       "title": "Pourquoi les ANIMAUX ont PEUR de nous ? 😨🦁",
       "channel_title": "Science Trash",
-      "views": 2208433,
+      "views": 2208436,
       "pattern": "pourquoi-declarative",
       "tags_sample": [
         "animaux",
@@ -554,7 +554,7 @@
       "url": "https://youtu.be/1ghW7awJ9JU",
       "title": "3 faits incroyables sur le corps humain ! 😯👫 #shorts",
       "channel_title": "AVRE (Explore Media)",
-      "views": 1060883,
+      "views": 1060882,
       "pattern": "numbered-list",
       "tags_sample": [
         "anecdote corps humain",
@@ -572,7 +572,7 @@
       "url": "https://youtu.be/2J-gVCctHNA",
       "title": "La blague la plus drôle de TOTO🤣🤣",
       "channel_title": "KI-JAY",
-      "views": 993849,
+      "views": 993855,
       "pattern": "other",
       "tags_sample": [
         "toto",
@@ -608,7 +608,7 @@
       "url": "https://youtu.be/nB_RjB-Aysk",
       "title": "Le saviez-vous ? 3 solutions naturelles pour votre corps #shorts #français #conseil #astuce",
       "channel_title": "La Voix des Choses",
-      "views": 423942,
+      "views": 423936,
       "pattern": "numbered-list",
       "tags_sample": [
         "lifehack",
@@ -653,7 +653,7 @@
       "url": "https://youtu.be/5EG32Yf2qrE",
       "title": "Comment activer tout votre corps le matin, commencez la journée du bon pied",
       "channel_title": "Sadhguru Français",
-      "views": 335765,
+      "views": 335767,
       "pattern": "comment",
       "tags_sample": [
         "sadhguru",
@@ -684,7 +684,7 @@
       "url": "https://youtu.be/LlYkvP6KfYQ",
       "title": "Un Cours D'Anatomie Bien Spécial",
       "channel_title": "terr",
-      "views": 244185,
+      "views": 244187,
       "pattern": "other",
       "tags_sample": []
     },
@@ -693,7 +693,7 @@
       "url": "https://youtu.be/896ZKaAQcv8",
       "title": "Attention au nettoyage des oreilles ! #shorts #santé",
       "channel_title": "Doctissimo",
-      "views": 200346,
+      "views": 200378,
       "pattern": "other",
       "tags_sample": [
         "nettoyage oreilles",
@@ -710,7 +710,7 @@
       "url": "https://youtu.be/dMx7jeV6mJs",
       "title": "Il te faut minimum 5/7 pour réussir ce test ✅️#quiz #culture #anatomie",
       "channel_title": "Quiz_Time",
-      "views": 189973,
+      "views": 189983,
       "pattern": "numbered-list",
       "tags_sample": []
     },
