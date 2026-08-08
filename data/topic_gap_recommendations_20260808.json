@@ -1,4 +1,279 @@
 {
-  "generated_at_utc": "2026-08-08T06:05:07.891900+00:00",
-  "gaps": []
+  "generated_at_utc": "2026-08-08T19:19:38.824530+00:00",
+  "gaps": [
+    {
+      "term": "humain",
+      "score": 28.565,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "santé",
+      "score": 23.904,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "quiz",
+      "score": 20.48,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "animation",
+      "score": 12.324,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "einstein",
+      "score": 12.1,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "volé",
+      "score": 12.1,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "saviez",
+      "score": 11.233,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "conseil",
+      "score": 11.233,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "faits",
+      "score": 11.202,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "illusion",
+      "score": 10.621,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "youtube",
+      "score": 10.621,
+      "sources": [
+        "competitor_tag",
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "vulgarisation",
+      "score": 9.998,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "viral",
+      "score": 7.285,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "lifehack",
+      "score": 6.74,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "vie pratique",
+      "score": 6.74,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "anecdote",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "découverte",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "vulgarisation scientifique",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "explore",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "explore media",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "explorefr",
+      "score": 6.721,
+      "sources": [
+        "competitor_tag"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "mateooo",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "enfants",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "voient",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "personne",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "handicapée",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "humour",
+      "score": 6.716,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "faux",
+      "score": 6.708,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "bébés",
+      "score": 6.708,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    },
+    {
+      "term": "sont",
+      "score": 6.708,
+      "sources": [
+        "competitor_title"
+      ],
+      "in_catalogue": false,
+      "recommendation": "consider adding to catalogue"
+    }
+  ]
 }

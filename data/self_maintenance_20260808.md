@@ -1,5 +1,5 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-08T06:05:13.638692+00:00_
+_Généré 2026-08-08T19:19:45.901482+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
@@ -24,9 +24,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi une paupière tressaille sans raison ?
-      new: Pourquoi une paupière tressaille sans raison ?
-    FIX   3RgqrdkBruA
-      old: Pourquoi les paumes transpirent par nervosité ?
-      new: Pourquoi les paumes transpirent par nervosité ?
+      old: Pourquoi une lumière vive fait éternuer ?
+      new: Pourquoi une lumière vive fait éternuer ?
+    FIX   Z22qoCS79_E
+      old: Pourquoi la musique change l'humeur instantanément ?
+      new: Pourquoi la musique change l'humeur instantanément ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.

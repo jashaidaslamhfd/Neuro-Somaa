@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-08T06:05:07.835323+00:00",
+  "generated_at_utc": "2026-08-08T19:19:38.752169+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,8 +10,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.3491,
-      "samples": 8,
+      "score": 3.4045,
+      "samples": 9,
       "prior": 0.0
     },
     {
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3601,
+      "score": 3.3657,
       "samples": 7,
-      "prior": 3.4985
+      "prior": 3.5139
     },
     {
       "rank": 3,
@@ -37,13 +37,42 @@
   ],
   "ranked_slots": [
     {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.4045,
+      "observed_samples": 9,
+      "observed_avg": 3.4045,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
+        },
+        {
+          "video_id": "_QBHLbu9s7Y",
+          "title": "Pourquoi les oreilles sifflent dans le silence ?",
+          "views": 827,
+          "published_paris": "2026-08-01 17:30"
+        },
+        {
+          "video_id": "C6PyY8IDY-A",
+          "title": "Pourquoi la peau se fripe dans leau ?",
+          "views": 822,
+          "published_paris": "2026-08-03 17:30"
+        }
+      ]
+    },
+    {
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3601,
+      "score": 3.3657,
       "observed_samples": 7,
       "observed_avg": 3.2811,
-      "prior": 3.4985,
+      "prior": 3.5139,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -62,6 +91,23 @@
           "title": "Pourquoi la chair de poule apparaît soudainement ?",
           "views": 947,
           "published_paris": "2026-08-01 19:30"
+        }
+      ]
+    },
+    {
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 3.3547,
+      "observed_samples": 1,
+      "observed_avg": 3.5695,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 1512,
+          "published_paris": "2026-07-21 20:27"
         }
       ]
     },
@@ -95,56 +141,10 @@
       ]
     },
     {
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "score": 3.3491,
-      "observed_samples": 8,
-      "observed_avg": 3.3491,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
-        },
-        {
-          "video_id": "_QBHLbu9s7Y",
-          "title": "Pourquoi les oreilles sifflent dans le silence ?",
-          "views": 827,
-          "published_paris": "2026-08-01 17:30"
-        },
-        {
-          "video_id": "C6PyY8IDY-A",
-          "title": "Pourquoi la peau se fripe dans leau ?",
-          "views": 822,
-          "published_paris": "2026-08-03 17:30"
-        }
-      ]
-    },
-    {
-      "slot": "20:30",
-      "hour": 20,
-      "minute": 30,
-      "score": 3.3444,
-      "observed_samples": 1,
-      "observed_avg": 3.5695,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "68B-7lTf8nU",
-          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 1512,
-          "published_paris": "2026-07-21 20:27"
-        }
-      ]
-    },
-    {
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.3196,
+      "score": 3.3299,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -161,10 +161,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3179,
+      "score": 3.3256,
       "observed_samples": 4,
       "observed_avg": 3.3373,
-      "prior": 3.2985,
+      "prior": 3.3139,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -190,7 +190,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.2277,
+      "score": 3.238,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -207,7 +207,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2262,
+      "score": 3.2365,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -224,7 +224,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0996,
+      "score": 3.1098,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0748,
+      "score": 3.0799,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,7 +264,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0617,
+      "score": 3.0719,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0398,
+      "score": 3.0501,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
