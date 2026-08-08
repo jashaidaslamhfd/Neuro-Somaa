@@ -588,8 +588,22 @@ class SKILLORPipeline:
                 hook_score = shorts_report.get('hook_detail', {}).get('score', 0)
                 if hook_score < MIN_HOOK_SCORE:
                     raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")
-                
-                logger.info(f"✅ Hook score: {hook_score}/100")
+
+                # VIRAL-ENGINEERING GATE: predicted retention is the #1 signal
+                # YouTube uses to decide how much to push a Short. A low
+                # prediction means the video would sit at ~500 views forever.
+                # Reject + regenerate instead of shipping an average video.
+                ret = shorts_report.get('retention_prediction', {})
+                pred_retention = float(ret.get('predicted_avg_retention', 0.5) or 0.5)
+                min_retention = float(os.environ.get("MIN_RETENTION", "0.50"))
+                logger.info(f"Predicted retention: {pred_retention:.0%} (min {min_retention:.0%})")
+                if pred_retention < min_retention:
+                    raise RuntimeError(
+                        f"Retention gate: predicted {pred_retention:.0%} < {min_retention:.0%} "
+                        f"- would not go viral. Regenerating."
+                    )
+
+                logger.info(f"Hook score: {hook_score}/100")
                 
             except Exception as e:
                 logger.error(f"Shorts publishing checks failed: {e}")
