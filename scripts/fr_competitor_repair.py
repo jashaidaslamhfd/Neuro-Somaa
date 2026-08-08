@@ -267,6 +267,108 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thum
     return 0
 
 
+
+
+# --------------------------------------------------------------------------- #
+# ML best-slot re-scheduling for scheduled (private) videos
+# --------------------------------------------------------------------------- #
+def _get_video_status(token: str, vid: str) -> dict | None:
+    """Fetch a video's status (privacyStatus + publishAt)."""
+    cur = _req("GET", f"https://www.googleapis.com/youtube/v3/videos?part=status&id={vid}", token)
+    items = cur.get("items") or []
+    return items[0]["status"] if items else None
+
+
+def _reschedule_video(token: str, vid: str, publish_at_iso: str, dry: bool = True) -> bool:
+    """Move a scheduled video to a new publishAt (ML best slot)."""
+    if dry:
+        log.info("[dry] reschedule %s -> %s", vid, publish_at_iso)
+        return True
+    payload = {"id": vid, "status": {"privacyStatus": "private", "publishAt": publish_at_iso}}
+    _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=status", token, payload)
+    log.info("rescheduled %s -> %s", vid, publish_at_iso)
+    return True
+
+
+def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
+    """Re-align scheduled (private) videos to the ML-learned best publish slots.
+
+    Reads data/upload_slot_intel_fr.json (ML-learned best PKT slots) and
+    data/video_history.json (scheduled videos), and assigns each still-private
+    video the next best free slot.
+    """
+    import datetime as _dt
+    import pytz as _pytz
+
+    paris = _pytz.timezone("Europe/Paris")
+    # ML best slots (PKT) from upload_slot_intel_fr.json
+    slots = []
+    try:
+        with open(os.environ.get("DYNAMIC_SCHEDULE_PATH", "data/upload_slot_intel_fr.json"), encoding="utf-8") as f:
+            intel = json.load(f)
+        for s in (intel.get("recommended_slots") or [])[:3]:
+            slots.append((int(s.get("hour", 0)), int(s.get("minute", 0))))
+    except Exception:
+        pass
+    if not slots:
+        slots = [(17, 30), (19, 30), (21, 30)]  # ML default best PKT slots
+
+    # Scheduled videos from video_history
+    scheduled = []
+    try:
+        with open(os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8") as f:
+            history = json.load(f)
+        now = _dt.datetime.now(_dt.UTC)
+        for v in history:
+            pa = v.get("publish_at")
+            vid = v.get("youtube_video_id")
+            if not pa or not vid:
+                continue
+            try:
+                padt = _dt.datetime.fromisoformat(pa)
+                if padt.tzinfo is None:
+                    padt = padt.replace(tzinfo=_dt.UTC)
+            except Exception:
+                continue
+            # only future-scheduled (still private/unpublished)
+            if padt > now:
+                scheduled.append((vid, v.get("title", ""), pa))
+    except Exception:
+        return {"scheduled": 0}
+
+    if limit:
+        scheduled = scheduled[:limit]
+
+    token = _token() if apply else None
+    stats = {"found": len(scheduled), "rescheduled": 0, "errors": 0}
+    # Assign next best slot per video (distinct, dedup like uploader)
+    used = set()
+    for vid, title, old_pa in scheduled:
+        chosen = None
+        for (hh, mm) in slots:
+            candidate = f"{hh:02d}:{mm:02d}"
+            if candidate in used:
+                continue
+            used.add(candidate)
+            # schedule tomorrow or next at this PKT slot in UTC
+            slot_dt = _dt.datetime.now(paris).replace(hour=hh, minute=mm, second=0, microsecond=0)
+            if slot_dt < _dt.datetime.now(paris):
+                slot_dt += _dt.timedelta(days=1)
+            new_iso = slot_dt.astimezone(_dt.timezone.utc).isoformat()
+            chosen = new_iso
+            break
+        if not chosen:
+            continue
+        try:
+            _reschedule_video(token, vid, chosen, dry=not apply)
+            stats["rescheduled"] += 1
+        except Exception as exc:
+            log.warning("reschedule %s failed: %s", vid, exc)
+            stats["errors"] += 1
+    log.info("ML re-schedule done: %s", stats)
+    return stats
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--apply", action="store_true", help="write changes to YouTube (default: dry-run)")
@@ -274,7 +376,11 @@ def main() -> int:
     ap.add_argument("--topic", default=None, help="only repair a specific topic")
     ap.add_argument("--with-thumbnails", action="store_true",
                     help="also render and upload an optimized thumbnail for every video")
+    ap.add_argument("--reschedule", action="store_true",
+                    help="re-align scheduled (private) videos to ML-learned best slots")
     args = ap.parse_args()
+    if args.reschedule:
+        return 0 if reschedule_ml_slots(apply=args.apply, limit=args.limit).get("rescheduled", 0) >= 0 else 1
     return repair(apply=args.apply, limit=args.limit, only_topic=args.topic,
                   with_thumbnails=args.with_thumbnails)
 
