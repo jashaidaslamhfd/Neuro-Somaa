@@ -435,5 +435,18 @@
     },
     "publish_at": "2026-08-09T17:30:00+00:00",
     "completed_at": 1786188122.559547
+  },
+  "9bd735700d4ddddc4171a8f7209ae224addf0f428d08463f8380c39ab59c3caf": {
+    "status": "completed",
+    "title": "Pourquoi la musique change l'humeur instantan\u00e9ment ?",
+    "youtube_video_id": "Z22qoCS79_E",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-09T19:30:00+00:00",
+    "completed_at": 1786212736.776115
   }
 }

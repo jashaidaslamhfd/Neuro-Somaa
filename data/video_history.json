@@ -1178,5 +1178,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705
+  },
+  {
+    "content_fingerprint": "9bd735700d4ddddc4171a8f7209ae224addf0f428d08463f8380c39ab59c3caf",
+    "title": "Pourquoi la musique change l'humeur instantan\u00e9ment ?",
+    "topic": "Ce qui change lorsque la musique change l'humeur instantan\u00e9ment",
+    "series_title": "Musique et humeur",
+    "base_phenomenon": "l'effet de la musique sur l'humeur",
+    "nominal_phrase": "l'effet de la musique sur l'humeur",
+    "question_phrase": "la musique change l'humeur instantan\u00e9ment",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton cerveau r\u00e9agit vite \u00e0 la musique C'est parce que ton cerveau associe les rythmes musicaux \u00e0. En effet, l'hippocampe, une structure c\u00e9r\u00e9brale cl\u00e9. Cela signifie que lorsque tu entends de la musique. Le plus \u00e9trange ? C'est pourquoi la musique peut te faire changer d'humeur en.",
+    "posted_at": "2026-08-08T18:12:16.777036+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "Z22qoCS79_E",
+    "publish_at": "2026-08-09T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75
   }
 ]
