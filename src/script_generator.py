@@ -121,6 +121,16 @@ RÈGLES DE QUALITÉ NON NÉGOCIABLES :
 - Chaque scène doit apporter une information nouvelle. Écris pour l'oral : phrases courtes et concrètes.
 - Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration.
 - Retourne uniquement un JSON valide, sans Markdown ni commentaire.
+
+RÈGLES D'ENGINEERING VIRAL (rétention) :
+- Le HOOK (scène 1, 2-3s) doit créer un « vide de curiosité » : nommer le phénomène
+  précis puis le laisser inexpliqué, pour forcer à regarder la suite (ex: « Pourquoi
+  votre cœur s'emballe juste avant de vous endormir ? »). Un hook vague coûte la rétention.
+- Donner la réponse-choc OU la promesse du mécanisme dans les 2 premières scènes,
+  puis détailler — ne pas faire attendre la valeur au-delà de 5s.
+- Chaque scène doit contenir UNE idée courte et concrète ; les phrases longues font
+  chuter la rétention sur Shorts.
+- Boucler la fin sur l'ouverture (référence au hook) pour encourager le rewatch.
 """
 
 # ============================================
