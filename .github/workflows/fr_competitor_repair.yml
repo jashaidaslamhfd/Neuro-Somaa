@@ -98,9 +98,9 @@ jobs:
         run: |
           set -euo pipefail
           if [ "${{ inputs.apply }}" == "true" ]; then
-            python scripts/fr_competitor_repair.py --apply --with-thumbnails --limit ${{ inputs.limit }}
+            python scripts/fr_competitor_repair.py --apply --with-thumbnails --reschedule --limit ${{ inputs.limit }}
           else
-            python scripts/fr_competitor_repair.py --with-thumbnails --limit ${{ inputs.limit }}
+            python scripts/fr_competitor_repair.py --with-thumbnails --reschedule --limit ${{ inputs.limit }}
           fi
 
       - name: Persist updated state
