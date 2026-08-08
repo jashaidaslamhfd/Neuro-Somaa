@@ -74,6 +74,10 @@ jobs:
           GROQ_MODEL_FALLBACK: "llama-3.3-70b-versatile"
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
+          # Viral-engineering gate: reject + regenerate any video whose
+          # predicted retention is below this. 0.50 = only publish videos
+          # projected to hold >=50% average retention (the ~500-view floor).
+          MIN_RETENTION: "0.50"
           EXPERIMENT_ARM: "control"
           DURATION_EXPERIMENT: "false"
           YT_PRIVACY_STATUS: "private"
