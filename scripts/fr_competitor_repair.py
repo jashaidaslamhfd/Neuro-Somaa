@@ -298,9 +298,9 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     video the next best free slot.
     """
     import datetime as _dt
-    import pytz as _pytz
+    from zoneinfo import ZoneInfo as _ZoneInfo
 
-    paris = _pytz.timezone("Europe/Paris")
+    paris = _ZoneInfo("Europe/Paris")
     # ML best slots (PKT) from upload_slot_intel_fr.json
     slots = []
     try:
@@ -354,7 +354,7 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
             slot_dt = _dt.datetime.now(paris).replace(hour=hh, minute=mm, second=0, microsecond=0)
             if slot_dt < _dt.datetime.now(paris):
                 slot_dt += _dt.timedelta(days=1)
-            new_iso = slot_dt.astimezone(_dt.timezone.utc).isoformat()
+            new_iso = slot_dt.astimezone(_dt.UTC).isoformat()
             chosen = new_iso
             break
         if not chosen:
