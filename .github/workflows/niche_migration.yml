@@ -1,0 +1,64 @@
+name: "Niche Migration — wipe old niche, retrain ML"
+
+# One-shot: delete old-niche scheduled videos and retrain the ML brain on the
+# new niche (faits_surprenants_fr). Run manually.
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Actually delete + retrain (true) or dry-run (false)"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-ci.txt
+
+      - name: Rebuild new-niche topic catalogue
+        shell: bash
+        run: python scripts/generate_body_glitch_topics.py
+
+      - name: Wipe old-niche scheduled videos + retrain ML
+        shell: bash
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          COMPETITOR_INTEL_PATH: "data/competitor_intel_fr.json"
+          ML_BRAIN_STATE_PATH: "data/ml_brain_state.json"
+        run: |
+          set -euo pipefail
+          if [ "${{ inputs.apply }}" == "true" ]; then
+            python scripts/niche_migration.py --apply
+          else
+            python scripts/niche_migration.py
+          fi
+
+      - name: Persist migration state
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain -- data/)" ]; then echo "No changes."; exit 0; fi
+          git config user.name "skillor-bot"
+          git config user.email "skillor-bot@users.noreply.github.com"
+          git add -A data/
+          git commit -m "chore: niche migration state [skip ci]" || true
+          git push origin "$GITHUB_REF_NAME" || true
