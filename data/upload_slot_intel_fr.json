@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-08T19:19:38.752169+00:00",
+  "generated_at_utc": "2026-08-09T06:06:51.220690+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,7 +10,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.4045,
+      "score": 3.4079,
       "samples": 9,
       "prior": 0.0
     },
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3657,
+      "score": 3.3278,
       "samples": 7,
-      "prior": 3.5139
+      "prior": 3.505
     },
     {
       "rank": 3,
@@ -30,7 +30,7 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.3528,
+      "score": 3.3526,
       "samples": 6,
       "prior": 0.0
     }
@@ -40,9 +40,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.4045,
+      "score": 3.4079,
       "observed_samples": 9,
-      "observed_avg": 3.4045,
+      "observed_avg": 3.4079,
       "prior": 0.0,
       "examples": [
         {
@@ -66,31 +66,31 @@
       ]
     },
     {
-      "slot": "19:30",
-      "hour": 19,
+      "slot": "21:30",
+      "hour": 21,
       "minute": 30,
-      "score": 3.3657,
-      "observed_samples": 7,
-      "observed_avg": 3.2811,
-      "prior": 3.5139,
+      "score": 3.3526,
+      "observed_samples": 6,
+      "observed_avg": 3.3526,
+      "prior": 0.0,
       "examples": [
         {
-          "video_id": "XLIFrONS2rc",
-          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1205,
-          "published_paris": "2026-07-29 19:30"
+          "video_id": "8b9CONZ5ntY",
+          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
+          "views": 1241,
+          "published_paris": "2026-07-31 21:30"
         },
         {
-          "video_id": "XECgrg709Og",
-          "title": "Pourquoi le sursaut du corps en s'endormant ?",
-          "views": 1046,
-          "published_paris": "2026-07-27 19:30"
+          "video_id": "0giDXoVx72E",
+          "title": "Pourquoi la mâchoire craque en mâchant ?",
+          "views": 1042,
+          "published_paris": "2026-08-05 21:30"
         },
         {
-          "video_id": "HJb7xCMIYWQ",
-          "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 947,
-          "published_paris": "2026-08-01 19:30"
+          "video_id": "r7URDUokZh0",
+          "title": "Corps lourd",
+          "views": 1006,
+          "published_paris": "2026-07-19 21:42"
         }
       ]
     },
@@ -98,7 +98,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.3547,
+      "score": 3.3487,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -112,31 +112,31 @@
       ]
     },
     {
-      "slot": "21:30",
-      "hour": 21,
+      "slot": "19:30",
+      "hour": 19,
       "minute": 30,
-      "score": 3.3528,
-      "observed_samples": 6,
-      "observed_avg": 3.3528,
-      "prior": 0.0,
+      "score": 3.3278,
+      "observed_samples": 7,
+      "observed_avg": 3.2266,
+      "prior": 3.505,
       "examples": [
         {
-          "video_id": "8b9CONZ5ntY",
-          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
-          "views": 1241,
-          "published_paris": "2026-07-31 21:30"
+          "video_id": "XLIFrONS2rc",
+          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+          "views": 1205,
+          "published_paris": "2026-07-29 19:30"
         },
         {
-          "video_id": "0giDXoVx72E",
-          "title": "Pourquoi la mâchoire craque en mâchant ?",
-          "views": 1040,
-          "published_paris": "2026-08-05 21:30"
+          "video_id": "XECgrg709Og",
+          "title": "Pourquoi le sursaut du corps en s'endormant ?",
+          "views": 1031,
+          "published_paris": "2026-07-27 19:30"
         },
         {
-          "video_id": "r7URDUokZh0",
-          "title": "Corps lourd",
-          "views": 1006,
-          "published_paris": "2026-07-19 21:42"
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 947,
+          "published_paris": "2026-08-01 19:30"
         }
       ]
     },
@@ -144,7 +144,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.3299,
+      "score": 3.3239,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -161,10 +161,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3256,
+      "score": 3.3206,
       "observed_samples": 4,
-      "observed_avg": 3.3373,
-      "prior": 3.3139,
+      "observed_avg": 3.3362,
+      "prior": 3.305,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -190,7 +190,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.238,
+      "score": 3.232,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -207,7 +207,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2365,
+      "score": 3.2305,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -224,7 +224,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1098,
+      "score": 3.1039,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0799,
+      "score": 3.077,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,15 +264,15 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0719,
+      "score": 3.0651,
       "observed_samples": 1,
-      "observed_avg": 2.7212,
+      "observed_avg": 2.7186,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "1XVYcxQqDqo",
           "title": "Réveil avant l'alarme",
-          "views": 154,
+          "views": 153,
           "published_paris": "2026-07-20 02:32"
         }
       ]
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0501,
+      "score": 3.0441,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,

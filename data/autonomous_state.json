@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T19:19:38.730764+00:00",
+  "generated_at": "2026-08-09T06:06:51.040235+00:00",
   "recommended_cadence": 2,
   "cadence_reason": "Retention is 73% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": true,
@@ -12,32 +12,33 @@
     "gut",
     "heart",
     "skin",
-    "ear"
+    "ear",
+    "brain"
   ],
   "pillar_stats": {
     "other": {
       "n": 12,
-      "avg_views": 441.8
+      "avg_views": 440.5
     },
     "skin": {
       "n": 8,
-      "avg_views": 656.5
+      "avg_views": 656.8
     },
     "ear": {
       "n": 4,
-      "avg_views": 595.2
+      "avg_views": 596.5
     },
     "nerve": {
       "n": 2,
       "avg_views": 334.5
     },
     "brain": {
-      "n": 7,
-      "avg_views": 428.9
+      "n": 6,
+      "avg_views": 500.0
     },
     "muscle": {
       "n": 5,
-      "avg_views": 908.0
+      "avg_views": 908.4
     },
     "gut": {
       "n": 5,
@@ -45,11 +46,11 @@
     },
     "breath": {
       "n": 2,
-      "avg_views": 382.0
+      "avg_views": 378.5
     },
     "eye": {
-      "n": 7,
-      "avg_views": 283.9
+      "n": 6,
+      "avg_views": 335.8
     },
     "heart": {
       "n": 2,
@@ -59,11 +60,11 @@
   "hook_stats": {
     "statement": {
       "n": 16,
-      "avg_views": 647.2
+      "avg_views": 647.0
     },
     "question": {
-      "n": 38,
-      "avg_views": 506.2
+      "n": 36,
+      "avg_views": 534.8
     }
   },
   "preferred_hook_frame": "statement",
@@ -72,68 +73,80 @@
       "video_id": "_b2DE7BA1E4",
       "title": "Comprendre pourquoi le corps frissonne sous le stress",
       "views": 0,
-      "age_hours": 242.3
+      "age_hours": 253.1
     },
     {
       "video_id": "S6R0HQV2vdM",
       "title": "Pourquoi le nez coule quand on pleure ?",
       "views": 0,
-      "age_hours": 86.5
+      "age_hours": 97.3
     },
     {
       "video_id": "Qax8WLMXgQU",
       "title": "Pourquoi des fourmillements apparaissent ?",
       "views": 0,
-      "age_hours": 84.9
+      "age_hours": 95.7
     },
     {
       "video_id": "-5LwOlxLemw",
       "title": "Pourquoi la voix tremble par nervosité ?",
       "views": 0,
-      "age_hours": 83.6
+      "age_hours": 94.4
+    },
+    {
+      "video_id": "Ubg7rTtym84",
+      "title": "Pourquoi un vertige apparaît après s'être levé ?",
+      "views": 0,
+      "age_hours": 57.7
+    },
+    {
+      "video_id": "K8JSUbL13Oc",
+      "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
+      "views": 0,
+      "age_hours": 53.3
     },
     {
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 169.1
+      "age_hours": 179.9
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 419.0
+      "age_hours": 429.8
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 445.0
+      "age_hours": 455.7
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
-      "views": 154,
-      "age_hours": 474.8
+      "views": 153,
+      "age_hours": 485.6
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 170.7
+      "age_hours": 181.5
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 435.0
+      "age_hours": 445.8
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 390.5
+      "age_hours": 401.3
     }
   ],
-  "auto_repair_count": 11
+  "auto_repair_count": 13
 }

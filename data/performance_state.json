@@ -1,0 +1,74 @@
+{
+  "generated_at": "2026-08-09T06:06:51.043515+00:00",
+  "total_with_data": 52,
+  "top_topics_by_views": [
+    {
+      "topic": "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+      "n": 1,
+      "avg_views": 1512.0,
+      "avg_retention": 32.3
+    },
+    {
+      "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+      "n": 1,
+      "avg_views": 1456.0,
+      "avg_retention": 27.4
+    },
+    {
+      "topic": "Pourquoi un aliment froid provoque un mal de tête semble soudain",
+      "n": 1,
+      "avg_views": 1241.0,
+      "avg_retention": 40.0
+    },
+    {
+      "topic": "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+      "n": 1,
+      "avg_views": 1205.0,
+      "avg_retention": 34.5
+    },
+    {
+      "topic": "Ce que la science explique sur le muscle qui tressaille tout seul",
+      "n": 1,
+      "avg_views": 1168.0,
+      "avg_retention": 32.8
+    },
+    {
+      "topic": "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+      "n": 1,
+      "avg_views": 1087.0,
+      "avg_retention": 37.7
+    },
+    {
+      "topic": "Ce que la science explique sur la mâchoire qui craque en mâchant",
+      "n": 1,
+      "avg_views": 1042.0,
+      "avg_retention": 36.2
+    },
+    {
+      "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
+      "n": 1,
+      "avg_views": 1031.0,
+      "avg_retention": 28.9
+    },
+    {
+      "topic": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "n": 1,
+      "avg_views": 1007.0,
+      "avg_retention": 29.0
+    },
+    {
+      "topic": "Pourquoi le corps lourd quand on est fatigué arrive",
+      "n": 1,
+      "avg_views": 1006.0,
+      "avg_retention": 32.4
+    }
+  ],
+  "top_hook_word_counts": [],
+  "best_topic": {
+    "topic": "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+    "n": 1,
+    "avg_views": 1512.0,
+    "avg_retention": 32.3
+  },
+  "best_hook_words": null
+}
