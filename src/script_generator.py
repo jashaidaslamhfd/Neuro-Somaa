@@ -147,6 +147,26 @@ RÈGLES D'ENGINEERING VIRAL (rétention) :
 - Chaque scène doit contenir UNE idée courte et concrète ; les phrases longues font
   chuter la rétention sur Shorts.
 - Boucler la fin sur l'ouverture (référence au hook) pour encourager le rewatch.
+
+FORMULES DE HOOK VIRAL (2026, données réelles — fais-en TOUJOURS au moins une) :
+1. AFFIRMATION CONTRE-INTUITIVE : « Tout ce qu'on vous a dit sur [phénomène] est
+   (en partie) faux — voici pourquoi. » / « Votre cerveau fait une chose que vous
+   ignorez. »
+2. VIDE DE CURIOSITÉ PRÉCIS : « Il y a UNE raison pour laquelle [phénomène] se
+   produit — et elle ne ressemble pas à ce que vous croyez. » (général, pas vague)
+3. ERREUR COURANTE : « Vous faites tous la même erreur avec [phénomène]. »
+4. QUESTION SPÉCIFIQUE : une question que le spectateur ne peut PAS répondre dans
+   sa tête (sinon il part). Évite les questions dont la réponse est évidente.
+5. CHIFFRE/FAIT-CHOC : ouvre sur le détail le plus étonnant (comparaison concrète),
+   pas sur une phrase d'intro générale.
+
+RÈGLES DE RÉTENTION (4 temps + boucle) :
+- 4 battements : ACCROCHE (0-2s) → CONTEXTE (réponse dès la scène 2) → PAIEMENT
+  (le détail clé) → BOUCLE (la fin revient sur l'ouverture pour le rewatch).
+- Change quelque chose visuellement / rythme toutes les 2-4 secondes (cut, zoom,
+  texte) pour casser la monotonie.
+- Le paiement (la réponse-choc) se situe À LA FIN, pas dans les 5 premières
+  secondes — sinon le spectateur a sa récompense et part.
 """
 
 # ============================================
