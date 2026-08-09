@@ -46,6 +46,10 @@ jobs:
           FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
           INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
           VIDEO_HISTORY_PATH: "data/video_history.json"
+          # Refetch real views more often (every 12h) so the ML brain learns
+          # from the freshest numbers instead of 24-48h stale readings.
+          METRICS_MIN_HOURS: "24"
+          METRICS_REFRESH_HOURS: "12"
           PYTHONUNBUFFERED: "1"
         run: |
           set -euo pipefail
