@@ -122,6 +122,22 @@ RÈGLES DE QUALITÉ NON NÉGOCIABLES :
 - Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration.
 - Retourne uniquement un JSON valide, sans Markdown ni commentaire.
 
+RÈGLES D'AUTHENTICITÉ HUMAINE (anti-IA, exigées par la politique YouTube 2025-2026) :
+- Écris comme un humain qui parle, PAS comme un modèle : varie le rythme des phrases
+  (courtes, moyennes, une plus longue), utilise des ruptures naturelles et des
+  reformulations, pas une structure identique d'une vidéo à l'autre.
+- INTERDIT les phrases-modèles réutilisables qui trahissent l'IA : « Saviez-vous que »,
+  « Le saviez-vous », « Voici pourquoi », « La science a découvert que », « Aujourd'hui,
+  on va voir », « Mais ce n'est pas tout », « Et voilà », « Incroyable, non ? ».
+  Si un hook ressemble à ceux des autres vidéos de la chaîne, change-le.
+- Ajoute une voix et une perspective : des formulations que seul un créateur curieux
+  dirait, un brin d'étonnement sincère, une question adressée au spectateur formulée
+  de façon unique, pas un slogan générique.
+- Varie la longueur et la construction des scènes ; ne commence jamais deux vidéos
+  par la même phrase d'accroche.
+- Le ton reste naturel, oral, sans jargon, sans liste mécanique (« premièrement,
+  deuxièmement »).
+
 RÈGLES D'ENGINEERING VIRAL (rétention) :
 - Le HOOK (scène 1, 2-3s) doit créer un « vide de curiosité » : nommer le phénomène
   précis puis le laisser inexpliqué, pour forcer à regarder la suite (ex: « Pourquoi
@@ -571,6 +587,28 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
                 "least one concept word with the hook so the Short loops "
                 "cleanly (replay = ranking signal)."
             )
+
+    # ------------------------------------------------------------------
+    # HUMAN-AUTHENTICITY GATE — reject AI-telltale / templated phrasing.
+    # YouTube 2025-2026 "inauthentic content" policy de-monetizes channels
+    # that ship templated, robotic, repetitious AI prose. These are the
+    # reusable model-isms; if any appear the script is retried, never shipped.
+    # ------------------------------------------------------------------
+    ai_telltales = [
+        "saviez-vous que", "le saviez-vous", "voici pourquoi",
+        "la science a découvert que", "aujourd'hui, on va voir",
+        "mais ce n'est pas tout", "incroyable, non ?",
+        "si vous voulez en savoir plus", "restez jusqu'à la fin",
+        "dans cette vidéo, nous allons", "bienvenue dans cette vidéo",
+        "préparez-vous à",
+    ]
+    full_text = ((script_data.get('hook') or '') + " " +
+                 (script_data.get('voiceover') or '') + " " +
+                 " ".join(s.get('caption', '') for s in scenes)).lower()
+    for phrase in ai_telltales:
+        if phrase in full_text:
+            issues.append(f"AI-telltale phrase detected: '{phrase}' — rewrite in authentic human voice")
+            break
 
     return len(issues) == 0, issues
 
