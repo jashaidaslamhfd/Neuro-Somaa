@@ -165,6 +165,19 @@ SUBNICHES = {
             "the one-second body check for heart health",
         ],
     },
+    "food_science": {
+        "label": "🍽️ Food Science",
+        "keywords": ["food", "eat", "drink", "caffeine", "sugar", "spicy", "hunger",
+                     "appetite", "digestion", "taste", "craving", "meal", "coffee",
+                     "chocolate", "cheese", "garlic", "spice", "hot food"],
+        "demand": "HIGH",
+        "avg_views_competitor": 350000,
+        "content_angles": [
+            "why [food] makes your body [reaction]",
+            "what [food] does to your body in the first minute",
+            "the science behind your [food] craving",
+        ],
+    },
 }
 
 # ═══════════════════════════════════════════════════════════════════
@@ -415,18 +428,30 @@ class NicheIntelligence:
             # 5. Diversity of content angles
             angle_score = len(niche_data.get("content_angles", [])) * 15
             
+            # External 2026 industry research (competition + RPM + growth)
+            ext = EXTERNAL_NICHE_INTEL.get(niche_key, {})
+            ext_comp = {"VERY LOW": 100, "LOW": 75, "MEDIUM": 50, "HIGH": 25, "VERY HIGH": 10}.get(
+                ext.get("competition", "MEDIUM"), 50)
+            ext_growth = ext.get("growth", 50)
+            ext_cpm = ext.get("cpm", 5)
+
             total_score = (
-                base_score * 0.20 +
-                view_score * 0.25 +
-                gap_score * 0.15 +
-                comp_score * 0.25 +          # low competition = key signal
-                catalog_coverage * 0.05 +
-                angle_score * 0.10
+                base_score * 0.12 +
+                view_score * 0.15 +
+                gap_score * 0.10 +
+                comp_score * 0.15 +          # real low competition
+                ext_comp * 0.20 +            # industry low-competition signal
+                ext_growth * 0.15 +          # industry growth signal
+                min(ext_cpm, 15) * 4 * 0.08 +  # RPM (monetization)
+                catalog_coverage * 0.03 +
+                angle_score * 0.02
             )
             
             self.subniche_scores[niche_key] = {
                 "label": niche_data["label"],
                 "demand_rating": niche_data["demand"],
+                "competition_level": ext.get("competition", "UNKNOWN"),
+                "estimated_cpm": ext.get("cpm"),
                 "competitor_avg_views": real_avg_views or niche_data["avg_views_competitor"],
                 "real_channels": real_channels,
                 "our_video_count": our_count,
