@@ -294,11 +294,54 @@ class NicheIntelligence:
 
         return self.competitor_data
 
+    def scan_subniche_competition(self, max_results: int = 20) -> Dict:
+        """Scan YouTube for REAL competition + demand per sub-niche.
+
+        For each sub-niche it searches its keywords, counts how many DISTINCT
+        channels appear (competition) and averages the top video views
+        (demand). The opportunity score = demand / (1 + log(competition)),
+        so a sub-niche with high views but few channels ranks highest — exactly
+        the "low competition, high demand" target the owner wants.
+        """
+        logger.info("\n🔍 Scanning sub-niche competition (real YouTube data)...")
+        self.competition_scan = {}
+        for niche_key, niche_data in SUBNICHES.items():
+            kws = niche_data.get("keywords", [])[:3]
+            query = " ".join(kws[:3])
+            results = self._yt_search(query, max_results=max_results)
+            if not results:
+                self.competition_scan[niche_key] = {
+                    "label": niche_data["label"], "channels": 0, "avg_views": 0,
+                    "top_views": 0, "opportunity": 0, "note": "no search data (quota)"
+                }
+                continue
+            channels = set(r["channel"] for r in results if r.get("channel"))
+            views = [r.get("views", 0) for r in results if r.get("views")]
+            avg_views = sum(views) / len(views) if views else 0
+            top_views = max(views) if views else 0
+            import math
+            competition_penalty = 1 + math.log(len(channels) + 1)
+            opportunity = (avg_views / 1000.0) / competition_penalty
+            self.competition_scan[niche_key] = {
+                "label": niche_data["label"],
+                "channels": len(channels),
+                "avg_views": round(avg_views),
+                "top_views": top_views,
+                "opportunity": round(opportunity, 1),
+            }
+            logger.info("  %-22s → channels:%3d avg_views:%7d opportunity:%5.1f",
+                        niche_data["label"], len(channels), int(avg_views), opportunity)
+        return self.competition_scan
+
+
     def analyze_subniche_demand(self) -> Dict:
         """Analyze demand for each sub-niche based on search + competitor data."""
         logger.info("\n📊 Analyzing sub-niche demand...")
         
         for niche_key, niche_data in SUBNICHES.items():
+            comp = (self.competition_scan or {}).get(niche_key, {})
+            real_avg_views = comp.get("avg_views", 0)
+            real_channels = comp.get("channels", 0)
             # Score factors:
             # 1. Built-in demand rating
             demand_scores = {"VERY HIGH": 100, "HIGH": 75, "MEDIUM": 50, "LOW": 25}
@@ -311,6 +354,11 @@ class NicheIntelligence:
             # 3. Our coverage gap (less = more opportunity)
             our_count = self.our_coverage.get(niche_key, 0)
             gap_score = max(100 - (our_count * 10), 10) if our_count < 30 else 10
+            # 3b. LOW REAL COMPETITION = big opportunity (owner's core request)
+            if real_channels > 0:
+                comp_score = max(0, 100 - real_channels * 5)  # fewer channels = higher
+            else:
+                comp_score = 0
             
             # 4. Topic catalog coverage
             niche_keywords = set(niche_data.get("keywords", []))
@@ -324,17 +372,19 @@ class NicheIntelligence:
             angle_score = len(niche_data.get("content_angles", [])) * 15
             
             total_score = (
-                base_score * 0.25 +
-                view_score * 0.30 +
-                gap_score * 0.20 +
-                catalog_coverage * 0.10 +
-                angle_score * 0.15
+                base_score * 0.20 +
+                view_score * 0.25 +
+                gap_score * 0.15 +
+                comp_score * 0.25 +          # low competition = key signal
+                catalog_coverage * 0.05 +
+                angle_score * 0.10
             )
             
             self.subniche_scores[niche_key] = {
                 "label": niche_data["label"],
                 "demand_rating": niche_data["demand"],
-                "competitor_avg_views": niche_data["avg_views_competitor"],
+                "competitor_avg_views": real_avg_views or niche_data["avg_views_competitor"],
+                "real_channels": real_channels,
                 "our_video_count": our_count,
                 "coverage_gap": "🟢 UNTAPPED" if our_count < 3 else ("🟡 LOW" if our_count < 8 else "🔴 SATURATED"),
                 "total_score": round(total_score, 1),
@@ -766,6 +816,7 @@ def main():
         }
     
     # Step 3: Analyze demand
+    intel.scan_subniche_competition()
     intel.analyze_subniche_demand()
     
     # Step 4: Rank opportunities
