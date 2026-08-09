@@ -514,10 +514,10 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--channels", default=os.environ.get("COMPETITOR_CHANNEL_IDS", ""))
     parser.add_argument("--queries", default=os.environ.get("COMPETITOR_QUERIES_FR", "|".join(DEFAULT_QUERIES)))
-    parser.add_argument("--min-views", type=int, default=int(os.environ.get("COMPETITOR_MIN_VIEWS", "1000000")))
+    parser.add_argument("--min-views", type=int, default=int(os.environ.get("COMPETITOR_MIN_VIEWS", "200000")))
     parser.add_argument("--max-duration", type=int, default=int(os.environ.get("COMPETITOR_MAX_DURATION_SECONDS", "90")))
-    parser.add_argument("--max-per-channel", type=int, default=int(os.environ.get("COMPETITOR_MAX_VIDEOS_PER_CHANNEL", "30")))
-    parser.add_argument("--max-per-query", type=int, default=int(os.environ.get("COMPETITOR_MAX_RESULTS_PER_QUERY", "25")))
+    parser.add_argument("--max-per-channel", type=int, default=int(os.environ.get("COMPETITOR_MAX_VIDEOS_PER_CHANNEL", "50")))
+    parser.add_argument("--max-per-query", type=int, default=int(os.environ.get("COMPETITOR_MAX_RESULTS_PER_QUERY", "50")))
     parser.add_argument("--out", default=os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json"))
     args = parser.parse_args(argv)
 
