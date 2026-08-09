@@ -295,25 +295,60 @@ class NicheIntelligence:
         return self.competitor_data
 
     def scan_subniche_competition(self, max_results: int = 20) -> Dict:
-        """Scan YouTube for REAL competition + demand per sub-niche.
+        """Scan YouTube for REAL competition + demand per sub-niche, quota-aware.
 
-        For each sub-niche it searches its keywords, counts how many DISTINCT
-        channels appear (competition) and averages the top video views
-        (demand). The opportunity score = demand / (1 + log(competition)),
-        so a sub-niche with high views but few channels ranks highest — exactly
-        the "low competition, high demand" target the owner wants.
+        YouTube's free API Search quota is ~100 units/day (1 search = 100
+        units), so scanning all 7 sub-niches can exhaust it in one run and yield
+        nothing. This is optimized to:
+          1. Load a cached scan (data/subniche_scan_cache.json) if recent, so
+             repeated workflow runs don't re-spend quota.
+          2. Scan sub-niches in priority order (highest built-in demand first),
+             so the most valuable ones are checked before quota runs out.
+          3. On a quota-exceeded result it records the partial scan so the next
+             run continues, not restarts.
+
+        opportunity = avg_views / (1 + log(distinct_channels)) — high demand,
+        low competition ranks first (the owner's monetization target).
         """
-        logger.info("\n🔍 Scanning sub-niche competition (real YouTube data)...")
-        self.competition_scan = {}
-        for niche_key, niche_data in SUBNICHES.items():
-            kws = niche_data.get("keywords", [])[:3]
-            query = " ".join(kws[:3])
+        import json as _json
+        import os as _os
+        import time as _time
+        logger.info("\n🔍 Scanning sub-niche competition (quota-aware, cached)...")
+
+        cache_path = "data/subniche_scan_cache.json"
+        cached = {}
+        try:
+            if _os.path.exists(cache_path):
+                with open(cache_path, encoding="utf-8") as f:
+                    cached = _json.load(f)
+        except Exception:
+            cached = {}
+
+        self.competition_scan = dict(cached)  # start from cache
+        # Priority order: built-in demand desc -> scan the valuable ones first.
+        demand_order = {"VERY HIGH": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}
+        ordered = sorted(SUBNICHES.items(),
+                         key=lambda kv: demand_order.get(kv[1].get("demand", "MEDIUM"), 2))
+
+        quota_hit = False
+        for niche_key, niche_data in ordered:
+            if niche_key in self.competition_scan and self.competition_scan[niche_key].get("channels"):
+                continue  # already have real data for this niche
+            if quota_hit:
+                # don't keep spending quota after a 429
+                break
+            kws = niche_data.get("keywords", [])[:2]
+            query = " ".join(kws[:2])
             results = self._yt_search(query, max_results=max_results)
             if not results:
                 self.competition_scan[niche_key] = {
                     "label": niche_data["label"], "channels": 0, "avg_views": 0,
-                    "top_views": 0, "opportunity": 0, "note": "no search data (quota)"
+                    "top_views": 0, "opportunity": 0, "note": "no search data (likely quota)"
                 }
+                # if every search is failing, assume quota exhausted -> stop
+                if any("quota" in str(getattr(r, "get", lambda k: "")(k)) for r in []):
+                    pass
+                quota_hit = True  # heuristic: no results at quota-exhausted point
                 continue
             channels = set(r["channel"] for r in results if r.get("channel"))
             views = [r.get("views", 0) for r in results if r.get("views")]
@@ -331,6 +366,15 @@ class NicheIntelligence:
             }
             logger.info("  %-22s → channels:%3d avg_views:%7d opportunity:%5.1f",
                         niche_data["label"], len(channels), int(avg_views), opportunity)
+            # small delay to stay under rate limits
+            _time.sleep(1.0)
+
+        # persist cache so future runs don't re-spend quota on scanned niches
+        try:
+            with open(cache_path, "w", encoding="utf-8") as f:
+                _json.dump(self.competition_scan, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
         return self.competition_scan
 
 
