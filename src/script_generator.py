@@ -182,6 +182,7 @@ def _default_prompt(topic: str) -> str:
     _series = os.environ.get("CONTENT_SERIES", "").lower()
     body_glitch_mode = _series == "body_glitches_fr"
     evolution_mode = _series == "body_evolution_fr"
+    surprise_mode = _series == "faits_surprenants_fr"
     series_rules = """
 RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Traite un phénomène quotidien, familier et à faible risque.
@@ -189,6 +190,16 @@ RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Explique ce qui se produit habituellement, avec une conclusion simple et prudente.
 - Si nécessaire, rappelle que des symptômes nouveaux, persistants, sévères ou inquiétants justifient l'avis d'un professionnel qualifié.
 """ if body_glitch_mode else ""
+    if surprise_mode:
+        series_rules += """
+ANGLE UNIQUE « FAITS QUI SEMBLENT FAUX » (faible concurrence, forte demande) :
+- Chaque vidéo révèle UN fait étonnant et contre-intuitif sur le corps ou le
+  cerveau, qui semble faux mais est vrai.
+- Le hook ouvre sur le fait surprenant (« Saviez-vous que votre cerveau... ? »)
+  et promet la preuve/le mécanisme.
+- Explique simplement POURQUOI c'est vrai (mécanisme vérifiable).
+- Ton surpris, curieux, fiable. Pas de clickbait, pas d'invention.
+"""
     if evolution_mode:
         # UNIQUE ANGLE: evolutionary-biology framing. Most body-glitch channels
         # only ask "why does X happen?". This series answers that AND adds the
