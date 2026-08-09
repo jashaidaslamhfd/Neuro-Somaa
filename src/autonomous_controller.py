@@ -71,6 +71,25 @@ def _save_json(path: str, payload) -> None:
         logger.warning("Could not save autonomous state: %s", exc)
 
 
+def _entry_views(entry: dict) -> int | None:
+    """Return the real view count, or None if analytics hasn't been fetched yet.
+
+    CRITICAL: absence of data must NOT be treated as 0 views. Brand-new videos
+    (uploaded <24-48h ago) often have no analytics pulled yet; counting them as
+    0 made the autonomous brain think the channel was flopping and throttled
+    publishing, even though the Shorts were already getting hundreds of views.
+    """
+    raw = entry.get("views")
+    if raw is None:
+        raw = (entry.get("youtube_shorts") or {}).get("views")
+    if raw is None:
+        return None
+    try:
+        return int(raw)
+    except (TypeError, ValueError):
+        return None
+
+
 def _hours_since(iso_str: str) -> float | None:
     if not iso_str:
         return None
@@ -103,7 +122,9 @@ def analyse() -> dict:
     hook_views: dict[str, list] = {}
     for entry in history:
         topic = (entry.get("topic") or "").strip().lower()
-        views = int(entry.get("views") or (entry.get("youtube_shorts") or {}).get("views") or 0)
+        views = _entry_views(entry)
+        if views is None:
+            continue  # no analytics data yet — don't treat as 0 views
         if topic:
             topic_views.setdefault(topic, []).append(views)
         try:
@@ -158,11 +179,14 @@ def analyse() -> dict:
         preferred_hook = growth.get("best_hook_frame")
 
     # --- Post-health throttle: if recent videos flopped, suggest slower cadence ---
+    # Only videos that actually have analytics data count toward the throttle.
+    # A Short uploaded <24-48h ago with no fetched views is NOT a flop — counting
+    # it as 0 caused false throttling and a broken growth signal.
     mature = [v for v in history if _hours_since(v.get("posted_at")) is not None]
-    recent = mature[-POST_THROTTLE_WINDOW:]
+    recent = [v for v in mature[-POST_THROTTLE_WINDOW:] if _entry_views(v) is not None]
     recent_avg = 0.0
     if recent:
-        recent_views = [int(v.get("views") or 0) for v in recent]
+        recent_views = [_entry_views(v) for v in recent]
         recent_avg = sum(recent_views) / len(recent_views)
     throttled = bool(recent_avg < POST_THROTTLE_VIEWS and len(recent) >= 3)
 
@@ -170,7 +194,7 @@ def analyse() -> dict:
     repair_list = []
     for entry in history:
         vid = entry.get("youtube_video_id")
-        views = int(entry.get("views") or 0)
+        views = _entry_views(entry)
         age = _hours_since(entry.get("posted_at"))
         if vid and views is not None and views < REPAIR_LOW_VIEWS and age is not None and age >= REPAIR_MIN_AGE_HOURS:
             repair_list.append({
