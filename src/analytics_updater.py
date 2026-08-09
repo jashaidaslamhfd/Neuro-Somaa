@@ -93,6 +93,17 @@ if __name__ == "__main__":
     try:
         from viral_baseline import learn_from_actual_performance
         perf = learn_from_actual_performance()
+
+        # LIVE-LEARNING: retrain the ML brain on the now-real performance data
+        # so every analytics sync makes the next prediction stronger (a
+        # self-improving "living" brain).
+        try:
+            from ml_brain import MLBrain
+            brain = MLBrain()
+            brain.load()
+            brain.retrain_from_history()
+        except Exception as exc:
+            logger.warning("Live-learning ML retrain skipped: %s", exc)
         logger.info("Viral baseline learned from real performance: best_topic=%s best_hook_words=%s",
                     (perf.get("best_topic") or {}).get("topic"),
                     perf.get("best_hook_words"))
