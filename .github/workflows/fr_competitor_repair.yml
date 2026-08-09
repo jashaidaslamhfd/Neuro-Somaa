@@ -60,10 +60,10 @@ jobs:
           # (S-tier per 2026 faceless-niche data). Scraping them directly gives
           # the ML far more viral pattern samples than a 1M-view filter alone.
           COMPETITOR_CHANNEL_IDS: ${{ vars.COMPETITOR_CHANNEL_IDS || '' }}
-          COMPETITOR_MIN_VIEWS: "150000"
+          COMPETITOR_MIN_VIEWS: "200000"
           COMPETITOR_MAX_DURATION_SECONDS: "90"
-          COMPETITOR_MAX_VIDEOS_PER_CHANNEL: "40"
-          COMPETITOR_MAX_RESULTS_PER_QUERY: "25"
+          COMPETITOR_MAX_VIDEOS_PER_CHANNEL: "50"
+          COMPETITOR_MAX_RESULTS_PER_QUERY: "50"
         run: |
           set -euo pipefail
           python scripts/competitor_analysis.py
