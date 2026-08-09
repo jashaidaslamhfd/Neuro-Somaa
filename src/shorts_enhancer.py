@@ -196,8 +196,12 @@ def autofix_too_fast_captions(scenes: list[dict], audio_segments: list[dict]) ->
 
 # Shorts retention drops off fastest in the first ~3s (the hook) and again
 # past the ~45-50s mark where swipe-away rates climb sharply.
-_IDEAL_MIN_SECONDS = 40.0
-_IDEAL_MAX_SECONDS = 55.0
+# Aligned with algorithm_policy.PLATFORM_POLICY[YOUTUBE]["duration"] = (27, 33, 40).
+# (Was 40-55s from an old English pipeline; a 33s-ideal Short was being wrongly
+# penalised as "a bit short", which inflated predicted retention on the very
+# videos that then under-performed. The 4-9s cliff is the real lever.)
+_IDEAL_MIN_SECONDS = 27.0
+_IDEAL_MAX_SECONDS = 40.0
 
 
 def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
@@ -253,6 +257,28 @@ def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
             "Hook score is below 60 - a sharper, more specific opening "
             "line usually recovers the most retention per fix."
         )
+
+    retention = max(0.05, min(retention, 0.95))
+    swipe_away = max(0.0, min(1.0 - retention, 0.95))
+
+    # THE 4-9s CLIFF (strongest measured signal, +0.88 with final retention).
+    # Survival past the 10s mark decides the video, and this channel loses its
+    # biggest chunk precisely in the 4-9s window (median drop at 5.15s). The
+    # heuristic above only rewards a good hook and clean captions; it never
+    # checked that scenes 2-3 actually PAY OFF the question. Fold the cliff
+    # into the prediction so a filler 4-9s window is rejected by the
+    # MIN_RETENTION gate instead of shipping to ~500-view purgatory.
+    try:
+        cliff = check_five_second_cliff(audio_segments)
+        if not cliff.get("ok", True):
+            retention -= 0.12  # strong penalty: this is the #1 leak
+            suggestions.append(
+                "The 4-9s window is weak (filler/dead air). Move the payoff "
+                "into scenes 2-3 — survival past 10s correlates +0.88 with "
+                "final retention."
+            )
+    except Exception:
+        pass  # prediction must never crash the pipeline
 
     retention = max(0.05, min(retention, 0.95))
     swipe_away = max(0.0, min(1.0 - retention, 0.95))
