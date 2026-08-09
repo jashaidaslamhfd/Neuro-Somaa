@@ -422,5 +422,18 @@
     },
     "publish_at": "2026-08-09T15:30:00+00:00",
     "completed_at": 1786254891.711282
+  },
+  "3e4b23cd0a207594e56d465d596ccce7ec16d91ac96c07713fb6f778f68efee4": {
+    "status": "completed",
+    "title": "Pourquoi un r\u00eave dispara\u00eet au r\u00e9veil ?",
+    "youtube_video_id": "QuwjzCbMH0M",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-09T17:30:00+00:00",
+    "completed_at": 1786274427.312705
   }
 }
