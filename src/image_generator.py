@@ -674,18 +674,23 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
 
     layers = [
         # First use licensed stock B-roll (Pexels, then Pixabay) for genuine motion.
-        # If no suitable clip exists, generate a unique AI Horde visual before
-        # any other image source, reducing repeated-stock-image dependence.
         ("Pexels-video-first",    lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
         ("Pixabay-video-second",  lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
+        # REAL stock photos next — real photographic visuals, NOT AI-art. The
+        # free AI providers (Pollinations/AI-Horde) render plastic/uncanny
+        # images that read as obvious "AI feel" and hurt the channel's
+        # authenticity (and monetization). Real Pexels/Pixabay photos are
+        # preferred whenever a clip isn't available.
+        ("Pexels-image",          lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
+        ("Pixabay-image",         lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
+        # AI-generated images are a LAST resort (no real stock match), not a
+        # default — reduces the AI-feel.
         ("AI-Horde-image",        lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"])),
         ("Other-AI-image",        lambda: _layer_ai_providers(index, scene_text, [
             "Pollinations-flux", "Pollinations-turbo", "HuggingFace", "Gemini",
             "DeepAI", "ModelsLab", "Replicate",
         ])),
         ("Local-fallback-pool",   lambda: _layer_local_pool(index, used_fallbacks)),
-        ("Pexels-image",          lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
-        ("Pixabay-image",         lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
         ("Procedural-fallback",   lambda: _layer_procedural(index, scene_text)),
         *([("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]
             if os.environ.get("ENABLE_SCREENSHOT_FALLBACK", "false").lower() == "true" else []),
