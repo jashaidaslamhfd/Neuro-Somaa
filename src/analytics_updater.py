@@ -38,7 +38,12 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
-    result = update_history_with_real_metrics(min_hours_old=24)
+    # Refresh cadence is env-tunable so operators can balance freshness vs API
+    # quota. Default 24h is safe; the schedule runs daily so METRICS_REFRESH_HOURS
+    # only matters when re-running the sync more than once a day.
+    metrics_min_hours = int(os.environ.get("METRICS_MIN_HOURS", "24"))
+    metrics_refresh_hours = int(os.environ.get("METRICS_REFRESH_HOURS", "12"))
+    result = update_history_with_real_metrics(min_hours_old=metrics_min_hours)
     logger.info(f"Analytics update complete: {result}")
 
     # After real metrics land in video_history.json, refresh every learned
@@ -51,7 +56,7 @@ if __name__ == "__main__":
     try:
         from platform_metrics import collect as collect_platform_metrics
 
-        result = collect_platform_metrics(min_hours_old=24, refresh_hours=20)
+        result = collect_platform_metrics(min_hours_old=metrics_min_hours, refresh_hours=metrics_refresh_hours)
         logger.info("Platform metrics refreshed: %s", result.get("stats"))
     except Exception as exc:
         logger.warning("Platform metrics collection skipped: %s", exc)
