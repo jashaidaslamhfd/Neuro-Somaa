@@ -13,7 +13,8 @@ class FranceChannelTests(unittest.TestCase):
     def test_catalogue_is_french_and_complete(self):
         records=get_body_glitch_topics()
         self.assertGreaterEqual(len(records),500)
-        self.assertEqual(records[0]['series_title'],'Paupière qui saute')
+        # first entry reflects the new 'faits surprenants' niche catalogue
+        self.assertEqual(records[0]['series_title'],'Cœur qui bat plus vite')
         self.assertEqual(records[0]['source'],'body_glitch_series_fr')
         self.assertEqual(records[0]['question_phrase'],'une paupière tressaille sans raison')
         self.assertTrue(all(x['pillar']=='reflexes_du_corps' for x in records))
