@@ -87,7 +87,7 @@ jobs:
           # UNIQUE ANGLE: evolutionary-biology framing on the 500 topics
           # ("why did our ancestors keep this reflex?") — differentiates the
           # channel from the crowded body-glitch niche.
-          CONTENT_SERIES: "body_evolution_fr"
+          CONTENT_SERIES: "faits_surprenants_fr"
           TOPIC_STRATEGY: "body_glitch_series_fr"
           
           AI_HORDE_API_KEY: ${{ secrets.AI_HORDE_API_KEY }}
