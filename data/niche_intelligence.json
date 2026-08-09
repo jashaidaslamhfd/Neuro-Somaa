@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-08T20:26:45.420179+00:00",
+  "generated_at": "2026-08-09T04:37:33.086341+00:00",
   "competitors_scanned": 20,
   "subniches_analyzed": 7,
-  "trending_topics_found": 10,
+  "trending_topics_found": 0,
   "subniche_scores": {
     "brain_mysteries": {
       "label": "🧠 Brain Mysteries",
@@ -203,130 +203,9 @@
       "gap": "🟢 UNTAPPED"
     }
   ],
-  "trending_topics": [
-    {
-      "video_id": "UGtzme_aBNY",
-      "title": "What Can Be Made From Human Body 😱",
-      "channel": "FactoHolic",
-      "published": "2025-09-15T14:25:18Z",
-      "query": "strange body facts shorts",
-      "views": 116643684,
-      "likes": 2839317,
-      "comments": 8484,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "PwMfk-1_-v4",
-      "title": "Funny Body Things! 🧠 What Are Boogers, Earwax &amp; Eyelashes? #learn #kids",
-      "channel": "MEOWJI",
-      "published": "2025-06-16T15:00:42Z",
-      "query": "strange body facts shorts",
-      "views": 42550838,
-      "likes": 150392,
-      "comments": 0,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "eJTkpeiAkrA",
-      "title": "Do You Have Any Unique Body Feature",
-      "channel": "Facts' Mine",
-      "published": "2025-03-25T02:31:00Z",
-      "query": "strange body facts shorts",
-      "views": 33830136,
-      "likes": 955853,
-      "comments": 8671,
-      "subniche": "brain_mysteries",
-      "subniche_label": "🧠 Brain Mysteries"
-    },
-    {
-      "video_id": "tJ2nrgUMWy8",
-      "title": "Weird Things About Your Body 😱",
-      "channel": "FactoHolic",
-      "published": "2025-12-21T12:31:19Z",
-      "query": "strange body facts shorts",
-      "views": 24591152,
-      "likes": 856235,
-      "comments": 5231,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "e1IrKrF1glg",
-      "title": "Do You Have Any Of These Rare Body Feature",
-      "channel": "Facts' Mine",
-      "published": "2025-01-27T06:31:01Z",
-      "query": "strange body facts shorts",
-      "views": 23645558,
-      "likes": 1179745,
-      "comments": 8266,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "d5IP0Xu3xj8",
-      "title": "3 Facts You NEED To Know 😦",
-      "channel": "Zack D. Films",
-      "published": "2023-05-05T14:30:10Z",
-      "query": "strange body facts shorts",
-      "views": 23142052,
-      "likes": 1347709,
-      "comments": 4030,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "2tBBNug42Kk",
-      "title": "What Rare Body Feature Do You Have",
-      "channel": "Facts' Mine",
-      "published": "2025-02-15T15:39:00Z",
-      "query": "strange body facts shorts",
-      "views": 21056631,
-      "likes": 982080,
-      "comments": 4278,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "Yvf25cXbWt4",
-      "title": "4 Interesting Facts You Didn&#39;t Ask For 😧",
-      "channel": "Zack D. Films",
-      "published": "2023-03-08T15:30:10Z",
-      "query": "strange body facts shorts",
-      "views": 20840980,
-      "likes": 1229291,
-      "comments": 6786,
-      "subniche": "sleep_body",
-      "subniche_label": "😴 Sleep & Body"
-    },
-    {
-      "video_id": "mR4X5Hq_lMI",
-      "title": "REALLY Weird Human Body Facts 🤯 w OnlyJayus - #Shorts",
-      "channel": "onlyjayus",
-      "published": "2021-11-10T18:03:17Z",
-      "query": "strange body facts shorts",
-      "views": 14237979,
-      "likes": 901693,
-      "comments": 8847,
-      "subniche": "other",
-      "subniche_label": "Other"
-    },
-    {
-      "video_id": "qQB9Dk7jJ-s",
-      "title": "Your Body Facts You Never Knew",
-      "channel": "Facts' Mine",
-      "published": "2024-11-10T18:29:00Z",
-      "query": "strange body facts shorts",
-      "views": 13838122,
-      "likes": 1098006,
-      "comments": 1567,
-      "subniche": "other",
-      "subniche_label": "Other"
-    }
-  ],
+  "trending_topics": [],
   "attack_plan": {
-    "generated_at": "2026-08-08T20:26:45.420190+00:00",
+    "generated_at": "2026-08-09T04:37:33.086348+00:00",
     "overall_strategy": "Attack UNTAPPED high-demand sub-niches with 5-10 videos each",
     "priority_targets": [
       {
@@ -399,39 +278,7 @@
         ]
       }
     ],
-    "content_ideas": [],
-    "trending_quick_wins": [
-      {
-        "trending_title": "What Can Be Made From Human Body 😱",
-        "views": 116643684,
-        "subniche": "Other",
-        "hijack_angle": "Our version: What Can Be Made From Human Body 😱 — but body-science focused"
-      },
-      {
-        "trending_title": "Funny Body Things! 🧠 What Are Boogers, Earwax &amp; Eyelashes? #learn #kids",
-        "views": 42550838,
-        "subniche": "Other",
-        "hijack_angle": "Our version: Funny Body Things! 🧠 What Are Boogers, Earwax &amp; Eyelashes? #learn #kids — but body-science focused"
-      },
-      {
-        "trending_title": "Do You Have Any Unique Body Feature",
-        "views": 33830136,
-        "subniche": "🧠 Brain Mysteries",
-        "hijack_angle": "Our version: Do You Have Any Unique Body Feature — but body-science focused"
-      },
-      {
-        "trending_title": "Weird Things About Your Body 😱",
-        "views": 24591152,
-        "subniche": "Other",
-        "hijack_angle": "Our version: Weird Things About Your Body 😱 — but body-science focused"
-      },
-      {
-        "trending_title": "Do You Have Any Of These Rare Body Feature",
-        "views": 23645558,
-        "subniche": "Other",
-        "hijack_angle": "Our version: Do You Have Any Of These Rare Body Feature — but body-science focused"
-      }
-    ]
+    "content_ideas": []
   },
   "our_coverage": {
     "brain_mysteries": 0,

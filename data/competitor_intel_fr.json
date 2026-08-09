@@ -1,19 +1,23 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-08T20:26:26.025681+00:00",
+  "generated_at_utc": "2026-08-09T04:37:15.897484+00:00",
   "copy_policy": "Use competitor data as pattern inspiration only. Do not copy exact titles, descriptions, thumbnails or tag dumps. seo_generator blocks exact-title reuse.",
   "filters": {
-    "min_views": 150000,
+    "min_views": 200000,
     "max_duration_seconds": 90
   },
   "sources": {
     "channels": [
       "@H3lixSquar3d",
-      "@Dr.Skeleton0",
-      "@BodyHubYT",
       "@AsapSCIENCE",
+      "@brightsideofficial",
       "@ZackDFilms",
-      "@FactSmack"
+      "@BodyHubYT",
+      "@Dr.Skeleton0",
+      "@FactSmack",
+      "@TheInfographicsShow",
+      "@BEAMAZED",
+      "@ScienceChannel"
     ],
     "queries": [
       "shorts science corps humain français",
@@ -31,28 +35,19 @@
     "max_duration_seconds": 90,
     "resolved_channel_ids": [
       "UCMB4ByaZHyhungeOJ4VN2CA",
-      "UCywX1-COe-SP_WHNfwykLRg",
-      "UChHGLkJhREITw1Gsv_Tvv9g",
       "UCC552Sd-3nyi_tk2BudLUzA",
+      "UC4rlAVgAK0SGk-yTfe48Qpw",
       "UCvz84_Q0BbvZThy75mbd-Dg",
-      "UCGsFenNHgeu0E5HjxxR8Diw"
+      "UChHGLkJhREITw1Gsv_Tvv9g",
+      "UCywX1-COe-SP_WHNfwykLRg",
+      "UCGsFenNHgeu0E5HjxxR8Diw",
+      "UCfdNM3NAhaBOXCafH7krzrA",
+      "UCkQO3QsgTpNTsOw6ujimT5Q",
+      "UCvJiYiBUbw4tmpRSZT2r1Hw"
     ]
   },
-  "video_count": 7,
-  "patterns": [
-    {
-      "pattern": "numbered-list",
-      "score": 22.373,
-      "count": 4,
-      "avg_views": 486102
-    },
-    {
-      "pattern": "other",
-      "score": 16.606,
-      "count": 3,
-      "avg_views": 450550
-    }
-  ],
+  "video_count": 0,
+  "patterns": [],
   "safe_title_templates": [
     {
       "id": "pourquoi-question",
@@ -62,312 +57,10 @@
       "count": 0
     }
   ],
-  "thumbnail_intel": {
-    "sample_size": 7,
-    "avg_brightness": 72.826,
-    "avg_contrast": 54.241,
-    "avg_warm_bias": 42.45,
-    "avg_red_yellow_ratio": 0.032,
-    "recommendation": "high-contrast warm text band"
-  },
-  "high_value_tags": [
-    {
-      "tag": "santé",
-      "score": 11.632
-    },
-    {
-      "tag": "vulgarisation",
-      "score": 11.488
-    },
-    {
-      "tag": "anecdote corps humain",
-      "score": 6.026
-    },
-    {
-      "tag": "anecdote humain",
-      "score": 6.026
-    },
-    {
-      "tag": "anecdote corps",
-      "score": 6.026
-    },
-    {
-      "tag": "salive",
-      "score": 6.026
-    },
-    {
-      "tag": "coude",
-      "score": 6.026
-    },
-    {
-      "tag": "résolution homme",
-      "score": 6.026
-    },
-    {
-      "tag": "homme",
-      "score": 6.026
-    },
-    {
-      "tag": "humain",
-      "score": 6.026
-    },
-    {
-      "tag": "corps",
-      "score": 6.026
-    },
-    {
-      "tag": "anecdote",
-      "score": 6.026
-    },
-    {
-      "tag": "découverte",
-      "score": 6.026
-    },
-    {
-      "tag": "vulgarisation scientifique",
-      "score": 6.026
-    },
-    {
-      "tag": "explore",
-      "score": 6.026
-    },
-    {
-      "tag": "explore media",
-      "score": 6.026
-    },
-    {
-      "tag": "explorefr",
-      "score": 6.026
-    },
-    {
-      "tag": "lifehack",
-      "score": 5.606
-    },
-    {
-      "tag": "vie pratique",
-      "score": 5.606
-    },
-    {
-      "tag": "bobroff",
-      "score": 5.462
-    },
-    {
-      "tag": "quantique",
-      "score": 5.462
-    }
-  ],
-  "title_keywords": [
-    {
-      "keyword": "corps",
-      "score": 22.85
-    },
-    {
-      "keyword": "humain",
-      "score": 17.244
-    },
-    {
-      "keyword": "quiz",
-      "score": 16.497
-    },
-    {
-      "keyword": "faits",
-      "score": 6.026
-    },
-    {
-      "keyword": "incroyables",
-      "score": 6.026
-    },
-    {
-      "keyword": "découvrez",
-      "score": 5.968
-    },
-    {
-      "keyword": "fascinant",
-      "score": 5.968
-    },
-    {
-      "keyword": "saviez",
-      "score": 5.606
-    },
-    {
-      "keyword": "gens",
-      "score": 5.606
-    },
-    {
-      "keyword": "savent",
-      "score": 5.606
-    },
-    {
-      "keyword": "leur",
-      "score": 5.606
-    },
-    {
-      "keyword": "fait",
-      "score": 5.606
-    },
-    {
-      "keyword": "conseil",
-      "score": 5.606
-    },
-    {
-      "keyword": "grand",
-      "score": 5.462
-    },
-    {
-      "keyword": "physicien",
-      "score": 5.462
-    },
-    {
-      "keyword": "inconnu",
-      "score": 5.462
-    },
-    {
-      "keyword": "cours",
-      "score": 5.388
-    },
-    {
-      "keyword": "d'anatomie",
-      "score": 5.388
-    },
-    {
-      "keyword": "bien",
-      "score": 5.388
-    },
-    {
-      "keyword": "spécial",
-      "score": 5.388
-    },
-    {
-      "keyword": "minimum",
-      "score": 5.279
-    },
-    {
-      "keyword": "réussir",
-      "score": 5.279
-    },
-    {
-      "keyword": "test",
-      "score": 5.279
-    },
-    {
-      "keyword": "culture",
-      "score": 5.279
-    },
-    {
-      "keyword": "anatomie",
-      "score": 5.279
-    },
-    {
-      "keyword": "saviezvousque",
-      "score": 5.25
-    },
-    {
-      "keyword": "frenchquiz",
-      "score": 5.25
-    },
-    {
-      "keyword": "apprendre",
-      "score": 5.25
-    },
-    {
-      "keyword": "apprends",
-      "score": 5.25
-    },
-    {
-      "keyword": "quizchallenge",
-      "score": 5.25
-    }
-  ],
-  "exact_title_hashes": [
-    "105ca594d92f2281f0ff7be7121dfc55f7dd6703cfe63830084fba80b7a03b87",
-    "284ca378a285c6eed8614ebbbf06078e29569e367cd670f0243e254375e68067",
-    "4560e6c83cc7fde4c3572e767e3888efeaeef3f89cf650403ee6e395458120ef",
-    "5c0195d70cc4d8cd7a9b421c0de5526953c568a9c3319711cce0bb263bd3f339",
-    "7f1fac58489cb07a6bd79922e953977ea2444c1c9783062c6ca0a93c4b724ed4",
-    "a957fb6499e52e311ec2d2599ae8a5bdecbfa29a2a2e34e36f596c5d16033a23",
-    "d198f8be90dbf527c9fac25afa008a5a6320353c9fbf0154b957a99931f24bce"
-  ],
-  "reference_videos_for_human_review": [
-    {
-      "video_id": "1ghW7awJ9JU",
-      "url": "https://youtu.be/1ghW7awJ9JU",
-      "title": "3 faits incroyables sur le corps humain ! 😯👫 #shorts",
-      "channel_title": "AVRE (Explore Media)",
-      "views": 1060884,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "anecdote corps humain",
-        "anecdote humain",
-        "anecdote corps",
-        "salive",
-        "coude",
-        "résolution homme",
-        "homme",
-        "humain"
-      ]
-    },
-    {
-      "video_id": "EUL55hx1ROo",
-      "url": "https://youtu.be/EUL55hx1ROo",
-      "title": "Découvrez ce quiz fascinant sur le corps humain ! 🧠💡",
-      "channel_title": "French Mind",
-      "views": 929539,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "ITa7KTZh01I",
-      "url": "https://youtu.be/ITa7KTZh01I",
-      "title": "Le saviez-vous ? 99 % des gens ne savent pas pourquoi leur corps fait ça #short #français #conseil",
-      "channel_title": "La Voix des Choses",
-      "views": 403846,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "lifehack",
-        "santé",
-        "vie pratique"
-      ]
-    },
-    {
-      "video_id": "BXPk-zuzw7c",
-      "url": "https://youtu.be/BXPk-zuzw7c",
-      "title": "Le plus grand physicien inconnu (short n°67)",
-      "channel_title": "Julien Bobroff",
-      "views": 289694,
-      "pattern": "numbered-list",
-      "tags_sample": [
-        "bobroff",
-        "quantique",
-        "vulgarisation"
-      ]
-    },
-    {
-      "video_id": "LlYkvP6KfYQ",
-      "url": "https://youtu.be/LlYkvP6KfYQ",
-      "title": "Un Cours D'Anatomie Bien Spécial",
-      "channel_title": "terr",
-      "views": 244184,
-      "pattern": "other",
-      "tags_sample": []
-    },
-    {
-      "video_id": "dMx7jeV6mJs",
-      "url": "https://youtu.be/dMx7jeV6mJs",
-      "title": "Il te faut minimum 5/7 pour réussir ce test ✅️#quiz #culture #anatomie",
-      "channel_title": "Quiz_Time",
-      "views": 189983,
-      "pattern": "numbered-list",
-      "tags_sample": []
-    },
-    {
-      "video_id": "9LttOAyAaCM",
-      "url": "https://youtu.be/9LttOAyAaCM",
-      "title": "Corps Humain #quiz #saviezvousque #frenchquiz #apprendre #apprends #quizchallenge #quizfrançais",
-      "channel_title": "French Quiz Hub",
-      "views": 177928,
-      "pattern": "other",
-      "tags_sample": []
-    }
-  ],
+  "thumbnail_intel": {},
+  "high_value_tags": [],
+  "title_keywords": [],
+  "exact_title_hashes": [],
+  "reference_videos_for_human_review": [],
   "configured": true
 }
