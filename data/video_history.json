@@ -1204,5 +1204,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "1036a76299e3cb5a1dfe07be3b68506c76a1ea168cd903552f0979fbc18f637f",
+    "title": "Pourquoi la respiration ralentit en dormant ?",
+    "topic": "Ce que votre corps vous dit quand la respiration ralentit en dormant",
+    "series_title": "Respiration qui ralentit",
+    "base_phenomenon": "le ralentissement de la respiration en dormant",
+    "nominal_phrase": "le ralentissement de la respiration en dormant",
+    "question_phrase": "la respiration ralentit en dormant",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "C'est ton cerveau qui d\u00e9tecte le bruit et envoie. Ton cerveau aiguise son attention et pr\u00e9pare \u00e0 la r\u00e9action Ton corps pr\u00e9pare \u00e0 la fuite ou \u00e0 la lutte. Ton syst\u00e8me de stress lib\u00e8re des hormones pour pr\u00e9parer \u00e0. Et voil\u00e0 pourquoi ton corps te fige avant un bruit. Mais comment ton cerveau continue-t-il \u00e0 fonctionner m\u00eame en sommeil.",
+    "posted_at": "2026-08-09T19:35:30.914595+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "CdbNz9T2sbA",
+    "publish_at": "2026-08-10T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75
   }
 ]
