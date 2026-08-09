@@ -1184,5 +1184,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "5f7e78d3e7fef1db0b8b066b03ee08ad2899408e9122b81aa869583f1617bd7e",
+    "title": "Pourquoi des corps flottants visibles dans l'\u0153il ?",
+    "topic": "Ce qui change lorsque des corps flottants visibles dans l'\u0153il",
+    "series_title": "Corps flottants",
+    "base_phenomenon": "les corps flottants visibles dans l'\u0153il",
+    "nominal_phrase": "les corps flottants visibles dans l'\u0153il",
+    "question_phrase": "des corps flottants visibles dans l'\u0153il",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton cerveau fait voir des corps flottants dans ton. C'est parce que ton cerveau essaie de traiter les informations. Quand ton cerveau essaie de traiter les informations visuelles en. C'est comme si ton cerveau faisait une erreur de traitement. Et surtout, c'est plus fr\u00e9quent si tu es fatigu\u00e9 ou. C'est pour cela que des corps flottants apparaissent dans ton.",
+    "posted_at": "2026-08-09T18:06:07.724643+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "n7cDDC67cS0",
+    "publish_at": "2026-08-09T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75
   }
 ]
