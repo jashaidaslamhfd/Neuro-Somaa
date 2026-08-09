@@ -16,7 +16,7 @@ class FranceChannelTests(unittest.TestCase):
         # first entry reflects the new 'faits surprenants' niche catalogue
         self.assertEqual(records[0]['series_title'],'Cœur qui bat plus vite')
         self.assertEqual(records[0]['source'],'body_glitch_series_fr')
-        self.assertEqual(records[0]['question_phrase'],'une paupière tressaille sans raison')
+        self.assertEqual(records[0]['question_phrase'],'le cœur bat plus vite avant de parler en public')
         self.assertTrue(all(x['pillar']=='reflexes_du_corps' for x in records))
     def test_french_relevance_filter(self):
         self.assertTrue(_is_relevant('Pourquoi le cerveau a besoin de sommeil'))
