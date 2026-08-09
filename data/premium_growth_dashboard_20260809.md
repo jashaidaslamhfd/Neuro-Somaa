@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-09T07:00:33.028666+00:00_
+_Generated 2026-08-09T07:24:12.800451+00:00_
 ## Executive summary
 - Videos in history: **52**
 - 48h repair candidates: **20**
@@ -24,7 +24,7 @@ _Generated 2026-08-09T07:00:33.028666+00:00_
 
 ## 48h auto-repair plan
 - [Corps lourd](https://youtu.be/r7URDUokZh0) → **Pourquoi le corps lourd quand on est fatigué arrive ?** (`very short (11 chars) — gives viewers no specific hook`)
-- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 486h: 153 < 200`)
+- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 487h: 153 < 200`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Cœur battre la nuit** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
 - [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low retention: 28.2%`)
 - [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 457h: 146 < 200`)

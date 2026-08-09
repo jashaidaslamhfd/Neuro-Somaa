@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-09T07:00:32.837555+00:00",
+  "generated_at": "2026-08-09T07:24:12.587691+00:00",
   "recommended_cadence": 2,
   "cadence_reason": "Retention is 73% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": false,
@@ -75,43 +75,43 @@
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 180.8
+      "age_hours": 181.2
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 430.7
+      "age_hours": 431.1
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 456.6
+      "age_hours": 457.0
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 153,
-      "age_hours": 486.5
+      "age_hours": 486.9
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 182.4
+      "age_hours": 182.8
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 446.7
+      "age_hours": 447.1
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 402.2
+      "age_hours": 402.6
     }
   ],
   "auto_repair_count": 7
