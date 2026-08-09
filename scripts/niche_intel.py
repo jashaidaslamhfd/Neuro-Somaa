@@ -435,16 +435,21 @@ class NicheIntelligence:
             ext_growth = ext.get("growth", 50)
             ext_cpm = ext.get("cpm", 5)
 
+            # Audience fit: sub-niches that match our 18-34 curious-male viewer
+            # get a boost (they convert better to views + subs).
+            aud_fit = 100 if niche_key in AUDIENCE_TARGET.get("best_fit_subniches", []) else 40
+
             total_score = (
-                base_score * 0.12 +
-                view_score * 0.15 +
-                gap_score * 0.10 +
+                base_score * 0.10 +
+                view_score * 0.12 +
+                gap_score * 0.08 +
                 comp_score * 0.15 +          # real low competition
-                ext_comp * 0.20 +            # industry low-competition signal
-                ext_growth * 0.15 +          # industry growth signal
-                min(ext_cpm, 15) * 4 * 0.08 +  # RPM (monetization)
+                ext_comp * 0.18 +            # industry low-competition signal
+                ext_growth * 0.13 +          # industry growth signal
+                min(ext_cpm, 15) * 4 * 0.06 +  # RPM (monetization)
+                aud_fit * 0.12 +             # 18-34 male-curious audience fit
                 catalog_coverage * 0.03 +
-                angle_score * 0.02
+                angle_score * 0.03
             )
             
             self.subniche_scores[niche_key] = {
