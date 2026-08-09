@@ -346,8 +346,13 @@ class MLBrain:
 
             if not topic:
                 continue
+            # TRAIN ONLY ON REAL PERFORMANCE — a video with views=None/0 that
+            # is still scheduled/fresh gives the model a meaningless 0 label
+            # and pulls predictions toward zero. Skip it until real data lands.
+            if view_count is None or (isinstance(view_count, (int, float)) and view_count <= 0):
+                continue
             topics.append(topic)
-            views.append(float(view_count) if view_count is not None else 0.0)
+            views.append(float(view_count))
             retention.append(float(avp) if avp is not None else 0.0)
             hook_scores.append(int(hs) if hs is not None else 0)
 
@@ -696,6 +701,31 @@ class MLBrain:
         return strategies.get(platform, {})
 
     # ── PERSISTENCE ─────────────────────────────────────────────────────
+
+    def retrain_from_history(self) -> bool:
+        """LIVE-LEARNING LOOP: called after every analytics sync / upload.
+
+        Re-reads video_history and retrains ONLY on real performance data
+        (skips still-scheduled/fresh videos with no views). This makes the
+        brain a self-improving, "living" model: every new video's real
+        results feed back in and the next prediction is stronger, without
+        any human step.
+        """
+        try:
+            topics, views, retention, hook_scores = self.load_all_data()
+            if len(topics) < 5:
+                logger.info("retrain_from_history: only %d real samples, keeping current model", len(topics))
+                return False
+            prev_samples = self.n_samples
+            self.train()          # rebuild models on the (now larger) real set
+            self.save()
+            logger.info("Live-learning retrain: %d real samples (was %d)",
+                        self.n_samples, prev_samples)
+            return True
+        except Exception as exc:
+            logger.error("Live-learning retrain failed: %s", exc)
+            return False
+
 
     def save(self):
         """Save brain state for future use."""
