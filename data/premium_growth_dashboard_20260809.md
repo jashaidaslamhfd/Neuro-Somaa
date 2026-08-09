@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-09T06:07:40.417140+00:00_
+_Generated 2026-08-09T07:00:33.028666+00:00_
 ## Executive summary
 - Videos in history: **52**
 - 48h repair candidates: **20**
@@ -16,7 +16,7 @@ _Generated 2026-08-09T06:07:40.417140+00:00_
 ## Title-pattern bandit
 | Pattern | Score | Samples | Competitor prior |
 |---|---:|---:|---:|
-| `pourquoi-question` | 3.731 | 19 | 2.0 |
+| `pourquoi-question` | 3.689 | 20 | 2.0 |
 | `ce-que-corps-revele` | 2.8404 | 3 | 1.6 |
 | `ce-qui-se-passe` | 2.8142 | 3 | 1.25 |
 | `pourquoi-declarative` | 2.6943 | 4 | 0.0 |
@@ -27,10 +27,10 @@ _Generated 2026-08-09T06:07:40.417140+00:00_
 - [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 486h: 153 < 200`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Cœur battre la nuit** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
 - [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low retention: 28.2%`)
-- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 456h: 146 < 200`)
+- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 457h: 146 < 200`)
 - [Ce qui se passe quand un déjà-vu semble étrangement familier](https://youtu.be/Re4VU9lryhQ) → **Pourquoi un déjà-vu semble étrangement familier ?** (`low retention: 24.7%`)
 - [La science derrière le temps qui semble accélérer](https://youtu.be/diImyvMyKig) → **Pourquoi la science derrière le temps qui semble accélérer ?** (`low retention: 29.1%`)
-- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 430h: 116 < 200`)
+- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 431h: 116 < 200`)
 - [Pourquoi le cerveau repère son propre prénom peut sembler](https://youtu.be/RV4LGjp89-U) → **Pourquoi le cerveau repère son propre prénom ?** (`leaked template fragment « peut sembler » — looks unfinished`)
 - [Ce que la science explique sur l'effet du stress](https://youtu.be/yxoI9-KWXzI) → **Pourquoi ce que la science explique sur l'effet du stress ?** (`low retention: 29.3%`)
 

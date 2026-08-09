@@ -1,32 +1,34 @@
 {
-  "generated_at": "2026-08-09T06:07:40.205448+00:00",
+  "generated_at": "2026-08-09T07:00:32.837555+00:00",
   "recommended_cadence": 2,
   "cadence_reason": "Retention is 73% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
-  "throttle": true,
-  "throttle_reason": "last 5 videos avg 0 views",
+  "throttle": false,
+  "throttle_reason": "last 0 videos avg 0 views",
   "topic_blocklist": [],
   "winner_topics": [],
   "blocklist_pillars": [],
   "winner_pillars": [
     "muscle",
     "gut",
-    "heart",
     "skin",
     "ear",
+    "heart",
+    "eye",
+    "other",
     "brain"
   ],
   "pillar_stats": {
     "other": {
-      "n": 12,
-      "avg_views": 440.5
+      "n": 9,
+      "avg_views": 587.3
     },
     "skin": {
-      "n": 8,
-      "avg_views": 656.8
+      "n": 6,
+      "avg_views": 875.7
     },
     "ear": {
-      "n": 4,
-      "avg_views": 596.5
+      "n": 3,
+      "avg_views": 795.3
     },
     "nerve": {
       "n": 2,
@@ -37,20 +39,20 @@
       "avg_views": 500.0
     },
     "muscle": {
-      "n": 5,
-      "avg_views": 908.4
+      "n": 4,
+      "avg_views": 1135.5
     },
     "gut": {
-      "n": 5,
-      "avg_views": 856.2
+      "n": 4,
+      "avg_views": 1070.2
     },
     "breath": {
-      "n": 2,
-      "avg_views": 378.5
+      "n": 1,
+      "avg_views": 757.0
     },
     "eye": {
-      "n": 6,
-      "avg_views": 335.8
+      "n": 3,
+      "avg_views": 671.7
     },
     "heart": {
       "n": 2,
@@ -59,94 +61,58 @@
   },
   "hook_stats": {
     "statement": {
-      "n": 16,
-      "avg_views": 647.0
+      "n": 15,
+      "avg_views": 690.1
     },
     "question": {
-      "n": 36,
-      "avg_views": 534.8
+      "n": 25,
+      "avg_views": 770.0
     }
   },
-  "preferred_hook_frame": "statement",
+  "preferred_hook_frame": "question",
   "auto_repair_candidates": [
-    {
-      "video_id": "_b2DE7BA1E4",
-      "title": "Comprendre pourquoi le corps frissonne sous le stress",
-      "views": 0,
-      "age_hours": 253.1
-    },
-    {
-      "video_id": "S6R0HQV2vdM",
-      "title": "Pourquoi le nez coule quand on pleure ?",
-      "views": 0,
-      "age_hours": 97.3
-    },
-    {
-      "video_id": "Qax8WLMXgQU",
-      "title": "Pourquoi des fourmillements apparaissent ?",
-      "views": 0,
-      "age_hours": 95.7
-    },
-    {
-      "video_id": "-5LwOlxLemw",
-      "title": "Pourquoi la voix tremble par nervosité ?",
-      "views": 0,
-      "age_hours": 94.4
-    },
-    {
-      "video_id": "Ubg7rTtym84",
-      "title": "Pourquoi un vertige apparaît après s'être levé ?",
-      "views": 0,
-      "age_hours": 57.7
-    },
-    {
-      "video_id": "K8JSUbL13Oc",
-      "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
-      "views": 0,
-      "age_hours": 53.3
-    },
     {
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 179.9
+      "age_hours": 180.8
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 429.8
+      "age_hours": 430.7
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 455.8
+      "age_hours": 456.6
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 153,
-      "age_hours": 485.6
+      "age_hours": 486.5
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 181.5
+      "age_hours": 182.4
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 445.8
+      "age_hours": 446.7
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 401.3
+      "age_hours": 402.2
     }
   ],
-  "auto_repair_count": 13
+  "auto_repair_count": 7
 }
