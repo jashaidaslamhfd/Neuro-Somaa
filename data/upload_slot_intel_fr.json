@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-09T07:24:12.742142+00:00",
+  "generated_at_utc": "2026-08-10T06:50:40.038425+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
     {
       "rank": 1,
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "name": "Dynamique 17:30",
-      "score": 3.4079,
-      "samples": 9,
+      "slot": "06:00",
+      "hour": 6,
+      "minute": 0,
+      "name": "Dynamique 06:00",
+      "score": 3.201,
+      "samples": 1,
       "prior": 0.0
     },
     {
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3278,
+      "score": 3.3109,
       "samples": 7,
-      "prior": 3.505
+      "prior": 3.4584
     },
     {
       "rank": 3,
@@ -30,48 +30,19 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.3526,
-      "samples": 6,
+      "score": 3.3575,
+      "samples": 7,
       "prior": 0.0
     }
   ],
   "ranked_slots": [
     {
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "score": 3.4079,
-      "observed_samples": 9,
-      "observed_avg": 3.4079,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
-        },
-        {
-          "video_id": "_QBHLbu9s7Y",
-          "title": "Pourquoi les oreilles sifflent dans le silence ?",
-          "views": 827,
-          "published_paris": "2026-08-01 17:30"
-        },
-        {
-          "video_id": "C6PyY8IDY-A",
-          "title": "Pourquoi la peau se fripe dans leau ?",
-          "views": 822,
-          "published_paris": "2026-08-03 17:30"
-        }
-      ]
-    },
-    {
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.3526,
-      "observed_samples": 6,
-      "observed_avg": 3.3526,
+      "score": 3.3575,
+      "observed_samples": 7,
+      "observed_avg": 3.3575,
       "prior": 0.0,
       "examples": [
         {
@@ -83,7 +54,7 @@
         {
           "video_id": "0giDXoVx72E",
           "title": "Pourquoi la mâchoire craque en mâchant ?",
-          "views": 1042,
+          "views": 1029,
           "published_paris": "2026-08-05 21:30"
         },
         {
@@ -98,7 +69,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.3487,
+      "score": 3.3177,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -115,10 +86,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3278,
+      "score": 3.3109,
       "observed_samples": 7,
       "observed_avg": 3.2266,
-      "prior": 3.505,
+      "prior": 3.4584,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -141,30 +112,13 @@
       ]
     },
     {
-      "slot": "19:00",
-      "hour": 19,
-      "minute": 0,
-      "score": 3.3239,
-      "observed_samples": 1,
-      "observed_avg": 3.4951,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "WxOEXbepJ40",
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "views": 1456,
-          "published_paris": "2026-07-23 19:10"
-        }
-      ]
-    },
-    {
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3206,
+      "score": 3.2973,
       "observed_samples": 4,
       "observed_avg": 3.3362,
-      "prior": 3.305,
+      "prior": 3.2584,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -187,10 +141,27 @@
       ]
     },
     {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 3.2929,
+      "observed_samples": 1,
+      "observed_avg": 3.4951,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 1456,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.232,
+      "score": 3.201,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -207,7 +178,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2305,
+      "score": 3.1995,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -221,10 +192,39 @@
       ]
     },
     {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.1824,
+      "observed_samples": 12,
+      "observed_avg": 3.1824,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
+        },
+        {
+          "video_id": "JIg1-eBYols",
+          "title": "Pourquoi un pied s'endort tout seul ?",
+          "views": 1034,
+          "published_paris": "2026-08-06 17:30"
+        },
+        {
+          "video_id": "_QBHLbu9s7Y",
+          "title": "Pourquoi les oreilles sifflent dans le silence ?",
+          "views": 827,
+          "published_paris": "2026-08-01 17:30"
+        }
+      ]
+    },
+    {
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1039,
+      "score": 3.0728,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.077,
+      "score": 3.0614,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,7 +264,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.0651,
+      "score": 3.034,
       "observed_samples": 1,
       "observed_avg": 2.7186,
       "prior": 0.0,
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0441,
+      "score": 3.0131,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
