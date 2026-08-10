@@ -461,5 +461,18 @@
     },
     "publish_at": "2026-08-10T15:30:00+00:00",
     "completed_at": 1786304130.913666
+  },
+  "787643cc80723f69e8dd22a0457ba85b564e858fa3bc3725ba4cd9751fa772b6": {
+    "status": "completed",
+    "title": "Pourquoi le c\u0153ur bat plus vite avant de parler en public ?",
+    "youtube_video_id": "E7RmQIkI5cA",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-10T17:30:00+00:00",
+    "completed_at": 1786362014.795516
   }
 }
