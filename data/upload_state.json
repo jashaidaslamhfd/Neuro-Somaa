@@ -487,5 +487,18 @@
     },
     "publish_at": "2026-08-10T19:30:00+00:00",
     "completed_at": 1786385857.303468
+  },
+  "cc4a37c861c57f425aefc6d76261f305fe6cb021f8340ab2e0a417892bc4ed07": {
+    "status": "completed",
+    "title": "Pourquoi le stress brouille la m\u00e9moire ?",
+    "youtube_video_id": "jHvt1X6XDuY",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-11T04:00:00+00:00",
+    "completed_at": 1786392076.576644
   }
 }

@@ -1288,5 +1288,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 85,
     "predicted_retention": 0.682
+  },
+  {
+    "content_fingerprint": "cc4a37c861c57f425aefc6d76261f305fe6cb021f8340ab2e0a417892bc4ed07",
+    "title": "Pourquoi le stress brouille la m\u00e9moire ?",
+    "topic": "Ce qui change lorsque le stress brouille la m\u00e9moire",
+    "series_title": "Stress qui brouille la m\u00e9moire",
+    "base_phenomenon": "la m\u00e9moire brouill\u00e9e par le stress",
+    "nominal_phrase": "la m\u00e9moire brouill\u00e9e par le stress",
+    "question_phrase": "le stress brouille la m\u00e9moire",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Quand vous \u00eates sous pression. C'est parce que le stress active la production d'hormones de. L'adr\u00e9naline r\u00e9duit l'activit\u00e9 des neurones et la formation de nouveaux. Le stress peut \u00e9galement affecter la consolidation des souvenirs dans. Le stress peut r\u00e9duire l'activit\u00e9 des neurones impliqu\u00e9s dans la. Mais quand vous \u00eates sous pression.",
+    "posted_at": "2026-08-10T20:01:16.577580+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "jHvt1X6XDuY",
+    "publish_at": "2026-08-11T04:00:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
