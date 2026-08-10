@@ -474,5 +474,18 @@
     },
     "publish_at": "2026-08-10T17:30:00+00:00",
     "completed_at": 1786362014.795516
+  },
+  "820ed29f2fa285253d7438888f5e4c6f9b2384e9f20583a6ac6814a26d8acd79": {
+    "status": "completed",
+    "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
+    "youtube_video_id": "28JErGGWIs0",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-10T19:30:00+00:00",
+    "completed_at": 1786385857.303468
   }
 }

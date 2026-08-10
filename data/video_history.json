@@ -1268,5 +1268,25 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75
+  },
+  {
+    "content_fingerprint": "820ed29f2fa285253d7438888f5e4c6f9b2384e9f20583a6ac6814a26d8acd79",
+    "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
+    "topic": "La science derri\u00e8re le frisson de la peau face au froid ou \u00e0 la peur",
+    "series_title": "Peau qui frissonne de froid",
+    "base_phenomenon": "le frisson de la peau face au froid ou \u00e0 la peur",
+    "nominal_phrase": "le frisson de la peau face au froid ou \u00e0 la peur",
+    "question_phrase": "la peau frissonne quand on a peur ou froid",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ton corps te fige avant un bruit qui fait. C'est ton hypothalamus qui r\u00e9agit L'hypothalamus d\u00e9tecte le danger et envoie un signal \u00e0 L'amygdale qui active la r\u00e9ponse de fuite ou de combat Et surtout, ton cerveau coupe la communication avec tes muscles C'est pourquoi tu te figes avant de pouvoir fuir",
+    "posted_at": "2026-08-10T18:17:37.304398+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "28JErGGWIs0",
+    "publish_at": "2026-08-10T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682
   }
 ]
