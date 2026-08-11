@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T06:14:04.081820+00:00",
+  "generated_at": "2026-08-11T10:01:44.080389+00:00",
   "total_with_data": 58,
   "top_topics_by_views": [
     {
@@ -41,8 +41,8 @@
     {
       "topic": "Pourquoi un pied s'endort tout seul peut sembler étrange",
       "n": 1,
-      "avg_views": 1034.0,
-      "avg_retention": 71.5
+      "avg_views": 1084.0,
+      "avg_retention": 69.2
     },
     {
       "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
@@ -60,7 +60,7 @@
       "topic": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
       "n": 1,
       "avg_views": 1007.0,
-      "avg_retention": 29.0
+      "avg_retention": 29.1
     }
   ],
   "top_hook_word_counts": [],
