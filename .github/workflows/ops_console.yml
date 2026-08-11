@@ -42,6 +42,11 @@ on:
         required: false
         type: number
         default: 0
+      thumbnails:
+        description: "fr_full_optimize: régénérer aussi les miniatures (coûteux en quota ; mettre false si déjà fait)"
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -78,6 +83,7 @@ jobs:
           TOOL: ${{ inputs.tool }}
           APPLY: ${{ inputs.apply }}
           LIMIT: ${{ inputs.limit }}
+          THUMBNAILS: ${{ inputs.thumbnails }}
         run: |
           set -euo pipefail
           mkdir -p output
@@ -92,7 +98,11 @@ jobs:
             fr_metadata_sweep)   python scripts/fr_metadata_sweep.py $FLAGS ;;
             fr_batch_optimize|fr_full_optimize)
                                  python scripts/fr_batch_optimize.py $FLAGS
-                                 python scripts/fr_thumbnail_regen.py $FLAGS ;;
+                                 if [ "${THUMBNAILS:-true}" = "true" ]; then
+                                   python scripts/fr_thumbnail_regen.py $FLAGS
+                                 else
+                                   echo "thumbnails=false → regen miniatures sauté (déjà appliqué, quota économisé)"
+                                 fi ;;
             fr_thumbnail_regen)  python scripts/fr_thumbnail_regen.py $FLAGS ;;
             niche_migration)     python scripts/generate_body_glitch_topics.py
                                  python scripts/niche_migration.py $FLAGS ;;
