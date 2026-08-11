@@ -1,13 +1,13 @@
 # 🎯 SKILLOR — Monetization Readiness (30 août 2026)
-_Generated 2026-08-10T09:05:03.209224+00:00 — 19 jours restants_
+_Generated 2026-08-11T08:42:14.755884+00:00 — 18 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **99** | Vues totales: 40,697 | Vidéos: 58
-- Watch hours (12 mois): 57.1
+- Abonnés: **104** | Vues totales: 43,471 | Vidéos: 62
+- Watch hours (12 mois): 58.7
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +901 subs (47.4/jour) · +9,959,303 vues Shorts (524,173.8/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +401 subs (21.1/jour) · +2,959,303 vues Shorts (155,752.8/jour)
+- **Full YPP (ad revenue)**: +896 subs (49.8/jour) · +9,956,529 vues Shorts (553,140.5/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +396 subs (22.0/jour) · +2,956,529 vues Shorts (164,251.6/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
