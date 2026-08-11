@@ -191,9 +191,8 @@ _MANUAL_TITLE_OVERRIDES = {
     # ── 2026-08-11 SEARCH-DEMAND alignment (YouTube FR autocomplete) ──
     # Titles re-anchored on queries real French users already type, so the
     # video matches an existing demand phrase instead of a guessed one.
-    # 'pourquoi je me reveille a 3h du matin / la nuit' is a high-volume
-    # family; the video's phenomenon IS waking before the alarm.
-    "1XVYcxQqDqo": "Pourquoi on se réveille juste avant son réveil ?",
+    # (1XVYcxQqDqo 'réveille avant 3h' candidate turned out to be no longer
+    #  live on the channel — removed from this map.)
     # Exact demand term is 'corps flottants yeux' (not 'dans l'œil').
     # Scheduled (not yet published) — pre-publish SEO, zero churn risk.
     "n7cDDC67cS0": "Pourquoi on voit des corps flottants dans les yeux ?",
@@ -416,13 +415,22 @@ def main() -> int:
                 log.warning("No manual override for duplicate %s -> %r",
                             v["id"], alt)
 
+    def _same_tags(a: list, b: list) -> bool:
+        """Order/case-insensitive tag comparison: YouTube normalises tag
+        storage, so a naive list != made EVERY video look 'changed' on every
+        run (observed 2026-08-11: runs rewrote all 50 videos even with
+        identical plans). Churn only on real differences."""
+        norm = lambda ts: sorted({(t or "").strip().lower() for t in (ts or []) if (t or "").strip()})
+        return norm(a) == norm(b)
+
     for v in videos:
         new_title = v["_new_title"]
         topic = v["title"]
         new_desc = _optimize_description(new_title, v["description"])
         new_tags = _optimize_tags(v["tags"], new_title, topic)
-        changed = (new_title != v["title"] or new_desc != v["description"]
-                   or new_tags != v["tags"])
+        changed = (new_title.strip() != (v["title"] or "").strip()
+                   or new_desc.strip() != (v["description"] or "").strip()
+                   or not _same_tags(new_tags, v["tags"]))
 
         entry = {
             "id": v["id"],
