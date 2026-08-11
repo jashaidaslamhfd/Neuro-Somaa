@@ -1,5 +1,5 @@
 # ============================================================
-# SKILLOR — dépendances MINIMALES pour la CI (tests hors-ligne)
+# Neuro-Somaa — dépendances MINIMALES pour la CI (tests hors-ligne)
 # pip install -r requirements-ci.txt
 #
 # tests/ ne touche ni le réseau, ni YouTube, ni la synthèse vocale : il

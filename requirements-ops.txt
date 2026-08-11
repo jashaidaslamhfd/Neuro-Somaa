@@ -1,0 +1,29 @@
+# ============================================================
+# Neuro-Somaa (canal français) — dépendances OPS (légères)
+# Install:  pip install -r requirements-ops.txt
+#
+# Les workflows de RÉPARATION / AUDIT / MÉTADONNÉES (auto_apply_repairs,
+# metadata_repair, fr_metadata_sweep, seo_repair…) n'ont besoin ni du LLM,
+# ni de torch/kokoro (~2 Go), ni de MoviePy. Installer requirements.txt
+# complet dans ces jobs quotidiens gaspillait des minutes de runner à
+# chaque exécution et allongeait inutilement la fenêtre de panne.
+#
+# Règle : un script n'appartient ici que si ses imports sont couverts par
+# stdlib + cette liste. La CI (tests/) garde requirements-ci.txt.
+# ============================================================
+
+requests>=2.31.0
+python-dotenv>=1.0.0
+pytz>=2024.1
+
+# ---- Google APIs (Data API v3 + YouTube Analytics v2) ----
+google-api-python-client>=2.100.0
+google-auth>=2.25.0
+google-auth-oauthlib>=1.1.0
+google-auth-httplib2>=0.2.0
+
+# ---- Numériques légers (ML brain / seo_analytics lazy imports) ----
+numpy>=1.24.0
+
+# ---- Miniatures (fr_thumbnail_regen, thumbnail_update) ----
+Pillow>=10.0.0

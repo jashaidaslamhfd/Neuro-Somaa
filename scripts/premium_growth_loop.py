@@ -63,7 +63,10 @@ DEFAULT_UPLOAD_SLOT_PRIOR = {
 # How many real videos a slot needs before its measured score is trusted at
 # full weight, and how many videos the French default priors are worth. These
 # stop a single lucky (or unlucky) upload from redefining the daily schedule.
-MIN_CONFIDENT_SLOT_SAMPLES = 3
+# 5 matches the duration-experiment per-arm minimum: below that, a slot is
+# eligible for the ranking table but must NEVER be handed a daily publish
+# slot while prior-backed defaults are still available.
+MIN_CONFIDENT_SLOT_SAMPLES = 5
 PRIOR_STRENGTH_VIDEOS = 4
 PARIS_TZ = ZoneInfo("Europe/Paris")
 
@@ -285,7 +288,7 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
         prior_samples = PRIOR_STRENGTH_VIDEOS if prior else 0
         blended = (observed_avg * len(values) + prior * prior_samples) / max(len(values) + prior_samples, 1)
         if 0 < len(values) < MIN_CONFIDENT_SLOT_SAMPLES:
-            # Linear shrink: 1 sample keeps 1/3 of its deviation at MIN=3.
+            # Linear shrink: 1 sample keeps 1/5 of its deviation at MIN=5.
             confidence = len(values) / MIN_CONFIDENT_SLOT_SAMPLES
             baseline = prior if prior else _global_average_score(groups)
             blended = baseline + (blended - baseline) * confidence
@@ -302,13 +305,30 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
         })
     rows.sort(key=lambda item: item["score"], reverse=True)
 
-    selected = []
-    for row in rows:
-        if all(_slot_distance_minutes(row["slot"], chosen["slot"]) >= min_gap_minutes for chosen in selected):
-            selected.append(row)
-        if len(selected) >= max_slots:
-            break
-    # Guarantee three daily slots even on no-data repos.
+    # A slot is CONFIDENT when it either earned enough real evidence or is
+    # backed by a French default prior. A 1-4 sample observation (whatever its
+    # score) must never capture a daily publish slot while confident choices
+    # exist — this is what let a single 06:00 video displace the proven 12:30
+    # lunch slot on 2026-08-11 (shrinkage alone was too weak a correction).
+    def _is_confident(row: dict) -> bool:
+        return row["observed_samples"] >= MIN_CONFIDENT_SLOT_SAMPLES or row["slot"] in DEFAULT_UPLOAD_SLOT_PRIOR
+
+    def _try_select(pool, min_samples_required: bool) -> list:
+        chosen = []
+        for row in pool:
+            if min_samples_required and not _is_confident(row):
+                continue
+            if all(_slot_distance_minutes(row["slot"], other["slot"]) >= min_gap_minutes for other in chosen):
+                chosen.append(row)
+            if len(chosen) >= max_slots:
+                break
+        return chosen
+
+    # Pass 1 — confident rows only, best score first.
+    selected = _try_select(rows, min_samples_required=True)
+
+    # Pass 2 — guarantee three daily slots with the remaining default priors
+    # (trusted on no-data repos, and safer than any tiny-sample slot).
     if len(selected) < max_slots:
         for key in DEFAULT_UPLOAD_SLOT_PRIOR:
             if any(row["slot"] == key for row in selected):
@@ -322,16 +342,31 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
             if len(selected) >= max_slots:
                 break
 
+    # Pass 3 — absolute last resort (edge cases where defaults were all
+    # consumed by overlapping confident slots): allow tiny-sample rows.
+    if len(selected) < max_slots:
+        for row in _try_select(rows, min_samples_required=False):
+            if not any(row["slot"] == s["slot"] for s in selected) and all(
+                _slot_distance_minutes(row["slot"], other["slot"]) >= min_gap_minutes for other in selected
+            ):
+                selected.append(row)
+            if len(selected) >= max_slots:
+                break
+
+    score_order = {row["slot"]: r for r, row in enumerate(
+        sorted(selected, key=lambda item: item["score"], reverse=True), start=1)}
     recommended = []
     for rank, row in enumerate(sorted(selected, key=lambda item: (item["hour"], item["minute"])), start=1):
         recommended.append({
-            "rank": rank,
+            "rank": rank,                 # chronological publish order of the day
+            "score_rank": score_order[row["slot"]],  # where this slot truly ranks by evidence
             "slot": row["slot"],
             "hour": row["hour"],
             "minute": row["minute"],
             "name": f"Dynamique {row['slot']}",
             "score": row["score"],
             "samples": row["observed_samples"],
+            "confident": _is_confident(row),
             "prior": row["prior"],
         })
 

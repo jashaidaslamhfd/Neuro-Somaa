@@ -188,6 +188,99 @@ _TITLE_DANGLER_WORDS = frozenset({
 })
 
 
+# ---------------------------------------------------------------------------
+# French-verb presence check (2026-08-11 audit)
+# A French QUESTION with no conjugated verb reads as machine-generated to a
+# native speaker — e.g. the live title "Pourquoi des corps flottants visibles
+# dans l'œil ?" (published) and the thumbnail label "CŒUR NUIT". The gate now
+# hard-blocks verbless question titles and warns on verbless thumbnail copy.
+# Accents are stripped before matching so "accélère" matches "accelere".
+# ---------------------------------------------------------------------------
+_COMMON_FRENCH_VERBS = frozenset({
+    # être / avoir / faire / aller and auxiliaries
+    "est", "sont", "etait", "etaient", "sera", "etre", "ete", "etes",
+    "a", "ont", "avons", "avez", "avait", "aura", "avoir",
+    "fait", "font", "fais", "faites", "fera",
+    "va", "vont", "vas", "ira", "peut", "peuvent", "doit", "doivent",
+    "veut", "veulent", "sait", "savent", "vient", "viennent",
+    # science/body questions actually used by this channel
+    "bat", "battent", "dort", "dormons", "sursaute", "sursautent",
+    "frissonne", "frissonnent", "tremble", "tremblent", "transpire",
+    "transpirent", "baille", "baillent", "rameutit", "ralentit",
+    "ralentissent", "accelere", "accelerent", "produit", "produisent",
+    "cache", "cachent", "change", "changent", "devient", "deviennent",
+    "arrive", "arrivent", "semble", "semblent", "parait", "paraissent",
+    "fonctionne", "fonctionnent", "marche", "marchent", "travaille",
+    "reagit", "reagissent", "protege", "protegent", "secrete", "secreten",
+    "stocke", "stockent", "brule", "brulent", "sent", "sentent", "voit",
+    "voient", "entend", "entendent", "reve", "revent", "oublie", "oublient",
+    "memorise", "memorisent", "endort", "reveille", "tombe", "tombent",
+    "coule", "coulent", "gonfle", "gonflent", "gratte", "grattent", "pique",
+    "piquent", "chauffe", "chauffent", "refroidit", "refroidissent",
+    "sonne", "sonnent", "craque", "craquent", "tourne", "tournent",
+    "saute", "sautent", "clignote", "clignotent", "ferme", "ferment",
+    "ouvre", "ouvrent", "distingue", "distinguent", "meurt", "meurent",
+    "vit", "vivent", "pousse", "poussent", "bloque", "bloquent",
+    "brouille", "brouillent", "flotte", "flottent", "apparait",
+    "apparaissent", "disparait", "disparaissent", "revient",
+    "empeche", "empechent", "declenche", "declenchent", "ralenti",
+    "observe", "observent", "montre", "montrent", "explique", "expliquent",
+    "provoque", "provoquent", "cause", "causent", "soigne", "existent",
+})
+
+_QUESTION_STARTERS = frozenset({
+    "pourquoi", "comment", "est-ce", "quand", "combien", "que", "quoi",
+})
+
+
+def _strip_accents(text: str) -> str:
+    import unicodedata
+    lowered = text.lower().replace("œ", "oe").replace("æ", "ae")
+    return "".join(
+        c for c in unicodedata.normalize("NFD", lowered)
+        if unicodedata.category(c) != "Mn"
+    )
+
+
+def has_french_verb(text: str) -> bool:
+    """True when `text` contains at least one conjugated French verb.
+
+    Explicit verb lexicon + a light morphological heuristic (3rd-person
+    plural '-ent') so less common verbs don't slip through unrecognised.
+    Apostrophes split elided forms: "s'accélère" -> ["s", "accelere"].
+    """
+    plain = _strip_accents(text.replace("\u2019", "'"))
+    tokens = [t for t in re.split(r"[^a-z]+", plain) if t]
+    # Non-verbs that END in -ent and would otherwise false-match the heuristic.
+    _ent_non_verbs = {
+        "souvent", "moment", "comment", "talent", "argent", "mouvement",
+        "sentiment", "vraiment", "seulement", "lentement", "forcement",
+        "totalement", "completement", "simplement", "egalement", "vent",
+    }
+    for token in tokens:
+        if token in _COMMON_FRENCH_VERBS:
+            return True
+        # 3rd-person plural "-ent" is a reliable conjugation marker.
+        if len(token) >= 6 and token.endswith("ent") and token not in _ent_non_verbs:
+            return True
+    return False
+
+
+def is_french_question_without_verb(text: str) -> bool:
+    """Detect titles like 'Pourquoi des corps flottants visibles ?' — a
+    French question that contains no verb and reads broken to natives."""
+    stripped = text.strip()
+    if not stripped:
+        return False
+    plain = _strip_accents(stripped)
+    looks_question = (
+        stripped.endswith("?")
+        or any(plain.startswith(starter + " ") for starter in _QUESTION_STARTERS)
+        or stripped.lower().startswith("est-ce")
+    )
+    return looks_question and not has_french_verb(stripped)
+
+
 def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
     """Return (ok, report). Does not mutate except adding a safe disclaimer."""
     issues: list[str] = []
@@ -232,6 +325,25 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
         issues.append(
             f"Title appears truncated (ends with dangling '{last_word}'); "
             "finish the sentence or shorten earlier words"
+        )
+
+    # A French question without a verb reads as machine-generated to natives —
+    # this exact defect went live ("Pourquoi des corps flottants visibles dans
+    # l'œil ?"). Hard-block it at the gate.
+    if is_french_question_without_verb(title):
+        issues.append(
+            "Title is a French question without a conjugated verb; "
+            "finish the sentence (ex. 'Pourquoi voit-on des corps flottants dans l'œil ?')"
+        )
+
+    # Thumbnail copy gets the same guarantee: never a bare verbless label
+    # ("CŒUR NUIT"). Issue, not warning — seo_generator builds a verb-ful
+    # fallback, so a failure here means something regressed upstream.
+    thumb_text = (script_data.get("thumbnail_text") or "").strip()
+    if thumb_text and not has_french_verb(thumb_text):
+        warnings.append(
+            "Thumbnail text has no French verb (bare label); "
+            "seo_generator must downgrade it to a question/promise hook"
         )
 
     text = _all_public_text(script_data)

@@ -1,5 +1,5 @@
 # ============================================================
-# SKILLOR (canal français) — dépendances de production (CPU-safe)
+# Neuro-Somaa (canal français) — dépendances de production (CPU-safe)
 # Install:  pip install -r requirements.txt
 # Extras lourds optionnels (clonage vocal GPU, fallback screenshot):
 #           pip install -r requirements-optional.txt

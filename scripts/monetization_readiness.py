@@ -237,7 +237,7 @@ def main() -> int:
 
     # markdown
     md = [
-        "# 🎯 SKILLOR — Monetization Readiness (30 août 2026)",
+        "# 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)",
         f"_Generated {now.isoformat()} — {days_left} jours restants_",
         "",
         "## 📊 Channel actuel",
@@ -260,7 +260,7 @@ def main() -> int:
         md.append(f"- {'✅' if m['ok'] else '🚫'} `{m['file']}` — {m['why']}")
     md.append("")
     md.append("## 🗓️ Plan quotidien (honnête)")
-    md.append("- **2 Shorts/jour** à 12:30 & 19:30 Paris (déjà automatisé).")
+    md.append("- **3 Shorts/jour** à 12:30, 19:30 & 21:00 Paris (déjà automatisé, ajusté par les créneaux dynamiques).")
     md.append("- 1 long-form 8-12 min / semaine (watch-hours path).")
     md.append("- Quand subs ≥ 500 → appliquer YPP Tier-1 dans YouTube Studio (fan funding).")
     md.append("- Quand subs ≥ 1 000 → appliquer Full YPP. L'application est MANUELLE "

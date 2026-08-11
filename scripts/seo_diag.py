@@ -87,13 +87,13 @@ def main() -> int:
     out = {"window": {"start": start, "end": end, "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat()}}
 
     out["daily_28d"] = ana(tok, start, end,
-        "views,impressions,impressionsClickThroughRate,averageViewDuration,subscribersGained,likes,shares,comments",
+        "views,impressions,impressionClickThroughRate,averageViewDuration,subscribersGained,likes,shares,comments",
         dims="day")
     out["shorts_daily_28d"] = ana(tok, start, end,
-        "views,impressions,impressionsClickThroughRate,engagedViews,averageViewDuration",
+        "views,impressions,impressionClickThroughRate,engagedViews,averageViewDuration",
         dims="day", filters="insightTrafficSourceType==SHORTS")
     out["traffic_28d"] = ana(tok, start, end,
-        "views,impressions,impressionsClickThroughRate,averageViewDuration",
+        "views,impressions,impressionClickThroughRate,averageViewDuration",
         dims="insightTrafficSourceType", sort="-views")
     out["pervideo_28d"] = ana(tok, start, end,
         "views,averageViewDuration,likes,comments,shares,subscribersGained",

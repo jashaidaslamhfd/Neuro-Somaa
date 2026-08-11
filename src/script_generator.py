@@ -298,7 +298,10 @@ RÈGLES DE FORMAT :
   ou « ton/ta/votre » — BON : « Pourquoi ton cœur bat la nuit » · « Pourquoi
   ton corps se fige de peur ». MAUVAIS (rejeté) : étiquettes de 1-3 mots comme
   « Voix du matin », « Choc anaphylactique » — zéro clic.
-- `thumbnail_text` : 2 à 4 mots clairs qui complètent le titre sans le répéter.
+- `thumbnail_text` : une mini-question ou promesse de 3 à 6 mots AVEC UN VERBE
+  conjugué, qui complète le titre sans le répéter. BON : « ton cœur s'accélère »,
+  « ton cerveau te protège ». MAUVAIS (rejeté) : étiquettes nues sans verbe du
+  type « CŒUR NUIT » ou « VOIX MATIN » — illisibles pour un francophone natif.
 - `cta` : une invitation courte et naturelle à s'abonner, uniquement en métadonnée.
 - `description` : une phrase exacte qui résume l'explication.
 

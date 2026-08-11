@@ -24,10 +24,40 @@ import logging
 import os
 import sys
 import time
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
+
+# Anti-churn cooldown (2026-08-11 audit): rewriting live metadata every day
+# resets YouTube's re-evaluation of a video and never lets the algorithm
+# settle. A video repaired inside the cooldown window is skipped even when it
+# still looks fixable. Tunable via METADATA_REPAIR_COOLDOWN_DAYS.
+LEDGER_PATH = Path("data/metadata_repair_ledger.json")
+
+
+def _load_ledger() -> dict:
+    try:
+        return json.loads(LEDGER_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+
+
+def _save_ledger(ledger: dict) -> None:
+    LEDGER_PATH.parent.mkdir(exist_ok=True)
+    LEDGER_PATH.write_text(json.dumps(ledger, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+def _in_cooldown(vid: str, ledger: dict, days: int) -> bool:
+    stamp = (ledger.get(vid) or {}).get("last_repaired_at")
+    if not stamp:
+        return False
+    try:
+        last = datetime.fromisoformat(stamp)
+    except ValueError:
+        return False
+    return datetime.now(timezone.utc) - last < timedelta(days=days)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("metadata_repair")
@@ -251,10 +281,16 @@ def main() -> int:
     token = _access_token()
     plan_rows = []
     updated = skipped = failed = 0
+    ledger = _load_ledger()
+    cooldown_days = int(os.environ.get("METADATA_REPAIR_COOLDOWN_DAYS", "7"))
 
     for e in entries:
         vid = e["youtube_video_id"]
         old_hist_title = (e.get("title") or "")[:70]
+        if _in_cooldown(vid, ledger, cooldown_days):
+            skipped += 1
+            plan_rows.append(f"SKIP  {vid} | repaired <{cooldown_days}d ago (cooldown) | {old_hist_title[:60]}")
+            continue
         try:
             current = _get_video(token, vid)
             live_title = current["snippet"].get("title", "")
@@ -274,6 +310,8 @@ def main() -> int:
                            "defaultLanguage", "defaultAudioLanguage"}
                 body = {"id": vid, "snippet": {k: v for k, v in snip.items() if k in allowed and v is not None}}
                 _api("videos?part=snippet", token, method="PUT", body=body)
+                ledger[vid] = {"last_repaired_at": datetime.now(timezone.utc).isoformat(),
+                               "title": changes.get("title", live_title)}
                 updated += 1
                 time.sleep(1.5)  # gentle on quota — 10k/day, each update ~50
             else:
@@ -282,6 +320,9 @@ def main() -> int:
             failed += 1
             plan_rows.append(f"FAIL  {vid} | {old_hist_title} | {exc}")
             logger.warning("Failed %s: %s", vid, exc)
+
+    if args.apply:
+        _save_ledger(ledger)
 
     report = "\n".join(plan_rows)
     print(report)

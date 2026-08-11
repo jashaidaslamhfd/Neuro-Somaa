@@ -1,4 +1,4 @@
-name: "SKILLOR - YouTube Analytics Sync"
+name: "Neuro-Somaa - YouTube Analytics Sync"
 on:
   workflow_dispatch:
   schedule:
@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: skillor-analytics-sync
+  group: neurosomaa-analytics-sync
   cancel-in-progress: false
 jobs:
   sync-analytics:
@@ -54,14 +54,18 @@ jobs:
         run: |
           set -euo pipefail
           python src/analytics_updater.py
+          # Prune dated diagnostic snapshots (keep last 7 days + newest) so
+          # data/ stops growing a permanent file per day per system. Stdlib
+          # only — safe on this light dependency set.
+          python scripts/cleanup_data_snapshots.py
       - name: Persist updated analytics state (with retry)
         if: always()
         shell: bash
         run: |
           set -euo pipefail
           if [ -z "$(git status --porcelain -- data/)" ]; then echo "No analytics changes."; exit 0; fi
-          git config user.name "skillor-bot"
-          git config user.email "skillor-bot@users.noreply.github.com"
+          git config user.name "neurosomaa-bot"
+          git config user.email "neurosomaa-bot@users.noreply.github.com"
           git add data/
           git commit -m "chore: sync YouTube analytics into history [skip ci]"
           for i in 1 2 3; do

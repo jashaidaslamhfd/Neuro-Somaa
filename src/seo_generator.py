@@ -6,6 +6,8 @@ import os
 import random
 import re
 
+from french_quality_gate import has_french_verb, is_french_question_without_verb
+
 logger = logging.getLogger(__name__)
 
 TITLE_MAX_LEN = 60          # Shorts feed truncates ~60-70 chars; keep it fully visible
@@ -696,6 +698,54 @@ def _clean_title_fallback(topic: str, series_title: str, question_phrase: str = 
     return _truncate_title(series_title or "La science du quotidien")
 
 
+def _question_hook_from_title(title: str, max_len: int = 35) -> str:
+    """Build a short interrogative thumbnail hook FROM the final title.
+
+    French Shorts thumbnails must read as a question or promise with a verb —
+    never a bare 2-word label ("CŒUR NUIT" shipped and cost CTR). Stripping
+    the leading interrogative leaves an informal question a native actually
+    reads: "Pourquoi le cœur bat plus vite ?" -> "LE CŒUR BAT PLUS VITE ?".
+    Returns "" when no verb-ful hook can be derived.
+    """
+    full = " ".join((title or "").split())
+    if not full:
+        return ""
+    body = re.sub(
+        r"^(pourquoi|comment|est-ce que|quand|combien de|combien d'|que se passe-t-il quand)\s+",
+        "", full, flags=re.IGNORECASE,
+    ).rstrip(" ?!.")
+    words = body.split()
+    for count in (5, 4, 3):
+        candidate = " ".join(words[:count]).strip()
+        if candidate and has_french_verb(candidate):
+            hook = candidate + " ?"
+            if len(hook) <= max_len:
+                return hook
+    # Full body may itself fit (short titles).
+    if has_french_verb(body) and len(body) + 2 <= max_len:
+        return body + " ?"
+    return ""
+
+
+def _fr_thumbnail_hook(script_data: dict, series_title: str, chosen_title: str, max_len: int = 35) -> str:
+    """Decide the on-thumbnail copy. Guarantees a French verb is present.
+
+    Order:  1. the LLM's thumbnail_text, kept ONLY if it carries a verb
+               (bare labels are downgraded, not shipped);
+            2. a question hook derived deterministically from the final title;
+            3. series title / chosen title (previous behaviour, last resort).
+    """
+    cand = " ".join(str(script_data.get("thumbnail_text") or "").split())
+    if cand and has_french_verb(cand):
+        return cand.upper()[:max_len]
+    if cand:
+        logger.info("Thumbnail text %r has no French verb -> downgrading to question hook", cand)
+    hook = _question_hook_from_title(script_data.get("title") or chosen_title, max_len=max_len)
+    if hook:
+        return hook.upper()[:max_len]
+    return (series_title or cand or chosen_title).upper()[:max_len]
+
+
 def generate_seo_package(topic: str, script_data: dict) -> dict:
     series_title = script_data.get("series_title") or script_data.get("title") or ""
     category = _category(topic)
@@ -814,7 +864,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         "description": description[:DESCRIPTION_MAX_LEN],
         "tags": tags,
         "hashtags": hashtags,
-        "thumbnail_text": (script_data.get("thumbnail_text") or series_title or chosen_title).upper()[:35],
+        "thumbnail_text": _fr_thumbnail_hook(script_data, series_title, chosen_title),
         "pinned_comment": pinned_comment,
         "playlist_suggestion": PLAYLISTS_BY_CATEGORY[category],
         # Previously hardcoded to 85 (misleading in logs). Now derived from

@@ -1,4 +1,4 @@
-name: "SKILLOR - FR YouTube Dead-Video Cleanup (one-shot)"
+name: "Neuro-Somaa - FR YouTube Dead-Video Cleanup (one-shot)"
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: skillor-fr-yt-cleanup
+  group: neurosomaa-fr-yt-cleanup
   cancel-in-progress: false
 
 jobs:

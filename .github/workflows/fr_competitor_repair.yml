@@ -1,4 +1,4 @@
-name: "SKILLOR - French Competitor Repair"
+name: "Neuro-Somaa - French Competitor Repair"
 
 # End-to-end loop the user asked for:
 #   1) scrape top French niche channels (YouTube API) -> competitor_intel_fr.json
@@ -27,7 +27,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: skillor-competitor-repair
+  group: neurosomaa-competitor-repair
   cancel-in-progress: false
 
 jobs:
@@ -109,8 +109,8 @@ jobs:
         run: |
           set -euo pipefail
           if [ -z "$(git status --porcelain -- data/)" ]; then echo "No changes."; exit 0; fi
-          git config user.name "skillor-bot"
-          git config user.email "skillor-bot@users.noreply.github.com"
+          git config user.name "neurosomaa-bot"
+          git config user.email "neurosomaa-bot@users.noreply.github.com"
           git add -A data/
           git commit -m "chore: competitor intel + ML state + repair ledger [skip ci]"
           for i in 1 2 3; do

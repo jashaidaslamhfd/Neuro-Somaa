@@ -404,7 +404,7 @@ def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
 def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict:
     """Pulls real lifetime-to-date performance for one video: views,
     averageViewDuration (seconds), averageViewPercentage (retention %),
-    impressions, and impressionsClickThroughRate (real CTR - the actual
+    impressions, and impressionClickThroughRate (real CTR — the actual
     metric predict_ctr() above can only estimate).
 
     If the Analytics API is unreachable (missing yt-analytics.readonly scope,
@@ -446,19 +446,25 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     end = _dt.date.today()
     start = end - _dt.timedelta(days=max(days_back, 1))
 
-    # Self-healing metric list. `impressions` and `impressionsClickThroughRate`
-    # are NOT served for every channel (this one included — see the
-    # "_dropped_metrics" field in data/seo_diag_*.json, where the API rejected
-    # exactly these two). Requesting them unconditionally made the entire query
-    # fail with 400 "Unknown identifier", so a channel that merely cannot report
-    # CTR ended up recording no views or retention either. scripts/seo_diag.py
-    # already solved this; the same drop-and-retry loop is mirrored here so a
+    # Self-healing metric list. `impressions` / `impressionClickThroughRate`
+    # may legitimately be unavailable on some channels; requesting an
+    # unsupported metric fails the whole query with 400 "Unknown identifier",
+    # so a channel that merely cannot report CTR would record no views or
+    # retention either. scripts/seo_diag.py solved this first; the same
+    # drop-and-retry loop is mirrored here so a missing OPTIONAL metric
+    # degrades gracefully instead of killing the sync.
     # missing OPTIONAL metric degrades gracefully instead of killing the sync.
     import re as _re
 
+    # NOTE: the CTR metric's real identifier is `impressionClickThroughRate`
+    # (singular "impression"). The misspelled `impressionsClickThroughRate`
+    # was rejected as "Unknown identifier", the self-healing loop silently
+    # dropped it, and every video recorded actual_ctr=null — the title bandit
+    # and SEO loop trained blind on views only. Keep the exact API names:
+    #   views, impressions, impressionClickThroughRate.
     requested = [
         "views", "averageViewDuration", "averageViewPercentage",
-        "impressions", "impressionsClickThroughRate",
+        "impressions", "impressionClickThroughRate",
     ]
     resp, dropped = None, []
     for _ in range(len(requested)):
@@ -513,7 +519,7 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
         "average_view_duration_sec": values.get("averageViewDuration"),
         "average_view_percentage": values.get("averageViewPercentage"),
         "impressions": values.get("impressions"),
-        "actual_ctr": values.get("impressionsClickThroughRate"),
+        "actual_ctr": values.get("impressionClickThroughRate"),
         "unavailable_metrics": dropped,
         "fetched_at": _dt.datetime.now(_dt.UTC).isoformat(),
     }
