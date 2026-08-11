@@ -247,15 +247,15 @@ def _optimize_title(current: str, topic: str, history_titles: list,
 def _optimize_description(title: str, old_desc: str) -> str:
     keyword_line = title.rstrip("?").strip()
     points = [
-        "Ce que vous allez découvrir :",
+        "Ce que tu vas découvrir :",
         f"• Pourquoi {_subject(keyword_line)}",
         "• Le mécanisme scientifique simple derrière ce phénomène",
-        "• Ce que votre corps essaie de vous dire",
+        "• Ce que ton corps essaie de te dire",
     ]
     desc = (
         f"{keyword_line} — la science simple du quotidien.\n"
-        f"Découvrez pourquoi {_subject(keyword_line)} et ce que ça révèle "
-        f"sur votre corps.\n\n"
+        f"Tu vas comprendre pourquoi {_subject(keyword_line)} — et ce que ça dit "
+        f"de ton corps.\n\n"
         f"{chr(10).join(points)}\n\n"
         f"{DISCLAIMER}\n\n"
         f"{CTA}\n\n"

@@ -292,9 +292,9 @@ _LEADING_STARTERS = (
 )
 
 PINNED_QUESTION_TEMPLATES = [
-    "Ça vous arrive aussi, {topic_short} ? Dites-le en commentaire.",
-    "Vous vous êtes déjà demandé pourquoi {topic_short} ?",
-    "Quel autre réflexe du corps voulez-vous voir expliqué après {topic_short} ?",
+    "Ça t'arrive aussi, {topic_short} ? Dis-le en commentaire.",
+    "Tu t'es déjà demandé pourquoi {topic_short} ?",
+    "Tu veux qu'on explique quel réflexe du corps après {topic_short} ?",
 ]
 
 
@@ -805,7 +805,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
 
     hook = script_data.get("hook", "").strip()
     desc = script_data.get("description", "").strip()
-    cta = script_data.get("cta", "Abonnez-vous pour plus de science simple.").strip()
+    cta = script_data.get("cta", "Abonne-toi pour plus de science simple.").strip()
 
     cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Science"])
     # Only turn a keyword into a hashtag if it is a real search term.

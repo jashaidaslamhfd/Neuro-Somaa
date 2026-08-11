@@ -82,11 +82,18 @@ MAX_SCENE_WORDS = 10
 # _validate_script() rejects a scene-1 caption starting with any of them.
 GENERIC_HOOK_OPENERS = (
     "vous avez déjà", "vous avez probablement", "vous avez peut-être",
-    "tu as déjà", "tu as probablement", "vous avez l'impression",
-    "tu as l'impression", "vous avez ressenti", "tu as ressenti",
-    "vous vous réveillez", "ça vous arrive", "ca vous arrive",
+    "tu as déjà", "tu as probablement", "tu as peut-être",
+    "vous avez l'impression", "tu as l'impression",
+    "vous avez ressenti", "tu as ressenti",
+    "vous vous réveillez", "tu te réveilles", "tu t'es réveillé",
+    "ça vous arrive", "ca vous arrive",
     "ça t'arrive", "n'avez-vous jamais", "navez-vous jamais",
-    "saviez-vous que", "imaginez que", "il vous est déjà arrivé",
+    "saviez-vous que", "imaginez que", "imagine que",
+    "il vous est déjà arrivé", "il t'est déjà arrivé",
+    # spoken-register equivalents the humanizer produces — without these the
+    # gate would be blind to the same opener after « vous »→« tu » rewrite.
+    "t'as déjà", "t'as probablement", "t'as peut-être", "t'as l'impression",
+    "t'as ressenti", "t'as remarqué", "tu as remarqué",
 )
 
 # Scene 2 must open with the mechanism itself (V4 answer-first arc).
@@ -138,6 +145,18 @@ RÈGLES D'AUTHENTICITÉ HUMAINE (anti-IA, exigées par la politique YouTube 2025
 - Le ton reste naturel, oral, sans jargon, sans liste mécanique (« premièrement,
   deuxièmement »).
 
+REGISTRE OBLIGATOIRE — FRANÇAIS PARLÉ (jamais de français écrit) :
+- TUTOIE le spectateur partout — « tu/ton/ta/tes », JAMAIS « vous/votre/vos ».
+  Le vouvoiement trahit instantanément un texte machine pour un jeune public Shorts.
+- Contractions orales naturelles : « t'as », « t'es », « y a », « c'est »,
+  « j'suis ». Négations parlées acceptées : « c'est pas », « y a pas », « je sais pas ».
+- « on » à la place de « nous » (personne ne dit « nous allons voir » à l'oral).
+- Connecteurs parlés : « en fait », « du coup », « et là », « résultat »,
+  « sauf que », « bref ». INTERDITS (tournures écrites) : « n'est-ce pas »,
+  « toutefois », « néanmoins », « cependant », « ainsi », « par ailleurs ».
+- Zéro formule d'école (« il est important de noter », « en conclusion »).
+  Écris comme un pote curieux qui raconte un truc fascinant, pas comme un prof.
+
 RÈGLES D'ENGINEERING VIRAL (rétention) :
 - Le HOOK (scène 1, 2-3s) doit créer un « vide de curiosité » : nommer le phénomène
   précis puis le laisser inexpliqué, pour forcer à regarder la suite (ex: « Pourquoi
@@ -149,12 +168,12 @@ RÈGLES D'ENGINEERING VIRAL (rétention) :
 - Boucler la fin sur l'ouverture (référence au hook) pour encourager le rewatch.
 
 FORMULES DE HOOK VIRAL (2026, données réelles — fais-en TOUJOURS au moins une) :
-1. AFFIRMATION CONTRE-INTUITIVE : « Tout ce qu'on vous a dit sur [phénomène] est
-   (en partie) faux — voici pourquoi. » / « Votre cerveau fait une chose que vous
-   ignorez. »
+1. AFFIRMATION CONTRE-INTUITIVE : « Tout ce qu'on t'a dit sur [phénomène] est
+   (en partie) faux — voici pourquoi. » / « Ton cerveau fait un truc que tu
+   ignores. »
 2. VIDE DE CURIOSITÉ PRÉCIS : « Il y a UNE raison pour laquelle [phénomène] se
-   produit — et elle ne ressemble pas à ce que vous croyez. » (général, pas vague)
-3. ERREUR COURANTE : « Vous faites tous la même erreur avec [phénomène]. »
+   produit — et elle ne ressemble pas à ce que tu crois. » (général, pas vague)
+3. ERREUR COURANTE : « Tu fais la même erreur que tout le monde avec [phénomène]. »
 4. QUESTION SPÉCIFIQUE : une question que le spectateur ne peut PAS répondre dans
    sa tête (sinon il part). Évite les questions dont la réponse est évidente.
 5. CHIFFRE/FAIT-CHOC : ouvre sur le détail le plus étonnant (comparaison concrète),
@@ -494,6 +513,29 @@ def _normalize_scenes(script_data: dict) -> dict:
     for i, scene in enumerate(normalized):
         limit = HOOK_MAX_WORDS if i == 0 else MAX_SCENE_WORDS
         scene['caption'] = _trim_to_word_limit(scene['caption'], limit)
+
+    # HUMANIZE (2026-08-11): spoken-French post-pass. LLM output is written
+    # register (« vous », « ce n'est pas », glued sentences); TTS reads that
+    # aloud as a robot essay. Convert to français parlé BEFORE the voiceover
+    # string is assembled and validated, so what viewers hear is what passed
+    # the gates. Never blocks; failures just skip the pass.
+    try:
+        from french_humanizer import humanize_spoken_fr, formality_leftovers
+        all_changes: list[str] = []
+        for scene in normalized:
+            fixed, ch = humanize_spoken_fr(scene['caption'])
+            scene['caption'] = fixed
+            all_changes.extend(ch)
+        if script_data.get('description'):
+            script_data['description'], _dh = humanize_spoken_fr(script_data['description'])
+            all_changes.extend(_dh)
+        if all_changes:
+            import logging as _log
+            _log.getLogger(__name__).info(
+                "🗣️ Humanizer (français parlé): %s", ", ".join(sorted(set(all_changes))))
+    except Exception as _hum_exc:  # pragma: no cover - defensive
+        import logging as _log
+        _log.getLogger(__name__).warning("Humanizer skipped: %s", _hum_exc)
 
     script_data['scenes'] = normalized
     script_data['voiceover'] = ' '.join(s['caption'] for s in normalized)
