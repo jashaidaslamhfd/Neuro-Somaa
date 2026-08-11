@@ -1349,5 +1349,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 54,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "ea28729706d5c585a06fe68ea71fc8a1ffb15b9482316f9eb8c067e3e5d73a56",
+    "title": "Pourquoi les yeux deviennent rouges ?",
+    "topic": "Pourquoi les yeux deviennent rouges",
+    "series_title": "Yeux qui deviennent rouges",
+    "base_phenomenon": "les yeux qui deviennent rouges",
+    "nominal_phrase": "les yeux qui deviennent rouges",
+    "question_phrase": "les yeux deviennent rouges",
+    "trend_source": "fr_search_demand",
+    "trend_url": null,
+    "voiceover": "Quand tu te sens fatigu\u00e9 ou stress\u00e9. C'est parce que ton cerveau lib\u00e8re plus de vaisseaux sanguins. Et \u00e7a fait que la r\u00e9tine re\u00e7oit plus de sang. Et la couleur des yeux change. Le plus \u00e9trange ? La prochaine fois que tu te sens fatigu\u00e9.",
+    "posted_at": "2026-08-11T18:32:48.537714+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "ibSaiLwLbqs",
+    "publish_at": "2026-08-11T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "shock_fact",
+    "hook_score_v2": 42,
+    "loop_bridge_present": false
   }
 ]
