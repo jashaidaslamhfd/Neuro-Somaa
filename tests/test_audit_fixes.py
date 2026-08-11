@@ -149,5 +149,46 @@ class ThumbnailHookTests(unittest.TestCase):
         self.assertEqual(hook, "TON CŒUR S'ACCÉLÈRE")
 
 
+class TestManualTitleOverrides(unittest.TestCase):
+    """Every human-written override in fr_batch_optimize must be complete,
+    natural, feed-visible French — the 2026-08-11 live apply showed how much
+    damage a truncated ('pou ?') or oversized (63 chars) title does."""
+
+    def test_overrides_are_clean_and_feed_visible(self):
+        from seo_generator import _title_is_clean, TITLE_MAX_LEN
+        from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
+
+        self.assertGreater(len(_MANUAL_TITLE_OVERRIDES), 8)
+        for vid, title in _MANUAL_TITLE_OVERRIDES.items():
+            with self.subTest(video=vid, title=title):
+                self.assertLessEqual(len(title), TITLE_MAX_LEN,
+                                     f"override too long for Shorts feed: {title!r}")
+                self.assertTrue(title.rstrip().endswith("?"),
+                                f"override lost its question mark: {title!r}")
+                ok, why = _title_is_clean(title)
+                self.assertTrue(ok, f"override not clean ({why}): {title!r}")
+
+    def test_overrides_are_unique(self):
+        from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
+
+        seen = {}
+        for vid, title in _MANUAL_TITLE_OVERRIDES.items():
+            key = title.strip().lower()
+            self.assertNotIn(key, seen,
+                             f"duplicate override title between {seen.get(key)} and {vid}")
+            seen[key] = vid
+
+    def test_no_truncated_word_endings(self):
+        # 'chair de pou ?' / 'moment importan' style damage: last content
+        # word must not be a clipped prefix of the obvious full word.
+        from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
+        import re
+        clipped = {"pou": "poule", "importan": "important", "appara": "apparaît"}
+        for vid, title in _MANUAL_TITLE_OVERRIDES.items():
+            last = re.sub(r"[ ?!.,]+$", "", title).split()[-1].lower()
+            with self.subTest(video=vid, last=last):
+                self.assertNotIn(last, clipped, f"truncated last word in {title!r}")
+
+
 if __name__ == "__main__":
     unittest.main()

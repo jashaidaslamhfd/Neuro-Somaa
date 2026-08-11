@@ -161,7 +161,9 @@ _MANUAL_TITLE_OVERRIDES = {
     "KMXIpcpoDX4": "Pourquoi un muscle tressaille sans prévenir ?",
     # live duplicate: 'Pourquoi un nœud au ventre apparaît ?'
     # (n1TgqGp2PQ0 1007v vs T755Q7yX-DA 888v — n1Tgq keeps)
-    "T755Q7yX-DA": "Pourquoi un nœud au ventre apparaît avant un moment important ?",
+    # (2026-08-11: shortened 63 -> 51 chars — the Shorts feed visually cuts
+    #  ~60 chars, and >60 chars risks a mid-word ellipsis on screen.)
+    "T755Q7yX-DA": "Pourquoi ce nœud au ventre avant un grand moment ?",
     # live duplicate: 'Pourquoi la chair de poule apparaît soudainement ?'
     # (XLIFrONS2rc 1205v vs HJb7xCMIYWQ 707v — XLIFr keeps)
     "HJb7xCMIYWQ": "Pourquoi la chair de poule apparaît d'un coup ?",
@@ -171,25 +173,49 @@ _MANUAL_TITLE_OVERRIDES = {
     # live duplicate: 'Pourquoi le cerveau réclame du sommeil profond ?'
     # (ZXNvo9birZM 765v vs uUTyRmWUXn8 204v — ZXNvo keeps)
     "uUTyRmWUXn8": "Pourquoi le cerveau réclame tant de sommeil ?",
+    # ── 2026-08-11 post-apply additions (metric-driven sweep) ──
+    # XLIFrONS2rc (1205v): live title was uploaded with a TRUNCATED word
+    # ('...chair de pou ?' — 'poule' cut to 'pou' by the pre-fix
+    #  _truncate_title). The winner-keep rule would preserve the damage
+    #  (1205v >= 800, ends with '?', len >= 25) because _title_is_clean
+    #  cannot spot a cut WORD. Complete the word instead.
+    "XLIFrONS2rc": "Pourquoi l'apparition soudaine de la chair de poule ?",
+    # 5IakxGo1B7o: CTA verb leaked into the live title
+    # ('...entendus la nuit Découvre ?'). Clean natural angle, distinct
+    # from -4pgrbC9uaQ's 'Pourquoi on entend son cœur battre la nuit ?'.
+    "5IakxGo1B7o": "Pourquoi le cœur semble battre plus fort la nuit ?",
+    # Dedup-fallback quality: two live duplicates got the generic
+    # '… en détail ?' suffix on 2026-08-11. Give each a real distinct angle.
+    "IYs-jKSscTE": "Pourquoi le corps sursaute avant de s'endormir ?",
+    "0giDXoVx72E": "Pourquoi la mâchoire craque quand on mange ?",
 }
 
 
 def _optimize_title(current: str, topic: str, history_titles: list,
                     video_id: str = "", views: int = 0) -> str:
     """Pick the best title:
-      1. current if it's a PROVEN winner (>=800 views & clean & question)
+      1. HUMAN-REVIEWED manual override (if any)      — highest trust.
+         Comes FIRST: it exists precisely for cases the heuristics get
+         wrong, e.g. XLIFrONS2rc (1205 views) whose live title carries a
+         truncated word ('...chair de pou ?') that the winner-keep rule
+         would otherwise preserve forever.
+      2. current if it's a PROVEN winner (>=800 views & clean & question)
          — never touch a video the audience already loves
-      2. repo-verified repair prior (if any)          — high trust
-      3. current, if already clean & question-y       — no change needed
-      4. rebuild from topic with the leak-gate        — auto-repair
+      3. repo-verified repair prior (if any)          — high trust
+      4. current, if already clean & question-y       — no change needed
+      5. rebuild from topic with the leak-gate        — auto-repair
     """
     from seo_generator import _title_is_clean
     ok_cur, _ = _title_is_clean(current)
+    if video_id and _MANUAL_TITLE_OVERRIDES.get(video_id):
+        ov = _MANUAL_TITLE_OVERRIDES[video_id]
+        # Oversized hand-written overrides would be visually cut on the
+        # Shorts feed (~60 chars). Defensive trim, never mid-word.
+        from seo_generator import _truncate_title, TITLE_MAX_LEN
+        return ov if len(ov) <= TITLE_MAX_LEN else _truncate_title(ov)
     if (ok_cur and current.strip().rstrip().endswith("?")
             and len(current) >= 25 and views >= 800):
         return current.strip()
-    if video_id and _MANUAL_TITLE_OVERRIDES.get(video_id):
-        return _MANUAL_TITLE_OVERRIDES[video_id]
     if video_id and _REPAIR_PRIORS.get(video_id):
         prior = _REPAIR_PRIORS[video_id]
         ok, _ = _title_is_clean(prior)
@@ -367,7 +393,9 @@ def main() -> int:
         for v in group[1:]:
             ov = _MANUAL_TITLE_OVERRIDES.get(v["id"])
             if ov:
-                v["_new_title"] = ov
+                from seo_generator import _truncate_title, TITLE_MAX_LEN
+                v["_new_title"] = (ov if len(ov) <= TITLE_MAX_LEN
+                                   else _truncate_title(ov))
             else:
                 alt = _title_from_topic(f"{v['title']} en détail")
                 v["_new_title"] = alt
