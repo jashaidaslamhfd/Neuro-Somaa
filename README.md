@@ -61,7 +61,7 @@ Les garde-fous qui remplacent la relecture en mode automatique : double contrôl
 | `Monetization Readiness (daily plan)` | tableau de bord monétisation | quotidien |
 | `CI - guard tests on push` | 130+ tests hors-ligne | chaque push |
 
-Les autres workflows sont des **outils manuels** (one-shot) : migration de niche, réparation de miniatures, nettoyage… à lancer uniquement via *Run workflow*.
+Les outils manuels (one-shot) ont été consolidés : un seul workflow **🛠️ Ops Console** propose un menu déroulant (réparations, diagnostics, miniatures, migration de niche, nettoyage) avec `apply=false` en simulation par défaut. Les anciens workflows sont archivés sous `.github/workflows/_archived/` (inertes, non chargés par GitHub).
 
 ## Signaux qui aident YouTube à identifier l'audience française
 Le système envoie des signaux cohérents et honnêtes : langue du script, voix FR, titre/description/tags/miniature FR, région de tendances `FR`, créneaux Paris et thèmes cohérents. **Aucun réglage ne garantit une recommandation** : l'algorithme apprend surtout des spectateurs qui choisissent et regardent réellement les vidéos.

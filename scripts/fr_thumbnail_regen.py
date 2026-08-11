@@ -26,6 +26,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from seo_generator import _question_hook_from_title  # noqa: E402 — verb-ful FR hooks
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("fr_thumbnail_regen")
 
@@ -119,7 +121,12 @@ def main() -> int:
         src = src if src.exists() else None
         out = THUMB_DIR / f"{vid}.jpg"
         try:
-            _make_thumbnail(v["new_title"], str(out), str(src) if src else None)
+            # 2026-08-11 audit: never paint raw titles/naked labels. Derive a
+            # verb-ful French question hook ("LE CŒUR BAT PLUS VITE ?") the
+            # same way the live SEO package does; fall back to the title only
+            # when no hook can be derived.
+            hook = _question_hook_from_title(str(v["new_title"])) or str(v["new_title"])
+            _make_thumbnail(hook.upper(), str(out), str(src) if src else None)
             ok += 1
             if args.apply and client:
                 client.thumbnails().set(

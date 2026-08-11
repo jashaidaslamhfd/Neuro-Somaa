@@ -103,6 +103,8 @@ def build(name: str, root: int = 36, bpm: float = 55, chords=(36, 39, 43, 46), s
 
 if __name__ == "__main__":
     print("🎵 Génération de musiques ORIGINALES (monétisation-safe):")
+    # Repo ships .ogg (10x smaller); regenerate then convert:
+    #   ffmpeg -i own_dark_drone.wav -c:a libvorbis -q:a 6 own_dark_drone.ogg
     build("own_dark_drone.wav", root=36, bpm=55, chords=(36, 39, 43, 46), seed=11)
     build("own_suspense_thrum.wav", root=33, bpm=60, chords=(33, 36, 39, 42), seed=23)
     print("Done — assets/music/own_*.wav (original, no Content ID risk)")

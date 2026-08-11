@@ -226,6 +226,16 @@ _COMMON_FRENCH_VERBS = frozenset({
     "empeche", "empechent", "declenche", "declenchent", "ralenti",
     "observe", "observent", "montre", "montrent", "explique", "expliquent",
     "provoque", "provoquent", "cause", "causent", "soigne", "existent",
+    "refuse", "refusent", "trompe", "trompent", "ment", "mentent",
+    "croit", "croient", "pense", "pensent", "prepare", "preparent",
+    "predit", "predisent", "detecte", "detectent", "signale", "signalent",
+    "repare", "reparent", "digere", "digerent", "filtre", "filtrent",
+    "pompe", "pompent", "respire", "respirent", "avale", "avalent",
+    "tousse", "toussent", "eternue", "eternuent", "sourie", "sourient",
+    "pleure", "pleurent", "rit", "rient", "soupire", "soupirent",
+    "accroche", "accrochent", "dissipe", "dissipent", "repousse",
+    "repoussent", "gere", "gerent", "compense", "compensent", "adapte",
+    "adaptent", "synchronise", "synchronisent", "desynchronise",
 })
 
 _QUESTION_STARTERS = frozenset({

@@ -2,15 +2,15 @@
 
 ## ✅ ORIGINALES (sécurisées pour la monétisation — aucune risque Content ID)
 
-Les pistes `own_*.wav` sont **générées dans ce dépôt** (scripts/generate_own_music.py,
+Les pistes `own_*.ogg` sont **générées dans ce dépôt** (scripts/generate_own_music.py,
 synthèse procédurale originale). Elles sont 100% originales : aucune réclamation
 Content ID possible. **La pipeline les utilise PAR DÉFAUT depuis 2026-08-02**
 (`MUSIC_SOURCE=own`).
 
 | Fichier | Origine | Licence | Vérifié |
 |---|---|---|---|
-| `own_dark_drone.wav` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
-| `own_suspense_thrum.wav` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
+| `own_dark_drone.ogg` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
+| `own_suspense_thrum.ogg` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
 
 ## 🚫 TIERCES (licence NON vérifiée — risque Content ID)
 

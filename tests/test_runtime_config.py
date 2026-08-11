@@ -741,7 +741,9 @@ class DestructiveWorkflowTests(unittest.TestCase):
     so one click on 'Run workflow' destroyed videos with no confirmation."""
 
     def test_dead_cleanup_defaults_to_dry_run(self):
-        workflow = (ROOT / ".github" / "workflows" / "yt_dead_cleanup_fr.yml").read_text()
+        # 2026-08-11: the workflow was archived under _archived/ (ops_console.yml
+        # is now the single dispatch entry point); the safety assertion follows it.
+        workflow = (ROOT / ".github" / "workflows" / "_archived" / "yt_dead_cleanup_fr.yml").read_text()
         self.assertIn("inputs:", workflow, "cleanup must expose an apply input")
         self.assertIn("default: false", workflow)
         self.assertNotIn(

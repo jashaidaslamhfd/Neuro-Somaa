@@ -1,0 +1,117 @@
+name: "🛠️ Ops Console (one-shot repair/maintenance tools)"
+
+# 2026-08-11 audit consolidation: the 11 separate one-shot workflows
+# (metadata_repair, video_repair, thumbnail_update, fr_metadata_sweep,
+# fr_full_optimize, seo_diag, channel_audit, niche_migration, yt_admin,
+# yt_dead_cleanup_fr, fix_published_videos) cluttered the Actions page and
+# invited misfires. They now live archived under
+# .github/workflows/_archived/ (GitHub only loads workflows/*.yml, so they
+# are inert but preserved) and every tool is reachable from THIS console.
+#
+#   apply=false (default) → every tool runs in DRY-RUN: nothing is written
+#   to YouTube; the plan is uploaded as an artifact.
+#   apply=true            → the tool writes to YouTube where supported.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tool:
+        description: "Outil à exécuter"
+        required: true
+        type: choice
+        default: "seo_diag"
+        options:
+          - "seo_diag"            # read-only SEO diagnostic (channel-wide)
+          - "metadata_repair"     # rebuild broken titles/tags (7-day cooldown inside)
+          - "video_repair"        # repair metadata for one/all videos
+          - "thumbnail_update"    # upload refreshed thumbnails (writes only; needs apply=true)
+          - "fr_metadata_sweep"   # sweep tags + descriptions FR
+          - "fr_full_optimize"    # batch optimize + thumbnail regen (FR catalogue)
+          - "fr_thumbnail_regen"  # regenerate thumbnails with verb-ful hooks
+          - "niche_migration"     # wipe old niche, regenerate catalogue, retrain ML
+          - "channel_audit"       # channel-level audit + branding settings
+          - "yt_dead_cleanup_fr"  # unlist/delete dead FR videos after review
+          - "yt_admin"            # legacy junk cleanup
+      apply:
+        description: "true = écrire sur YouTube ; false = simulation (dry-run)"
+        required: true
+        type: boolean
+        default: false
+      limit:
+        description: "Max vidéos à traiter (0 = toutes)"
+        required: false
+        type: number
+        default: 0
+
+permissions:
+  contents: read
+
+concurrency:
+  group: neurosomaa-ops-console
+  cancel-in-progress: false
+
+jobs:
+  ops:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+      YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: requirements-ops.txt
+
+      - name: Install light ops dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-ops.txt
+
+      - name: Run tool
+        id: run
+        env:
+          TOOL: ${{ inputs.tool }}
+          APPLY: ${{ inputs.apply }}
+          LIMIT: ${{ inputs.limit }}
+        run: |
+          set -euo pipefail
+          mkdir -p output
+          FLAGS=""
+          [ "$APPLY" = "true" ] && FLAGS="--apply"
+          [ "${LIMIT:-0}" != "0" ] && FLAGS="$FLAGS --limit $LIMIT"
+          echo "tool=$TOOL apply=$APPLY limit=$LIMIT flags='$FLAGS'"
+          case "$TOOL" in
+            seo_diag)            python scripts/seo_diag.py ;;
+            metadata_repair)     python scripts/metadata_repair.py $FLAGS ;;
+            video_repair)        python scripts/video_repair.py $FLAGS ;;
+            fr_metadata_sweep)   python scripts/fr_metadata_sweep.py $FLAGS ;;
+            fr_batch_optimize|fr_full_optimize)
+                                 python scripts/fr_batch_optimize.py $FLAGS
+                                 python scripts/fr_thumbnail_regen.py $FLAGS ;;
+            fr_thumbnail_regen)  python scripts/fr_thumbnail_regen.py $FLAGS ;;
+            niche_migration)     python scripts/generate_body_glitch_topics.py
+                                 python scripts/niche_migration.py $FLAGS ;;
+            channel_audit)       python scripts/channel_audit.py $FLAGS ;;
+            yt_dead_cleanup_fr)  python scripts/yt_dead_cleanup_fr.py $FLAGS ;;
+            yt_admin)            python scripts/yt_admin.py $FLAGS ;;
+            thumbnail_update)
+              if [ "$APPLY" != "true" ]; then
+                echo "thumbnail_update n'a pas de dry-run: relancez avec apply=true."
+                exit 0
+              fi
+              python scripts/thumbnail_update.py ;;
+            *) echo "Outil inconnu: $TOOL"; exit 1 ;;
+          esac
+
+      - name: Upload run log/plan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ops-${{ inputs.tool }}-${{ github.run_id }}
+          path: output/
+          if-no-files-found: ignore
