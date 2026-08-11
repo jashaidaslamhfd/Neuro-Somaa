@@ -82,3 +82,49 @@ def compare_experiment_arms(history: list[dict], experiment_path: str = "data/du
         "winner": (name_a if result.get("diff", 0) > 0 else name_b) if result.get("significant") else None,
     })
     return result
+
+
+def compare_hook_arms(history: list[dict]) -> dict:
+    """Which hook STYLE (question / shock_fact / pov_reveal) retains/pays?
+
+    hook_arm is logged per video from 2026-08-12 onward. Until every arm has
+    ≥5 videos with real views, this block stays explicitly underpowered.
+    Pairwise permutation tests on views; multiple-comparison honesty note.
+    """
+    arms: dict[str, list[int]] = {}
+    for e in history or []:
+        arm = e.get("hook_arm")
+        views = e.get("views")
+        if not arm or views is None:
+            continue
+        try:
+            arms.setdefault(arm, []).append(int(views))
+        except (TypeError, ValueError):
+            continue
+
+    sizes = {k: len(v) for k, v in arms.items()}
+    mature = {k: v for k, v in arms.items() if len(v) >= 5}
+    if len(mature) < 2:
+        return {
+            "available": False,
+            "reason": "hook-arm experiment needs ≥5 real-view videos per arm "
+                      f"(have: {sizes or 'none yet'}); arms start accruing from "
+                      "the first run after 2026-08-12",
+            "sample_sizes": sizes,
+        }
+
+    pairs = []
+    names = list(mature)
+    for i in range(len(names)):
+        for j in range(i + 1, len(names)):
+            res = permutation_test(mature[names[i]], mature[names[j]])
+            pairs.append({"a": names[i], "b": names[j], **res})
+    best = max(mature.items(), key=lambda kv: sum(kv[1]) / len(kv[1]))
+    return {
+        "available": True,
+        "sample_sizes": sizes,
+        "pairwise": pairs,
+        "leading_arm": {"arm": best[0], "avg_views": round(sum(best[1]) / len(best[1]), 1)},
+        "honesty": "3 arms = 3 pairwise tests; treat p<0.05 as 'promising', "
+                   "re-confirm on the next batch before rewriting the prompt bank.",
+    }

@@ -123,6 +123,24 @@ def build_markdown(report: dict) -> str:
         lines += ["", f"## 🧪 Expérience durée: {verdict} (p={exp.get('p_value')})",
                   f"- `{exp['arm_a']}` avg {exp['mean_a']} vs `{exp['arm_b']}` avg {exp['mean_b']} (n={exp['n_a']}/{exp['n_b']})"]
 
+    ha = report.get("hook_arms", {})
+    if ha.get("available"):
+        lead = ha.get("leading_arm", {})
+        lines += ["", f"## 🪝 Expérience hooks — leader actuel: **{lead.get('arm')}** (avg {lead.get('avg_views')} vues)"]
+        for p in ha.get("pairwise", []):
+            tag = f"p={p['p_value']}" + (" ✅" if p.get("significant") else " (ns)")
+            lines.append(f"- `{p['a']}` ({p['mean_a']}) vs `{p['b']}` ({p['mean_b']}) — {tag}")
+    else:
+        lines += ["", "## 🪝 Expérience hooks — " + ha.get("reason", "en attente")]
+
+    fl = report.get("viral_fastlane", {})
+    if fl.get("entries"):
+        lines += ["", f"## 🚀 Winner-cloning fastlane ({fl['entries']} sujets, TTL {fl['ttl_hours']}h)"]
+        for item in fl.get("items", [])[:5]:
+            src = item.get("cloned_from", {})
+            lines.append(f"- « {item['topic']} » ← cloné de **{src.get('views')} vues**")
+        lines.append("_Le prochain run de génération pioche D'ABORD dans cette file._")
+
     lines += ["", "_Méthodes: ridge closed-form + MLP numpy (k-fold CV), Thompson Beta/Gaussien, z-score MAD, Holt, TF-IDF k-means++, test de permutation. Toutes les métriques montrent leur honnêteté — aucun chiffre n'est publié sans sa barre d'échantillons._"]
     return "\n".join(lines) + "\n"
 

@@ -35,7 +35,7 @@ HISTORY_PATH = Path(os.environ.get("VIDEO_HISTORY_PATH", str(ROOT / "data" / "vi
 
 
 def run_all(history_path: Path | str | None = None) -> dict:
-    from . import anomaly, bandit, clustering, features, forecast, models, report, stats
+    from . import anomaly, bandit, clustering, features, forecast, models, report, stats, viral_miner
 
     path = Path(history_path) if history_path else HISTORY_PATH
     history = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
@@ -45,17 +45,27 @@ def run_all(history_path: Path | str | None = None) -> dict:
     rows, targets, ids = features.build_dataset(history)
     logger.info("intelligence: %d real-analytics videos scored", len(rows))
 
+    anomalies = anomaly.detect_anomalies(history)
+    fastlane = viral_miner.mine_winner_fastlane(history, anomalies)
+
     full = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "n_videos_analyzed": len(rows),
         "data_quality": report._data_quality(history),
         "models": models.compare_models(rows, targets, features.FEATURE_NAMES),
         "bandit": bandit.bandit_report(history),
-        "anomalies": anomaly.detect_anomalies(history),
+        "anomalies": anomalies,
         "forecast": forecast.forecast_growth(history),
         "clusters": clustering.cluster_topics(history),
         "retention": report._retention_distribution(history),
         "experiment": stats.compare_experiment_arms(history),
+        "hook_arms": stats.compare_hook_arms(history),
+        "viral_fastlane": {
+            "entries": len(fastlane["fastlane"]),
+            "ttl_hours": fastlane["ttl_hours"],
+            "items": fastlane["fastlane"],
+            "fastlane_path": str(viral_miner.FASTLANE_PATH),
+        },
         "schema_version": 1,
     }
     out = report.write_reports(full)

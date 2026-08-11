@@ -745,6 +745,11 @@ class SKILLORPipeline:
                 'predicted_ctr': script_data.get('ctr_prediction', {}).get('ctr_prediction'),
                 'hook_score': script_data.get('shorts_report', {}).get('hook_detail', {}).get('score'),
                 'predicted_retention': script_data.get('shorts_report', {}).get('retention_prediction', {}).get('predicted_avg_retention'),
+                # 2026-08-12 viral engineering: hook arm + rubric + loop bridge
+                # feed the intelligence layer's arm comparison (permutation test)
+                'hook_arm': script_data.get('hook_arm'),
+                'hook_score_v2': (script_data.get('viral_audit') or {}).get('hook_score_v2'),
+                'loop_bridge_present': (script_data.get('viral_audit') or {}).get('loop_bridge_present'),
             })
 
             elapsed = time.time() - start_time

@@ -258,11 +258,21 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
     target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "20")))
     target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "26")))
     viral_hint = _viral_inspiration()
+    # 2026-08-12 viral-engineering: deterministic hook arm per topic
+    # (question / shock_fact / pov_reveal), logged into script_data so the
+    # intelligence layer can significance-test which hook style actually
+    # retains viewers — instead of guessing.
+    from viral_engineering import hook_arm_for_topic, hook_style_instruction, loop_bridge_for
+    hook_arm = hook_arm_for_topic(topic)
+    hook_rule = hook_style_instruction(hook_arm)
+    loop_line = loop_bridge_for(topic)
     return f"""
 Crée un YouTube Short original de {target_min} à {target_max} secondes sur ce sujet :
 SUJET : {topic}
 {series_rules}
 {viral_hint}
+
+{hook_rule}
 
 Utilise EXACTEMENT {MAX_SCENES} scènes et retourne le schéma JSON ci-dessous.
 
@@ -284,7 +294,14 @@ analytics montrent que le spectateur part à ~10 s si la réponse tarde) :
    oral. La scène 5 commence par une micro-relance : « Le plus étrange ? »,
    « Encore plus fort : » ou « Et surtout : ».
 4. BOUCLE — scène {MAX_SCENES} ; retour satisfaisant à l'accroche, sans la
-   répéter mot à mot, pour relancer un nouveau visionnage.
+   répéter mot à mot, pour relancer un nouveau visionnage. Termine par un
+   PONT DE BOUCLE naturel du type « {loop_line} » (adapte-le au sujet,
+   jamais mot à mot si cela ne colle pas) — la relecture doit sembler
+   évidente, c'est le signal de distribution le plus fort sur Shorts.
+
+RÈGLE ANTI-ENNUI : au moins UNE scène centrale (3–5) contient une escalation
+mesurable (chiffre concret, « mais/sauf/pourtant », ou mini-question) — un
+milieu plat fait partir le spectateur entre 10 et 20 s.
 
 RÈGLES DE FORMAT :
 - Total des légendes parlées : {MIN_WORDS}–{MAX_WORDS} mots français.
@@ -860,6 +877,19 @@ def generate_script(
             script_data['topic'] = topic
             script_data['generated_at'] = time.time()
             script_data['attempt'] = attempt
+
+            # 2026-08-12 viral engineering: tag the deterministic hook arm and
+            # run the advisory audit (hook rubric, surprise beat, loop bridge).
+            # Advisory only — hard quality stays with french_quality_gate /
+            # retention analysis; these warnings travel to history + dashboard.
+            try:
+                from viral_engineering import hook_arm_for_topic, viral_script_audit
+                script_data['hook_arm'] = hook_arm_for_topic(topic)
+                script_data['viral_audit'] = viral_script_audit(script_data)
+                if script_data['viral_audit'].get('warnings'):
+                    logger.info("Viral audit: %s", " | ".join(script_data['viral_audit']['warnings']))
+            except Exception as exc:
+                logger.warning("Viral audit skipped: %s", exc)
             
             # Validate
             is_valid, issues = _validate_script(script_data)

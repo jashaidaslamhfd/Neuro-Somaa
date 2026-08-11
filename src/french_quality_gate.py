@@ -236,6 +236,10 @@ _COMMON_FRENCH_VERBS = frozenset({
     "accroche", "accrochent", "dissipe", "dissipent", "repousse",
     "repoussent", "gere", "gerent", "compense", "compensent", "adapte",
     "adaptent", "synchronise", "synchronisent", "desynchronise",
+    "recommence", "recommencent", "repart", "repartent", "refera", "referont",
+    "serre", "serrent", "contracte", "contractent", "grogne", "grognent",
+    "gargouille", "gargouillent", "endort", "reveillez",
+    "sauras", "sauront", "verras", "verront", "regarde", "regardent",
 })
 
 _QUESTION_STARTERS = frozenset({

@@ -481,6 +481,29 @@ def get_trending_topic(
     # The Body Glitch launch is deliberately isolated from noisy general
     # trend feeds. This gives YouTube 500 tightly consistent audience signals.
     if strategy in {"body_glitch_series", "body_glitch_series_fr"}:
+        # 🚀 WINNER-CLONING FASTLANE (2026-08 audit+): when the daily
+        # intelligence sync finds an over-performer, 1 adjacent derived topic
+        # per winner waits in data/winner_fastlane.json (TTL 4 days). Cloning
+        # a proven pattern while the algorithm is actively serving it is the
+        # single highest-EV move — so the fastlane is consulted FIRST.
+        try:
+            from intelligence.viral_miner import load_fresh_fastlane
+            fastlane = load_fresh_fastlane()
+            if fastlane:
+                exclude_lower = {t.strip().lower() for t in (exclude or []) if t}
+                fresh = [e for e in fastlane
+                         if e["topic"].strip().lower() not in exclude_lower
+                         and not _near_duplicate_of_recent(e["topic"], exclude or [])]
+                if fresh:
+                    chosen = random.choice(fresh)
+                    chosen.setdefault("series_number", "WIN")
+                    logger.info("🚀 Winner-clone fastlane topic: %s (cloned from %s views)",
+                                chosen["topic"],
+                                (chosen.get("cloned_from") or {}).get("views"))
+                    return chosen if return_metadata else str(chosen["topic"])
+        except Exception as exc:
+            logger.warning("Fastlane unavailable, falling back to catalogue: %s", exc)
+
         series_topics = _deduplicate(get_body_glitch_topics(), exclude)
         series_topics = [t for t in series_topics
                          if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]

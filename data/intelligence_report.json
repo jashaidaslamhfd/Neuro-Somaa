@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T08:55:22.606290+00:00",
+  "generated_at": "2026-08-11T09:21:36.848482+00:00",
   "n_videos_analyzed": 47,
   "data_quality": {
     "videos_with_views": 47,
@@ -205,7 +205,7 @@
     "clusters": [
       {
         "cluster_id": 3,
-        "name": "ventre / sembler / peut / étrange / avant",
+        "name": "ventre / peut / sembler / étrange / avant",
         "size": 9,
         "avg_views": 831.6,
         "max_views": 1456,
@@ -217,7 +217,7 @@
       },
       {
         "cluster_id": 4,
-        "name": "comprendre / qu'il / faut / par / sur",
+        "name": "comprendre / faut / qu'il / par / sur",
         "size": 6,
         "avg_views": 733.3,
         "max_views": 1512,
@@ -229,7 +229,7 @@
       },
       {
         "cluster_id": 1,
-        "name": "science / sur / explique / derrière / chaudes",
+        "name": "science / sur / explique / derrière / deviennent",
         "size": 7,
         "avg_views": 730.7,
         "max_views": 1205,
@@ -264,7 +264,7 @@
         ]
       }
     ],
-    "winner_cluster": "ventre / sembler / peut / étrange / avant",
+    "winner_cluster": "ventre / peut / sembler / étrange / avant",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
@@ -279,6 +279,27 @@
   "experiment": {
     "available": false,
     "reason": "no experiment file"
+  },
+  "hook_arms": {
+    "available": false,
+    "reason": "hook-arm experiment needs ≥5 real-view videos per arm (have: none yet); arms start accruing from the first run after 2026-08-12",
+    "sample_sizes": {}
+  },
+  "viral_fastlane": {
+    "entries": 1,
+    "ttl_hours": 96,
+    "items": [
+      {
+        "topic": "Pourquoi le ventre se serre au réveil ?",
+        "series_number": "W01",
+        "cloned_from": {
+          "video_id": "WxOEXbepJ40",
+          "views": 1456,
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler"
+        }
+      }
+    ],
+    "fastlane_path": "/home/user/Neuro-Somaa/data/winner_fastlane.json"
   },
   "schema_version": 1
 }
