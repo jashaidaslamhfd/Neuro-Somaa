@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T18:25:38.544444+00:00",
+  "generated_at": "2026-08-11T19:59:07.114967+00:00",
   "n_videos_analyzed": 25,
   "data_quality": {
     "videos_with_views": 25,
@@ -53,7 +53,7 @@
           "direction": "-"
         },
         {
-          "feature": "hour_cos",
+          "feature": "hour_sin",
           "coef": -0.0,
           "direction": "-"
         }

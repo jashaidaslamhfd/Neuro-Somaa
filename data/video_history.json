@@ -1372,5 +1372,28 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 42,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "f949858f5bef5525e4482efb743bc0a4dda6739ca477f38d73428ad1ac465cb1",
+    "title": "Pourquoi les mains deviennent froides sans raison ?",
+    "topic": "Pourquoi les mains deviennent froides sans raison",
+    "series_title": "Mains qui deviennent froides",
+    "base_phenomenon": "les mains qui deviennent froides sans raison",
+    "nominal_phrase": "les mains qui deviennent froides sans raison",
+    "question_phrase": "les mains deviennent froides sans raison",
+    "trend_source": "fr_search_demand",
+    "trend_url": null,
+    "voiceover": "Ton corps te fait froid la nuit sans raison. C'est parce que ton cerveau r\u00e9duit la circulation sanguine. En effet, quand on dort. \u00c7a signifie que moins de sang circule vers les mains. Et surtout, \u00e7a se produit m\u00eame si la pi\u00e8ce est. C'est pourquoi ta main devient froide la nuit sans raison.",
+    "posted_at": "2026-08-11T20:07:24.882144+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "5BMuNOhaJO4",
+    "publish_at": "2026-08-12T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682,
+    "hook_arm": "shock_fact",
+    "hook_score_v2": 68,
+    "loop_bridge_present": false
   }
 ]
