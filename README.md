@@ -89,6 +89,18 @@ La sync quotidienne (`src/analytics_updater.py`) enchaîne après chaque relevé
 - **ML brain** : réentraîné à chaque sync uniquement sur les vidéos ayant de vraies mesures (`data/ml_brain_state.json`).
 - **Francophonie subtile** : tags France/francophonie via `FRANCOPHONE_LOCALE_TAGS=true` sans changer la voix `fr-FR`.
 
+## 🧠 Couche d'intelligence (DS / ML / DL)
+La sync analytique lance aussi la couche d'intelligence (`src/intelligence/`, numpy pur — aucun poids lourd) :
+
+- **Modèles** : régression ridge (forme fermée, validation croisée k-fold) + petit MLP (couche cachée tanh) prédisent les vues à partir des caractéristiques du titre/SEO/créneau. **Chaque modèle publie ses métriques CV et refuse de prétendre quand n est trop petit.**
+- **Title bandit (Thompson sampling)** : postérieurs Bêta (winner-rate) par pattern de titre ; un pattern n'est **recommandé** qu'à partir de 5 vidéos.
+- **Clusters de sujets** : TF-IDF + k-means++ sphérique regroupe les micro-thèmes et montre leur vues moyennes réelles.
+- **Détection d'anomalies** : z-score robuste (médiane/MAD) — sous-performances → file de réparation, sur-performances → minage de pattern.
+- **Prévision de croissance** : lissage exponentiel double (Holt), projection 30 jours avec bandes, refus honnête sous 21 jours de données.
+- **Tests d'expérience** : test de permutation (sans scipy) pour les A/B (durée, formats).
+
+Sorties : `data/intelligence_report.json` + `data/intelligence_dashboard_latest.md` (fichiers roulants, régénérés à chaque sync).
+
 ## Hygiène du dépôt
 - `data/video_history.json` = historique **cumulatif réel** (source de vérité ML).
 - Les instantanés datés (`seo_diag_*`, `premium_growth_dashboard_*`…) sont élagués automatiquement : **7 derniers jours + le plus récent** (`scripts/cleanup_data_snapshots.py`, lancé par la sync analytique).

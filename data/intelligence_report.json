@@ -1,0 +1,284 @@
+{
+  "generated_at": "2026-08-11T08:55:22.606290+00:00",
+  "n_videos_analyzed": 47,
+  "data_quality": {
+    "videos_with_views": 47,
+    "ctr_coverage": 0.0,
+    "retention_coverage": 1.0,
+    "ctr_gap": "0 coverage → YouTube Analytics scope/ metric must be fixed (see 2026-08-11 audit fix; token needs yt-analytics.readonly)"
+  },
+  "models": {
+    "ridge": {
+      "reliable": false,
+      "cv_r2_mean": -0.4983,
+      "cv_r2_std": 0.7327,
+      "cv_mae_views": 352.1,
+      "n": 47,
+      "folds": 5,
+      "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
+      "top_features": [
+        {
+          "feature": "has_second_person",
+          "coef": -0.3172,
+          "direction": "-"
+        },
+        {
+          "feature": "dow_sin",
+          "coef": 0.1904,
+          "direction": "+"
+        },
+        {
+          "feature": "hour_cos",
+          "coef": 0.1523,
+          "direction": "+"
+        },
+        {
+          "feature": "predicted_ctr",
+          "coef": -0.117,
+          "direction": "-"
+        },
+        {
+          "feature": "hour_sin",
+          "coef": -0.1146,
+          "direction": "-"
+        },
+        {
+          "feature": "predicted_retention",
+          "coef": -0.1127,
+          "direction": "-"
+        },
+        {
+          "feature": "topic_bucket_3",
+          "coef": 0.1032,
+          "direction": "+"
+        },
+        {
+          "feature": "title_words",
+          "coef": 0.0992,
+          "direction": "+"
+        }
+      ]
+    },
+    "mlp": {
+      "reliable": false,
+      "note": "in-sample fit on n=47; advisory only",
+      "in_sample_mae_views": 162.8,
+      "hidden_units": 12,
+      "epochs": 600
+    }
+  },
+  "bandit": {
+    "arms": {
+      "CE_QUE_VOTRE_CORPS": {
+        "n": 3,
+        "wins_ge_1000_views": 1,
+        "winner_rate": 0.3333,
+        "thompson_score": 0.4042,
+        "posterior_mean_logviews": 5.5816,
+        "avg_views": 449.7,
+        "confident": false
+      },
+      "CE_QUIL_FAUT_COMPRENDRE": {
+        "n": 2,
+        "wins_ge_1000_views": 1,
+        "winner_rate": 0.5,
+        "thompson_score": 0.5002,
+        "posterior_mean_logviews": 6.8846,
+        "avg_views": 1071.0,
+        "confident": false
+      },
+      "CE_QUI_SE_PASSE": {
+        "n": 2,
+        "wins_ge_1000_views": 0,
+        "winner_rate": 0.0,
+        "thompson_score": 0.2461,
+        "posterior_mean_logviews": 6.1213,
+        "avg_views": 521.0,
+        "confident": false
+      },
+      "LA_SCIENCE": {
+        "n": 2,
+        "wins_ge_1000_views": 0,
+        "winner_rate": 0.0,
+        "thompson_score": 0.2468,
+        "posterior_mean_logviews": 6.1016,
+        "avg_views": 484.5,
+        "confident": false
+      },
+      "OTHER": {
+        "n": 2,
+        "wins_ge_1000_views": 0,
+        "winner_rate": 0.0,
+        "thompson_score": 0.2499,
+        "posterior_mean_logviews": 6.7681,
+        "avg_views": 875.5,
+        "confident": false
+      },
+      "POURQUOI": {
+        "n": 34,
+        "wins_ge_1000_views": 8,
+        "winner_rate": 0.2353,
+        "thompson_score": 0.2509,
+        "posterior_mean_logviews": 6.2008,
+        "avg_views": 705.2,
+        "confident": true
+      },
+      "SERIE_COURTE": {
+        "n": 2,
+        "wins_ge_1000_views": 1,
+        "winner_rate": 0.5,
+        "thompson_score": 0.4942,
+        "posterior_mean_logviews": 5.9758,
+        "avg_views": 579.5,
+        "confident": false
+      }
+    },
+    "recommended_pattern": {
+      "pattern": "POURQUOI",
+      "why": "highest winner-rate among patterns with ≥5 samples",
+      "thompson_score": 0.2509,
+      "avg_views": 705.2
+    },
+    "min_samples_rule": 5,
+    "winner_threshold_views": 1000,
+    "honesty": "Beta posterior beats raw avg ranking at small n; patterns below the sample bar are reported but never recommended."
+  },
+  "anomalies": {
+    "reliable": true,
+    "n_scored": 47,
+    "window": 20,
+    "baseline_median_views": 758.0,
+    "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
+    "anomalies": [
+      {
+        "video_id": "FX6vqwymE0Y",
+        "title": "Pourquoi votre corps refuse de maigrir ?",
+        "views": 3,
+        "modified_z": -11.59,
+        "direction": "under",
+        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
+      },
+      {
+        "video_id": "K8JSUbL13Oc",
+        "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
+        "views": 6,
+        "modified_z": -10.35,
+        "direction": "under",
+        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
+      },
+      {
+        "video_id": "Ubg7rTtym84",
+        "title": "Pourquoi un vertige apparaît après s'être levé ?",
+        "views": 133,
+        "modified_z": -3.83,
+        "direction": "under",
+        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
+      },
+      {
+        "video_id": "1Y3DfG_Opg4",
+        "title": "Pourquoi la faim revient à la même heure chaque jour ?",
+        "views": 149,
+        "modified_z": -3.58,
+        "direction": "under",
+        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
+      }
+    ],
+    "underperformers": [
+      "FX6vqwymE0Y",
+      "K8JSUbL13Oc",
+      "Ubg7rTtym84",
+      "1Y3DfG_Opg4"
+    ]
+  },
+  "forecast": {
+    "reliable": false,
+    "reason": "need ≥21 daily points, have 17",
+    "series_days": 17,
+    "first_day": "2026-07-19",
+    "last_day": "2026-08-08"
+  },
+  "clusters": {
+    "reliable": true,
+    "method": "TF-IDF + spherical k-means++",
+    "k": 5,
+    "n": 47,
+    "clusters": [
+      {
+        "cluster_id": 3,
+        "name": "ventre / sembler / peut / étrange / avant",
+        "size": 9,
+        "avg_views": 831.6,
+        "max_views": 1456,
+        "examples": [
+          "Réveil avant l'alarme",
+          "Ce que votre corps vous dit quand le ventre se serre",
+          "Pourquoi le cerveau repère son propre prénom peut sembler"
+        ]
+      },
+      {
+        "cluster_id": 4,
+        "name": "comprendre / qu'il / faut / par / sur",
+        "size": 6,
+        "avg_views": 733.3,
+        "max_views": 1512,
+        "examples": [
+          "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+          "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "Pourquoi les corps flottants visibles dans la lumière ?"
+        ]
+      },
+      {
+        "cluster_id": 1,
+        "name": "science / sur / explique / derrière / chaudes",
+        "size": 7,
+        "avg_views": 730.7,
+        "max_views": 1205,
+        "examples": [
+          "La science derrière le temps qui semble accélérer",
+          "Ce que la science explique sur l'effet du stress",
+          "Pourquoi l'apparition soudaine de la chair de poule ?"
+        ]
+      },
+      {
+        "cluster_id": 2,
+        "name": "cœur / passe / battre / son / nuit",
+        "size": 4,
+        "avg_views": 619.0,
+        "max_views": 797,
+        "examples": [
+          "Pourquoi le cerveau remarque entendre son cœur battre la",
+          "Ce qui se passe quand un déjà-vu semble étrangement familier",
+          "Ce qui se passe quand le cœur s'emballe sous le stress ?"
+        ]
+      },
+      {
+        "cluster_id": 0,
+        "name": "corps / dit / vous / refuse / s'endormant",
+        "size": 21,
+        "avg_views": 615.0,
+        "max_views": 1241,
+        "examples": [
+          "Corps lourd",
+          "Pourquoi le temps semble passer plus vite en vieillissant",
+          "Ce que votre corps vous dit quand le corps se fige"
+        ]
+      }
+    ],
+    "winner_cluster": "ventre / sembler / peut / étrange / avant",
+    "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
+  },
+  "retention": {
+    "reliable": true,
+    "n": 47,
+    "p10": 28.9,
+    "p50": 36.3,
+    "p90": 47.1,
+    "share_below_50pct": 0.936,
+    "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
+  },
+  "experiment": {
+    "available": false,
+    "reason": "no experiment file"
+  },
+  "schema_version": 1
+}

@@ -122,6 +122,24 @@ if __name__ == "__main__":
     except Exception as exc:
         logger.warning("Premium growth intelligence refresh skipped: %s", exc)
 
+    # Step D — INTELLIGENCE LAYER (DS/ML/DL): ridge+MLP models, Thompson
+    # title bandit, topic clustering, anomaly detection, 30-day growth
+    # forecast and experiment significance — all on REAL analytics only.
+    # Writes data/intelligence_report.json + intelligence_dashboard_latest.md.
+    # Non-fatal by design: analytics sync must survive an advisory-layer miss.
+    try:
+        from intelligence import run_all as run_intelligence
+        intel = run_intelligence()
+        logger.info(
+            "Intelligence layer: n=%s ridge_reliable=%s pattern=%s anomalies=%s",
+            intel.get("n_videos_analyzed"),
+            intel.get("models", {}).get("ridge", {}).get("reliable"),
+            (intel.get("bandit", {}).get("recommended_pattern") or {}).get("pattern"),
+            len(intel.get("anomalies", {}).get("anomalies", [])),
+        )
+    except Exception as exc:
+        logger.warning("Intelligence layer skipped: %s", exc)
+
     # Self-healing pass. Must run AFTER the growth loop rewrote the publish
     # slots, so it validates the schedule the channel will actually use today.
     # Repairing already-uploaded videos also belongs here rather than in
