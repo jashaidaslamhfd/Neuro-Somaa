@@ -128,6 +128,16 @@ class ThumbnailHookTests(unittest.TestCase):
         # A title too long and verb-poor produces no hook (caller then falls back)
         self.assertEqual(_question_hook_from_title("Nuances vert rétine science quotidien matin"), "")
 
+    def test_hook_never_ends_on_dangling_auxiliary(self):
+        # Regression: 2026-08-11 dry-run caught "LE CERVEAU DES FEMMES EST ?"
+        from seo_generator import _question_hook_from_title
+
+        hook = _question_hook_from_title("Pourquoi le cerveau des femmes est divisé en 5 ?")
+        self.assertEqual(hook, "le cerveau des femmes est divisé ?")
+        hook2 = _question_hook_from_title("Pourquoi le cœur bat plus vite avant de parler en public ?")
+        self.assertFalse(hook2.rstrip(" ?").endswith(("est", "avant", "devient")))
+        self.assertEqual(hook2, "le cœur bat plus vite ?")
+
     def test_good_llm_hook_is_kept(self):
         from seo_generator import _fr_thumbnail_hook
 

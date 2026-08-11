@@ -705,8 +705,23 @@ def _question_hook_from_title(title: str, max_len: int = 35) -> str:
     never a bare 2-word label ("CŒUR NUIT" shipped and cost CTR). Stripping
     the leading interrogative leaves an informal question a native actually
     reads: "Pourquoi le cœur bat plus vite ?" -> "LE CŒUR BAT PLUS VITE ?".
+
+    A cut window must END on a content word: windows closing on an article /
+    preposition / bare auxiliary produce dangling broken French on screen
+    ("LE CERVEAU DES FEMMES EST ?" — caught in the 2026-08-11 dry-run).
     Returns "" when no verb-ful hook can be derived.
     """
+    from french_quality_gate import _TITLE_DANGLER_WORDS
+    _AUX_DANGLERS = {"est", "sont", "était", "etaient", "sera", "seront",
+                     "a", "ont", "avait", "avaient", "aura", "auront"}
+    # Copular/temporal words that need a complement — a hook must never END on
+    # them (screen reads "…plus vite avant ?" / "…latéral devient ?" = broken).
+    _COMPLEMENT_VERBS = {"devient", "deviennent", "semble", "semblent", "parait",
+                         "paraissent", "reste", "restent", "demeure", "deviens"}
+    _TAIL_DANGLERS = {"avant", "après", "apres", "pendant", "dès", "depuis",
+                      "lors", "vers", "entre", "contre", "malgré", "sauf", "chez"}
+    danglers = _TITLE_DANGLER_WORDS | _AUX_DANGLERS | _COMPLEMENT_VERBS | _TAIL_DANGLERS
+
     full = " ".join((title or "").split())
     if not full:
         return ""
@@ -715,14 +730,23 @@ def _question_hook_from_title(title: str, max_len: int = 35) -> str:
         "", full, flags=re.IGNORECASE,
     ).rstrip(" ?!.")
     words = body.split()
-    for count in (5, 4, 3):
+
+    def _usable(candidate: str) -> bool:
+        if not has_french_verb(candidate):
+            return False
+        tail = candidate.split()[-1].strip(",.;:!?\"'").lower()
+        return tail not in danglers
+
+    # Largest window first, capped by the on-screen width budget: more of the
+    # real phrasing survives whenever it fits ("le cerveau des femmes est
+    # divisé" beats "le cerveau"), never ending on a dangling auxiliary.
+    for count in range(min(len(words), 7), 2, -1):
         candidate = " ".join(words[:count]).strip()
-        if candidate and has_french_verb(candidate):
-            hook = candidate + " ?"
-            if len(hook) <= max_len:
-                return hook
+        hook = candidate + " ?"
+        if len(hook) <= max_len and _usable(candidate):
+            return hook
     # Full body may itself fit (short titles).
-    if has_french_verb(body) and len(body) + 2 <= max_len:
+    if len(words) > 7 and _usable(body) and len(body) + 2 <= max_len:
         return body + " ?"
     return ""
 
