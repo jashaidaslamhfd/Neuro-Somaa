@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-10T06:50:40.038425+00:00",
+  "generated_at_utc": "2026-08-11T06:14:04.258985+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -10,7 +10,7 @@
       "hour": 6,
       "minute": 0,
       "name": "Dynamique 06:00",
-      "score": 3.201,
+      "score": 3.1942,
       "samples": 1,
       "prior": 0.0
     },
@@ -20,9 +20,9 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3109,
-      "samples": 7,
-      "prior": 3.4584
+      "score": 3.3206,
+      "samples": 8,
+      "prior": 3.4482
     },
     {
       "rank": 3,
@@ -30,19 +30,65 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.3575,
-      "samples": 7,
+      "score": 3.3097,
+      "samples": 8,
       "prior": 0.0
     }
   ],
   "ranked_slots": [
     {
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 3.3206,
+      "observed_samples": 8,
+      "observed_avg": 3.2568,
+      "prior": 3.4482,
+      "examples": [
+        {
+          "video_id": "XLIFrONS2rc",
+          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+          "views": 1205,
+          "published_paris": "2026-07-29 19:30"
+        },
+        {
+          "video_id": "XECgrg709Og",
+          "title": "Pourquoi le sursaut du corps en s'endormant ?",
+          "views": 1031,
+          "published_paris": "2026-07-27 19:30"
+        },
+        {
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 947,
+          "published_paris": "2026-08-01 19:30"
+        }
+      ]
+    },
+    {
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 3.3109,
+      "observed_samples": 1,
+      "observed_avg": 3.5695,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 1512,
+          "published_paris": "2026-07-21 20:27"
+        }
+      ]
+    },
+    {
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.3575,
-      "observed_samples": 7,
-      "observed_avg": 3.3575,
+      "score": 3.3097,
+      "observed_samples": 8,
+      "observed_avg": 3.3097,
       "prior": 0.0,
       "examples": [
         {
@@ -66,59 +112,13 @@
       ]
     },
     {
-      "slot": "20:30",
-      "hour": 20,
-      "minute": 30,
-      "score": 3.3177,
-      "observed_samples": 1,
-      "observed_avg": 3.5695,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "68B-7lTf8nU",
-          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 1512,
-          "published_paris": "2026-07-21 20:27"
-        }
-      ]
-    },
-    {
-      "slot": "19:30",
-      "hour": 19,
-      "minute": 30,
-      "score": 3.3109,
-      "observed_samples": 7,
-      "observed_avg": 3.2266,
-      "prior": 3.4584,
-      "examples": [
-        {
-          "video_id": "XLIFrONS2rc",
-          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1205,
-          "published_paris": "2026-07-29 19:30"
-        },
-        {
-          "video_id": "XECgrg709Og",
-          "title": "Pourquoi le sursaut du corps en s'endormant ?",
-          "views": 1031,
-          "published_paris": "2026-07-27 19:30"
-        },
-        {
-          "video_id": "HJb7xCMIYWQ",
-          "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 947,
-          "published_paris": "2026-08-01 19:30"
-        }
-      ]
-    },
-    {
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.2973,
+      "score": 3.2922,
       "observed_samples": 4,
       "observed_avg": 3.3362,
-      "prior": 3.2584,
+      "prior": 3.2482,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -144,7 +144,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2929,
+      "score": 3.2861,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -161,7 +161,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.201,
+      "score": 3.1942,
       "observed_samples": 1,
       "observed_avg": 3.2194,
       "prior": 0.0,
@@ -178,7 +178,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.1995,
+      "score": 3.1927,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -195,9 +195,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.1824,
-      "observed_samples": 12,
-      "observed_avg": 3.1824,
+      "score": 3.1416,
+      "observed_samples": 13,
+      "observed_avg": 3.1416,
       "prior": 0.0,
       "examples": [
         {
@@ -224,7 +224,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0728,
+      "score": 3.066,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.0614,
+      "score": 3.058,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -264,7 +264,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.034,
+      "score": 3.0272,
       "observed_samples": 1,
       "observed_avg": 2.7186,
       "prior": 0.0,
@@ -281,7 +281,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0131,
+      "score": 3.0063,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
