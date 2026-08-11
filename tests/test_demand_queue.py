@@ -1,0 +1,68 @@
+"""Tests for the real French search-demand topic queue (2026-08-11)."""
+
+import json
+import unittest
+from pathlib import Path
+from unittest import mock
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+import trend_fetcher  # noqa: E402
+
+
+class TestSearchDemandQueue(unittest.TestCase):
+    def test_real_queue_loads_with_catalogue_shape(self):
+        queue = trend_fetcher.load_search_demand_queue()
+        self.assertGreaterEqual(len(queue), 5)
+        for rec in queue:
+            with self.subTest(topic=rec.get("topic")):
+                self.assertEqual(rec["source"], "fr_search_demand")
+                self.assertTrue(rec["topic"])
+                self.assertTrue(rec["question_phrase"])
+                self.assertTrue(rec["thumbnail_text"].endswith("?"))
+                self.assertTrue(rec["demand_note"])
+
+    def test_missing_file_yields_empty_queue_not_crash(self):
+        with mock.patch.object(trend_fetcher, "SEARCH_DEMAND_QUEUE_PATH",
+                               Path("data/__definitely_missing__.json")):
+            self.assertEqual(trend_fetcher.load_search_demand_queue(), [])
+
+    def test_queue_is_consulted_before_catalogue_pick(self):
+        fake = [{"topic": "Pourquoi on teste la demande réelle",
+                 "angle": "Pourquoi on teste la demande réelle",
+                 "nominal_phrase": "la demande réelle",
+                 "question_phrase": "on teste la demande réelle",
+                 "thumbnail_text": "ON TESTE LA DEMANDE ?",
+                 "demand_note": "test"}]
+        with mock.patch.object(trend_fetcher, "load_search_demand_queue",
+                               return_value=[
+                                   trend_fetcher._topic_record(
+                                       fake[0]["angle"], "fr_search_demand",
+                                       pillar="reflexes_du_corps")
+                                   | {"demand_note": "test",
+                                      "question_phrase": fake[0]["question_phrase"]}]), \
+             mock.patch("intelligence.viral_miner.load_fresh_fastlane",
+                        return_value=[]), \
+             mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "body_glitch_series"}):
+            chosen = trend_fetcher.get_trending_topic(exclude=[], return_metadata=True)
+        self.assertEqual(chosen["source"], "fr_search_demand")
+
+    def test_queue_respects_exclude_history(self):
+        rec = trend_fetcher._topic_record(
+            "Pourquoi le ventre gargouille sans faim", "fr_search_demand",
+            pillar="reflexes_du_corps") | {"question_phrase": "le ventre gargouille sans faim"}
+        with mock.patch.object(trend_fetcher, "load_search_demand_queue",
+                               return_value=[rec]), \
+             mock.patch("intelligence.viral_miner.load_fresh_fastlane",
+                        return_value=[]), \
+             mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "body_glitch_series"}):
+            # The only queue entry is excluded -> must fall back to catalogue
+            chosen = trend_fetcher.get_trending_topic(
+                exclude=["Pourquoi le ventre gargouille sans faim"],
+                return_metadata=True)
+        self.assertNotEqual(chosen.get("source"), "fr_search_demand")
+
+
+if __name__ == "__main__":
+    unittest.main()

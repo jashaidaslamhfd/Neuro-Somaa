@@ -188,6 +188,20 @@ _MANUAL_TITLE_OVERRIDES = {
     # '… en détail ?' suffix on 2026-08-11. Give each a real distinct angle.
     "IYs-jKSscTE": "Pourquoi le corps sursaute avant de s'endormir ?",
     "0giDXoVx72E": "Pourquoi la mâchoire craque quand on mange ?",
+    # ── 2026-08-11 SEARCH-DEMAND alignment (YouTube FR autocomplete) ──
+    # Titles re-anchored on queries real French users already type, so the
+    # video matches an existing demand phrase instead of a guessed one.
+    # 'pourquoi je me reveille a 3h du matin / la nuit' is a high-volume
+    # family; the video's phenomenon IS waking before the alarm.
+    "1XVYcxQqDqo": "Pourquoi on se réveille juste avant son réveil ?",
+    # Exact demand term is 'corps flottants yeux' (not 'dans l'œil').
+    # Scheduled (not yet published) — pre-publish SEO, zero churn risk.
+    "n7cDDC67cS0": "Pourquoi on voit des corps flottants dans les yeux ?",
+    # 'pourquoi on oublie ses rêves' is the classic phrasing of this query.
+    # Scheduled video — pre-publish SEO.
+    "QuwjzCbMH0M": "Pourquoi on oublie ses rêves au réveil ?",
+    # Demand phrase is 'les mains moites' (not 'paumes qui transpirent').
+    "3RgqrdkBruA": "Pourquoi les mains sont moites quand on est nerveux ?",
 }
 
 

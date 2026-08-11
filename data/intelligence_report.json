@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-11T10:14:03.103811+00:00",
+  "generated_at": "2026-08-11T10:34:14.989615+00:00",
   "n_videos_analyzed": 25,
   "data_quality": {
     "videos_with_views": 25,
@@ -149,7 +149,7 @@
     "clusters": [
       {
         "cluster_id": 0,
-        "name": "surprend / sujet",
+        "name": "sujet / surprend",
         "size": 25,
         "avg_views": 980.0,
         "max_views": 1460,
@@ -160,7 +160,7 @@
         ]
       }
     ],
-    "winner_cluster": "surprend / sujet",
+    "winner_cluster": "sujet / surprend",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {

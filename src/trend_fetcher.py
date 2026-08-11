@@ -456,6 +456,48 @@ def get_proven_topics() -> list[dict]:
     return [_topic_record(topic, "proven_channel_pillar") for topic in PROVEN_TOPIC_POOL]
 
 
+SEARCH_DEMAND_QUEUE_PATH = Path("data/search_demand_queue_fr.json")
+
+
+def load_search_demand_queue() -> list[dict]:
+    """Topics backed by REAL French YouTube search autocomplete demand.
+
+    Mirrors the body-glitch catalogue record shape so every downstream
+    consumer (script_generator, thumbnail painter, SEO planner) treats a
+    demand-backed pick exactly like a catalogue pick. Missing/corrupt file
+    simply yields an empty queue — never crashes topic selection.
+    """
+    try:
+        with SEARCH_DEMAND_QUEUE_PATH.open(encoding="utf-8") as file_handle:
+            payload = json.load(file_handle)
+    except (OSError, json.JSONDecodeError):
+        return []
+    items = payload.get("topics") if isinstance(payload, dict) else payload
+    if not isinstance(items, list):
+        return []
+    result = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        topic = _clean_topic(item.get("angle") or item.get("topic", ""))
+        if not topic:
+            continue
+        record = _topic_record(topic, "fr_search_demand",
+                               pillar=item.get("pillar") or "reflexes_du_corps")
+        record.update({
+            "series_number": item.get("series_number", "DEM"),
+            "series_title": item.get("series_title"),
+            "thumbnail_text": item.get("thumbnail_text"),
+            "base_phenomenon": item.get("topic"),
+            "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
+            "question_phrase": item.get("question_phrase"),
+            "angle": item.get("angle"),
+            "demand_note": item.get("demand_note"),
+        })
+        result.append(record)
+    return result
+
+
 def get_trending_topic(
     exclude: list[str] | None = None,
     *,
@@ -503,6 +545,27 @@ def get_trending_topic(
                     return chosen if return_metadata else str(chosen["topic"])
         except Exception as exc:
             logger.warning("Fastlane unavailable, falling back to catalogue: %s", exc)
+
+        # 🔎 REAL SEARCH-DEMAND QUEUE (2026-08-11): topics mined from actual
+        # YouTube France autocomplete suggestions — queries real users already
+        # type. Second in priority, right after winner clones: a query with
+        # proven demand beats a blind catalogue guess. Used-up entries are
+        # filtered by the same history/exclude mechanism as everything else.
+        try:
+            demand = load_search_demand_queue()
+            if demand:
+                exclude_lower = {t.strip().lower() for t in (exclude or []) if t}
+                fresh = [e for e in demand
+                         if e["topic"].strip().lower() not in exclude_lower
+                         and not _near_duplicate_of_recent(e["topic"], exclude or [])]
+                if fresh:
+                    chosen = random.choice(fresh)
+                    chosen.setdefault("series_number", "DEM")
+                    logger.info("🔎 Search-demand topic: %s (%s)",
+                                chosen["topic"], chosen.get("demand_note") or "real FR query")
+                    return chosen if return_metadata else str(chosen["topic"])
+        except Exception as exc:
+            logger.warning("Search-demand queue unavailable: %s", exc)
 
         series_topics = _deduplicate(get_body_glitch_topics(), exclude)
         series_topics = [t for t in series_topics
