@@ -35,7 +35,7 @@ HISTORY_PATH = Path(os.environ.get("VIDEO_HISTORY_PATH", str(ROOT / "data" / "vi
 
 
 def run_all(history_path: Path | str | None = None) -> dict:
-    from . import anomaly, bandit, clustering, features, forecast, models, report, stats, viral_miner
+    from . import anomaly, bandit, clustering, features, forecast, models, report, stats, truth_gate, viral_miner
 
     path = Path(history_path) if history_path else HISTORY_PATH
     history = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
@@ -47,10 +47,12 @@ def run_all(history_path: Path | str | None = None) -> dict:
 
     anomalies = anomaly.detect_anomalies(history)
     fastlane = viral_miner.mine_winner_fastlane(history, anomalies)
+    truth = truth_gate.run(history)
 
     full = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "n_videos_analyzed": len(rows),
+        "truth_gate": truth["calibration"],
         "data_quality": report._data_quality(history),
         "models": models.compare_models(rows, targets, features.FEATURE_NAMES),
         "bandit": bandit.bandit_report(history),

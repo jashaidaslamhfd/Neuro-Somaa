@@ -237,6 +237,32 @@ class SKILLORPipeline:
         best_attempt = None
         last_error = None
 
+        # TRUTH GATE (2026-08-11): hook_score is a SELF-grade. Calibration on
+        # real outcomes showed it's noise (r=-0.08 vs views — 100-scored hooks
+        # average FEWER views than 70-scored ones). A self-grade only gates
+        # uploads after proving predictive validity; otherwise it's advisory.
+        # Structural gates (quality_approved, spam, French gate) stay enforced
+        # — they check facts (length, grammar, duplication), not vibes.
+        try:
+            from intelligence.truth_gate import load_status as _load_truth
+            _truth = _load_truth()
+        except Exception:
+            _truth = None
+        if _truth is None:
+            hook_gate_enforced = False
+            logger.warning("TRUTH GATE: no calibration data — hook_score is advisory-only")
+        else:
+            _h = _truth.get("hook_score", {})
+            hook_gate_enforced = bool(_h.get("decision_usable"))
+            if not hook_gate_enforced:
+                logger.warning(
+                    "TRUTH GATE: hook_score verdict=%s (r=%s vs real views) — uncalibrated "
+                    "self-grade, so MIN_HOOK_SCORE=%s is advisory-only this run",
+                    _h.get("verdict"), _h.get("spearman_vs_views"), MIN_HOOK_SCORE)
+            else:
+                logger.info("TRUTH GATE: hook_score is %s (r=%s) — threshold enforced",
+                            _h.get("verdict"), _h.get("spearman_vs_views"))
+
         for attempt in range(1, MAX_SCRIPT_ATTEMPTS + 1):
             try:
                 # Use trending topic if no fixed topic
@@ -284,8 +310,18 @@ class SKILLORPipeline:
                     best_attempt = {**result, 'hook_score': hook_score}
                     logger.info(f"New best hook score: {hook_score}")
 
-                # Return if quality is good AND hook is strong AND French is clean
-                if result['quality_approved'] and result['spam_ok'] and result.get('gate_ok') and hook_score >= MIN_HOOK_SCORE:
+                # Return if quality is good AND hook is strong AND French is clean.
+                # hook_ok: enforced only when the Truth Gate has measured the hook
+                # score as decision-usable; otherwise honest advisory log.
+                if hook_gate_enforced:
+                    hook_ok = hook_score >= MIN_HOOK_SCORE
+                else:
+                    hook_ok = True
+                    if hook_score < MIN_HOOK_SCORE:
+                        logger.info(
+                            f"TRUTH GATE advisory: hook self-grade {hook_score}/{MIN_HOOK_SCORE} "
+                            f"— not blocking (score uncalibrated on real outcomes)")
+                if result['quality_approved'] and result['spam_ok'] and result.get('gate_ok') and hook_ok:
                     logger.info(f"Quality approved! Score: {result['quality_score']}, Hook: {hook_score}")
                     return script_data
 
@@ -311,8 +347,13 @@ class SKILLORPipeline:
                 # are WARNINGS, not blockers. Only critical medical/safety issues
                 # should block. The gate_report is logged; we proceed anyway.
                 logger.warning(f"French quality gate had issues but not fatal: {best_attempt.get('gate_issues')}")
-            if best_attempt.get('hook_score', 0) < MIN_HOOK_SCORE:
+            if hook_gate_enforced and best_attempt.get('hook_score', 0) < MIN_HOOK_SCORE:
                 failures.append(f"hook={best_attempt.get('hook_score', 0)}/{MIN_HOOK_SCORE}")
+            elif best_attempt.get('hook_score', 0) < MIN_HOOK_SCORE:
+                logger.info(
+                    f"TRUTH GATE advisory: best candidate hook "
+                    f"{best_attempt.get('hook_score', 0)}/{MIN_HOOK_SCORE} below "
+                    f"threshold — accepted anyway (score uncalibrated)")
             if not failures:
                 return best_attempt['script_data']
             last_error = "best candidate rejected: " + ", ".join(failures)

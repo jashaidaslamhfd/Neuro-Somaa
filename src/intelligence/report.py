@@ -78,6 +78,12 @@ def build_markdown(report: dict) -> str:
     if dq.get("ctr_gap") and "0 coverage" in str(dq.get("ctr_gap", "")):
         lines.append(f"- ⚠️ {dq['ctr_gap']}")
 
+    # Truth Gate FIRST in the dashboard — a reader must know which internal
+    # numbers deserve trust before reading any of them.
+    if report.get("truth_gate"):
+        from .truth_gate import render_truth_markdown
+        lines += render_truth_markdown(report["truth_gate"])
+
     lines += ["", "## 🤖 Modèles (ridge + MLP, validation croisée)"]
     if models.get("cv_r2_mean") is not None:
         lines.append(f"- ridge log-vues: **R²_cv = {models['cv_r2_mean']} ± {models['cv_r2_std']}** (MAE ≈ {models['cv_mae_views']} vues) — {'✅ fiable' if models.get('reliable') else '⚠️ bruit, conseils seulement'}")
