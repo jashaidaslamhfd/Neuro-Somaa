@@ -1,5 +1,5 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-12T10:29:52.201299+00:00_ — n=50 vidéos réelles
+_2026-08-12T10:54:46.278884+00:00_ — n=50 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **50** · couverture CTR: **0%** · rétention: **100%**
@@ -32,9 +32,9 @@ _2026-08-12T10:29:52.201299+00:00_ — n=50 vidéos réelles
 
 ## 📈 Prévision — need ≥21 daily points, have 18
 
-## 🗂️ Clusters de sujets (k=6) — gagnant: **chair / poule / soudainement / soudaine / l'apparition**
-- `chair / poule / soudainement / soudaine / l'apparition` — 2 vidéos · avg 1076.0 vues · max 1205
-- `ventre / faim / serre / d'une / lors` — 5 vidéos · avg 886.2 vues · max 1456
+## 🗂️ Clusters de sujets (k=6) — gagnant: **poule / chair / soudainement / soudaine / l'apparition**
+- `poule / chair / soudainement / soudaine / l'apparition` — 2 vidéos · avg 1076.0 vues · max 1205
+- `ventre / faim / serre / lors / d'une` — 5 vidéos · avg 886.2 vues · max 1456
 - `cerveau / réveil / son / passe / semble` — 22 vidéos · avg 734.3 vues · max 1241
 - `comprendre / faut / qu'il / par / sur` — 5 vidéos · avg 727.8 vues · max 1512
 - `corps / science / refuse / s'endormant / sur` — 12 vidéos · avg 632.2 vues · max 1168

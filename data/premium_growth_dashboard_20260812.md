@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-12T10:29:52.180195+00:00_
+_Generated 2026-08-12T10:54:46.256445+00:00_
 ## Executive summary
 - Videos in history: **61**
 - 48h repair candidates: **23**
@@ -27,10 +27,10 @@ _Generated 2026-08-12T10:29:52.180195+00:00_
 - [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 562h: 154 < 200`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Cœur battre la nuit** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
 - [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low retention: 28.2%`)
-- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 532h: 146 < 200`)
+- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 533h: 146 < 200`)
 - [Ce qui se passe quand un déjà-vu semble étrangement familier](https://youtu.be/Re4VU9lryhQ) → **Pourquoi un déjà-vu semble étrangement familier ?** (`low retention: 24.7%`)
 - [La science derrière le temps qui semble accélérer](https://youtu.be/diImyvMyKig) → **Pourquoi la science derrière le temps qui semble accélérer ?** (`low retention: 29.1%`)
-- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 506h: 116 < 200`)
+- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 507h: 116 < 200`)
 - [Pourquoi le cerveau repère son propre prénom peut sembler](https://youtu.be/RV4LGjp89-U) → **Pourquoi le cerveau repère son propre prénom ?** (`leaked template fragment « peut sembler » — looks unfinished`)
 - [Ce que la science explique sur l'effet du stress](https://youtu.be/yxoI9-KWXzI) → **Pourquoi ce que la science explique sur l'effet du stress ?** (`low retention: 29.3%`)
 

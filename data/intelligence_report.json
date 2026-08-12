@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T10:29:52.201299+00:00",
+  "generated_at": "2026-08-12T10:54:46.278884+00:00",
   "n_videos_analyzed": 50,
   "truth_gate": {
     "hook_score": {
@@ -246,7 +246,7 @@
     "clusters": [
       {
         "cluster_id": 5,
-        "name": "chair / poule / soudainement / soudaine / l'apparition",
+        "name": "poule / chair / soudainement / soudaine / l'apparition",
         "size": 2,
         "avg_views": 1076.0,
         "max_views": 1205,
@@ -257,7 +257,7 @@
       },
       {
         "cluster_id": 2,
-        "name": "ventre / faim / serre / d'une / lors",
+        "name": "ventre / faim / serre / lors / d'une",
         "size": 5,
         "avg_views": 886.2,
         "max_views": 1456,
@@ -316,7 +316,7 @@
         ]
       }
     ],
-    "winner_cluster": "chair / poule / soudainement / soudaine / l'apparition",
+    "winner_cluster": "poule / chair / soudainement / soudaine / l'apparition",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
