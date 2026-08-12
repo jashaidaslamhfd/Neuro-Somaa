@@ -24,7 +24,10 @@ class FrancePeakTimeScheduler:
     # 19:00-22:00 Paris = 66% of ALL views; 12:30 lunch produced a top winner.
 
     def __init__(self):
-        self.paris_tz = pytz.timezone("Europe/Paris")
+        # 2026-08-12 truth sweep: honour PUBLISH_TIMEZONE from the workflow
+        # instead of a second hardcoded copy (was blind config drift risk).
+        self.paris_tz = pytz.timezone(
+            os.environ.get("PUBLISH_TIMEZONE", "Europe/Paris"))
         self.utc_tz = pytz.UTC
 
     def _dynamic_peak_times(self) -> list[dict]:

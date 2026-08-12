@@ -626,7 +626,9 @@ def get_script_prompt_for_niche(
 
 
 def get_random_transition_hook() -> str:
-    """Get a random transition hook for scene endings"""
+    """Get a random transition hook for scene endings. BLIND (no measured
+    input) — logs BLIND-PICK so any production caller becomes visible."""
+    _log_blind_pick_warning("get_random_transition_hook")
     return random.choice(TRANSITION_HOOKS)
 
 
@@ -871,8 +873,24 @@ def make_seo_title(title: str, topic: str) -> str:
 # 12. UTILITY FUNCTIONS
 # ============================================
 
+def _log_blind_pick_warning(name: str) -> None:
+    """These legacy helpers pick a template with random.choice and NO
+    measured-outcome input. Post truth-gate doctrine (2026-08-12): nothing in
+    the pipeline may be blind. Production paths (script_generator prompts,
+    trend_fetcher demand queue) never call these — they exist for backwards
+    compatibility only. Any caller gets a loud log so the blindness is
+    observable, not silent."""
+    import logging
+    logging.getLogger(__name__).warning(
+        "BLIND-PICK: %s uses unmeasured random templates. Production must "
+        "prefer measured sources (demand queue / truth gate / bandit). "
+        "If this log appears in main runs, wire the caller to intelligence "
+        "instead.", name)
+
+
 def get_random_hook(topic: str | None = None) -> str:
     """Get a random hook formula, optionally with topic."""
+    _log_blind_pick_warning("get_random_hook")
     hook = random.choice(HOOK_FORMULAS)
     if topic and "{topic}" in hook:
         hook = hook.format(topic=topic)
@@ -881,11 +899,13 @@ def get_random_hook(topic: str | None = None) -> str:
 
 def get_random_pain_point() -> str:
     """Get a random pain point."""
+    _log_blind_pick_warning("get_random_pain_point")
     return random.choice(PAIN_POINTS)
 
 
 def get_random_cta() -> str:
     """Get a random CTA."""
+    _log_blind_pick_warning("get_random_cta")
     return random.choice(CTAS)
 
 

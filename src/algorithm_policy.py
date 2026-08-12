@@ -66,8 +66,12 @@ from typing import Dict, Iterable, List, Optional, Tuple
 # ---------------------------------------------------------------------------
 POLICY_VERSION = "2026.08-fr1"
 LAST_VERIFIED = "2026-08-04"
-CHANNEL_TIMEZONE = "Europe/Paris"
-CHANNEL_LANGUAGE = "fr"
+# Env-driven (2026-08-12 truth sweep): the workflow sets PUBLISH_TIMEZONE and
+# CHANNEL_LANGUAGE, but this module ignored them and hardcoded its own copy —
+# two sources of truth that could silently disagree. Code now READS the env,
+# workflow remains the single source of truth.
+CHANNEL_TIMEZONE = os.environ.get("PUBLISH_TIMEZONE", "Europe/Paris")
+CHANNEL_LANGUAGE = os.environ.get("CHANNEL_LANGUAGE", "fr")
 REVERIFY_AFTER_DAYS = 90
 
 YOUTUBE = "youtube_shorts"

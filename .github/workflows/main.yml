@@ -76,8 +76,10 @@ jobs:
           # predicted retention is below this. 0.50 = only publish videos
           # projected to hold >=50% average retention (the ~500-view floor).
           MIN_RETENTION: "0.50"
-          EXPERIMENT_ARM: "control"
-          DURATION_EXPERIMENT: "false"
+          # 2026-08-12 truth sweep: EXPERIMENT_ARM / DURATION_EXPERIMENT were
+          # set here but read by NOTHING (dead blind config — same class of bug
+          # as the phantom 70B model). scripts/duration_experiment.py writes
+          # EXPERIMENT_ARM into GITHUB_ENV itself when deliberately invoked.
           YT_PRIVACY_STATUS: "private"
           YT_SCHEDULE_PUBLISH: "true"
           CHANNEL_LANGUAGE: "fr"

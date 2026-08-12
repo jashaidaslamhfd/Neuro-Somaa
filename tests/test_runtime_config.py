@@ -936,11 +936,38 @@ class DurationExperimentTests(unittest.TestCase):
         for name, cfg in self.de.ARMS.items():
             self.assertLessEqual(cfg["max"], 30, f"{name} must stay short-format")
 
-    def test_workflow_wires_the_experiment(self):
+    def test_workflow_has_no_blind_experiment_config(self):
+        # 2026-08-12 truth sweep: EXPERIMENT_ARM/DURATION_EXPERIMENT were set
+        # in the workflow but read by NO code path — blind config asserting an
+        # experiment that never ran. The experiment script is invoked manually
+        # and writes EXPERIMENT_ARM itself via GITHUB_ENV. The workflow must
+        # not re-introduce the dead pins.
         workflow = (ROOT / ".github" / "workflows" / "main.yml").read_text()
-        # French channel uses env-var based experiment control, not CLI flags
-        self.assertIn("EXPERIMENT_ARM", workflow)
-        self.assertIn("DURATION_EXPERIMENT", workflow)
+        for line in workflow.splitlines():
+            stripped = line.strip()
+            if stripped.startswith("#"):
+                continue
+            self.assertNotRegex(stripped, r"^(EXPERIMENT_ARM|DURATION_EXPERIMENT)\s*:",
+                                f"blind experiment env var back in workflow: {stripped}")
+
+    def test_no_dead_env_vars_in_main_workflow(self):
+        """Truth doctrine: every env var the workflow sets must be READ by
+        code (or be an interpreter/toolchain var). A var that's set but
+        unread is a lie about what the pipeline does — this is exactly how
+        the phantom 70B fallback happened."""
+        import re
+        text = (ROOT / ".github" / "workflows" / "main.yml").read_text()
+        envs = set(re.findall(r'^\s{8,10}([A-Z][A-Z0-9_]+):\s*[\'"]', text, re.M))
+        # Toolchain/interpreter vars legitimately consumed without references:
+        toolchain = {"PYTHONUNBUFFERED", "OMP_NUM_THREADS",
+                     "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"}
+        code = ""
+        for folder in ("src", "scripts"):
+            for p in (ROOT / folder).rglob("*.py"):
+                code += p.read_text(encoding="utf-8", errors="ignore") + "\n"
+        for var in sorted(envs - toolchain):
+            self.assertIn(var, code,
+                          f"{var} is set in main.yml but never read by code — blind config")
 
     def test_report_is_safe_with_no_data(self):
         self.assertEqual(self.de.report(), 0)
