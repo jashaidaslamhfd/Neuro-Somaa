@@ -43,7 +43,7 @@ try:
     )
     from quality_checker import QualityChecker
     from scheduler import FrancePeakTimeScheduler
-    from script_generator import generate_script
+    from script_generator import generate_script, _score_decision_usable
     from seo_analytics import (
         generate_ab_variants,
         get_historical_insights,
@@ -305,10 +305,19 @@ class SKILLORPipeline:
                     for suggestion in hook_result['suggestions']:
                         logger.info(f"Hook suggestion: {suggestion}")
 
-                # Keep best attempt (prefer higher hook score)
-                if best_attempt is None or hook_score > best_attempt.get('hook_score', 0):
-                    best_attempt = {**result, 'hook_score': hook_score}
-                    logger.info(f"New best hook score: {hook_score}")
+                # Keep best attempt. TRUTH GATE: ranking fallbacks by the
+                # hook self-grade just re-orders noise (score proven
+                # non-predictive). Rank fallback attempts by STRUCTURAL gate
+                # completions only — facts that can be checked, not vibes.
+                structural_passes = sum((
+                    bool(result.get('quality_approved')),
+                    bool(result.get('spam_ok')),
+                    bool(result.get('gate_ok')),
+                ))
+                if best_attempt is None or structural_passes > best_attempt.get('structural_passes', -1):
+                    best_attempt = {**result, 'hook_score': hook_score,
+                                    'structural_passes': structural_passes}
+                    logger.info(f"New best attempt: {structural_passes}/3 structural gates passed")
 
                 # Return if quality is good AND hook is strong AND French is clean.
                 # hook_ok: enforced only when the Truth Gate has measured the hook
@@ -471,7 +480,7 @@ class SKILLORPipeline:
             except Exception as e:
                 logger.warning(f"SEO generation failed, continuing: {e}")
 
-            # CTR Prediction
+            # CTR Prediction — truth-gated (2026-08-12)
             try:
                 ctr_result = predict_ctr(script_data)
                 script_data['ctr_prediction'] = ctr_result
@@ -481,18 +490,41 @@ class SKILLORPipeline:
                 if title_options:
                     ab_variants = generate_ab_variants(script_data, title_options)
                     script_data['ab_variants'] = ab_variants
-                    # Actually apply the winning title instead of only logging
-                    # the recommendation. Previously the pipeline computed the
-                    # best-predicted-CTR title and then uploaded the original
-                    # short title anyway - silently discarding the ranking.
+                    # TRUTH GATE: generate_ab_variants ranks titles by the
+                    # predict_ctr HEURISTIC, which calibrates as NOISE vs real
+                    # outcomes on this channel (and CTR isn't even served by
+                    # the API here — 98% traffic is the Shorts feed). Applying
+                    # its "winner" meant a fiction number silently overrode the
+                    # validated LLM title on every upload. Now: only swap the
+                    # title when (a) the CTR heuristic has earned
+                    # decision-usable status from the Truth Gate, or (b) a
+                    # MEASURED bandit title-pattern is confident and an option
+                    # matches it. Otherwise the QA-passed LLM title stands.
+                    applied = False
                     recommended = ab_variants.get('recommended')
-                    if recommended and recommended.get('title'):
-                        logger.info(
-                            f"🏆 Applying winning title: '{recommended['title']}' "
-                            f"(predicted CTR {recommended.get('predicted_ctr')}) "
-                            f"over default '{script_data.get('title')}'"
-                        )
+                    if _score_decision_usable('predicted_ctr') and recommended and recommended.get('title'):
+                        logger.info("🏆 Applying CTR-winner title (calibrated): %s", recommended['title'])
                         script_data['title'] = recommended['title']
+                        applied = True
+                    else:
+                        try:
+                            from intelligence.bandit import bandit_report
+                            import json as _json
+                            from seo_analytics import _title_pattern as _tp
+                            with open(os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8") as _fh:
+                                _hist = _json.load(_fh) or []
+                            rec = (bandit_report(_hist) or {}).get("recommended_pattern")
+                            if rec and rec.get("confident"):
+                                for opt in title_options:
+                                    if _tp(str(opt)) == rec.get("pattern"):
+                                        logger.info("🏆 Applying MEASURED bandit-pattern title: %s (pattern %s)", opt, rec["pattern"])
+                                        script_data['title'] = opt
+                                        applied = True
+                                        break
+                        except Exception as _be:
+                            logger.info("Bandit title check skipped: %s", _be)
+                    if not applied:
+                        logger.info("Title kept from script generation (CTR heuristic uncalibrated, no confident measured pattern) — Truth Gate standing rule")
                 insights = get_historical_insights()
                 if insights.get('insights'):
                     script_data['historical_insights'] = insights
@@ -627,22 +659,38 @@ class SKILLORPipeline:
                                 cliff.get('words_in_window', 0))
 
                 hook_score = shorts_report.get('hook_detail', {}).get('score', 0)
-                if hook_score < MIN_HOOK_SCORE:
-                    raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")
+                # TRUTH GATE (2026-08-12): hook_score calibrates as NOISE vs
+                # real views on this channel (r≈-0.08; 100-scored hooks
+                # average FEWER views than 70-scored ones). A proven-noise
+                # self-grade must never VETO a render. Structural render
+                # checks above (durations, silence, pacing) stay hard — they
+                # verify facts, not vibes.
+                if _score_decision_usable('hook_score'):
+                    if hook_score < MIN_HOOK_SCORE:
+                        raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")
+                elif hook_score < MIN_HOOK_SCORE:
+                    logger.info(
+                        "TRUTH advisory: hook self-grade %s/%s below bar — not "
+                        "blocking (score uncalibrated on real outcomes)",
+                        hook_score, MIN_HOOK_SCORE)
 
-                # VIRAL-ENGINEERING GATE: predicted retention is the #1 signal
-                # YouTube uses to decide how much to push a Short. A low
-                # prediction means the video would sit at ~500 views forever.
-                # Reject + regenerate instead of shipping an average video.
+                # Same doctrine for the retention heuristic: its mean (0.70)
+                # is ~2x the channel's measured reality (0.39), so it cannot
+                # distinguish ship from don't-ship. Advisory until calibrated.
                 ret = shorts_report.get('retention_prediction', {})
                 pred_retention = float(ret.get('predicted_avg_retention', 0.5) or 0.5)
                 min_retention = float(os.environ.get("MIN_RETENTION", "0.50"))
                 logger.info(f"Predicted retention: {pred_retention:.0%} (min {min_retention:.0%})")
                 if pred_retention < min_retention:
-                    raise RuntimeError(
-                        f"Retention gate: predicted {pred_retention:.0%} < {min_retention:.0%} "
-                        f"- would not go viral. Regenerating."
-                    )
+                    if _score_decision_usable('predicted_retention'):
+                        raise RuntimeError(
+                            f"Retention gate: predicted {pred_retention:.0%} < {min_retention:.0%} "
+                            f"- would not go viral. Regenerating."
+                        )
+                    logger.info(
+                        "TRUTH advisory: predicted retention %.0f%% < %.0f%% — "
+                        "not blocking (heuristic is uncalibrated vs real %.0f%% channel mean)",
+                        pred_retention * 100, min_retention * 100, 39.0)
 
                 logger.info(f"Hook score: {hook_score}/100")
                 

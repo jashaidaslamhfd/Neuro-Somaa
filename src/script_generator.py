@@ -859,6 +859,18 @@ def analyze_retention_potential(script_data: dict) -> dict:
 # 6. MAIN GENERATE FUNCTION
 # ============================================
 
+def _score_decision_usable(metric: str) -> bool:
+    """A self-grade may only GATE a decision when the daily Truth Gate has
+    measured it as predictive on REAL outcomes. Default: False — every
+    internal heuristic is advisory-only until proven (2026-08-12 doctrine)."""
+    try:
+        from intelligence.truth_gate import load_status
+        status = load_status()
+        return bool(status and status.get(metric, {}).get("decision_usable"))
+    except Exception:
+        return False
+
+
 def generate_script(
     topic: str, 
     custom_prompt: str | None = None, 
