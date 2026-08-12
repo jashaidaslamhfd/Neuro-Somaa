@@ -1459,5 +1459,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 48,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "42c079ec50ac77700be895cbb56b5568f83707cd9e78e9910793c2c0dafff9fe",
+    "title": "Pourquoi on pleure quand on b\u00e2ille ?",
+    "topic": "Pourquoi on pleure quand on b\u00e2ille",
+    "series_title": "Pleurer en b\u00e2illant",
+    "base_phenomenon": "les larmes qui coulent quand on b\u00e2ille",
+    "nominal_phrase": "les larmes qui coulent quand on b\u00e2ille",
+    "question_phrase": "on pleure quand on b\u00e2ille",
+    "trend_source": "fr_search_demand",
+    "trend_url": null,
+    "voiceover": "Tu b\u00e2illes et soudain tes yeux pleurent. C'est le nerf facial qui se d\u00e9clenche. Quand tu b\u00e2illes, les glandes lacrymales sont tir\u00e9es. Le tirage augmente la pression, lib\u00e9rant des larmes. Le plus \u00e9trange, \u00e7a humidifie tes yeux. Et le cycle recommence chaque fois que tu b\u00e2illes.",
+    "posted_at": "2026-08-12T20:07:44.226357+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "P6N8mJAbU5M",
+    "publish_at": "2026-08-13T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 78,
+    "loop_bridge_present": true
   }
 ]

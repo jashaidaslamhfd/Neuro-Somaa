@@ -565,5 +565,18 @@
     },
     "publish_at": "2026-08-12T19:30:00+00:00",
     "completed_at": 1786559750.606382
+  },
+  "42c079ec50ac77700be895cbb56b5568f83707cd9e78e9910793c2c0dafff9fe": {
+    "status": "completed",
+    "title": "Pourquoi on pleure quand on b\u00e2ille ?",
+    "youtube_video_id": "P6N8mJAbU5M",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-13T15:30:00+00:00",
+    "completed_at": 1786565264.225399
   }
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T18:27:42.388552+00:00",
+  "generated_at": "2026-08-12T19:59:22.869568+00:00",
   "n_videos_analyzed": 25,
   "truth_gate": {
     "hook_score": {
@@ -94,7 +94,7 @@
           "direction": "-"
         },
         {
-          "feature": "hour_sin",
+          "feature": "hour_cos",
           "coef": -0.0,
           "direction": "-"
         }
@@ -190,7 +190,7 @@
     "clusters": [
       {
         "cluster_id": 0,
-        "name": "sujet / surprend",
+        "name": "surprend / sujet",
         "size": 25,
         "avg_views": 980.0,
         "max_views": 1460,
@@ -201,7 +201,7 @@
         ]
       }
     ],
-    "winner_cluster": "sujet / surprend",
+    "winner_cluster": "surprend / sujet",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
