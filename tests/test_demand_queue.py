@@ -129,3 +129,20 @@ class LiveDemandMiningTests(unittest.TestCase):
         finally:
             os.environ.pop("REPAIR_LIVE_DEMAND")
         self.assertEqual(out, [])
+
+    def test_garbage_suggestions_filtered(self):
+        import fr_batch_optimize as fbo
+        import unittest.mock as mock
+        fake_resp = mock.Mock(ok=True)
+        fake_resp.json = lambda: ["q", [
+            "la peau la peau",                        # degenerate repeat
+            "pourquoi je ne prend pas de muscle",     # only weak 'muscle' shared
+            "pourquoi la peau gratte apres la douche",# 2+ strong shared words — keep
+            "la chair de poule quand il fait froid",  # strong shared words — keep
+        ]]
+        with mock.patch("requests.get", return_value=fake_resp):
+            out = fbo._mine_live_demand(
+                "Pourquoi la chair de poule apparait quand la peau a froid",
+                "Pourquoi la chair de poule apparaît quand la peau a froid ?")
+        self.assertNotIn("la peau la peau", out)
+        self.assertNotIn("pourquoi je ne prend pas de muscle", out)

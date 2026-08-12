@@ -358,8 +358,20 @@ def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
             p = str(s).strip().lower()
             if not (10 <= len(p) <= 90) or p in seen:
                 continue
+            # garbage filter: autocomplete sometimes returns degenerate
+            # repeats like 'la peau la peau' — a real query never repeats
+            # the same content word back to back.
+            toks = [w for w in re.split(r"\s+", p) if w]
+            if len(toks) != len(set(toks)) and any(len(w) >= 4 for w in toks):
+                continue
             words = _topic_words(p)
-            if not (words & ref):      # relevance guard
+            shared = words & ref
+            if not shared:      # relevance guard: zero overlap = off-topic
+                continue
+            # single weak-word matches like 'muscle'/'peau' alone pulled in
+            # junk ('pourquoi je ne prend pas de muscle'). Require either 2+
+            # shared words, or one STRONG (>=6 chars) shared content word.
+            if len(shared) < 2 and max(len(w) for w in shared) < 6:
                 continue
             seen.add(p)
             out.append(p)
