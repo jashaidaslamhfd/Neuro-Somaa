@@ -68,8 +68,8 @@ jobs:
           # env here and set FB_UPLOAD_ENABLED=true.
           
           ENFORCE_POSTING_GAP: "true"
-          GROQ_MODEL: "llama-3.1-8b-instant"
-          GROQ_MODEL_FALLBACK: "llama-3.3-70b-versatile"
+          GROQ_MODEL: "openai/gpt-oss-120b"
+          GROQ_MODEL_FALLBACK: "openai/gpt-oss-20b"
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose

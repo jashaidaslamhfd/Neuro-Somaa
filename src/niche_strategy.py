@@ -423,7 +423,8 @@ def _generate_dynamic_topics(count: int = 50) -> list[str]:
             return []
         client = Groq(api_key=api_key)
         resp = client.chat.completions.create(
-            model="llama-3.1-8b-instant",
+            # Env-driven (2026-08-12): llama-3.1-8b-instant retires 2026-08-16.
+            model=os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b",
             messages=[{
                 "role": "user",
                 "content": (

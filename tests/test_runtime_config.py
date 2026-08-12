@@ -234,17 +234,47 @@ class WorkflowRegressionTests(unittest.TestCase):
         self.assertIn('YT_SCHEDULE_PUBLISH: "true"', self.workflow)
 
     def test_decommissioned_groq_model_is_not_used(self):
-        # llama-3.1-70b-versatile was removed by Groq; setting it made every
-        # script call return model-not-found (likely cause of failed runs).
-        # Check the ASSIGNED value only — the comment explaining the removal
-        # legitimately mentions the old name.
+        # Groq retires BOTH legacy Llama chat models on 2026-08-16
+        # (llama-3.1-8b-instant, llama-3.3-70b-versatile); llama-3.1-70b was
+        # already removed earlier. The pinned primary must be a current model.
+        # Check the ASSIGNED value only — comments legitimately mention old names.
         import re
+        retired = (
+            "llama-3.1-70b", "llama-3.1-8b-instant", "llama-3.3-70b-versatile",
+        )
         match = re.search(r'GROQ_MODEL:\s*"([^"]+)"', self.workflow)
         self.assertIsNotNone(match, "GROQ_MODEL should be pinned in the workflow")
         self.assertFalse(
-            match.group(1).startswith("llama-3.1-70b"),
-            f"GROQ_MODEL points at a decommissioned model: {match.group(1)}",
+            match.group(1).startswith(retired),
+            f"GROQ_MODEL points at a retired model: {match.group(1)}",
         )
+        fb = re.search(r'GROQ_MODEL_FALLBACK:\s*"([^"]+)"', self.workflow)
+        self.assertIsNotNone(fb, "GROQ_MODEL_FALLBACK should be pinned in the workflow")
+        self.assertFalse(
+            fb.group(1).startswith(retired),
+            f"GROQ_MODEL_FALLBACK points at a retired model: {fb.group(1)}",
+        )
+        self.assertNotEqual(match.group(1), fb.group(1),
+                            "fallback model must differ from primary")
+
+    def test_fallback_model_is_actually_consumed(self):
+        # 2026-08-12: GROQ_MODEL_FALLBACK existed in the workflow for months
+        # but NO code read it — dead config. Guard against regression.
+        src = (ROOT / "src" / "script_generator.py").read_text()
+        self.assertIn("GROQ_MODEL_FALLBACK", src)
+        self.assertIn("def groq_model_chain", src)
+
+    def test_no_hardcoded_retired_models_in_code(self):
+        import re
+        retired = ("llama-3.1-8b-instant", "llama-3.3-70b-versatile")
+        for path in ("src/script_generator.py", "src/niche_strategy.py",
+                     "scripts/channel_seo_audit.py"):
+            text = (ROOT / path).read_text()
+            for m in retired:
+                for line in text.splitlines():
+                    stripped = line.strip()
+                    if m in line and not stripped.startswith("#"):
+                        self.fail(f"{path} still references retired model {m}: {stripped}")
 
     def test_posting_gap_is_enforced(self):
         self.assertIn('ENFORCE_POSTING_GAP: "true"', self.workflow)

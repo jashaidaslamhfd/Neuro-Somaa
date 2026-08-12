@@ -359,7 +359,8 @@ def propose_title(client, topic: str, current: str) -> str | None:
     """Generate one clean French curiosity title. Needs GROQ_API_KEY."""
     if client is None:
         return None
-    model = os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile")
+    # Empty-string secret must fall through to default; llama-3.3-70b retires 2026-08-16.
+    model = os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b"
     prompt = (
         "Tu écris des titres de YouTube Shorts en français de France (science du corps/cerveau). "
         "Un seul titre, 5 à 9 mots, qui ouvre une boucle de curiosité avec « Pourquoi ». "

@@ -68,6 +68,28 @@ SCRIPT_POLICY_VERSION = "BODY_GLITCH_V4_ANSWER_FIRST"
 TEMPERATURE = 0.65
 MAX_TOKENS = 1400
 
+# 2026-08-12 model migration: Groq retires BOTH legacy Llama chat models
+# (llama-3.1-8b-instant and llama-3.3-70b-versatile) on 2026-08-16.
+# New lineup: gpt-oss-120b is the ADVANCED/quality model (stronger French
+# hooks + titles -> better CTR/retention); gpt-oss-20b is the fast fallback.
+DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
+DEFAULT_GROQ_MODEL_FALLBACK = "openai/gpt-oss-20b"
+
+
+def groq_model_chain() -> list:
+    """Ordered Groq models to try for script generation.
+
+    Primary comes from GROQ_MODEL (default: the advanced 120B model);
+    GROQ_MODEL_FALLBACK (default: 20B) is used when the primary is
+    rate-limited or errors. Empty-string env values are treated as unset.
+    """
+    primary = os.environ.get("GROQ_MODEL") or DEFAULT_GROQ_MODEL
+    fallback = os.environ.get("GROQ_MODEL_FALLBACK") or DEFAULT_GROQ_MODEL_FALLBACK
+    chain = [primary]
+    if fallback and fallback != primary:
+        chain.append(fallback)
+    return chain
+
 # A fast, clear opening that comfortably fits in the first 2–3 seconds.
 HOOK_MIN_WORDS = 5
 HOOK_MAX_WORDS = 9
@@ -889,22 +911,46 @@ def generate_script(
     last_error = None
     best_script = None
     best_score = 0
-    
+
+    # Model fallback chain (2026-08-12): primary advanced model first; on
+    # rate-limit/API error we switch down the chain instead of only retrying
+    # the identical call. Legacy `os.environ.get("GROQ_MODEL", ...)` inline
+    # reads treated '' as a valid model and never consumed GROQ_MODEL_FALLBACK.
+    model_chain = groq_model_chain()
+    model_index = [0]
+
+    def _current_model() -> str:
+        return model_chain[min(model_index[0], len(model_chain) - 1)]
+
+    def _advance_model(exc) -> bool:
+        """Switch to the fallback model after an API-side failure."""
+        if model_index[0] < len(model_chain) - 1:
+            model_index[0] += 1
+            logger.warning(
+                "Groq model %s failed (%s) — falling back to %s",
+                model_chain[model_index[0] - 1], exc, model_chain[model_index[0]],
+            )
+            return True
+        return False
+
     for attempt in range(1, max_retries + 1):
         try:
-            logger.info(f"🔄 Generating script (Attempt {attempt}/{max_retries})")
-            
-            # Call Groq API
+            logger.info(f"🔄 Generating script (Attempt {attempt}/{max_retries}) via {_current_model()}")
+
+            # Call Groq API — advanced 120B model by default (stronger French
+            # hooks/titles -> better CTR/retention); automatic fallback down
+            # the chain on rate-limit/API errors. Overridable via GROQ_MODEL.
+            # gpt-oss reasoning models burn tokens on internal reasoning, so
+            # give them headroom; keep effort low for punchy Shorts hooks.
+            is_reasoning = _current_model().startswith(("openai/gpt-oss", "qwen/"))
+            extra = {"reasoning_effort": "low"} if "gpt-oss" in _current_model() else {}
             completion = client.chat.completions.create(
                 messages=messages,
-                # Overridable via GROQ_MODEL. The 8B instant model is fast/cheap
-                # but produces weaker French hooks/titles; a 70B class model
-                # (set in the workflow) materially improves curiosity-driven
-                # openings and clickable titles -> better CTR/retention.
-                model=os.environ.get("GROQ_MODEL", "llama-3.3-70b-versatile"),
+                model=_current_model(),
                 response_format={"type": "json_object"},
                 temperature=TEMPERATURE,
-                max_tokens=MAX_TOKENS
+                max_tokens=MAX_TOKENS + (1200 if is_reasoning else 0),
+                **extra,
             )
             
             raw_reply = completion.choices[0].message.content
@@ -997,6 +1043,8 @@ def generate_script(
         except BadRequestError as e:
             logger.error(f"❌ Groq API error: {e}")
             last_error = e
+            if _advance_model(e):
+                continue
             if attempt < max_retries:
                 wait_time = 2 ** attempt
                 logger.info(f"⏳ Waiting {wait_time}s before retry...")
@@ -1005,8 +1053,13 @@ def generate_script(
                 break
             
         except Exception as e:
-            # Handle Groq rate limits with proper wait
             err_str = str(e)
+            # Rate limits / server errors: prefer the fallback model over
+            # sleeping — different models have separate rate buckets.
+            last_error = e
+            if _advance_model(e):
+                continue
+            # Handle Groq rate limits with proper wait
             if "rate_limit" in err_str or "429" in err_str:
                 import re as _re
                 m = _re.search(r"try again in (\d+)m(\d+)?", err_str)
