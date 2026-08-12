@@ -539,5 +539,18 @@
     },
     "publish_at": "2026-08-12T15:30:00+00:00",
     "completed_at": 1786478844.881519
+  },
+  "cb5da7ba689abc511253ddf4e72e3c2a2857933bcda00b5e8f955be6ec03e2fc": {
+    "status": "completed",
+    "title": "Pourquoi le corps gratte apr\u00e8s la douche ?",
+    "youtube_video_id": "ixDDjtbojKs",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-12T17:30:00+00:00",
+    "completed_at": 1786534437.696324
   }
 }
