@@ -1,6 +1,47 @@
 {
-  "generated_at": "2026-08-12T10:28:36.618123+00:00",
+  "generated_at": "2026-08-12T10:29:52.201299+00:00",
   "n_videos_analyzed": 50,
+  "truth_gate": {
+    "hook_score": {
+      "claims": "hook quality",
+      "n": 50,
+      "spearman_vs_views": -0.064,
+      "spearman_vs_retention": 0.134,
+      "verdict": "NOISE",
+      "decision_usable": false
+    },
+    "seo_score": {
+      "claims": "SEO quality",
+      "n": 50,
+      "spearman_vs_views": -0.117,
+      "spearman_vs_retention": 0.69,
+      "verdict": "NOISE",
+      "decision_usable": false
+    },
+    "predicted_retention": {
+      "claims": "retention",
+      "n": 50,
+      "spearman_vs_views": -0.149,
+      "spearman_vs_retention": 0.112,
+      "verdict": "NOISE",
+      "decision_usable": false,
+      "bias": 0.319,
+      "mean_predicted": 0.703,
+      "mean_actual": 0.384
+    },
+    "predicted_ctr": {
+      "claims": "CTR",
+      "n": 50,
+      "spearman_vs_views": -0.133,
+      "spearman_vs_retention": 0.641,
+      "verdict": "NOISE",
+      "decision_usable": false
+    },
+    "_summary": {
+      "n_videos": 50,
+      "message": "An internal score only earns trust by predicting real outcomes. NOISE/INVERTED scores are advisory-only everywhere in the pipeline."
+    }
+  },
   "data_quality": {
     "videos_with_views": 50,
     "ctr_coverage": 0.0,
@@ -216,7 +257,7 @@
       },
       {
         "cluster_id": 2,
-        "name": "ventre / faim / serre / lors / d'une",
+        "name": "ventre / faim / serre / d'une / lors",
         "size": 5,
         "avg_views": 886.2,
         "max_views": 1456,
@@ -240,7 +281,7 @@
       },
       {
         "cluster_id": 4,
-        "name": "comprendre / qu'il / faut / par / sur",
+        "name": "comprendre / faut / qu'il / par / sur",
         "size": 5,
         "avg_views": 727.8,
         "max_views": 1512,

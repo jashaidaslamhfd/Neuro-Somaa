@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-12T10:28:36.605262+00:00_
+_Generated 2026-08-12T10:29:52.180195+00:00_
 ## Executive summary
 - Videos in history: **61**
 - 48h repair candidates: **23**

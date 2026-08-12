@@ -1,9 +1,15 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-12T10:28:36.618123+00:00_ — n=50 vidéos réelles
+_2026-08-12T10:29:52.201299+00:00_ — n=50 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **50** · couverture CTR: **0%** · rétention: **100%**
 - ⚠️ 0 coverage → YouTube Analytics scope/ metric must be fixed (see 2026-08-11 audit fix; token needs yt-analytics.readonly)
+
+## 🧪 Truth Gate (scores internes vs réalité)
+- 🔴 `hook_score` (hook quality): **NOISE** (r=-0.06, n=50) — **consultatif seulement, jamais un gate**
+- 🔴 `seo_score` (SEO quality): **NOISE** (r=-0.12, n=50) — **consultatif seulement, jamais un gate**
+- 🔴 `predicted_retention` (retention): **NOISE** (r=-0.15, n=50) — biais +0.32 (prédit 0.70 vs réel 0.38) — **consultatif seulement, jamais un gate**
+- 🔴 `predicted_ctr` (CTR): **NOISE** (r=-0.13, n=50) — **consultatif seulement, jamais un gate**
 
 ## 🤖 Modèles (ridge + MLP, validation croisée)
 - ridge log-vues: **R²_cv = -0.3795 ± 0.441** (MAE ≈ 306.2 vues) — ⚠️ bruit, conseils seulement
@@ -28,9 +34,9 @@ _2026-08-12T10:28:36.618123+00:00_ — n=50 vidéos réelles
 
 ## 🗂️ Clusters de sujets (k=6) — gagnant: **chair / poule / soudainement / soudaine / l'apparition**
 - `chair / poule / soudainement / soudaine / l'apparition` — 2 vidéos · avg 1076.0 vues · max 1205
-- `ventre / faim / serre / lors / d'une` — 5 vidéos · avg 886.2 vues · max 1456
+- `ventre / faim / serre / d'une / lors` — 5 vidéos · avg 886.2 vues · max 1456
 - `cerveau / réveil / son / passe / semble` — 22 vidéos · avg 734.3 vues · max 1241
-- `comprendre / qu'il / faut / par / sur` — 5 vidéos · avg 727.8 vues · max 1512
+- `comprendre / faut / qu'il / par / sur` — 5 vidéos · avg 727.8 vues · max 1512
 - `corps / science / refuse / s'endormant / sur` — 12 vidéos · avg 632.2 vues · max 1168
 
 ## ⏱️ Rétention
