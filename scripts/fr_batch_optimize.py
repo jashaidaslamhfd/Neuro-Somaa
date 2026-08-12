@@ -264,6 +264,48 @@ def _optimize_description(title: str, old_desc: str) -> str:
     return desc[:4800]
 
 
+# ── Measured demand phrases (2026-08-12) ──
+# Truth Gate doctrine applies to SEO too: tags must come from REAL measured
+# French user queries (YouTube autocomplete mining), not keyword guesses.
+_DEMAND_PHRASE_RE = re.compile(r"'([^']+)'")
+
+
+def _demand_phrases_for(topic: str, title: str) -> list:
+    """Return REAL French autocomplete queries matching this video's topic.
+
+    Reads data/search_demand_queue_fr.json (mined from live YouTube FR
+    suggestqueries 2026-08-11). Each demand_note looks like:
+        autocomplete: 'pourquoi je me reveille a 3h du matin' (+ 'la nuit', ...)
+    The first quoted string is the exact searched query; extras are variants.
+    A video matches when it shares a strong content word with the demand topic.
+    """
+    try:
+        payload = json.loads((ROOT / "data" / "search_demand_queue_fr.json")
+                             .read_text(encoding="utf-8"))
+        items = payload.get("topics") if isinstance(payload, dict) else payload
+    except (OSError, json.JSONDecodeError):
+        return []
+    if not isinstance(items, list):
+        return []
+
+    from trend_fetcher import _topic_words  # shared stop-word aware tokeniser
+    ref = _topic_words((topic or "") + " " + (title or ""))
+    phrases, seen = [], set()
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        dt = _topic_words(item.get("topic", "") or "")
+        if not dt or len(ref & dt) < 1:
+            continue
+        for phrase in _DEMAND_PHRASE_RE.findall(item.get("demand_note", "")):
+            p = phrase.strip().lower()
+            # keep only well-formed searchable queries, deduped
+            if 10 <= len(p) <= 90 and p not in seen:
+                seen.add(p)
+                phrases.append(p)
+    return phrases[:4]
+
+
 def _subject(title: str) -> str:
     """Extract a readable subject from 'Pourquoi X ?' -> 'X' (French:
     keeps the first word lowercase after 'pourquoi': 'le corps...')."""
@@ -274,13 +316,17 @@ def _subject(title: str) -> str:
 
 
 # ── French tags (≤500 chars) ──
-def _optimize_tags(old_tags: list, title: str, topic: str) -> list:
+def _optimize_tags(old_tags: list, title: str, topic: str,
+                   demand_phrases: list | None = None) -> list:
     from seo_generator import _keywords
-    base = _keywords(topic or title, n=6)
+    # MEASURED DEMAND FIRST (2026-08-12): real autocomplete queries are the
+    # single best tag evidence we have — users literally typed these.
+    base = list(demand_phrases or [])
+    guessed = _keywords(topic or title, n=6)
     fixed = ["science", "corps humain", "pourquoi", "curiosité",
              "biologie", "santé", "france", "vulgarisation scientifique"]
     out, seen = [], set()
-    for t in base + fixed:
+    for t in base + guessed + fixed:
         k = t.lower().strip()
         if k and k not in seen and len(k) > 2:
             seen.add(k)
@@ -427,7 +473,10 @@ def main() -> int:
         new_title = v["_new_title"]
         topic = v["title"]
         new_desc = _optimize_description(new_title, v["description"])
-        new_tags = _optimize_tags(v["tags"], new_title, topic)
+        demand = _demand_phrases_for(topic, new_title)
+        new_tags = _optimize_tags(v["tags"], new_title, topic, demand_phrases=demand)
+        if demand:
+            log.info("  📈 demand-backed tags for %s: %s", v["id"], demand[:2])
         changed = (new_title.strip() != (v["title"] or "").strip()
                    or new_desc.strip() != (v["description"] or "").strip()
                    or not _same_tags(new_tags, v["tags"]))

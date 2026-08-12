@@ -7,6 +7,7 @@ from unittest import mock
 
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 import trend_fetcher  # noqa: E402
 
@@ -66,3 +67,25 @@ class TestSearchDemandQueue(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DemandBackedSeoTests(unittest.TestCase):
+    """2026-08-12 truth-SEO: tags must come from REAL autocomplete demand
+    phrases, not keyword guesses — same doctrine as the truth gate."""
+
+    def test_optimizer_uses_measured_demand_first(self):
+        import fr_batch_optimize as fbo
+        ph = fbo._demand_phrases_for("Pourquoi on se réveille à 3h du matin",
+                                     "Pourquoi on se réveille à 3h du matin ?")
+        self.assertTrue(any("reveille a 3h du matin" in p for p in ph))
+        tags = fbo._optimize_tags([], "Pourquoi on se réveille à 3h du matin ?",
+                                  "le réveil à 3h du matin sans raison",
+                                  demand_phrases=ph)
+        self.assertEqual(tags[0], "pourquoi je me reveille a 3h du matin")
+
+    def test_tags_never_exceed_youtube_limit(self):
+        import fr_batch_optimize as fbo
+        tags = fbo._optimize_tags([], "Pourquoi le ventre bouge tout seul ?",
+                                  "le ventre qui bouge tout seul",
+                                  demand_phrases=["pourquoi mon ventre bouge tout seul"])
+        self.assertLessEqual(sum(len(t) + 1 for t in tags), 500)
