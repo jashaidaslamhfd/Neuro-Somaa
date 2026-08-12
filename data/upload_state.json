@@ -552,5 +552,18 @@
     },
     "publish_at": "2026-08-12T17:30:00+00:00",
     "completed_at": 1786534437.696324
+  },
+  "c16eeb638198c170b8906d10f22ff40757fdbc1ac4cc34e8acfb601102605189": {
+    "status": "completed",
+    "title": "Pourquoi on se r\u00e9veille \u00e0 3h du matin sans raison ?",
+    "youtube_video_id": "hbcIwXMx47g",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-12T19:30:00+00:00",
+    "completed_at": 1786559750.606382
   }
 }

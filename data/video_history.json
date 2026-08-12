@@ -1436,5 +1436,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 80,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "c16eeb638198c170b8906d10f22ff40757fdbc1ac4cc34e8acfb601102605189",
+    "title": "Pourquoi on se r\u00e9veille \u00e0 3h du matin sans raison ?",
+    "topic": "Pourquoi on se r\u00e9veille \u00e0 3h du matin sans raison",
+    "series_title": "R\u00e9veil \u00e0 3h du matin",
+    "base_phenomenon": "le r\u00e9veil \u00e0 3h du matin sans raison",
+    "nominal_phrase": "le r\u00e9veil \u00e0 3h du matin sans raison",
+    "question_phrase": "on se r\u00e9veille \u00e0 3h du matin sans raison",
+    "trend_source": "fr_search_demand",
+    "trend_url": null,
+    "voiceover": "R\u00e9veil \u00e0 3h, sans raison. C'est ton cycle circadien qui d\u00e9clenche ce r\u00e9veil. Le cortisol chute, le sommeil devient tr\u00e8s l\u00e9ger. Un micro\u2011bruit suffit, ton cerveau active l\u2019\u00e9veil. Le plus \u00e9trange ? La temp\u00e9rature baisse, ton corps r\u00e9agit. Alors chaque r\u00e9veil \u00e0 3h devient compr\u00e9hensible, non ?",
+    "posted_at": "2026-08-12T18:35:50.607193+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "hbcIwXMx47g",
+    "publish_at": "2026-08-12T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 48,
+    "loop_bridge_present": false
   }
 ]
