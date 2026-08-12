@@ -1,13 +1,13 @@
-# 🎯 SKILLOR — Monetization Readiness (30 août 2026)
-_Generated 2026-08-11T08:42:14.755884+00:00 — 18 jours restants_
+# 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)
+_Generated 2026-08-12T08:58:19.695863+00:00 — 17 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **104** | Vues totales: 43,471 | Vidéos: 62
-- Watch hours (12 mois): 58.7
+- Abonnés: **110** | Vues totales: 44,732 | Vidéos: 64
+- Watch hours (12 mois): 62.1
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +896 subs (49.8/jour) · +9,956,529 vues Shorts (553,140.5/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +396 subs (22.0/jour) · +2,956,529 vues Shorts (164,251.6/jour)
+- **Full YPP (ad revenue)**: +890 subs (52.4/jour) · +9,955,268 vues Shorts (585,604.0/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +390 subs (22.9/jour) · +2,955,268 vues Shorts (173,839.3/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
@@ -22,11 +22,11 @@ _Generated 2026-08-11T08:42:14.755884+00:00 — 18 jours restants_
 - ✅ **Educational disclaimer in descriptions** — Every optimized description carries the medical disclaimer.
 
 ## 🎵 Musique
-- ✅ `own_dark_drone.wav` — original (generated in-repo)
-- ✅ `own_suspense_thrum.wav` — original (generated in-repo)
+- ✅ `own_dark_drone.ogg` — original (generated in-repo)
+- ✅ `own_suspense_thrum.ogg` — original (generated in-repo)
 
 ## 🗓️ Plan quotidien (honnête)
-- **2 Shorts/jour** à 12:30 & 19:30 Paris (déjà automatisé).
+- **3 Shorts/jour** à 12:30, 19:30 & 21:00 Paris (déjà automatisé, ajusté par les créneaux dynamiques).
 - 1 long-form 8-12 min / semaine (watch-hours path).
 - Quand subs ≥ 500 → appliquer YPP Tier-1 dans YouTube Studio (fan funding).
 - Quand subs ≥ 1 000 → appliquer Full YPP. L'application est MANUELLE (Studio → Earn) — ce repo ne peut pas l'automatiser.
