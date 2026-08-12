@@ -89,3 +89,43 @@ class DemandBackedSeoTests(unittest.TestCase):
                                   "le ventre qui bouge tout seul",
                                   demand_phrases=["pourquoi mon ventre bouge tout seul"])
         self.assertLessEqual(sum(len(t) + 1 for t in tags), 500)
+
+
+class LiveDemandMiningTests(unittest.TestCase):
+    """2026-08-12 repair sweep: per-video LIVE autocomplete mining must be
+    relevance-guarded, offline-safe, and never raise."""
+
+    def test_relevance_guard_drops_unrelated_suggestions(self):
+        import fr_batch_optimize as fbo
+        import unittest.mock as mock
+        fake_resp = mock.Mock(ok=True)
+        fake_resp.json = lambda: ["q", [
+            "la chair de poule quand il fait froid",      # relevant
+            "recette poulet basquaise facile",            # off-topic — must be dropped
+            "x",                                          # too short — dropped
+        ]]
+        with mock.patch("requests.get", return_value=fake_resp):
+            out = fbo._mine_live_demand(
+                "Pourquoi la chair de poule apparait soudainement",
+                "Pourquoi la chair de poule apparaît soudainement ?")
+        self.assertIn("la chair de poule quand il fait froid", out)
+        self.assertNotIn("recette poulet basquaise facile", out)
+
+    def test_network_failure_returns_empty_silently(self):
+        import fr_batch_optimize as fbo
+        import unittest.mock as mock
+        with mock.patch("requests.get", side_effect=TimeoutError()):
+            out = fbo._mine_live_demand("sujet quelconque assez long",
+                                        "Pourquoi le corps se fige ?")
+        self.assertEqual(out, [])
+
+    def test_env_kill_switch(self):
+        import os
+        import fr_batch_optimize as fbo
+        os.environ["REPAIR_LIVE_DEMAND"] = "false"
+        try:
+            out = fbo._mine_live_demand("sujet de test assez long ici",
+                                        "Pourquoi le hoquet commence ?")
+        finally:
+            os.environ.pop("REPAIR_LIVE_DEMAND")
+        self.assertEqual(out, [])

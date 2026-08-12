@@ -315,6 +315,59 @@ def _subject(title: str) -> str:
     return t.strip()
 
 
+def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
+    """LIVE autocomplete mining for THIS video's topic (2026-08-12 repair).
+
+    The canned 6-entry demand queue only covers a handful of phenomena. For
+    the repair sweep we mine fresh French queries per video: seed strings are
+    built from the title's subject, and suggestqueries (client=firefox works
+    from CI; client=youtube is IP-blocked) returns what French users actually
+    type RIGHT NOW. Only queries sharing a strong content word with the
+    topic survive (relevance guard against garbage suggestions).
+
+    Network failure / rate-limit → silent [] (callers fall back to the canned
+    queue + keyword guesses). Never raises: a repair sweep must not die on a
+    suggest endpoint hiccup.
+    """
+    if os.environ.get("REPAIR_LIVE_DEMAND", "true").lower() != "true":
+        return []
+    subj = _subject(title or topic or "").lower().strip()
+    if not subj or len(subj) < 6:
+        return []
+    from trend_fetcher import _topic_words
+    ref = _topic_words((topic or "") + " " + (title or ""))
+    seeds = [f"pourquoi {subj}", subj, f"pourquoi mon {subj}"[:60]]
+    out, seen, calls = [], set(), 0
+    import time as _time
+    import requests as _rq
+    for seed in seeds:
+        if calls >= max_calls:
+            break
+        calls += 1
+        try:
+            r = _rq.get(
+                "https://suggestqueries.google.com/complete/search",
+                params={"client": "firefox", "hl": "fr", "gl": "fr",
+                        "ds": "yt", "q": seed},
+                timeout=6, headers={"User-Agent": "Mozilla/5.0"})
+            suggestions = r.json()[1] if r.ok else []
+        except Exception:
+            suggestions = []
+        _time.sleep(0.35)  # polite rate — never hammer the free endpoint
+        for s in suggestions or []:
+            p = str(s).strip().lower()
+            if not (10 <= len(p) <= 90) or p in seen:
+                continue
+            words = _topic_words(p)
+            if not (words & ref):      # relevance guard
+                continue
+            seen.add(p)
+            out.append(p)
+    if out:
+        log.info("  🔎 live demand mined for %r: %s", (title or "")[:40], out[:2])
+    return out[:5]
+
+
 # ── French tags (≤500 chars) ──
 def _optimize_tags(old_tags: list, title: str, topic: str,
                    demand_phrases: list | None = None) -> list:
@@ -474,9 +527,16 @@ def main() -> int:
         topic = v["title"]
         new_desc = _optimize_description(new_title, v["description"])
         demand = _demand_phrases_for(topic, new_title)
-        new_tags = _optimize_tags(v["tags"], new_title, topic, demand_phrases=demand)
-        if demand:
-            log.info("  📈 demand-backed tags for %s: %s", v["id"], demand[:2])
+        # Idempotency guard: skip live mining when this video's tags already
+        # carry a real demand phrase — otherwise evolving autocomplete output
+        # would churn tags on every sweep for zero ranking gain.
+        cur_tags_lc = { (t or "").strip().lower() for t in v["tags"] }
+        has_demand = any(d in cur_tags_lc for d in demand)
+        live_demand = [] if has_demand else _mine_live_demand(topic, new_title)
+        merged_demand = list(dict.fromkeys(live_demand + demand))
+        new_tags = _optimize_tags(v["tags"], new_title, topic, demand_phrases=merged_demand)
+        if merged_demand:
+            log.info("  📈 demand-backed tags for %s: %s", v["id"], merged_demand[:2])
         changed = (new_title.strip() != (v["title"] or "").strip()
                    or new_desc.strip() != (v["description"] or "").strip()
                    or not _same_tags(new_tags, v["tags"]))
