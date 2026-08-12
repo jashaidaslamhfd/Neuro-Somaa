@@ -399,10 +399,69 @@ def classify_topic_retention(topic: str) -> str:
     return "neutral"
 
 
-def _pick_by_retention_class(candidates: list[dict]) -> dict:
-    """Prefer body-sensation topics, without ever starving the catalogue."""
-    physical, other = [], []
+def _measured_topic_boost(candidates: list[dict], history: list[dict]) -> tuple[list, list]:
+    """Split candidates by MEASURED performance of similar past videos.
+
+    2026-08-12 truth fix: topic choice used marker-word vibes ('physical'
+    vs 'abstract') while the channel's own 50 measured videos sat unused
+    a floor lower in truth_gate.empirical_prediction. Now candidates whose
+    similar/family videos actually retained well get boosted, and candidates
+    whose family repeatedly under-retained get pushed down (not banned).
+
+    Returns (boosted, rest) — both still eligible; boosted is preferred.
+    """
+    if not history:
+        return [], candidates
+    try:
+        from intelligence.truth_gate import empirical_prediction
+    except Exception:
+        return [], candidates
+
+    baseline = empirical_prediction("", history)  # GLOBAL_FALLBACK medians
+    base_ret = baseline.get("retention_p50") or 0
+    boosted, rest = [], []
     for record in candidates:
+        try:
+            pred = empirical_prediction(record.get("topic", ""), history)
+        except Exception:
+            rest.append(record)
+            continue
+        # Only trust measured-similar signal; the global fallback prediction
+        # is the same for everyone, so it carries no ranking information.
+        if pred.get("confidence") not in ("SIMILAR_VIDEOS", "FEW_SIMILAR"):
+            rest.append(record)
+            continue
+        ret = pred.get("retention_p50")
+        if ret is not None and base_ret and ret >= base_ret + 3:
+            boosted.append(record)
+        else:
+            rest.append(record)
+    if boosted:
+        logger.info(
+            "Measured-truth boost: %d/%d candidates have similar-video retention "
+            ">= channel median+3pts",
+            len(boosted), len(candidates),
+        )
+    return boosted, rest
+
+
+def _pick_by_retention_class(candidates: list[dict],
+                             history: list[dict] | None = None) -> dict:
+    """Prefer body-sensation + MEASURED-outcome topics, without ever starving
+    the catalogue. Selection layers (highest priority first):
+
+      1. topics whose similar past videos retained above channel median
+      2. everything else, with the classic physical-sensation bias
+    """
+    boosted, rest = _measured_topic_boost(candidates, history or [])
+    if boosted:
+        chosen = random.choice(boosted)
+        logger.info("Topic pick: MEASURED winner-family -> %s",
+                    chosen.get("topic", "")[:60])
+        return chosen
+
+    physical, other = [], []
+    for record in rest:
         target = physical if classify_topic_retention(
             record.get("topic", "")) == "physical" else other
         target.append(record)
@@ -605,7 +664,20 @@ def get_trending_topic(
         except Exception as exc:
             logger.warning("Autonomous topic control unavailable: %s", exc)
         if series_topics:
-            chosen = _pick_by_retention_class(series_topics)
+            # 2026-08-12: feed the picker the channel's measured history so
+            # topic choice is grounded in real outcomes, and cache it for the
+            # run's lifetime (disk read once, not per-candidate).
+            cached_history = getattr(_pick_by_retention_class, "_history_cache", None)
+            if cached_history is None:
+                try:
+                    with open(os.environ.get("VIDEO_HISTORY_PATH",
+                                             "data/video_history.json"),
+                              encoding="utf-8") as fh:
+                        cached_history = json.load(fh) or []
+                except Exception:
+                    cached_history = []
+                _pick_by_retention_class._history_cache = cached_history
+            chosen = _pick_by_retention_class(series_topics, history=cached_history)
         else:
             chosen = random.choice(get_body_glitch_topics())
             logger.warning("All Body Glitch topics were excluded; restarting the 500-topic series.")

@@ -62,6 +62,10 @@ def run_all(history_path: Path | str | None = None) -> dict:
         "retention": report._retention_distribution(history),
         "experiment": stats.compare_experiment_arms(history),
         "hook_arms": stats.compare_hook_arms(history),
+        # Raw history for report-only consumers (growth_state vs views/j).
+        # Underscore = not a model output; never written to the JSON report
+        # unless write_reports opts in.
+        "_history": history,
         "viral_fastlane": {
             "entries": len(fastlane["fastlane"]),
             "ttl_hours": fastlane["ttl_hours"],

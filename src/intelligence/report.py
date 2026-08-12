@@ -78,6 +78,26 @@ def build_markdown(report: dict) -> str:
     if dq.get("ctr_gap") and "0 coverage" in str(dq.get("ctr_gap", "")):
         lines.append(f"- ⚠️ {dq['ctr_gap']}")
 
+    # 2026-08-12 stall-truth: growth_state is recorded at every daily sync.
+    # "Les vues se sont arrêtées" must be a measured fact on the dashboard,
+    # not a feeling. growing/stalled counts come from real back-to-back
+    # readings (a video is 'stalled' after 2 consecutive zero-growth reads).
+    hist = report.get("_history") or []
+    growth_rows = [(e.get("growth_state"), e.get("views_per_day"),
+                    e.get("title") or e.get("topic") or "?")
+                   for e in hist if e.get("growth_state")]
+    if growth_rows:
+        growing = [r for r in growth_rows if r[0] == "growing"]
+        stalled = [r for r in growth_rows if r[0] == "stalled"]
+        lines += [
+            "",
+            "## 📈 Croissance mesurée (vérité, pas impression)",
+            f"- 🟢 en croissance: **{len(growing)}** · 🔴 figées (2 lectures sans hausse): **{len(stalled)}**",
+        ]
+        fastest = sorted((r for r in growth_rows if r[1]), key=lambda r: -(r[1] or 0))[:3]
+        for state, vel, title in fastest:
+            lines.append(f"  · ⚡ +{vel} vues/j — {str(title)[:50]}")
+
     # Truth Gate FIRST in the dashboard — a reader must know which internal
     # numbers deserve trust before reading any of them.
     if report.get("truth_gate"):
@@ -153,8 +173,11 @@ def build_markdown(report: dict) -> str:
 
 def write_reports(report: dict) -> dict:
     DATA.mkdir(exist_ok=True)
+    # Underscore-prefixed keys (e.g. _history) are in-memory-only inputs for
+    # build_markdown — never serialised (they'd duplicate video_history.json).
+    serializable = {k: v for k, v in report.items() if not k.startswith("_")}
     (DATA / "intelligence_report.json").write_text(
-        json.dumps(report, indent=2, ensure_ascii=False), encoding="utf-8")
+        json.dumps(serializable, indent=2, ensure_ascii=False), encoding="utf-8")
     md = build_markdown(report)
     (DATA / "intelligence_dashboard_latest.md").write_text(md, encoding="utf-8")
     return {"json": str(DATA / "intelligence_report.json"),

@@ -253,6 +253,38 @@ def generate_ab_variants(script_data: dict, title_options: list[str]) -> dict:
 # 5. Historical learning over output/video_history.json
 # ---------------------------------------------------------------------------
 
+def _classify_growth(prev_views, prev_at_iso: str | None,
+                     new_views, now) -> dict:
+    """Truth-meter for 'views ruk gaye' (2026-08-12).
+
+    Before this, the daily sync overwrote `views` and the old number was
+    lost — we could never see WHEN a video stalls (Shorts feed cuts
+    distribution after the seed batch flops). Now every fetch records the
+    previous reading so growth/stall/flatline is MEASURED, not felt.
+
+    Returns dict with views_prev, velocity/day and a growth_state:
+      first_read  — no previous reading exists
+      growing     — views increased since last reading
+      stalled     — zero growth with >=2 consecutive stalled readings
+      flat        — zero growth, first stalled reading
+    """
+    out = {"views_prev": prev_views, "views_per_day": None, "growth_state": "first_read"}
+    if prev_views is None or new_views is None:
+        return out
+    try:
+        hours = 24.0
+        if prev_at_iso:
+            prev_dt = __import__("datetime").datetime.fromisoformat(prev_at_iso)
+            if prev_dt.tzinfo is None:
+                prev_dt = prev_dt.replace(tzinfo=__import__("datetime").timezone.utc)
+            hours = max((now - prev_dt).total_seconds() / 3600, 1.0)
+        out["views_per_day"] = round((new_views - prev_views) * 24.0 / hours, 1)
+    except Exception:
+        pass
+    out["growth_state"] = "growing" if new_views > prev_views else "flat"
+    return out
+
+
 def _load_history() -> list[dict]:
     if not os.path.exists(HISTORY_FILE):
         return []
@@ -584,6 +616,20 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
             failed += 1
             logger.info(f"{vid}: {metrics.get('error') or metrics.get('note')}")
             continue
+
+        # 2026-08-12: keep the PREVIOUS reading before overwriting so the
+        # truth report can see growth vs stall per video (was invisible).
+        growth = _classify_growth(entry.get("views"), entry.get("analytics_fetched_at"),
+                                  metrics.get("views"), now)
+        if growth["growth_state"] == "flat":
+            entry["stall_streak"] = int(entry.get("stall_streak") or 0) + 1
+            if entry["stall_streak"] >= 2:
+                growth["growth_state"] = "stalled"
+        elif growth["growth_state"] == "growing":
+            entry["stall_streak"] = 0
+        entry["views_prev"] = growth["views_prev"]
+        entry["views_per_day"] = growth["views_per_day"]
+        entry["growth_state"] = growth["growth_state"]
 
         entry["views"] = metrics.get("views")
         entry["actual_ctr"] = metrics.get("actual_ctr")
