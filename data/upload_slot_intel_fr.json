@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-11T10:01:44.284891+00:00",
+  "generated_at_utc": "2026-08-12T06:52:50.263249+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,8 +11,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.2026,
-      "samples": 13,
+      "score": 3.2196,
+      "samples": 14,
       "confident": true,
       "prior": 0.0
     },
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3267,
-      "samples": 8,
+      "score": 3.3476,
+      "samples": 9,
       "confident": true,
-      "prior": 3.4653
+      "prior": 3.484
     },
     {
       "rank": 3,
@@ -35,8 +35,8 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.3097,
-      "samples": 8,
+      "score": 3.3386,
+      "samples": 9,
       "confident": true,
       "prior": 0.0
     }
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3267,
-      "observed_samples": 8,
-      "observed_avg": 3.2575,
-      "prior": 3.4653,
+      "score": 3.3476,
+      "observed_samples": 9,
+      "observed_avg": 3.287,
+      "prior": 3.484,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -75,9 +75,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.3097,
-      "observed_samples": 8,
-      "observed_avg": 3.3097,
+      "score": 3.3386,
+      "observed_samples": 9,
+      "observed_avg": 3.3386,
       "prior": 0.0,
       "examples": [
         {
@@ -104,10 +104,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.2937,
+      "score": 3.305,
       "observed_samples": 4,
       "observed_avg": 3.3363,
-      "prior": 3.2653,
+      "prior": 3.284,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -133,7 +133,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2728,
+      "score": 3.2878,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2579,
+      "score": 3.2729,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -164,29 +164,12 @@
       ]
     },
     {
-      "slot": "06:00",
-      "hour": 6,
-      "minute": 0,
-      "score": 3.2027,
-      "observed_samples": 1,
-      "observed_avg": 3.2194,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "RV4LGjp89-U",
-          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
-          "views": 579,
-          "published_paris": "2026-07-23 06:07"
-        }
-      ]
-    },
-    {
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.2026,
-      "observed_samples": 13,
-      "observed_avg": 3.2026,
+      "score": 3.2196,
+      "observed_samples": 14,
+      "observed_avg": 3.2196,
       "prior": 0.0,
       "examples": [
         {
@@ -202,10 +185,27 @@
           "published_paris": "2026-08-06 17:30"
         },
         {
-          "video_id": "_QBHLbu9s7Y",
-          "title": "Pourquoi les oreilles sifflent dans le silence ?",
-          "views": 827,
-          "published_paris": "2026-08-01 17:30"
+          "video_id": "FeerNnWZkYg",
+          "title": "Pourquoi le cerveau semble ralentir le temps en danger ?",
+          "views": 922,
+          "published_paris": "2026-08-09 17:30"
+        }
+      ]
+    },
+    {
+      "slot": "06:00",
+      "hour": 6,
+      "minute": 0,
+      "score": 3.2178,
+      "observed_samples": 1,
+      "observed_avg": 3.2194,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "RV4LGjp89-U",
+          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
+          "views": 579,
+          "published_paris": "2026-07-23 06:07"
         }
       ]
     },
@@ -213,7 +213,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2018,
+      "score": 3.2169,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1259,
+      "score": 3.1409,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -247,7 +247,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.1177,
+      "score": 3.1289,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -270,15 +270,15 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.1026,
+      "score": 3.1181,
       "observed_samples": 1,
-      "observed_avg": 2.7186,
+      "observed_avg": 2.7212,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "1XVYcxQqDqo",
           "title": "Réveil avant l'alarme",
-          "views": 153,
+          "views": 154,
           "published_paris": "2026-07-20 02:32"
         }
       ]
@@ -287,7 +287,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.09,
+      "score": 3.105,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
