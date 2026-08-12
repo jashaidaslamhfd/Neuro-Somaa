@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T06:52:50.352128+00:00",
+  "generated_at": "2026-08-12T10:28:36.618123+00:00",
   "n_videos_analyzed": 50,
   "data_quality": {
     "videos_with_views": 50,
@@ -10,51 +10,51 @@
   "models": {
     "ridge": {
       "reliable": false,
-      "cv_r2_mean": -0.3975,
-      "cv_r2_std": 0.4474,
-      "cv_mae_views": 307.1,
+      "cv_r2_mean": -0.3795,
+      "cv_r2_std": 0.441,
+      "cv_mae_views": 306.2,
       "n": 50,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
           "feature": "has_second_person",
-          "coef": -0.3744,
+          "coef": -0.3771,
           "direction": "-"
         },
         {
           "feature": "dow_sin",
-          "coef": 0.1973,
+          "coef": 0.2017,
           "direction": "+"
         },
         {
           "feature": "predicted_ctr",
-          "coef": -0.1433,
+          "coef": -0.1423,
           "direction": "-"
         },
         {
           "feature": "hour_cos",
-          "coef": 0.1313,
-          "direction": "+"
-        },
-        {
-          "feature": "title_words",
-          "coef": 0.1172,
+          "coef": 0.1292,
           "direction": "+"
         },
         {
           "feature": "hour_sin",
-          "coef": -0.1171,
+          "coef": -0.1193,
           "direction": "-"
         },
         {
+          "feature": "title_words",
+          "coef": 0.1157,
+          "direction": "+"
+        },
+        {
           "feature": "topic_bucket_2",
-          "coef": -0.1112,
+          "coef": -0.1105,
           "direction": "-"
         },
         {
           "feature": "phrase_words",
-          "coef": 0.0975,
+          "coef": 0.1015,
           "direction": "+"
         }
       ]
@@ -62,7 +62,7 @@
     "mlp": {
       "reliable": false,
       "note": "in-sample fit on n=50; advisory only",
-      "in_sample_mae_views": 155.3,
+      "in_sample_mae_views": 154.7,
       "hidden_units": 12,
       "epochs": 600
     }
@@ -119,8 +119,8 @@
         "wins_ge_1000_views": 8,
         "winner_rate": 0.2162,
         "thompson_score": 0.2324,
-        "posterior_mean_logviews": 6.2869,
-        "avg_views": 719.2,
+        "posterior_mean_logviews": 6.2959,
+        "avg_views": 722.6,
         "confident": true
       },
       "SERIE_COURTE": {
@@ -137,7 +137,7 @@
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
       "thompson_score": 0.2324,
-      "avg_views": 719.2
+      "avg_views": 722.6
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -147,22 +147,22 @@
     "reliable": true,
     "n_scored": 50,
     "window": 20,
-    "baseline_median_views": 762.0,
+    "baseline_median_views": 764.0,
     "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
     "anomalies": [
       {
         "video_id": "FX6vqwymE0Y",
         "title": "Pourquoi votre corps refuse de maigrir ?",
         "views": 3,
-        "modified_z": -12.74,
+        "modified_z": -12.82,
         "direction": "under",
         "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
       },
       {
         "video_id": "K8JSUbL13Oc",
         "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
-        "views": 28,
-        "modified_z": -7.93,
+        "views": 31,
+        "modified_z": -7.75,
         "direction": "under",
         "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
       },
@@ -170,15 +170,15 @@
         "video_id": "1Y3DfG_Opg4",
         "title": "Pourquoi la faim revient à la même heure chaque jour ?",
         "views": 150,
-        "modified_z": -3.93,
+        "modified_z": -3.96,
         "direction": "under",
         "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
       },
       {
         "video_id": "Ubg7rTtym84",
         "title": "Pourquoi un vertige apparaît après s'être levé ?",
-        "views": 151,
-        "modified_z": -3.91,
+        "views": 165,
+        "modified_z": -3.73,
         "direction": "under",
         "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
       }
@@ -205,7 +205,7 @@
     "clusters": [
       {
         "cluster_id": 5,
-        "name": "poule / chair / soudainement / soudaine / l'apparition",
+        "name": "chair / poule / soudainement / soudaine / l'apparition",
         "size": 2,
         "avg_views": 1076.0,
         "max_views": 1205,
@@ -230,7 +230,7 @@
         "cluster_id": 0,
         "name": "cerveau / réveil / son / passe / semble",
         "size": 22,
-        "avg_views": 732.1,
+        "avg_views": 734.3,
         "max_views": 1241,
         "examples": [
           "Réveil avant l'alarme",
@@ -240,7 +240,7 @@
       },
       {
         "cluster_id": 4,
-        "name": "comprendre / faut / qu'il / par / sur",
+        "name": "comprendre / qu'il / faut / par / sur",
         "size": 5,
         "avg_views": 727.8,
         "max_views": 1512,
@@ -254,7 +254,7 @@
         "cluster_id": 3,
         "name": "corps / science / refuse / s'endormant / sur",
         "size": 12,
-        "avg_views": 626.8,
+        "avg_views": 632.2,
         "max_views": 1168,
         "examples": [
           "Corps lourd",
@@ -266,7 +266,7 @@
         "cluster_id": 1,
         "name": "corps / vous / dit / fige / devient",
         "size": 4,
-        "avg_views": 292.8,
+        "avg_views": 296.2,
         "max_views": 758,
         "examples": [
           "Ce que votre corps vous dit quand le corps se fige",
@@ -275,7 +275,7 @@
         ]
       }
     ],
-    "winner_cluster": "poule / chair / soudainement / soudaine / l'apparition",
+    "winner_cluster": "chair / poule / soudainement / soudaine / l'apparition",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
@@ -283,8 +283,8 @@
     "n": 50,
     "p10": 28.9,
     "p50": 36.6,
-    "p90": 50.1,
-    "share_below_50pct": 0.88,
+    "p90": 47.9,
+    "share_below_50pct": 0.9,
     "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
   },
   "experiment": {

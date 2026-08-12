@@ -1,5 +1,5 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-12T06:52:57.783036+00:00_
+_Généré 2026-08-12T10:28:43.018316+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
@@ -23,8 +23,8 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-            "message": "The request cannot be completed because you have exceeded your \u003ca href=\"/youtube/v3/getting-started#quota\"\u003equota\u003c/a\u003e.",
-            "domain": "youtu
+      old: Pourquoi les yeux deviennent rouges ?
+      new: Pourquoi les yeux deviennent rouges ?
     FIX   5BMuNOhaJO4
       old: Pourquoi les mains deviennent froides sans raison ?
       new: Pourquoi les mains deviennent froides sans raison ?

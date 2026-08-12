@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-12T06:52:50.071649+00:00",
+  "generated_at": "2026-08-12T10:28:36.308146+00:00",
   "recommended_cadence": 2,
   "cadence_reason": "Retention is 77% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": false,
@@ -21,15 +21,15 @@
   "pillar_stats": {
     "other": {
       "n": 12,
-      "avg_views": 562.0
+      "avg_views": 563.7
     },
     "skin": {
       "n": 7,
-      "avg_views": 796.6
+      "avg_views": 799.0
     },
     "ear": {
       "n": 3,
-      "avg_views": 787.3
+      "avg_views": 795.3
     },
     "nerve": {
       "n": 2,
@@ -41,7 +41,7 @@
     },
     "muscle": {
       "n": 4,
-      "avg_views": 1198.2
+      "avg_views": 1206.8
     },
     "gut": {
       "n": 5,
@@ -53,7 +53,7 @@
     },
     "eye": {
       "n": 6,
-      "avg_views": 639.3
+      "avg_views": 644.5
     },
     "heart": {
       "n": 2,
@@ -67,7 +67,7 @@
     },
     "question": {
       "n": 35,
-      "avg_views": 704.8
+      "avg_views": 708.4
     }
   },
   "preferred_hook_frame": "question",
@@ -76,61 +76,61 @@
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 252.7
+      "age_hours": 256.2
     },
     {
       "video_id": "K8JSUbL13Oc",
       "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
-      "views": 28,
-      "age_hours": 126.1
+      "views": 31,
+      "age_hours": 129.7
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 502.6
+      "age_hours": 506.2
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 528.5
+      "age_hours": 532.1
     },
     {
       "video_id": "1Y3DfG_Opg4",
       "title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "views": 150,
-      "age_hours": 107.5
-    },
-    {
-      "video_id": "Ubg7rTtym84",
-      "title": "Pourquoi un vertige apparaît après s'être levé ?",
-      "views": 151,
-      "age_hours": 130.5
+      "age_hours": 111.1
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 154,
-      "age_hours": 558.3
+      "age_hours": 561.9
+    },
+    {
+      "video_id": "Ubg7rTtym84",
+      "title": "Pourquoi un vertige apparaît après s'être levé ?",
+      "views": 165,
+      "age_hours": 134.1
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 254.3
+      "age_hours": 257.9
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 518.5
+      "age_hours": 522.1
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 474.1
+      "age_hours": 477.7
     }
   ],
   "auto_repair_count": 10
