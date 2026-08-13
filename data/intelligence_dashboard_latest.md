@@ -1,5 +1,5 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-13T18:28:15.320819+00:00_ — n=25 vidéos réelles
+_2026-08-13T19:55:21.114164+00:00_ — n=25 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **25** · couverture CTR: **0%** · rétention: **100%**

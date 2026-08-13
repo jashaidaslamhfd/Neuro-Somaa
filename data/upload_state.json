@@ -604,5 +604,18 @@
     },
     "publish_at": "2026-08-13T19:30:00+00:00",
     "completed_at": 1786646188.498388
+  },
+  "0e29c981bff5ac76cb1f98f175cb9f828623cf741794c12b958a20cff677d770": {
+    "status": "completed",
+    "title": "Pourquoi la musique change l'humeur ?",
+    "youtube_video_id": "vst_IwqiKpU",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-14T15:30:00+00:00",
+    "completed_at": 1786651350.523864
   }
 }

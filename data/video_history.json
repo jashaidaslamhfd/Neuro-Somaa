@@ -1592,5 +1592,28 @@
     "hook_arm": "question",
     "hook_score_v2": 66,
     "loop_bridge_present": true
+  },
+  {
+    "content_fingerprint": "0e29c981bff5ac76cb1f98f175cb9f828623cf741794c12b958a20cff677d770",
+    "title": "Pourquoi la musique change l'humeur ?",
+    "topic": "Pourquoi la musique change l'humeur",
+    "series_title": "Musique change l'humeur",
+    "base_phenomenon": "la fa\u00e7on dont la musique change l'humeur",
+    "nominal_phrase": "la fa\u00e7on dont la musique change l'humeur",
+    "question_phrase": "la musique change l'humeur",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Tu \u00e9coutes un morceau, ton humeur bascule. Ton cerveau lib\u00e8re une rafale de dopamine, boom. Le rythme active le syst\u00e8me limbique, centre des \u00e9motions. Les accords majeurs boostent s\u00e9rotonine, tu te sens l\u00e9ger. Le plus \u00e9trange ? Le silence fait chuter cortisol rapidement. Alors choisis ta playlist, ton humeur suivra naturellement.",
+    "posted_at": "2026-08-13T20:02:30.524889+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "vst_IwqiKpU",
+    "publish_at": "2026-08-14T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 42,
+    "loop_bridge_present": false
   }
 ]
