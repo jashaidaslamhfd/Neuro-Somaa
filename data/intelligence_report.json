@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T11:24:33.698822+00:00",
+  "generated_at": "2026-08-13T18:28:15.320819+00:00",
   "n_videos_analyzed": 25,
   "truth_gate": {
     "hook_score": {
@@ -190,7 +190,7 @@
     "clusters": [
       {
         "cluster_id": 0,
-        "name": "surprend / sujet",
+        "name": "sujet / surprend",
         "size": 25,
         "avg_views": 980.0,
         "max_views": 1460,
@@ -201,7 +201,7 @@
         ]
       }
     ],
-    "winner_cluster": "surprend / sujet",
+    "winner_cluster": "sujet / surprend",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {

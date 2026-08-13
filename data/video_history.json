@@ -1569,5 +1569,28 @@
     "hook_arm": "question",
     "hook_score_v2": 54,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "f1b7952d8c31541929c7f2a96979578ce91eb6c5072016061bbe98bf6160ce62",
+    "title": "Pourquoi le cerveau cr\u00e9e des souvenirs faux ?",
+    "topic": "Ce qui change lorsque le cerveau cr\u00e9e des souvenirs faux",
+    "series_title": "Cerveau qui imagine",
+    "base_phenomenon": "les faux souvenirs cr\u00e9\u00e9s par le cerveau",
+    "nominal_phrase": "les faux souvenirs cr\u00e9\u00e9s par le cerveau",
+    "question_phrase": "le cerveau cr\u00e9e des souvenirs faux",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Pourquoi ton cerveau cr\u00e9e des souvenirs faux ? C'est une reconstruction, pas un enregistrement exact fid\u00e8le. Ton hippocampe r\u00e9active les d\u00e9tails, puis les modifie. Chaque fois que tu te souviens, l'\u00e9motion se r\u00e9\u00e9crit. Le plus \u00e9trange ? Le cerveau ajoute parfois des sc\u00e8nes. Et \u00e7a recommence \u00e0 chaque souvenir que tu revisites.",
+    "posted_at": "2026-08-13T18:36:28.499376+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "PRXb_17G84s",
+    "publish_at": "2026-08-13T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75,
+    "hook_arm": "question",
+    "hook_score_v2": 66,
+    "loop_bridge_present": true
   }
 ]
