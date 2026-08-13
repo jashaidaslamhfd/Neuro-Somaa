@@ -1,23 +1,23 @@
 {
   "hook_score": {
-    "verdict": "INSUFFICIENT_DATA",
+    "verdict": "NOISE",
     "decision_usable": false,
-    "spearman_vs_views": null
+    "spearman_vs_views": -0.019
   },
   "seo_score": {
-    "verdict": "INSUFFICIENT_DATA",
+    "verdict": "INVERTED",
     "decision_usable": false,
-    "spearman_vs_views": null
+    "spearman_vs_views": -0.157
   },
   "predicted_retention": {
-    "verdict": "INSUFFICIENT_DATA",
+    "verdict": "NOISE",
     "decision_usable": false,
-    "spearman_vs_views": null
+    "spearman_vs_views": -0.093
   },
   "predicted_ctr": {
-    "verdict": "INSUFFICIENT_DATA",
+    "verdict": "INVERTED",
     "decision_usable": false,
-    "spearman_vs_views": null
+    "spearman_vs_views": -0.171
   },
   "_meta": {
     "min_n": 12,

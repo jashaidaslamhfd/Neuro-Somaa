@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-12T10:54:46.029024+00:00",
+  "generated_at": "2026-08-13T06:55:33.270301+00:00",
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 77% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 78% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": false,
   "throttle_reason": "last 0 videos avg 0 views",
   "topic_blocklist": [],
@@ -10,22 +10,21 @@
   "winner_pillars": [
     "muscle",
     "gut",
-    "skin",
     "ear",
-    "breath",
     "heart",
+    "skin",
     "eye",
     "other",
-    "brain"
+    "breath"
   ],
   "pillar_stats": {
     "other": {
       "n": 12,
-      "avg_views": 563.7
+      "avg_views": 563.8
     },
     "skin": {
-      "n": 7,
-      "avg_views": 799.0
+      "n": 8,
+      "avg_views": 726.9
     },
     "ear": {
       "n": 3,
@@ -36,8 +35,8 @@
       "avg_views": 334.5
     },
     "brain": {
-      "n": 7,
-      "avg_views": 518.6
+      "n": 8,
+      "avg_views": 488.1
     },
     "muscle": {
       "n": 4,
@@ -48,16 +47,16 @@
       "avg_views": 886.2
     },
     "breath": {
-      "n": 2,
-      "avg_views": 784.0
+      "n": 3,
+      "avg_views": 535.0
     },
     "eye": {
       "n": 6,
-      "avg_views": 644.5
+      "avg_views": 645.7
     },
     "heart": {
-      "n": 2,
-      "avg_views": 706.5
+      "n": 3,
+      "avg_views": 761.0
     }
   },
   "hook_stats": {
@@ -66,72 +65,90 @@
       "avg_views": 690.2
     },
     "question": {
-      "n": 35,
-      "avg_views": 708.4
+      "n": 39,
+      "avg_views": 672.0
     }
   },
-  "preferred_hook_frame": "question",
+  "preferred_hook_frame": "statement",
   "auto_repair_candidates": [
     {
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 256.7
+      "age_hours": 276.7
+    },
+    {
+      "video_id": "jHvt1X6XDuY",
+      "title": "Pourquoi le stress brouille la mémoire ?",
+      "views": 22,
+      "age_hours": 58.9
     },
     {
       "video_id": "K8JSUbL13Oc",
       "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
       "views": 31,
-      "age_hours": 130.1
+      "age_hours": 150.1
+    },
+    {
+      "video_id": "CdbNz9T2sbA",
+      "title": "Pourquoi la respiration ralentit en dormant ?",
+      "views": 37,
+      "age_hours": 83.3
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 506.6
+      "age_hours": 526.6
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 532.5
+      "age_hours": 552.6
     },
     {
       "video_id": "1Y3DfG_Opg4",
       "title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "views": 150,
-      "age_hours": 111.5
+      "age_hours": 131.5
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 154,
-      "age_hours": 562.4
+      "age_hours": 582.4
     },
     {
       "video_id": "Ubg7rTtym84",
       "title": "Pourquoi un vertige apparaît après s'être levé ?",
       "views": 165,
-      "age_hours": 134.5
+      "age_hours": 154.5
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 258.3
+      "age_hours": 278.3
+    },
+    {
+      "video_id": "28JErGGWIs0",
+      "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
+      "views": 222,
+      "age_hours": 60.6
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 522.6
+      "age_hours": 542.6
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 478.1
+      "age_hours": 498.1
     }
   ],
-  "auto_repair_count": 10
+  "auto_repair_count": 13
 }
