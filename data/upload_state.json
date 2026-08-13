@@ -578,5 +578,18 @@
     },
     "publish_at": "2026-08-13T15:30:00+00:00",
     "completed_at": 1786565264.225399
+  },
+  "9b822ce6d8d9b5d2bfe174038d5e36485856dc041bb49dc9a434a556ea26c7f0": {
+    "status": "completed",
+    "title": "Pourquoi la m\u00e9moire invente des d\u00e9tails sans le vouloir ?",
+    "youtube_video_id": "tzyYhEu3uqU",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-13T17:30:00+00:00",
+    "completed_at": 1786620760.193131
   }
 }

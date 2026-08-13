@@ -1,16 +1,6 @@
 {
-  "generated_at": "2026-08-13T06:55:33.532104+00:00",
+  "generated_at": "2026-08-13T11:24:34.157646+00:00",
   "ttl_hours": 96,
   "policy": "ship adjacent clones of over-performers while the algorithm seeks more",
-  "fastlane": [
-    {
-      "topic": "Pourquoi le ventre se serre au réveil ?",
-      "series_number": "W01",
-      "cloned_from": {
-        "video_id": "WxOEXbepJ40",
-        "views": 1456,
-        "title": "Pourquoi le ventre se serre lors d'une peur peut sembler"
-      }
-    }
-  ]
+  "fastlane": []
 }
