@@ -1,52 +1,6 @@
 {
-  "generated_at": "2026-08-14T21:12:19.985251+00:00",
+  "generated_at": "2026-08-14T21:15:57.592046+00:00",
   "ttl_hours": 96,
   "policy": "ship adjacent clones of over-performers while the algorithm seeks more",
-  "fastlane": [
-    {
-      "topic": "Pourquoi le ventre se serre lors d'une peur au réveil ?",
-      "series_number": "W01",
-      "cloned_from": {
-        "video_id": "WxOEXbepJ40",
-        "views": 1456,
-        "title": "Pourquoi le ventre se serre lors d'une peur peut sembler"
-      }
-    },
-    {
-      "topic": "Pourquoi un aliment froid provoque un mal quand tu es stressé ?",
-      "series_number": "W02",
-      "cloned_from": {
-        "video_id": "8b9CONZ5ntY",
-        "views": 1241,
-        "title": "Pourquoi un aliment froid provoque un mal de tête ?"
-      }
-    },
-    {
-      "topic": "Pourquoi le muscle qui tressaille tout seul au réveil ?",
-      "series_number": "W03",
-      "cloned_from": {
-        "video_id": "KMXIpcpoDX4",
-        "views": 1168,
-        "title": "Pourquoi le muscle qui tressaille tout seul ?"
-      }
-    },
-    {
-      "topic": "Pourquoi la mâchoire craque quand tu es amoureux ?",
-      "series_number": "W04",
-      "cloned_from": {
-        "video_id": "0giDXoVx72E",
-        "views": 1060,
-        "title": "Pourquoi la mâchoire craque en mâchant ?"
-      }
-    },
-    {
-      "topic": "Pourquoi un nœud au ventre apparaît au réveil ?",
-      "series_number": "W05",
-      "cloned_from": {
-        "video_id": "n1TgqGp2PQ0",
-        "views": 1007,
-        "title": "Pourquoi un nœud au ventre apparaît avant un moment ?"
-      }
-    }
-  ]
+  "fastlane": []
 }
