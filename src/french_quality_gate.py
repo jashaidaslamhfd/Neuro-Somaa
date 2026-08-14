@@ -238,7 +238,11 @@ _COMMON_FRENCH_VERBS = frozenset({
     "adaptent", "synchronise", "synchronisent", "desynchronise",
     "recommence", "recommencent", "repart", "repartent", "refera", "referont",
     "serre", "serrent", "contracte", "contractent", "grogne", "grognent",
-    "gargouille", "gargouillent", "endort", "reveillez",
+    # body-sensation verbs missing from the lexicon (audit 2026-08-15:
+    # "le muscle qui tressaille", "un pied s'endort" and similar winner cores
+    # were rejected as "noun phrases" by has_french_verb)
+    "tressaille", "tressaillent", "endormir", "endort", "craque", "craquent",
+    "gargouille", "gargouillent", "reveillez",
     "sauras", "sauront", "verras", "verront", "regarde", "regardent",
 })
 
