@@ -550,6 +550,13 @@ def _normalize_scenes(script_data: dict) -> dict:
     try:
         from french_humanizer import humanize_spoken_fr, formality_leftovers
         all_changes: list[str] = []
+        # The hook (first words viewers hear) is the single most
+        # AI-sounding line when left in written register — always run it
+        # through the humanizer even when it matches scene 1's caption.
+        if script_data.get('hook'):
+            fixed_hook, hook_ch = humanize_spoken_fr(script_data['hook'])
+            script_data['hook'] = fixed_hook
+            all_changes.extend(hook_ch)
         for scene in normalized:
             fixed, ch = humanize_spoken_fr(scene['caption'])
             scene['caption'] = fixed

@@ -119,6 +119,10 @@ jobs:
           EDGE_FR_VOICE_POOL: "fr-FR-HenriNeural,fr-FR-GerardNeural,fr-FR-RemyNeural,fr-FR-DeniseNeural,fr-FR-EloiseNeural,fr-FR-JosephineNeural"
           # 2026-08-15: natural breath pause between scenes (human pacing).
           BREATH_PAUSE_SECONDS: "0.45"
+          # 2026-08-15: natural delivery variation — per-scene pacing drift
+          # (hook faster, questions slower, micro-jitter everywhere) so the
+          # narration never sits at one flat machine tempo.
+          DELIVERY_VARIATION: "true"
           # --- Background music: original in-repo beds (Content-ID safe) ---
           MUSIC_VOLUME: "0.09"
           

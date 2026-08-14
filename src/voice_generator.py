@@ -63,6 +63,50 @@ CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.60, 0.05, 1.5)
 # artificial. FFmpeg accepts 0.5–2.0 for one atempo filter.
 CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
 
+# ── 2026-08-15: NATURAL DELIVERY VARIATION (kill the AI monotone) ──────
+# A human narrator never reads every sentence at one fixed pace: they speed
+# up for energy (hooks, short punchy lines), slow down for emphasis (a
+# question, a reveal), and drift slightly even on neutral lines. A flat
+# tempo on every scene is the single loudest "machine" cue. These profiles
+# are applied PER SEGMENT around the base tempo/rate; the jitter is symmetric
+# so the overall video length stays unchanged.
+_DELIVERY_PROFILES = {
+    "hook":       1.07,   # energetic opening — the first 2-3s win the scroll
+    "question":   0.94,   # a human leans in and slows before/inside a "?"
+    "emphasis":   0.92,   # reveals/punchlines drawn out for weight
+    "neutral":    1.00,
+}
+_DELIVERY_JITTER = (-0.04, 0.04)  # tiny symmetric per-segment drift
+ENABLE_DELIVERY_VARIATION = os.environ.get(
+    "DELIVERY_VARIATION", "true").lower() in ("1", "true", "yes", "on")
+
+
+def _delivery_multiplier(caption: str, index: int, total: int) -> float:
+    """Human-like per-segment pacing multiplier around the base tempo/rate."""
+    if not ENABLE_DELIVERY_VARIATION:
+        return 1.0
+    if index == 0:
+        profile = _DELIVERY_PROFILES["hook"]
+    elif caption.rstrip().endswith("?"):
+        profile = _DELIVERY_PROFILES["question"]
+    elif any(k in caption.lower() for k in (
+            "imagine", "voilà pourquoi", "c'est pour ça", "pourtant",
+            "tu vois", "et devine quoi")):
+        profile = _DELIVERY_PROFILES["emphasis"]
+    else:
+        profile = _DELIVERY_PROFILES["neutral"]
+    jitter = float(hash((index, caption[:10])) % 1000) / 500.0 - 1.0  # deterministic ±1
+    jitter = jitter * _DELIVERY_JITTER[1]  # within the configured band
+    return max(0.5, min(2.0, profile + jitter))
+
+
+def _edge_rate_for(segment_factor: float) -> str:
+    """Convert a pacing multiplier into an edge-tts rate string (base -8%)."""
+    base = float(os.environ.get("EDGE_FR_RATE", "-8%").replace("%", "")) / 100.0
+    # factor applies to duration: slower speech = more negative rate
+    rate = (1.0 / segment_factor - 1.0) + base
+    return f"{rate * 100:+.0f}%"
+
 # Number of times Chatterbox retries per segment before giving up and
 # falling back to Kokoro. Retries use the cloned voice reference every
 # time — if the reference is bad the first attempt will fail, and retrying
@@ -474,7 +518,7 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
 
 
 def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
-              topic: str = ""):
+              topic: str = "", seg_index: int = 0, seg_total: int = 0):
     """Synthesize a single segment with retry logic.
 
     FLOW:
@@ -513,7 +557,10 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
 
     def _try_edge():
         try:
-            audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice)
+            seg_rate = _edge_rate_for(
+                _delivery_multiplier(text, seg_index, seg_total))
+            audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice,
+                                                rate=seg_rate)
             _validate_generated_audio(audio, sr, min_duration=0.3)
             return audio, sr
         except Exception as exc:
@@ -526,7 +573,8 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             return audio, sr, "edge_fr"
 
     if prefer_kokoro:
-        audio, sr = _synthesize_kokoro(narration_text, voice, speed)
+        seg_speed = speed * _delivery_multiplier(text, seg_index, seg_total)
+        audio, sr = _synthesize_kokoro(narration_text, voice, seg_speed)
         return audio, sr, "kokoro_fr"
 
     # ---- STEP 1: explicitly enabled cloned voice ----
@@ -552,7 +600,8 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     # ---- STEP 2: Kokoro fallback (one shot) ----
     logger.info("Falling back to Kokoro TTS engine...")
     try:
-        audio, sr = _synthesize_kokoro(narration_text, voice, speed)
+        seg_speed = speed * _delivery_multiplier(text, seg_index, seg_total)
+        audio, sr = _synthesize_kokoro(narration_text, voice, seg_speed)
         logger.info("Kokoro fallback SUCCESS")
         return audio, sr, "kokoro"
     except Exception as kokoro_err:
@@ -656,7 +705,8 @@ def generate_voice_segments(
         # pipeline must abort. Silent 1.5s silence inserts are NOT acceptable;
         # main.py's quality gate will catch the crash and log it properly.
         audio, sr, engine = _synthesize(caption, voice, speed,
-                                        topic=topic or scene.get("topic", ""))
+                                        topic=topic or scene.get("topic", ""),
+                                        seg_index=i, seg_total=len(scenes))
         engine_counts[engine] = engine_counts.get(engine, 0) + 1
         path = os.path.join(output_dir, f"seg_{i}.wav")
         sf.write(path, audio, sr)

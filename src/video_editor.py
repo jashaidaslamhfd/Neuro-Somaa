@@ -612,7 +612,13 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             scene_visual = _cover_video_clip(img_path, duration)
         else:
             # AI/static image: two motion beats make the scene feel alive.
-            first_duration = duration / 2.0
+            # 2026-08-15: beats are no longer a mechanical 50/50 split — a
+            # human editor trims each beat differently per shot. The split
+            # drifts ±15% deterministically per scene, so no two scenes
+            # repeat the same visual rhythm.
+            _rng = random.Random(hash(("beat", caption_text)))
+            _split = 0.5 + _rng.uniform(-0.15, 0.15)
+            first_duration = duration * _split
             second_duration = duration - first_duration
             first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)
             second_direction = "out" if direction == "in" else "in"
@@ -650,24 +656,32 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         )
         audio_clips.append(seg_audio)
         t_cursor += duration
-        # Breath pause after every scene except the last (keeps the total
-        # length deterministic and avoids a trailing dead second).
+        # 2026-08-15: NATURAL PAUSE VARIATION — identical pause lengths are a
+        # machine signature. Each scene's pause drifts ±30% deterministically
+        # (per scene text), and the scene BEFORE a question gets a slightly
+        # longer "beat" pause — how a human presenter paces before a reveal.
+        # Jitter is symmetric, so total length stays on the retention target.
         if i < len(image_paths) - 1 and _breath > 0:
+            next_caption = scenes[i + 1].get('caption', '') if i + 1 < len(scenes) else ''
+            rng = random.Random(hash(("breath", caption_text)))
+            drift = 1.0 + rng.uniform(-0.30, 0.30)
+            beat = 1.35 if next_caption.rstrip().endswith("?") else 1.0
+            pause = max(0.15, _breath * drift * beat)
             # A still hold on the just-shown frame is how a presenter's
             # pause reads on screen — not a flicker to the next image.
-            breath_video = ImageClip(img_path, duration=_breath).resize(
+            breath_video = ImageClip(img_path, duration=pause).resize(
                 (CANVAS_W, CANVAS_H)
             ).set_fps(30)
             breath_audio = AudioClip(
-                lambda tt: np.zeros((len(tt), 2)), duration=_breath, fps=48000
+                lambda tt: np.zeros((len(tt), 2)), duration=pause, fps=48000
             )
             video_clips.append(
                 CompositeVideoClip([breath_video], size=(CANVAS_W, CANVAS_H))
-                .set_duration(_breath)
+                .set_duration(pause)
             )
             audio_clips.append(breath_audio)
-            t_cursor += _breath
-            logger.info("Breath pause %.2fs after scene %d", _breath, i + 1)
+            t_cursor += pause
+            logger.info("Breath pause %.2fs after scene %d", pause, i + 1)
     logger.info("Concatenating video clips...")
     final_video = concatenate_videoclips(video_clips, method="compose")
 
