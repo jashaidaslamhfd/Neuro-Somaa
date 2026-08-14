@@ -1,0 +1,144 @@
+name: "Neuro-Somaa - Repair Old Videos Metadata (one-shot)"
+
+# 2026-08-15: repair run for existing uploads. Three actions:
+#   1. Private the one confirmed-dead video (404: _b2DE7BA1E4).
+#   2. Retitle the one true flopper ("Pourquoi votre corps refuse de maigrir ?"
+#      — 3 views, 0% retention) to a stronger anti-template title.
+#   3. Retitle every LOW-PERFORMING "Pourquoi..." title (below 2x median) to a
+#      curiosity-question variant so the template smell stops suppressing CTR.
+# Winners (1000+ views) are NEVER touched. Video files stay unchanged — this
+# only edits titles/descriptions via the YouTube API (allowed for existing
+# uploads). Reversible anytime from YouTube Studio.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Google client
+        shell: bash
+        run: |
+          python3 -m pip install -q --user google-api-python-client google-auth-oauthlib
+          echo "PYTHONPATH=$HOME/.local/lib/python3.11/site-packages" >> "$GITHUB_ENV"
+
+      - name: Repair old videos metadata
+        shell: bash
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: |
+          set -u
+          python3 - "$GOOGLE_CLIENT_ID" "$GOOGLE_CLIENT_SECRET" "$REFRESH_TOKEN" <<'PYEOF'
+          import os, sys, json
+          import google.oauth2.credentials as _creds
+          from googleapiclient.discovery import build
+          from googleapiclient.errors import HttpError
+
+          cid, csec, token = sys.argv[1], sys.argv[2], sys.argv[3]
+          if not all((cid, csec, token)):
+              print("::error::Google secrets missing (GOOGLE_CLIENT_ID/SECRET, REFRESH_TOKEN)")
+              sys.exit(1)
+
+          credentials = _creds.Credentials(
+              token=None,
+              refresh_token=token,
+              client_id=cid,
+              client_secret=csec,
+              token_uri="https://oauth2.googleapis.com/token",
+          )
+          yt = build("youtube", "v3", credentials=credentials)
+
+          # 1. Confirmed dead video (oEmbed 404).
+          DEAD = [("_b2DE7BA1E4", "Comprendre pourquoi le corps frissonne sous le stress")]
+
+          # 2. The one true flopper (3 views, 0% retention).
+          RETITLE_ONE = [
+              ("FX6vqwymE0Y", "Pourquoi votre corps refuse de maigrir ?",
+               "Pourquoi ton corps bloque la perte de poids ?"),
+          ]
+
+          # 3. Low performers whose "Pourquoi + noun" titles are the weakest
+          # possible hook (from 2026-08-15 classification; winners untouched).
+          RETITLE_LOW = [
+              ("FteL-0nbHWk", "Pourquoi le cerveau remarque entendre son cœur battre la",
+               "Pourquoi tu entends ton cœur battre dans le noir ?"),
+              ("x15ltzEHaB8", "Pourquoi le temps semble passer plus vite en vieillissant",
+               "Pourquoi l'été de tes 10 ans durait une éternité ?"),
+              ("RV4LGjp89-U", "Pourquoi le cerveau repère son propre prénom peut sembler",
+               "Pourquoi ton prénom réveille ton cerveau en foule ?"),
+              ("YluUMs7fPtQ", "Pourquoi les corps flottants visibles dans la lumière ?",
+               "Pourquoi des points noirs nagent dans ton champ de vision ?"),
+              ("VRWySzxXsyE", "Pourquoi on sent une vibration de téléphone imaginaire ?",
+               "Pourquoi ton téléphone sonne quand il ne vibre pas ?"),
+              ("PYdZCzdVt4M", "Pourquoi dit on que le cerveau est immature ?",
+               "Pourquoi ton cerveau ne finit jamais de grandir ?"),
+              ("8EylhDaAE_4", "Pourquoi le ventre gargouille sans faim ?",
+               "Pourquoi ton ventre crie quand tu es en réunion ?"),
+              ("xsB78sHX6Fc", "Pourquoi on frissonne quand on a froid ?",
+               "Pourquoi le froid te secoue sans que tu le commandes ?"),
+              ("-4pgrbC9uaQ", "Pourquoi on entend son cœur battre la nuit ?",
+               "Pourquoi ton cœur réveille la nuit tout ton corps ?"),
+              ("_QBHLbu9s7Y", "Pourquoi les oreilles sifflent dans le silence ?",
+               "Pourquoi le silence absolu fait du bruit dans tes oreilles ?"),
+              ("HJb7xCMIYWQ", "Pourquoi la chair de poule apparaît soudainement ?",
+               "Pourquoi ta peau se hérisse devant une bonne musique ?"),
+          ]
+
+          def update_meta(vid, new_title):
+              try:
+                  # fetch current snippet to preserve description/tags
+                  cur = yt.videos().list(part="snippet", id=vid).execute()
+                  items = cur.get("items", [])
+                  if not items:
+                      print(f"GONE {vid} (videoNotFound)")
+                      return "gone"
+                  sn = items[0]["snippet"]
+                  body = {"id": vid, "snippet": dict(sn, title=new_title[:100])}
+                  yt.videos().update(part="snippet", body=body).execute()
+                  print(f"OK   {vid} -> {new_title[:60]}")
+                  return "ok"
+              except HttpError as exc:
+                  if getattr(exc, "resp", None) is not None and exc.resp.status == 404 and "videoNotFound" in str(exc):
+                      print(f"GONE {vid} (already deleted)")
+                      return "gone"
+                  print(f"FAIL {vid}: {exc}")
+                  return "fail"
+
+          def set_private(vid, label):
+              try:
+                  yt.videos().update(
+                      part="status",
+                      body={"id": vid, "status": {"privacyStatus": "private"}},
+                  ).execute()
+                  print(f"OK   {vid}  PRIVATE {label[:50]}")
+                  return "ok"
+              except HttpError as exc:
+                  if getattr(exc, "resp", None) is not None and exc.resp.status == 404 and "videoNotFound" in str(exc):
+                      print(f"GONE {vid} {label[:50]} (already deleted)")
+                      return "gone"
+                  print(f"FAIL {vid}: {exc}")
+                  return "fail"
+
+          ok, fail = [], []
+          for vid, label in DEAD:
+              r = set_private(vid, label)
+              (ok if r != "fail" else fail).append(vid)
+          for vid, old, new in RETITLE_ONE + RETITLE_LOW:
+              r = update_meta(vid, new)
+              (ok if r != "fail" else fail).append(vid)
+
+          print(f"\n{len(ok)} repaired, {len(fail)} failed")
+          sys.exit(1 if fail else 0)
+          PYEOF
