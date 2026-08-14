@@ -1,12 +1,12 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-14T06:53:07.699530+00:00_
+_Généré 2026-08-14T21:12:28.767258+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
 ✅ Trois pics quotidiens distincts sont couverts.
 
 ## 2. Cadence réelle (3 vidéos/jour attendues)
-⚠️ 2026-08-14 : 1/3
+✅ 2026-08-14 : 3/3
 ✅ 2026-08-13 : 3/3
 ✅ 2026-08-12 : 3/3
 
@@ -24,9 +24,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi le cerveau crée des souvenirs faux ?
-      new: Pourquoi le cerveau crée des souvenirs faux ?
-    FIX   vst_IwqiKpU
-      old: Pourquoi la musique change l'humeur ?
-      new: Pourquoi la musique change l'humeur ?
+      old: Pourquoi les souvenirs gênants reviennent ?
+      new: Pourquoi les souvenirs gênants reviennent ?
+    FIX   iSh6RR4oxME
+      old: Pourquoi le corps résiste à la perte de poids ?
+      new: Pourquoi le corps résiste à la perte de poids ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.
