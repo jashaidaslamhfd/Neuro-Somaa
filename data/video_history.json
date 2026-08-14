@@ -1851,5 +1851,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 78,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "31de668d0b7d29449677ebdb0335534f98c41763b25e880ec4cd4cde74d19824",
+    "title": "Pourquoi le corps r\u00e9siste \u00e0 la perte de poids ?",
+    "topic": "Ce qui change lorsque le corps r\u00e9siste \u00e0 la perte de poids",
+    "series_title": "Corps qui refuse de maigrir",
+    "base_phenomenon": "la r\u00e9sistance du corps \u00e0 la perte de poids",
+    "nominal_phrase": "la r\u00e9sistance du corps \u00e0 la perte de poids",
+    "question_phrase": "le corps r\u00e9siste \u00e0 la perte de poids",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Pourquoi ton corps bloque la perte ? C'est ton m\u00e9tabolisme qui se met en pause. Il r\u00e9duit la d\u00e9pense \u00e9nerg\u00e9tique pour \u00e9conomiser calories. Il augmente la faim en lib\u00e9rant plus de ghreline. Le plus \u00e9trange ? Ton corps garde la graisse. Et \u00e7a bloque encore d\u00e8s que tu r\u00e9duis les calories.",
+    "posted_at": "2026-08-14T19:52:49.799897+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "iSh6RR4oxME",
+    "publish_at": "2026-08-15T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682,
+    "hook_arm": "question",
+    "hook_score_v2": 80,
+    "loop_bridge_present": false
   }
 ]

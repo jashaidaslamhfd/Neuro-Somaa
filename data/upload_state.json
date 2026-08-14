@@ -643,5 +643,18 @@
     },
     "publish_at": "2026-08-14T19:30:00+00:00",
     "completed_at": 1786732489.047441
+  },
+  "31de668d0b7d29449677ebdb0335534f98c41763b25e880ec4cd4cde74d19824": {
+    "status": "completed",
+    "title": "Pourquoi le corps r\u00e9siste \u00e0 la perte de poids ?",
+    "youtube_video_id": "iSh6RR4oxME",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-15T15:30:00+00:00",
+    "completed_at": 1786737169.798872
   }
 }
