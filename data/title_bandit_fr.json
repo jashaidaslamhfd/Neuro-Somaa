@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-13T06:55:33.435174+00:00",
+  "generated_at_utc": "2026-08-14T06:53:00.502818+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.7751,
-      "observed_samples": 34,
-      "observed_avg": 3.8795,
+      "score": 3.8048,
+      "observed_samples": 37,
+      "observed_avg": 3.9023,
       "competitor_prior": 2.0
     },
     {
@@ -40,9 +40,9 @@
     },
     {
       "pattern": "other",
-      "score": 2.4273,
+      "score": 2.4274,
       "observed_samples": 4,
-      "observed_avg": 3.6409,
+      "observed_avg": 3.641,
       "competitor_prior": 0.0
     },
     {

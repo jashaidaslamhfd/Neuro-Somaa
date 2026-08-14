@@ -1,18 +1,17 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-06T20:30:13.562121+00:00_
+_Généré 2026-08-14T06:53:07.699530+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
 ✅ Trois pics quotidiens distincts sont couverts.
 
 ## 2. Cadence réelle (3 vidéos/jour attendues)
-⚠️ 2026-08-06 : 1/3
-✅ 2026-08-05 : 7/3
-⚠️ 2026-08-04 : 0/3
-⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
+⚠️ 2026-08-14 : 1/3
+✅ 2026-08-13 : 3/3
+✅ 2026-08-12 : 3/3
 
 ## 3. Vidéos déjà publiées à réparer
-8 vidéo(s) présentent des défauts :
+9 vidéo(s) présentent des défauts :
 - `r7URDUokZh0` — title only 11 chars — too thin to earn a click
 - `1XVYcxQqDqo` — title only 21 chars — too thin to earn a click
 - `FteL-0nbHWk` — title ends mid-phrase — the payload is missing
@@ -21,12 +20,13 @@ Créneaux appris : 17:30, 19:30, 21:30
 - `KMXIpcpoDX4` — question mark on a phrase with no conjugated verb
 - `S6R0HQV2vdM` — title ends mid-phrase — the payload is missing
 - `egwYCVNXnPQ` — title ends mid-phrase — the payload is missing
+- `P6N8mJAbU5M` — title ends mid-phrase — the payload is missing
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi un pied s'endort tout seul ?
-      new: Pourquoi un pied s'endort tout seul ?
-    FIX   Ubg7rTtym84
-      old: Pourquoi un vertige apparaît après s'être levé ?
-      new: Pourquoi un vertige apparaît après s'être levé ?
+      old: Pourquoi le cerveau crée des souvenirs faux ?
+      new: Pourquoi le cerveau crée des souvenirs faux ?
+    FIX   vst_IwqiKpU
+      old: Pourquoi la musique change l'humeur ?
+      new: Pourquoi la musique change l'humeur ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.

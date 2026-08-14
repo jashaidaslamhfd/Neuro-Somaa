@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T06:55:33.270301+00:00",
+  "generated_at": "2026-08-14T06:53:00.357408+00:00",
   "recommended_cadence": 2,
   "cadence_reason": "Retention is 78% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": false,
@@ -36,23 +36,23 @@
     },
     "brain": {
       "n": 8,
-      "avg_views": 488.1
+      "avg_views": 488.2
     },
     "muscle": {
       "n": 4,
       "avg_views": 1206.8
     },
     "gut": {
-      "n": 5,
-      "avg_views": 886.2
+      "n": 6,
+      "avg_views": 882.5
     },
     "breath": {
       "n": 3,
-      "avg_views": 535.0
+      "avg_views": 535.7
     },
     "eye": {
-      "n": 6,
-      "avg_views": 645.7
+      "n": 7,
+      "avg_views": 659.0
     },
     "heart": {
       "n": 3,
@@ -62,11 +62,11 @@
   "hook_stats": {
     "statement": {
       "n": 15,
-      "avg_views": 690.2
+      "avg_views": 690.3
     },
     "question": {
-      "n": 39,
-      "avg_views": 672.0
+      "n": 41,
+      "avg_views": 678.4
     }
   },
   "preferred_hook_frame": "statement",
@@ -75,79 +75,79 @@
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 276.7
+      "age_hours": 300.7
     },
     {
       "video_id": "jHvt1X6XDuY",
       "title": "Pourquoi le stress brouille la mémoire ?",
       "views": 22,
-      "age_hours": 58.9
+      "age_hours": 82.9
     },
     {
       "video_id": "K8JSUbL13Oc",
       "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
-      "views": 31,
-      "age_hours": 150.1
+      "views": 33,
+      "age_hours": 174.1
     },
     {
       "video_id": "CdbNz9T2sbA",
       "title": "Pourquoi la respiration ralentit en dormant ?",
       "views": 37,
-      "age_hours": 83.3
+      "age_hours": 107.3
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 526.6
+      "age_hours": 550.6
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 146,
-      "age_hours": 552.6
+      "age_hours": 576.5
     },
     {
       "video_id": "1Y3DfG_Opg4",
       "title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "views": 150,
-      "age_hours": 131.5
+      "age_hours": 155.5
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 154,
-      "age_hours": 582.4
+      "age_hours": 606.3
     },
     {
       "video_id": "Ubg7rTtym84",
       "title": "Pourquoi un vertige apparaît après s'être levé ?",
       "views": 165,
-      "age_hours": 154.5
+      "age_hours": 178.5
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 278.3
+      "age_hours": 302.3
     },
     {
       "video_id": "28JErGGWIs0",
       "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
       "views": 222,
-      "age_hours": 60.6
+      "age_hours": 84.6
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 266,
-      "age_hours": 542.6
+      "age_hours": 566.5
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 498.1
+      "age_hours": 522.1
     }
   ],
   "auto_repair_count": 13
