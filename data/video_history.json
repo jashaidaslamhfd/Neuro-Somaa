@@ -1828,5 +1828,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 42,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "189644d1f93ad037cc86e9d42f85d897a173206bcb3c0cc518cfd2a74645473e",
+    "title": "Pourquoi les souvenirs g\u00eanants reviennent ?",
+    "topic": "Ce que votre corps vous dit quand les souvenirs g\u00eanants reviennent",
+    "series_title": "Souvenirs g\u00eanants",
+    "base_phenomenon": "le retour des souvenirs g\u00eanants",
+    "nominal_phrase": "le retour des souvenirs g\u00eanants",
+    "question_phrase": "les souvenirs g\u00eanants reviennent",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Tu sens ton c\u0153ur se serrer, c\u2019est bizarre. Ton corps active l\u2019amygdale, c\u2019est l\u2019alarme imm\u00e9diate. Il associe le souvenir \u00e0 une menace pass\u00e9e, d\u00e9clenchant stress. Le pouls grimpe rapidement, jusqu\u2019\u00e0 vingt pour cent. Le plus \u00e9trange, l\u2019adr\u00e9naline se lib\u00e8re sans bruit. Maintenant tu sais pourquoi ton c\u0153ur se serre.",
+    "posted_at": "2026-08-14T18:34:49.048427+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "oZ_AmaU0VE0",
+    "publish_at": "2026-08-14T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 78,
+    "loop_bridge_present": false
   }
 ]
