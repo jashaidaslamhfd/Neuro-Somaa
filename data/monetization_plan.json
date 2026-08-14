@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-13T09:00:57.746134+00:00",
+  "generated_at": "2026-08-14T08:56:04.562061+00:00",
   "target_date": "2026-08-30T00:00:00+00:00",
-  "days_left": 16,
+  "days_left": 15,
   "channel": {
-    "subs": 113,
-    "total_views": 46459,
-    "videos": 67,
-    "watch_hours_12mo": 64.0,
+    "subs": 115,
+    "total_views": 48706,
+    "videos": 70,
+    "watch_hours_12mo": 65.8,
     "made_for_kids_status": null,
     "privacy_status": "public",
     "long_uploads_status": "allowed",
@@ -17,20 +17,20 @@
     {
       "tier": "ypp_full",
       "label": "Full YPP (ad revenue)",
-      "subs_needed": 887,
-      "subs_per_day": 55.4,
-      "views_needed_90d": 9953541,
-      "views_per_day": 622096.3,
+      "subs_needed": 885,
+      "subs_per_day": 59.0,
+      "views_needed_90d": 9951294,
+      "views_per_day": 663419.6,
       "reachable_by_aug30_subs": false,
       "reachable_by_aug30_views": false
     },
     {
       "tier": "ypp_tier1",
       "label": "Tier-1 (fan funding, memberships, Super Thanks)",
-      "subs_needed": 387,
-      "subs_per_day": 24.2,
-      "views_needed_90d": 2953541,
-      "views_per_day": 184596.3,
+      "subs_needed": 385,
+      "subs_per_day": 25.7,
+      "views_needed_90d": 2951294,
+      "views_per_day": 196752.9,
       "reachable_by_aug30_subs": true,
       "reachable_by_aug30_views": true
     }
