@@ -617,5 +617,18 @@
     },
     "publish_at": "2026-08-14T15:30:00+00:00",
     "completed_at": 1786651350.523864
+  },
+  "88a576c9a53a3b5d1aa13bc665e668329345ac9541636543efa5447f90a7c12e": {
+    "status": "completed",
+    "title": "Pourquoi le corps r\u00e9v\u00e8le le mensonge ?",
+    "youtube_video_id": "fmi157e4H0o",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-14T17:30:00+00:00",
+    "completed_at": 1786706919.245642
   }
 }
