@@ -566,7 +566,8 @@ class SKILLORPipeline:
                 audio_segments = generate_voice_segments(
                     script_data['scenes'],
                     voice=os.environ.get("KOKORO_VOICE", "ff_siwis"),
-                    speed=1.0
+                    speed=1.0,
+                    topic=script_data.get("topic", "") or topic,
                 )
                 logger.info(f"✅ Generated {len(audio_segments)} audio segments")
                 narration_seconds = sum(float(seg.get("duration", 0)) for seg in audio_segments)

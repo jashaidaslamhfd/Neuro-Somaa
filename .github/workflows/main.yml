@@ -108,6 +108,13 @@ jobs:
           EDGE_FR_VOICE_ALT1: "fr-FR-RemyNeural"
           EDGE_FR_VOICE_ALT2: "fr-FR-DeniseNeural"
           EDGE_FR_RATE: "-8%"
+          # 2026-08-15: voice rotation (6 native FR voices, 3 male + 3 female).
+          # The primary voice is hashed per TOPIC (same topic = same voice,
+          # episode consistency; different topics = different voices, so the
+          # channel never sounds like one machine). Fallbacks untouched.
+          EDGE_FR_VOICE_POOL: "fr-FR-HenriNeural,fr-FR-GerardNeural,fr-FR-RemyNeural,fr-FR-DeniseNeural,fr-FR-EloiseNeural,fr-FR-JosephineNeural"
+          # 2026-08-15: natural breath pause between scenes (human pacing).
+          BREATH_PAUSE_SECONDS: "0.45"
           # --- Background music: original in-repo beds (Content-ID safe) ---
           MUSIC_VOLUME: "0.09"
           

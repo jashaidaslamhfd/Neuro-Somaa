@@ -386,6 +386,30 @@ def _synthesize_kokoro(text: str, voice: str, speed: float):
     return full_audio, KOKORO_SAMPLE_RATE
 
 
+def _rotated_french_voice(topic: str = "") -> str:
+    """Pick the PRIMARY French edge-tts voice deterministically from
+    EDGE_FR_VOICE_POOL (env), seeded by the video topic.
+
+    2026-08-15: the pipeline previously used EDGE_FR_VOICE=fr-FR-HenriNeural
+    for every video — a frozen single narrator is the loudest "AI channel"
+    signal, and 2026 feed systems reward voice consistency *within* a video
+    but penalise a channel that sounds like one machine for months. A pool of
+    native FR voices (3 male + 3 female), hashed per topic, keeps each video
+    internally consistent while the channel as a whole rotates naturally.
+    The SAME topic always gets the SAME voice (stability across episodes).
+    Falls back to EDGE_FR_VOICE when the pool is absent/empty.
+    """
+    import hashlib
+    pool_raw = os.environ.get("EDGE_FR_VOICE_POOL", "").strip()
+    if not pool_raw:
+        return os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
+    pool = [v.strip() for v in pool_raw.split(",") if v.strip()]
+    if not pool:
+        return os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
+    digest = hashlib.sha256((topic or "default").encode("utf-8")).hexdigest()
+    return pool[int(digest, 16) % len(pool)]
+
+
 def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | None = None):
     """Synthesize French via Microsoft edge-tts (cloud, reliable neural voice).
 
@@ -394,8 +418,9 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     "no voice / stuck visuals" bug). edge-tts produces full-length, natural
     French and has no heavy native build deps, so it works on the CI runner.
 
-    Voice auto-fallback: EDGE_FR_VOICE is tried first; on "No audio received"
-    (some voices intermittently fail on the runner, e.g. RemyNeural) it falls
+    Voice auto-fallback: the primary voice (EDGE_FR_VOICE_POOL rotation if
+    set, else EDGE_FR_VOICE) is tried first; on "No audio received" (some
+    voices intermittently fail on the runner, e.g. RemyNeural) it falls
     through to EDGE_FR_VOICE_ALT1 / EDGE_FR_VOICE_ALT2 before giving up. This
     keeps the pipeline robust without pinning a single voice.
 
@@ -448,7 +473,8 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     raise RuntimeError(f"edge-tts failed on all voices: {last_err}")
 
 
-def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
+def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
+              topic: str = ""):
     """Synthesize a single segment with retry logic.
 
     FLOW:
@@ -483,10 +509,11 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0):
     prefer_kokoro = engine_choice == "kokoro"
     prefer_edge = engine_choice in ("edge", "edge_fr", "edge-tts")
     chatterbox_errors = []
+    _edge_voice = _rotated_french_voice(topic)
 
     def _try_edge():
         try:
-            audio, sr = _synthesize_edge_french(narration_text)
+            audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice)
             _validate_generated_audio(audio, sr, min_duration=0.3)
             return audio, sr
         except Exception as exc:
@@ -603,6 +630,7 @@ def generate_voice_segments(
     voice: str = "ff_siwis",  # only used if a segment falls back to Kokoro
     output_dir: str = "output/segments",
     speed: float = 1.0,      # only used if a segment falls back to Kokoro
+    topic: str = "",         # seeds EDGE_FR_VOICE_POOL rotation (topic-stable)
 ) -> list[dict]:
     """
     Each scene gets clear, conversational narration via Chatterbox using the
@@ -627,8 +655,8 @@ def generate_voice_segments(
         # No try/except swallowing here — if _synthesize raises, the whole
         # pipeline must abort. Silent 1.5s silence inserts are NOT acceptable;
         # main.py's quality gate will catch the crash and log it properly.
-        audio, sr, engine = _synthesize(caption, voice, speed)
-
+        audio, sr, engine = _synthesize(caption, voice, speed,
+                                        topic=topic or scene.get("topic", ""))
         engine_counts[engine] = engine_counts.get(engine, 0) + 1
         path = os.path.join(output_dir, f"seg_{i}.wav")
         sf.write(path, audio, sr)

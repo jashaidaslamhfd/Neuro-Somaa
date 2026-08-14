@@ -22,7 +22,7 @@ if not hasattr(Image, "ANTIALIAS"):
 
 from moviepy.editor import (
     ImageClip, VideoFileClip, ColorClip, CompositeVideoClip,
-    AudioFileClip, concatenate_videoclips, concatenate_audioclips,
+    AudioFileClip, AudioClip, concatenate_videoclips, concatenate_audioclips,
     CompositeAudioClip,
 )
 import moviepy.video.fx.all as vfx
@@ -580,7 +580,12 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     video_clips = []
     audio_clips = []
     t_cursor = 0.0
-
+    # Natural breath pause between scenes (2026-08-15): a human presenter
+    # takes a small audible breath between facts — back-to-back scenes with
+    # zero silence sound machine-made. Controlled by BREATH_PAUSE_SECONDS
+    # (default 0.45s, clamped 0.2-1.0). Only added between scenes, never
+    # after the last one, so the loop-ending beat is untouched.
+    _breath = max(0.2, min(1.0, float(os.environ.get("BREATH_PAUSE_SECONDS", "0.45"))))
     for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types)):
         duration = max(seg['duration'], 0.6)
 
@@ -644,9 +649,25 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             afx.audio_fadeout, AUDIO_EDGE_FADE
         )
         audio_clips.append(seg_audio)
-
         t_cursor += duration
-
+        # Breath pause after every scene except the last (keeps the total
+        # length deterministic and avoids a trailing dead second).
+        if i < len(image_paths) - 1 and _breath > 0:
+            # A still hold on the just-shown frame is how a presenter's
+            # pause reads on screen — not a flicker to the next image.
+            breath_video = ImageClip(img_path, duration=_breath).resize(
+                (CANVAS_W, CANVAS_H)
+            ).set_fps(30)
+            breath_audio = AudioClip(
+                lambda tt: np.zeros((len(tt), 2)), duration=_breath, fps=48000
+            )
+            video_clips.append(
+                CompositeVideoClip([breath_video], size=(CANVAS_W, CANVAS_H))
+                .set_duration(_breath)
+            )
+            audio_clips.append(breath_audio)
+            t_cursor += _breath
+            logger.info("Breath pause %.2fs after scene %d", _breath, i + 1)
     logger.info("Concatenating video clips...")
     final_video = concatenate_videoclips(video_clips, method="compose")
 

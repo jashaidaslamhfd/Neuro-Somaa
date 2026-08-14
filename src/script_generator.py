@@ -352,10 +352,16 @@ RÈGLES DE FORMAT :
   la poitrine, yeux qui s'ouvrent au réveil) — un visage/proche arrête le
   scroll, un plan large abstrait non.
 - Chaque scène doit avoir un visuel distinct de 5 à 12 mots, sans texte, logo ni interface.
-- Titre : cinq à huit mots qui OUVRENT UNE BOUCLE DE CURIOSITÉ avec « Pourquoi »
-  ou « ton/ta/votre » — BON : « Pourquoi ton cœur bat la nuit » · « Pourquoi
-  ton corps se fige de peur ». MAUVAIS (rejeté) : étiquettes de 1-3 mots comme
-  « Voix du matin », « Choc anaphylactique » — zéro clic.
+- Titre : cinq à huit mots qui OUVRENT UNE BOUCLE DE CURIOSITÉ avec « ton/ta/tes »
+  ou « ton/ta/votre ». Varie LA FAMILLE D'OUVERTURE d'une vidéo à l'autre, ne
+  jamais deux fois la même : « Pourquoi … », « Ce que fait ton … », « Voilà
+  pourquoi … », « Ton … te cache quelque chose », « Le secret de ton … »,
+  « Comment ton … te trahit ». BON : « Pourquoi ton cœur bat la nuit » ·
+  « Ce que fait ton cerveau en dormant » · « Ton corps te trahit quand tu
+  mens ». MAUVAIS (rejeté) : étiquettes de 1-3 mots comme « Voix du matin »,
+  « Choc anaphylactique » — zéro clic ; et MAUVAIS si « Pourquoi » devient le
+  premier mot de tous les titres — une chaîne dont tous les titres commencent
+  pareil est lue comme du contenu de masse et démarée par l'algorithme 2026.
 - `thumbnail_text` : une mini-question ou promesse de 3 à 6 mots AVEC UN VERBE
   conjugué, qui complète le titre sans le répéter. BON : « ton cœur s'accélère »,
   « ton cerveau te protège ». MAUVAIS (rejeté) : étiquettes nues sans verbe du
