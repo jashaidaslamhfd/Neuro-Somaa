@@ -618,6 +618,50 @@ def get_trending_topic(
                          if e["topic"].strip().lower() not in exclude_lower
                          and not _near_duplicate_of_recent(e["topic"], exclude or [])]
                 if fresh:
+                    # 🧠 ML topic steering (2026-08-15): when the intelligence
+                    # layer's trained models found a WINNER CLUSTER (a group of
+                    # topics that measurably over-perform), prefer demand-queue
+                    # candidates whose phenomenon sits inside that cluster. The
+                    # ML's measured preference breaks the random tie — demand
+                    # plus proven performance is the highest-EV pick.
+                    try:
+                        _intel_path = os.environ.get(
+                            "INTELLIGENCE_REPORT_PATH",
+                            "data/intelligence_report.json")
+                        _intel = json.loads(
+                            Path(_intel_path).read_text(encoding="utf-8"))
+                        _wc_name = (_intel.get("clusters") or {}).get("winner_cluster")
+                        if _wc_name:
+                            # The winner cluster is a group of topics that the
+                            # trained models found over-perform. Match demand
+                            # candidates against its example topics by shared
+                            # phenomenon words (demand topics are full French
+                            # queries, examples are the clustered titles).
+                            from growth_engine import topic_pillar as _tpillar
+                            _winner = None
+                            for _c in (_intel.get("clusters") or {}).get("clusters", []):
+                                if _c.get("name") == _wc_name:
+                                    _winner = _c
+                                    break
+                            if _winner:
+                                _ex_words = set()
+                                for _ex in _winner.get("examples") or []:
+                                    _ex_words.update(
+                                        w for w in _tpillar(str(_ex)).split()
+                                        if len(w) > 3)
+                                def _match_score(e):
+                                    _tw = set(w for w in _tpillar(e["topic"]).split()
+                                              if len(w) > 3)
+                                    return len(_tw & _ex_words) / max(1, len(_tw))
+                                _scores = [_match_score(e) for e in fresh]
+                                _best = max(_scores) if _scores else 0.0
+                                if _best > 0.0:
+                                    fresh = [e for e, s in zip(fresh, _scores)
+                                             if s >= _best]
+                                    logger.info("🧠 ML steering: %d demand topic(s) match "
+                                                "winner cluster '%s'", len(fresh), _wc_name)
+                    except Exception:
+                        pass  # intelligence output missing → random pick is fine
                     chosen = random.choice(fresh)
                     chosen.setdefault("series_number", "DEM")
                     logger.info("🔎 Search-demand topic: %s (%s)",

@@ -304,6 +304,34 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
     # intelligence layer can significance-test which hook style actually
     # retains viewers — instead of guessing.
     from viral_engineering import hook_arm_for_topic, hook_style_instruction, loop_bridge_for
+    # ML LEARNED HOOK (2026-08-15): the growth engine measures which opening
+    # frame actually survives past 3 s on THIS channel. When one is a proven
+    # winner, bias the hook arm toward it (variety is kept: it applies when
+    # the learned frame maps to an experiment arm).
+    try:
+        from growth_engine import get_preferred_hook_frame
+        _learned_frame = get_preferred_hook_frame()
+        if _learned_frame:
+            # learned frames are growth_engine.hook_frame labels
+            # (why/what/how/second_person/question/statement). Map them to
+            # the experimental arms; unknown labels fall back to the topic arm.
+            # NOTE: growth_engine.hook_frame labels are why/what/how/
+            # second_person/question/statement — map them to the arms the
+            # experiment engine speaks:
+            _frame_to_arm = {
+                "question": "question",
+                "why": "question",          # FR titles "Pourquoi... ?"
+                "what": "question",          # "Ce qui se passe quand..."
+                "how": "question",           # "Comment..."
+                "second_person": "pov_reveal",
+                "statement": "shock_fact",
+            }
+            _arm = _frame_to_arm.get(_learned_frame, "")
+            if _arm:
+                os.environ.setdefault("VIRAL_HOOK_ARM", _arm)
+                logger.info("🧠 ML learned hook: using proven frame '%s' (arm=%s)", _learned_frame, _arm)
+    except Exception as exc:  # noqa: BLE001 - learned hook must never break generation
+        logger.debug("Learned hook frame unavailable: %s", exc)
     hook_arm = hook_arm_for_topic(topic)
     hook_rule = hook_style_instruction(hook_arm)
     loop_line = loop_bridge_for(topic)
