@@ -483,12 +483,18 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
     # 2. Smart niche-based selection (body-science tracks)
     if os.path.isdir(MUSIC_DIR):
         niche_tracks = {
-            "explain": ["body_lab.wav", "cellular_secret.wav"],
-            "mystery": ["dark_biology.wav", "body_react.wav"],
-            "hook": ["neural_pulse.wav", "body_react.wav"],
-            "payoff": ["cellular_secret.wav", "neural_pulse.wav"],
-            "react": ["body_react.wav", "dark_biology.wav"],
-            "default": ["dark_biology.wav", "body_lab.wav"],
+            # File names now match the ORIGINAL generated tracks (own_*.ogg
+            # / own_*.wav) that live in assets/music. The old names
+            # (body_lab.wav, ...) never existed, so this branch silently
+            # skipped on every run and every video fell through to the
+            # synth bed. Own tracks = 100% original, zero Content ID risk;
+            # the synth bed stays as the last-resort fallback.
+            "explain": ["own_dark_drone.ogg", "own_dark_drone.wav"],
+            "mystery": ["own_suspense_thrum.ogg", "own_suspense_thrum.wav"],
+            "hook": ["own_suspense_thrum.ogg", "own_suspense_thrum.wav"],
+            "payoff": ["own_suspense_thrum.ogg", "own_dark_drone.ogg"],
+            "react": ["own_suspense_thrum.ogg", "own_dark_drone.ogg"],
+            "default": ["own_dark_drone.ogg", "own_dark_drone.wav"],
         }
         
         topic_lower = (topic or "").lower()

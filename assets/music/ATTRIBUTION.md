@@ -12,12 +12,15 @@ Content ID possible. **La pipeline les utilise PAR DÉFAUT depuis 2026-08-02**
 | `own_dark_drone.ogg` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
 | `own_suspense_thrum.ogg` | générée (scripts/generate_own_music.py) | Originale (ce dépôt) | ✅ |
 
-## 🚫 TIERCES (licence NON vérifiée — risque Content ID)
+## 🚫 TIERCES — QUARANTAISÉES (2026-08-15)
 
-Les pistes suivantes ne sont utilisées QUE si `MUSIC_SOURCE=assets` est défini
-explicitement. **Avant toute demande de monétisation, supprime-les ou vérifie
-leur licence** — sinon chaque vidéo qui les utilise peut recevoir une
-réclamation Content ID qui bloque les revenus.
+Les pistes suivantes ont été déplacées vers `assets/music/quarantine/`, hors
+du chemin de scan de la pipeline. Elles ne sont **plus jamais sélectionnées**
+par `_get_music_track()` : seuls les morceaux originaux (`own_*.ogg`/`own_*.wav`)
+et le lit ambient synthétique original restent actifs. Aucune réclamation
+Content ID possible sur les vidéos produites. Pour les réutiliser après avoir
+vérifié leur licence Pixabay (voir instructions ci-dessous), remettez-les
+dans `assets/music/`.
 
 | Fichier | Auteur présumé | Source | Licence | Vérifié |
 |---|---|---|---|---|
