@@ -303,6 +303,21 @@ def _demand_phrases_for(topic: str, title: str) -> list:
             if 10 <= len(p) <= 90 and p not in seen:
                 seen.add(p)
                 phrases.append(p)
+    # 2026-08-15 audit fix: the demand queue rotates (consumed entries are
+    # filtered, the 4-day refresh re-mines fresh queries), so a legitimate
+    # video topic can exist while its demand entries are no longer in the
+    # queue. Truth-SEO must never silently degrade to keyword guesses: when
+    # the queue has nothing for this video, mine live autocomplete for the
+    # video's own topic exactly like the repair sweep does.
+    if not phrases:
+        try:
+            for p in _mine_live_demand(topic, title):
+                p = p.strip().lower()
+                if 10 <= len(p) <= 90 and p not in seen:
+                    seen.add(p)
+                    phrases.append(p)
+        except Exception:
+            pass  # network failure -> degrade gracefully (never guesses)
     return phrases[:4]
 
 

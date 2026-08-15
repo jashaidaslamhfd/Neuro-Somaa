@@ -610,13 +610,45 @@ def get_trending_topic(
         # type. Second in priority, right after winner clones: a query with
         # proven demand beats a blind catalogue guess. Used-up entries are
         # filtered by the same history/exclude mechanism as everything else.
+        # 2026-08-15 audit fix: demand entries were being blocked by the same
+        # generic near-duplicate rule as catalogue picks — on a body-science
+        # channel almost every real search query shares words with a published
+        # video ("genoux/craquent", "ventre/peur", "chair/poule"), so 8 of 9
+        # real-demand queries were silently dropped and the pipeline fell back
+        # to blind catalogue guesses (which is how the 10-view outliers ship).
+        # Demand queries are real user SEARCH INTENT, so they get their own,
+        # stricter-duplicate policy: block only near-identical phenomena
+        # (same core words in the same order, or the exact query), never a
+        # loose word overlap. A body-parts niche will always reuse words —
+        # the phenomenon, not the vocabulary, must be what repeats.
         try:
             demand = load_search_demand_queue()
             if demand:
                 exclude_lower = {t.strip().lower() for t in (exclude or []) if t}
-                fresh = [e for e in demand
-                         if e["topic"].strip().lower() not in exclude_lower
-                         and not _near_duplicate_of_recent(e["topic"], exclude or [])]
+                def _demand_is_used(topic: str) -> bool:
+                    if topic.strip().lower() in exclude_lower:
+                        return True
+                    if _near_duplicate_of_recent(topic, exclude or []):
+                        return True
+                    # Demand-specific second check: compare the demand
+                    # query's phenomenon core against published topics and
+                    # block only when the SAME phenomenon already shipped
+                    # (shared core word ratio >= 0.75 among content words).
+                    for published in (exclude or []):
+                        p_words = _topic_words(published)
+                        d_words = _topic_words(topic)
+                        content = {w for w in d_words if len(w) > 3}
+                        if not content:
+                            continue
+                        shared = content & p_words
+                        if shared and len(shared) / len(content) >= 0.75:
+                            return True
+                    return False
+                fresh = [e for e in demand if not _demand_is_used(e["topic"])]
+                _skipped = len(demand) - len(fresh)
+                if _skipped:
+                    logger.info("🔎 Demand queue: %d entry/entries already covered by "
+                                "published videos — picking among %d fresh", _skipped, len(fresh))
                 if fresh:
                     # 🧠 ML topic steering (2026-08-15): when the intelligence
                     # layer's trained models found a WINNER CLUSTER (a group of

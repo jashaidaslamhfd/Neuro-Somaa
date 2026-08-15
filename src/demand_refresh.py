@@ -265,15 +265,50 @@ def _mine_seed(seed: str, *, max_calls: int = MAX_API_CALLS) -> tuple[list[str],
 
 
 def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
-    """Build one demand record in the same shape as the original queue."""
+    """Build one demand record in the same shape as the original queue.
+
+    2026-08-15 audit fix: the miner output was missing the ``angle`` field that
+    trend_fetcher's ``load_search_demand_queue`` consumers key on (it falls
+    back to ``topic`` when absent, which silently degrades the question shape
+    shipped to the script generator). The angle is now built as a complete
+    French "Pourquoi … ?" question, matching the catalogue's own shape.
+    """
     notes = "; ".join(f"autocomplete: '{q}'" for q in queries)
     title = topic[0].upper() + topic[1:]
+    core = topic if not topic.lower().startswith("pourquoi ") else topic[8:].strip()
+    # 2026-08-15 audit fix: seeds inherited from catalogue essays sometimes
+    # carry leftover essay framing ("ce qui change lorsque …", "ce que votre
+    # corps vous dit quand …"). An angle like "Pourquoi ce qui change…" is
+    # broken French — strip the essay lead so the angle is always a clean
+    # natural question: "Pourquoi <phénomène> ?"
+    for _lead in ("ce qui change lorsque ", "ce qui se passe quand ",
+                  "ce que votre corps vous dit quand ",
+                  "ce que la science explique sur ",
+                  "ce qu'il faut comprendre sur ",
+                  "la science derrière ", "comprendre pourquoi "):
+        if core.lower().startswith(_lead):
+            core = core[len(_lead):].strip()
+    # If nothing declarative is left, fall back to the nominal phrase
+    if not core or len(core.split()) < 2:
+        core = topic if not topic.lower().startswith("pourquoi ") else topic[8:].strip()
+    angle = f"Pourquoi {core} ?"
+    # Thumbnail hook phrase: the question itself, title-cased, ≤ 60 chars,
+    # always ending in '?' so the paint layer renders a complete French
+    # question on the thumbnail (same doctrine as the catalogue shape).
+    thumbnail_text = f"Pourquoi {core} ?" if not core.lower().startswith("pourquoi ") else f"{core} ?"
+    if thumbnail_text.endswith("? ?"):
+        thumbnail_text = f"{core} ?"
+    if len(thumbnail_text) > 60:
+        cut = thumbnail_text[:57].rsplit(" ", 1)[0].rstrip(", ")
+        thumbnail_text = cut + " ?"
     return {
         "series_number": f"DEM-{index}",
         "series_title": title if len(title) <= 60 else title[:57] + "...",
         "topic": topic,
         "nominal_phrase": topic,
-        "question_phrase": f"pourquoi {topic}",
+        "question_phrase": f"pourquoi {core}",
+        "angle": angle,
+        "thumbnail_text": thumbnail_text,
         "demand_note": notes,
         "pillar": "reflexes_du_corps",
         "mined_at": datetime.now(timezone.utc).isoformat(),

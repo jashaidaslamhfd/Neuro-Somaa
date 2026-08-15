@@ -1,0 +1,27 @@
+{
+  "hook_score": {
+    "verdict": "NOISE",
+    "decision_usable": false,
+    "spearman_vs_views": 0.024
+  },
+  "seo_score": {
+    "verdict": "NOISE",
+    "decision_usable": false,
+    "spearman_vs_views": -0.138
+  },
+  "predicted_retention": {
+    "verdict": "NOISE",
+    "decision_usable": false,
+    "spearman_vs_views": -0.048
+  },
+  "predicted_ctr": {
+    "verdict": "INVERTED",
+    "decision_usable": false,
+    "spearman_vs_views": -0.151
+  },
+  "_meta": {
+    "min_n": 12,
+    "noise_band": 0.15,
+    "weak_band": 0.35
+  }
+}
