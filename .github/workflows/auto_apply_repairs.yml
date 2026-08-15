@@ -12,6 +12,10 @@ on:
   schedule:
     - cron: "0 8 * * *"   # after the 07:43 analytics/self-maintenance pass
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/auto_apply_repairs.yml"
+      - "data/auto_repair_plan_*.json"
 
 permissions:
   contents: read
