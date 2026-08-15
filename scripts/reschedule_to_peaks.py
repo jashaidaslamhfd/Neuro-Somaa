@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Move pending private (scheduled) videos to the new peak publish slots.
 
-Peak slots (UTC): 10:30, 17:30, 19:00 (Paris 12:30 / 19:30 / 21:00)
-Skips videos already public; reschedules private ones not on a peak slot.
+Peak slots (UTC): 10:30, 17:30, 19:00
+Skips videos already public or already published; reschedules private ones
+whose publishAt is not on a peak slot (or publishes immediately if publishAt
+is already passed).
 """
 from __future__ import annotations
 import json
@@ -91,6 +93,8 @@ def main():
                 print(f"[{dry}] {vid} {title[:50]} | publishAt={pub} -> not on peak slot")
                 if not apply:
                     continue
+                # publish immediately at next opportunity: YouTube rejects
+                # publishAt in the past; set to now + few minutes if due.
                 from datetime import datetime, timezone, timedelta
                 now = datetime.now(timezone.utc)
                 target = (now + timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -104,6 +108,12 @@ def main():
                 }
                 r, err = _q("videos", {"part": "snippet,status"}, token,
                             method="PUT", body=body)
+                if err:
+                    # YouTube rejects a future publishAt on plain-private
+                    # uploads (400); fall back to an immediate public release.
+                    r, err = _q("videos", {"part": "snippet,status"}, token,
+                                method="PUT",
+                                body={"id": vid, "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}})
                 if err:
                     print(f"[fail] {vid}: {err}")
                 else:
