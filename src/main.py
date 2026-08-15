@@ -54,6 +54,7 @@ try:
     from seo_generator import generate_seo_package
     from shorts_enhancer import build_shorts_report, generate_srt, score_hook
     from trend_fetcher import get_trending_topic
+    from trend_spiker import get_trend_spike
     from uploader import upload_all
     from video_editor import build_video, generate_thumbnail
     from voice_generator import generate_voice_segments
@@ -269,11 +270,19 @@ class SKILLORPipeline:
                 if fixed_topic:
                     current_topic = fixed_topic
                 else:
-                    # Production requires a real same-day external trend; the
-                    # selected source/URL is retained with the generated video.
-                    trend_record = get_trending_topic(
-                        exclude=recent_topics, return_metadata=True
-                    )
+                    # 2026-08-15 Trend-Spiker overlay: a genuine, on-brand,
+                    # multi-feed demand spike can override this single slot.
+                    spike_record = get_trend_spike(recent_topics)
+                    if spike_record:
+                        trend_record = spike_record
+                        logger.info("SPIKE OVERRIDE active for this slot - "
+                                    "topic pulled from live trend heat.")
+                    else:
+                        # Production requires a real same-day external trend;
+                        # the selected source/URL is retained with the video.
+                        trend_record = get_trending_topic(
+                            exclude=recent_topics, return_metadata=True
+                        )
                     current_topic = trend_record['topic']
 
                 logger.info(f"Attempt {attempt}/{MAX_SCRIPT_ATTEMPTS} for topic: {current_topic}")
@@ -289,6 +298,8 @@ class SKILLORPipeline:
                     generated['nominal_phrase'] = trend_record.get('nominal_phrase')
                     generated['question_phrase'] = trend_record.get('question_phrase')
                     generated['thumbnail_text'] = trend_record.get('thumbnail_text', '')
+                    if trend_record.get('spike'):
+                        generated['spike'] = True
                     # series_title reste en métadonnée (numérotation d'épisodes) —
                     # il ne remplace plus le titre LLM: les étiquettes 2-3 mots
                     # ont mesuré un faible CTR vs les titres curiosité complets.
