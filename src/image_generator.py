@@ -649,9 +649,18 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
         url = next((item for item in urls if item not in used_fallbacks), urls[0])
         used_fallbacks.add(url)
     download = requests.get(url, timeout=60)
-    if download.status_code != 200 or len(download.content) < 100_000:
+    content = download.content
+    if download.status_code != 200 or len(content) < 100_000:
         raise RuntimeError(f"{source}: video download failed or was too small")
-    return _save_bytes(download.content, index, ext="mp4"), "video"
+    # 2026-08-15: Pexels occasionally serves an HTML error/redirect page
+    # larger than the 100KB floor — the pipeline accepted it, saved it as
+    # .mp4, and then MoviePy crashed at build time ("failed to read the first
+    # frame"), burning ~10 minutes of rendering per attempt. Verify the bytes
+    # are a real ISO-BMFF/MP4 container (ftyp or moov box) before accepting.
+    head = content[:64]
+    if not (b"ftyp" in head or b"moov" in head):
+        raise RuntimeError(f"{source}: downloaded bytes are not a valid MP4 container")
+    return _save_bytes(content, index, ext="mp4"), "video"
 
 
 def _layer_pexels_video(index, scene_text, used_fallbacks: set):
