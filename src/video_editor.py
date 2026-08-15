@@ -549,6 +549,14 @@ def _cover_video_clip(path: str, duration: float) -> VideoFileClip:
     if source.duration <= 0:
         source.close()
         raise RuntimeError(f"Stock video has no duration: {path}")
+    # 2026-08-15 CI OOM guard: stock providers occasionally serve very long
+    # portrait clips (60-100s+). Looping a 98s clip 21x and resizing it blew
+    # the GitHub Actions runner memory mid-build (scene_3, 98.2s raw clip,
+    # failed Generate-and-upload step). Cap the loop unit so the memory load
+    # stays bounded; the loop still covers the scene duration cleanly.
+    _cap = float(os.environ.get("MAX_STOCK_VIDEO_SECONDS", "30"))
+    if source.duration > _cap:
+        source = source.subclip(0, _cap)
     loops = max(1, int(np.ceil(duration / source.duration)))
     clip = concatenate_videoclips([source] * loops, method="compose").subclip(0, duration)
     if clip.w / clip.h < CANVAS_W / CANVAS_H:
