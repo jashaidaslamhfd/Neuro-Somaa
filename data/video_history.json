@@ -1930,5 +1930,28 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 68,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "2df1cd8ed6ec0c849b1ea3c3a9cf50820035423d0020538207aaa78833ec9175",
+    "title": "Pourquoi des fourmillements apparaissent sans raison ?",
+    "topic": "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
+    "series_title": "Fourmillements",
+    "base_phenomenon": "les fourmillements qui apparaissent sans raison",
+    "nominal_phrase": "les fourmillements qui apparaissent sans raison",
+    "question_phrase": "des fourmillements apparaissent sans raison",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Tu sens des fourmillements sans raison, pourquoi? C'est ton syst\u00e8me nerveux qui r\u00e9agit aux micro\u2011vibrations. Quand un nerf d\u00e9tecte un d\u00e9s\u00e9quilibre, il envoie un signal. Le cerveau interpr\u00e8te ce signal comme un picotement temporaire. Le plus \u00e9trange ? \u00c7a dure 30 secondes, puis s\u2019arr\u00eate. Les fourmillements te signalent un nerf qui r\u00e9agit.",
+    "posted_at": "2026-08-15T17:03:49.283891+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "JH0ybNiIIP4",
+    "publish_at": "2026-08-15T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 54,
+    "loop_bridge_present": false
   }
 ]
