@@ -443,6 +443,23 @@ class SKILLORPipeline:
         logger.info("🚀 STARTING SKILLOR - TRENDING VIRAL PIPELINE")
         logger.info("=" * 60)
 
+        def _fail(reason):
+            # 2026-08-15: CI failed twice today with the console logs already
+            # expired (410) and the artifact too large to pull. Persist the
+            # failure reason + last traceback tail into data/ so the next
+            # diagnostic pass can read it straight from the repo.
+            import traceback as _tb
+            data_log = os.path.join("data", "pipeline_last_failure.json")
+            try:
+                payload = {
+                    "failed_at": datetime.utcnow().isoformat() + "Z",
+                    "reason": reason,
+                    "traceback": "".join(_tb.format_exception(*sys.exc_info()))[-3000:],
+                }
+                with open(data_log, "w") as _f:
+                    json.dump(payload, _f, indent=2, default=str)
+            except Exception:
+                pass
         try:
             # Phase 0: Check posting interval. With scheduled publishing ON,
             # the one-video-per-slot lock already spaces publishes across the
@@ -883,6 +900,7 @@ class SKILLORPipeline:
             logger.error(f"Error: {e}")
             logger.error(traceback.format_exc())
             logger.error("=" * 60)
+            _fail(str(e))
             raise
 
     def run_daily_batch(self, num_videos: int = 3):
