@@ -142,7 +142,7 @@ jobs:
           # narration never sits at one flat machine tempo.
           DELIVERY_VARIATION: "true"
           # --- Background music: original in-repo beds (Content-ID safe) ---
-          MUSIC_VOLUME: "0.09"
+          MUSIC_VOLUME: "0.18"
           
           VIDEO_TOPIC: ${{ inputs.topic || '' }}
           PYTHONUNBUFFERED: "1"
