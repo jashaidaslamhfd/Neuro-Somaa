@@ -99,15 +99,22 @@ def _save_bytes(content: bytes, index: int, ext: str = "jpg") -> str:
     return path
 
 
-def _build_prompt(scene_text: str) -> str:
-    """Combines the script's own scene description with a fixed dark/moody
-    style suffix, so every AI-generated image stays on-brand for the
-    dark-mystery-science niche instead of a generic photo of the subject."""
+def _build_prompt(scene_text: str, *, topic: str = "") -> str:
+    """Combines the script's own scene description with the channel's
+    signature visual identity ("Le Labo Obscur", 2026-08-15): one fixed
+    macro teal-lab world with per-video style variation. This is what makes
+    Neuro-Somaa frames recognizably unique instead of the generic stock look
+    shared by thousands of channels. Falls back to the legacy fixed suffix
+    if the signature module is unavailable."""
     base = (scene_text or "mystery science").strip()
-    return f"{base}, {DARK_STYLE_SUFFIX}"
+    try:
+        from visual_signature import signature_suffix
+        return f"{base}, {signature_suffix(topic or scene_text or 'x')}"
+    except Exception:  # never let the style layer break generation
+        return f"{base}, {DARK_STYLE_SUFFIX}"
 
 
-def _layer_ai_providers(index, scene_text, provider_names=None):
+def _layer_ai_providers(index, scene_text, provider_names=None, topic=""):
     """Try every configured AI image provider in order (Pollinations first,
     since it needs no API key, then whichever keyed providers are
     available). Each provider gets one attempt per call; the caller
@@ -120,7 +127,7 @@ def _layer_ai_providers(index, scene_text, provider_names=None):
         requested = ", ".join(provider_names or []) or "configured"
         raise RuntimeError(f"No {requested} AI image providers available (check API keys / network)")
 
-    prompt_text = _build_prompt(scene_text)
+    prompt_text = _build_prompt(scene_text, topic=topic)
     prompt = prompt_text.replace(" ", "_").replace(",", "")
     seed = random.randint(1, 999999)
 
@@ -671,25 +678,31 @@ def _scene_text(scene) -> str:
 
 def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
     scene_text = _scene_text(scene)
+    # The video topic travels with each scene dict (main.py copies
+    # script_data['topic'] into it). It locks the signature style for the
+    # whole video — one cohesive "Le Labo Obscur" look per video, unlike the
+    # shared-stock look every other channel ships.
+    topic = scene.get('topic', '') if isinstance(scene, dict) else ''
 
     layers = [
-        # First use licensed stock B-roll (Pexels, then Pixabay) for genuine motion.
-        ("Pexels-video-first",    lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
-        ("Pixabay-video-second",  lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
-        # REAL stock photos next — real photographic visuals, NOT AI-art. The
-        # free AI providers (Pollinations/AI-Horde) render plastic/uncanny
-        # images that read as obvious "AI feel" and hurt the channel's
-        # authenticity (and monetization). Real Pexels/Pixabay photos are
-        # preferred whenever a clip isn't available.
-        ("Pexels-image",          lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
-        ("Pixabay-image",         lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
-        # AI-generated images are a LAST resort (no real stock match), not a
-        # default — reduces the AI-feel.
-        ("AI-Horde-image",        lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"])),
-        ("Other-AI-image",        lambda: _layer_ai_providers(index, scene_text, [
+        # 2026-08-15 signature-world priority (user: "audience wants unique
+        # visuals, not what thousands of channels use"). Scenes rendered
+        # freshly in the channel's signature macro teal-lab world — visually
+        # unique per video (hash-ledger enforced) and recognizably Neuro-Somaa.
+        # Stock layers are license-safe (verified) but generic; they now sit
+        # BELOW as fallbacks, keeping the pipeline robust when every AI
+        # provider is rate-limited.
+        ("Signature-AI-primary",  lambda: _layer_ai_providers(index, scene_text, [
             "Pollinations-flux", "Pollinations-turbo", "HuggingFace", "Gemini",
             "DeepAI", "ModelsLab", "Replicate",
-        ])),
+        ], topic=topic)),
+        ("AI-Horde-secondary",    lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"], topic=topic)),
+        # Licensed stock B-roll for genuine motion (Pexels, then Pixabay).
+        ("Pexels-video-fallback", lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
+        ("Pixabay-video-fallback", lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
+        # REAL stock photos as fallback — photographic, not AI-art.
+        ("Pexels-image-fallback", lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
+        ("Pixabay-image-fallback", lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
         ("Local-fallback-pool",   lambda: _layer_local_pool(index, used_fallbacks)),
         ("Procedural-fallback",   lambda: _layer_procedural(index, scene_text)),
         *([("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]

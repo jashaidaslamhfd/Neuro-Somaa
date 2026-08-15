@@ -385,6 +385,13 @@ class SKILLORPipeline:
 
         total_scenes = len(script_data['scenes'])
         logger.info(f"Generating images for {total_scenes} scenes...")
+        # 2026-08-15: carry the video topic with each scene so the visual
+        # signature module can lock one cohesive style per video (a unique
+        # channel world instead of the stock look shared by others).
+        video_topic = script_data.get('topic', '') or ''
+        for _s in script_data['scenes']:
+            if isinstance(_s, dict):
+                _s.setdefault('topic', video_topic)
 
         for i, scene in enumerate(script_data['scenes']):
             success = False
