@@ -1,13 +1,13 @@
 # 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)
-_Generated 2026-08-14T08:56:04.562061+00:00 — 15 jours restants_
+_Generated 2026-08-15T08:13:54.555847+00:00 — 14 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **115** | Vues totales: 48,706 | Vidéos: 70
-- Watch hours (12 mois): 65.8
+- Abonnés: **116** | Vues totales: 50,481 | Vidéos: 73
+- Watch hours (12 mois): 68.7
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +885 subs (59.0/jour) · +9,951,294 vues Shorts (663,419.6/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +385 subs (25.7/jour) · +2,951,294 vues Shorts (196,752.9/jour)
+- **Full YPP (ad revenue)**: +884 subs (63.1/jour) · +9,949,519 vues Shorts (710,679.9/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +384 subs (27.4/jour) · +2,949,519 vues Shorts (210,679.9/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
@@ -23,7 +23,9 @@ _Generated 2026-08-14T08:56:04.562061+00:00 — 15 jours restants_
 
 ## 🎵 Musique
 - ✅ `own_dark_drone.ogg` — original (generated in-repo)
+- ✅ `own_dark_drone.wav` — original (generated in-repo)
 - ✅ `own_suspense_thrum.ogg` — original (generated in-repo)
+- ✅ `own_suspense_thrum.wav` — original (generated in-repo)
 
 ## 🗓️ Plan quotidien (honnête)
 - **3 Shorts/jour** à 12:30, 19:30 & 21:00 Paris (déjà automatisé, ajusté par les créneaux dynamiques).
