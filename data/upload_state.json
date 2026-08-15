@@ -656,5 +656,18 @@
     },
     "publish_at": "2026-08-15T15:30:00+00:00",
     "completed_at": 1786737169.798872
+  },
+  "f2f00ab24c610a0170a47fa640a8a8937951f682699f0a9098efa18d591c77d9": {
+    "status": "completed",
+    "title": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+    "youtube_video_id": "r4R2zUp-efA",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-15T17:30:00+00:00",
+    "completed_at": 1786784585.999925
   }
 }
