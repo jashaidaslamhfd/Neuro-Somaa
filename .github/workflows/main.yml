@@ -88,6 +88,10 @@ jobs:
           ENFORCE_POSTING_GAP: "true"
           GROQ_MODEL: "openai/gpt-oss-120b"
           GROQ_MODEL_FALLBACK: "openai/gpt-oss-20b"
+          # OpenRouter: last-resort LLM fallback if the account's key loses
+          # access to every Groq model at once (same failure mode as the
+          # Aug-14 Groq 404 outage). No cost unless Groq fully fails.
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose
@@ -191,10 +195,15 @@ jobs:
           git config user.email "bot@neuro-somaa.fr"
           git add -A data/
           git commit -m "chore: persist Neuro-Somaa channel state [skip ci]"
+          # Later steps (or a concurrent run's commit racing this one) can
+          # leave unstaged files; stash them before pulling so 'pull --rebase'
+          # never fails with 'You have unstaged changes'.
+          git stash --quiet --include-untracked || true
           for i in 1 2 3; do
             if git pull --rebase origin main && git push origin HEAD:main; then break
             else sleep $((i * 5)); fi
           done
+          git stash pop --quiet 2>/dev/null || true
 
       - name: Upload artifacts
         if: always()

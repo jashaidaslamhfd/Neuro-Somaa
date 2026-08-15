@@ -681,9 +681,22 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             pause = max(0.15, _breath * drift * beat)
             # A still hold on the just-shown frame is how a presenter's
             # pause reads on screen — not a flicker to the next image.
-            breath_video = ImageClip(img_path, duration=pause).resize(
-                (CANVAS_W, CANVAS_H)
-            ).set_fps(30)
+            # 2026-08-15 fix: when the scene is real B-roll (media_type ==
+            # 'video'), img_path is an MP4 — ImageClip can't read video
+            # files ('Format FFMPEG cannot read in ImageMode.single_image
+            # mode'), which was killing entire FR pipeline runs. Freeze the
+            # final frame of the B-roll as the still hold instead.
+            if media_type == "video":
+                _src = VideoFileClip(img_path, audio=False)
+                still_frame = _src.get_frame(min(_src.duration, max(0.0, _src.duration - 0.01)))
+                breath_video = ImageClip(still_frame, duration=pause).resize(
+                    (CANVAS_W, CANVAS_H)
+                ).set_fps(30)
+                _src.close()
+            else:
+                breath_video = ImageClip(img_path, duration=pause).resize(
+                    (CANVAS_W, CANVAS_H)
+                ).set_fps(30)
             breath_audio = AudioClip(
                 lambda tt: np.zeros((len(tt), 2)), duration=pause, fps=48000
             )
