@@ -372,6 +372,19 @@ RÈGLE ANTI-ENNUI : au moins UNE scène centrale (3–5) contient une escalation
 mesurable (chiffre concret, « mais/sauf/pourtant », ou mini-question) — un
 milieu plat fait partir le spectateur entre 10 et 20 s.
 
+CORRECTION 2026-08-15 — FIN ENVOYABLE EN DM : la scène centrale qui contient
+le fait à retenir DOIT être assez précise pour être recopiée telle quelle dans
+un message à un ami (avec un chiffre, un contraste ou un mécanisme surprenant,
+ex. « ton cerveau coupe ton audition 20 millisecondes avant chaque clignement »).
+Un résumé vague du type « ton corps est incroyable » = échec automatique :
+imagine la phrase tapée dans une conversation de groupe, elle doit survivre au
+trajet. Les partages/DM sont le deuxième signal de classement d'Instagram et
+ne poussent que les faits concrets.
+
+RÉCOMPENSE IMMÉDIATE EN 3 S : la scène 1 ne promet PAS seulement — elle montre
+le phénomène en action dès la première seconde (visuel + mot du hook prononcé
+instantanément), jamais une introduction ou une attente de valeur au-delà de 3 s.
+
 RÈGLES DE FORMAT :
 - Total des légendes parlées : {MIN_WORDS}–{MAX_WORDS} mots français.
 - Scène 1 : {HOOK_MIN_WORDS}–{HOOK_MAX_WORDS} mots. Scènes 2–{MAX_SCENES} : {MIN_SCENE_WORDS}–{MAX_SCENE_WORDS} mots chacune.

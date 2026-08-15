@@ -601,8 +601,13 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # Old 0.12 zoom was subtle. New 0.18 + stronger pan = pattern interrupt
         # that stops thumb in feed. Visual duration must match audio duration.
         if i == 0:
+            # FIXED 2026-08-15 (viral gap 5): completion 47% vs 50% gate — the
+            # opening punch must land INSIDE the first 3 s. First beat shortened
+            # to 40% with the full kick-in zoom so the eye-catch finishes early.
             zoom_extra += 0.18
-
+            first_beat_frac = 0.40
+        else:
+            first_beat_frac = 0.50
         # RETENTION: Alternate zoom direction every scene
         direction = "in" if i % 2 == 0 else "out"
 
@@ -613,11 +618,12 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         else:
             # AI/static image: two motion beats make the scene feel alive.
             # 2026-08-15: beats are no longer a mechanical 50/50 split — a
-            # human editor trims each beat differently per shot. The split
-            # drifts ±15% deterministically per scene, so no two scenes
-            # repeat the same visual rhythm.
+            # human editor trims each beat differently per shot. Scene 1 gets
+            # the early-punch split (40/60, gap-5 fix); other scenes drift
+            # ±15% deterministically so no two scenes repeat the same rhythm.
             _rng = random.Random(hash(("beat", caption_text)))
-            _split = 0.5 + _rng.uniform(-0.15, 0.15)
+            _split = (first_beat_frac if i == 0
+                      else 0.5 + _rng.uniform(-0.15, 0.15))
             first_duration = duration * _split
             second_duration = duration - first_duration
             first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)

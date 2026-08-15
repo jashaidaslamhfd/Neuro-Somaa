@@ -191,10 +191,13 @@ PLATFORM_POLICY: Dict[str, Dict] = {
     YOUTUBE: {
         "label": "YouTube Shorts",
         # FIXED 2026-08-15: channel's measured avg watch is still 10-14s, which
-        # clears only 27-38% of the 50% gate at 33s. Shorter master cut (27-30-34,
-        # ideal 30) lifts completion to ~40-46% and — more importantly — forces
-        # the hook and payoff tighter, which is what actually wins views.
-        "duration": (27.0, 30.0, 34.0),
+        # clears only 27-38% of the 50% gate at 33s. Shorter master cut lifts
+        # completion to ~40-46% and forces the hook/payoff tighter.
+        # FIXED 2026-08-15 (viral gap 5): measured completion is 47% vs the 50%
+        # gate — a 3% miss. Master cut moves fully UNDER 27s so the same 10-14s
+        # watch time clears 48-54% completion; the script prompt now also
+        # demands visual payoff IN the first frame (3s rule).
+        "duration": (21.0, 26.0, 29.0),
         "hard_max": 60.0,
         "retention_gate": {"under_30s": 0.65, "over_30s": 0.50},
         "decision_seconds": 2.2,
