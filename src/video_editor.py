@@ -579,9 +579,22 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     if len(media_types) != len(image_paths):
         raise ValueError("media_types must match image_paths length")
 
-    # Fixed brand palette makes every Short immediately recognizable.
-    color_theme = {'primary': (255, 255, 255), 'secondary': (255, 205, 40), 'bg': (18, 20, 28)}
-    logger.info(f"Using fixed SKILLOR brand theme: {color_theme}")
+    # 2026-08-15 brand fix: this repo shipped the US (SKILLOR) gold palette —
+    # every FR Short carried a foreign brand theme. 'Le Labo Obscur' is the
+    # Neuro-Somaa signature world: white on deep teal with amber lab-light
+    # accents, matching the signature AI visuals. Override via COLOR_THEME_*
+    # env vars for experiments.
+    _teal = (int(os.environ.get('COLOR_THEME_BG_R', '8')),
+             int(os.environ.get('COLOR_THEME_BG_G', '38')),
+             int(os.environ.get('COLOR_THEME_BG_B', '42')))
+    color_theme = {
+        'primary': (255, 255, 255),
+        'secondary': (int(os.environ.get('COLOR_THEME_ACCENT_R', '255')),
+                      int(os.environ.get('COLOR_THEME_ACCENT_G', '171')),
+                      int(os.environ.get('COLOR_THEME_ACCENT_B', '64'))),
+        'bg': _teal,
+    }
+    logger.info("Using Neuro-Somaa 'Le Labo Obscur' brand theme: %s", color_theme)
 
     video_clips = []
     audio_clips = []
@@ -697,8 +710,13 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 breath_video = ImageClip(img_path, duration=pause).resize(
                     (CANVAS_W, CANVAS_H)
                 ).set_fps(30)
+            def _silent_frame(tt):
+                # MoviePy may pass a scalar t (with fps) or a numpy array
+                # of timestamps — the breath pause must be silent either way.
+                tt = np.atleast_1d(np.asarray(tt))
+                return np.zeros((len(tt), 2))
             breath_audio = AudioClip(
-                lambda tt: np.zeros((len(tt), 2)), duration=pause, fps=48000
+                _silent_frame, duration=pause, fps=48000
             )
             video_clips.append(
                 CompositeVideoClip([breath_video], size=(CANVAS_W, CANVAS_H))
