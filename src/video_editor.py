@@ -2,6 +2,7 @@ import os
 import re
 import random
 import logging
+import subprocess
 from typing import Dict
 import numpy as np
 import soundfile as sf
@@ -539,12 +540,44 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
 # 4. MAIN BUILD FUNCTION (PRIORITY IMPROVEMENTS)
 # ============================================
 
+def _validate_scene_mp4(path: str) -> bool:
+    """Probe a scene MP4 with ffprobe before MoviePy touches it.
+
+    2026-08-15: the ftyp/moov byte check in image_generator.py catches HTML
+    error pages at download time, but NOT truncated or container-corrupt
+    files (Pexels/Pixabay occasionally serve them mid-stream). Those passed
+    the byte check, reached build_video, and crashed the whole run with
+    'failed to read the first frame' (~10 min burned per attempt). A real
+    stream probe here catches what byte sniffing misses, and lets the caller
+    fail the single bad scene instead of the whole pipeline.
+    """
+    try:
+        probe = subprocess.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-show_streams", "-of", "csv=p=0", path],
+            capture_output=True, text=True, timeout=30)
+        lines = [l for l in probe.stdout.splitlines() if l.strip()]
+        if not lines:
+            return False
+        try:
+            dur = float(lines[0])
+        except ValueError:
+            return False
+        return dur > 0.0
+    except Exception:
+        return False
+
+
 def _cover_video_clip(path: str, duration: float) -> VideoFileClip:
     """Fit a downloaded Pexels/Pixabay B-roll clip to the vertical canvas.
-
     The stock clip's own audio is discarded—voiceover and licensed music are
     mixed later. Short source clips loop cleanly to cover one narration scene.
     """
+    if not _validate_scene_mp4(path):
+        raise RuntimeError(
+            f"Stock clip is corrupted or truncated (probe failed): {path} — "
+            "re-running the pipeline re-downloads a fresh clip for this scene."
+        )
     source = VideoFileClip(path, audio=False)
     if source.duration <= 0:
         source.close()
@@ -712,12 +745,27 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             # mode'), which was killing entire FR pipeline runs. Freeze the
             # final frame of the B-roll as the still hold instead.
             if media_type == "video":
-                _src = VideoFileClip(img_path, audio=False)
-                still_frame = _src.get_frame(min(_src.duration, max(0.0, _src.duration - 0.01)))
-                breath_video = ImageClip(still_frame, duration=pause).resize(
-                    (CANVAS_W, CANVAS_H)
-                ).set_fps(30)
-                _src.close()
+                # 2026-08-15: a corrupted stock clip here previously crashed
+                # the whole build ('failed to read the first frame', scene_4).
+                # The ffprobe gate above already caught that, but keep a
+                # defensive guard so any late I/O failure degrades to a
+                # plain image hold instead of burning the run.
+                _still = None
+                try:
+                    _src = VideoFileClip(img_path, audio=False)
+                    still_frame = _src.get_frame(
+                        min(_src.duration, max(0.0, _src.duration - 0.01)))
+                    breath_video = ImageClip(still_frame, duration=pause).resize(
+                        (CANVAS_W, CANVAS_H)
+                    ).set_fps(30)
+                    _src.close()
+                except (OSError, IOError) as exc:
+                    logger.warning(
+                        "Breath-hold probe failed for %s (%s) — holding on a "
+                        "neutral background frame instead.", img_path, exc)
+                    breath_video = ColorClip(
+                        size=(CANVAS_W, CANVAS_H), color=(16, 26, 28)
+                    ).set_duration(pause).set_fps(30)
             else:
                 breath_video = ImageClip(img_path, duration=pause).resize(
                     (CANVAS_W, CANVAS_H)
