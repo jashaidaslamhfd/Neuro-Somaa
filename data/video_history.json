@@ -17,12 +17,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 32.44,
-    "analytics_fetched_at": "2026-08-14T06:51:39.356118+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:29.239852+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1006,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "ac782bb3f04eeb2b6c7cc5799ea120f98a253ce02d65f55b76dbac68e8bfa9ee",
@@ -67,12 +67,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 34.06,
-    "analytics_fetched_at": "2026-08-14T06:51:40.008702+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:29.650266+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 630,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "8727005c0dac29e6d88d306953770646ed956bb4b50c6b82acc4ab3093d9e195",
@@ -92,12 +92,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 29.059999999999995,
-    "analytics_fetched_at": "2026-08-14T06:51:41.409134+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:30.008105+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 797,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "4ed746bb4b2a2885530474396659974206f091ceabdfc00c318794bcf0e63f0a",
@@ -117,12 +117,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 28.249999999999996,
-    "analytics_fetched_at": "2026-08-14T06:51:42.000245+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:30.506201+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 869,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "b9980f417d50db90c500a0150b01c322c54bf223ca44270e06b261afe511a250",
@@ -142,12 +142,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 31.52,
-    "analytics_fetched_at": "2026-08-14T06:51:42.587460+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:30.905601+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 146,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "0147e48d3de772c6a47c76ac39a7ccea5531c22ea3b5c455c4ec123adaa5c47a",
@@ -167,12 +167,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 24.67,
-    "analytics_fetched_at": "2026-08-14T06:51:43.198764+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:31.320141+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 266,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "61c29bb0890c66ad102ae379266b45b67a3292f9493e38cf3b4607639793dd0f",
@@ -192,12 +192,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 32.26,
-    "analytics_fetched_at": "2026-08-14T06:51:43.826426+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:31.755983+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1512,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "2cbce7a2ac313a4780b2afb6367fac3df28982edb3579c2065f388095b1ca5d2",
@@ -217,12 +217,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 29.13,
-    "analytics_fetched_at": "2026-08-14T06:51:44.517426+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:32.164312+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 675,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "9cf8a04f0b4c614d77dd9f6c283fa71d40002888ceb30adb66169c67992b4f02",
@@ -242,12 +242,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 19,
     "average_view_percentage": 46.28,
-    "analytics_fetched_at": "2026-08-14T06:51:45.151671+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:32.549735+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 116,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "596699060f044de2d1e4ae41b6be5f9d6b7a02a56563bb48934ff4c3126ea4b7",
@@ -267,12 +267,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 14,
     "average_view_percentage": 37.66,
-    "analytics_fetched_at": "2026-08-14T06:51:45.833197+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:32.884772+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1087,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "ebe3038da6496d4b3f534033b139156029b5fd524708b5eff48f08815443e5a5",
@@ -292,12 +292,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 37.44,
-    "analytics_fetched_at": "2026-08-14T06:51:46.352990+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:33.289901+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 579,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "b76c6fa4abfb0a05f2968df53676ec2f395b4201758d8bf60f98d93c29765483",
@@ -317,12 +317,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 29.34,
-    "analytics_fetched_at": "2026-08-14T06:51:46.949863+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:33.644295+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 294,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "ef9ce3f640408ca51892a80e2b0de9aa45c970813553f30dfd78ac7a4c9bcff2",
@@ -342,12 +342,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 27.41,
-    "analytics_fetched_at": "2026-08-14T06:51:47.447199+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:34.031398+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1456,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "9e6291fa502aff8fb61eedf8230206b018e6514cdfe27918f2811a8079be7f3b",
@@ -368,12 +368,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 28.9,
-    "analytics_fetched_at": "2026-08-14T06:51:48.093456+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:34.403843+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1031,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "4029b1bdbb36b3590c8d16e26257414cc22ac8803f97c70fd33ee350a9812d0b",
@@ -394,12 +394,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 30.19,
-    "analytics_fetched_at": "2026-08-14T06:51:48.771438+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:34.799083+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 758,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "3e210ca28a1532d8bf3f11da4e6ca61e278513e071c1af5f37a4b2962470de85",
@@ -420,12 +420,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 31.19,
-    "analytics_fetched_at": "2026-08-14T06:51:49.241034+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:35.115157+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 349,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "8955bb7e285be624ce4d80d40c9bf4a22722a271bde42127e93c9f32e8b5a100",
@@ -442,15 +442,15 @@
     "predicted_ctr": 9.9,
     "hook_score": 100,
     "predicted_retention": 0.75,
-    "views": 767,
+    "views": 768,
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 34.64,
-    "analytics_fetched_at": "2026-08-14T06:51:49.848254+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:35.438380+00:00",
     "analytics_via": "analytics",
     "stall_streak": 0,
-    "views_prev": 766,
-    "views_per_day": 0.5,
+    "views_prev": 767,
+    "views_per_day": 1.0,
     "growth_state": "growing"
   },
   {
@@ -472,12 +472,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 29.31,
-    "analytics_fetched_at": "2026-08-14T06:51:50.459463+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:35.835812+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 985,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "3d1bf86e220f04778663024f9711d637800cf77de4ea5d4a06e7dc9a902120e0",
@@ -498,12 +498,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 28.9,
-    "analytics_fetched_at": "2026-08-14T06:51:51.140595+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:36.227535+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 523,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "eb810fa78ce0a8a4c942e925a583ef9e6f1365ecc418b57a291afb33ba67894e",
@@ -524,12 +524,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 34.52,
-    "analytics_fetched_at": "2026-08-14T06:51:51.755451+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:36.562306+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1205,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "01b7f27f599366365ed5efb6a37f1fc62e8f65759b9bb93e8be3492b09904c03",
@@ -550,12 +550,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 32.84,
-    "analytics_fetched_at": "2026-08-14T06:51:52.255963+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:36.954284+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1168,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "5b792fd399062aadbbd5e6061730ff3dbc5204c4ea88a716090fc14fbec8657f",
@@ -576,12 +576,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 29.07,
-    "analytics_fetched_at": "2026-08-14T06:51:52.871006+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:37.347687+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1007,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "d52b2ba0f6244ed4fdc587b48f5d6a397109165b764fe895ca5206d1a92556d0",
@@ -602,12 +602,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 36.65,
-    "analytics_fetched_at": "2026-08-14T06:51:53.537245+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:37.762114+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 776,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "9bfc549a172116f5d10f89c05e957600efeb9f40f7ed435e8bbbf56d32ed862d",
@@ -648,12 +648,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 38.83,
-    "analytics_fetched_at": "2026-08-14T06:51:54.630830+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:38.416431+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 914,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "c1c1104b7ff92652e56d7f76b5c12016adfb125e43257cc261e68a92afd744fc",
@@ -678,12 +678,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 47.08,
-    "analytics_fetched_at": "2026-08-14T06:51:55.160999+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:38.830412+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 731,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "d9675f41a6217d41597524875e635cfa9b9ef491918b5cd4241e4cc383290775",
@@ -708,12 +708,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 47.55,
-    "analytics_fetched_at": "2026-08-14T06:51:55.800698+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:39.161646+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 637,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "d1d312f3e64be40cd8725feb648931ffd7fcd1c5ddddee8e09819d06c9b2bb07",
@@ -738,12 +738,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 39.99,
-    "analytics_fetched_at": "2026-08-14T06:51:56.423887+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:39.480238+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1241,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "aa92055e153b273cf89a16a187aaa2eba253347bac9f167e64ddde27460992bd",
@@ -768,12 +768,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 41.15,
-    "analytics_fetched_at": "2026-08-14T06:51:57.068049+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:39.875736+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 827,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630",
@@ -798,12 +798,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 66.11,
-    "analytics_fetched_at": "2026-08-14T06:51:57.684869+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:40.237802+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 947,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "340b2f96fb0a82158c4f50647c9430350f5fddab92faa45de862dc03e2d013e8",
@@ -828,12 +828,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 35.38,
-    "analytics_fetched_at": "2026-08-14T06:51:58.301239+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:40.564115+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 327,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b",
@@ -858,12 +858,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 44.61,
-    "analytics_fetched_at": "2026-08-14T06:51:58.903222+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:40.983012+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 192,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "b58437818eb2533d8d71853647a421d63a36bdd6694c907194517acb1cec11a3",
@@ -888,12 +888,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 0,
     "average_view_percentage": 0,
-    "analytics_fetched_at": "2026-08-14T06:51:59.412214+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:41.317812+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 3,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "c7e8c562e2da103a14017fa10eb7c205e8d22675964f2aa2fb02a4d4547d789d",
@@ -918,12 +918,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 34.29,
-    "analytics_fetched_at": "2026-08-14T06:51:59.879738+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:41.682626+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 768,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "e762eb1a73bf2502a92a23fa5bb3594aec0bf989780c7f25b8dba4ab40ded431",
@@ -948,12 +948,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 46.62,
-    "analytics_fetched_at": "2026-08-14T06:52:00.375858+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:42.004813+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 822,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "50cda7b1847ae4041160f77397da563a2acf83ab035609257d2f002d039a2d5e",
@@ -1034,16 +1034,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 762,
+    "views": 738,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
-    "average_view_percentage": 43.31,
-    "analytics_fetched_at": "2026-08-14T06:52:02.281577+00:00",
+    "average_view_percentage": 43.3,
+    "analytics_fetched_at": "2026-08-15T07:45:43.425315+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 762,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": -23.1,
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "e4ac7722c888b995ec6e8107905c0ac24850cfed2c9bec5cfbc1c66e73f466fc",
@@ -1064,16 +1064,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 90,
     "predicted_retention": 0.705,
-    "views": 737,
+    "views": 720,
     "actual_ctr": null,
     "average_view_duration_sec": 9,
-    "average_view_percentage": 46.08,
-    "analytics_fetched_at": "2026-08-14T06:52:02.776264+00:00",
+    "average_view_percentage": 46.11,
+    "analytics_fetched_at": "2026-08-15T07:45:43.755189+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 737,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": -16.4,
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "2331113a6fefa9d909e5d727baed2f3deb5d147fb2ac7b581db9d7ed3a8a52e4",
@@ -1094,16 +1094,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 681,
+    "views": 651,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
-    "average_view_percentage": 40.58,
-    "analytics_fetched_at": "2026-08-14T06:52:03.407419+00:00",
+    "average_view_percentage": 40.51,
+    "analytics_fetched_at": "2026-08-15T07:45:44.066629+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 681,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": -28.9,
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "beea1a54e1c41352deedf92d1cdbafaf8b65bd1ca2f6b877f9d49e0cf8cb17db",
@@ -1124,16 +1124,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 1060,
+    "views": 1029,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
-    "average_view_percentage": 36.45,
-    "analytics_fetched_at": "2026-08-14T06:52:03.918535+00:00",
+    "average_view_percentage": 36.53,
+    "analytics_fetched_at": "2026-08-15T07:45:44.378237+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1060,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": -29.9,
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "6ed58f6d2de488446ff471f1e6a6e3c77fd3e38bb4abc29dde5b0701740461d8",
@@ -1154,16 +1154,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 1087,
+    "views": 1053,
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 69.16,
-    "analytics_fetched_at": "2026-08-14T06:52:04.377425+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:44.722578+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1087,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": -32.8,
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "19d2be3e3627cdcf5c1175ff058e1852f5deeadcf8e290048ff7d752e8c29e6f",
@@ -1184,16 +1184,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 165,
+    "views": 166,
     "actual_ctr": null,
     "average_view_duration_sec": 11,
-    "average_view_percentage": 52.88,
-    "analytics_fetched_at": "2026-08-14T06:52:04.841740+00:00",
+    "average_view_percentage": 53.83,
+    "analytics_fetched_at": "2026-08-15T07:45:45.104714+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 0,
     "views_prev": 165,
-    "views_per_day": 0.0,
-    "growth_state": "flat"
+    "views_per_day": 1.0,
+    "growth_state": "growing"
   },
   {
     "content_fingerprint": "1db25dceb17a3ef22af174317490f5acb46c612d0380ea0c7e2275e0964f519c",
@@ -1214,15 +1214,15 @@
     "predicted_ctr": 10.0,
     "hook_score": 100,
     "predicted_retention": 0.75,
-    "views": 33,
+    "views": 34,
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 46.87,
-    "analytics_fetched_at": "2026-08-14T06:52:05.323775+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:45.437754+00:00",
     "analytics_via": "analytics",
     "stall_streak": 0,
-    "views_prev": 31,
-    "views_per_day": 1.1,
+    "views_prev": 33,
+    "views_per_day": 1.0,
     "growth_state": "growing"
   },
   {
@@ -1248,12 +1248,12 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 59.25,
-    "analytics_fetched_at": "2026-08-14T06:52:05.825539+00:00",
+    "analytics_fetched_at": "2026-08-15T07:45:45.867014+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 390,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled"
   },
   {
     "content_fingerprint": "11a988a6817b301a453ff03216a5b810e77dcac080eddf73b384133155c19fb6",
@@ -1274,16 +1274,16 @@
     "predicted_ctr": 10.0,
     "hook_score": 70,
     "predicted_retention": 0.615,
-    "views": 812,
+    "views": 806,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
-    "average_view_percentage": 39.8,
-    "analytics_fetched_at": "2026-08-14T06:52:06.316957+00:00",
+    "average_view_percentage": 39.77,
+    "analytics_fetched_at": "2026-08-15T07:45:46.210978+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0,
-    "views_prev": 810,
-    "views_per_day": 1.1,
-    "growth_state": "growing"
+    "stall_streak": 1,
+    "views_prev": 812,
+    "views_per_day": -5.8,
+    "growth_state": "flat"
   },
   {
     "content_fingerprint": "fe661f9902e86c80d6c2533d900f2a50a0a3fb7fc01526a454a7d01e09c3e7c1",
@@ -1607,15 +1607,16 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 54,
     "loop_bridge_present": false,
-    "views_prev": null,
-    "views_per_day": null,
-    "growth_state": "first_read",
-    "views": 864,
+    "views_prev": 864,
+    "views_per_day": 1.0,
+    "growth_state": "growing",
+    "views": 865,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
-    "average_view_percentage": 44.05,
-    "analytics_fetched_at": "2026-08-14T06:52:06.900683+00:00",
-    "analytics_via": "analytics"
+    "average_view_percentage": 44.16,
+    "analytics_fetched_at": "2026-08-15T07:45:46.563994+00:00",
+    "analytics_via": "analytics",
+    "stall_streak": 0
   },
   {
     "content_fingerprint": "ea28729706d5c585a06fe68ea71fc8a1ffb15b9482316f9eb8c067e3e5d73a56",
@@ -1639,15 +1640,16 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 42,
     "loop_bridge_present": false,
-    "views_prev": null,
-    "views_per_day": null,
-    "growth_state": "first_read",
-    "views": 737,
+    "views_prev": 737,
+    "views_per_day": 2.9,
+    "growth_state": "growing",
+    "views": 740,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
-    "average_view_percentage": 53.2,
-    "analytics_fetched_at": "2026-08-14T06:52:07.370206+00:00",
-    "analytics_via": "analytics"
+    "average_view_percentage": 52.89,
+    "analytics_fetched_at": "2026-08-15T07:45:46.930768+00:00",
+    "analytics_via": "analytics",
+    "stall_streak": 0
   },
   {
     "content_fingerprint": "f949858f5bef5525e4482efb743bc0a4dda6739ca477f38d73428ad1ac465cb1",

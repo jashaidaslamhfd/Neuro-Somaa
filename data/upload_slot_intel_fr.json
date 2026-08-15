@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-15T05:48:57.363781+00:00",
+  "generated_at_utc": "2026-08-15T07:45:48.501054+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,7 +11,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.2074,
+      "score": 3.2056,
       "samples": 17,
       "confident": true,
       "prior": 0.0
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.381,
+      "score": 3.3809,
       "samples": 11,
       "confident": true,
-      "prior": 3.4851
+      "prior": 3.4843
     },
     {
       "rank": 3,
@@ -35,7 +35,7 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.3217,
+      "score": 3.3203,
       "samples": 12,
       "confident": true,
       "prior": 0.0
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.381,
+      "score": 3.3809,
       "observed_samples": 11,
-      "observed_avg": 3.3432,
-      "prior": 3.4851,
+      "observed_avg": 3.3433,
+      "prior": 3.4843,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -75,9 +75,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.3217,
+      "score": 3.3203,
       "observed_samples": 12,
-      "observed_avg": 3.3217,
+      "observed_avg": 3.3203,
       "prior": 0.0,
       "examples": [
         {
@@ -89,7 +89,7 @@
         {
           "video_id": "0giDXoVx72E",
           "title": "Pourquoi la mâchoire craque en mâchant ?",
-          "views": 1060,
+          "views": 1029,
           "published_paris": "2026-08-05 21:30"
         },
         {
@@ -104,10 +104,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3056,
+      "score": 3.3051,
       "observed_samples": 4,
       "observed_avg": 3.3363,
-      "prior": 3.2851,
+      "prior": 3.2843,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -133,7 +133,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2887,
+      "score": 3.288,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2738,
+      "score": 3.2731,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -167,7 +167,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2177,
+      "score": 3.2171,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -184,9 +184,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.2074,
+      "score": 3.2056,
       "observed_samples": 17,
-      "observed_avg": 3.2074,
+      "observed_avg": 3.2056,
       "prior": 0.0,
       "examples": [
         {
@@ -198,7 +198,7 @@
         {
           "video_id": "JIg1-eBYols",
           "title": "Pourquoi un pied s'endort tout seul ?",
-          "views": 1087,
+          "views": 1053,
           "published_paris": "2026-08-06 17:30"
         },
         {
@@ -213,7 +213,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1417,
+      "score": 3.1411,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.1296,
+      "score": 3.1291,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -253,7 +253,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.119,
+      "score": 3.1183,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -270,7 +270,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.1059,
+      "score": 3.1052,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -287,7 +287,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.0873,
+      "score": 3.0868,
       "observed_samples": 2,
       "observed_avg": 2.8906,
       "prior": 0.0,

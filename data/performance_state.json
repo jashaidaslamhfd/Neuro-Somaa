@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-15T05:48:57.180784+00:00",
+  "generated_at": "2026-08-15T07:45:48.357963+00:00",
   "total_with_data": 70,
   "top_topics_by_views": [
     {
@@ -41,20 +41,20 @@
     {
       "topic": "Pourquoi un pied s'endort tout seul peut sembler étrange",
       "n": 1,
-      "avg_views": 1087.0,
+      "avg_views": 1053.0,
       "avg_retention": 69.2
-    },
-    {
-      "topic": "Ce que la science explique sur la mâchoire qui craque en mâchant",
-      "n": 1,
-      "avg_views": 1060.0,
-      "avg_retention": 36.5
     },
     {
       "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
       "n": 1,
       "avg_views": 1031.0,
       "avg_retention": 28.9
+    },
+    {
+      "topic": "Ce que la science explique sur la mâchoire qui craque en mâchant",
+      "n": 1,
+      "avg_views": 1029.0,
+      "avg_retention": 36.5
     },
     {
       "topic": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
