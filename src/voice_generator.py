@@ -4,7 +4,24 @@ import re
 import time
 
 import numpy as np
-import soundfile as sf
+
+# 2026-08-17 CI fix: the guard-workflow installs only requirements-ci.txt
+# (deliberately no torch/soundfile - avoids a 2GB download per push).
+# soundfile is used only inside TTS synthesis functions, so import it here
+# lazily via the helper rather than at module top-level.
+def _sf():
+    """Lazy soundfile access — never fails at import time."""
+    import soundfile as _s
+    return _s
+
+class _SoundfileProxy:
+    """Module-level proxy so existing sf.write/sf.read call sites keep working
+    without touching hundreds of lines; the real import happens on first use."""
+    def write(self, *a, **kw): return _sf().write(*a, **kw)
+    def read(self, *a, **kw):  return _sf().read(*a, **kw)
+    def info(self, *a, **kw):  return _sf().info(*a, **kw)
+
+sf = _SoundfileProxy()
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
