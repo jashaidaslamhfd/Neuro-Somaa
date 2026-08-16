@@ -671,6 +671,13 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     with _fallback_lock:
         url = next((item for item in urls if item not in used_fallbacks), urls[0])
         used_fallbacks.add(url)
+    # 2026-08-17: Pexels/Pixabay occasionally serve TRUNCATED streams that
+    # still pass the header checks below — the ffprobe at build time then
+    # rejects them AFTER 19 minutes of rendering, burning all 3 retries on
+    # the same bad scene. Probe here BEFORE saving so the bad URL is simply
+    # skipped and the next candidate is tried (or the scene falls to a later
+    # layer). Only full corruption here raises; a probe failure just raises
+    # too, because used_fallbacks advances this URL out of rotation.
     download = requests.get(url, timeout=60)
     content = download.content
     if download.status_code != 200 or len(content) < 100_000:
@@ -683,7 +690,30 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     head = content[:64]
     if not (b"ftyp" in head or b"moov" in head):
         raise RuntimeError(f"{source}: downloaded bytes are not a valid MP4 container")
-    return _save_bytes(content, index, ext="mp4"), "video"
+    path = _save_bytes(content, index, ext="mp4")
+    if not _probe_is_valid_video(path):
+        raise RuntimeError(
+            f"{source}: downloaded clip is truncated or container-corrupt "
+            f"(ffprobe failed) — next video candidate will be tried")
+    return path, "video"
+
+
+def _probe_is_valid_video(path: str) -> bool:
+    """Fast ffprobe sanity check: readable stream with positive duration.
+    Catches truncated Pexels/Pixabay downloads that pass the ftyp/moov byte
+    check but are not actually decodable (the build-time probe in
+    video_editor.py raised these AFTER wasting ~19 min of rendering per
+    attempt)."""
+    try:
+        import subprocess as _sp
+        probe = _sp.run(
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
+             "-of", "csv=p=0", path],
+            capture_output=True, text=True, timeout=30)
+        dur = probe.stdout.strip()
+        return bool(dur) and float(dur) > 0.0
+    except Exception:  # noqa: BLE001 - probe must never break the download path
+        return False
 
 
 def _layer_pexels_video(index, scene_text, used_fallbacks: set):
