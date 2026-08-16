@@ -117,6 +117,10 @@ jobs:
           HF_API_KEY: ${{ secrets.HF_API_KEY }}
           # Licensed stock B-roll (genuine motion, monetization-safe)
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          # 2026-08-17: AI image-to-video (Seedance 2.5 via Pollinations) —
+          # upgrades static scene images into genuine motion clips; needs the
+          # POLLINATIONS_KEY secret (added by user 2026-08-16).
+          POLLINATIONS_KEY: ${{ secrets.POLLINATIONS_KEY }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
 
           # --- French audience voice ---
