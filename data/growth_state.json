@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-08-15T07:45:48.349463+00:00",
-  "sample_size": 64,
-  "scored_videos": 59,
-  "channel_gate_ratio": 0.608,
+  "generated_at": "2026-08-16T05:52:41.632188+00:00",
+  "sample_size": 67,
+  "scored_videos": 62,
+  "channel_gate_ratio": 0.611,
   "slot_weights": {
-    "15:30": 0.984,
+    "15:30": 0.985,
     "21:00": 1.0,
     "10:00": 1.0,
-    "12:30": 0.675,
+    "12:30": 0.672,
     "14:30": 1.0,
     "02:00": 1.0,
     "14:00": 1.0,
@@ -15,29 +15,29 @@
     "11:00": 1.0,
     "00:00": 1.0,
     "08:30": 1.0,
-    "13:30": 0.997,
-    "15:00": 0.767,
-    "06:30": 0.741,
-    "11:30": 1.176
+    "13:30": 0.996,
+    "15:00": 0.764,
+    "06:30": 0.738,
+    "11:30": 1.172
   },
   "topic_weights": {
-    "other": 0.969,
-    "skin": 1.08,
-    "ear": 0.957,
+    "other": 0.974,
+    "skin": 1.075,
+    "ear": 0.953,
     "nerve": 1.0,
-    "brain": 0.943,
-    "muscle": 1.08,
-    "gut": 0.929,
-    "breath": 0.977,
-    "eye": 1.046,
-    "heart": 1.062
+    "brain": 0.945,
+    "muscle": 1.076,
+    "gut": 0.928,
+    "breath": 0.971,
+    "eye": 1.052,
+    "heart": 1.064
   },
   "hook_weights": {
-    "statement": 0.844,
-    "question": 1.056
+    "statement": 0.841,
+    "question": 1.055
   },
   "slot_samples": {
-    "15:30": 12,
+    "15:30": 13,
     "21:00": 1,
     "10:00": 1,
     "12:30": 3,
@@ -48,37 +48,37 @@
     "11:00": 1,
     "00:00": 2,
     "08:30": 1,
-    "13:30": 11,
+    "13:30": 12,
     "15:00": 3,
     "06:30": 3,
-    "11:30": 16
+    "11:30": 17
   },
   "topic_samples": {
     "other": 15,
     "skin": 8,
     "ear": 3,
     "nerve": 2,
-    "brain": 8,
+    "brain": 10,
     "muscle": 4,
     "gut": 6,
     "breath": 3,
-    "eye": 7,
+    "eye": 8,
     "heart": 3
   },
   "hook_samples": {
     "statement": 15,
-    "question": 44
+    "question": 47
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 59,
+      "samples": 62,
       "gate": 0.65,
-      "avg_completion": 0.3951,
-      "gate_ratio": 0.608,
-      "avg_views": 684.7,
+      "avg_completion": 0.3971,
+      "gate_ratio": 0.611,
+      "avg_views": 678.6,
       "action": "Averaging 40% against a 65% bar. Shorten the cut toward 21s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
@@ -106,7 +106,7 @@
   "alerts": [
     {
       "level": "warn",
-      "message": "Slot 15:30 NY is under-performing across 12 videos — its weight has been reduced automatically."
+      "message": "Slot 15:30 NY is under-performing across 13 videos — its weight has been reduced automatically."
     },
     {
       "level": "warn",
@@ -114,7 +114,7 @@
     },
     {
       "level": "warn",
-      "message": "Slot 13:30 NY is under-performing across 11 videos — its weight has been reduced automatically."
+      "message": "Slot 13:30 NY is under-performing across 12 videos — its weight has been reduced automatically."
     },
     {
       "level": "warn",

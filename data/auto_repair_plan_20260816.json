@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-08T19:19:38.823462+00:00",
+  "generated_at_utc": "2026-08-16T05:52:41.887790+00:00",
   "policy": "Plan only. Apply via SEO Repair workflow after review.",
   "min_age_hours": 48,
   "low_view_threshold": 200,
@@ -7,7 +7,7 @@
     {
       "id": "r7URDUokZh0",
       "url": "https://youtu.be/r7URDUokZh0",
-      "age_hours": 479.6,
+      "age_hours": 658.2,
       "views": 1006,
       "current_title": "Corps lourd",
       "reasons": [
@@ -19,9 +19,6 @@
         "corps",
         "lourd",
         "fatigué",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -35,20 +32,17 @@
     {
       "id": "1XVYcxQqDqo",
       "url": "https://youtu.be/1XVYcxQqDqo",
-      "age_hours": 474.8,
+      "age_hours": 653.3,
       "views": 154,
       "current_title": "Réveil avant l'alarme",
       "reasons": [
-        "low views after 475h: 154 < 200"
+        "low views after 653h: 154 < 200"
       ],
       "proposed_title": "Pourquoi se réveiller avant son réveil ?",
       "proposed_description": "Pourquoi se réveiller avant son réveil\n\nAbonne-toi pour plus de science simple.\n\n#shorts #sommeil #reves #réveiller #réveil",
       "proposed_tags": [
         "réveiller",
         "réveil",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "sommeil",
         "reves",
         "insomnie",
@@ -62,7 +56,7 @@
     {
       "id": "FteL-0nbHWk",
       "url": "https://youtu.be/FteL-0nbHWk",
-      "age_hours": 458.8,
+      "age_hours": 637.4,
       "views": 797,
       "current_title": "Pourquoi le cerveau remarque entendre son cœur battre la",
       "reasons": [
@@ -70,16 +64,13 @@
         "ends on a connector/article — likely truncated",
         "low retention: 29.1%"
       ],
-      "proposed_title": "Pourquoi on entend son cœur battre la nuit ?",
+      "proposed_title": "Cœur battre la nuit",
       "proposed_description": "Pourquoi on entend son cœur battre la nuit\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #entend #cœur #battre",
       "proposed_tags": [
         "entend",
         "cœur",
         "battre",
         "nuit",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -93,7 +84,7 @@
     {
       "id": "x15ltzEHaB8",
       "url": "https://youtu.be/x15ltzEHaB8",
-      "age_hours": 456.3,
+      "age_hours": 634.9,
       "views": 869,
       "current_title": "Pourquoi le temps semble passer plus vite en vieillissant",
       "reasons": [
@@ -106,9 +97,6 @@
         "passer",
         "vite",
         "vieillissant",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "science",
         "culture generale",
         "faits scientifiques",
@@ -122,11 +110,11 @@
     {
       "id": "0V5ZhO3qviQ",
       "url": "https://youtu.be/0V5ZhO3qviQ",
-      "age_hours": 445.0,
+      "age_hours": 623.5,
       "views": 146,
       "current_title": "Ce que votre corps vous dit quand le corps se fige",
       "reasons": [
-        "low views after 445h: 146 < 200"
+        "low views after 624h: 146 < 200"
       ],
       "proposed_title": "Pourquoi le corps se fige quand on a peur ?",
       "proposed_description": "Ce que votre corps vous dit quand le corps se fige quand on a peur\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #fige #peur",
@@ -134,9 +122,6 @@
         "corps",
         "fige",
         "peur",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -150,7 +135,7 @@
     {
       "id": "Re4VU9lryhQ",
       "url": "https://youtu.be/Re4VU9lryhQ",
-      "age_hours": 435.0,
+      "age_hours": 613.5,
       "views": 266,
       "current_title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "reasons": [
@@ -160,9 +145,6 @@
       "proposed_description": "Ce qui se passe quand un déjà-vu\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #déjàvu",
       "proposed_tags": [
         "déjà-vu",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "cerveau",
         "neurosciences",
         "psychologie",
@@ -176,21 +158,18 @@
     {
       "id": "diImyvMyKig",
       "url": "https://youtu.be/diImyvMyKig",
-      "age_hours": 421.1,
+      "age_hours": 599.6,
       "views": 675,
       "current_title": "La science derrière le temps qui semble accélérer",
       "reasons": [
         "low retention: 29.1%"
       ],
-      "proposed_title": "Pourquoi le temps semble passer plus vite en vieillissant ?",
+      "proposed_title": "Pourquoi le temps qui semble accélérer en vieillissant ?",
       "proposed_description": "La science derrière le temps qui semble accélérer en vieillissant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #temps #accélérer #vieillissant",
       "proposed_tags": [
         "temps",
         "accélérer",
         "vieillissant",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "science",
         "culture generale",
         "faits scientifiques",
@@ -204,11 +183,11 @@
     {
       "id": "TaXxSn0YoMc",
       "url": "https://youtu.be/TaXxSn0YoMc",
-      "age_hours": 419.0,
+      "age_hours": 597.6,
       "views": 116,
       "current_title": "Ce que votre corps vous dit quand le silence devient",
       "reasons": [
-        "low views after 419h: 116 < 200"
+        "low views after 598h: 116 < 200"
       ],
       "proposed_title": "Pourquoi le silence devient inconfortable ?",
       "proposed_description": "Ce que votre corps vous dit quand le silence devient inconfortable\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #silence #devient #inconfortable",
@@ -217,9 +196,6 @@
         "silence",
         "devient",
         "inconfortable",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -233,7 +209,7 @@
     {
       "id": "RV4LGjp89-U",
       "url": "https://youtu.be/RV4LGjp89-U",
-      "age_hours": 399.2,
+      "age_hours": 577.7,
       "views": 579,
       "current_title": "Pourquoi le cerveau repère son propre prénom peut sembler",
       "reasons": [
@@ -246,9 +222,6 @@
         "repère",
         "propre",
         "prénom",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "neurosciences",
         "psychologie",
         "memoire",
@@ -261,21 +234,18 @@
     {
       "id": "yxoI9-KWXzI",
       "url": "https://youtu.be/yxoI9-KWXzI",
-      "age_hours": 390.5,
+      "age_hours": 569.1,
       "views": 294,
       "current_title": "Ce que la science explique sur l'effet du stress",
       "reasons": [
         "low retention: 29.3%"
       ],
-      "proposed_title": "Pourquoi le stress brouille la mémoire ?",
+      "proposed_title": "Pourquoi ce que la science explique sur l'effet du stress ?",
       "proposed_description": "Ce que la science explique sur l'effet du stress sur la mémoire\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #stress #mémoire",
       "proposed_tags": [
         "effet",
         "stress",
         "mémoire",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "cerveau",
         "neurosciences",
         "psychologie",
@@ -289,7 +259,7 @@
     {
       "id": "WxOEXbepJ40",
       "url": "https://youtu.be/WxOEXbepJ40",
-      "age_hours": 386.2,
+      "age_hours": 564.7,
       "views": 1456,
       "current_title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
       "reasons": [
@@ -302,10 +272,31 @@
         "ventre",
         "serre",
         "peur",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
-        "video qui fait peur",
+        "corps humain",
+        "anatomie",
+        "biologie",
+        "physiologie",
+        "sante",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "XECgrg709Og",
+      "url": "https://youtu.be/XECgrg709Og",
+      "age_hours": 493.4,
+      "views": 1031,
+      "current_title": "Pourquoi le sursaut du corps en s'endormant ?",
+      "reasons": [
+        "low retention: 28.9%"
+      ],
+      "proposed_title": "Pourquoi le corps sursaute en s'endormant ?",
+      "proposed_description": "Ce que la science explique sur le sursaut du corps en s'endormant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #sursaut #endormant",
+      "proposed_tags": [
+        "sursaut",
+        "corps",
+        "endormant",
         "corps humain",
         "anatomie",
         "biologie",
@@ -319,7 +310,7 @@
     {
       "id": "ZXNvo9birZM",
       "url": "https://youtu.be/ZXNvo9birZM",
-      "age_hours": 300.2,
+      "age_hours": 478.7,
       "views": 768,
       "current_title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
       "reasons": [
@@ -332,9 +323,6 @@
         "réclame",
         "sommeil",
         "profond",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "reves",
         "insomnie",
         "cycle du sommeil",
@@ -347,7 +335,7 @@
     {
       "id": "TbbiAMubfu8",
       "url": "https://youtu.be/TbbiAMubfu8",
-      "age_hours": 295.2,
+      "age_hours": 473.8,
       "views": 985,
       "current_title": "Ce qui change lorsque une lumière vive fait éternuer ?",
       "reasons": [
@@ -361,9 +349,6 @@
         "lumière",
         "vive",
         "éternuer",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "science",
         "culture generale",
         "faits scientifiques",
@@ -377,7 +362,7 @@
     {
       "id": "VRWySzxXsyE",
       "url": "https://youtu.be/VRWySzxXsyE",
-      "age_hours": 289.9,
+      "age_hours": 468.5,
       "views": 523,
       "current_title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
       "reasons": [
@@ -390,9 +375,6 @@
         "vibration",
         "téléphone",
         "imaginaire",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "science",
         "culture generale",
         "faits scientifiques",
@@ -406,22 +388,19 @@
     {
       "id": "n1TgqGp2PQ0",
       "url": "https://youtu.be/n1TgqGp2PQ0",
-      "age_hours": 264.9,
+      "age_hours": 443.5,
       "views": 1007,
       "current_title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
       "reasons": [
         "low retention: 29.1%"
       ],
-      "proposed_title": "Pourquoi un nœud au ventre apparaît ?",
+      "proposed_title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
       "proposed_description": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #change #nœud #ventre",
       "proposed_tags": [
         "change",
         "nœud",
         "ventre",
         "apparaît",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -435,7 +414,7 @@
     {
       "id": "chwfdQe-Mt0",
       "url": "https://youtu.be/chwfdQe-Mt0",
-      "age_hours": 248.1,
+      "age_hours": 426.7,
       "views": 776,
       "current_title": "Ce qui se passe quand le cœur s'emballe sous le stress ?",
       "reasons": [
@@ -448,9 +427,6 @@
         "emballe",
         "sous",
         "stress",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -464,7 +440,7 @@
     {
       "id": "_b2DE7BA1E4",
       "url": "https://youtu.be/_b2DE7BA1E4",
-      "age_hours": 242.3,
+      "age_hours": 420.9,
       "views": 0,
       "current_title": "Comprendre pourquoi le corps frissonne sous le stress",
       "reasons": [
@@ -477,9 +453,6 @@
         "frissonne",
         "sous",
         "stress",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -493,11 +466,11 @@
     {
       "id": "SFrpDq6c9Dk",
       "url": "https://youtu.be/SFrpDq6c9Dk",
-      "age_hours": 170.7,
+      "age_hours": 349.3,
       "views": 192,
       "current_title": "Pourquoi votre corps refuse de mentir ?",
       "reasons": [
-        "low views after 171h: 192 < 200"
+        "low views after 349h: 192 < 200"
       ],
       "proposed_title": "Pourquoi votre corps refuse de mentir ?",
       "proposed_description": "Pourquoi votre corps refuse de mentir\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #refuse #mentir",
@@ -505,9 +478,6 @@
         "corps",
         "refuse",
         "mentir",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
@@ -521,11 +491,11 @@
     {
       "id": "FX6vqwymE0Y",
       "url": "https://youtu.be/FX6vqwymE0Y",
-      "age_hours": 169.1,
+      "age_hours": 347.7,
       "views": 3,
       "current_title": "Pourquoi votre corps refuse de maigrir ?",
       "reasons": [
-        "low views after 169h: 3 < 200"
+        "low views after 348h: 3 < 200"
       ],
       "proposed_title": "Pourquoi votre corps refuse de maigrir ?",
       "proposed_description": "Pourquoi votre corps refuse de maigrir\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #refuse #maigrir",
@@ -533,14 +503,168 @@
         "corps",
         "refuse",
         "maigrir",
-        "santé",
-        "vulgarisation",
-        "vulgarisation scientifique",
         "corps humain",
         "anatomie",
         "biologie",
         "physiologie",
         "sante",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "Ubg7rTtym84",
+      "url": "https://youtu.be/Ubg7rTtym84",
+      "age_hours": 225.5,
+      "views": 166,
+      "current_title": "Pourquoi un vertige apparaît après s'être levé ?",
+      "reasons": [
+        "low views after 225h: 166 < 200"
+      ],
+      "proposed_title": "Pourquoi un vertige apparaît après s'être levé ?",
+      "proposed_description": "Ce que votre corps vous dit quand un vertige apparaît après s'être levé\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #vertige #apparaît #levé",
+      "proposed_tags": [
+        "corps",
+        "vertige",
+        "apparaît",
+        "levé",
+        "corps humain",
+        "anatomie",
+        "biologie",
+        "physiologie",
+        "sante",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "K8JSUbL13Oc",
+      "url": "https://youtu.be/K8JSUbL13Oc",
+      "age_hours": 221.1,
+      "views": 34,
+      "current_title": "Pourquoi l'œil distingue plus de nuances de vert ?",
+      "reasons": [
+        "low views after 221h: 34 < 200"
+      ],
+      "proposed_title": "Pourquoi l'œil distingue plus de nuances de vert ?",
+      "proposed_description": "Ce que la science explique sur les nuances de vert que l'œil distingue\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #nuances #vert #distingue",
+      "proposed_tags": [
+        "nuances",
+        "vert",
+        "distingue",
+        "science",
+        "culture generale",
+        "faits scientifiques",
+        "curiosites",
+        "phenomenes",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "1Y3DfG_Opg4",
+      "url": "https://youtu.be/1Y3DfG_Opg4",
+      "age_hours": 202.5,
+      "views": 152,
+      "current_title": "Pourquoi la faim revient à la même heure chaque jour ?",
+      "reasons": [
+        "low views after 202h: 152 < 200"
+      ],
+      "proposed_title": "Pourquoi la faim revient à la même heure chaque jour ?",
+      "proposed_description": "Ce qui change lorsque la faim revient à la même heure chaque jour\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #change #faim #revient",
+      "proposed_tags": [
+        "change",
+        "faim",
+        "revient",
+        "même",
+        "heure",
+        "jour",
+        "science",
+        "culture generale",
+        "faits scientifiques",
+        "curiosites",
+        "phenomenes",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "CdbNz9T2sbA",
+      "url": "https://youtu.be/CdbNz9T2sbA",
+      "age_hours": 154.3,
+      "views": 194,
+      "current_title": "Pourquoi la respiration ralentit en dormant ?",
+      "reasons": [
+        "low views after 154h: 194 < 200"
+      ],
+      "proposed_title": "Pourquoi la respiration ralentit en dormant ?",
+      "proposed_description": "Ce que votre corps vous dit quand la respiration ralentit en dormant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #respiration #ralentit #dormant",
+      "proposed_tags": [
+        "corps",
+        "respiration",
+        "ralentit",
+        "dormant",
+        "corps humain",
+        "anatomie",
+        "biologie",
+        "physiologie",
+        "sante",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "jHvt1X6XDuY",
+      "url": "https://youtu.be/jHvt1X6XDuY",
+      "age_hours": 129.9,
+      "views": 107,
+      "current_title": "Pourquoi le stress brouille la mémoire ?",
+      "reasons": [
+        "low views after 130h: 107 < 200"
+      ],
+      "proposed_title": "Pourquoi le stress brouille la mémoire ?",
+      "proposed_description": "Ce qui change lorsque le stress brouille la mémoire\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #change #stress #brouille",
+      "proposed_tags": [
+        "change",
+        "stress",
+        "brouille",
+        "mémoire",
+        "cerveau",
+        "neurosciences",
+        "psychologie",
+        "memoire",
+        "mental",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "PRXb_17G84s",
+      "url": "https://youtu.be/PRXb_17G84s",
+      "age_hours": 59.3,
+      "views": 50,
+      "current_title": "Pourquoi le cerveau crée des souvenirs faux ?",
+      "reasons": [
+        "low views after 59h: 50 < 200"
+      ],
+      "proposed_title": "Pourquoi le cerveau crée des souvenirs faux ?",
+      "proposed_description": "Ce qui change lorsque le cerveau crée des souvenirs faux\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #change #crée",
+      "proposed_tags": [
+        "change",
+        "cerveau",
+        "crée",
+        "souvenirs",
+        "faux",
+        "neurosciences",
+        "psychologie",
+        "memoire",
+        "mental",
         "france",
         "francophonie",
         "français"
