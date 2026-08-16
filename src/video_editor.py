@@ -531,21 +531,35 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
             # synth bed. Own tracks = 100% original, zero Content ID risk;
             # the synth bed stays as the last-resort fallback.
             "explain": ["own_dark_drone.ogg", "own_dark_drone.wav"],
-            "mystery": ["own_suspense_thrum.ogg", "own_suspense_thrum.wav"],
+            "mystery": ["own_mystery_voices.ogg", "own_mystery_voices.wav"],
             "hook": ["own_suspense_thrum.ogg", "own_suspense_thrum.wav"],
-            "payoff": ["own_suspense_thrum.ogg", "own_dark_drone.ogg"],
-            "react": ["own_suspense_thrum.ogg", "own_dark_drone.ogg"],
-            "default": ["own_dark_drone.ogg", "own_dark_drone.wav"],
+            "payoff": ["own_serene_eerie.ogg", "own_serene_eerie.wav"],
+            "react": ["own_tension_rise.ogg", "own_tension_rise.wav"],
+            # 2026-08-17: library grew 2→6 original beds — default rotates
+            # through all 6 via a deterministic topic hash, so no two
+            # consecutive topics repeat the same bed (variety) while the
+            # SAME topic always keeps the SAME bed (idempotent retries).
+            "default": ["own_dark_drone.ogg", "own_mystery_voices.ogg",
+                        "own_melancholy_dusk.ogg", "own_serene_eerie.ogg",
+                        "own_tension_rise.ogg", "own_suspense_thrum.ogg"],
         }
-        
+
         topic_lower = (topic or "").lower()
         if any(w in topic_lower for w in ["why", "how", "explain", "reason", "science"]): cat = "explain"
         elif any(w in topic_lower for w in ["secret", "dark", "mystery", "strange", "weird", "unknown"]): cat = "mystery"
         elif any(w in topic_lower for w in ["sudden", "instant", "fast", "shock", "surprise"]): cat = "hook"
         elif any(w in topic_lower for w in ["react", "reflex", "twitch", "jerk", "freeze", "cramp", "spasm"]): cat = "react"
+        elif any(w in topic_lower for w in ["sad", "grief", "lonely", "alone", "quiet", "calm", "sleep", "peace", "payoff"]): cat = "payoff"
+        elif any(w in topic_lower for w in ["fear", "panic", "danger", "threat", "stress", "pain"]): cat = "react"
         else: cat = "default"
-        
-        for track_name in niche_tracks.get(cat, niche_tracks["default"]):
+
+        if cat == "default":
+            import hashlib as _mh
+            idx = int(_mh.sha256((topic or "default").encode()).hexdigest(), 16) % len(niche_tracks["default"])
+            pool = [niche_tracks["default"][idx]]
+        else:
+            pool = niche_tracks.get(cat, niche_tracks["default"])
+        for track_name in pool:
             mpath = os.path.join(MUSIC_DIR, track_name)
             if os.path.exists(mpath):
                 logger.info("Niche track: %s (category: %s)", track_name, cat)
