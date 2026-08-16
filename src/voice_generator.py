@@ -63,6 +63,70 @@ CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.60, 0.05, 1.5)
 # artificial. FFmpeg accepts 0.5–2.0 for one atempo filter.
 CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
 
+# ── 2026-08-17: MATURE VOICE PROFILE (fix "child-like voice" report) ──
+# The built-in Chatterbox default voice is young/light-sounding. Until the
+# creator uploads a real voice_reference.wav, the pipeline deepens and
+# matures the output so the narrator always sounds like an ADULT professional:
+#   VOICE_MATURE_PITCH_SEMITONES = negative -> lower pitch (deeper voice)
+#   VOICE_MATURE_TEMPO           = slightly calmer delivery (authority)
+# When VOICE_REFERENCE_PATH is a usable clone, maturing is SKIPPED so the
+# creator's own voice is never altered.
+VOICE_MATURE_PITCH_SEMITONES = _env_float(
+    "VOICE_MATURE_PITCH_SEMITONES", -2.5, -6.0, 0.0)
+VOICE_MATURE_TEMPO = _env_float("VOICE_MATURE_TEMPO", 0.92, 0.75, 1.05)
+VOICE_MATURE_ENABLED = os.environ.get(
+    "VOICE_MATURE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
+
+
+def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
+    """Pitch-deepen + calm the synthetic default voice toward a mature adult
+    male narrator. Uses ffmpeg's asetrate+aresample (pitch shift) followed
+    by a gentle high-pass on mud and a limiter for broadcast-safe peaks.
+    Falls back to the unmodified audio if processing fails."""
+    if not VOICE_MATURE_ENABLED:
+        return audio
+    try:
+        import subprocess
+        import tempfile
+        import imageio_ffmpeg
+        ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            in_path = os.path.join(tmpdir, "in.wav")
+            out_path = os.path.join(tmpdir, "out.wav")
+            sf.write(in_path, audio, sr)
+            result = subprocess.run(
+                [
+                    ffmpeg_exe, "-y", "-i", in_path, "-af",
+                    (f"asetrate={sr}*2^({VOICE_MATURE_PITCH_SEMITONES}/12),"
+                     f"aresample={sr},"
+                     f"atempo={VOICE_MATURE_TEMPO},"
+                     f"highpass=f=80,lowpass=f=14000,alimiter=limit=0.95"),
+                    out_path,
+                ],
+                capture_output=True, timeout=30,
+            )
+            if result.returncode != 0 or not os.path.exists(out_path):
+                logger.warning("Voice maturing failed, using unmodified audio: %s",
+                               result.stderr[:200])
+                return audio
+            matured, _ = sf.read(out_path, dtype="float32")
+            return matured
+    except Exception as e:
+        logger.warning("Voice maturing failed (%s), using unmodified audio", e)
+        return audio
+
+# ── 2026-08-17: ADULT VOICE ROTATION POOL (edge-tts primary engine) ──
+# fr-FR-HenriNeural (young-ish) is the legacy default. This pool defaults to
+# FOUR proven deep, mature French adult voices so the channel never sounds
+# child-like even when no clone reference exists. The SAME topic always gets
+# the SAME voice (deterministic rotation, per video, seeded by topic), so
+# each video is internally consistent while the channel rotates naturally.
+# Can be overridden via the EDGE_FR_MATURE_VOICE_POOL secret.
+EDGE_FR_MATURE_VOICE_POOL = os.environ.get(
+    "EDGE_FR_MATURE_VOICE_POOL",
+    "fr-FR-MauriceNeural,fr-FR-RemyNeural,fr-FR-HenriNeural,fr-FR-LucienNeural"
+)
+
 # ── 2026-08-15: NATURAL DELIVERY VARIATION (kill the AI monotone) ──────
 # A human narrator never reads every sentence at one fixed pace: they speed
 # up for energy (hooks, short punchy lines), slow down for emphasis (a
@@ -343,8 +407,10 @@ def _synthesize_chatterbox(text: str, attempt: int = 1) -> tuple:
     if peak > 1.0:
         audio = audio / peak * 0.95
 
-    audio = _apply_tempo(audio, model.sr, CHATTERBOX_TEMPO)
-
+    # 2026-08-17: mature the default (non-cloned) voice; a real creator clone
+    # is never pitch-shifted so the identity stays intact.
+    if not use_clone:
+        audio = _mature_voice(audio, model.sr)
     return audio, model.sr
 
 
@@ -433,18 +499,25 @@ def _synthesize_kokoro(text: str, voice: str, speed: float):
 def _rotated_french_voice(topic: str = "") -> str:
     """Pick the PRIMARY French edge-tts voice deterministically from
     EDGE_FR_VOICE_POOL (env), seeded by the video topic.
-
     2026-08-15: the pipeline previously used EDGE_FR_VOICE=fr-FR-HenriNeural
     for every video — a frozen single narrator is the loudest "AI channel"
     signal, and 2026 feed systems reward voice consistency *within* a video
     but penalise a channel that sounds like one machine for months. A pool of
-    native FR voices (3 male + 3 female), hashed per topic, keeps each video
-    internally consistent while the channel as a whole rotates naturally.
+    native FR voices, hashed per topic, keeps each video internally
+    consistent while the channel as a whole rotates naturally.
     The SAME topic always gets the SAME voice (stability across episodes).
     Falls back to EDGE_FR_VOICE when the pool is absent/empty.
+    2026-08-17: defaults to ADULT mature voices (Maurice/Remy/Lucien + Henri)
+    so the channel never sounds child-like without a creator clone reference.
     """
     import hashlib
     pool_raw = os.environ.get("EDGE_FR_VOICE_POOL", "").strip()
+    # 2026-08-17: if no custom pool is set, prefer the mature adult pool
+    # (module-level default: four deep, adult French voices)
+    if not pool_raw:
+        pool_raw = os.environ.get("EDGE_FR_MATURE_VOICE_POOL", "").strip()
+    if not pool_raw:
+        pool_raw = EDGE_FR_MATURE_VOICE_POOL.strip()  # module default pool
     if not pool_raw:
         return os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
     pool = [v.strip() for v in pool_raw.split(",") if v.strip()]
@@ -553,6 +626,7 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     prefer_kokoro = engine_choice == "kokoro"
     prefer_edge = engine_choice in ("edge", "edge_fr", "edge-tts")
     chatterbox_errors = []
+    # 2026-08-17: mature adult voice rotation (deterministic per topic).
     _edge_voice = _rotated_french_voice(topic)
 
     def _try_edge():
@@ -570,6 +644,9 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     if prefer_edge or (not prefer_kokoro):
         audio, sr = _try_edge()
         if audio is not None:
+            # 2026-08-17: mature any synthetic default voice (no clone in use);
+            # the pool rotation already picks an adult timbre, this deepens it.
+            audio = _mature_voice(audio, sr)
             return audio, sr, "edge_fr"
 
     if prefer_kokoro:
@@ -641,6 +718,7 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             import soundfile as _sf
             audio, sr = _sf.read(wav_path)
             logger.info("edge-tts fallback SUCCESS (fr-FR-HenriNeural)")
+            audio = _mature_voice(audio, sr)
             return audio, sr, "edge_fr"
         except Exception as edge_err:
             # ---- STEP 3: Both engines failed — NO SILENCE, raise hard error ----

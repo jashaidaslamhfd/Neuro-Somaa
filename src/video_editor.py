@@ -39,8 +39,14 @@ CANVAS_W, CANVAS_H = 1080, 1920
 # 10 ms prevents clicks without creating audible gaps between separately
 # generated cloned-voice scenes.
 AUDIO_EDGE_FADE = 0.01
-ZOOM_AMOUNT = 0.18
-PAN_PX = 50
+# ── 2026-08-17: PROFESSIONAL KEN BURNS (fix "big unprofessional zoom" report) ──
+# Old 0.18 base + 0.18 hook extra produced 36% zooms that looked huge and
+# jerky. New system is deliberate: gentle capped range, smooth ease-in-out
+# motion, zoom extra is now SMALLER so nothing looks unprofessional.
+ZOOM_AMOUNT = 0.06
+ZOOM_MAX = 0.12              # hard ceiling on any single beat
+PAN_PX = 25
+ZOOM_SMOOTH = True
 # Render targets follow the platform policy rather than a local constant, so
 # changing the strategy in one file updates the writer, the renderer and the
 # validator together. Env vars still win for one-off experiments.
@@ -143,30 +149,47 @@ def _cover_fit(img_path: str, out_path: str, size=(CANVAS_W, CANVAS_H)):
     return out_path
 
 
+def _ease_in_out(frac: float) -> float:
+    """Smooth ease-in-out so zoom/pan motion starts and ends gently instead of
+    moving at a flat linear speed — the #1 cue of "amateur zoom"."""
+    if not ZOOM_SMOOTH:
+        return frac
+    import math
+    return 0.5 - 0.5 * math.cos(frac * math.pi)
+
+
 def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: float = 0.0) -> CompositeVideoClip:
     """
-    Centered zoom (in or out) + horizontal pan.
+    Centered zoom (in or out) + gentle horizontal pan.
     Uses 1.25x overscan base image size to prevent black border leakage on edges.
+    2026-08-17: every beat's zoom is hard-capped at ZOOM_MAX — big
+    unprofessional zooms are now impossible even when extras stack.
     """
     overscan_w, overscan_h = int(CANVAS_W * 1.25), int(CANVAS_H * 1.25)
     prepped = img_path.replace(".png", "_fit.png").replace(".jpg", "_fit.jpg")
     _cover_fit(img_path, prepped, size=(overscan_w, overscan_h))
 
-    zoom_amount = ZOOM_AMOUNT + zoom_extra
+    # Hard cap: ZOOM_MAX wins over any stacking of extras
+    zoom_amount = min(ZOOM_MAX, ZOOM_AMOUNT + zoom_extra)
     zoom_start, zoom_end = (1.0, 1.0 + zoom_amount) if direction == "in" else (1.0 + zoom_amount, 1.0)
     pan_dir = 1 if direction == "in" else -1
 
     base_clip = ImageClip(prepped).set_duration(duration)
 
     def scale_fn(t):
-        frac = min(t / duration, 1.0) if duration > 0 else 0
-        return zoom_start + (zoom_end - zoom_start) * frac
+        # 2026-08-17: clamp frac one tick short of exactly 1.0 — moviepy's
+        # frame-at-end fetch (t == duration) renders an off-canvas position
+        # as black borders. One sub-frame difference, invisible in playback.
+        frac = min(max(t / duration if duration > 0 else 0, 0.0),
+                   1.0 - 1e-6) if duration > 0 else 0.0
+        return zoom_start + (zoom_end - zoom_start) * _ease_in_out(frac)
 
     def pos_fn(t):
-        frac = min(t / duration, 1.0) if duration > 0 else 0
+        frac = min(max(t / duration if duration > 0 else 0, 0.0),
+                   1.0 - 1e-6) if duration > 0 else 0.0
         s = scale_fn(t)
         w, h = overscan_w * s, overscan_h * s
-        dx = pan_dir * PAN_PX * (frac - 0.5) * 2
+        dx = pan_dir * PAN_PX * (_ease_in_out(frac) - 0.5) * 2
         x = (CANVAS_W - w) / 2 + dx
         y = (CANVAS_H - h) / 2
         return (x, y)
@@ -656,19 +679,16 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # ✅ Priority: Check if caption has important words
         caption_text = scenes[i].get('caption', seg.get('caption', ''))
         has_important = any(_is_important_word(w) for w in caption_text.split())
-        
         # ✅ Priority: Dynamic zoom for important words
-        zoom_extra = 0.08 if has_important else 0.0
-        
+        # 2026-08-17: extras are SMALL now — ZOOM_MAX in _ken_burns_clip caps
+        # every beat so no scene can ever look big/jerky again.
+        zoom_extra = 0.04 if has_important else 0.0
         # ✅ Priority: First scene special (stronger hook zoom)
-        # FIXED 2026-07-31: Channel avg watch 10-14s, hook decides in first 2-3s.
-        # Old 0.12 zoom was subtle. New 0.18 + stronger pan = pattern interrupt
-        # that stops thumb in feed. Visual duration must match audio duration.
+        # 2026-08-17: hook boost cut from 0.18 to 0.06; the first scene now
+        # zooms to 12% max (ZOOM_MAX) instead of the old 36%. Motion is
+        # deliberate and smooth, not a sudden lurch.
         if i == 0:
-            # FIXED 2026-08-15 (viral gap 5): completion 47% vs 50% gate — the
-            # opening punch must land INSIDE the first 3 s. First beat shortened
-            # to 40% with the full kick-in zoom so the eye-catch finishes early.
-            zoom_extra += 0.18
+            zoom_extra += 0.06
             first_beat_frac = 0.40
         else:
             first_beat_frac = 0.50
@@ -693,7 +713,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)
             second_direction = "out" if direction == "in" else "in"
             second_beat = _ken_burns_clip(
-                img_path, second_duration, second_direction, zoom_extra + 0.04
+                img_path, second_duration, second_direction, zoom_extra + 0.02
             )
             scene_visual = concatenate_videoclips(
                 [first_beat, second_beat], method="compose"
