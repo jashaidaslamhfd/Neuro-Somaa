@@ -3,7 +3,13 @@ import os
 import sys
 import subprocess
 import numpy as np
-import soundfile as sf
+
+try:
+    import soundfile as sf
+    import scipy.signal as ss
+    _HAS_AUDIO = True
+except ImportError:
+    _HAS_AUDIO = False
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
@@ -32,14 +38,21 @@ segments = vg.generate_voice_segments(
     output_dir=OUT,
 )
 seg = segments[0]
-audio, sr = sf.read(seg["path"], dtype="float32")
-print(f"  engine: {seg['tts_engine']} | dur: {seg['duration']:.2f}s | sr: {sr}")
+print(f"  engine: {seg['tts_engine']} | dur: {seg['duration']:.2f}s | path exists: {os.path.isfile(seg['path'])}")
+if _HAS_AUDIO:
+    audio, sr = sf.read(seg["path"], dtype="float32")
+    print(f"  sample rate: {sr}")
 
 # Spectral centroid: mature voice should be LOWER than raw edge-tts output
-import scipy.signal as ss
-f, Pxx = ss.welch(audio, sr, nperseg=min(2048, audio.size))
-centroid_raw = np.sum(f * Pxx) / (np.sum(Pxx) + 1e-12)
-print(f"  spectral centroid: {centroid_raw:.0f} Hz (lower = deeper/more mature)")
+if _HAS_AUDIO:
+    f, Pxx = ss.welch(audio, sr, nperseg=min(2048, audio.size))
+    _CENTROID = float(np.sum(f * Pxx[0]) / np.sum(Pxx[0]))
+    print(f"  spectral centroid: {_CENTROID:.0f} Hz")
+else:
+    _CENTROID = None
+    print("  (audio analysis skipped: soundfile/scipy not installed in this env)")
+if _HAS_AUDIO:
+    print(f"  spectral centroid: {_CENTROID:.0f} Hz (lower = deeper/more mature)")
 
 print("\n=== 3. KEN BURNS ZOOM SYSTEM ===")
 print(f"  ZOOM_AMOUNT={ve.ZOOM_AMOUNT} | ZOOM_MAX={ve.ZOOM_MAX} | PAN_PX={ve.PAN_PX} | SMOOTH={ve.ZOOM_SMOOTH}")
