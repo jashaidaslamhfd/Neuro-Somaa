@@ -101,10 +101,30 @@ def build(name: str, root: int = 36, bpm: float = 55, chords=(36, 39, 43, 46), s
     return _write(name, mix)
 
 
+def _genres():
+    """2026-08-17: library expanded to 6 original beds (was 2). Each bed is
+    procedurally synthesised — 100% original, zero Content ID / licensing
+    risk. Variety stops the 'same music every video' reused-content signal
+    and lets the editor match bed mood to topic."""
+    return [
+        ("own_dark_drone.wav", 36, 55, (36, 39, 43, 46), 11),
+        ("own_suspense_thrum.wav", 33, 60, (33, 36, 39, 42), 23),
+        ("own_mystery_voices.wav", 38, 50, (38, 41, 45, 48), 37),
+        ("own_melancholy_dusk.wav", 40, 48, (40, 43, 47, 50), 41),
+        ("own_tension_rise.wav", 31, 64, (31, 34, 38, 41), 53),
+        ("own_serene_eerie.wav", 43, 44, (43, 46, 50, 53), 59),
+    ]
+
+
 if __name__ == "__main__":
+    import sys
     print("🎵 Génération de musiques ORIGINALES (monétisation-safe):")
     # Repo ships .ogg (10x smaller); regenerate then convert:
     #   ffmpeg -i own_dark_drone.wav -c:a libvorbis -q:a 6 own_dark_drone.ogg
-    build("own_dark_drone.wav", root=36, bpm=55, chords=(36, 39, 43, 46), seed=11)
-    build("own_suspense_thrum.wav", root=33, bpm=60, chords=(33, 36, 39, 42), seed=23)
-    print("Done — assets/music/own_*.wav (original, no Content ID risk)")
+    # Backward-compatible: bare run regenerates the original 2 beds; add the
+    # --all flag (or set GENERATE_MUSIC_ALL=1) to build the full 6-track library.
+    full = ("--all" in sys.argv) or (os.environ.get("GENERATE_MUSIC_ALL", "") == "1")
+    library = _genres() if full else _genres()[:2]
+    for name, root, bpm, chords, seed in library:
+        build(name, root=root, bpm=bpm, chords=chords, seed=seed)
+    print(f"Done — {len(library)} original track(s) in assets/music/own_*.wav")
