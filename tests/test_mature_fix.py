@@ -13,6 +13,17 @@ except ImportError:
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
 
+# 2026-08-17 CI skip: the guard workflow installs only requirements-ci.txt
+# (no soundfile/moviepy/kokoro) and collects every tests/ module. This test
+# exercises the voice/zoom pipeline, which needs the full stack - skip it
+# cleanly when the heavy deps are absent instead of breaking collection.
+try:
+    import soundfile  # noqa: F401
+    import moviepy    # noqa: F401
+except ImportError:
+    import pytest
+    pytest.skip("Heavy TTS/render deps not installed (CI minimal set)", allow_module_level=True)
+
 # Force edge-tts primary engine (CI default)
 os.environ["TTS_ENGINE"] = "edge"
 os.environ.pop("EDGE_FR_VOICE_POOL", None)
