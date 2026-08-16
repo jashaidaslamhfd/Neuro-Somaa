@@ -415,6 +415,82 @@ PROVIDER_REGISTRY = [
 ]
 
 
+# ---------------------------------------------------------------------------
+# 9) POLLINATIONS VIDEO - AI image-to-video (2026-08-17)
+#    Stock B-roll was always shared with thousands of other channels. AI
+#    image-to-video renders motion that exists ONLY on this channel: each
+#    unique scene image becomes a 4s 720p clip via Seedance 2.5
+#    (gen.pollinations.ai). Account: free Pollinations key from
+#    https://enter.pollinations.ai/keys (Pollen wallet gives free starter
+#    credits; ~0.10 Pollen per video-second) stored in POLLINATIONS_KEY.
+#    Without the key this layer is skipped and the pipeline falls back to
+#    the signature AI image + professional Ken Burns motion.
+#    NOTE: does NOT follow the (bytes, ext) image-provider signature — it
+#    is a video layer called directly by _layer_ai_video (image_generator).
+# ---------------------------------------------------------------------------
+POLLINATIONS_VIDEO_URL = "https://gen.pollinations.ai/video"
+POLLINATIONS_VIDEO_TIMEOUT = int(os.environ.get("POLLINATIONS_VIDEO_TIMEOUT", "90"))
+
+
+def gen_pollinations_video(prompt: str, scene_text: str, image_path: str | None = None,
+                           model: str | None = None, duration: str | None = None):
+    """Generate a vertical AI motion clip from text (+ optional source image).
+    Returns (bytes, ext) or raises RuntimeError / RateLimitError."""
+    key = os.environ.get("POLLINATIONS_KEY", "")
+    if not key:
+        raise RuntimeError("POLLINATIONS_KEY not set - AI video layer skipped")
+    model = model or os.environ.get("AI_VIDEO_MODEL", "seedance-2.5")
+    duration = duration or os.environ.get("AI_VIDEO_DURATION", "4")
+    params = {
+        "model": model,
+        "aspectRatio": os.environ.get("AI_VIDEO_ASPECT", "9:16"),
+        "duration": duration,
+        "key": key,
+    }
+    # seedance-2.5 accepts first/last reference frames -> true image-to-video:
+    # the rendered scene image becomes frame 1, so the clip visually matches
+    # the caption exactly (APIDOCS 2026-08-13).
+    if image_path and os.path.isfile(image_path):
+        try:
+            with open(image_path, "rb") as fh:
+                upload = requests.post(
+                    "https://media.pollinations.ai/upload",
+                    headers={"Authorization": f"Bearer {key}"},
+                    files={"file": (os.path.basename(image_path), fh, "image/jpeg")},
+                    timeout=30,
+                )
+            if upload.status_code == 200:
+                data = upload.json()
+                media_id = data.get("id")
+                if media_id:
+                    params["image[0]"] = (
+                        str(media_id) if str(media_id).startswith("http")
+                        else f"https://media.pollinations.ai/{media_id}"
+                    )
+                elif data.get("url"):
+                    params["image[0]"] = data["url"]
+        except Exception as exc:  # media upload is optional - never block the run
+            logger.warning("AI-video: reference image upload failed (%s) - falling back to text-to-video", exc)
+    url = f"{POLLINATIONS_VIDEO_URL}/{prompt}"
+    resp = requests.get(url, params=params, timeout=POLLINATIONS_VIDEO_TIMEOUT)
+    if resp.status_code == 401:
+        raise RateLimitError("Pollinations-video: key rejected/missing")
+    if resp.status_code == 402:
+        raise RateLimitError("Pollinations-video: free Pollen budget exhausted")
+    if resp.status_code == 429:
+        raise RateLimitError("Pollinations-video: rate limited")
+    if resp.status_code == 503:
+        raise RuntimeError("Pollinations-video: service busy")
+    if resp.status_code not in (200, 201):
+        raise RuntimeError(f"Pollinations-video bad response: {resp.status_code} {resp.text[:150]}")
+    content = resp.content
+    if len(content) < 50_000:
+        raise RuntimeError("Pollinations-video: response too small")
+    if not (b"ftyp" in content[:64] or b"moov" in content[:64]):
+        raise RuntimeError("Pollinations-video: response is not a valid MP4")
+    return content, "mp4"
+
+
 def available_providers():
     """Sirf wo providers return karta hai jinke required env vars set hain
     (no-key providers hamesha available hote hain)."""

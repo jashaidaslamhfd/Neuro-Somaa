@@ -114,6 +114,29 @@ def _build_prompt(scene_text: str, *, topic: str = "") -> str:
         return f"{base}, {DARK_STYLE_SUFFIX}"
 
 
+def _layer_ai_video(index, scene_text, image_path: str | None = None, topic=""):
+    """2026-08-17 AI image-to-video: turns the already-unique AI scene
+    image into a genuine motion clip (Seedance 2.5 via Pollinations).
+    This is what separates 'AI slideshow' from 'AI-made video' - every
+    scene now MOVES with physics the stock layers never matched, and the
+    motion is unique to this channel (not shared with anyone else).
+    Requires POLLINATIONS_KEY (free account, starter Pollen credits).
+    Without the key, RuntimeError is raised and the stock-video fallbacks
+    + Ken Burns image motion cover the slot instead. Max AI_VIDEO_SCENES
+    (default 5) of a video get AI motion - the hook + key beats get it
+    first, the rest stay on lightweight Ken Burns to protect build time
+    (6-min GitHub Actions limit) and Pollen budget.
+    """
+    from image_providers import gen_pollinations_video, RateLimitError as _RL
+    max_ai_video = int(os.environ.get("AI_VIDEO_SCENES", "5"))
+    if index >= max_ai_video:
+        raise RuntimeError(f"AI video skipped: scene {index} beyond AI_VIDEO_SCENES={max_ai_video}")
+    prompt_text = _build_prompt(scene_text, topic=topic)
+    prompt = prompt_text.replace(" ", "_").replace(",", "")
+    content, ext = gen_pollinations_video(prompt, prompt_text, image_path=image_path)
+    return _save_bytes(content, index, ext=ext), "video"
+
+
 def _layer_ai_providers(index, scene_text, provider_names=None, topic=""):
     """Try every configured AI image provider in order (Pollinations first,
     since it needs no API key, then whichever keyed providers are
@@ -765,6 +788,37 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
             used_hashes.add(file_hash)
             if perceptual and not is_procedural:
                 used_hashes.add(perceptual)
+
+            # 2026-08-17 AI image-to-video upgrade (post-hoc): if the chosen
+            # layer produced a STATIC image (AI art or stock photo), try to
+            # animate it into a genuine AI motion clip via Pollinations
+            # Seedance (requires POLLINATIONS_KEY). A failure here is NEVER
+            # fatal - the image (already unique) plays with Ken Burns motion,
+            # so quality is preserved even when the video layer is skipped.
+            if media_type == "image" and os.environ.get("POLLINATIONS_KEY", ""):
+                try:
+                    clip_path, _ = _layer_ai_video(index, scene_text, image_path=path, topic=topic)
+                    if os.path.isfile(clip_path) and os.path.getsize(clip_path) >= 100_000:
+                        # Re-validate the rendered clip and swap it in.
+                        _validate_clip_first_frame(clip_path, "AI-image-to-video")
+                        clip_hash = hashlib.sha256(open(clip_path, "rb").read()).hexdigest()
+                        if clip_hash not in used_hashes:
+                            used_hashes.discard(file_hash)
+                            if perceptual and not is_procedural:
+                                used_hashes.discard(perceptual)
+                            used_hashes.add(clip_hash)
+                            logger.info(f"Scene {index}: static image upgraded to AI motion clip "
+                                        f"(AI-image-to-video) -> {clip_path}")
+                            return {"index": index, "path": clip_path, "source": "AI-image-to-video",
+                                    "media_type": "video"}
+                        logger.info(f"Scene {index}: AI clip hash-collision - keeping static image")
+                    else:
+                        logger.warning(f"Scene {index}: AI video clip too small/missing - keeping static image")
+                except Exception as exc:
+                    # Budget exhausted, rate-limited, or network - keep the
+                    # static image, never burn the slot.
+                    logger.warning(f"Scene {index}: AI video upgrade skipped ({exc}); "
+                                   f"static image will play with Ken Burns motion")
 
             logger.info(f"Scene {index}: {media_type} generated via {name} -> {path}")
             return {"index": index, "path": path, "source": name, "media_type": media_type}
