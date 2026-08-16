@@ -1,184 +1,127 @@
 {
-  "generated_at": "2026-08-16T05:52:41.912357+00:00",
-  "n_videos_analyzed": 62,
+  "generated_at": "2026-08-16T10:53:23.033625+00:00",
+  "n_videos_analyzed": 25,
   "truth_gate": {
     "hook_score": {
       "claims": "hook quality",
-      "n": 62,
-      "spearman_vs_views": -0.042,
-      "spearman_vs_retention": 0.026,
-      "verdict": "NOISE",
+      "n": 25,
+      "spearman_vs_views": null,
+      "spearman_vs_retention": null,
+      "verdict": "INSUFFICIENT_DATA",
       "decision_usable": false
     },
     "seo_score": {
       "claims": "SEO quality",
-      "n": 62,
-      "spearman_vs_views": -0.149,
-      "spearman_vs_retention": 0.709,
-      "verdict": "NOISE",
+      "n": 25,
+      "spearman_vs_views": null,
+      "spearman_vs_retention": null,
+      "verdict": "INSUFFICIENT_DATA",
       "decision_usable": false
     },
     "predicted_retention": {
       "claims": "retention",
-      "n": 62,
-      "spearman_vs_views": -0.106,
-      "spearman_vs_retention": 0.005,
-      "verdict": "NOISE",
+      "n": 25,
+      "spearman_vs_views": null,
+      "spearman_vs_retention": null,
+      "verdict": "INSUFFICIENT_DATA",
       "decision_usable": false,
-      "bias": 0.303,
-      "mean_predicted": 0.7,
-      "mean_actual": 0.397
+      "bias": 0.0,
+      "mean_predicted": 0.4,
+      "mean_actual": 0.4
     },
     "predicted_ctr": {
       "claims": "CTR",
-      "n": 62,
-      "spearman_vs_views": -0.162,
-      "spearman_vs_retention": 0.68,
-      "verdict": "INVERTED",
+      "n": 25,
+      "spearman_vs_views": null,
+      "spearman_vs_retention": null,
+      "verdict": "INSUFFICIENT_DATA",
       "decision_usable": false
     },
     "_summary": {
-      "n_videos": 62,
+      "n_videos": 25,
       "message": "An internal score only earns trust by predicting real outcomes. NOISE/INVERTED scores are advisory-only everywhere in the pipeline."
     }
   },
   "data_quality": {
-    "videos_with_views": 62,
+    "videos_with_views": 25,
     "ctr_coverage": 0.0,
     "retention_coverage": 1.0,
     "ctr_gap": "0 coverage → YouTube Analytics scope/ metric must be fixed (see 2026-08-11 audit fix; token needs yt-analytics.readonly)"
   },
   "models": {
     "ridge": {
-      "reliable": false,
-      "cv_r2_mean": -0.6778,
-      "cv_r2_std": 0.8513,
-      "cv_mae_views": 374.7,
-      "n": 62,
+      "reliable": true,
+      "cv_r2_mean": 0.3562,
+      "cv_r2_std": 0.3286,
+      "cv_mae_views": 171.2,
+      "n": 25,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
-          "feature": "has_second_person",
-          "coef": -0.3765,
-          "direction": "-"
-        },
-        {
-          "feature": "hour_sin",
-          "coef": -0.2097,
-          "direction": "-"
+          "feature": "title_chars",
+          "coef": 0.6153,
+          "direction": "+"
         },
         {
           "feature": "topic_bucket_2",
-          "coef": -0.1697,
-          "direction": "-"
-        },
-        {
-          "feature": "predicted_ctr",
-          "coef": -0.1671,
-          "direction": "-"
-        },
-        {
-          "feature": "dow_sin",
-          "coef": 0.1148,
+          "coef": 0.045,
           "direction": "+"
         },
         {
-          "feature": "title_words",
-          "coef": 0.1144,
-          "direction": "+"
+          "feature": "dow_cos",
+          "coef": -0.0278,
+          "direction": "-"
         },
         {
-          "feature": "predicted_retention",
-          "coef": -0.1088,
+          "feature": "topic_bucket_1",
+          "coef": -0.0246,
           "direction": "-"
         },
         {
           "feature": "topic_bucket_3",
-          "coef": 0.0898,
-          "direction": "+"
+          "coef": -0.0166,
+          "direction": "-"
+        },
+        {
+          "feature": "dow_sin",
+          "coef": -0.0094,
+          "direction": "-"
+        },
+        {
+          "feature": "topic_bucket_0",
+          "coef": -0.0019,
+          "direction": "-"
+        },
+        {
+          "feature": "hour_sin",
+          "coef": -0.0,
+          "direction": "-"
         }
       ]
     },
     "mlp": {
       "reliable": false,
-      "note": "in-sample fit on n=62; advisory only",
-      "in_sample_mae_views": 184.6,
-      "hidden_units": 12,
-      "epochs": 600
+      "reason": "n<40 — deep model withheld to avoid memorization"
     }
   },
   "bandit": {
     "arms": {
-      "CE_QUE_VOTRE_CORPS": {
-        "n": 3,
-        "wins_ge_1000_views": 1,
-        "winner_rate": 0.3333,
-        "thompson_score": 0.4042,
-        "posterior_mean_logviews": 5.5816,
-        "avg_views": 449.7,
-        "confident": false
-      },
-      "CE_QUIL_FAUT_COMPRENDRE": {
-        "n": 2,
-        "wins_ge_1000_views": 1,
-        "winner_rate": 0.5,
-        "thompson_score": 0.5002,
-        "posterior_mean_logviews": 6.8846,
-        "avg_views": 1071.0,
-        "confident": false
-      },
-      "CE_QUI_SE_PASSE": {
-        "n": 2,
-        "wins_ge_1000_views": 0,
-        "winner_rate": 0.0,
-        "thompson_score": 0.2461,
-        "posterior_mean_logviews": 6.1213,
-        "avg_views": 521.0,
-        "confident": false
-      },
-      "LA_SCIENCE": {
-        "n": 2,
-        "wins_ge_1000_views": 0,
-        "winner_rate": 0.0,
-        "thompson_score": 0.2468,
-        "posterior_mean_logviews": 6.1016,
-        "avg_views": 484.5,
-        "confident": false
-      },
-      "OTHER": {
-        "n": 2,
-        "wins_ge_1000_views": 0,
-        "winner_rate": 0.0,
-        "thompson_score": 0.2499,
-        "posterior_mean_logviews": 6.7694,
-        "avg_views": 876.5,
-        "confident": false
-      },
       "POURQUOI": {
-        "n": 49,
-        "wins_ge_1000_views": 8,
-        "winner_rate": 0.1633,
-        "thompson_score": 0.1773,
-        "posterior_mean_logviews": 6.2352,
-        "avg_views": 686.7,
+        "n": 25,
+        "wins_ge_1000_views": 12,
+        "winner_rate": 0.48,
+        "thompson_score": 0.4795,
+        "posterior_mean_logviews": 6.8415,
+        "avg_views": 980.0,
         "confident": true
-      },
-      "SERIE_COURTE": {
-        "n": 2,
-        "wins_ge_1000_views": 1,
-        "winner_rate": 0.5,
-        "thompson_score": 0.4941,
-        "posterior_mean_logviews": 5.9791,
-        "avg_views": 580.0,
-        "confident": false
       }
     },
     "recommended_pattern": {
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
-      "thompson_score": 0.1773,
-      "avg_views": 686.7
+      "thompson_score": 0.4795,
+      "avg_views": 980.0
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -186,253 +129,104 @@
   },
   "anomalies": {
     "reliable": true,
-    "n_scored": 62,
+    "n_scored": 25,
     "window": 20,
-    "baseline_median_views": 748.9,
+    "baseline_median_views": 980.0,
     "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
-    "anomalies": [
-      {
-        "video_id": "PRXb_17G84s",
-        "title": "Pourquoi le cerveau crée des souvenirs faux ?",
-        "views": 50,
-        "modified_z": -6.38,
-        "direction": "under",
-        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
-      },
-      {
-        "video_id": "jHvt1X6XDuY",
-        "title": "Pourquoi le stress brouille la mémoire ?",
-        "views": 107,
-        "modified_z": -4.6,
-        "direction": "under",
-        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
-      },
-      {
-        "video_id": "1Y3DfG_Opg4",
-        "title": "Pourquoi la faim revient à la même heure chaque jour ?",
-        "views": 152,
-        "modified_z": -3.77,
-        "direction": "under",
-        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
-      }
-    ],
-    "underperformers": [
-      "PRXb_17G84s",
-      "jHvt1X6XDuY",
-      "1Y3DfG_Opg4"
-    ]
+    "anomalies": [],
+    "underperformers": []
   },
   "forecast": {
     "reliable": true,
     "method": "Holt double exponential smoothing (α=0.4, β=0.1)",
-    "last_level": 1744.7,
-    "daily_trend": -4.21,
-    "sigma_daily": 517.7,
+    "last_level": 1460.0,
+    "daily_trend": 40.0,
+    "sigma_daily": 0.0,
     "forecast_daily_views": [
-      1740.4,
-      1736.2,
-      1732.0,
-      1727.8,
-      1723.6,
-      1719.4,
-      1715.2,
-      1710.9,
-      1706.7,
-      1702.5,
-      1698.3,
-      1694.1,
-      1689.9,
-      1685.6,
-      1681.4,
-      1677.2,
-      1673.0,
-      1668.8,
-      1664.6,
-      1660.4,
-      1656.1,
-      1651.9,
-      1647.7,
-      1643.5,
-      1639.3,
-      1635.1,
-      1630.9,
-      1626.6,
-      1622.4,
-      1618.2
+      1500.0,
+      1540.0,
+      1580.0,
+      1620.0,
+      1660.0,
+      1700.0,
+      1740.0,
+      1780.0,
+      1820.0,
+      1860.0,
+      1900.0,
+      1940.0,
+      1980.0,
+      2020.0,
+      2060.0,
+      2100.0,
+      2140.0,
+      2180.0,
+      2220.0,
+      2260.0,
+      2300.0,
+      2340.0,
+      2380.0,
+      2420.0,
+      2460.0,
+      2500.0,
+      2540.0,
+      2580.0,
+      2620.0,
+      2660.0
     ],
-    "total_30d_expected": 50380.0,
-    "band_30d_low": 1161.7,
-    "band_30d_high": 2197.0,
+    "total_30d_expected": 62400.0,
+    "band_30d_low": 2080.0,
+    "band_30d_high": 2080.0,
     "honesty": "trend extrapolation assumes current strategy/format holds; a single viral outlier reshapes everything — re-read weekly.",
-    "series_days": 22,
-    "first_day": "2026-07-19",
-    "last_day": "2026-08-13"
+    "series_days": 25,
+    "first_day": "2026-07-01",
+    "last_day": "2026-07-25"
   },
   "clusters": {
     "reliable": true,
     "method": "TF-IDF + spherical k-means++",
-    "k": 6,
-    "n": 62,
+    "k": 3,
+    "n": 25,
     "clusters": [
       {
-        "cluster_id": 5,
-        "name": "froid / sembler / peut / étrange / frissonne",
-        "size": 7,
-        "avg_views": 795.4,
-        "max_views": 1456,
-        "examples": [
-          "Réveil avant l'alarme",
-          "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "Pourquoi on sent une vibration de téléphone imaginaire ?"
-        ]
-      },
-      {
-        "cluster_id": 4,
-        "name": "cœur / son / battre / nuit / vite",
-        "size": 5,
-        "avg_views": 733.4,
-        "max_views": 878,
-        "examples": [
-          "Pourquoi le cerveau remarque entendre son cœur battre la",
-          "Pourquoi le cerveau repère son propre prénom peut sembler",
-          "Ce qui se passe quand le cœur s'emballe sous le stress ?"
-        ]
-      },
-      {
         "cluster_id": 0,
-        "name": "raison / deviennent / science / lorsque / change",
-        "size": 26,
-        "avg_views": 705.0,
-        "max_views": 1205,
+        "name": "sujet / surprend",
+        "size": 25,
+        "avg_views": 980.0,
+        "max_views": 1460,
         "examples": [
-          "Pourquoi le temps semble passer plus vite en vieillissant",
-          "Ce qui se passe quand un déjà-vu semble étrangement familier",
-          "La science derrière le temps qui semble accélérer"
-        ]
-      },
-      {
-        "cluster_id": 3,
-        "name": "cerveau / comprendre / qu'il / faut / immature",
-        "size": 7,
-        "avg_views": 694.4,
-        "max_views": 1512,
-        "examples": [
-          "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
-          "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "Comprendre pourquoi le cerveau réclame du sommeil profond"
-        ]
-      },
-      {
-        "cluster_id": 2,
-        "name": "corps / refuse / s'endormant / flottants / visibles",
-        "size": 8,
-        "avg_views": 614.2,
-        "max_views": 1031,
-        "examples": [
-          "Corps lourd",
-          "Pourquoi le sursaut du corps en s'endormant ?",
-          "Pourquoi les corps flottants visibles dans la lumière ?"
-        ]
-      },
-      {
-        "cluster_id": 1,
-        "name": "vous / dit / corps / ralentit / mémoire",
-        "size": 9,
-        "avg_views": 524.9,
-        "max_views": 1087,
-        "examples": [
-          "Ce que votre corps vous dit quand le corps se fige",
-          "Ce que votre corps vous dit quand le silence devient",
-          "Ce que votre corps vous dit quand le ventre se serre"
+          "Pourquoi le sujet 0 surprend ?",
+          "Pourquoi le sujet 1 surprend ?",
+          "Pourquoi le sujet 2 surprend ?"
         ]
       }
     ],
-    "winner_cluster": "froid / sembler / peut / étrange / frissonne",
+    "winner_cluster": "sujet / surprend",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
     "reliable": true,
-    "n": 62,
-    "p10": 29.1,
-    "p50": 38.9,
-    "p90": 52.9,
-    "share_below_50pct": 0.887,
+    "n": 25,
+    "p10": 40.0,
+    "p50": 40.0,
+    "p90": 40.0,
+    "share_below_50pct": 1.0,
     "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
   },
   "experiment": {
-    "significant": false,
-    "p_value": 0.1636,
-    "mean_a": 680.22,
-    "mean_b": 910.67,
-    "diff": -230.44,
-    "n_a": 9,
-    "n_b": 9,
-    "method": "two-sided permutation test (5000 shuffles)",
-    "honesty": "p<0.05 at tiny n still means 'watch it', not 'proved it'.",
-    "available": true,
-    "arm_a": "control_long",
-    "arm_b": "test_short",
-    "winner": null
+    "available": false,
+    "reason": "fewer than 2 arms have real views yet",
+    "arms": {}
   },
   "hook_arms": {
     "available": false,
-    "reason": "hook-arm experiment needs ≥5 real-view videos per arm (have: {'pov_reveal': 4, 'shock_fact': 2, 'question': 2}); arms start accruing from the first run after 2026-08-12",
-    "sample_sizes": {
-      "pov_reveal": 4,
-      "shock_fact": 2,
-      "question": 2
-    }
+    "reason": "hook-arm experiment needs ≥5 real-view videos per arm (have: none yet); arms start accruing from the first run after 2026-08-12",
+    "sample_sizes": {}
   },
   "viral_fastlane": {
-    "entries": 5,
+    "entries": 0,
     "ttl_hours": 96,
-    "items": [
-      {
-        "topic": "Pourquoi le ventre se serre lors d'une peur au réveil ?",
-        "series_number": "W01",
-        "cloned_from": {
-          "video_id": "WxOEXbepJ40",
-          "views": 1456,
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler"
-        }
-      },
-      {
-        "topic": "Pourquoi un aliment froid provoque un mal quand tu es stressé ?",
-        "series_number": "W02",
-        "cloned_from": {
-          "video_id": "8b9CONZ5ntY",
-          "views": 1241,
-          "title": "Pourquoi un aliment froid provoque un mal de tête ?"
-        }
-      },
-      {
-        "topic": "Pourquoi le muscle qui tressaille tout seul au réveil ?",
-        "series_number": "W03",
-        "cloned_from": {
-          "video_id": "KMXIpcpoDX4",
-          "views": 1168,
-          "title": "Pourquoi le muscle qui tressaille tout seul ?"
-        }
-      },
-      {
-        "topic": "Pourquoi la mâchoire craque quand tu es amoureux ?",
-        "series_number": "W04",
-        "cloned_from": {
-          "video_id": "0giDXoVx72E",
-          "views": 1029,
-          "title": "Pourquoi la mâchoire craque en mâchant ?"
-        }
-      },
-      {
-        "topic": "Pourquoi un nœud au ventre apparaît au réveil ?",
-        "series_number": "W05",
-        "cloned_from": {
-          "video_id": "n1TgqGp2PQ0",
-          "views": 1007,
-          "title": "Pourquoi un nœud au ventre apparaît avant un moment ?"
-        }
-      }
-    ],
+    "items": [],
     "fastlane_path": "/home/runner/work/Neuro-Somaa/Neuro-Somaa/data/winner_fastlane.json"
   },
   "schema_version": 1
