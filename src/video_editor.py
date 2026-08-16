@@ -5,7 +5,20 @@ import logging
 import subprocess
 from typing import Dict
 import numpy as np
-import soundfile as sf
+
+# 2026-08-17 CI fix (same as voice_generator.py): guard-workflow installs
+# only requirements-ci.txt (no soundfile), so this lazy proxy keeps the
+# module collectable while all existing sf.read/sf.write call sites work.
+def _sf():
+    import soundfile as _s
+    return _s
+
+class _SoundfileProxy:
+    def write(self, *a, **kw): return _sf().write(*a, **kw)
+    def read(self, *a, **kw):  return _sf().read(*a, **kw)
+    def info(self, *a, **kw):  return _sf().info(*a, **kw)
+
+sf = _SoundfileProxy()
 from PIL import Image, ImageDraw, ImageFont
 
 # ------------------------------------------------------------------------
