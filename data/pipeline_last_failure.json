@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-17T02:19:06.665752Z",
-  "reason": "Narration is 34.1s; refusing destructive speed-up. Regenerate a script that fits the 29s target.",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 778, in run_pipeline\n    final_video = build_video(\n                  ^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/video_editor.py\", line 913, in build_video\n    raise RuntimeError(\nRuntimeError: Narration is 34.1s; refusing destructive speed-up. Regenerate a script that fits the 29s target.\n"
+  "failed_at": "2026-08-17T10:40:18.055205Z",
+  "reason": "Stock clip is corrupted or truncated (probe failed): output/scene_4.mp4 \u2014 re-running the pipeline re-downloads a fresh clip for this scene.",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 778, in run_pipeline\n    final_video = build_video(\n                  ^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/video_editor.py\", line 728, in build_video\n    scene_visual = _cover_video_clip(img_path, duration)\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/video_editor.py\", line 627, in _cover_video_clip\n    raise RuntimeError(\nRuntimeError: Stock clip is corrupted or truncated (probe failed): output/scene_4.mp4 \u2014 re-running the pipeline re-downloads a fresh clip for this scene.\n"
 }
