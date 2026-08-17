@@ -1041,8 +1041,11 @@ class SKILLORPipeline:
         from continuity import (
             should_retry_on_guard_failure, register_slot_attempt,
         )
-        guard_phrases = ("DUPLICATE TITLE BLOCKED", "Quality gate failed",
-                         "Silent segments:", "Mixed TTS voices:", "Hook failed:")
+        guard_phrases = ("DUPLICATE TITLE BLOCKED",
+                         "Duplicate title blocked before upload", "Quality gate failed",
+                         "Retention gate:", "Silent segments:", "Mixed TTS voices:",
+                         "Hook failed:", "Narration too short:", "Narration too long:",
+                         "Failed to generate image for scene")
         attempt = 0
         last_err = None
         while True:
