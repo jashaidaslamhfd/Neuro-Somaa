@@ -68,6 +68,41 @@ SCRIPT_POLICY_VERSION = "BODY_GLITCH_V4_ANSWER_FIRST"
 TEMPERATURE = 0.65
 MAX_TOKENS = 1400
 
+# 2026-08-17 rate-limit fix: Groq's daily/hourly token-quota (TPD) errors
+# report the wait as "...Xd Yh Zm W.WWWs" — a plain per-minute rate limit
+# only ever says "Xm Ys". If we sleep()'d the full daily-quota wait we'd
+# blow past this job's `timeout-minutes: 200` in main.yml and still finish
+# with no video. Past this cap we fail fast instead so the NEXT scheduled
+# cron slot (a few hours later) retries once the quota has actually reset.
+MAX_RATE_LIMIT_SLEEP_SEC = 15 * 60
+
+
+def _parse_groq_rate_limit_wait(err_str: str, default_sec: int = 300) -> int:
+    """Parse a Groq 429 'try again in ...' wait duration into seconds.
+
+    Handles every unit Groq actually emits: days/hours/minutes/seconds,
+    any subset of which may be present (e.g. "45m12s", "5h44m32.891s",
+    "1d2h15m3.2s"). Falls back to `default_sec` when nothing is found —
+    never raises, so a message-format change degrades gracefully instead
+    of crashing the pipeline.
+    """
+    import re as _re
+    m = _re.search(
+        r"try again in "
+        r"(?:(\d+)d)?\s*(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+(?:\.\d+)?)s)?",
+        err_str,
+    )
+    if not m or not any(m.groups()):
+        return default_sec
+    days, hours, mins, secs = m.groups()
+    total = (
+        int(days or 0) * 86400
+        + int(hours or 0) * 3600
+        + int(mins or 0) * 60
+        + int(float(secs or 0))
+    )
+    return total + 10 if total > 0 else default_sec
+
 # 2026-08-12 model migration: Groq retires BOTH legacy Llama chat models
 # (llama-3.1-8b-instant and llama-3.3-70b-versatile) on 2026-08-16.
 # New lineup: gpt-oss-120b is the ADVANCED/quality model (stronger French
@@ -1127,13 +1162,25 @@ def generate_script(
                 continue
             # Handle Groq rate limits with proper wait
             if "rate_limit" in err_str or "429" in err_str:
-                import re as _re
-                m = _re.search(r"try again in (\d+)m(\d+)?", err_str)
-                wait_sec = 300
-                if m:
-                    mins = int(m.group(1))
-                    secs = int(m.group(2)) if m.group(2) else 0
-                    wait_sec = mins * 60 + secs + 10
+                wait_sec = _parse_groq_rate_limit_wait(err_str)
+                if wait_sec > MAX_RATE_LIMIT_SLEEP_SEC:
+                    # Both models in the chain are already exhausted (we'd
+                    # have advanced past this point otherwise) — this is a
+                    # daily/hourly account-level quota, not a short burst
+                    # limit. Sleeping it out would blow the job timeout and
+                    # still yield zero videos, so fail fast and let the next
+                    # scheduled run pick it up once the quota resets.
+                    logger.error(
+                        "Groq quota needs ~%ds to reset (exceeds this run's "
+                        "%ds budget) — failing fast instead of blocking the "
+                        "job. Next scheduled run will retry.",
+                        wait_sec, MAX_RATE_LIMIT_SLEEP_SEC,
+                    )
+                    raise RuntimeError(
+                        f"Groq rate limit needs ~{wait_sec}s to reset "
+                        f"(exceeds {MAX_RATE_LIMIT_SLEEP_SEC}s per-run budget). "
+                        f"Skipping this run; original error: {e}"
+                    )
                 logger.warning("Groq rate limited — waiting %ds", wait_sec)
                 time.sleep(wait_sec)
                 continue
