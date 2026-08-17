@@ -1,13 +1,13 @@
 # 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)
-_Generated 2026-08-16T08:16:17.235263+00:00 — 13 jours restants_
+_Generated 2026-08-17T08:29:08.349780+00:00 — 12 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **117** | Vues totales: 51,986 | Vidéos: 76
-- Watch hours (12 mois): 70.9
+- Abonnés: **121** | Vues totales: 53,848 | Vidéos: 77
+- Watch hours (12 mois): 72.5
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +883 subs (67.9/jour) · +9,948,014 vues Shorts (765,231.8/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +383 subs (29.5/jour) · +2,948,014 vues Shorts (226,770.3/jour)
+- **Full YPP (ad revenue)**: +879 subs (73.2/jour) · +9,946,152 vues Shorts (828,846.0/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +379 subs (31.6/jour) · +2,946,152 vues Shorts (245,512.7/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
@@ -24,8 +24,16 @@ _Generated 2026-08-16T08:16:17.235263+00:00 — 13 jours restants_
 ## 🎵 Musique
 - ✅ `own_dark_drone.ogg` — original (generated in-repo)
 - ✅ `own_dark_drone.wav` — original (generated in-repo)
+- ✅ `own_melancholy_dusk.ogg` — original (generated in-repo)
+- ✅ `own_melancholy_dusk.wav` — original (generated in-repo)
+- ✅ `own_mystery_voices.ogg` — original (generated in-repo)
+- ✅ `own_mystery_voices.wav` — original (generated in-repo)
+- ✅ `own_serene_eerie.ogg` — original (generated in-repo)
+- ✅ `own_serene_eerie.wav` — original (generated in-repo)
 - ✅ `own_suspense_thrum.ogg` — original (generated in-repo)
 - ✅ `own_suspense_thrum.wav` — original (generated in-repo)
+- ✅ `own_tension_rise.ogg` — original (generated in-repo)
+- ✅ `own_tension_rise.wav` — original (generated in-repo)
 
 ## 🗓️ Plan quotidien (honnête)
 - **3 Shorts/jour** à 12:30, 19:30 & 21:00 Paris (déjà automatisé, ajusté par les créneaux dynamiques).

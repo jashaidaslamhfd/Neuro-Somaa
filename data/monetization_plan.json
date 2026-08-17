@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-16T08:16:17.235263+00:00",
+  "generated_at": "2026-08-17T08:29:08.349780+00:00",
   "target_date": "2026-08-30T00:00:00+00:00",
-  "days_left": 13,
+  "days_left": 12,
   "channel": {
-    "subs": 117,
-    "total_views": 51986,
-    "videos": 76,
-    "watch_hours_12mo": 70.9,
+    "subs": 121,
+    "total_views": 53848,
+    "videos": 77,
+    "watch_hours_12mo": 72.5,
     "made_for_kids_status": null,
     "privacy_status": "public",
     "long_uploads_status": "allowed",
@@ -17,20 +17,20 @@
     {
       "tier": "ypp_full",
       "label": "Full YPP (ad revenue)",
-      "subs_needed": 883,
-      "subs_per_day": 67.9,
-      "views_needed_90d": 9948014,
-      "views_per_day": 765231.8,
+      "subs_needed": 879,
+      "subs_per_day": 73.2,
+      "views_needed_90d": 9946152,
+      "views_per_day": 828846.0,
       "reachable_by_aug30_subs": false,
       "reachable_by_aug30_views": false
     },
     {
       "tier": "ypp_tier1",
       "label": "Tier-1 (fan funding, memberships, Super Thanks)",
-      "subs_needed": 383,
-      "subs_per_day": 29.5,
-      "views_needed_90d": 2948014,
-      "views_per_day": 226770.3,
+      "subs_needed": 379,
+      "subs_per_day": 31.6,
+      "views_needed_90d": 2946152,
+      "views_per_day": 245512.7,
       "reachable_by_aug30_subs": true,
       "reachable_by_aug30_views": false
     }
@@ -102,12 +102,52 @@
         "why": "original (generated in-repo)"
       },
       {
+        "file": "own_melancholy_dusk.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_melancholy_dusk.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_mystery_voices.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_mystery_voices.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_serene_eerie.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_serene_eerie.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
         "file": "own_suspense_thrum.ogg",
         "ok": true,
         "why": "original (generated in-repo)"
       },
       {
         "file": "own_suspense_thrum.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_tension_rise.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_tension_rise.wav",
         "ok": true,
         "why": "original (generated in-repo)"
       }
