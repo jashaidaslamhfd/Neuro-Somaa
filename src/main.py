@@ -1021,6 +1021,67 @@ class SKILLORPipeline:
 
         logger.info(f"Batch complete: {succeeded} succeeded, {failed} failed out of {num_videos}")
 
+    # ------------------------------------------------------------------
+    # Continuity loop: a guard-blocked video must not kill the slot.
+    # Retries with a fresh topic (bounded by MAX_GUARD_RETRIES) and tracks
+    # every Paris-peak slot attempt so no upload window is silently lost.
+    # ------------------------------------------------------------------
+    def run_pipeline_with_continuity(self, topic: str = None, slot_label: str = None) -> dict:
+        """Run the pipeline with a bounded retry loop on quality-gaurd blocks.
+
+        A strict guard (duplicate title, quality gate, silent segments, hook
+        score ...) is the pipeline doing its job — but a blocked video must not
+        become a MISSED Paris-peak slot. So on a guard-failure we retry with a
+        NEW topic (bounded by continuity.MAX_GUARD_RETRIES) before giving up,
+        and we register the slot outcome so consistency is visible.
+        Returns the successful run dict, or a 'missed' dict if every retry
+        failed (so the caller/workflow can decide next steps instead of a hard
+        crash).
+        """
+        from continuity import (
+            should_retry_on_guard_failure, register_slot_attempt,
+        )
+        guard_phrases = ("DUPLICATE TITLE BLOCKED", "Quality gate failed",
+                         "Silent segments:", "Mixed TTS voices:", "Hook failed:")
+        attempt = 0
+        last_err = None
+        while True:
+            attempt += 1
+            # A fresh topic on each retry gives the guards a genuinely new chance
+            # (the duplicate-title guard especially needs a different subject).
+            retry_topic = topic
+            if attempt > 1 and not topic:
+                retry_topic = None  # let the topic engine pick something new
+            try:
+                result = self.run_pipeline(topic=retry_topic)
+                if slot_label:
+                    register_slot_attempt(
+                        slot_label, "published",
+                        (result or {}).get("title", ""))
+                return result
+            except RuntimeError as exc:
+                msg = str(exc)
+                is_guard = any(p in msg for p in guard_phrases)
+                if not is_guard:
+                    raise  # real pipeline error, not a guard block
+                last_err = exc
+                logger.warning(
+                    "🔄 Guard blocked attempt %d (%s). Retrying with a new topic "
+                    "to preserve slot consistency...", attempt, msg[:120],
+                )
+                if not should_retry_on_guard_failure(attempt):
+                    break
+                # small backoff so consecutive retries don't hammer
+                time.sleep(attempt * 30)
+        # All guard retries exhausted — the slot is missed this run, but we
+        # record it so the workflow can decide (e.g. re-dispatch) instead of
+        # silently breaking the cadence.
+        if slot_label:
+            register_slot_attempt(slot_label, "guard_fail", str(last_err or "")[:80])
+        logger.error("🔴 Slot could not be filled after %d guard retries: %s",
+                     attempt, last_err)
+        return {"success": False, "missed": True, "reason": str(last_err)}
+
 
 def main():
     """Main entry point"""
@@ -1028,9 +1089,21 @@ def main():
         pipeline = SKILLORPipeline()
         topic = os.environ.get("VIDEO_TOPIC")
 
+        # 2026-08-17 CONTINUITY: label the current Paris peak slot so a
+        # guard-blocked video never silently misses the upload window — the
+        # retry loop picks a new topic up to MAX_GUARD_RETRIES times before a
+        # slot is ever marked as missed.
+        try:
+            from continuity import is_us_peak_slot
+            import pytz as _tz
+            _now = datetime.now(_tz.timezone("Europe/Paris"))
+            slot_label = f"PAR{_now.hour:02d}:{_now.minute:02d}" if is_us_peak_slot(_now.hour) else "offpeak"
+        except Exception:
+            slot_label = None
+
         if topic:
             logger.info(f"Using specific topic: {topic}")
-            pipeline.run_pipeline(topic=topic)
+            pipeline.run_pipeline_with_continuity(topic=topic, slot_label=slot_label)
         else:
             # AUTONOMOUS CONTROL: the ML brain decides the cadence (how many
             # videos/day) from real performance, and throttles the batch when
@@ -1059,8 +1132,13 @@ def main():
                 pipeline.run_daily_batch(num_videos)
             else:
                 # Single run by default, but honour the ML cadence ceiling for
-                # the daily scheduled batch.
-                pipeline.run_pipeline()
+                # the daily scheduled batch — with the continuity retry loop.
+                result = pipeline.run_pipeline_with_continuity(slot_label=slot_label)
+                if result.get("missed"):
+                    logger.warning("Slot missed after guard retries — see continuity log.")
+                    # exit 0 so a guard block never hard-crashes the workflow;
+                    # the slot-consistency state shows the gap instead.
+                    sys.exit(0)
 
     except KeyboardInterrupt:
         logger.info("Pipeline interrupted by user")
