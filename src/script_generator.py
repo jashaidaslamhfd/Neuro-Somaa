@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import time
+from typing import Dict, List, Optional, Tuple
 
 try:
     from groq import BadRequestError, Groq
@@ -109,6 +110,157 @@ def _parse_groq_rate_limit_wait(err_str: str, default_sec: int = 300) -> int:
 # hooks + titles -> better CTR/retention); gpt-oss-20b is the fast fallback.
 DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 DEFAULT_GROQ_MODEL_FALLBACK = "openai/gpt-oss-20b"
+
+
+
+# ============================================
+# 1b. OpenRouter fallback (ported 2026-08-17)
+# ============================================
+# OpenRouter (a neutral router over many models) using OPENROUTER_API_KEY.
+# 2026-08-17: meta-llama/llama-3.3-70b-instruct:free was retired from
+# OpenRouter (HTTP 404 on the pipeline's request). OpenRouter's live model
+# list is checked at run time; if the configured slug 404's we retry against
+# every remaining ":free" chat model once before giving up.
+_OPENROUTER_KNOWN_FREE = "nvidia/nemotron-3-ultra-550b-a55b:free"
+OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
+OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
+OPENROUTER_TIMEOUT = 60
+
+def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optional[str]:
+    """Call OpenRouter as a fallback LLM when Groq is rate-limited/down.
+
+    Returns the raw assistant text, or None on failure (never raises, so the
+    caller can keep trying Groq). OpenRouter routes to many models; we use the
+    configured OPENROUTER_MODEL (free Llama by default) so no extra cost.
+    """
+    key = os.environ.get("OPENROUTER_API_KEY")
+    if not key:
+        return None
+    try:
+        import requests as _req
+        payload = {"model": OPENROUTER_MODEL, "messages": messages}
+        if temperature is not None:
+            payload["temperature"] = temperature
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
+        # 2026-08-17: without this the fallback model (Nemotron) returned
+        # plain conversational text — the regex fallback then extracted
+        # nothing and every run died on validation. Mirrors the Groq
+        # response_format json_object used on the primary path.
+        payload["response_format"] = {"type": "json_object"}
+        resp = _req.post(
+            OPENROUTER_API_URL,
+            headers={
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+                "HTTP-Referer": "https://github.com/jashaidaslamhfd/Mr-Nextep",
+            },
+            json=payload,
+            timeout=OPENROUTER_TIMEOUT,
+        )
+        # 2026-08-17: several free models on OpenRouter ignore
+        # response_format and echo chain-of-thought text instead of JSON.
+        # One automatic re-ask with an explicit JSON-only instruction
+        # recovers most of those replies without code churn.
+        def _reply_has_json(text: str) -> bool:
+            return bool(text) and "{" in text
+        if resp.status_code == 200:
+            text = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
+            if not _reply_has_json(text):
+                backup_msgs = [
+                    {"role": m["role"], "content": m["content"]}
+                    for m in messages
+                ]
+                backup_msgs[-1]["content"] += (
+                    "\n\nCRITICAL: Respond with ONLY a raw JSON object "
+                    "starting with '{' — no thinking, no markdown, "
+                    "no explanation."
+                )
+                payload2 = dict(payload, messages=backup_msgs)
+                try:
+                    r3 = _req.post(
+                        OPENROUTER_API_URL,
+                        headers={
+                            "Authorization": f"Bearer {key}",
+                            "Content-Type": "application/json",
+                            "HTTP-Referer": "https://github.com/jashaidaslamhfd/Mr-Nextep",
+                        },
+                        json=payload2,
+                        timeout=OPENROUTER_TIMEOUT,
+                    )
+                    if r3.status_code == 200:
+                        text2 = r3.json().get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
+                        if _reply_has_json(text2):
+                            logger.warning(
+                                "OpenRouter re-ask recovered a JSON reply "
+                                "after plain-text echo"
+                            )
+                            return text2
+                except Exception:  # noqa: BLE001
+                    pass
+        if resp.status_code in (404, 429) or (resp.status_code == 200 and not _reply_has_json(text)):
+            # 2026-08-17: rotate free models on two failure modes — the
+            # configured slug was retired (404, verified 2026-08-17), OR the
+            # active free model returned plain text instead of JSON
+            # (Nemotron's frequent echo behavior). Refresh the live free-
+            # model list and retry each candidate once, keeping the FIRST
+            # reply that actually contains JSON.
+            key = os.environ.get("OPENROUTER_API_KEY")
+            _candidates = []
+            if key:
+                try:
+                    models = _req.get(
+                        "https://openrouter.ai/api/v1/models",
+                        headers={"Authorization": f"Bearer {key}"},
+                        timeout=15,
+                    )
+                    if models.status_code == 200:
+                        _candidates = [
+                            m["id"] for m in models.json().get("data", [])
+                            if m.get("id", "").endswith(":free")
+                            and m["id"] != OPENROUTER_MODEL
+                        ]
+                except Exception:  # noqa: BLE001
+                    _candidates = []
+            for mid in _candidates[:5]:
+                try:
+                    payload["model"] = mid
+                    r2 = _req.post(
+                        OPENROUTER_API_URL,
+                        headers={
+                            "Authorization": f"Bearer {key}",
+                            "Content-Type": "application/json",
+                            "HTTP-Referer": "https://github.com/jashaidaslamhfd/Mr-Nextep",
+                        },
+                        json=payload,
+                        timeout=OPENROUTER_TIMEOUT,
+                    )
+                    if r2.status_code == 200:
+                        t2 = r2.json().get("choices", [{}])[0].get(
+                            "message", {}
+                        ).get("content", "")
+                        logger.warning(
+                            "OpenRouter model %s rotated; retried on %s "
+                            "(reply has JSON: %s)",
+                            OPENROUTER_MODEL, mid, _reply_has_json(t2),
+                        )
+                        if _reply_has_json(t2):
+                            return t2
+                except Exception:  # noqa: BLE001
+                    continue
+            logger.warning("OpenRouter fallback failed: HTTP %s (all refreshed models exhausted)", resp.status_code)
+            return None
+        if resp.status_code != 200:
+            logger.warning("OpenRouter fallback failed: HTTP %s", resp.status_code)
+            return None
+        data = resp.json()
+        return data["choices"][0]["message"]["content"]
+    except Exception as exc:  # noqa: BLE001 - fallback must never raise
+        logger.warning("OpenRouter fallback error: %s", exc)
+        return None
+
 
 
 def groq_model_chain() -> list:
@@ -1151,7 +1303,19 @@ def generate_script(
                 logger.info(f"⏳ Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
             else:
-                break
+                # 2026-08-17: Groq chain exhausted — final attempt via the
+                # OpenRouter fallback (mirrors Mr-Nextep). Never end a run
+                # without trying the backup LLM.
+                raw_reply = _openrouter_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                )
+                if raw_reply:
+                    generate_script._or_fallback_reply = raw_reply
+                    logger.info("✅ OpenRouter fallback produced a script.")
+                    break  # fall through to post-loop fallback validation
+                else:
+                    logger.warning("OpenRouter fallback also failed — ending run.")
+                    break
             
         except Exception as e:
             err_str = str(e)
@@ -1162,6 +1326,16 @@ def generate_script(
                 continue
             # Handle Groq rate limits with proper wait
             if "rate_limit" in err_str or "429" in err_str:
+                # 2026-08-17: Groq 429 — try the OpenRouter fallback
+                # IMMEDIATELY instead of waiting up to 40+ minutes for Groq's
+                # daily token-cap reset.
+                raw_reply = _openrouter_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                )
+                if raw_reply:
+                    generate_script._or_fallback_reply = raw_reply
+                    logger.info("✅ OpenRouter fallback produced a script during Groq 429.")
+                    break  # fall through to post-loop fallback validation
                 wait_sec = _parse_groq_rate_limit_wait(err_str)
                 if wait_sec > MAX_RATE_LIMIT_SLEEP_SEC:
                     # Both models in the chain are already exhausted (we'd
@@ -1191,6 +1365,28 @@ def generate_script(
                 logger.info(f"⏳ Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
     
+    # 2026-08-17: validate the OpenRouter fallback reply (Groq chain failed)
+    # before declaring complete failure — mirrors Mr-Nextep's fall-through.
+    if getattr(generate_script, '_or_fallback_reply', None):
+        raw_reply = generate_script._or_fallback_reply
+        logger.info("🔧 Validating OpenRouter fallback reply outside the retry loop.")
+        try:
+            script_data = _clean_json_response(raw_reply)
+            script_data = _normalize_scenes(script_data)
+            script_data['topic'] = topic
+            script_data['generated_at'] = time.time()
+            script_data['attempt'] = max_retries
+            is_valid, issues = _validate_script(script_data, lenient=True)
+            if is_valid:
+                retention = analyze_retention_potential(script_data)
+                script_data['retention_analysis'] = retention
+                logger.warning("✅ OpenRouter fallback script passed validation (lenient).")
+                return script_data
+            else:
+                logger.warning("⚠️ OpenRouter fallback script failed validation: %s", "; ".join(issues[:2]))
+        except Exception as exc:
+            logger.warning("OpenRouter fallback validation error: %s", exc)
+
     # If we have a best script, return it
     if best_script:
         logger.warning(f"⚠️ Using best available script (Score: {best_score}/100)")
