@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-16T05:52:41.812093+00:00",
+  "generated_at_utc": "2026-08-17T05:59:45.264337+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,8 +11,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.2487,
-      "samples": 18,
+      "score": 3.1737,
+      "samples": 19,
       "confident": true,
       "prior": 0.0
     },
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.362,
-      "samples": 12,
+      "score": 3.3519,
+      "samples": 13,
       "confident": true,
-      "prior": 3.4792
+      "prior": 3.4665
     },
     {
       "rank": 3,
@@ -35,10 +35,10 @@
       "hour": 21,
       "minute": 0,
       "name": "Dynamique 21:00",
-      "score": 3.3021,
+      "score": 3.2944,
       "samples": 4,
       "confident": true,
-      "prior": 3.2792
+      "prior": 3.2665
     }
   ],
   "ranked_slots": [
@@ -46,15 +46,15 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.362,
-      "observed_samples": 12,
-      "observed_avg": 3.3229,
-      "prior": 3.4792,
+      "score": 3.3519,
+      "observed_samples": 13,
+      "observed_avg": 3.3167,
+      "prior": 3.4665,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
           "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1205,
+          "views": 1208,
           "published_paris": "2026-07-29 19:30"
         },
         {
@@ -75,10 +75,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.3021,
+      "score": 3.2944,
       "observed_samples": 4,
       "observed_avg": 3.3363,
-      "prior": 3.2792,
+      "prior": 3.2665,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -101,75 +101,12 @@
       ]
     },
     {
-      "slot": "20:30",
-      "hour": 20,
-      "minute": 30,
-      "score": 3.284,
-      "observed_samples": 1,
-      "observed_avg": 3.5695,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "68B-7lTf8nU",
-          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 1512,
-          "published_paris": "2026-07-21 20:27"
-        }
-      ]
-    },
-    {
-      "slot": "19:00",
-      "hour": 19,
-      "minute": 0,
-      "score": 3.2691,
-      "observed_samples": 1,
-      "observed_avg": 3.4951,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "WxOEXbepJ40",
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "views": 1456,
-          "published_paris": "2026-07-23 19:10"
-        }
-      ]
-    },
-    {
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "score": 3.2487,
-      "observed_samples": 18,
-      "observed_avg": 3.2487,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
-        },
-        {
-          "video_id": "JIg1-eBYols",
-          "title": "Pourquoi un pied s'endort tout seul ?",
-          "views": 1053,
-          "published_paris": "2026-08-06 17:30"
-        },
-        {
-          "video_id": "P6N8mJAbU5M",
-          "title": "Pourquoi on pleure quand on bâille ?",
-          "views": 926,
-          "published_paris": "2026-08-13 17:30"
-        }
-      ]
-    },
-    {
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.2386,
-      "observed_samples": 13,
-      "observed_avg": 3.2386,
+      "score": 3.2748,
+      "observed_samples": 14,
+      "observed_avg": 3.2748,
       "prior": 0.0,
       "examples": [
         {
@@ -193,10 +130,44 @@
       ]
     },
     {
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 3.2738,
+      "observed_samples": 1,
+      "observed_avg": 3.5695,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 1512,
+          "published_paris": "2026-07-21 20:27"
+        }
+      ]
+    },
+    {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 3.2589,
+      "observed_samples": 1,
+      "observed_avg": 3.4951,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 1456,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.213,
+      "score": 3.2029,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -210,10 +181,39 @@
       ]
     },
     {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.1737,
+      "observed_samples": 19,
+      "observed_avg": 3.1737,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
+        },
+        {
+          "video_id": "JIg1-eBYols",
+          "title": "Pourquoi un pied s'endort tout seul ?",
+          "views": 1053,
+          "published_paris": "2026-08-06 17:30"
+        },
+        {
+          "video_id": "P6N8mJAbU5M",
+          "title": "Pourquoi on pleure quand on bâille ?",
+          "views": 932,
+          "published_paris": "2026-08-13 17:30"
+        }
+      ]
+    },
+    {
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.137,
+      "score": 3.1269,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.126,
+      "score": 3.1184,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -253,7 +253,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.1143,
+      "score": 3.1041,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -270,7 +270,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.1012,
+      "score": 3.091,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -287,7 +287,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.0838,
+      "score": 3.0762,
       "observed_samples": 2,
       "observed_avg": 2.8906,
       "prior": 0.0,
