@@ -161,6 +161,51 @@ class SKILLORPipeline:
         except Exception as e:
             logger.error(f"Failed to save video history: {e}")
 
+    def _is_duplicate_title(self, title: str) -> bool:
+        """Return True if `title` is an exact (or near-exact) duplicate of an
+        already-made or currently-scheduled video on this channel.
+
+        2026-08-17: ported from Mr-Nextep — the NS pipeline used to only catch
+        duplicates at upload time (after ~20 min of build work). This guard
+        blocks the run at title-finalization time instead, saving the build
+        slot and protecting retention (a duplicate Short tanks the feed) and
+        inauthentic-content trust.
+        """
+        import re as _re
+
+        def _norm(t: str) -> str:
+            t = _re.sub(r"[\U0001F000-\U0001FAFF\u2600-\u27BF]", " ", str(t or ""))
+            t = _re.sub(r"#[A-Za-z0-9_]+", "", t)
+            # strip common French (and English) series frames
+            t = _re.sub(r"(?i)^(ce qui se passe quand |ce que (la )?science explique sur |comprendre |pourquoi |que se passe-t-il (quand|si) )", "", t)
+            t = _re.sub(r"[^a-z0-9à-ÿ ]", " ", t.lower())
+            return _re.sub(r"\s+", " ", t).strip()
+
+        target = _norm(title)
+        if len(target) < 10:
+            return False
+
+        known = []
+        for v in self.video_history:
+            for k in ("title", "youtube_title", "topic"):
+                val = v.get(k)
+                if val:
+                    known.append(val)
+
+        for candidate in known:
+            c = _norm(candidate)
+            if len(c) < 10:
+                continue
+            if c == target:
+                return True
+            tw = set(target.split())
+            cw = set(c.split())
+            if len(tw) >= 2 and len(cw) >= 2:
+                overlap = len(tw & cw) / min(len(tw), len(cw))
+                if overlap >= 0.85:
+                    return True
+        return False
+
     def _get_recent_topics(self, n: int = 90) -> list:
         """Get recent topics to avoid repetition"""
         return [v.get('topic') for v in self.video_history[-n:] if v.get('topic')]
@@ -591,9 +636,26 @@ class SKILLORPipeline:
                 insights = get_historical_insights()
                 if insights.get('insights'):
                     script_data['historical_insights'] = insights
+                # Phase 1b-bis: Duplicate-title guard (2026-08-17). Never spend
+                # ~20 min of image/video builds on a title that already exists
+                # on this channel (published or scheduled) — a duplicate Short
+                # tanks retention AND is an inauthentic-content risk. Fail the
+                # run here so the next slot retries with a fresh topic.
+                try:
+                    _final_title = script_data.get('title', '') or ''
+                    if self._is_duplicate_title(_final_title):
+                        raise RuntimeError(
+                            f"DUPLICATE TITLE BLOCKED: '{_final_title}' already exists "
+                            "on this channel (published or scheduled). Refusing to "
+                            "publish a duplicate. Pick a new topic and re-run."
+                        )
+                    logger.info("✅ Title passes duplicate guard: %r", _final_title)
+                except RuntimeError:
+                    raise
+                except Exception as _dge:  # guard must never break the run silently
+                    logger.warning(f"Duplicate guard skipped: {_dge}")
             except Exception as e:
                 logger.warning(f"CTR prediction failed: {e}")
-
             # Phase 2: Image Generation
             logger.info("\n🎨 PHASE 2: IMAGE GENERATION")
             image_paths, image_sources, media_types = self._generate_images_with_retry(script_data)
