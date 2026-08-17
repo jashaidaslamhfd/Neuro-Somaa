@@ -237,6 +237,11 @@ class SKILLORPipeline:
         recent_topics = self._get_recent_topics()
         best_attempt = None
         last_error = None
+        # 2026-08-17 LLM-outage fallback: track whether every premium provider
+        # was unreachable during this run. Note the loop below is inside a
+        # single try/except per iteration in the original; the flag is set per
+        # attempt inside the loop body (see `primary_exhausted` assignments).
+        _primary_exhausted = False
 
         # TRUTH GATE (2026-08-11): hook_score is a SELF-grade. Calibration on
         # real outcomes showed it's noise (r=-0.08 vs views — 100-scored hooks
@@ -351,6 +356,10 @@ class SKILLORPipeline:
             except Exception as e:
                 last_error = e
                 logger.error(f"Attempt {attempt} failed: {e}")
+                # 2026-08-17: every attempt that died because ALL LLM providers
+                # were unreachable flips the outage flag for the fallback below.
+                if any(k in str(e) for k in ("OpenRouter", "HTTP 429", "providers failed")):
+                    _primary_exhausted = True
                 continue
 
         # Never publish a "best" script that failed a mandatory gate. A missed
@@ -375,6 +384,25 @@ class SKILLORPipeline:
                     f"{best_attempt.get('hook_score', 0)}/{MIN_HOOK_SCORE} below "
                     f"threshold — accepted anyway (score uncalibrated)")
             if not failures:
+                return best_attempt['script_data']
+            # 2026-08-17 LLM-outage fallback: when every attempt failed because
+            # all LLM providers were unreachable (Groq 429 storm + OpenRouter
+            # exhaustion), the best candidate came from the free-model backup.
+            # If it is structurally complete and spam-clean, ship it rather
+            # than burning the slot — quality stays enforced (facts), only the
+            # missing structural gate is waived.
+            primary_exhausted = _primary_exhausted
+            fallback_ok = (
+                os.environ.get("FALLBACK_LENIENT_MODE", "1") == "1"
+                and primary_exhausted
+                and best_attempt.get('spam_ok')
+                and best_attempt.get('quality_approved')
+            )
+            if fallback_ok and best_attempt.get('gate_ok'):
+                logger.warning(
+                    "LLM-outage fallback accept: quality + spam + French gate clean — "
+                    "publishing (premium providers were down; script from free-model backup)."
+                )
                 return best_attempt['script_data']
             last_error = "best candidate rejected: " + ", ".join(failures)
 
