@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-18T11:29:12.755338Z",
-  "reason": "Duplicate title blocked before upload: 'Pourquoi on entend son c\u0153ur battre la nuit ?' already published as -4pgrbC9uaQ on 2026-07-31T10:17:08.302336+00:00",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 923, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Duplicate title blocked before upload: 'Pourquoi on entend son c\u0153ur battre la nuit ?' already published as -4pgrbC9uaQ on 2026-07-31T10:17:08.302336+00:00\n"
+  "failed_at": "2026-08-18T18:34:24.954553Z",
+  "reason": "First scene exceeds 5.0 seconds",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 732, in run_pipeline\n    raise RuntimeError(\nRuntimeError: First scene exceeds 5.0 seconds\n"
 }

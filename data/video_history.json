@@ -2077,5 +2077,28 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 54,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "1c58e98c7812b5fcb5b0d1aa30284346923ae45a97f47ca6c4cd77f063da764b",
+    "title": "Pourquoi la faim revient \u00e0 la m\u00eame heure ?",
+    "topic": "Ce qu'il faut comprendre sur le retour de la faim \u00e0 la m\u00eame heure",
+    "series_title": "Faim \u00e0 la m\u00eame heure",
+    "base_phenomenon": "le retour de la faim \u00e0 la m\u00eame heure",
+    "nominal_phrase": "le retour de la faim \u00e0 la m\u00eame heure",
+    "question_phrase": "la faim revient \u00e0 la m\u00eame heure",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ta faim revient toujours \u00e0 la m\u00eame heure. C'est ton horloge interne qui d\u00e9clenche l'app\u00e9tit. Chaque soir ton corps lib\u00e8re de la ghr\u00e9line, l'hormone faim. Le pic de ghr\u00e9line arrive 12 h apr\u00e8s ton dernier. Le plus \u00e9trange: ton cerveau anticipe l'heure exacte. C\u2019est ce cycle qui fait revenir ta faim chaque jour.",
+    "posted_at": "2026-08-18T18:46:56.132641+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "30NhLXgz-jo",
+    "publish_at": "2026-08-18T19:00:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.503,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 66,
+    "loop_bridge_present": false
   }
 ]
