@@ -597,6 +597,43 @@ class ThumbnailTextTests(unittest.TestCase):
         )
 
 
+class CorruptedStockClipRecoveryTests(unittest.TestCase):
+    """2026-08-18: a corrupted/truncated Pexels/Pixabay download that slips
+    past the download-time probe used to kill the ENTIRE render inside
+    build_video's scene loop — confirmed live via pipeline_last_failure.json
+    ("Stock clip is corrupted or truncated ... scene_2.mp4") on a run where
+    every other scene had already rendered successfully. moviepy isn't in
+    requirements-ci.txt (too heavy for CI), so this checks the source text
+    directly rather than actually building a video — same pattern as
+    test_video_editor_uses_the_accent_safe_pattern above.
+    """
+
+    def test_cover_video_clip_call_is_guarded(self):
+        source = (SRC_DIR / "video_editor.py").read_text()
+        self.assertIn(
+            "except Exception as _clip_err:", source,
+            "_cover_video_clip() must be called inside a try/except — an "
+            "unguarded call lets one corrupted scene kill the whole render",
+        )
+        # The guard must specifically wrap the video-branch call, not just
+        # exist somewhere else in the file.
+        idx = source.index("scene_visual = _cover_video_clip(img_path, duration)")
+        preceding = source[max(0, idx - 40):idx]
+        self.assertIn("try:", preceding)
+
+    def test_recovery_falls_back_to_ken_burns_not_a_bare_raise(self):
+        source = (SRC_DIR / "video_editor.py").read_text()
+        guard_start = source.index("except Exception as _clip_err:")
+        guard_end = source.index("else:", guard_start)
+        guard_block = source[guard_start:guard_end]
+        self.assertIn("_ken_burns_clip", guard_block,
+                       "recovery path should degrade to a still-frame Ken "
+                       "Burns beat, not just re-raise unconditionally")
+        self.assertIn("raise _clip_err", guard_block,
+                       "if even the still-frame recovery fails, the "
+                       "original error must still surface (no silent skip)")
+
+
 class VisualReuseTests(unittest.TestCase):
     """Five live videos shared visuals at 93-95% similarity even though a
     288-entry media ledger existed: it stored SHA-256, so a re-encoded copy

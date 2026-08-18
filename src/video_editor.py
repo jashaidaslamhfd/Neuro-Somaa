@@ -725,7 +725,55 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         if media_type == "video":
             # Real licensed B-roll: preserve natural movement rather than
             # applying the static-image Ken Burns treatment.
-            scene_visual = _cover_video_clip(img_path, duration)
+            try:
+                scene_visual = _cover_video_clip(img_path, duration)
+            except Exception as _clip_err:
+                # 2026-08-18: this used to be an unguarded call — a single
+                # corrupted/truncated Pexels/Pixabay download (rare, but the
+                # download-time probe in image_generator.py doesn't catch
+                # every case) killed the ENTIRE render after ~19 minutes of
+                # prior work on the other scenes, per pipeline_last_failure.json
+                # in the wild ("Stock clip is corrupted or truncated" on
+                # scene_2.mp4). _validate_scene_mp4's own docstring says the
+                # caller should "fail the single bad scene instead of the
+                # whole pipeline" — this is that missing fallback. ffmpeg can
+                # usually pull at least one intact frame from a truncated
+                # file even when moviepy can't open it as a video stream;
+                # degrade that one scene to a still-image Ken Burns beat
+                # instead of losing the whole video over it.
+                logger.warning(
+                    "Scene %d: stock video unusable (%s) — falling back to "
+                    "a still-frame Ken Burns treatment for this scene only.",
+                    i + 1, _clip_err,
+                )
+                still_path = img_path + ".recovered_still.jpg"
+                try:
+                    subprocess.run(
+                        ["ffmpeg", "-y", "-v", "error", "-i", img_path,
+                         "-frames:v", "1", "-q:v", "3", still_path],
+                        capture_output=True, timeout=30,
+                    )
+                    if not (os.path.exists(still_path) and os.path.getsize(still_path) > 0):
+                        raise RuntimeError("ffmpeg produced no recoverable frame")
+                    Image.open(still_path).verify()  # confirm it's a real image
+                except Exception:
+                    # Nothing recoverable from this file at all — this is the
+                    # one case that still has to fail the video, same as before.
+                    raise _clip_err
+                media_type = "image"
+                img_path = still_path
+                _rng = random.Random(hash(("beat", caption_text)))
+                _split = (first_beat_frac if i == 0
+                          else 0.5 + _rng.uniform(-0.15, 0.15))
+                first_duration = duration * _split
+                second_duration = duration - first_duration
+                first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)
+                second_beat = _ken_burns_clip(
+                    img_path, second_duration,
+                    "out" if direction == "in" else "in", zoom_extra + 0.02)
+                scene_visual = concatenate_videoclips(
+                    [first_beat, second_beat], method="compose"
+                ).set_duration(duration)
         else:
             # AI/static image: two motion beats make the scene feel alive.
             # 2026-08-15: beats are no longer a mechanical 50/50 split — a
