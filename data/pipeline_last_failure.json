@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-18T18:34:24.954553Z",
-  "reason": "First scene exceeds 5.0 seconds",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 732, in run_pipeline\n    raise RuntimeError(\nRuntimeError: First scene exceeds 5.0 seconds\n"
+  "failed_at": "2026-08-18T19:58:08.813474Z",
+  "reason": "Narration is 32.9s; refusing destructive speed-up. Regenerate a script that fits the 29s target.",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 840, in run_pipeline\n    final_video = build_video(\n                  ^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/video_editor.py\", line 960, in build_video\n    raise RuntimeError(\nRuntimeError: Narration is 32.9s; refusing destructive speed-up. Regenerate a script that fits the 29s target.\n"
 }
