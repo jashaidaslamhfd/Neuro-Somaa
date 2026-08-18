@@ -1966,7 +1966,16 @@
     "predicted_retention": 0.682,
     "hook_arm": "question",
     "hook_score_v2": 80,
-    "loop_bridge_present": false
+    "loop_bridge_present": false,
+    "views_prev": null,
+    "views_per_day": null,
+    "growth_state": "first_read",
+    "views": 752,
+    "actual_ctr": null,
+    "average_view_duration_sec": 8,
+    "average_view_percentage": 39.49,
+    "analytics_fetched_at": "2026-08-18T05:53:00.946828+00:00",
+    "analytics_via": "analytics"
   },
   {
     "content_fingerprint": "f2f00ab24c610a0170a47fa640a8a8937951f682699f0a9098efa18d591c77d9",
@@ -2012,7 +2021,16 @@
     "predicted_retention": 0.615,
     "hook_arm": "pov_reveal",
     "hook_score_v2": 54,
-    "loop_bridge_present": false
+    "loop_bridge_present": false,
+    "views_prev": null,
+    "views_per_day": null,
+    "growth_state": "first_read",
+    "views": 706,
+    "actual_ctr": null,
+    "average_view_duration_sec": 11,
+    "average_view_percentage": 39.18,
+    "analytics_fetched_at": "2026-08-18T05:53:01.658140+00:00",
+    "analytics_via": "analytics"
   },
   {
     "content_fingerprint": "1408c1aa2b3ae74d466aa18e2ea79b45ae9c5a02160bdd42d41523012d0769ef",
