@@ -11,7 +11,6 @@ manage them — the daily sync simply overwrites.
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]

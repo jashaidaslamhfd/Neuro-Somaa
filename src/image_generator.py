@@ -127,7 +127,7 @@ def _layer_ai_video(index, scene_text, image_path: str | None = None, topic=""):
     first, the rest stay on lightweight Ken Burns to protect build time
     (6-min GitHub Actions limit) and Pollen budget.
     """
-    from image_providers import gen_pollinations_video, RateLimitError as _RL
+    from image_providers import gen_pollinations_video
     max_ai_video = int(os.environ.get("AI_VIDEO_SCENES", "5"))
     if index >= max_ai_video:
         raise RuntimeError(f"AI video skipped: scene {index} beyond AI_VIDEO_SCENES={max_ai_video}")

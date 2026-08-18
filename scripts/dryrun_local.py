@@ -5,7 +5,7 @@ Groq key nahi hai sandbox mein, isliye script fixture (valid LLM-shaped dict)
 use karta hai aur SEO → images → voice → video → quality gates ko end-to-end
 chala kar verify karta hai. YouTube ko touch nahi karta.
 """
-import os, sys, json, time
+import os, sys, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -129,7 +129,6 @@ def calibrate_scores(history: list[dict]) -> dict:
         }
         # systematic bias for probabilistic predictions (0..1 vs 0..100 scale)
         if field == "predicted_retention" and preds and rets:
-            actual = [r[2] / 100 for r in rows if r[2] is not None]
             both = [(p, a) for p, a in
                     ((r[0], r[2] / 100) for r in rows) if a is not None]
             if both:

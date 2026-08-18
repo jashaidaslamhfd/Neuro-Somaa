@@ -265,7 +265,6 @@ class WorkflowRegressionTests(unittest.TestCase):
         self.assertIn("def groq_model_chain", src)
 
     def test_no_hardcoded_retired_models_in_code(self):
-        import re
         retired = ("llama-3.1-8b-instant", "llama-3.3-70b-versatile")
         for path in ("src/script_generator.py", "src/niche_strategy.py",
                      "scripts/channel_seo_audit.py"):
@@ -349,7 +348,6 @@ class StoryArcTests(unittest.TestCase):
             # (58 words fails against the old 88-word floor).
             os.environ["TARGET_MIN_SECONDS"] = "20"
             os.environ["TARGET_MAX_SECONDS"] = "26"
-            import importlib
             self.sg = importlib.import_module("script_generator")
             importlib.reload(self.sg)
         except ModuleNotFoundError as exc:

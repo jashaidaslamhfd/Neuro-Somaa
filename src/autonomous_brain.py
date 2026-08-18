@@ -19,7 +19,7 @@ def get_performance_weights():
     try:
         with open(HISTORY_PATH, encoding="utf-8") as f:
             history = json.load(f)
-    except:
+    except (OSError, json.JSONDecodeError):
         return {}
 
     topic_stats = {}

@@ -20,10 +20,9 @@ Run:  python scripts/ml_brain.py                    # train + report
 import json
 import os
 import re
-import math
 import hashlib
 import logging
-from collections import Counter, defaultdict
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Any
@@ -164,7 +163,7 @@ class FeatureExtractor:
         bigrams = ["".join(words[i : i + 2]) for i in range(len(words) - 1)]
         for i in range(16):
             if i < len(bigrams):
-                h = int(hashlib.md5(bigrams[i].encode()).hexdigest()[:4], 16) % 1000
+                h = int(hashlib.md5(bigrams[i].encode(), usedforsecurity=False).hexdigest()[:4], 16) % 1000
                 features.append(h / 1000.0)
             else:
                 features.append(0.0)
@@ -414,7 +413,12 @@ class MLBrain:
         # 2. Feature extraction
         X = self.extractor.extract_all(topics)
         y_views = np.array(views, dtype=np.float64)
-        y_retention = np.array(retention, dtype=np.float64)
+        # Note: retention data is loaded (`retention` var above) but this
+        # class only ever trained a views predictor — a matching
+        # y_retention array was built here but never fed into any model
+        # (dead code, flagged by flake8 F841). Removed rather than wiring
+        # up a retention model that was never actually implemented, since
+        # that would be a new feature, not a bug fix.
 
         # Log-transform views (long-tailed distribution)
         y_views_log = np.log1p(y_views)
@@ -423,7 +427,6 @@ class MLBrain:
         logger.info("\n── Training Views Predictor (Ridge) ──")
         self.views_model = RidgeRegression(alpha=0.5)
         self.views_model.fit(X, y_views_log)
-        pred_views_log = self.views_model.predict(X)
         self.views_r2 = self.views_model.score(X, y_views_log)
         logger.info("  Views R² (log space): %.3f", self.views_r2)
         logger.info("  Top 5 feature importances (views):")

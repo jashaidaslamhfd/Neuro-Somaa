@@ -94,7 +94,18 @@ def gen_huggingface(prompt, seed, scene_text=None):
         raise RuntimeError("HF_API_KEY not set")
     text = scene_text or prompt.replace("_", " ")
     headers = {"Authorization": f"Bearer {hf_key}"}
-    response = requests.post(HF_API_URL, headers=headers, json={"inputs": text}, timeout=REQUEST_TIMEOUT)
+    # 2026-08-17 video-quality fix: without an explicit size, most HF
+    # diffusion models default to a 1024x1024 SQUARE image. video_editor's
+    # _cover_fit then center-crops that to the 1080x1920 vertical canvas,
+    # throwing away ~44% of the image's width (and whatever the subject
+    # was standing near the edges) on every scene that lands on this
+    # provider. Request the vertical aspect directly instead — 896x1584 is
+    # a multiple of 8 close to the 9:16 target most SDXL-class models accept.
+    payload = {
+        "inputs": text,
+        "parameters": {"width": 896, "height": 1584},
+    }
+    response = requests.post(HF_API_URL, headers=headers, json=payload, timeout=REQUEST_TIMEOUT)
     if response.status_code == 429:
         raise RateLimitError("HuggingFace: rate limited")
     if response.status_code == 200 and response.headers.get("content-type", "").startswith("image"):
@@ -111,9 +122,20 @@ def gen_gemini(prompt, seed, scene_text=None):
     if not gemini_key:
         raise RuntimeError("GEMINI_API_KEY not set")
     text = scene_text or prompt.replace("_", " ")
+    # 2026-08-17 video-quality fix: the old prompt only ASKED for "vertical"
+    # in prose, which this model frequently ignores, returning a square
+    # image that then loses ~44% of its width to center-crop when fit onto
+    # the 1080x1920 canvas. imageConfig.aspectRatio is the actual control
+    # knob for Gemini image generation; setting it directly is far more
+    # reliable than hoping the prompt wording is honored.
     payload = {
-        "contents": [{"parts": [{"text": f"Generate a photorealistic vertical image: {text}"}]}],
-        "generationConfig": {"responseModalities": ["IMAGE"]},
+        "contents": [{"parts": [{
+            "text": f"Generate a photorealistic image, portrait orientation: {text}"
+        }]}],
+        "generationConfig": {
+            "responseModalities": ["IMAGE"],
+            "imageConfig": {"aspectRatio": "9:16"},
+        },
     }
     url = f"{GEMINI_IMAGE_URL}?key={gemini_key}"
     response = requests.post(url, json=payload, timeout=REQUEST_TIMEOUT)
@@ -143,9 +165,13 @@ def gen_deepai(prompt, seed, scene_text=None):
     if not api_key:
         raise RuntimeError("DEEPAI_API_KEY not set")
     text = scene_text or prompt.replace("_", " ")
+    # 2026-08-17 video-quality fix: DeepAI's text2img has no reliable
+    # width/height API parameter, so the aspect ratio has to be steered
+    # through the prompt itself — otherwise this defaults to a square
+    # image and loses ~44% of its width to the vertical center-crop.
     resp = requests.post(
         "https://api.deepai.org/api/text2img",
-        data={"text": text},
+        data={"text": f"{text}, vertical 9:16 portrait composition"},
         headers={"api-key": api_key},
         timeout=60,
     )
@@ -184,7 +210,6 @@ _horde_key_invalidated = [False]
 
 
 def gen_ai_horde(prompt, seed, scene_text=None):
-    global _horde_key_invalidated
     text = (scene_text or prompt.replace("_", " "))[:1000]
     headers = {"apikey": os.environ.get("AI_HORDE_API_KEY", _HORDE_ANON_KEY)}
 
@@ -309,12 +334,19 @@ def gen_modelslab(prompt, seed, scene_text=None):
     if not api_key:
         raise RuntimeError("MODELSLAB_API_KEY not set")
     text = scene_text or prompt.replace("_", " ")
+    # 2026-08-17 video-quality fix: this was requesting a literal 1024x1024
+    # SQUARE image against a 1080x1920 vertical Shorts canvas — video_editor's
+    # _cover_fit center-crops that down to ~56% of its width, cutting off
+    # whatever the subject was near the edges on every scene this provider
+    # served. 768x1344 is a multiple of 64 (required by the underlying SD
+    # models) and matches the same near-9:16 tier already used successfully
+    # for AI-Horde's top resolution.
     payload = {
         "key": api_key,
         "prompt": text,
         "negative_prompt": "blurry, low quality, watermark",
-        "width": "1024",
-        "height": "1024",
+        "width": "768",
+        "height": "1344",
         "samples": "1",
         "safety_checker": "no",
     }
@@ -346,7 +378,11 @@ def gen_replicate(prompt, seed, scene_text=None):
     resp = requests.post(
         "https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions",
         headers=headers,
-        json={"input": {"prompt": text}},
+        # 2026-08-17 video-quality fix: flux-schnell defaults to a 1024x1024
+        # square image without this. aspect_ratio is a documented input on
+        # this model — "9:16" matches the Shorts canvas directly instead of
+        # relying on video_editor's center-crop to fix it up after the fact.
+        json={"input": {"prompt": text, "aspect_ratio": "9:16"}},
         timeout=30,
     )
     if resp.status_code == 429:

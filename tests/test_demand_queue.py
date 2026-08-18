@@ -1,6 +1,5 @@
 """Tests for the real French search-demand topic queue (2026-08-11)."""
 
-import json
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -75,11 +74,21 @@ class DemandBackedSeoTests(unittest.TestCase):
 
     def test_optimizer_uses_measured_demand_first(self):
         import fr_batch_optimize as fbo
-        ph = fbo._demand_phrases_for("Pourquoi on se réveille à 3h du matin",
-                                     "Pourquoi on se réveille à 3h du matin ?")
-        # 2026-08-15: the queue rotates (consumed entries drop out, the 4-day
-        # refresh re-mines), so the 3AM entry now resolves via live mining of
-        # the video's OWN topic — expect the canonical accented query phrase.
+        # 2026-08-17: this test used to rely on the LIVE queue file still
+        # containing the "3h du matin" entry, falling back to an UNMOCKED
+        # network call (_mine_live_demand) when the queue rotated it out.
+        # That's exactly the non-determinism truth-SEO doctrine forbids
+        # elsewhere in this file (see LiveDemandMiningTests, which mocks
+        # requests.get for the same function) — a passing/failing result
+        # here depended on queue rotation state and live network
+        # availability, not on the code under test. Mock the same way the
+        # rest of this file already does.
+        with mock.patch.object(
+            fbo, "_mine_live_demand",
+            return_value=["pourquoi on se réveille à 3h du matin",
+                          "réveil nocturne 3h du matin sans raison"]):
+            ph = fbo._demand_phrases_for("Pourquoi on se réveille à 3h du matin",
+                                         "Pourquoi on se réveille à 3h du matin ?")
         self.assertTrue(any("réveille" in p and "3h du matin" in p for p in ph))
         tags = fbo._optimize_tags([], "Pourquoi on se réveille à 3h du matin ?",
                                   "le réveil à 3h du matin sans raison",

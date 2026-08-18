@@ -7,7 +7,6 @@ beats the observed one. Ideal for n≈10-40 channel experiments.
 """
 from __future__ import annotations
 
-import math
 import random
 
 

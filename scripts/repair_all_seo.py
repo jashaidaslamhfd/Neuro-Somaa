@@ -33,13 +33,10 @@ import json
 import os
 import re
 import sys
-import time
-import hashlib
 import logging
-from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional
 
 import requests
 
@@ -238,24 +235,24 @@ def generate_youtube_description(title: str, topic: str) -> str:
 
     # Line 2-3: What viewers learn
     if body_kws:
-        lines.append(f"")
+        lines.append("")
         lines.append(f"Your {body_kws[0] if body_kws else 'body'} does something "
                      f"strange every day. Here's the real science behind "
                      f"{topic_clean.lower()}.")
 
     # Line 4-5: Keywords for search
-    lines.append(f"")
+    lines.append("")
     all_kws = body_kws[:3] + sci_kws[:2]
     if all_kws:
         lines.append(f"Topics: {', '.join(all_kws)} | body science | everyday biology")
 
     # Line 6: CTA
     import random
-    lines.append(f"")
+    lines.append("")
     lines.append(random.choice(YOUTUBE_RULES["cta_templates"]))
 
     # Line 7: Hashtags
-    lines.append(f"")
+    lines.append("")
     lines.append(" ".join(YOUTUBE_RULES["hashtags"]))
 
     desc = "\n".join(lines)
@@ -444,9 +441,15 @@ class FacebookRepair:
         })
 
         if title:
-            r2 = self._graph_post(reel_id, {
+            title_result = self._graph_post(reel_id, {
                 "title": title[:80],
             })
+            # 2026-08-17 bugfix: this call's result used to be thrown away
+            # (`r2 = ...` was never read) — a failed title update silently
+            # reported success as long as the caption update worked.
+            if "error" in title_result:
+                err = title_result.get("error", {})
+                return {"error": err.get("message", str(title_result)), "reel_id": reel_id}
 
         if "error" in result:
             err = result.get("error", {})
@@ -578,8 +581,8 @@ class SEO2026RepairEngine:
                     result["applied"] = True
 
                     # Also add comment seed
-                    comment = (f"Your body is incredible! 🧬 "
-                              f"What other weird body things should I explain next?")
+                    comment = ("Your body is incredible! 🧬 "
+                               "What other weird body things should I explain next?")
                     cmt_result = self.yt.add_comment(vid, comment)
                     result["comment"] = cmt_result.get("ok", False)
                 else:

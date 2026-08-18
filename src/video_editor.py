@@ -797,7 +797,6 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 # The ffprobe gate above already caught that, but keep a
                 # defensive guard so any late I/O failure degrades to a
                 # plain image hold instead of burning the run.
-                _still = None
                 try:
                     _src = VideoFileClip(img_path, audio=False)
                     still_frame = _src.get_frame(

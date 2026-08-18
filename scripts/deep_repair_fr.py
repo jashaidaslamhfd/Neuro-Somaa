@@ -41,8 +41,10 @@ def _api(path, token, method="GET", body=None):
 def repair_video(vid, current_snip, token):
     title = current_snip.get("title", "")
     desc = current_snip.get("description", "")
-    tags = current_snip.get("tags", [])
-    
+    # Note: this legacy repair pass only touches title/description/language.
+    # Tag repair lives in the newer fr_batch_optimize.py / repair_all_seo.py
+    # (measured-demand-backed tags); removed a `tags = ...` read here that
+    # was fetched but never actually used (flake8 F841).
     needs_fix = False
     
     # 1. Title SEO (French Curiosity Pattern)

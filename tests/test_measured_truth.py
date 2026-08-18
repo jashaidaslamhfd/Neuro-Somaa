@@ -3,7 +3,6 @@ REAL measured outcomes, and every analytics sync must record whether a video
 is still growing or has stalled ('views ruk gaye' must be a measured fact)."""
 
 import datetime as dt
-import json
 import sys
 import unittest
 from pathlib import Path

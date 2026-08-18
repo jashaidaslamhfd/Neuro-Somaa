@@ -339,7 +339,7 @@ class AntiSpamSystem:
         Get hash of video content for quick comparison.
         """
         content = (video.get('title', '') + video.get('voiceover', '')).lower()
-        return hashlib.md5(content.encode()).hexdigest()
+        return hashlib.md5(content.encode(), usedforsecurity=False).hexdigest()
     
     def generate_anti_spam_report(self, video: dict, previous_videos: list[dict]) -> str:
         """

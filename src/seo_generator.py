@@ -6,7 +6,7 @@ import os
 import random
 import re
 
-from french_quality_gate import has_french_verb, is_french_question_without_verb
+from french_quality_gate import has_french_verb
 
 logger = logging.getLogger(__name__)
 

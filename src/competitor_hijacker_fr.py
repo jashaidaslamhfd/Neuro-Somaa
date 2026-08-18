@@ -1,11 +1,9 @@
 import json
-import os
 import re
 import urllib.parse
 import urllib.request
 import logging
 from pathlib import Path
-from datetime import datetime, timezone
 
 ROOT = Path(__file__).resolve().parents[1]
 COMPETITOR_INTEL_PATH = ROOT / "data" / "competitor_intel_fr.json"

@@ -12,15 +12,12 @@
 
 import json
 import os
-import re
-import sys
 import time
-import hashlib
 import logging
-from collections import Counter, defaultdict
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Set, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import requests
 import numpy as np
@@ -179,6 +176,20 @@ SUBNICHES = {
         ],
     },
 }
+
+# 2026-08-17 bugfix: analyze_demand() referenced these two names without
+# either ever being defined anywhere in this file — a guaranteed NameError
+# crash the very first time the opportunity-scoring loop ran. Neither
+# is fabricated data (we have no verified 2026 industry research or
+# audience-fit study to hardcode); they're the neutral no-signal defaults
+# that make the surrounding .get(..., default) fallbacks in analyze_demand()
+# behave the same way they were clearly written to assume: no external
+# research available -> score on the OTHER four factors only, don't crash
+# and don't pretend to have a competition/growth/CPM/audience-fit signal
+# that hasn't actually been measured. Fill these in for real once
+# real per-niche research (or measured audience-fit data) exists.
+EXTERNAL_NICHE_INTEL: Dict[str, Dict[str, Any]] = {}
+AUDIENCE_TARGET: Dict[str, List[str]] = {"best_fit_subniches": []}
 
 # ═══════════════════════════════════════════════════════════════════
 # NICHE INTELLIGENCE ENGINE
@@ -359,8 +370,11 @@ class NicheIntelligence:
                     "top_views": 0, "opportunity": 0, "note": "no search data (likely quota)"
                 }
                 # if every search is failing, assume quota exhausted -> stop
-                if any("quota" in str(getattr(r, "get", lambda k: "")(k)) for r in []):
-                    pass
+                # 2026-08-17: removed a dead `for r in []` expression here
+                # that referenced an undefined `k` (flake8 F821) — it never
+                # ran (empty-list loop) but was a NameError waiting to
+                # happen if anyone "fixed" the empty list without noticing.
+                # The actual behavior was always just this heuristic:
                 quota_hit = True  # heuristic: no results at quota-exhausted point
                 continue
             channels = set(r["channel"] for r in results if r.get("channel"))
@@ -722,10 +736,10 @@ class NicheIntelligence:
             print(f"     Our Videos: {target['our_coverage']} | Gap: {target['gap']}")
             print(f"     Competitors Avg: {target['competitor_avg_views']:,} views")
             print(f"     ⇒ Make {target['recommended_videos']} videos in this niche")
-            print(f"     Content Angles:")
+            print("     Content Angles:")
             for angle in target.get("content_angles", [])[:3]:
                 print(f"       • {angle}")
-            print(f"     Sample Topics:")
+            print("     Sample Topics:")
             for idea in target.get("sample_topics", [])[:4]:
                 print(f"       ✏️  {idea}")
         
@@ -909,7 +923,7 @@ def main():
     
     print("\n✅ DONE! Niche intelligence ready.")
     print(f"   Report: {NICHE_INTEL_PATH}")
-    print(f"   Run 'python scripts/niche_intel.py' to refresh daily.")
+    print("   Run 'python scripts/niche_intel.py' to refresh daily.")
 
 
 if __name__ == "__main__":

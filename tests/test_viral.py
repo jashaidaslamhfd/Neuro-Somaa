@@ -22,7 +22,7 @@ class HookArmTests(unittest.TestCase):
         self.assertIn(a, HOOK_ARMS)
 
     def test_arms_distribute_across_topics(self):
-        from viral_engineering import HOOK_ARMS, hook_arm_for_topic
+        from viral_engineering import hook_arm_for_topic
         arms = {hook_arm_for_topic(f"Pourquoi le sujet numéro {i} ?") for i in range(30)}
         self.assertGreater(len(arms), 1, "30 topics produced a single arm — rotation broken")
 
