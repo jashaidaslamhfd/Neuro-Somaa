@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-17T05:59:45.264337+00:00",
+  "generated_at_utc": "2026-08-18T05:53:48.530508+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,8 +11,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.1737,
-      "samples": 19,
+      "score": 3.1828,
+      "samples": 20,
       "confident": true,
       "prior": 0.0
     },
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3519,
+      "score": 3.3529,
       "samples": 13,
       "confident": true,
-      "prior": 3.4665
+      "prior": 3.4707
     },
     {
       "rank": 3,
@@ -35,10 +35,10 @@
       "hour": 21,
       "minute": 0,
       "name": "Dynamique 21:00",
-      "score": 3.2944,
+      "score": 3.297,
       "samples": 4,
       "confident": true,
-      "prior": 3.2665
+      "prior": 3.2707
     }
   ],
   "ranked_slots": [
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3519,
+      "score": 3.3529,
       "observed_samples": 13,
       "observed_avg": 3.3167,
-      "prior": 3.4665,
+      "prior": 3.4707,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -75,10 +75,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.2944,
+      "score": 3.297,
       "observed_samples": 4,
       "observed_avg": 3.3363,
-      "prior": 3.2665,
+      "prior": 3.2707,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -104,9 +104,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.2748,
-      "observed_samples": 14,
-      "observed_avg": 3.2748,
+      "score": 3.2781,
+      "observed_samples": 15,
+      "observed_avg": 3.2781,
       "prior": 0.0,
       "examples": [
         {
@@ -133,7 +133,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2738,
+      "score": 3.2771,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2589,
+      "score": 3.2622,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -167,7 +167,7 @@
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2029,
+      "score": 3.2062,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -184,9 +184,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.1737,
-      "observed_samples": 19,
-      "observed_avg": 3.1737,
+      "score": 3.1828,
+      "observed_samples": 20,
+      "observed_avg": 3.1828,
       "prior": 0.0,
       "examples": [
         {
@@ -213,7 +213,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1269,
+      "score": 3.1302,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.1184,
+      "score": 3.1209,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -253,7 +253,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 3.1041,
+      "score": 3.1075,
       "observed_samples": 1,
       "observed_avg": 2.7212,
       "prior": 0.0,
@@ -270,7 +270,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.091,
+      "score": 3.0944,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -287,7 +287,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.0762,
+      "score": 3.0787,
       "observed_samples": 2,
       "observed_avg": 2.8906,
       "prior": 0.0,
