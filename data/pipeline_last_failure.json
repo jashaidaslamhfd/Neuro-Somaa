@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-18T07:20:42.690784Z",
-  "reason": "Narration is 33.3s; refusing destructive speed-up. Regenerate a script that fits the 29s target.",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 840, in run_pipeline\n    final_video = build_video(\n                  ^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/video_editor.py\", line 960, in build_video\n    raise RuntimeError(\nRuntimeError: Narration is 33.3s; refusing destructive speed-up. Regenerate a script that fits the 29s target.\n"
+  "failed_at": "2026-08-18T11:29:12.755338Z",
+  "reason": "Duplicate title blocked before upload: 'Pourquoi on entend son c\u0153ur battre la nuit ?' already published as -4pgrbC9uaQ on 2026-07-31T10:17:08.302336+00:00",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 923, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Duplicate title blocked before upload: 'Pourquoi on entend son c\u0153ur battre la nuit ?' already published as -4pgrbC9uaQ on 2026-07-31T10:17:08.302336+00:00\n"
 }
