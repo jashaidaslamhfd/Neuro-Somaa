@@ -9,7 +9,7 @@
 groq>=0.9.0
 
 # ---- Text-to-Speech ----
-# Kokoro = moteur de production (rapide sur CPU, voix française ff_siwis).
+# Kokoro = legacy ; Chatterbox (voir plus bas) est le moteur principal depuis 2026-08-19.
 # torch est une dépendance obligatoire de Kokoro, donc il reste ici.
 kokoro>=0.7.0,<0.8.0
 torch>=2.1.2
@@ -54,6 +54,14 @@ python-dotenv>=1.0.0
 
 # NOTE: `google-genai` supprimé — rien dans le code ne l'importe (les images
 # Gemini passent par l'endpoint REST dans image_providers.py).
-# NOTE: chatterbox-tts / torchaudio / transformers / resemble-perth /
-# playwright déplacés dans requirements-optional.txt — imports paresseux,
-# inutiles sur les runners CPU (TTS_ENGINE=kokoro).
+
+# ---- Chatterbox (moteur vocal PRINCIPAL depuis 2026-08-19) ----
+# Voix par défaut = narrateur professionnel RÉELLEMENT enregistré (MIT,
+# 23 langues, préféré à ElevenLabs en évaluation double aveugle). Le modèle
+# (~2 Go) se télécharge au premier appel via import paresseux dans
+# voice_generator._get_chatterbox(). edge-tts (plus haut) reste le filet
+# de sécurité du runner.
+chatterbox-tts>=0.1.7
+torchaudio>=2.1.0
+transformers>=4.40.0
+resemble-perth>=1.0.1

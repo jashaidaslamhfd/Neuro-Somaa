@@ -71,9 +71,9 @@ def _env_float(name: str, default: float, minimum: float, maximum: float) -> flo
     return value
 
 
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.35, 0.0, 1.0)
-CHATTERBOX_CFG_WEIGHT = _env_float("CHATTERBOX_CFG_WEIGHT", 0.70, 0.0, 1.0)
-CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.60, 0.05, 1.5)
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.30, 0.0, 1.0)
+CHATTERBOX_CFG_WEIGHT = _env_float("CHATTERBOX_CFG_WEIGHT", 0.45, 0.0, 1.0)
+CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.55, 0.05, 1.5)
 
 # Chatterbox has no native speed control. atempo changes tempo while keeping
 # pitch, so 0.96 is slightly calmer than normal without sounding slow or
@@ -442,10 +442,13 @@ def _synthesize_chatterbox(text: str, attempt: int = 1) -> tuple:
     if peak > 1.0:
         audio = audio / peak * 0.95
 
-    # 2026-08-17: mature the default (non-cloned) voice; a real creator clone
-    # is never pitch-shifted so the identity stays intact.
-    if not use_clone:
-        audio = _mature_voice(audio, model.sr)
+    # 2026-08-19: the professional default voice is a REAL recorded narrator -
+    # never pitch-shift it (maturing is for synthetic edge-tts timbres only);
+    # a real creator clone is also never pitch-shifted so identity stays intact.
+    if use_clone:
+        logger.info("Chatterbox: real creator clone in use - no post-processing.")
+    else:
+        logger.info("Chatterbox: professional default narrator voice - no post-processing (real recorded voice).")
     return audio, model.sr
 
 
@@ -650,11 +653,16 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
               topic: str = "", seg_index: int = 0, seg_total: int = 0):
     """Synthesize a single segment with retry logic.
 
-    FLOW:
-      1. Chatterbox + cloned voice reference — try up to CHATTERBOX_MAX_RETRIES
-         times (default 3) with CHATTERBOX_RETRY_DELAY seconds between attempts.
-      2. If ALL Chatterbox attempts fail → Kokoro (no retries, one shot).
-      3. If Kokoro also fails → RuntimeError (NO silent silence insertion).
+    FLOW (2026-08-19):
+      1. TTS_ENGINE=chatterbox (default): Chatterbox professional narrator
+         (cloned if VOICE_REFERENCE_PATH is valid) x3 → edge-tts Henri adult
+         pool → RuntimeError.
+      2. TTS_ENGINE=edge: edge-tts Henri adult pool (legacy/reliable mode) →
+         RuntimeError.
+      3. TTS_ENGINE=kokoro: Kokoro one shot (legacy debug mode).
+      A Chatterbox failure NEVER misses a slot: edge-tts is the proven
+      runner-safe safety net. Mixed engines in one video are rejected by
+      generate_voice_segments (consistent timbre).
 
     Returns (audio, sample_rate, engine_used) so callers/logs can tell
     which engine actually produced a given segment.
@@ -675,11 +683,18 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     #   * edge   -> Microsoft neural French (primary, reliable, no truncation)
     #   * kokoro -> Kokoro French (fallback engine)
     #   * (any other / unset) -> edge primary, kokoro fallback
-    # Kokoro 0.7.x was producing ~0.50s blips per caption -> a ~3s voiceover on
-    # a 17s video (silent/stuck-visual Shorts). edge-tts is the robust default;
-    # kokoro remains available via TTS_ENGINE=kokoro and as a last resort.
-    engine_choice = os.environ.get("TTS_ENGINE", "edge").strip().lower()
+    # 2026-08-19: Chatterbox (default voice = real recorded professional
+    # narrator) is now the primary engine; Kokoro 0.7.x blips and synthetic
+    # edge timbre are both superseded. edge-tts stays as the zero-fail safety
+    # net; kokoro remains via TTS_ENGINE=kokoro for legacy scenarios.
+    engine_choice = os.environ.get("TTS_ENGINE", "chatterbox").strip().lower()
     prefer_kokoro = engine_choice == "kokoro"
+    # 2026-08-19: CHATTERBOX IS NOW THE PRIMARY ENGINE. Its default voice is a
+    # REAL professionally recorded narrator (23-language multilingual model,
+    # beats ElevenLabs in blind evals) - no more synthetic edge-tts timbre.
+    # edge-tts Henri pool remains the proven reliable fallback when Chatterbox
+    # can't load on the runner, so no slot is ever missed.
+    prefer_chatterbox = engine_choice in ("chatterbox", "chatterbox_fr")
     prefer_edge = engine_choice in ("edge", "edge_fr", "edge-tts")
     chatterbox_errors = []
     # 2026-08-17: mature adult voice rotation (deterministic per topic).
@@ -697,7 +712,13 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             logger.warning("edge-tts primary failed: %s", exc)
             return None, None
 
-    if prefer_edge or (not prefer_kokoro):
+    if prefer_kokoro:
+        seg_speed = speed * _delivery_multiplier(text, seg_index, seg_total)
+        audio, sr = _synthesize_kokoro(narration_text, voice, seg_speed)
+        return audio, sr, "kokoro_fr"
+
+    if prefer_edge:
+        # edge-tts primary (legacy mode, kept for debugging/outage scenarios).
         audio, sr = _try_edge()
         if audio is not None:
             # 2026-08-17: mature any synthetic default voice (no clone in use);
@@ -705,12 +726,8 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             audio = _mature_voice(audio, sr)
             return audio, sr, "edge_fr"
 
-    if prefer_kokoro:
-        seg_speed = speed * _delivery_multiplier(text, seg_index, seg_total)
-        audio, sr = _synthesize_kokoro(narration_text, voice, seg_speed)
-        return audio, sr, "kokoro_fr"
-
-    # ---- STEP 1: explicitly enabled cloned voice ----
+    # ---- STEP 1: Chatterbox primary (explicitly enabled OR default engine) ----
+    # Note: the default path (`TTS_ENGINE` unset/other) also lands here.
     for attempt in range(1, CHATTERBOX_MAX_RETRIES + 1):
         try:
             audio, sr = _synthesize_chatterbox(narration_text, attempt=attempt)
@@ -725,64 +742,62 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
                 logger.info(f"Waiting {CHATTERBOX_RETRY_DELAY}s before retry...")
                 time.sleep(CHATTERBOX_RETRY_DELAY)
 
-    logger.error(
-        f"All {CHATTERBOX_MAX_RETRIES} Chatterbox attempts failed. Errors: "
-        + " | ".join(chatterbox_errors)
-    )
-
-    # ---- STEP 2: Kokoro fallback (one shot) ----
-    logger.info("Falling back to Kokoro TTS engine...")
-    try:
-        seg_speed = speed * _delivery_multiplier(text, seg_index, seg_total)
-        audio, sr = _synthesize_kokoro(narration_text, voice, seg_speed)
-        logger.info("Kokoro fallback SUCCESS")
-        return audio, sr, "kokoro"
-    except Exception as kokoro_err:
-        # ---- STEP 2.5: edge-tts cloud fallback (added 2026-08-02 audit) ----
-        # Previously a Chatterbox+Kokoro double failure raised a HARD error and
-        # killed the whole video even though edge-tts (a free, reliable
-        # Microsoft endpoint already in requirements) was sitting unused.
-        try:
-            import edge_tts as _edge
-            import asyncio as _asyncio
-
-            async def _collect():
-                chunks = []
-                c = _edge.Communicate(narration_text, "fr-FR-HenriNeural",
-                                      rate="-5%")
-                async for chunk in c.stream():
-                    if chunk["type"] == "audio":
-                        chunks.append(chunk["data"])
-                return b"".join(chunks)
-
-            mp3_bytes = _asyncio.run(_collect())
-            if len(mp3_bytes) < 4000:
-                raise RuntimeError("edge-tts returned empty audio")
-
-            # decode mp3 -> wav via ffmpeg-free path: moviepy's AudioFileClip
-            # can read mp3 directly, but we need raw numpy for the pipeline.
-            # Simplest reliable path: write mp3, use ffmpeg (system dep).
-            import subprocess, tempfile
-            with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
-                fh.write(mp3_bytes)
-                mp3_path = fh.name
-            wav_path = mp3_path + ".wav"
-            subprocess.run(
-                ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
-                 "-acodec", "pcm_s16le", wav_path],
-                check=True, capture_output=True)
-            import soundfile as _sf
-            audio, sr = _sf.read(wav_path)
-            logger.info("edge-tts fallback SUCCESS (fr-FR-HenriNeural)")
+    if not prefer_edge:
+        logger.error(
+            f"All {CHATTERBOX_MAX_RETRIES} Chatterbox attempts failed. Errors: "
+            + " | ".join(chatterbox_errors)
+        )
+        # 2026-08-19: never miss a slot - edge-tts is the guaranteed reliable
+        # fallback after Chatterbox (it's the proven runner-safe engine).
+        logger.info("Falling back to edge-tts (reliable runner-safe engine)...")
+        audio, sr = _try_edge()
+        if audio is not None:
             audio = _mature_voice(audio, sr)
             return audio, sr, "edge_fr"
-        except Exception as edge_err:
-            # ---- STEP 3: Both engines failed — NO SILENCE, raise hard error ----
-            error_msg = (
+
+    # TTS_ENGINE=edge and Chatterbox failed/never tried: fall through to the
+    # edge-tts cloud fallback below so no slot is missed.
+    kokoro_err = "skipped (edge-tts mode preferred; Chatterbox unavailable or failed)"
+    # ---- EDGE-TTS CLOUD FALLBACK (added 2026-08-02 audit) ----
+    try:
+        import edge_tts as _edge
+        import asyncio as _asyncio
+
+        async def _collect():
+            chunks = []
+            c = _edge.Communicate(narration_text, "fr-FR-HenriNeural",
+                                  rate="-5%")
+            async for chunk in c.stream():
+                if chunk["type"] == "audio":
+                    chunks.append(chunk["data"])
+            return b"".join(chunks)
+
+        mp3_bytes = _asyncio.run(_collect())
+        if len(mp3_bytes) < 4000:
+            raise RuntimeError("edge-tts returned empty audio")
+
+        # decode mp3 -> wav: write mp3, convert with ffmpeg (system dep).
+        import subprocess, tempfile
+        with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
+            fh.write(mp3_bytes)
+            mp3_path = fh.name
+        wav_path = mp3_path + ".wav"
+        subprocess.run(
+            ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
+             "-acodec", "pcm_s16le", wav_path],
+            check=True, capture_output=True)
+        import soundfile as _sf
+        audio, sr = _sf.read(wav_path)
+        logger.info("edge-tts fallback SUCCESS (fr-FR-HenriNeural)")
+        audio = _mature_voice(audio, sr)
+        return audio, sr, "edge_fr"
+    except Exception as edge_err:
+        # ---- FINAL: all engines exhausted — NO SILENCE, raise hard error ----
+        error_msg = (
             f"VOICE GENERATION FAILED — all engines exhausted for this segment. "
             f"Chatterbox errors ({CHATTERBOX_MAX_RETRIES} attempts): "
             f"[{' | '.join(chatterbox_errors)}]. "
-            f"Kokoro error: [{kokoro_err}]. "
+            f"Kokoro: {kokoro_err}. "
             f"edge-tts error: [{edge_err}]. "
             f"Pipeline CANNOT continue without voiceover."
         )

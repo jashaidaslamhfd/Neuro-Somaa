@@ -129,7 +129,12 @@ jobs:
           # returns "No audio received" on the CI runner, so it's not default.
           # Voice auto-fallback in voice_generator tries alternates before
           # Kokoro, so the pipeline keeps working regardless.
-          TTS_ENGINE: "edge"
+          # 2026-08-19: CHATTERBOX PRIMARY — its default voice is a REAL
+          # professionally recorded narrator (free, MIT, 23 languages,
+          # beats ElevenLabs in blind evals). edge-tts Henri pool is the
+          # built-in runner-safe safety net if Chatterbox can't load —
+          # no slot is ever missed.
+          TTS_ENGINE: "chatterbox"
           EDGE_FR_VOICE: "fr-FR-MauriceNeural"
           EDGE_FR_VOICE_ALT1: "fr-FR-HenriNeural"
           EDGE_FR_VOICE_ALT2: "fr-FR-DeniseNeural"
