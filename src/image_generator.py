@@ -99,7 +99,7 @@ def _save_bytes(content: bytes, index: int, ext: str = "jpg") -> str:
     return path
 
 
-def _build_prompt(scene_text: str, *, topic: str = "") -> str:
+def _build_prompt(scene_text: str, *, topic: str = "", hook_scene: bool = False) -> str:
     """Combines the script's own scene description with the channel's
     signature visual identity ("Le Labo Obscur", 2026-08-15): one fixed
     macro teal-lab world with per-video style variation. This is what makes
@@ -109,7 +109,12 @@ def _build_prompt(scene_text: str, *, topic: str = "") -> str:
     base = (scene_text or "mystery science").strip()
     try:
         from visual_signature import signature_suffix
-        return f"{base}, {signature_suffix(topic or scene_text or 'x')}"
+        # 2026-08-19 HOOK ACTIVATION: the EXTREME FIRST-FRAME HOOK suffix
+        # (instantly readable action + tight macro of the exact body
+        # phenomenon) existed in visual_signature but was never wired —
+        # every caller passed first_frame=False. Scene 0 is the 3-second
+        # scroll-stopper, so it gets the hook framing now.
+        return f"{base}, {signature_suffix(topic or scene_text or 'x', first_frame=hook_scene)}"
     except Exception:  # never let the style layer break generation
         return f"{base}, {DARK_STYLE_SUFFIX}"
 
@@ -131,7 +136,9 @@ def _layer_ai_video(index, scene_text, image_path: str | None = None, topic=""):
     max_ai_video = int(os.environ.get("AI_VIDEO_SCENES", "5"))
     if index >= max_ai_video:
         raise RuntimeError(f"AI video skipped: scene {index} beyond AI_VIDEO_SCENES={max_ai_video}")
-    prompt_text = _build_prompt(scene_text, topic=topic)
+    # 2026-08-19: the hook scene always gets AI motion (index 0 < any
+    # realistic AI_VIDEO_SCENES) and now also the hook prompt framing.
+    prompt_text = _build_prompt(scene_text, topic=topic, hook_scene=(index == 0))
     prompt = prompt_text.replace(" ", "_").replace(",", "")
     content, ext = gen_pollinations_video(prompt, prompt_text, image_path=image_path)
     return _save_bytes(content, index, ext=ext), "video"
@@ -150,7 +157,10 @@ def _layer_ai_providers(index, scene_text, provider_names=None, topic=""):
         requested = ", ".join(provider_names or []) or "configured"
         raise RuntimeError(f"No {requested} AI image providers available (check API keys / network)")
 
-    prompt_text = _build_prompt(scene_text, topic=topic)
+    # 2026-08-19: hook framing for the opening scene (the 3-second
+    # scroll-stopper) — macro of the exact phenomenon in motion, high
+    # contrast, instantly readable.
+    prompt_text = _build_prompt(scene_text, topic=topic, hook_scene=(index == 0))
     prompt = prompt_text.replace(" ", "_").replace(",", "")
     seed = random.randint(1, 999999)
 

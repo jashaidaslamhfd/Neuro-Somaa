@@ -171,8 +171,13 @@ def _ease_in_out(frac: float) -> float:
     return 0.5 - 0.5 * math.cos(frac * math.pi)
 
 
-def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: float = 0.0) -> CompositeVideoClip:
-    """
+def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: float = 0.0,
+                    hook_snap: bool = False) -> CompositeVideoClip:
+    """2026-08-19 HOOK SNAP: when hook_snap=True (scene 1 only) the zoom
+    accelerates in the first 0.4s — a deliberate "jerk of attention" that
+    reads as live camera punch-in instead of the slow documentary drift
+    every competitor uses. Still capped at ZOOM_MAX; the easing curve is
+    just front-loaded (cubic-in) rather than symmetric ease-in-out.
     Centered zoom (in or out) + gentle horizontal pan.
     Uses 1.25x overscan base image size to prevent black border leakage on edges.
     2026-08-17: every beat's zoom is hard-capped at ZOOM_MAX — big
@@ -185,6 +190,15 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
     # Hard cap: ZOOM_MAX wins over any stacking of extras
     zoom_amount = min(ZOOM_MAX, ZOOM_AMOUNT + zoom_extra)
     zoom_start, zoom_end = (1.0, 1.0 + zoom_amount) if direction == "in" else (1.0 + zoom_amount, 1.0)
+
+    def _easing(frac: float) -> float:
+        # 2026-08-19: hook scene front-loads its motion — the punch-in
+        # happens in the first third of the beat (cubic-in) so the opening
+        # frame feels alive within 0.3s, which is where Shorts retention is
+        # decided. Everything else keeps smooth ease-in-out.
+        if hook_snap:
+            return frac ** 3
+        return _ease_in_out(frac)
     pan_dir = 1 if direction == "in" else -1
 
     base_clip = ImageClip(prepped).set_duration(duration)
@@ -195,14 +209,14 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
         # as black borders. One sub-frame difference, invisible in playback.
         frac = min(max(t / duration if duration > 0 else 0, 0.0),
                    1.0 - 1e-6) if duration > 0 else 0.0
-        return zoom_start + (zoom_end - zoom_start) * _ease_in_out(frac)
+        return zoom_start + (zoom_end - zoom_start) * _easing(frac)
 
     def pos_fn(t):
         frac = min(max(t / duration if duration > 0 else 0, 0.0),
                    1.0 - 1e-6) if duration > 0 else 0.0
         s = scale_fn(t)
         w, h = overscan_w * s, overscan_h * s
-        dx = pan_dir * PAN_PX * (_ease_in_out(frac) - 0.5) * 2
+        dx = pan_dir * PAN_PX * (_easing(frac) - 0.5) * 2
         x = (CANVAS_W - w) / 2 + dx
         y = (CANVAS_H - h) / 2
         return (x, y)
@@ -242,7 +256,8 @@ def _is_important_word(word: str) -> bool:
     return word_clean in IMPORTANT_WORDS
 
 
-def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: Dict = None) -> ImageClip:
+def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: Dict = None,
+                  is_hook: bool = False) -> ImageClip:
     """
     Renders caption with RETENTION OPTIMIZATIONS:
     - Large, readable text
@@ -269,7 +284,11 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
         baseline = int(CANVAS_H * 0.75)
     available_height = max(int(CANVAS_H * 0.12), baseline - int(CANVAS_H * CAPTION_Y_FRACTION))
 
-    font_size = CAPTION_FONT_SIZE
+    # 2026-08-19 HOOK EMPHASIS: the first caption (the 3-second scroll-stopper)
+    # starts from a 25% larger baseline so the hook line lands HARD on the
+    # tiny mobile preview — without ever exceeding the platform safe zone
+    # (the auto-fit loop below still shrinks it if it doesn't fit).
+    font_size = int(CAPTION_FONT_SIZE * 1.25) if is_hook else CAPTION_FONT_SIZE
     dummy = Image.new("RGBA", (10, 10), (0, 0, 0, 0))
     dummy_draw = ImageDraw.Draw(dummy)
 
@@ -338,7 +357,8 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
     return txt.set_position(('center', CAPTION_Y_FRACTION), relative=True)
 
 
-def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = None):
+def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = None,
+                        scene_index: int = -1):
     """Show short, punchy 1-2 word phrases instead of dense multi-word blocks.
 
     Timing is punctuation/word-length weighted. This is still lightweight and
@@ -364,7 +384,10 @@ def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = No
     clips, cursor = [], 0.0
     for phrase, duration in zip(groups, durations):
         important = any(_is_important_word(w) for w in phrase.split())
-        clip = _caption_clip(phrase, duration, important, color_theme).set_start(cursor)
+        # 2026-08-19: scene 0 is the 3-second scroll-stopper — its first
+        # caption phrase renders 25% larger for a hard hook impression.
+        clip = _caption_clip(phrase, duration, important, color_theme,
+                             is_hook=(scene_index == 0)).set_start(cursor)
         clips.append(clip)
         cursor += duration
     return clips
@@ -767,7 +790,12 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                           else 0.5 + _rng.uniform(-0.15, 0.15))
                 first_duration = duration * _split
                 second_duration = duration - first_duration
-                first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)
+                # 2026-08-19: scene 0 (the 3-second hook) gets a
+                # front-loaded punch-in so the opening frame moves within
+                # ~0.3s — the rest keep the smooth documentary drift.
+                first_beat = _ken_burns_clip(img_path, first_duration,
+                                             direction, zoom_extra,
+                                             hook_snap=(i == 0))
                 second_beat = _ken_burns_clip(
                     img_path, second_duration,
                     "out" if direction == "in" else "in", zoom_extra + 0.02)
@@ -785,7 +813,11 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                       else 0.5 + _rng.uniform(-0.15, 0.15))
             first_duration = duration * _split
             second_duration = duration - first_duration
-            first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra)
+            # 2026-08-19: hook snap on the opening scene (same logic as the
+            # recovered-clip branch above).
+            first_beat = _ken_burns_clip(img_path, first_duration,
+                                         direction, zoom_extra,
+                                         hook_snap=(i == 0))
             second_direction = "out" if direction == "in" else "in"
             second_beat = _ken_burns_clip(
                 img_path, second_duration, second_direction, zoom_extra + 0.02
@@ -795,7 +827,8 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             ).set_duration(duration)
 
         # ✅ Priority: Word-by-word captions with highlighting
-        word_clips = _word_by_word_clips(caption_text, duration, color_theme)
+        word_clips = _word_by_word_clips(caption_text, duration, color_theme,
+                                         scene_index=i)
 
         # Combine visual + captions
         combined = CompositeVideoClip(
