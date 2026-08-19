@@ -7,6 +7,11 @@ on:
         description: "Topic optionnel"
         required: false
         type: string
+      dry_run:
+        description: "Dry run — build the video but skip all uploads"
+        required: false
+        type: boolean
+        default: false
   schedule:
     # 3 videos per day for France/CET peaks:
     # 12:30 / 19:30 / 21:00 Paris Time.
@@ -153,6 +158,11 @@ jobs:
           MUSIC_VOLUME: "0.18"
           
           VIDEO_TOPIC: ${{ inputs.topic || '' }}
+          # 2026-08-19: optional dry-run mode — builds the full video
+          # (script + voice + visuals + metadata) but uploader.py logs
+          # "[DRY_RUN] Would upload" and posts NOTHING. Kept false by
+          # default so scheduled crouns can never become dry runs.
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
           PYTHONUNBUFFERED: "1"
           # --- Memory/thread tuning for a 7GB free runner ---
           # The heavy phase (Kokoro torch TTS + MoviePy render) was getting the
