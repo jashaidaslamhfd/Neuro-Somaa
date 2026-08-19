@@ -71,9 +71,38 @@ class EngineSelectionTests(unittest.TestCase):
         self.assertEqual(engine, "edge_fr")
 
     def test_all_engines_fail_raises_hard_error(self):
-        with self.assertRaises(RuntimeError):
-            self._run_synthesize("chatterbox", chatterbox_ok=False,
-                                 edge_ok=False)
+        import voice_generator as vg
+
+        # Chatterbox and the Henri pool both fail; the cloud fallback
+        # (edge_tts.Communicate, called directly in _synthesize) must also
+        # fail — only then must a hard RuntimeError be raised so no silent
+        # segment is ever inserted into a published video.
+        with mock.patch.dict(os.environ, {"TTS_ENGINE": "chatterbox"}):
+            with mock.patch.object(vg, "_synthesize_chatterbox") as cb:
+                cb.side_effect = RuntimeError("chatterbox boom")
+                with mock.patch.object(vg, "_synthesize_edge_french") as edge:
+                    edge.side_effect = RuntimeError("edge boom")
+                    with mock.patch.object(vg, "_validate_generated_audio"):
+                        with mock.patch.dict("sys.modules", {"edge_tts": mock.MagicMock()}):
+                            import sys
+                            import types
+                            # Build a fake edge_tts module whose Communicate
+                            # stream raises, then install it so the import
+                            # inside _synthesize uses the mocked module.
+                            fake_mod = types.ModuleType("edge_tts")
+                            fake_comm = mock.MagicMock()
+                            fake_comm.stream = mock.MagicMock(
+                                side_effect=RuntimeError("cloud fallback boom"))
+                            fake_mod.Communicate = mock.MagicMock(
+                                return_value=fake_comm)
+                            sys.modules["edge_tts"] = fake_mod
+                            try:
+                                with self.assertRaises(RuntimeError):
+                                    vg._synthesize("Une phrase de test.",
+                                                   topic="test", seg_index=0,
+                                                   seg_total=1)
+                            finally:
+                                sys.modules.pop("edge_tts", None)
 
     # --- Rule 4: edge legacy mode untouched ---
     def test_edge_legacy_mode(self):
