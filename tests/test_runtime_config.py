@@ -50,10 +50,15 @@ class RequirementsTests(unittest.TestCase):
     def test_unused_google_genai_removed_from_core(self):
         self.assertNotIn("google-genai", self.core)
 
-    def test_voice_clone_stack_is_optional_only(self):
+    # 2026-08-19: the voice clone stack is no longer optional — Chatterbox
+    # (a REAL professionally recorded narrator voice, 100% free/MIT, blind-
+    # evaluation winner over ElevenLabs) is now the PRIMARY TTS engine.
+    # It must be declared in core production requirements; edge-tts stays
+    # declared as the cloud fallback engine.
+    def test_voice_clone_stack_is_core_production(self):
         for pkg in ("chatterbox-tts", "torchaudio", "transformers"):
-            self.assertNotIn(pkg, self.core)
-            self.assertIn(pkg, self.optional)
+            self.assertIn(pkg, self.core, f"primary engine dep missing from core: {pkg}")
+        self.assertIn("edge-tts", self.core)
 
 
 class DynamicScheduleTests(unittest.TestCase):

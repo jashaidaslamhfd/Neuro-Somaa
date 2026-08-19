@@ -414,7 +414,7 @@ RÈGLES DE QUALITÉ NON NÉGOCIABLES :
 - N'invente jamais études, chiffres, citations, diagnostics, remèdes, dangers ou conseils médicaux.
 - Évite la peur, l'urgence artificielle, les secrets, et les tournures clickbait.
 - Chaque scène doit apporter une information nouvelle. Écris pour l'oral : phrases courtes et concrètes.
-- Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration.
+- Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration. Il se termine TOUJOURS par une question qui invite une réponse en commentaire (ex. « dis-moi si ça t'arrive aussi ») — la réponse en commentaire est le signal d'engagement n°1 du feed Shorts. Interdits dans le CTA : « like », « share », « subscribe » et tout anglicisme ; toujours au « tu ».
 - Retourne uniquement un JSON valide, sans Markdown ni commentaire.
 
 RÈGLES D'AUTHENTICITÉ HUMAINE (anti-IA, exigées par la politique YouTube 2025-2026) :

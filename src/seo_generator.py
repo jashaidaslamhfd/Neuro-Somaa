@@ -291,10 +291,38 @@ _LEADING_STARTERS = (
     "le signal", "comprendre", "voici",
 )
 
+# 2026-08-19: expanded from 3 to 10 pinned-comment formulas. The channel
+# growth play: the pinned comment is the #1 place a French viewer engages
+# (reply = comment signal = feed boost). One question-only formula capped
+# replies; the new set mixes reply-bait, debate, self-report and tease
+# patterns used by the biggest FR Shorts creators — always in tu-register,
+# never clickbait, never medical advice.
 PINNED_QUESTION_TEMPLATES = [
+    # (original set — kept for variety)
     "Ça t'arrive aussi, {topic_short} ? Dis-le en commentaire.",
     "Tu t'es déjà demandé pourquoi {topic_short} ?",
     "Tu veux qu'on explique quel réflexe du corps après {topic_short} ?",
+    # Reply-bait: give the tease, make the reply the completion.
+    "La vraie raison de {topic_short} est plus bizarre que ça — dis-moi en commentaire si tu l'as déjà vécu.",
+    "J'ai lu 3 explications différentes de {topic_short}. Toi, c'est laquelle qui t'a surpris ?",
+    # Self-report (viewers love confirming their own body).
+    "Réflexe honnête : ça t'est arrivé combien de fois cette semaine, {topic_short} ?",
+    # Debate/opinion — the highest reply-density format on FR Shorts.
+    "Débat du soir : {topic_short}, réflexe utile ou bug du corps selon toi ? Dis ton choix en commentaire.",
+    # Rate-it format — effortless engagement, no typing skill needed.
+    "Sur 10, à quel point ça te stress quand {topic_short} ? Note en commentaire.",
+    # Tag-a-friend — share signal (shares are the strongest viral weight).
+    "Identifie quelqu'un à qui ça arrive TOUT le temps avec {topic_short}.",
+    # Tease + next-video pull — keeps the reply + subscribes curiosity.
+    "Si tu veux, la prochaine vidéo explore le réflexe OPPOSÉ à {topic_short} — dis-moi si ça t'intéresse.",
+]
+
+# 2026-08-19: rotating French growth hashtags. Not stacked on every video
+# (broad tags on 100% of videos dilutes them) — a deterministic hash picks 2
+# per topic, always AFTER the niche/category hashtags so the algorithm still
+# sees a France-first body-science channel, not a generic Shorts farm.
+FR_GROWTH_HASHTAGS = [
+    "#decouverte", "#apprendre", "#faitssurprenants", "#curiosites", "#savoir", "#cultivetoicerveau", "#expliquesimple", "#shortsfrancais",
 ]
 
 
@@ -805,7 +833,21 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
 
     hook = script_data.get("hook", "").strip()
     desc = script_data.get("description", "").strip()
-    cta = script_data.get("cta", "Abonne-toi pour plus de science simple.").strip()
+    # 2026-08-19: rotating reply-bait CTA pool (all tu-register, French
+    # spoken style). A fixed CTA on every video reads as a template and caps
+    # engagement; rotating CTAs with a reply question lift comment rate,
+    # which is the #1 reply-signal weight in the Shorts feed.
+    cta_pool = [
+        "Abonne-toi pour plus de science simple — et dis-moi : ça t'arrive aussi ?",
+        "Abonne-toi si ton corps te fait des trucs bizarres comme ça — ton réflexe préféré en commentaire ?",
+        "Tu veux la suite ? Abonne-toi — et raconte-moi la dernière fois que ça t'est arrivé.",
+        "Si ça t'a surpris, abonne-toi — et dis-moi : ton corps te joue quel tour bizarre en ce moment ?",
+        "Abonne-toi pour comprendre ton corps — toi, c'est arrivé quand la première fois ?",
+    ]
+    cta_seed = sum(ord(c) for c in (topic or "").lower())
+    default_cta = cta_pool[cta_seed % len(cta_pool)]
+    cta = script_data.get("cta") or default_cta
+    cta = cta.strip()
 
     cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Science"])
     # Only turn a keyword into a hashtag if it is a real search term.
@@ -825,8 +867,16 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         )
 
     keyword_hashtags = ["#" + re.sub(r"[^\w]", "", k) for k in keys if _hashtag_ok(k)][:3]
-    hashtags = ["#shorts"] + cat_hashtags[:2] + keyword_hashtags
-    hashtags = list(dict.fromkeys(hashtags))[:8]
+    # 2026-08-19: niche/category hashtags FIRST (channel identity signal for
+    # YouTube's classifier), growth hashtags in the middle (deterministic 2 per
+    # topic — stacking all of them on every video would dilute them), #shorts
+    # last (broad tag carries the least discovery value).
+    growth_pool = FR_GROWTH_HASHTAGS
+    topic_hash = sum(ord(c) for c in (topic or "x").lower())
+    growth_picks = [growth_pool[topic_hash % len(growth_pool)],
+                    growth_pool[(topic_hash // 7) % len(growth_pool)]]
+    hashtags = cat_hashtags[:2] + keyword_hashtags + growth_picks + ["#shorts"]
+    hashtags = list(dict.fromkeys(hashtags))[:9]
 
     keyword_intro = _clean_topic(topic)
     keyword_intro = keyword_intro[0].upper() + keyword_intro[1:] if keyword_intro else ""
@@ -842,7 +892,14 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
 
     intro_norm = _norm(keyword_intro)
     desc_norm = _norm(desc)
-    if intro_norm and desc_norm and (
+    # 2026-08-19: hook-first description structure. Only the first ~100 chars
+    # are visible in the Shorts feed overlay before "...plus", so the hook
+    # question (the video's actual promise) must be line 1 — not the topic
+    # restatement. Structure: hook -> topic + summary -> rotating CTA -> FR
+    # hashtag block.
+    if hook and _norm(hook) and _norm(hook) not in _norm(desc):
+        opening = hook.strip()
+    elif intro_norm and desc_norm and (
         desc_norm.startswith(intro_norm) or intro_norm in desc_norm
     ):
         opening = desc.strip()                      # summary already says it
@@ -855,10 +912,10 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         sep = "" if keyword_intro.rstrip().endswith(("?", "!", ".", "…")) else "."
         opening = f"{keyword_intro.rstrip()}{sep}"
 
-    # Drop the hook line when it merely repeats the opening.
     blocks = [opening]
-    if hook and _norm(hook) not in _norm(opening):
-        blocks.append(hook.strip())
+    # Line 2: topic restatement + real summary (only when it adds new words).
+    if desc.strip() and _norm(desc) not in _norm(opening):
+        blocks.append(desc.strip())
     if cta:
         blocks.append(cta.strip())
     blocks.append(" ".join(hashtags))
