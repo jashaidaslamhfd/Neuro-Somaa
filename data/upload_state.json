@@ -734,5 +734,18 @@
     },
     "publish_at": "2026-08-19T15:30:00+00:00",
     "completed_at": 1787139461.437591
+  },
+  "9b83d44381b108943063113abf104df05fbfc32331bb571dd2a9532447407aa2": {
+    "status": "completed",
+    "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
+    "youtube_video_id": "trfitEKS1ik",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-19T19:00:00+00:00",
+    "completed_at": 1787161725.471335
   }
 }

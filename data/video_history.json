@@ -2137,5 +2137,28 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 80,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "9b83d44381b108943063113abf104df05fbfc32331bb571dd2a9532447407aa2",
+    "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
+    "topic": "Ce qu'il faut comprendre sur l'engourdissement de la main quand on dort dessus",
+    "series_title": "Main qui s'engourdit",
+    "base_phenomenon": "l'engourdissement de la main quand on dort dessus",
+    "nominal_phrase": "l'engourdissement de la main quand on dort dessus",
+    "question_phrase": "la main s'engourdit quand on dort dessus",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Ta main engourdie, tu te r\u00e9veilles sans sensation. C'est le nerf radial qui se comprime. Ton corps p\u00e8se sur le bras endormi. Le sang stagne, le signal nerveux s'arr\u00eate. Et surtout: dix minutes avant que \u00e7a revienne. C'est ce cycle qui bloque ta main.",
+    "posted_at": "2026-08-19T17:48:45.472477+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "trfitEKS1ik",
+    "publish_at": "2026-08-19T19:00:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 42,
+    "loop_bridge_present": false
   }
 ]
