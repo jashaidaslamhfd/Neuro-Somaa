@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-18T05:53:48.529932+00:00",
+  "generated_at_utc": "2026-08-19T05:55:24.917495+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.84,
-      "observed_samples": 49,
-      "observed_avg": 3.9151,
+      "score": 3.8729,
+      "observed_samples": 52,
+      "observed_avg": 3.9449,
       "competitor_prior": 2.0
     },
     {
@@ -39,18 +39,18 @@
       "competitor_prior": 0.8
     },
     {
-      "pattern": "other",
-      "score": 2.4273,
-      "observed_samples": 4,
-      "observed_avg": 3.641,
-      "competitor_prior": 0.0
-    },
-    {
       "pattern": "la-science",
       "score": 2.3028,
       "observed_samples": 2,
       "observed_avg": 3.7055,
       "competitor_prior": 0.9
+    },
+    {
+      "pattern": "other",
+      "score": 2.132,
+      "observed_samples": 4,
+      "observed_avg": 3.198,
+      "competitor_prior": 0.0
     }
   ]
 }

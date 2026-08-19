@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-18T05:53:48.530508+00:00",
+  "generated_at_utc": "2026-08-19T05:55:24.918062+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,8 +11,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.1828,
-      "samples": 20,
+      "score": 3.2116,
+      "samples": 21,
       "confident": true,
       "prior": 0.0
     },
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3529,
+      "score": 3.3508,
       "samples": 13,
       "confident": true,
-      "prior": 3.4707
+      "prior": 3.4587
     },
     {
       "rank": 3,
@@ -35,10 +35,10 @@
       "hour": 21,
       "minute": 0,
       "name": "Dynamique 21:00",
-      "score": 3.297,
+      "score": 3.2904,
       "samples": 4,
       "confident": true,
-      "prior": 3.2707
+      "prior": 3.2587
     }
   ],
   "ranked_slots": [
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3529,
+      "score": 3.3508,
       "observed_samples": 13,
-      "observed_avg": 3.3167,
-      "prior": 3.4707,
+      "observed_avg": 3.3176,
+      "prior": 3.4587,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -64,10 +64,10 @@
           "published_paris": "2026-07-27 19:30"
         },
         {
-          "video_id": "ixDDjtbojKs",
-          "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 961,
-          "published_paris": "2026-08-12 19:30"
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 957,
+          "published_paris": "2026-08-01 19:30"
         }
       ]
     },
@@ -75,10 +75,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.297,
+      "score": 3.2904,
       "observed_samples": 4,
-      "observed_avg": 3.3363,
-      "prior": 3.2707,
+      "observed_avg": 3.3378,
+      "prior": 3.2587,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -101,39 +101,10 @@
       ]
     },
     {
-      "slot": "21:30",
-      "hour": 21,
-      "minute": 30,
-      "score": 3.2781,
-      "observed_samples": 15,
-      "observed_avg": 3.2781,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "8b9CONZ5ntY",
-          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
-          "views": 1241,
-          "published_paris": "2026-07-31 21:30"
-        },
-        {
-          "video_id": "0giDXoVx72E",
-          "title": "Pourquoi la mâchoire craque en mâchant ?",
-          "views": 1029,
-          "published_paris": "2026-08-05 21:30"
-        },
-        {
-          "video_id": "r7URDUokZh0",
-          "title": "Corps lourd",
-          "views": 1006,
-          "published_paris": "2026-07-19 21:42"
-        }
-      ]
-    },
-    {
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2771,
+      "score": 3.2676,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -150,7 +121,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2622,
+      "score": 3.2527,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -164,10 +135,68 @@
       ]
     },
     {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.2116,
+      "observed_samples": 21,
+      "observed_avg": 3.2116,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 1087,
+          "published_paris": "2026-07-22 17:29"
+        },
+        {
+          "video_id": "JIg1-eBYols",
+          "title": "Pourquoi un pied s'endort tout seul ?",
+          "views": 1052,
+          "published_paris": "2026-08-06 17:30"
+        },
+        {
+          "video_id": "iSh6RR4oxME",
+          "title": "Pourquoi le corps résiste à la perte de poids ?",
+          "views": 986,
+          "published_paris": "2026-08-15 17:30"
+        }
+      ]
+    },
+    {
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "score": 3.2114,
+      "observed_samples": 15,
+      "observed_avg": 3.2114,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "8b9CONZ5ntY",
+          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
+          "views": 1241,
+          "published_paris": "2026-07-31 21:30"
+        },
+        {
+          "video_id": "oZ_AmaU0VE0",
+          "title": "Pourquoi les souvenirs gênants reviennent ?",
+          "views": 1134,
+          "published_paris": "2026-08-14 21:30"
+        },
+        {
+          "video_id": "JH0ybNiIIP4",
+          "title": "Pourquoi des fourmillements apparaissent sans raison ?",
+          "views": 1030,
+          "published_paris": "2026-08-15 21:30"
+        }
+      ]
+    },
+    {
       "slot": "16:00",
       "hour": 16,
       "minute": 0,
-      "score": 3.2062,
+      "score": 3.1966,
       "observed_samples": 1,
       "observed_avg": 3.2149,
       "prior": 0.0,
@@ -181,39 +210,10 @@
       ]
     },
     {
-      "slot": "17:30",
-      "hour": 17,
-      "minute": 30,
-      "score": 3.1828,
-      "observed_samples": 20,
-      "observed_avg": 3.1828,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
-        },
-        {
-          "video_id": "JIg1-eBYols",
-          "title": "Pourquoi un pied s'endort tout seul ?",
-          "views": 1053,
-          "published_paris": "2026-08-06 17:30"
-        },
-        {
-          "video_id": "P6N8mJAbU5M",
-          "title": "Pourquoi on pleure quand on bâille ?",
-          "views": 932,
-          "published_paris": "2026-08-13 17:30"
-        }
-      ]
-    },
-    {
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1302,
+      "score": 3.1207,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.1209,
+      "score": 3.1138,
       "observed_samples": 2,
       "observed_avg": 2.9963,
       "prior": 0.0,
@@ -250,27 +250,10 @@
       ]
     },
     {
-      "slot": "02:30",
-      "hour": 2,
-      "minute": 30,
-      "score": 3.1075,
-      "observed_samples": 1,
-      "observed_avg": 2.7212,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "1XVYcxQqDqo",
-          "title": "Réveil avant l'alarme",
-          "views": 154,
-          "published_paris": "2026-07-20 02:32"
-        }
-      ]
-    },
-    {
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0944,
+      "score": 3.0848,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -287,9 +270,9 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.0787,
+      "score": 3.07,
       "observed_samples": 2,
-      "observed_avg": 2.8906,
+      "observed_avg": 2.8869,
       "prior": 0.0,
       "examples": [
         {
@@ -301,8 +284,31 @@
         {
           "video_id": "jHvt1X6XDuY",
           "title": "Pourquoi le stress brouille la mémoire ?",
-          "views": 107,
+          "views": 105,
           "published_paris": "2026-08-11 06:00"
+        }
+      ]
+    },
+    {
+      "slot": "08:30",
+      "hour": 8,
+      "minute": 30,
+      "score": 3.0666,
+      "observed_samples": 2,
+      "observed_avg": 2.8783,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "diImyvMyKig",
+          "title": "La science derrière le temps qui semble accélérer",
+          "views": 675,
+          "published_paris": "2026-07-22 08:15"
+        },
+        {
+          "video_id": "0V5ZhO3qviQ",
+          "title": "Ce que votre corps vous dit quand le corps se fige",
+          "views": 146,
+          "published_paris": "2026-07-21 08:22"
         }
       ]
     }
