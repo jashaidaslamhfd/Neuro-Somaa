@@ -47,10 +47,13 @@ def _duration_word_budget() -> tuple:
     roughly 70% of the allowed range, and all 3 retries with it. The whole
     experiment arm would have produced nothing but failed runs.
 
-    ~2.6 words/sec is the measured Kokoro FR pace on this channel.
+    FIXED 2026-08-19: edge-tts (the primary engine since 2026-08-17) speaks
+    French at ~1.9-2.1 words/sec including pauses. The old 2.6 w/s (Kokoro
+    pace) made narration consistently overshoot the 29s gate, so roughly
+    half of short runs died on "refusing destructive speed-up".
     """
     import os as _os
-    words_per_second = 2.6
+    words_per_second = 2.1
     # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
     # when a short arm was requested, silently breaking the whole experiment.
@@ -59,7 +62,7 @@ def _duration_word_budget() -> tuple:
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
-    high = max(low + 8, int(target_max * words_per_second * 0.92))
+    high = max(low + 8, int(target_max * words_per_second * 0.90))
     return low, high
 
 

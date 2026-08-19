@@ -953,7 +953,11 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         required_speed = duration / TARGET_MAX_SEC
         # A small correction is inaudible. Anything larger must be fixed at
         # script level; crushing a multi-minute narration into a Short sounds bad.
-        if required_speed <= 1.12:
+        # FIXED 2026-08-19: raised from 1.12 — edge-tts French narration
+        # (primary engine since 2026-08-17) lands ~2-4% over the script
+        # estimate because of natural pauses; 32.9s over a 29s gate = 1.13x,
+        # still inaudible. The old cap killed ~half of otherwise good runs.
+        if required_speed <= 1.15:
             logger.warning("Applying small %.3fx correction to meet %.1fs limit", required_speed, TARGET_MAX_SEC)
             final_video = final_video.fx(vfx.speedx, required_speed)
         else:
