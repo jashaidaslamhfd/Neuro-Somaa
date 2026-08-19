@@ -21,3 +21,4 @@ pytz>=2024.1
 # even though seo_analytics keeps numpy/Pillow as lazy imports.
 numpy>=1.24.0
 Pillow>=10.0.0
+moviepy>=2.0.0
