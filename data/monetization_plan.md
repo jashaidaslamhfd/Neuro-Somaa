@@ -1,13 +1,13 @@
 # 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)
-_Generated 2026-08-18T08:21:39.423384+00:00 — 11 jours restants_
+_Generated 2026-08-19T08:21:51.296506+00:00 — 10 jours restants_
 
 ## 📊 Channel actuel
-- Abonnés: **121** | Vues totales: 54,795 | Vidéos: 77
-- Watch hours (12 mois): 74.7
+- Abonnés: **121** | Vues totales: 54,804 | Vidéos: 79
+- Watch hours (12 mois): 76.7
 
 ## 🎯 Cibles (2026 YPP)
-- **Full YPP (ad revenue)**: +879 subs (79.9/jour) · +9,945,205 vues Shorts (904,109.5/jour)
-- **Tier-1 (fan funding, memberships, Super Thanks)**: +379 subs (34.5/jour) · +2,945,205 vues Shorts (267,745.9/jour)
+- **Full YPP (ad revenue)**: +879 subs (87.9/jour) · +9,945,196 vues Shorts (994,519.6/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +379 subs (37.9/jour) · +2,945,196 vues Shorts (294,519.6/jour)
 
 ## 🚫 Obstacles (koi rukawat na aye)
 - 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
