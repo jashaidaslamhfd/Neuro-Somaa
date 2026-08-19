@@ -319,15 +319,15 @@ def _arc_fixture():
     the fixture (and production) now targets 6 fast scenes."""
     return {
         "title": "Sommeil Et Mémoire Cerveau",
-        "hook": "Votre cerveau trie vos souvenirs pendant le sommeil.",
+        "hook": "Votre cerveau trie vos souvenirs la nuit.",
         "cta": "Abonnez-vous pour la science du corps, simplement.",
         "scenes": [
-            {"visual": "cerveau lumineux pendant le sommeil", "caption": "Votre cerveau trie vos souvenirs pendant le sommeil."},
-            {"visual": "signaux de mémoire entre neurones", "caption": "C'est le sommeil profond qui rejoue et fixe chaque souvenir utile."},
-            {"visual": "étudiant dans une chambre calme", "caption": "Sans assez de sommeil, une information claire aujourd'hui peut disparaître beaucoup plus vite demain."},
-            {"visual": "connexions cérébrales renforcées", "caption": "Pendant le sommeil profond, votre cerveau rejoue les expériences récentes et renforce les connexions utiles."},
-            {"visual": "chemin de mémoire lumineux", "caption": "Ce processus explique pourquoi le repos aide l'apprentissage à rester stable après une journée complète."},
-            {"visual": "lumière du matin, personne concentrée", "caption": "Ainsi le sommeil sauvegarde les souvenirs que votre cerveau éveillé pourrait perdre complètement demain."},
+            {"visual": "cerveau lumineux pendant le sommeil", "caption": "Votre cerveau trie vos souvenirs la nuit."},
+            {"visual": "signaux de mémoire entre neurones", "caption": "Ton cerveau rejoue et fixe chaque souvenir utile pendant le sommeil profond."},
+            {"visual": "étudiant dans une chambre calme", "caption": "Sans sommeil, une info claire disparaît plus vite."},
+            {"visual": "connexions cérébrales renforcées", "caption": "La nuit, il renforce les connexions utiles."},
+            {"visual": "chemin de mémoire lumineux", "caption": "Ce processus garde l'apprentissage stable."},
+            {"visual": "lumière du matin, personne concentrée", "caption": "Le sommeil sauvegarde les souvenirs que demain tu perdrais."},
         ],
     }
 

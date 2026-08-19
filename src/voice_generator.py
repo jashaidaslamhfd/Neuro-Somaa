@@ -89,7 +89,7 @@ CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
 # When VOICE_REFERENCE_PATH is a usable clone, maturing is SKIPPED so the
 # creator's own voice is never altered.
 VOICE_MATURE_PITCH_SEMITONES = _env_float(
-    "VOICE_MATURE_PITCH_SEMITONES", -2.5, -6.0, 0.0)
+    "VOICE_MATURE_PITCH_SEMITONES", -4.0, -6.0, 0.0)
 VOICE_MATURE_TEMPO = _env_float("VOICE_MATURE_TEMPO", 0.92, 0.75, 1.05)
 VOICE_MATURE_ENABLED = os.environ.get(
     "VOICE_MATURE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
@@ -127,6 +127,7 @@ def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
                                result.stderr[:200])
                 return audio
             matured, _ = sf.read(out_path, dtype="float32")
+            logger.info("Voice maturing APPLIED: pitch %.1f st, tempo %.2f", VOICE_MATURE_PITCH_SEMITONES, VOICE_MATURE_TEMPO)
             return matured
     except Exception as e:
         logger.warning("Voice maturing failed (%s), using unmodified audio", e)
@@ -141,8 +142,25 @@ def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
 # Can be overridden via the EDGE_FR_MATURE_VOICE_POOL secret.
 EDGE_FR_MATURE_VOICE_POOL = os.environ.get(
     "EDGE_FR_MATURE_VOICE_POOL",
-    "fr-FR-MauriceNeural,fr-FR-RemyNeural,fr-FR-HenriNeural,fr-FR-LucienNeural"
+    "fr-FR-HenriNeural,fr-FR-MauriceNeural,fr-FR-GerardNeural,fr-FR-LucienNeural,fr-FR-AlainNeural"
 )
+# 2026-08-19: ADULT VOICE SAFEGUARD. Several workflow/env pools historically
+# included young-sounding voices (Denise/Eloise/Josephine/Remy) which the
+# audience flagged as "child-like". Only these deep, adult MALE timbres are
+# allowed on the channel unless the creator sets EDGE_FR_VOICE_ALLOW_LIGHT=1.
+ADULT_FR_MALE_VOICES = {
+    "fr-FR-MauriceNeural", "fr-FR-GerardNeural", "fr-FR-LucienNeural",
+    "fr-FR-AlainNeural", "fr-FR-HenriNeural",
+}
+# 2026-08-19 reliability note: the deep male timbres (Maurice/Gerard/Lucien/
+# Alain/Remy) intermittently return "No audio received" on the GitHub Actions
+# runner, while HenriNeural is proven reliable there. The pipeline therefore
+# keeps HenriNeural as the stable anchor; the maturing chain below deepens it
+# into a mature adult male sound so the channel never sounds child-like.
+LIGHT_FR_VOICES = {
+    "fr-FR-DeniseNeural", "fr-FR-EloiseNeural", "fr-FR-JosephineNeural",
+    "fr-FR-RemyNeural", "fr-FR-HenriNeural",
+}
 
 # ── 2026-08-15: NATURAL DELIVERY VARIATION (kill the AI monotone) ──────
 # A human narrator never reads every sentence at one fixed pace: they speed
@@ -529,17 +547,34 @@ def _rotated_french_voice(topic: str = "") -> str:
     """
     import hashlib
     pool_raw = os.environ.get("EDGE_FR_VOICE_POOL", "").strip()
+    # 2026-08-19: adult-only safeguard — never pick a young-sounding voice.
+    # The workflow env pool previously contained Denise/Eloise/Josephine
+    # (young female timbres) and the audience flagged the channel's voice as
+    # child-like. Filter every configured pool down to adult male voices
+    # unless the creator explicitly opts in with EDGE_FR_VOICE_ALLOW_LIGHT=1.
+    allow_light = os.environ.get("EDGE_FR_VOICE_ALLOW_LIGHT", "0").strip().lower() in ("1", "true", "yes")
+    if not allow_light and pool_raw:
+        adult = [v.strip() for v in pool_raw.split(",")
+                 if v.strip() in ADULT_FR_MALE_VOICES]
+        if adult:
+            pool_raw = ",".join(adult)
+            logger.info("Voice pool filtered to adult male voices: %s", pool_raw)
+        else:
+            logger.warning(
+                "Configured EDGE_FR_VOICE_POOL has no adult voices — "
+                "using the guaranteed adult default pool instead")
+            pool_raw = ""
     # 2026-08-17: if no custom pool is set, prefer the mature adult pool
-    # (module-level default: four deep, adult French voices)
+    # (module-level default: four deep, adult French male voices)
     if not pool_raw:
         pool_raw = os.environ.get("EDGE_FR_MATURE_VOICE_POOL", "").strip()
     if not pool_raw:
         pool_raw = EDGE_FR_MATURE_VOICE_POOL.strip()  # module default pool
     if not pool_raw:
-        return os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
+        return os.environ.get("EDGE_FR_VOICE", "fr-FR-MauriceNeural")
     pool = [v.strip() for v in pool_raw.split(",") if v.strip()]
     if not pool:
-        return os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural")
+        return os.environ.get("EDGE_FR_VOICE", "fr-FR-MauriceNeural")
     digest = hashlib.sha256((topic or "default").encode("utf-8")).hexdigest()
     return pool[int(digest, 16) % len(pool)]
 
@@ -566,8 +601,12 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     import edge_tts as _edge
 
     candidates = [
+        # 2026-08-19: HenriNeural is the proven-reliable CI anchor; Gerard/
+        # Lucien intermittently fail with "No audio received" on the runner,
+        # so they are secondary. Denise is a genuine last resort (never the
+        # primary rotation thanks to the adult pool filter above).
         voice or os.environ.get("EDGE_FR_VOICE", "fr-FR-HenriNeural"),
-        os.environ.get("EDGE_FR_VOICE_ALT1", "fr-FR-RemyNeural"),
+        os.environ.get("EDGE_FR_VOICE_ALT1", "fr-FR-HenriNeural"),
         os.environ.get("EDGE_FR_VOICE_ALT2", "fr-FR-DeniseNeural"),
     ]
     rate = rate or os.environ.get("EDGE_FR_RATE", "-8%")
