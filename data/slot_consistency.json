@@ -29,6 +29,12 @@
       "outcome": "guard_fail",
       "topic": "Duplicate title blocked before upload: 'Pourquoi on entend son c\u0153ur battre la nu",
       "at": "2026-08-19T18:29:19.782997+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "guard_fail",
+      "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
+      "at": "2026-08-19T21:01:08.401666+00:00"
     }
   ]
 }
