@@ -1,9 +1,12 @@
 """Regression tests for the runtime-config bugs fixed in the French-channel
 reliability pass. Every test maps to a bug that once shipped to production."""
 
+import os
+import re
 import subprocess
 import sys
 import unittest
+import unittest.mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -11,6 +14,7 @@ SRC_DIR = ROOT / "src"
 SCRIPTS_DIR = ROOT / "scripts"
 sys.path.insert(0, str(SRC_DIR))
 sys.path.insert(0, str(SCRIPTS_DIR))
+import seo_generator as seo
 
 
 class GitignoreSafetyTests(unittest.TestCase):
@@ -1227,3 +1231,81 @@ class StockClipOrientationQualityTests(unittest.TestCase):
     def test_min_stock_clip_width_env_default_in_workflow(self):
         wf = (ROOT / ".github/workflows/main.yml").read_text()
         self.assertIn("MIN_STOCK_CLIP_WIDTH", wf)
+
+
+
+class CtrTitlesFrTests(unittest.TestCase):
+    """2026-08-21: CTR booster regression tests (src/ctr_titles.py, FR)."""
+
+    def _mod(self):
+        import importlib
+        return importlib.import_module("ctr_titles")
+
+    def test_rule_pattern_french_grammar(self):
+        ct = self._mod()
+        # Short topic so ALL six patterns fit the mobile display budget.
+        pats = ct._rule_patterns("pourquoi le hoquet ?")
+        self.assertGreaterEqual(len(pats), 4, pats)
+        # Sentence case: only the first letter of the pattern may be
+        # uppercase; mid-sentence Title-Case ("Ce Que Les Médecins...")
+        # is broken French.
+        import re as _re
+        for pat in pats:
+            rest = pat[1:]
+            self.assertFalse(_re.search(r"[A-ZÀ-Ü]", rest), pat)
+        self.assertTrue(any("médecins" in x for x in pats), pats)
+        self.assertTrue(any("7 signes" in x for x in pats), pats)
+        # Long topics must drop patterns that cannot fit the budget.
+        long_pats = ct._rule_patterns("pourquoi vos genoux craquent")
+        for pat in long_pats:
+            self.assertLessEqual(len(pat.encode("utf-8")), 55, pat)
+
+    def test_rule_pattern_empty_topic(self):
+        ct = self._mod()
+        self.assertEqual(ct._rule_patterns(""), [])
+
+    def test_ctr_titles_respects_toggle_off(self):
+        ct = self._mod()
+        old = os.environ.get("CTR_TITLES")
+        try:
+            os.environ["CTR_TITLES"] = "false"
+            self.assertEqual(ct.get_ctr_title_options(
+                "pourquoi vos genoux craquent", "t"), [])
+        finally:
+            if old is None:
+                os.environ.pop("CTR_TITLES", None)
+            else:
+                os.environ["CTR_TITLES"] = old
+
+    def test_ctr_titles_under_mobile_budget(self):
+        ct = self._mod()
+        emoji_re = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\uFE0F]+")
+        for topic in ("pourquoi vos genoux craquent",
+                      "la science derrière le hoquet nocturne"):
+            for opt in ct.get_ctr_title_options(topic, topic.title()):
+                self.assertLessEqual(len(opt.encode("utf-8")), 55, opt)
+                self.assertIsNone(emoji_re.search(opt), opt)
+
+    def test_ctr_titles_llm_failure_degrades_gracefully(self):
+        ct = self._mod()
+        with unittest.mock.patch.object(
+                ct, "_llm_patterns", side_effect=RuntimeError("down")):
+            opts = ct.get_ctr_title_options(
+                "pourquoi vos genoux craquent", "t")
+        self.assertGreater(len(opts), 0)
+
+    def test_seo_package_includes_ctr_options(self):
+        ct = self._mod()
+        script = {"title": "Genoux qui craquent", "series_title": "",
+                  "scenes": [{"caption": "c1"}]}
+        with unittest.mock.patch.object(
+                ct, "_llm_patterns",
+                return_value=["Ce qui se passe vraiment dans vos genoux ?"]):
+            pkg = seo.generate_seo_package(
+                "pourquoi vos genoux craquent", script)
+        self.assertGreater(len(pkg["title_options"]), 0)
+        # The CTR novelty layer feeds the A/B pool; the leak-gate and the
+        # question-first ranking decide the winner, so assert presence
+        # (never absence) rather than a fixed slot.
+        self.assertIn("Ce qui se passe vraiment dans vos genoux ?",
+                      pkg["title_options"])

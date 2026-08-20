@@ -817,7 +817,17 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     title_bandit = _load_title_bandit()
     base_title_options = _build_title_options(topic, series_title, question_phrase)
     competitor_title_options = _competitor_title_options(topic, script_data, competitor_intel)
-    combined_title_options = list(dict.fromkeys(competitor_title_options + base_title_options))
+    # 2026-08-21 CTR booster: LLM-generated viral French title angles
+    # (novelty layer) prepended so the A/B bandit can promote them. Fully
+    # swallowed on failure - the existing French layers still ship.
+    try:
+        from ctr_titles import get_ctr_title_options
+        ctr_options = get_ctr_title_options(topic, series_title or topic)
+        ctr_options = [t for t in ctr_options if _title_is_clean(t)[0]]
+    except Exception as exc:  # noqa: BLE001 - advisory layer
+        logger.warning("CTR title layer skipped (%s)", exc)
+        ctr_options = []
+    combined_title_options = list(dict.fromkeys(ctr_options + competitor_title_options + base_title_options))
     combined_title_options = [title for title in combined_title_options if _candidate_title_ok(title)]
     if competitor_intel:
         combined_title_options = [
