@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-20T11:02:29.334853+00:00",
+  "generated_at": "2026-08-20T17:58:47.582293+00:00",
   "n_videos_analyzed": 25,
   "truth_gate": {
     "hook_score": {
@@ -94,7 +94,7 @@
           "direction": "-"
         },
         {
-          "feature": "hour_cos",
+          "feature": "hour_sin",
           "coef": -0.0,
           "direction": "-"
         }
