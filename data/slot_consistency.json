@@ -35,6 +35,12 @@
       "outcome": "guard_fail",
       "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
       "at": "2026-08-19T21:01:08.401666+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "published",
+      "topic": "Pourquoi l'estomac gargouille quand on a faim ?",
+      "at": "2026-08-20T11:49:18.835356+00:00"
     }
   ]
 }

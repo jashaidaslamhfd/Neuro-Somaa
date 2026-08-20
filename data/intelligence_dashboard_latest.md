@@ -1,64 +1,36 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-20T05:55:23.431137+00:00_ — n=68 vidéos réelles
+_2026-08-20T11:02:29.334853+00:00_ — n=25 vidéos réelles
 
 ## 📊 Data quality
-- vues réelles: **68** · couverture CTR: **0%** · rétention: **100%**
+- vues réelles: **25** · couverture CTR: **0%** · rétention: **100%**
 - ⚠️ 0 coverage → YouTube Analytics scope/ metric must be fixed (see 2026-08-11 audit fix; token needs yt-analytics.readonly)
 
-## 📈 Croissance mesurée (vérité, pas impression)
-- 🟢 en croissance: **6** · 🔴 figées (2 lectures sans hausse): **54**
-  · ⚡ +323.8 vues/j — Pourquoi des fourmillements apparaissent sans rais
-  · ⚡ +233.9 vues/j — Pourquoi le corps résiste à la perte de poids ?
-  · ⚡ +163.8 vues/j — Pourquoi les souvenirs gênants reviennent ?
-
 ## 🧪 Truth Gate (scores internes vs réalité)
-- 🔴 `hook_score` (hook quality): **NOISE** (r=+0.02, n=68) — **consultatif seulement, jamais un gate**
-- 🔴 `seo_score` (SEO quality): **NOISE** (r=+0.01, n=68) — **consultatif seulement, jamais un gate**
-- 🔴 `predicted_retention` (retention): **NOISE** (r=-0.04, n=68) — biais +0.29 (prédit 0.70 vs réel 0.40) — **consultatif seulement, jamais un gate**
-- 🔴 `predicted_ctr` (CTR): **NOISE** (r=-0.02, n=68) — **consultatif seulement, jamais un gate**
+- ⚪ `hook_score` (hook quality): **INSUFFICIENT_DATA** (r=n/a, n=25) — **consultatif seulement, jamais un gate**
+- ⚪ `seo_score` (SEO quality): **INSUFFICIENT_DATA** (r=n/a, n=25) — **consultatif seulement, jamais un gate**
+- ⚪ `predicted_retention` (retention): **INSUFFICIENT_DATA** (r=n/a, n=25) — biais +0.00 (prédit 0.40 vs réel 0.40) — **consultatif seulement, jamais un gate**
+- ⚪ `predicted_ctr` (CTR): **INSUFFICIENT_DATA** (r=n/a, n=25) — **consultatif seulement, jamais un gate**
 
 ## 🤖 Modèles (ridge + MLP, validation croisée)
-- ridge log-vues: **R²_cv = -0.1932 ± 0.4533** (MAE ≈ 394.4 vues) — ⚠️ bruit, conseils seulement
-- facteurs dominants: `caps_ratio` (-), `dow_sin` (+), `predicted_ctr` (-), `has_second_person` (-), `topic_bucket_2` (-)
-- MLP: MAE ≈ 244.2 vues (advisory)
+- ridge log-vues: **R²_cv = 0.3562 ± 0.3286** (MAE ≈ 171.2 vues) — ✅ fiable
+- facteurs dominants: `title_chars` (+), `topic_bucket_2` (+), `dow_cos` (-), `topic_bucket_1` (-), `topic_bucket_3` (-)
+- MLP: n<40 — deep model withheld to avoid memorization
 
 ## 🎰 Bandit de titres (Thompson sampling)
-- ✅ pattern recommandé: **POURQUOI** (winner-rate 0.1929, avg 683.3 vues)
-  🔬 `CE_QUE_VOTRE_CORPS` n= 3 · winner-rate 33% · avg 449.7
-  🔬 `CE_QUIL_FAUT_COMPRENDRE` n= 2 · winner-rate 50% · avg 759.0
-  🔬 `CE_QUI_SE_PASSE` n= 2 · winner-rate 0% · avg 521.5
-  🔬 `LA_SCIENCE  ` n= 2 · winner-rate 0% · avg 484.5
-  🔬 `OTHER       ` n= 2 · winner-rate 0% · avg 877.0
+- ✅ pattern recommandé: **POURQUOI** (winner-rate 0.4795, avg 980.0 vues)
+  ✅ `POURQUOI    ` n=25 · winner-rate 48% · avg 980.0
 
 ## 🚨 Anomalies (modified z-score (median/MAD, Iglewicz-Hoaglin >3.5))
-- 🔻 **Pourquoi la musique change l'humeur ?** — 36 vues (z=-6.39): _queue metadata+thumbnail repair (hooks, CTR signals)_
-- 🔻 **Pourquoi le cerveau crée des souvenirs faux ?** — 83 vues (z=-4.65): _queue metadata+thumbnail repair (hooks, CTR signals)_
-- 🔻 **Pourquoi le stress brouille la mémoire ?** — 105 vues (z=-4.15): _queue metadata+thumbnail repair (hooks, CTR signals)_
 
 ## 📈 Prévision 30 jours (Holt)
-- tendance: **-28.3 vues/jour^²** · attendu 30j: **29466 vues** (bande 436.8–1527.6/j)
+- tendance: **+40.0 vues/jour^²** · attendu 30j: **62400 vues** (bande 2080.0–2080.0/j)
 
-## 🗂️ Clusters de sujets (k=6) — gagnant: **ventre / faim / serre / d'une / lors**
-- `ventre / faim / serre / d'une / lors` — 6 vidéos · avg 878.2 vues · max 1456
-- `raison / deviennent / science / froid / semble` — 24 vidéos · avg 755.3 vues · max 1241
-- `cerveau / comprendre / souvenirs / immature / qu'il` — 8 vidéos · avg 649.0 vues · max 1512
-- `son / cœur / avant / battre / nuit` — 5 vidéos · avg 540.6 vues · max 874
-- `change / mémoire / stress / lorsque / sifflent` — 8 vidéos · avg 536.9 vues · max 985
+## 🗂️ Clusters de sujets (k=3) — gagnant: **sujet / surprend**
+- `sujet / surprend` — 25 vidéos · avg 980.0 vues · max 1460
 
 ## ⏱️ Rétention
-- P10/P50/P90 = 28.9% / 40.5% / 52.1% · **82%** des vidéos perdent le spectateur avant la moitié
+- P10/P50/P90 = 40.0% / 40.0% / 40.0% · **100%** des vidéos perdent le spectateur avant la moitié
 
-## 🧪 Expérience durée: pas de différence significative encore (p=0.16)
-- `control_long` avg 680.33 vs `test_short` avg 912.33 (n=9/9)
-
-## 🪝 Expérience hooks — hook-arm experiment needs ≥5 real-view videos per arm (have: {'pov_reveal': 9, 'shock_fact': 2, 'question': 3}); arms start accruing from the first run after 2026-08-12
-
-## 🚀 Winner-cloning fastlane (8 sujets, TTL 96h)
-- « Pourquoi le ventre se serre lors d'une peur au réveil ? » ← cloné de **1456 vues**
-- « Pourquoi un aliment froid provoque un mal quand tu es stressé ? » ← cloné de **1241 vues**
-- « Pourquoi le muscle qui tressaille tout seul au réveil ? » ← cloné de **1168 vues**
-- « Pourquoi les souvenirs gênants reviennent plus souvent en hiver ? » ← cloné de **1134 vues**
-- « Pourquoi un pied s'endort tout seul plus chez certaines personnes ? » ← cloné de **1052 vues**
-_Le prochain run de génération pioche D'ABORD dans cette file._
+## 🪝 Expérience hooks — hook-arm experiment needs ≥5 real-view videos per arm (have: none yet); arms start accruing from the first run after 2026-08-12
 
 _Méthodes: ridge closed-form + MLP numpy (k-fold CV), Thompson Beta/Gaussien, z-score MAD, Holt, TF-IDF k-means++, test de permutation. Toutes les métriques montrent leur honnêteté — aucun chiffre n'est publié sans sa barre d'échantillons._
