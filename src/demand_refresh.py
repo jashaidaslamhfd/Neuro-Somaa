@@ -315,7 +315,11 @@ def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
     }
 
 
-def _queue_is_stale() -> bool:
+def _queue_is_stale(*, force: bool = False) -> bool:
+    """Queue needs mining when stale, empty OR when the topic selector
+    reports it fully consumed (force=True, 2026-08-20)."""
+    if force:
+        return True
     try:
         payload = json.loads(QUEUE_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
@@ -336,10 +340,11 @@ def _queue_is_stale() -> bool:
     return (now - when).days >= REFRESH_MAX_AGE_DAYS
 
 
-def refresh_demand_queue() -> bool:
-    """Refresh search_demand_queue_fr.json when stale/empty. Idempotent and
-    pipeline-safe: returns False (no-op) when the queue is still fresh."""
-    if not _queue_is_stale():
+def refresh_demand_queue(*, force: bool = False) -> bool:
+    """Refresh search_demand_queue_fr.json when stale/empty OR fully
+    consumed by the topic selector. Idempotent and pipeline-safe: returns
+    False (no-op) when the queue is still fresh."""
+    if not _queue_is_stale(force=force):
         logger.info("Demand queue still fresh — no refresh needed")
         return False
     logger.info("🔎 Refreshing FR search-demand queue from live autocomplete...")

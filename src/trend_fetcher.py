@@ -699,6 +699,27 @@ def get_trending_topic(
                     logger.info("🔎 Search-demand topic: %s (%s)",
                                 chosen["topic"], chosen.get("demand_note") or "real FR query")
                     return chosen if return_metadata else str(chosen["topic"])
+                # 2026-08-20 fix: queue exhausted (every topic already
+                # shipped) — mine a fresh live batch immediately so the
+                # daily slot is never lost to a stale queue. The 4-day
+                # staleness floor alone cannot see exhaustion, so the
+                # coverage ratio is checked here explicitly.
+                if len(fresh) == 0 and len(demand) > 0:
+                    try:
+                        from demand_refresh import refresh_demand_queue
+                        if refresh_demand_queue(force=True):
+                            demand = load_search_demand_queue()
+                            fresh = [e for e in demand
+                                     if not _demand_is_used(e["topic"])]
+                            if fresh:
+                                chosen = random.choice(fresh)
+                                chosen.setdefault("series_number", "DEM")
+                                logger.info("🔎 Exhausted demand queue force-refreshed "
+                                            "(live mining) — picked: %s",
+                                            chosen["topic"])
+                                return chosen if return_metadata else str(chosen["topic"])
+                    except Exception as _exc:
+                        logger.warning("Demand queue force-refresh failed: %s", _exc)
         except Exception as exc:
             logger.warning("Search-demand queue unavailable: %s", exc)
 
