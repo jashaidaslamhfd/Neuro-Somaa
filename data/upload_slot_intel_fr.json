@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-19T05:55:24.918062+00:00",
+  "generated_at_utc": "2026-08-20T05:55:23.321336+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3508,
+      "score": 3.3414,
       "samples": 13,
       "confident": true,
-      "prior": 3.4587
+      "prior": 3.4188
     },
     {
       "rank": 3,
@@ -35,10 +35,10 @@
       "hour": 21,
       "minute": 0,
       "name": "Dynamique 21:00",
-      "score": 3.2904,
+      "score": 3.2361,
       "samples": 4,
       "confident": true,
-      "prior": 3.2587
+      "prior": 3.2188
     }
   ],
   "ranked_slots": [
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3508,
+      "score": 3.3414,
       "observed_samples": 13,
       "observed_avg": 3.3176,
-      "prior": 3.4587,
+      "prior": 3.4188,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -75,10 +75,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.2904,
+      "score": 3.2361,
       "observed_samples": 4,
-      "observed_avg": 3.3378,
-      "prior": 3.2587,
+      "observed_avg": 3.2621,
+      "prior": 3.2188,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -93,10 +93,10 @@
           "published_paris": "2026-07-28 21:00"
         },
         {
-          "video_id": "x15ltzEHaB8",
-          "title": "Pourquoi le temps semble passer plus vite en vieillissant",
-          "views": 869,
-          "published_paris": "2026-07-20 20:58"
+          "video_id": "mGJQX82e9IY",
+          "title": "Pourquoi le hoquet commence brusquement ?",
+          "views": 760,
+          "published_paris": "2026-07-27 21:00"
         }
       ]
     },
@@ -104,7 +104,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 3.2676,
+      "score": 3.2356,
       "observed_samples": 1,
       "observed_avg": 3.5695,
       "prior": 0.0,
@@ -121,7 +121,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.2527,
+      "score": 3.2207,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -193,27 +193,10 @@
       ]
     },
     {
-      "slot": "16:00",
-      "hour": 16,
-      "minute": 0,
-      "score": 3.1966,
-      "observed_samples": 1,
-      "observed_avg": 3.2149,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "rR7yLwzBakA",
-          "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
-          "views": 630,
-          "published_paris": "2026-07-20 16:03"
-        }
-      ]
-    },
-    {
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.1207,
+      "score": 3.0887,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -230,15 +213,15 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 3.1138,
+      "score": 3.062,
       "observed_samples": 2,
-      "observed_avg": 2.9963,
+      "observed_avg": 2.9267,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "FteL-0nbHWk",
           "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
-          "views": 797,
+          "views": 606,
           "published_paris": "2026-07-20 18:29"
         },
         {
@@ -253,7 +236,7 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 3.0848,
+      "score": 3.0529,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -270,7 +253,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.07,
+      "score": 3.046,
       "observed_samples": 2,
       "observed_avg": 2.8869,
       "prior": 0.0,
@@ -293,7 +276,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 3.0666,
+      "score": 3.0426,
       "observed_samples": 2,
       "observed_avg": 2.8783,
       "prior": 0.0,
@@ -309,6 +292,35 @@
           "title": "Ce que votre corps vous dit quand le corps se fige",
           "views": 146,
           "published_paris": "2026-07-21 08:22"
+        }
+      ]
+    },
+    {
+      "slot": "12:30",
+      "hour": 12,
+      "minute": 30,
+      "score": 2.896,
+      "observed_samples": 3,
+      "observed_avg": 3.1192,
+      "prior": 2.8188,
+      "examples": [
+        {
+          "video_id": "n1TgqGp2PQ0",
+          "title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
+          "views": 1007,
+          "published_paris": "2026-07-30 12:30"
+        },
+        {
+          "video_id": "VRWySzxXsyE",
+          "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
+          "views": 523,
+          "published_paris": "2026-07-29 12:30"
+        },
+        {
+          "video_id": "YluUMs7fPtQ",
+          "title": "Pourquoi les corps flottants visibles dans la lumière ?",
+          "views": 352,
+          "published_paris": "2026-07-28 12:30"
         }
       ]
     }

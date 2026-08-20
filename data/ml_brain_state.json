@@ -1,132 +1,132 @@
 {
-  "trained_at": "2026-08-19T05:55:24.877978+00:00",
+  "trained_at": "2026-08-20T05:55:23.285737+00:00",
   "n_samples": 68,
-  "views_r2": 0.05020733674993849,
+  "views_r2": 0.03739062124210635,
   "viral_accuracy": 0.75,
   "hook_pattern_weights": {
-    "pourquoi": 651.0,
-    "ce": 676.3333333333334,
+    "pourquoi": 629.8214285714286,
+    "ce": 657.4848484848485,
     "la": 665.6,
     "comprendre": 787.5
   },
   "word_impact": {
-    "pourquoi": -8.282352941176441,
-    "corps": -102.63235294117646,
-    "quand": -63.104575163398636,
-    "peut": 92.28431372549016,
-    "trange": 92.28431372549016,
-    "sembler": 92.28431372549016,
-    "veil": -187.88235294117646,
-    "avant": -28.382352941176464,
-    "comprendre": 145.0176470588235,
-    "faut": 162.28431372549016,
-    "nuit": 48.617647058823536,
-    "battre": 48.617647058823536,
-    "cerveau": -114.54901960784309,
-    "semble": -38.09663865546213,
-    "plus": 203.11764705882354,
-    "vite": 203.11764705882354,
-    "vieillissant": 103.61764705882354,
-    "temps": 153.28431372549016,
-    "peur": 60.117647058823536,
-    "vous": -85.01871657754009,
-    "votre": -159.76696832579182,
-    "passe": -13.382352941176464,
-    "science": 67.16310160427804,
-    "derri": -2.782352941176441,
-    "silence": -196.88235294117646,
-    "serre": 603.1176470588235,
-    "lors": 603.1176470588235,
-    "ventre": 355.0176470588235,
-    "moire": -351.7156862745098,
-    "explique": 125.45098039215691,
-    "stress": -276.38235294117646,
-    "endormant": 42.117647058823536,
-    "lumi": 32.95098039215691,
-    "dans": 70.61764705882354,
-    "visibles": -5.382352941176464,
-    "flottants": -5.382352941176464,
-    "vive": 208.61764705882354,
-    "lorsque": -0.18235294117641843,
-    "change": -57.655080213903716,
-    "chair": 414.11764705882354,
-    "poule": 414.11764705882354,
-    "tout": 350.28431372549016,
-    "tressaille": 336.11764705882354,
-    "seul": 350.28431372549016,
-    "appara": 42.284313725490165,
-    "froid": 125.28431372549016,
-    "faim": -226.88235294117646,
-    "sans": 114.28431372549016,
-    "soudain": -17.882352941176464,
-    "oreilles": 114.11764705882354
+    "pourquoi": -10.181372549019557,
+    "corps": -84.6647058823529,
+    "quand": -45.2369281045751,
+    "trange": 104.81862745098044,
+    "veil": -186.01470588235293,
+    "peut": 104.81862745098044,
+    "sembler": 104.81862745098044,
+    "avant": -21.181372549019557,
+    "comprendre": 38.48529411764707,
+    "faut": -27.181372549019557,
+    "cerveau": -128.51470588235293,
+    "battre": -29.014705882352928,
+    "nuit": -29.014705882352928,
+    "plus": 35.98529411764707,
+    "vieillissant": -63.51470588235293,
+    "temps": 47.81862745098044,
+    "semble": -73.08613445378148,
+    "vite": 35.98529411764707,
+    "votre": -141.8993212669683,
+    "peur": 77.98529411764707,
+    "vous": -67.15106951871655,
+    "passe": 4.485294117647072,
+    "derri": 15.085294117647095,
+    "science": 85.03074866310158,
+    "silence": -179.01470588235293,
+    "lors": 620.9852941176471,
+    "ventre": 372.88529411764705,
+    "serre": 620.9852941176471,
+    "explique": 143.31862745098044,
+    "stress": -258.5147058823529,
+    "moire": -333.84803921568624,
+    "endormant": 59.98529411764707,
+    "lumi": 51.48529411764707,
+    "dans": 88.88529411764705,
+    "visibles": 13.485294117647072,
+    "flottants": 13.485294117647072,
+    "change": -39.78743315508018,
+    "lorsque": 17.685294117647118,
+    "vive": 226.48529411764707,
+    "chair": 431.9852941176471,
+    "poule": 431.9852941176471,
+    "tout": 368.1519607843137,
+    "seul": 368.1519607843137,
+    "tressaille": 353.9852941176471,
+    "appara": 60.1519607843137,
+    "froid": 143.1519607843137,
+    "sans": 132.1519607843137,
+    "faim": -209.01470588235293,
+    "soudain": -0.014705882352927802,
+    "oreilles": 131.98529411764707
   },
   "best_word_patterns": [
     [
-      "serre",
-      603.1176470588235
+      "lors",
+      620.9852941176471
     ],
     [
-      "lors",
-      603.1176470588235
+      "serre",
+      620.9852941176471
     ],
     [
       "chair",
-      414.11764705882354
+      431.9852941176471
     ],
     [
       "poule",
-      414.11764705882354
+      431.9852941176471
     ],
     [
       "ventre",
-      355.0176470588235
+      372.88529411764705
     ],
     [
       "tout",
-      350.28431372549016
+      368.1519607843137
     ],
     [
       "seul",
-      350.28431372549016
+      368.1519607843137
     ],
     [
       "tressaille",
-      336.11764705882354
+      353.9852941176471
     ],
     [
       "vive",
-      208.61764705882354
-    ],
-    [
-      "plus",
-      203.11764705882354
-    ],
-    [
-      "vite",
-      203.11764705882354
+      226.48529411764707
     ],
     [
       "raison",
-      185.11764705882354
+      202.98529411764707
     ],
     [
-      "faut",
-      162.28431372549016
+      "explique",
+      143.31862745098044
     ],
     [
-      "temps",
-      153.28431372549016
+      "froid",
+      143.1519607843137
     ],
     [
-      "comprendre",
-      145.0176470588235
+      "sans",
+      132.1519607843137
+    ],
+    [
+      "oreilles",
+      131.98529411764707
+    ],
+    [
+      "trange",
+      104.81862745098044
     ]
   ],
   "pillar_performance": {
     "other": {
-      "avg_views": 661.4923076923077,
-      "avg_retention": 40.7203076923077,
+      "avg_views": 642.8,
+      "avg_retention": 40.33307692307692,
       "count": 65
     },
     "muscular": {
@@ -146,10 +146,9 @@
     }
   },
   "slot_performance": {
-    "15:30": 1.007,
     "21:00": 1.0,
     "10:00": 1.0,
-    "12:30": 0.661,
+    "12:30": 0.654,
     "14:30": 1.0,
     "02:00": 1.0,
     "14:00": 1.0,
@@ -157,10 +156,11 @@
     "11:00": 1.0,
     "00:00": 1.0,
     "08:30": 1.0,
-    "13:30": 1.001,
-    "15:00": 0.752,
-    "06:30": 0.725,
-    "11:30": 1.139
+    "13:30": 1.002,
+    "15:00": 0.75,
+    "06:30": 0.722,
+    "15:30": 1.014,
+    "11:30": 1.131
   },
   "topic_clusters": {
     "2": [
@@ -435,7 +435,33 @@
       "Ce qui change lorsque le stress brouille la mémoire",
       "Pourquoi on se réveille à 3h du matin sans raison",
       "Ce qui change lorsque le cerveau crée des souvenirs faux",
-      "Ce qui change lorsque le corps résiste à la perte de poids"
+      "Ce qui change lorsque le corps résiste à la perte de poids",
+      "Pourquoi le corps lourd quand on est fatigué arrive",
+      "Pourquoi le temps semble passer plus vite en vieillissant",
+      "Ce que la science explique sur le sursaut du corps en s'endormant",
+      "Comprendre pourquoi le cerveau réclame du sommeil profond",
+      "Ce qui change lorsque une lumière vive fait éternuer",
+      "Pourquoi le ventre gargouille sans faim",
+      "Ce qui change lorsque les oreilles sifflent dans le silence",
+      "Pourquoi dit on que le cerveau est immature",
+      "Pourquoi votre corps refuse de mentir",
+      "Pourquoi votre corps refuse de maigrir",
+      "Pourquoi le cerveau des femmes est divisé en 5",
+      "Pourquoi la peau se fripe dans leau",
+      "La science derrière les oreilles qui deviennent chaudes",
+      "Pourquoi les yeux pleurent quand on rit",
+      "Pourquoi le corps sursaute en s'endormant semble soudain",
+      "Comprendre pourquoi le bâillement se transmet aux autres",
+      "Pourquoi les paumes transpirent par nervosité semble soudain",
+      "Ce qui change lorsque des corps flottants visibles dans l'œil",
+      "Ce qui change lorsque le stress brouille la mémoire",
+      "Pourquoi le ventre bouge tout seul",
+      "Pourquoi les yeux deviennent rouges",
+      "Pourquoi les mains deviennent froides sans raison",
+      "Pourquoi le corps gratte après la douche",
+      "Pourquoi on pleure quand on bâille",
+      "Ce qui change lorsque le cerveau crée des souvenirs faux",
+      "Pourquoi la musique change l'humeur"
     ],
     "1": [
       "Pourquoi se réveiller avant son réveil peut sembler étrange",
@@ -642,6 +668,16 @@
       "Pourquoi le cœur bat plus vite avant de parler en public",
       "Ce qui change lorsque le cerveau crée des souvenirs faux",
       "Ce qui change lorsque le corps résiste à la perte de poids",
+      "Ce que votre corps vous dit quand le corps se fige quand on a peur",
+      "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+      "Ce que la science explique sur l'apparition soudaine de la chair de poule",
+      "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
+      "Ce que la science explique sur la mâchoire qui craque en mâchant",
+      "Ce que votre corps vous dit quand un vertige apparaît après s'être levé",
+      "Ce que la science explique sur les nuances de vert que l'œil distingue",
+      "Ce que votre corps vous dit quand la mémoire invente des détails sans le vouloir",
+      "Ce que votre corps vous dit quand le corps révèle le mensonge",
       "Ce que votre corps vous dit quand le corps se fige quand on a peur",
       "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
       "Ce que la science explique sur l'apparition soudaine de la chair de poule",
@@ -909,7 +945,20 @@
       "Pourquoi les mains deviennent froides sans raison",
       "Pourquoi le corps gratte après la douche",
       "Pourquoi on pleure quand on bâille",
-      "Pourquoi la musique change l'humeur"
+      "Pourquoi la musique change l'humeur",
+      "Ce qui se passe quand un déjà-vu semble étrangement familier",
+      "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
+      "Ce que la science explique sur l'effet du stress sur la mémoire",
+      "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+      "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
+      "Ce que la science explique sur le muscle qui tressaille tout seul",
+      "Ce qui se passe quand le cœur s'emballe sous le stress",
+      "Pourquoi un aliment froid provoque un mal de tête semble soudain",
+      "Ce qui change lorsque la faim revient à la même heure chaque jour",
+      "La science derrière l'impression que le temps ralentit en danger",
+      "Ce qui se passe quand un rêve disparaît au réveil",
+      "Pourquoi le cœur bat plus vite avant de parler en public",
+      "Ce qui change lorsque le corps résiste à la perte de poids"
     ],
     "3": [
       "Ce que la science explique sur l'effet du stress sur la mémoire",
@@ -1174,6 +1223,25 @@
       "Ce qui change lorsque une paupière tressaille sans raison",
       "Ce que votre corps vous dit quand la respiration ralentit en dormant",
       "La science derrière le frisson de la peau face au froid ou à la peur",
+      "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
+      "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
+      "La science derrière l'éternuement provoqué par une lumière vive",
+      "Pourquoi se réveiller avant son réveil peut sembler étrange",
+      "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+      "Pourquoi le cerveau remarque entendre son cœur battre la nuit",
+      "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
+      "La science derrière le temps qui semble accélérer en vieillissant",
+      "Ce que votre corps vous dit quand le silence devient inconfortable",
+      "Ce que votre corps vous dit quand le hoquet commence brusquement",
+      "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
+      "Pourquoi on frissonne quand on a froid peut sembler étrange",
+      "Pourquoi on entend son cœur battre la nuit semble soudain",
+      "Ce qui change lorsque les mains se fripent dans l'eau",
+      "Pourquoi un pied s'endort tout seul peut sembler étrange",
+      "Ce qui change lorsque une paupière tressaille sans raison",
+      "Ce que votre corps vous dit quand la respiration ralentit en dormant",
+      "La science derrière le frisson de la peau face au froid ou à la peur",
+      "Pourquoi on se réveille à 3h du matin sans raison",
       "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
       "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
       "La science derrière l'éternuement provoqué par une lumière vive"

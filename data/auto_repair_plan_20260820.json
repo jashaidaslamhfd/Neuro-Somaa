@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-08-12T10:54:46.254709+00:00",
+  "generated_at_utc": "2026-08-20T05:55:23.407854+00:00",
   "policy": "Plan only. Apply via SEO Repair workflow after review.",
   "min_age_hours": 48,
   "low_view_threshold": 200,
@@ -7,14 +7,15 @@
     {
       "id": "r7URDUokZh0",
       "url": "https://youtu.be/r7URDUokZh0",
-      "age_hours": 567.2,
-      "views": 1006,
+      "age_hours": 754.2,
+      "views": 14,
       "current_title": "Corps lourd",
       "reasons": [
-        "very short (11 chars) — gives viewers no specific hook"
+        "very short (11 chars) — gives viewers no specific hook",
+        "low views after 754h: 14 < 200"
       ],
       "proposed_title": "Pourquoi le corps lourd quand on est fatigué arrive ?",
-      "proposed_description": "Pourquoi le corps lourd quand on est fatigué arrive\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #lourd #fatigué",
+      "proposed_description": "Pourquoi le corps lourd quand on est fatigué arrive\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #lourd #fatigué #expliquesimple #cultivetoicerveau #shorts",
       "proposed_tags": [
         "corps",
         "lourd",
@@ -32,14 +33,14 @@
     {
       "id": "1XVYcxQqDqo",
       "url": "https://youtu.be/1XVYcxQqDqo",
-      "age_hours": 562.4,
-      "views": 154,
+      "age_hours": 749.4,
+      "views": 7,
       "current_title": "Réveil avant l'alarme",
       "reasons": [
-        "low views after 562h: 154 < 200"
+        "low views after 749h: 7 < 200"
       ],
       "proposed_title": "Pourquoi se réveiller avant son réveil ?",
-      "proposed_description": "Pourquoi se réveiller avant son réveil\n\nAbonne-toi pour plus de science simple.\n\n#shorts #sommeil #reves #réveiller #réveil",
+      "proposed_description": "Pourquoi se réveiller avant son réveil\n\nAbonne-toi pour plus de science simple.\n\n#sommeil #reves #réveiller #réveil #shortsfrancais #shorts",
       "proposed_tags": [
         "réveiller",
         "réveil",
@@ -54,18 +55,44 @@
       ]
     },
     {
+      "id": "rR7yLwzBakA",
+      "url": "https://youtu.be/rR7yLwzBakA",
+      "age_hours": 735.9,
+      "views": 6,
+      "current_title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+      "reasons": [
+        "low views after 736h: 6 < 200",
+        "low retention: 17.7%"
+      ],
+      "proposed_title": "Pourquoi ce qu'il faut comprendre sur le visage qui rougit ?",
+      "proposed_description": "Ce qu'il faut comprendre sur le visage qui rougit par gêne\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #visage #rougit #gêne #curiosites #shorts",
+      "proposed_tags": [
+        "visage",
+        "rougit",
+        "gêne",
+        "science",
+        "culture generale",
+        "faits scientifiques",
+        "curiosites",
+        "phenomenes",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
       "id": "FteL-0nbHWk",
       "url": "https://youtu.be/FteL-0nbHWk",
-      "age_hours": 546.4,
-      "views": 797,
+      "age_hours": 733.4,
+      "views": 606,
       "current_title": "Pourquoi le cerveau remarque entendre son cœur battre la",
       "reasons": [
         "leaked template fragment « remarque entendre » — looks unfinished",
         "ends on a connector/article — likely truncated",
-        "low retention: 29.1%"
+        "low retention: 27.2%"
       ],
       "proposed_title": "Cœur battre la nuit",
-      "proposed_description": "Pourquoi on entend son cœur battre la nuit\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #entend #cœur #battre",
+      "proposed_description": "Pourquoi on entend son cœur battre la nuit\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #entend #cœur #battre #curiosites #shorts",
       "proposed_tags": [
         "entend",
         "cœur",
@@ -84,14 +111,14 @@
     {
       "id": "x15ltzEHaB8",
       "url": "https://youtu.be/x15ltzEHaB8",
-      "age_hours": 543.9,
-      "views": 869,
+      "age_hours": 730.9,
+      "views": 499,
       "current_title": "Pourquoi le temps semble passer plus vite en vieillissant",
       "reasons": [
-        "low retention: 28.2%"
+        "low retention: 22.8%"
       ],
       "proposed_title": "Pourquoi le temps semble passer plus vite en vieillissant ?",
-      "proposed_description": "Pourquoi le temps semble passer plus vite en vieillissant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #temps #passer #vite",
+      "proposed_description": "Pourquoi le temps semble passer plus vite en vieillissant\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #temps #passer #vite #faitssurprenants #apprendre #shorts",
       "proposed_tags": [
         "temps",
         "passer",
@@ -110,14 +137,14 @@
     {
       "id": "0V5ZhO3qviQ",
       "url": "https://youtu.be/0V5ZhO3qviQ",
-      "age_hours": 532.5,
+      "age_hours": 719.6,
       "views": 146,
       "current_title": "Ce que votre corps vous dit quand le corps se fige",
       "reasons": [
-        "low views after 533h: 146 < 200"
+        "low views after 720h: 146 < 200"
       ],
       "proposed_title": "Pourquoi le corps se fige quand on a peur ?",
-      "proposed_description": "Ce que votre corps vous dit quand le corps se fige quand on a peur\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #fige #peur",
+      "proposed_description": "Ce que votre corps vous dit quand le corps se fige quand on a peur\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #fige #peur #shortsfrancais #expliquesimple #shorts",
       "proposed_tags": [
         "corps",
         "fige",
@@ -135,14 +162,14 @@
     {
       "id": "Re4VU9lryhQ",
       "url": "https://youtu.be/Re4VU9lryhQ",
-      "age_hours": 522.6,
+      "age_hours": 709.6,
       "views": 266,
       "current_title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "reasons": [
         "low retention: 24.7%"
       ],
       "proposed_title": "Pourquoi un déjà-vu semble étrangement familier ?",
-      "proposed_description": "Ce qui se passe quand un déjà-vu\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #déjàvu",
+      "proposed_description": "Ce qui se passe quand un déjà-vu\n\nAbonne-toi pour plus de science simple.\n\n#cerveau #neurosciences #déjàvu #expliquesimple #shortsfrancais #shorts",
       "proposed_tags": [
         "déjà-vu",
         "cerveau",
@@ -158,14 +185,14 @@
     {
       "id": "diImyvMyKig",
       "url": "https://youtu.be/diImyvMyKig",
-      "age_hours": 508.7,
+      "age_hours": 695.7,
       "views": 675,
       "current_title": "La science derrière le temps qui semble accélérer",
       "reasons": [
         "low retention: 29.1%"
       ],
       "proposed_title": "Pourquoi la science derrière le temps qui semble accélérer ?",
-      "proposed_description": "La science derrière le temps qui semble accélérer en vieillissant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #temps #accélérer #vieillissant",
+      "proposed_description": "La science derrière le temps qui semble accélérer en vieillissant\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #temps #accélérer #vieillissant #cultivetoicerveau #shorts",
       "proposed_tags": [
         "temps",
         "accélérer",
@@ -183,14 +210,14 @@
     {
       "id": "TaXxSn0YoMc",
       "url": "https://youtu.be/TaXxSn0YoMc",
-      "age_hours": 506.6,
+      "age_hours": 693.6,
       "views": 116,
       "current_title": "Ce que votre corps vous dit quand le silence devient",
       "reasons": [
-        "low views after 507h: 116 < 200"
+        "low views after 694h: 116 < 200"
       ],
       "proposed_title": "Pourquoi le silence devient inconfortable ?",
-      "proposed_description": "Ce que votre corps vous dit quand le silence devient inconfortable\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #silence #devient #inconfortable",
+      "proposed_description": "Ce que votre corps vous dit quand le silence devient inconfortable\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #silence #devient #inconfortable #faitssurprenants #savoir #shorts",
       "proposed_tags": [
         "corps",
         "silence",
@@ -209,14 +236,14 @@
     {
       "id": "RV4LGjp89-U",
       "url": "https://youtu.be/RV4LGjp89-U",
-      "age_hours": 486.8,
+      "age_hours": 673.8,
       "views": 579,
       "current_title": "Pourquoi le cerveau repère son propre prénom peut sembler",
       "reasons": [
         "leaked template fragment « peut sembler » — looks unfinished"
       ],
       "proposed_title": "Pourquoi le cerveau repère son propre prénom ?",
-      "proposed_description": "Pourquoi le cerveau repère son propre prénom\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #repère #propre",
+      "proposed_description": "Pourquoi le cerveau repère son propre prénom\n\nAbonne-toi pour plus de science simple.\n\n#cerveau #neurosciences #repère #propre #curiosites #faitssurprenants #shorts",
       "proposed_tags": [
         "cerveau",
         "repère",
@@ -234,14 +261,14 @@
     {
       "id": "yxoI9-KWXzI",
       "url": "https://youtu.be/yxoI9-KWXzI",
-      "age_hours": 478.1,
+      "age_hours": 665.1,
       "views": 294,
       "current_title": "Ce que la science explique sur l'effet du stress",
       "reasons": [
         "low retention: 29.3%"
       ],
       "proposed_title": "Pourquoi ce que la science explique sur l'effet du stress ?",
-      "proposed_description": "Ce que la science explique sur l'effet du stress sur la mémoire\n\nAbonne-toi pour plus de science simple.\n\n#shorts #cerveau #neurosciences #stress #mémoire",
+      "proposed_description": "Ce que la science explique sur l'effet du stress sur la mémoire\n\nAbonne-toi pour plus de science simple.\n\n#cerveau #neurosciences #stress #mémoire #savoir #expliquesimple #shorts",
       "proposed_tags": [
         "effet",
         "stress",
@@ -259,7 +286,7 @@
     {
       "id": "WxOEXbepJ40",
       "url": "https://youtu.be/WxOEXbepJ40",
-      "age_hours": 473.7,
+      "age_hours": 660.8,
       "views": 1456,
       "current_title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
       "reasons": [
@@ -267,7 +294,7 @@
         "low retention: 27.4%"
       ],
       "proposed_title": "Pourquoi le ventre se serre lors d'une peur ?",
-      "proposed_description": "Pourquoi le ventre se serre lors d'une peur\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #ventre #serre #peur",
+      "proposed_description": "Pourquoi le ventre se serre lors d'une peur\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #ventre #serre #peur #apprendre #curiosites #shorts",
       "proposed_tags": [
         "ventre",
         "serre",
@@ -285,14 +312,14 @@
     {
       "id": "XECgrg709Og",
       "url": "https://youtu.be/XECgrg709Og",
-      "age_hours": 402.5,
+      "age_hours": 589.5,
       "views": 1031,
       "current_title": "Pourquoi le sursaut du corps en s'endormant ?",
       "reasons": [
         "low retention: 28.9%"
       ],
       "proposed_title": "Pourquoi le corps sursaute en s'endormant ?",
-      "proposed_description": "Ce que la science explique sur le sursaut du corps en s'endormant\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #sursaut #endormant",
+      "proposed_description": "Ce que la science explique sur le sursaut du corps en s'endormant\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #sursaut #endormant #expliquesimple #cultivetoicerveau #shorts",
       "proposed_tags": [
         "sursaut",
         "corps",
@@ -310,14 +337,14 @@
     {
       "id": "ZXNvo9birZM",
       "url": "https://youtu.be/ZXNvo9birZM",
-      "age_hours": 387.8,
-      "views": 766,
+      "age_hours": 574.8,
+      "views": 769,
       "current_title": "Comprendre pourquoi le cerveau réclame du sommeil profond",
       "reasons": [
         "weak declarative opener — 'Pourquoi…?' raises more curiosity"
       ],
       "proposed_title": "Pourquoi le cerveau réclame du sommeil profond ?",
-      "proposed_description": "Comprendre pourquoi le cerveau réclame du sommeil profond\n\nAbonne-toi pour plus de science simple.\n\n#shorts #sommeil #reves #cerveau #réclame",
+      "proposed_description": "Comprendre pourquoi le cerveau réclame du sommeil profond\n\nAbonne-toi pour plus de science simple.\n\n#sommeil #reves #cerveau #réclame #curiosites #cultivetoicerveau #shorts",
       "proposed_tags": [
         "cerveau",
         "réclame",
@@ -335,7 +362,7 @@
     {
       "id": "TbbiAMubfu8",
       "url": "https://youtu.be/TbbiAMubfu8",
-      "age_hours": 382.8,
+      "age_hours": 569.8,
       "views": 985,
       "current_title": "Ce qui change lorsque une lumière vive fait éternuer ?",
       "reasons": [
@@ -343,7 +370,7 @@
         "low retention: 29.3%"
       ],
       "proposed_title": "Pourquoi une lumière vive fait éternuer ?",
-      "proposed_description": "Ce qui change lorsque une lumière vive fait éternuer\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #change #lumière #vive",
+      "proposed_description": "Ce qui change lorsque une lumière vive fait éternuer\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #change #lumière #vive #faitssurprenants #decouverte #shorts",
       "proposed_tags": [
         "change",
         "lumière",
@@ -362,14 +389,14 @@
     {
       "id": "VRWySzxXsyE",
       "url": "https://youtu.be/VRWySzxXsyE",
-      "age_hours": 377.5,
+      "age_hours": 564.5,
       "views": 523,
       "current_title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
       "reasons": [
         "low retention: 28.9%"
       ],
       "proposed_title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-      "proposed_description": "Pourquoi on sent une vibration de téléphone imaginaire\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #sent #vibration #téléphone",
+      "proposed_description": "Pourquoi on sent une vibration de téléphone imaginaire\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #sent #vibration #téléphone #savoir #faitssurprenants #shorts",
       "proposed_tags": [
         "sent",
         "vibration",
@@ -388,14 +415,14 @@
     {
       "id": "n1TgqGp2PQ0",
       "url": "https://youtu.be/n1TgqGp2PQ0",
-      "age_hours": 352.5,
+      "age_hours": 539.5,
       "views": 1007,
       "current_title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
       "reasons": [
         "low retention: 29.1%"
       ],
       "proposed_title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
-      "proposed_description": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #change #nœud #ventre",
+      "proposed_description": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #change #nœud #ventre #apprendre #curiosites #shorts",
       "proposed_tags": [
         "change",
         "nœud",
@@ -414,14 +441,14 @@
     {
       "id": "chwfdQe-Mt0",
       "url": "https://youtu.be/chwfdQe-Mt0",
-      "age_hours": 335.7,
-      "views": 776,
+      "age_hours": 522.7,
+      "views": 777,
       "current_title": "Ce qui se passe quand le cœur s'emballe sous le stress ?",
       "reasons": [
         "question without 'Pourquoi' — weaker curiosity frame"
       ],
       "proposed_title": "Pourquoi le cœur s'emballe sous le stress ?",
-      "proposed_description": "Ce qui se passe quand le cœur s'emballe sous le stress\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #cœur #emballe #sous",
+      "proposed_description": "Ce qui se passe quand le cœur s'emballe sous le stress\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #cœur #emballe #sous #cultivetoicerveau #shorts",
       "proposed_tags": [
         "cœur",
         "emballe",
@@ -440,14 +467,14 @@
     {
       "id": "_b2DE7BA1E4",
       "url": "https://youtu.be/_b2DE7BA1E4",
-      "age_hours": 329.9,
+      "age_hours": 516.9,
       "views": 0,
       "current_title": "Comprendre pourquoi le corps frissonne sous le stress",
       "reasons": [
         "weak declarative opener — 'Pourquoi…?' raises more curiosity"
       ],
       "proposed_title": "Pourquoi le corps frissonne sous le stress ?",
-      "proposed_description": "Comprendre pourquoi le corps frissonne sous le stress\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #frissonne #sous #stress",
+      "proposed_description": "Comprendre pourquoi le corps frissonne sous le stress\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #frissonne #sous #stress #apprendre #faitssurprenants #shorts",
       "proposed_tags": [
         "corps",
         "frissonne",
@@ -466,14 +493,14 @@
     {
       "id": "SFrpDq6c9Dk",
       "url": "https://youtu.be/SFrpDq6c9Dk",
-      "age_hours": 258.3,
+      "age_hours": 445.3,
       "views": 192,
       "current_title": "Pourquoi votre corps refuse de mentir ?",
       "reasons": [
-        "low views after 258h: 192 < 200"
+        "low views after 445h: 192 < 200"
       ],
       "proposed_title": "Pourquoi votre corps refuse de mentir ?",
-      "proposed_description": "Pourquoi votre corps refuse de mentir\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #refuse #mentir",
+      "proposed_description": "Pourquoi votre corps refuse de mentir\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #refuse #mentir #cultivetoicerveau #shorts",
       "proposed_tags": [
         "corps",
         "refuse",
@@ -491,14 +518,14 @@
     {
       "id": "FX6vqwymE0Y",
       "url": "https://youtu.be/FX6vqwymE0Y",
-      "age_hours": 256.7,
+      "age_hours": 443.7,
       "views": 3,
       "current_title": "Pourquoi votre corps refuse de maigrir ?",
       "reasons": [
-        "low views after 257h: 3 < 200"
+        "low views after 444h: 3 < 200"
       ],
       "proposed_title": "Pourquoi votre corps refuse de maigrir ?",
-      "proposed_description": "Pourquoi votre corps refuse de maigrir\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #refuse #maigrir",
+      "proposed_description": "Pourquoi votre corps refuse de maigrir\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #refuse #maigrir #apprendre #faitssurprenants #shorts",
       "proposed_tags": [
         "corps",
         "refuse",
@@ -516,14 +543,14 @@
     {
       "id": "Ubg7rTtym84",
       "url": "https://youtu.be/Ubg7rTtym84",
-      "age_hours": 134.5,
-      "views": 165,
+      "age_hours": 321.5,
+      "views": 168,
       "current_title": "Pourquoi un vertige apparaît après s'être levé ?",
       "reasons": [
-        "low views after 134h: 165 < 200"
+        "low views after 321h: 168 < 200"
       ],
       "proposed_title": "Pourquoi un vertige apparaît après s'être levé ?",
-      "proposed_description": "Ce que votre corps vous dit quand un vertige apparaît après s'être levé\n\nAbonne-toi pour plus de science simple.\n\n#shorts #corpshumain #anatomie #vertige #apparaît #levé",
+      "proposed_description": "Ce que votre corps vous dit quand un vertige apparaît après s'être levé\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #vertige #apparaît #levé #expliquesimple #cultivetoicerveau #shorts",
       "proposed_tags": [
         "corps",
         "vertige",
@@ -542,14 +569,14 @@
     {
       "id": "K8JSUbL13Oc",
       "url": "https://youtu.be/K8JSUbL13Oc",
-      "age_hours": 130.1,
-      "views": 31,
+      "age_hours": 317.1,
+      "views": 33,
       "current_title": "Pourquoi l'œil distingue plus de nuances de vert ?",
       "reasons": [
-        "low views after 130h: 31 < 200"
+        "low views after 317h: 33 < 200"
       ],
       "proposed_title": "Pourquoi l'œil distingue plus de nuances de vert ?",
-      "proposed_description": "Ce que la science explique sur les nuances de vert que l'œil distingue\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #nuances #vert #distingue",
+      "proposed_description": "Ce que la science explique sur les nuances de vert que l'œil distingue\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #nuances #vert #distingue #expliquesimple #curiosites #shorts",
       "proposed_tags": [
         "nuances",
         "vert",
@@ -567,14 +594,14 @@
     {
       "id": "1Y3DfG_Opg4",
       "url": "https://youtu.be/1Y3DfG_Opg4",
-      "age_hours": 111.5,
-      "views": 150,
+      "age_hours": 298.5,
+      "views": 152,
       "current_title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "reasons": [
-        "low views after 112h: 150 < 200"
+        "low views after 299h: 152 < 200"
       ],
       "proposed_title": "Pourquoi la faim revient à la même heure chaque jour ?",
-      "proposed_description": "Ce qui change lorsque la faim revient à la même heure chaque jour\n\nAbonne-toi pour plus de science simple.\n\n#shorts #culturegenerale #saviezvous #change #faim #revient",
+      "proposed_description": "Ce qui change lorsque la faim revient à la même heure chaque jour\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #change #faim #revient #cultivetoicerveau #curiosites #shorts",
       "proposed_tags": [
         "change",
         "faim",
@@ -582,6 +609,109 @@
         "même",
         "heure",
         "jour",
+        "science",
+        "culture generale",
+        "faits scientifiques",
+        "curiosites",
+        "phenomenes",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "CdbNz9T2sbA",
+      "url": "https://youtu.be/CdbNz9T2sbA",
+      "age_hours": 250.3,
+      "views": 190,
+      "current_title": "Pourquoi la respiration ralentit en dormant ?",
+      "reasons": [
+        "low views after 250h: 190 < 200"
+      ],
+      "proposed_title": "Pourquoi la respiration ralentit en dormant ?",
+      "proposed_description": "Ce que votre corps vous dit quand la respiration ralentit en dormant\n\nAbonne-toi pour plus de science simple.\n\n#corpshumain #anatomie #respiration #ralentit #dormant #apprendre #decouverte #shorts",
+      "proposed_tags": [
+        "corps",
+        "respiration",
+        "ralentit",
+        "dormant",
+        "corps humain",
+        "anatomie",
+        "biologie",
+        "physiologie",
+        "sante",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "jHvt1X6XDuY",
+      "url": "https://youtu.be/jHvt1X6XDuY",
+      "age_hours": 225.9,
+      "views": 105,
+      "current_title": "Pourquoi le stress brouille la mémoire ?",
+      "reasons": [
+        "low views after 226h: 105 < 200"
+      ],
+      "proposed_title": "Pourquoi le stress brouille la mémoire ?",
+      "proposed_description": "Ce qui change lorsque le stress brouille la mémoire\n\nAbonne-toi pour plus de science simple.\n\n#cerveau #neurosciences #change #stress #brouille #faitssurprenants #savoir #shorts",
+      "proposed_tags": [
+        "change",
+        "stress",
+        "brouille",
+        "mémoire",
+        "cerveau",
+        "neurosciences",
+        "psychologie",
+        "memoire",
+        "mental",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "PRXb_17G84s",
+      "url": "https://youtu.be/PRXb_17G84s",
+      "age_hours": 155.3,
+      "views": 83,
+      "current_title": "Pourquoi le cerveau crée des souvenirs faux ?",
+      "reasons": [
+        "low views after 155h: 83 < 200"
+      ],
+      "proposed_title": "Pourquoi le cerveau crée des souvenirs faux ?",
+      "proposed_description": "Ce qui change lorsque le cerveau crée des souvenirs faux\n\nAbonne-toi pour plus de science simple.\n\n#cerveau #neurosciences #change #crée #cultivetoicerveau #expliquesimple #shorts",
+      "proposed_tags": [
+        "change",
+        "cerveau",
+        "crée",
+        "souvenirs",
+        "faux",
+        "neurosciences",
+        "psychologie",
+        "memoire",
+        "mental",
+        "france",
+        "francophonie",
+        "français"
+      ]
+    },
+    {
+      "id": "vst_IwqiKpU",
+      "url": "https://youtu.be/vst_IwqiKpU",
+      "age_hours": 153.9,
+      "views": 36,
+      "current_title": "Pourquoi la musique change l'humeur ?",
+      "reasons": [
+        "low views after 154h: 36 < 200"
+      ],
+      "proposed_title": "Pourquoi la musique change l'humeur ?",
+      "proposed_description": "Pourquoi la musique change l'humeur\n\nAbonne-toi pour plus de science simple.\n\n#culturegenerale #saviezvous #musique #change #humeur #apprendre #faitssurprenants #shorts",
+      "proposed_tags": [
+        "musique",
+        "change",
+        "humeur",
         "science",
         "culture generale",
         "faits scientifiques",
