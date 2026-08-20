@@ -13,11 +13,14 @@ on:
         type: boolean
         default: false
   schedule:
-    # 3 videos per day for France/CET peaks:
-    # 12:30 / 19:30 / 21:00 Paris Time.
-    - cron: "30 10 * * *"
+    # 2 videos per day at French (CET/Paris) peak audience times:
+    #   - 18:30 Paris Time (evening commute + dinner scroll window, GMT+1/+2)
+    #   - 21:00 Paris Time (prime-time scroll window, highest Shorts activity)
+    # Crons are in UTC: 18:30 CET = 17:30 UTC; 21:00 CET = 20:00 UTC.
+    # (Previously 3/day; reduced 2026-08-21 per owner: 2 quality videos at
+    # peak slots beats 3 spread thin - better retention, same daily reach.)
     - cron: "30 17 * * *"
-    - cron: "0 19 * * *"
+    - cron: "0 20 * * *"
 
 permissions:
   contents: write

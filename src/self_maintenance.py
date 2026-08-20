@@ -10,10 +10,11 @@ problem and dispatch a one-shot workflow by hand.
 
 Three jobs, in order:
 
-1. SCHEDULE HEALTH — verify the learned publish slots still cover three
-   distinct daily Paris peaks and are spaced far enough apart. A broken or
-   collapsed schedule means videos pile onto one slot, which is exactly how a
-   day silently drops from 3 uploads to 1.
+1. SCHEDULE HEALTH — verify the learned publish slots still cover the two
+   daily Paris peaks (18:30 + 21:00 CET per 2026-08-21 schedule change) and
+   are spaced far enough apart. A broken or collapsed schedule means videos
+   pile onto one slot, which is exactly how a day silently drops to zero
+   uploads.
 
 2. UPLOADED-VIDEO REPAIR — re-check videos ALREADY on the channel for the
    defects the pipeline now blocks at generation time (truncated titles,
@@ -54,9 +55,10 @@ UTC = timezone.utc
 HISTORY_PATH = ROOT_DIR / "data" / "video_history.json"
 SLOT_INTEL_PATH = ROOT_DIR / "data" / "upload_slot_intel_fr.json"
 
-# A day is considered healthy when three videos were published. Below this the
-# channel is losing reach it already paid the compute for.
-EXPECTED_VIDEOS_PER_DAY = 3
+# 2026-08-21: owner moved the channel to 2 quality videos/day at French peak
+# slots (18:30 + 21:00 Paris). A day is healthy when two videos were
+# published; below this the channel is losing reach it paid the compute for.
+EXPECTED_VIDEOS_PER_DAY = 2
 # Two videos landing within this many minutes compete with each other in the
 # same Shorts feed refresh instead of covering separate audience peaks.
 MIN_SLOT_GAP_MINUTES = 90
@@ -333,11 +335,11 @@ def build_report(schedule: dict, cadence: dict, defects: list[dict], repair: dic
         f"Créneaux appris : {', '.join(schedule['slots']) or 'aucun'}",
     ]
     if schedule["ok"]:
-        lines.append("✅ Trois pics quotidiens distincts sont couverts.")
+        lines.append("✅ Les deux pics quotidiens distincts sont couverts.")
     else:
         lines.extend(f"⚠️ {problem}" for problem in schedule["problems"])
 
-    lines += ["", "## 2. Cadence réelle (3 vidéos/jour attendues)"]
+    lines += ["", "## 2. Cadence réelle (2 vidéos/jour attendues)"]
     for day, count in sorted(cadence["per_day"].items(), reverse=True):
         mark = "✅" if count >= EXPECTED_VIDEOS_PER_DAY else "⚠️"
         lines.append(f"{mark} {day} : {count}/{EXPECTED_VIDEOS_PER_DAY}")
