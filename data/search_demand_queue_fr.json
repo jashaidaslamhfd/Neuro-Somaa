@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-20",
-  "mined_at": "2026-08-20T19:36:12.579877+00:00",
+  "mined_at": "2026-08-20T19:41:48.922543+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi les genoux qui craquent en bougeant ?",
       "demand_note": "autocomplete: 'les genoux qui craquent'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:34:37.166744+00:00"
+      "mined_at": "2026-08-20T19:39:03.269778+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,7 @@
       "thumbnail_text": "Pourquoi un aliment froid provoque un mal de tête ?",
       "demand_note": "autocomplete: 'comment se débarrasser d'un mal de tête'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:34:58.711545+00:00"
+      "mined_at": "2026-08-20T19:39:23.231981+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -34,9 +34,9 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:35:18.815105+00:00"
+      "mined_at": "2026-08-20T19:40:03.144352+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -46,21 +46,45 @@
       "question_phrase": "pourquoi le cerveau est immature à 20 ans",
       "angle": "Pourquoi le cerveau est immature à 20 ans ?",
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
-      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau d'un adolescent'",
+      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:35:42.523659+00:00"
+      "mined_at": "2026-08-20T19:40:47.751526+00:00"
     },
     {
       "series_number": "DEM-5",
+      "series_title": "La mémoire invente des détails sans le vouloir",
+      "topic": "la mémoire invente des détails sans le vouloir",
+      "nominal_phrase": "la mémoire invente des détails sans le vouloir",
+      "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
+      "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
+      "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
+      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-20T19:41:06.707824+00:00"
+    },
+    {
+      "series_number": "DEM-6",
       "series_title": "Les yeux bougent pendant le sommeil paradoxal",
       "topic": "les yeux bougent pendant le sommeil paradoxal",
       "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
       "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
       "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
       "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'sommeil paradoxal c'est quoi'; autocomplete: 'le sommeil paradoxal'; autocomplete: 'sommeil profond et paradoxal'",
+      "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'qu'est-ce qu'une paralysie du sommeil'; autocomplete: 'trouble du sommeil paradoxal'; autocomplete: 'pourquoi on sursaute en dormant'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:36:01.707706+00:00"
+      "mined_at": "2026-08-20T19:41:25.920495+00:00"
+    },
+    {
+      "series_number": "DEM-7",
+      "series_title": "La voix tremble par nervosité",
+      "topic": "la voix tremble par nervosité",
+      "nominal_phrase": "la voix tremble par nervosité",
+      "question_phrase": "pourquoi la voix tremble par nervosité",
+      "angle": "Pourquoi la voix tremble par nervosité ?",
+      "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
+      "demand_note": "autocomplete: 'voix qui tremble stress'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-20T19:41:48.572126+00:00"
     }
   ]
 }

@@ -13,26 +13,23 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# FALLBACK CHAIN (in order):
-#   1) AI generation (Pollinations/HuggingFace/Gemini/Craiyon/etc via
-#      image_providers.PROVIDER_REGISTRY) - PRIMARY. This is the only layer
-#      that actually renders the exact scene ("dark cinematic anatomy shot",
-#      etc.) instead of grabbing whatever unrelated image already exists
-#      somewhere on the web, so it's what keeps visuals matching the script's
-#      tone and keeps every video's imagery unique (not shared with other
-#      creators - avoids "reused content" suppression on Shorts/Reels).
-#   2) Local pre-generated pool (assets/fallback_images/, built ahead of time
-#      by scripts/generate_fallback_images.py) - still on-niche AI art, just
-#      not rendered fresh for this exact scene. Used when every live AI
-#      provider is rate-limited.
-#   3) Pexels / Pixabay live stock photos - generic, and shared with
-#      thousands of other channels, so this only kicks in if 1 and 2 both
-#      fail entirely.
-#   4) Playwright screenshot of a random top search result - absolute last
-#      resort. This does NOT produce a themed visual (it's literally
-#      whatever webpage layout/ads/nav-bar happens to be on the page), so it
-#      only exists to guarantee *something* gets saved rather than crashing
-#      the whole video; it should essentially never fire in normal operation.
+# LAYER CHAIN (in order) — 2026-08-20 ORDER FLIP:
+#   1) Pexels / Pixabay stock CLIPS - PRIMARY. Real filmed footage with
+#      genuine camera motion and physics is what makes a Short feel
+#      HUMAN-made. Professional, license-safe, monetization-friendly.
+#   2) AI image generation (Pollinations/HuggingFace/Gemini/etc via
+#      image_providers.PROVIDER_REGISTRY) - FALLBACK, used when stock
+#      searches come up empty. Still unique per scene (hash-ledger
+#      enforced, avoids "reused content" suppression), and upgraded to
+#      genuine AI motion clips via Pollinations Seedance whenever
+#      POLLINATIONS_KEY is set.
+#   3) Pexels / Pixabay stock PHOTOS - below clips + AI art.
+#   4) Local pre-generated pool (assets/fallback_images/) - still on-niche
+#      AI art, not rendered fresh for this scene.
+#   5) Procedural numpy/PIL composition - never-fail floor.
+#   6) Playwright screenshot of a random top search result - absolute last
+#      resort. This does NOT produce a themed visual, so it only exists to
+#      guarantee *something* gets saved rather than crashing the video.
 # ---------------------------------------------------------------------------
 
 REQUEST_TIMEOUT = 30
@@ -756,23 +753,25 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
     # shared-stock look every other channel ships.
     topic = scene.get('topic', '') if isinstance(scene, dict) else ''
 
+    # 2026-08-20 ORDER FLIP (owner request: "videos Pexels/Pixabay se bnwao,
+    # professional clips primary; AI image generator fallback"). Real filmed
+    # stock B-roll reads as HUMAN-made to viewers - genuine camera motion and
+    # physics no AI render fully matches - so Pexels/Pixabay clips are now
+    # PRIMARY. AI image generation (still unique per scene + upgraded to
+    # AI motion clips via Seedance when POLLINATIONS_KEY is set) is the
+    # robust fallback when stock searches come up empty, followed by the
+    # never-fail procedural/Playwright floors.
     layers = [
-        # 2026-08-15 signature-world priority (user: "audience wants unique
-        # visuals, not what thousands of channels use"). Scenes rendered
-        # freshly in the channel's signature macro teal-lab world — visually
-        # unique per video (hash-ledger enforced) and recognizably Neuro-Somaa.
-        # Stock layers are license-safe (verified) but generic; they now sit
-        # BELOW as fallbacks, keeping the pipeline robust when every AI
-        # provider is rate-limited.
-        ("Signature-AI-primary",  lambda: _layer_ai_providers(index, scene_text, [
+        # --- PRIMARY: professional stock clips (real footage) ---
+        ("Pexels-video-primary",  lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
+        ("Pixabay-video-primary", lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
+        # --- FALLBACK: AI image generation (unique per scene) ---
+        ("Signature-AI-fallback", lambda: _layer_ai_providers(index, scene_text, [
             "Pollinations-flux", "Pollinations-turbo", "HuggingFace", "Gemini",
             "DeepAI", "ModelsLab", "Replicate",
         ], topic=topic)),
-        ("AI-Horde-secondary",    lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"], topic=topic)),
-        # Licensed stock B-roll for genuine motion (Pexels, then Pixabay).
-        ("Pexels-video-fallback", lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
-        ("Pixabay-video-fallback", lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
-        # REAL stock photos as fallback — photographic, not AI-art.
+        ("AI-Horde-fallback",     lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"], topic=topic)),
+        # REAL stock photos (photographic, no motion) - below clips+AI-art.
         ("Pexels-image-fallback", lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
         ("Pixabay-image-fallback", lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
         ("Local-fallback-pool",   lambda: _layer_local_pool(index, used_fallbacks)),
