@@ -524,10 +524,15 @@ def _question_title_from_phrase(phrase: str) -> str:
         return ""
 
     lowered = p.lower()
-    if lowered.startswith("comprendre pourquoi "):
-        p = p[len("comprendre "):]
-    elif lowered.startswith("voici pourquoi "):
-        p = p[len("voici "):]
+    # 2026-08-20 CTR fix: strip EVERY catalogue angle starter (not just
+    # "comprendre/voici") before wrapping the core in a question. The old
+    # code let "Ce que la science explique sur …" pass through untouched
+    # and produced the broken "Pourquoi ce que la science explique sur …"
+    # that shipped to the bandit ranking as the #1 candidate.
+    for starter in _ANGLE_PREFIXES:
+        if lowered.startswith(starter):
+            p = p[len(starter):].strip()
+            lowered = p.lower()
 
     lowered = p.lower()
     core = p[len("pourquoi "):].strip() if lowered.startswith("pourquoi ") else p
@@ -635,9 +640,13 @@ def _competitor_title_options(topic: str, script_data: dict, intel: dict) -> lis
             title = _truncate_title(f"Ce qu'il faut savoir sur {_clean_topic(nominal_phrase)}")
 
         # If competitor intel has no catalogue phrase but the current angle is
-        # already a `Pourquoi...` title, we can still produce the safe core
-        # question from our own topic.
-        if not title and template_id == "pourquoi-question":
+        # already a `Pourquoi...` question, we can still produce the safe core
+        # question from our own topic. A bare noun-phrase angle like
+        # "Ce que la science explique sur …" is NOT wrapped in a second
+        # "Pourquoi" (that produced the broken "Pourquoi ce que la science…"
+        # title) — _question_title_from_phrase handles its own starters.
+        if not title and template_id == "pourquoi-question" \
+                and topic.lower().startswith(("pourquoi", "comment", "combien")):
             title = _question_title_from_phrase(topic)
 
         if title and _not_exact_competitor_title(title, intel):
