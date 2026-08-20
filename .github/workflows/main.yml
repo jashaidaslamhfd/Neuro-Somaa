@@ -138,6 +138,11 @@ jobs:
           # blurs when stretched to 1080x1920 and now forces a retry on a
           # better provider instead of publishing mush.
           MIN_IMAGE_STRICT: "true"
+          # 2026-08-21: stock clip quality floor — Pexels/Pixabay clips must
+          # be portrait (w<h) AND at least 720px wide, or they blur/squash on
+          # the 1080x1920 canvas. Below-floor clips are skipped and the next
+          # candidate (or a later layer) is tried instead.
+          MIN_STOCK_CLIP_WIDTH: "720"
 
           # --- French audience voice ---
           # fr-FR-HenriNeural is proven reliable on edge-tts (full-length

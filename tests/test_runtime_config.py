@@ -1195,3 +1195,35 @@ class ViralBgmFallbackTests(unittest.TestCase):
             self.assertIn(term, _BASE_PROMPT, _BASE_PROMPT)
         # Old Khateb-Ishq sad-poetry wording must not leak into NS.
         self.assertNotIn("sad poetry", _BASE_PROMPT.lower())
+
+class StockClipOrientationQualityTests(unittest.TestCase):
+    """2026-08-21: stock clips were selected by max(width*height) alone.
+    Landscape Pexels files could win (wasting ~60% of width in the 9:16
+    crop) and 360p clips could blur at 1080x1920. Pixabay's video API has
+    NO orientation filter, so every variant had to be checked. The filter
+    now requires portrait shape AND a resolution floor before a clip is
+    ever downloaded."""
+
+    def test_pexels_layer_requires_portrait_and_resolution_floor(self):
+        source = (SRC_DIR / "image_generator.py").read_text()
+        # Portrait shape enforcement on Pexels file candidates.
+        self.assertIn('f.get("width", 0) < f.get("height", 0)', source)
+        # Resolution floor applied to candidates.
+        self.assertIn("f.get(\"width\", 0) >= min_clip_w", source)
+        # The filter text is present (regression-proofing).
+        self.assertIn("no portrait B-roll clip", source)
+
+    def test_pixabay_variants_checked_individually(self):
+        source = (SRC_DIR / "image_generator.py").read_text()
+        # Pixabay has no orientation filter on its video endpoint, so the
+        # per-variant portrait + floor check must exist (no API-level guard).
+        self.assertIn("large", source)
+        idx = source.index("def _stock_video_request")
+        block = source[idx:idx + 8000]  # full function incl. pixabay branch
+        self.assertIn("< var.get(\"height\", 0)", block)
+        self.assertIn(">= min_clip_w", block)
+        self.assertIn("no portrait B-roll clip", block)
+
+    def test_min_stock_clip_width_env_default_in_workflow(self):
+        wf = (ROOT / ".github/workflows/main.yml").read_text()
+        self.assertIn("MIN_STOCK_CLIP_WIDTH", wf)

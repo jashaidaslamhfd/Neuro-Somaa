@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-20",
-  "mined_at": "2026-08-20T19:41:48.922543+00:00",
+  "mined_at": "2026-08-20T19:50:07.114589+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,19 +12,19 @@
       "thumbnail_text": "Pourquoi les genoux qui craquent en bougeant ?",
       "demand_note": "autocomplete: 'les genoux qui craquent'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:39:03.269778+00:00"
+      "mined_at": "2026-08-20T19:47:03.258691+00:00"
     },
     {
       "series_number": "DEM-2",
-      "series_title": "Un aliment froid provoque un mal de tête",
-      "topic": "un aliment froid provoque un mal de tête",
-      "nominal_phrase": "un aliment froid provoque un mal de tête",
-      "question_phrase": "pourquoi un aliment froid provoque un mal de tête",
-      "angle": "Pourquoi un aliment froid provoque un mal de tête ?",
-      "thumbnail_text": "Pourquoi un aliment froid provoque un mal de tête ?",
-      "demand_note": "autocomplete: 'comment se débarrasser d'un mal de tête'",
+      "series_title": "L'apparition soudaine de la chair de pou",
+      "topic": "l'apparition soudaine de la chair de pou",
+      "nominal_phrase": "l'apparition soudaine de la chair de pou",
+      "question_phrase": "pourquoi l'apparition soudaine de la chair de pou",
+      "angle": "Pourquoi l'apparition soudaine de la chair de pou ?",
+      "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
+      "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:39:23.231981+00:00"
+      "mined_at": "2026-08-20T19:48:06.500842+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -34,9 +34,9 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:40:03.144352+00:00"
+      "mined_at": "2026-08-20T19:48:25.567311+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,7 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:40:47.751526+00:00"
+      "mined_at": "2026-08-20T19:49:10.080121+00:00"
     },
     {
       "series_number": "DEM-5",
@@ -58,9 +58,9 @@
       "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
       "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
+      "demand_note": "autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:41:06.707824+00:00"
+      "mined_at": "2026-08-20T19:49:21.952257+00:00"
     },
     {
       "series_number": "DEM-6",
@@ -72,7 +72,7 @@
       "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
       "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'qu'est-ce qu'une paralysie du sommeil'; autocomplete: 'trouble du sommeil paradoxal'; autocomplete: 'pourquoi on sursaute en dormant'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:41:25.920495+00:00"
+      "mined_at": "2026-08-20T19:49:44.213859+00:00"
     },
     {
       "series_number": "DEM-7",
@@ -84,7 +84,7 @@
       "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
       "demand_note": "autocomplete: 'voix qui tremble stress'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T19:41:48.572126+00:00"
+      "mined_at": "2026-08-20T19:50:06.763716+00:00"
     }
   ]
 }

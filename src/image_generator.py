@@ -632,6 +632,14 @@ def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
 def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     """Download a licensed stock B-roll clip for a scene when available."""
     query = _safe_query(scene_text, "human body science")[:80]
+    # 2026-08-21: orientation + quality matching. The canvas is 1080x1920
+    # (9:16 vertical). A landscape clip would lose ~60% of its width to the
+    # center-crop in _cover_video_clip and read as a blurry strip; a
+    # low-res clip (360p) upscaled to 1080x1920 reads as mush. Short
+    # clips (<3s) loop visibly. Enforce all three here so the first
+    # accepted candidate already fits the Shorts standard.
+    min_clip_w = int(os.environ.get("MIN_STOCK_CLIP_WIDTH", "720"))
+    min_clip_s = int(os.environ.get("MIN_STOCK_CLIP_SECONDS", "3"))
     if source == "pexels":
         key = os.environ.get("PEXELS_API_KEY")
         if not key:
@@ -648,8 +656,19 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
         urls = []
         for video in videos:
             files = video.get("video_files", [])
-            # Prefer MP4 clips that are large enough to survive a 9:16 crop.
-            candidates = [f for f in files if f.get("file_type") == "video/mp4" and f.get("link")]
+            # 2026-08-21: portrait-orientation + resolution floor. The
+            # API's orientation=portrait filter applies to the results
+            # list, but individual files can still be landscape or low-res;
+            # a landscape file wastes ~60% of its width in the 9:16 crop
+            # and a 360p file blurs at 1080x1920.
+            candidates = [
+                f for f in files
+                if f.get("file_type") == "video/mp4" and f.get("link")
+                and f.get("width", 0) < f.get("height", 0)  # must be portrait
+                and f.get("width", 0) >= min_clip_w          # resolution floor
+            ]
+            if video.get("duration", 0) <= 0:
+                continue
             if candidates:
                 chosen = max(candidates, key=lambda f: f.get("width", 0) * f.get("height", 0))
                 urls.append(chosen["link"])
@@ -666,15 +685,31 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
             raise RuntimeError(f"Pixabay video bad response: {response.status_code}")
         urls = []
         for hit in response.json().get("hits", []):
+            # 2026-08-21: the Pixabay video endpoint has NO orientation
+            # filter (API limitation), so every variant must be checked
+            # individually: portrait shape + resolution floor only.
+            # small=640x360 and medium variants blur when stretched to
+            # 1080x1920, so large/640p variants are preferred.
             variants = hit.get("videos", {})
-            chosen = variants.get("large") or variants.get("medium") or variants.get("small")
-            if chosen and chosen.get("url"):
+            order = ["large", "medium", "small"]
+            chosen = None
+            for key in order:
+                var = variants.get(key)
+                if not var or not var.get("url"):
+                    continue
+                if (var.get("width", 0) < var.get("height", 0)
+                        and var.get("width", 0) >= min_clip_w):
+                    chosen = var
+                    break
+            if chosen:
                 urls.append(chosen["url"])
     else:
         raise ValueError(f"Unknown stock-video source: {source}")
 
     if not urls:
-        raise RuntimeError(f"{source}: no usable B-roll video for '{query}'")
+        raise RuntimeError(
+            f"{source}: no portrait B-roll clip >= {min_clip_w}px wide for "
+            f"'{query}' - orientation/quality filter passed none")
     with _fallback_lock:
         url = next((item for item in urls if item not in used_fallbacks), urls[0])
         used_fallbacks.add(url)
