@@ -41,7 +41,10 @@ REQUEST_TIMEOUT = 30
 # reaching a provider that actually responds (Pexels). Failing faster here
 # doesn't change the eventual outcome when Pollinations is down/degraded -
 # it just gets to a working image sooner.
-POLLINATIONS_TIMEOUT = 15
+POLLINATIONS_TIMEOUT = 25  # 2026-08-20: raised 15->25s after live runs showed
+                      # intermittent flux/turbo responses landing at 20-24s
+                      # (was being wrongly retried and failed to the wrong
+                      # provider before the response could finish)
 
 POLLINATIONS_URL = "https://image.pollinations.ai/prompt"
 HF_API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
@@ -58,12 +61,15 @@ class RateLimitError(RuntimeError):
 def _pollinations_request(prompt, seed, model):
     url = f"{POLLINATIONS_URL}/{prompt}?width=1080&height=1920&seed={seed}&model={model}&nologo=true"
     last_status = None
-    for attempt in range(3):
-        response = requests.get(url, timeout=POLLINATIONS_TIMEOUT)
-        if response.status_code == 200 and len(response.content) > 2000:
-            return response.content
-        last_status = response.status_code
-        if response.status_code == 429:
+    for attempt in range(2):  # 2026-08-20: 3 attempts -> 2 (one retry only)
+        try:
+            response = requests.get(url, timeout=POLLINATIONS_TIMEOUT)
+            if response.status_code == 200 and len(response.content) > 2000:
+                return response.content
+            last_status = response.status_code
+        except Exception:  # network flake during a long 25s request - retry once
+            continue
+        if last_status == 429:
             time.sleep(2 + attempt * 3)
             continue
         break

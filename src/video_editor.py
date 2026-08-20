@@ -601,6 +601,28 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
             logger.info("Using asset music: %s", selected)
             return selected
 
+    # 2026-08-20: VIRAL BGM FALLBACK. The synthetic drone was the LAST
+    # thing a viewer heard on 30% of videos — flat, boring, 'AI channel'.
+    # With VIRAL_BGM_FALLBACK=true (default on CI now), a ModelsLab
+    # AI-generated UNIQUE minor-key piano/violin bed is tried BEFORE the
+    # drone: every video gets its own original track (topic-themed, no
+    # Content ID, no stock repetition) — the same free engine that powers
+    # the Khateb-Ishq viral music layer. MODELSLAB_API_KEY is already in
+    # repo secrets. If the API is down/rate-limited, the drone still plays
+    # so no slot is ever burned.
+    if os.environ.get("VIRAL_BGM_FALLBACK", "").strip().lower() == "true":
+        try:
+            import music_generator as _mg
+            gen = _mg.generate_sad_music(
+                theme=topic or "mystery",
+                duration=max(20, int(duration)),
+            )
+            if gen and os.path.isfile(gen) and os.path.getsize(gen) > 100_000:
+                logger.info("Viral unique BGM generated for topic '%s' -> %s", topic, gen)
+                return gen
+        except Exception as exc:  # noqa: BLE001 - drone is the safe floor
+            logger.warning("Viral BGM generation skipped (%s) - falling through", exc)
+
     logger.warning("No playable track found in %s; using generated ambient fallback.", MUSIC_DIR)
     os.makedirs(output_dir, exist_ok=True)
     music_path = os.path.join(output_dir, "bg_music.wav")

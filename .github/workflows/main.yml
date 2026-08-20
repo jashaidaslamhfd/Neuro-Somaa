@@ -127,6 +127,17 @@ jobs:
           # POLLINATIONS_KEY secret (added by user 2026-08-16).
           POLLINATIONS_KEY: ${{ secrets.POLLINATIONS_KEY }}
           PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
+          # 2026-08-20: viral BGM fallback. When set to "true", any run that
+          # falls through to the synthetic ambient drone instead tries the
+          # ModelsLab AI-generated unique track (emotional piano/violin
+          # minor-key bed, original per video, no Content ID) BEFORE the
+          # drone. MODELSLAB_API_KEY already exists in repo secrets.
+          VIRAL_BGM_FALLBACK: "true"
+          # 2026-08-20: force SHORTS-TIER image resolution (>=720px shortest
+          # side). Anything smaller (e.g. AI-Horde anonymous 448x768 / 320x512)
+          # blurs when stretched to 1080x1920 and now forces a retry on a
+          # better provider instead of publishing mush.
+          MIN_IMAGE_STRICT: "true"
 
           # --- French audience voice ---
           # fr-FR-HenriNeural is proven reliable on edge-tts (full-length

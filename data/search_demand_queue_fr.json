@@ -1,6 +1,6 @@
 {
-  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-19",
-  "mined_at": "2026-08-19T05:55:58.631897+00:00",
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-20",
+  "mined_at": "2026-08-20T19:36:12.579877+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,19 +12,19 @@
       "thumbnail_text": "Pourquoi les genoux qui craquent en bougeant ?",
       "demand_note": "autocomplete: 'les genoux qui craquent'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-19T05:55:37.318783+00:00"
+      "mined_at": "2026-08-20T19:34:37.166744+00:00"
     },
     {
       "series_number": "DEM-2",
-      "series_title": "L'apparition soudaine de la chair de pou",
-      "topic": "l'apparition soudaine de la chair de pou",
-      "nominal_phrase": "l'apparition soudaine de la chair de pou",
-      "question_phrase": "pourquoi l'apparition soudaine de la chair de pou",
-      "angle": "Pourquoi l'apparition soudaine de la chair de pou ?",
-      "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
-      "demand_note": "autocomplete: 'la chair de poule'",
+      "series_title": "Un aliment froid provoque un mal de tête",
+      "topic": "un aliment froid provoque un mal de tête",
+      "nominal_phrase": "un aliment froid provoque un mal de tête",
+      "question_phrase": "pourquoi un aliment froid provoque un mal de tête",
+      "angle": "Pourquoi un aliment froid provoque un mal de tête ?",
+      "thumbnail_text": "Pourquoi un aliment froid provoque un mal de tête ?",
+      "demand_note": "autocomplete: 'comment se débarrasser d'un mal de tête'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-19T05:55:44.201727+00:00"
+      "mined_at": "2026-08-20T19:34:58.711545+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -34,9 +34,9 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-19T05:55:46.505650+00:00"
+      "mined_at": "2026-08-20T19:35:18.815105+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,19 +48,19 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau d'un adolescent'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-19T05:55:51.075471+00:00"
+      "mined_at": "2026-08-20T19:35:42.523659+00:00"
     },
     {
       "series_number": "DEM-5",
-      "series_title": "La mémoire invente des détails sans le vouloir",
-      "topic": "la mémoire invente des détails sans le vouloir",
-      "nominal_phrase": "la mémoire invente des détails sans le vouloir",
-      "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
-      "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
+      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
+      "topic": "les yeux bougent pendant le sommeil paradoxal",
+      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
+      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
+      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'sommeil paradoxal c'est quoi'; autocomplete: 'le sommeil paradoxal'; autocomplete: 'sommeil profond et paradoxal'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-19T05:55:53.367363+00:00"
+      "mined_at": "2026-08-20T19:36:01.707706+00:00"
     }
   ]
 }

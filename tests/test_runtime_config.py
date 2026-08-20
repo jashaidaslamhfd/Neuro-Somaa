@@ -1110,3 +1110,88 @@ class DurationBudgetTests(unittest.TestCase):
             sg = self._budget(low, high)
             capacity = sg.HOOK_MAX_WORDS + 5 * sg.MAX_SCENE_WORDS
             self.assertGreaterEqual(capacity, sg.MIN_WORDS)
+
+class ShortsTierResolutionTests(unittest.TestCase):
+    """2026-08-20: AI-Horde (anonymous key) was shipping 320x512 and 448x768
+    images which blur visibly on the 1080x1920 Shorts canvas.
+    MIN_IMAGE_STRICT=true (CI default now) enforces >=720px shortest side.
+    """
+
+    def setUp(self):
+        try:
+            from media_validator import MediaValidationError, validate_scene_image
+        except ModuleNotFoundError as exc:
+            self.skipTest(f"deps not installed here: {exc}")
+        self.validate = validate_scene_image
+        self.error = MediaValidationError
+
+    def _write(self, array):
+        import tempfile
+
+        import numpy as np
+        from PIL import Image
+        with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
+            path = tmp.name
+        Image.fromarray(np.uint8(array)).save(path, quality=95)
+        return path
+
+    def test_small_ai_horde_image_rejected_under_strict(self):
+        import numpy as np
+        rng = np.random.default_rng(3)
+        small = rng.integers(0, 255, size=(768, 448, 3))  # AI-Horde bottom tier
+        path = self._write(small)
+        # Legacy (non-strict) mode only accepts >= 512px shortest side, so
+        # the true AI-Horde bottom tier (448px) is rejected everywhere.
+        with self.assertRaises(self.error):
+            self.validate(path, strict=False)
+        # Strict mode (CI default) must reject it as below Shorts-tier.
+        with self.assertRaises(self.error) as ctx:
+            self.validate(path, strict=True)
+        self.assertIn("Shorts-tier", str(ctx.exception))
+
+    def test_hd_image_passes_strict_mode(self):
+        import numpy as np
+        rng = np.random.default_rng(11)
+        hd = rng.integers(0, 255, size=(1920, 1080, 3))  # Pollinations/Flux tier
+        result = self.validate(self._write(hd), strict=True)
+        self.assertEqual(result["width"], 1080)
+
+    def test_strict_mode_env_is_honoured(self):
+        import numpy as np
+        import os
+        rng = np.random.default_rng(5)
+        small = rng.integers(0, 255, size=(512, 320, 3))
+        path = self._write(small)
+        saved = os.environ.pop("MIN_IMAGE_STRICT", None)
+        try:
+            os.environ["MIN_IMAGE_STRICT"] = "true"
+            with self.assertRaises(self.error):
+                self.validate(path)  # strict kwarg defaults to env
+        finally:
+            if saved is None:
+                os.environ.pop("MIN_IMAGE_STRICT", None)
+            else:
+                os.environ["MIN_IMAGE_STRICT"] = saved
+
+
+class ViralBgmFallbackTests(unittest.TestCase):
+    """2026-08-20: when a run falls through to the synthetic drone, a
+    ModelsLab AI-generated UNIQUE dark-science bed is now tried first
+    (VIRAL_BGM_FALLBACK=true, default on CI)."""
+
+    def test_viral_fallback_wired_into_video_editor(self):
+        import inspect
+        from video_editor import _get_music_track
+        src = inspect.getsource(_get_music_track)
+        self.assertIn("VIRAL_BGM_FALLBACK", src)
+        self.assertIn("music_generator", src)
+        # The synthetic drone must remain the safe floor - never removed.
+        self.assertIn("_synthesize_ambient_bed", src)
+
+    def test_music_generator_brand_is_dark_science(self):
+        import inspect
+        from music_generator import _BASE_PROMPT
+        for term in ("minor-key piano", "mysterious", "instrumental only"):
+            self.assertIn(term, _BASE_PROMPT, _BASE_PROMPT)
+        # Old Khateb-Ishq sad-poetry wording must not leak into NS.
+        self.assertNotIn("sad poetry", _BASE_PROMPT.lower())

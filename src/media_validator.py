@@ -37,7 +37,8 @@ class MediaValidationError(RuntimeError):
     pass
 
 
-def validate_scene_image(path: str, min_side: int = 512) -> dict:
+def validate_scene_image(path: str, min_side: int = 512,
+                         strict: bool | None = None) -> dict:
     """Decode an image and reject error pages, corrupt, tiny, black,
     OUT-OF-FOCUS or graphically violent assets.
 
@@ -50,7 +51,19 @@ def validate_scene_image(path: str, min_side: int = 512) -> dict:
         horror face on a calm French science channel: off-brand, and the kind
         of shock visual that suppresses advertiser suitability.
     Both passed because the only tests were "not black" and "not blank".
+
+    2026-08-20: caller can pass strict=True (or MIN_IMAGE_STRICT=true) to
+    enforce the SHORTS-TIER minimum of 720px shortest side. Images below it
+    (e.g. AI-Horde anonymous 320x512 / 448x768) blur visibly once stretched
+    to the 1080x1920 canvas and read as "low quality AI channel" — exactly
+    the trust signal that suppresses a mature French science audience.
     """
+    # Resolve strict mode before anything else.
+    if strict is None:
+        strict = os.environ.get("MIN_IMAGE_STRICT", "false").lower() == "true"
+    if strict:
+        min_side = max(min_side, 720)
+
     if not path or not os.path.isfile(path):
         raise MediaValidationError(f"Image does not exist: {path}")
     try:
@@ -60,7 +73,11 @@ def validate_scene_image(path: str, min_side: int = 512) -> dict:
             image = image.convert("RGB")
             width, height = image.size
             if min(width, height) < min_side:
-                raise MediaValidationError(f"Image too small: {width}x{height}")
+                label = "below Shorts-tier" if strict else "too small"
+                raise MediaValidationError(
+                    f"Image {label}: {width}x{height} "
+                    f"(minimum {min_side}px shortest side)"
+                )
             sample = np.asarray(image.resize((64, 64)), dtype=np.float32)
             brightness = float(sample.mean())
             variation = float(sample.std())
