@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-21",
-  "mined_at": "2026-08-21T18:23:55.871655+00:00",
+  "mined_at": "2026-08-21T20:53:35.526312+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:40.105792+00:00"
+      "mined_at": "2026-08-21T20:53:18.926475+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -22,9 +22,9 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:42.290472+00:00"
+      "mined_at": "2026-08-21T20:53:21.191262+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -36,7 +36,7 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:46.592543+00:00"
+      "mined_at": "2026-08-21T20:53:25.716437+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -46,24 +46,12 @@
       "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
       "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
+      "demand_note": "autocomplete: 'quand une mémoire traumatique est réactivée'; autocomplete: 'c'est quoi la mémoire'; autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:48.748029+00:00"
+      "mined_at": "2026-08-21T20:53:27.995149+00:00"
     },
     {
       "series_number": "DEM-5",
-      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
-      "topic": "les yeux bougent pendant le sommeil paradoxal",
-      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
-      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
-      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "demand_note": "autocomplete: 'qu'est-ce qu'une paralysie du sommeil'; autocomplete: 'sommeil paradoxal c'est quoi'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:50.886535+00:00"
-    },
-    {
-      "series_number": "DEM-6",
       "series_title": "La voix tremble par nervosité",
       "topic": "la voix tremble par nervosité",
       "nominal_phrase": "la voix tremble par nervosité",
@@ -72,19 +60,7 @@
       "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
       "demand_note": "autocomplete: 'voix qui tremble stress'; autocomplete: 'comment ne plus avoir la voix qui tremble'; autocomplete: 'la voix qui tremble'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:54.725435+00:00"
-    },
-    {
-      "series_number": "DEM-7",
-      "series_title": "Ce qui change lorsque le cœur s'emballe sous le stress",
-      "topic": "ce qui change lorsque le cœur s'emballe sous le stress",
-      "nominal_phrase": "ce qui change lorsque le cœur s'emballe sous le stress",
-      "question_phrase": "pourquoi le cœur s'emballe sous le stress",
-      "angle": "Pourquoi le cœur s'emballe sous le stress ?",
-      "thumbnail_text": "Pourquoi le cœur s'emballe sous le stress ?",
-      "demand_note": "autocomplete: 'le coeur qui s'emballe'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-21T18:23:55.520497+00:00"
+      "mined_at": "2026-08-21T20:53:34.343046+00:00"
     }
   ]
 }
