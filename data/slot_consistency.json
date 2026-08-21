@@ -53,6 +53,12 @@
       "outcome": "guard_fail",
       "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
       "at": "2026-08-21T07:07:55.976679+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "guard_fail",
+      "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
+      "at": "2026-08-21T08:21:00.350842+00:00"
     }
   ]
 }
