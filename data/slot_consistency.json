@@ -65,6 +65,12 @@
       "outcome": "published",
       "topic": "Pourquoi le hoquet ne s'arr\u00eate pas ?",
       "at": "2026-08-21T09:38:34.289736+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "guard_fail",
+      "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
+      "at": "2026-08-21T18:31:17.226673+00:00"
     }
   ]
 }

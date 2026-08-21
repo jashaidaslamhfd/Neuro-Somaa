@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-21T08:21:00.349462Z",
+  "failed_at": "2026-08-21T18:31:17.224880Z",
   "reason": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le temps en danger ?' already published as FeerNnWZkYg on 2026-08-09T05:54:51.712079+00:00",
   "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 923, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le temps en danger ?' already published as FeerNnWZkYg on 2026-08-09T05:54:51.712079+00:00\n"
 }
