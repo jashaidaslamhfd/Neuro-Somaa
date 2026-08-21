@@ -47,6 +47,12 @@
       "outcome": "guard_fail",
       "topic": "Duplicate title blocked before upload: 'Pourquoi le b\u00e2illement se transmet aux a",
       "at": "2026-08-20T18:42:25.165962+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "guard_fail",
+      "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
+      "at": "2026-08-21T07:07:55.976679+00:00"
     }
   ]
 }

@@ -1,33 +1,9 @@
 {
-  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-20",
-  "mined_at": "2026-08-20T21:03:17.774320+00:00",
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-21",
+  "mined_at": "2026-08-21T06:59:44.182882+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
-      "series_title": "Les genoux qui craquent en bougeant",
-      "topic": "les genoux qui craquent en bougeant",
-      "nominal_phrase": "les genoux qui craquent en bougeant",
-      "question_phrase": "pourquoi les genoux qui craquent en bougeant",
-      "angle": "Pourquoi les genoux qui craquent en bougeant ?",
-      "thumbnail_text": "Pourquoi les genoux qui craquent en bougeant ?",
-      "demand_note": "autocomplete: 'les genoux qui craquent'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:01:51.843625+00:00"
-    },
-    {
-      "series_number": "DEM-2",
-      "series_title": "Un aliment froid provoque un mal de tête",
-      "topic": "un aliment froid provoque un mal de tête",
-      "nominal_phrase": "un aliment froid provoque un mal de tête",
-      "question_phrase": "pourquoi un aliment froid provoque un mal de tête",
-      "angle": "Pourquoi un aliment froid provoque un mal de tête ?",
-      "thumbnail_text": "Pourquoi un aliment froid provoque un mal de tête ?",
-      "demand_note": "autocomplete: 'comment se débarrasser d'un mal de tête'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:02:11.297081+00:00"
-    },
-    {
-      "series_number": "DEM-3",
       "series_title": "L'apparition soudaine de la chair de pou",
       "topic": "l'apparition soudaine de la chair de pou",
       "nominal_phrase": "l'apparition soudaine de la chair de pou",
@@ -36,55 +12,67 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:02:21.239287+00:00"
+      "mined_at": "2026-08-21T06:59:28.918774+00:00"
     },
     {
-      "series_number": "DEM-4",
+      "series_number": "DEM-2",
       "series_title": "Le muscle qui tressaille tout seul",
       "topic": "le muscle qui tressaille tout seul",
       "nominal_phrase": "le muscle qui tressaille tout seul",
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'muscle contracté que faire'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:02:31.383402+00:00"
+      "mined_at": "2026-08-21T06:59:30.996050+00:00"
     },
     {
-      "series_number": "DEM-5",
+      "series_number": "DEM-3",
       "series_title": "Le cerveau est immature à 20 ans",
       "topic": "le cerveau est immature à 20 ans",
       "nominal_phrase": "le cerveau est immature à 20 ans",
       "question_phrase": "pourquoi le cerveau est immature à 20 ans",
       "angle": "Pourquoi le cerveau est immature à 20 ans ?",
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
-      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'",
+      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:02:52.949707+00:00"
+      "mined_at": "2026-08-21T06:59:35.167930+00:00"
     },
     {
-      "series_number": "DEM-6",
+      "series_number": "DEM-4",
       "series_title": "La mémoire invente des détails sans le vouloir",
       "topic": "la mémoire invente des détails sans le vouloir",
       "nominal_phrase": "la mémoire invente des détails sans le vouloir",
       "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
       "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "demand_note": "autocomplete: 'la mémoire de nos jours'",
+      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:03:00.990808+00:00"
+      "mined_at": "2026-08-21T06:59:37.241927+00:00"
     },
     {
-      "series_number": "DEM-7",
+      "series_number": "DEM-5",
       "series_title": "Les yeux bougent pendant le sommeil paradoxal",
       "topic": "les yeux bougent pendant le sommeil paradoxal",
       "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
       "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
       "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
       "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "demand_note": "autocomplete: 'sommeil paradoxal c'est quoi'; autocomplete: 'comment éviter le sommeil'; autocomplete: 'c'est quoi une paralysie du sommeil'; autocomplete: 'le sommeil paradoxal'",
+      "demand_note": "autocomplete: 'le sommeil paradoxal'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-20T21:03:08.909339+00:00"
+      "mined_at": "2026-08-21T06:59:39.300130+00:00"
+    },
+    {
+      "series_number": "DEM-6",
+      "series_title": "La voix tremble par nervosité",
+      "topic": "la voix tremble par nervosité",
+      "nominal_phrase": "la voix tremble par nervosité",
+      "question_phrase": "pourquoi la voix tremble par nervosité",
+      "angle": "Pourquoi la voix tremble par nervosité ?",
+      "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
+      "demand_note": "autocomplete: 'voix qui tremble stress'; autocomplete: 'comment ne plus avoir la voix qui tremble'; autocomplete: 'la voix qui tremble'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-21T06:59:43.048343+00:00"
     }
   ]
 }
