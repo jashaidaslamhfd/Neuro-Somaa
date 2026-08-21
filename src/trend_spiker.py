@@ -21,10 +21,10 @@ Safety rules (never relaxed):
     whether spike slots out-perform queue slots (AB evidence for the ML
     brain, no human tuning required).
 """
+
 import logging
 import os
 import re
-from typing import Dict, List, Optional
 
 import requests
 
@@ -34,28 +34,68 @@ SPIKE_KEYWORDS = {
     # Sommeil / cerveau / corps - les piliers qui rapportent des vues.
     # English equivalents included: YouTube France trending titles are often
     # in English even on FR feed, and Google Trends RSS exposes EN strings.
-    "sleep": ("sleep", "insomnia", "rem", "dream", "nap", "melatonin",
-              "circadian", "somnambul", "sleepwalk",
-              "sommeil", "rêve", "reve", "insomnie", "sieste"),
-    "brain": ("brain", "mind", "memory", "focus", "dementia", "alzheimer",
-              "cognitive", "neuro",
-              "cerveau", "mémoire", "memoire", "attention", "tête", "tete"),
-    "body": ("body", "immune", "heart", "metabolism", "hormone", "adrenal",
-             "cortisol", "fasting", "gut", "muscle", "cramp",
-             "corps", "cœur", "coeur", "cortisol", "muscle", "digestion"),
+    "sleep": (
+        "sleep",
+        "insomnia",
+        "rem",
+        "dream",
+        "nap",
+        "melatonin",
+        "circadian",
+        "somnambul",
+        "sleepwalk",
+        "sommeil",
+        "rêve",
+        "reve",
+        "insomnie",
+        "sieste",
+    ),
+    "brain": (
+        "brain",
+        "mind",
+        "memory",
+        "focus",
+        "dementia",
+        "alzheimer",
+        "cognitive",
+        "neuro",
+        "cerveau",
+        "mémoire",
+        "memoire",
+        "attention",
+        "tête",
+        "tete",
+    ),
+    "body": (
+        "body",
+        "immune",
+        "heart",
+        "metabolism",
+        "hormone",
+        "adrenal",
+        "cortisol",
+        "fasting",
+        "gut",
+        "muscle",
+        "cramp",
+        "corps",
+        "cœur",
+        "coeur",
+        "cortisol",
+        "muscle",
+        "digestion",
+    ),
 }
 
 _HEADERS = {
     "User-Agent": (
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/124.0 Safari/537.36"
+        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
     ),
     "Accept-Language": "en-US,en;q=0.9",
 }
 
 
-def _request_public(url: str, *, params: Optional[Dict] = None,
-                    timeout: int = 15) -> Optional[requests.Response]:
+def _request_public(url: str, *, params: dict | None = None, timeout: int = 15) -> requests.Response | None:
     try:
         resp = requests.get(url, params=params, headers=_HEADERS, timeout=timeout)
         if resp.status_code != 200:
@@ -66,10 +106,9 @@ def _request_public(url: str, *, params: Optional[Dict] = None,
         return None
 
 
-def _google_trends_entries() -> List[str]:
+def _google_trends_entries() -> list[str]:
     """Google Trends daily RSS - public, no key."""
-    resp = _request_public("https://trends.google.com/trending/rss",
-                           params={"geo": "FR"})
+    resp = _request_public("https://trends.google.com/trending/rss", params={"geo": "FR"})
     if resp is None:
         return []
     items = re.findall(r"<title[^>]*>(.+?)</title>", resp.text)
@@ -77,7 +116,7 @@ def _google_trends_entries() -> List[str]:
     return [re.sub(r"<[^>]+>", "", t).strip() for t in items[1:]][:15]
 
 
-def _youtube_trending_titles() -> List[str]:
+def _youtube_trending_titles() -> list[str]:
     """YouTube trending page - public HTML with public watch counts."""
     resp = _request_public("https://www.youtube.com/feed/trending")
     if resp is None:
@@ -96,7 +135,7 @@ def _signal_strength(matches: int, sources: int) -> bool:
     return sources >= 2 or matches >= 2
 
 
-def _topic_record(topic: str, sources: List[str], rank: int) -> Dict:
+def _topic_record(topic: str, sources: list[str], rank: int) -> dict:
     return {
         "topic": topic,
         "source": "trend_spike",
@@ -109,7 +148,7 @@ def _topic_record(topic: str, sources: List[str], rank: int) -> Dict:
     }
 
 
-def get_trend_spike(exclude: Optional[List[str]] = None) -> Optional[Dict]:
+def get_trend_spike(exclude: list[str] | None = None) -> dict | None:
     """Return a spike topic if one exists, else None.
 
     The pipeline calls this once per run. None means "no override - use the
@@ -126,7 +165,7 @@ def get_trend_spike(exclude: Optional[List[str]] = None) -> Optional[Dict]:
         logger.info("Trend-Spiker: no public feeds reachable this run - queue topic used.")
         return None
 
-    hits: Dict[str, Dict] = {}
+    hits: dict[str, dict] = {}
     for raw in gt + yt:
         key = raw.strip().lower()
         if not key or len(key) < 6:
@@ -138,8 +177,11 @@ def get_trend_spike(exclude: Optional[List[str]] = None) -> Optional[Dict]:
         if any(ex in key for ex in excluded if len(ex) >= 6):
             continue
         in_gt, in_yt = raw in gt, raw in yt
-        src = "google_trends+youtube_trending" if (in_gt and in_yt) else \
-              ("google_trends" if in_gt else "youtube_trending")
+        src = (
+            "google_trends+youtube_trending"
+            if (in_gt and in_yt)
+            else ("google_trends" if in_gt else "youtube_trending")
+        )
         hits[key] = {"topic": raw.strip(), "src": src, "in_gt": in_gt, "in_yt": in_yt}
 
     if not hits:
@@ -149,17 +191,18 @@ def get_trend_spike(exclude: Optional[List[str]] = None) -> Optional[Dict]:
     # topics show up on one feed (multiple hot entries = rising category heat).
     multi = {k: v for k, v in hits.items() if v["src"].startswith("google_trends+")}
     if multi:
-        chosen_key, chosen = next(iter(multi.items()))
+        _chosen_key, chosen = next(iter(multi.items()))
         n = len(multi)
         sources = ["google_trends", "youtube_trending"]
     else:
-        chosen_key, chosen = next(iter(hits.items()))
+        _chosen_key, chosen = next(iter(hits.items()))
         n = len(hits)
         sources = ["google_trends"] if chosen["in_gt"] else ["youtube_trending"]
     if not _signal_strength(n, 2 if multi else 1):
         return None
 
     record = _topic_record(chosen["topic"], sources, n)
-    logger.info("Trend-Spiker: SPIKE OVERRIDE - %s (%s, %d confirmations)",
-                record["topic"], record["sources"], n)
+    logger.info(
+        "Trend-Spiker: SPIKE OVERRIDE - %s (%s, %d confirmations)", record["topic"], record["sources"], n
+    )
     return record

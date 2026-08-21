@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """2026-08-19 HOOK VISUAL UPGRADE TESTS
 
 Lightweight, TTS-free unit tests covering the three new first-3-second
@@ -17,10 +16,10 @@ All of it stays inside the existing quality/monetization gates: the caption
 auto-fit loop still shrinks oversized hook text, and the zoom remains
 hard-capped at ZOOM_MAX.
 """
-import unittest
 
-import sys
 import os
+import sys
+import unittest
 
 SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
 sys.path.insert(0, SRC)
@@ -34,14 +33,12 @@ class HookPromptFramingTests(unittest.TestCase):
         self.vs = __import__("visual_signature")
 
     def test_scene_zero_prompt_carries_hook_suffix(self):
-        prompt = self.ig._build_prompt("cœur accéléré sans raison",
-                                       topic="coeur", hook_scene=True)
+        prompt = self.ig._build_prompt("cœur accéléré sans raison", topic="coeur", hook_scene=True)
         self.assertIn("EXTREME FIRST-FRAME HOOK", prompt)
         self.assertIn("tight macro close-up", prompt)
 
     def test_later_scenes_stay_clean(self):
-        prompt = self.ig._build_prompt("le sommeil répare la mémoire",
-                                       topic="sommeil", hook_scene=False)
+        prompt = self.ig._build_prompt("le sommeil répare la mémoire", topic="sommeil", hook_scene=False)
         self.assertNotIn("EXTREME FIRST-FRAME HOOK", prompt)
         self.assertIn("teal", prompt)
 
@@ -71,8 +68,10 @@ class HookCaptionEmphasisTests(unittest.TestCase):
     def test_hook_text_does_not_exceed_normal_bounds_silently(self):
         """A very long hook phrase must still fit: the auto-fit loop shrinks
         it to the same safe bounds a normal caption would hit."""
-        long_text = ("Pourquoi votre corps se réveille pile cinq minutes "
-                     "avant le réveil alors que rien ne le réveille ?")
+        long_text = (
+            "Pourquoi votre corps se réveille pile cinq minutes "
+            "avant le réveil alors que rien ne le réveille ?"
+        )
         big = self.ve._caption_clip(long_text, 1.2, is_hook=True)
         self.assertLessEqual(big.size[0], int(self.ve.CANVAS_W * 0.82) + 40)
 
@@ -85,6 +84,7 @@ class HookSnapZoomTests(unittest.TestCase):
         # Render a real 100x100 PNG as the beat source (no stock needed).
         import numpy as np
         from PIL import Image
+
         os.makedirs("/tmp/hook_test", exist_ok=True)
         arr = np.random.RandomState(42).randint(40, 200, (200, 200, 3)).astype("uint8")
         self.img = "/tmp/hook_test/hook_src.jpg"
@@ -99,6 +99,7 @@ class HookSnapZoomTests(unittest.TestCase):
         f_snap = snap.get_frame(0.5)
         f_smooth = smooth.get_frame(0.5)
         import numpy as np
+
         self.assertGreater(np.abs(f_snap.astype(float) - f_smooth.astype(float)).mean(), 2.0)
 
     def test_zoom_cap_still_enforced_on_hook_snap(self):

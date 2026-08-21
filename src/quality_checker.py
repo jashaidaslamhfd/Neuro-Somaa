@@ -56,10 +56,10 @@ class QualityChecker:
     def check_script_quality(self, script_data: dict) -> dict:
         if not script_data:
             return {
-                'approved': False,
-                'scores': {'overall_quality': 0},
-                'issues': ['Empty script data'],
-                'suggestions': [],
+                "approved": False,
+                "scores": {"overall_quality": 0},
+                "issues": ["Empty script data"],
+                "suggestions": [],
             }
 
         # --- 1. Structural validation ---
@@ -75,14 +75,14 @@ class QualityChecker:
         except Exception as e:
             logger.error(f"Retention analysis failed: {e}")
             retention = {
-                'retention_score': 0,
-                'suggestions': [f"Retention analysis error: {e}"],
-                'scenes': len(script_data.get('scenes', [])),
-                'word_count': len(script_data.get('voiceover', '').split()),
-                'is_viral_ready': False,
+                "retention_score": 0,
+                "suggestions": [f"Retention analysis error: {e}"],
+                "scenes": len(script_data.get("scenes", [])),
+                "word_count": len(script_data.get("voiceover", "").split()),
+                "is_viral_ready": False,
             }
 
-        overall_quality = retention.get('retention_score', 0)
+        overall_quality = retention.get("retention_score", 0)
 
         # Hard structural failures cap the score regardless of retention score,
         # so a script missing required fields can never be "approved".
@@ -92,23 +92,21 @@ class QualityChecker:
         approved = is_valid and overall_quality >= self.approval_threshold
 
         scores = {
-            'overall_quality': overall_quality,
-            'retention_score': retention.get('retention_score', 0),
-            'is_viral_ready': retention.get('is_viral_ready', False),
-            'scenes': retention.get('scenes', len(script_data.get('scenes', []))),
-            'word_count': retention.get('word_count', 0),
+            "overall_quality": overall_quality,
+            "retention_score": retention.get("retention_score", 0),
+            "is_viral_ready": retention.get("is_viral_ready", False),
+            "scenes": retention.get("scenes", len(script_data.get("scenes", []))),
+            "word_count": retention.get("word_count", 0),
         }
 
         if not is_valid:
             logger.warning(f"Script failed structural validation: {issues}")
         else:
-            logger.info(
-                f"Script quality check: overall={overall_quality}, approved={approved}"
-            )
+            logger.info(f"Script quality check: overall={overall_quality}, approved={approved}")
 
         return {
-            'approved': approved,
-            'scores': scores,
-            'issues': issues,
-            'suggestions': retention.get('suggestions', []),
+            "approved": approved,
+            "scores": scores,
+            "issues": issues,
+            "suggestions": retention.get("suggestions", []),
         }

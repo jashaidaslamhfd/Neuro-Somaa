@@ -8,7 +8,6 @@ import logging
 import os
 import re
 import time
-from typing import Optional
 
 try:
     from groq import BadRequestError, Groq
@@ -19,10 +18,7 @@ except ImportError:  # lets offline validation/tests import this module
 # ============================================
 # LOGGING CONFIGURATION
 # ============================================
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # ============================================
@@ -35,6 +31,8 @@ logger = logging.getLogger(__name__)
 # ~2.5-3s per-scene pace, the format that scored 59.65% retention here).
 MIN_SCENES = 6
 MAX_SCENES = 6
+
+
 # 96 words at the cloned-voice pace reliably reaches ~40 seconds while
 # leaving normal language room; forcing 104+ made the LLM pad or fail scenes.
 def _duration_word_budget() -> tuple:
@@ -53,6 +51,7 @@ def _duration_word_budget() -> tuple:
     half of short runs died on "refusing destructive speed-up".
     """
     import os as _os
+
     words_per_second = 2.1
     # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
@@ -91,6 +90,7 @@ def _parse_groq_rate_limit_wait(err_str: str, default_sec: int = 300) -> int:
     of crashing the pipeline.
     """
     import re as _re
+
     m = _re.search(
         r"try again in "
         r"(?:(\d+)d)?\s*(?:(\d+)h)?\s*(?:(\d+)m)?\s*(?:(\d+(?:\.\d+)?)s)?",
@@ -99,13 +99,9 @@ def _parse_groq_rate_limit_wait(err_str: str, default_sec: int = 300) -> int:
     if not m or not any(m.groups()):
         return default_sec
     days, hours, mins, secs = m.groups()
-    total = (
-        int(days or 0) * 86400
-        + int(hours or 0) * 3600
-        + int(mins or 0) * 60
-        + int(float(secs or 0))
-    )
+    total = int(days or 0) * 86400 + int(hours or 0) * 3600 + int(mins or 0) * 60 + int(float(secs or 0))
     return total + 10 if total > 0 else default_sec
+
 
 # 2026-08-12 model migration: Groq retires BOTH legacy Llama chat models
 # (llama-3.1-8b-instant and llama-3.3-70b-versatile) on 2026-08-16.
@@ -113,7 +109,6 @@ def _parse_groq_rate_limit_wait(err_str: str, default_sec: int = 300) -> int:
 # hooks + titles -> better CTR/retention); gpt-oss-20b is the fast fallback.
 DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b"
 DEFAULT_GROQ_MODEL_FALLBACK = "openai/gpt-oss-20b"
-
 
 
 # ============================================
@@ -129,7 +124,8 @@ OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
 OPENROUTER_TIMEOUT = 60
 
-def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optional[str]:
+
+def _openrouter_generate(messages, temperature=None, max_tokens=None) -> str | None:
     """Call OpenRouter as a fallback LLM when Groq is rate-limited/down.
 
     Returns the raw assistant text, or None on failure (never raises, so the
@@ -141,6 +137,7 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optiona
         return None
     try:
         import requests as _req
+
         payload = {"model": OPENROUTER_MODEL, "messages": messages}
         if temperature is not None:
             payload["temperature"] = temperature
@@ -161,19 +158,18 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optiona
             json=payload,
             timeout=OPENROUTER_TIMEOUT,
         )
+
         # 2026-08-17: several free models on OpenRouter ignore
         # response_format and echo chain-of-thought text instead of JSON.
         # One automatic re-ask with an explicit JSON-only instruction
         # recovers most of those replies without code churn.
         def _reply_has_json(text: str) -> bool:
             return bool(text) and "{" in text
+
         if resp.status_code == 200:
             text = resp.json().get("choices", [{}])[0].get("message", {}).get("content", "")
             if not _reply_has_json(text):
-                backup_msgs = [
-                    {"role": m["role"], "content": m["content"]}
-                    for m in messages
-                ]
+                backup_msgs = [{"role": m["role"], "content": m["content"]} for m in messages]
                 backup_msgs[-1]["content"] += (
                     "\n\nCRITICAL: Respond with ONLY a raw JSON object "
                     "starting with '{' — no thinking, no markdown, "
@@ -192,16 +188,11 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optiona
                         timeout=OPENROUTER_TIMEOUT,
                     )
                     if r3.status_code == 200:
-                        text2 = r3.json().get("choices", [{}])[0].get(
-                            "message", {}
-                        ).get("content", "")
+                        text2 = r3.json().get("choices", [{}])[0].get("message", {}).get("content", "")
                         if _reply_has_json(text2):
-                            logger.warning(
-                                "OpenRouter re-ask recovered a JSON reply "
-                                "after plain-text echo"
-                            )
+                            logger.warning("OpenRouter re-ask recovered a JSON reply after plain-text echo")
                             return text2
-                except Exception:  # noqa: BLE001
+                except Exception:
                     pass
         if resp.status_code in (404, 429) or (resp.status_code == 200 and not _reply_has_json(text)):
             # 2026-08-17: rotate free models on two failure modes — the
@@ -221,11 +212,11 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optiona
                     )
                     if models.status_code == 200:
                         _candidates = [
-                            m["id"] for m in models.json().get("data", [])
-                            if m.get("id", "").endswith(":free")
-                            and m["id"] != OPENROUTER_MODEL
+                            m["id"]
+                            for m in models.json().get("data", [])
+                            if m.get("id", "").endswith(":free") and m["id"] != OPENROUTER_MODEL
                         ]
-                except Exception:  # noqa: BLE001
+                except Exception:
                     _candidates = []
             for mid in _candidates[:5]:
                 try:
@@ -241,30 +232,29 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> Optiona
                         timeout=OPENROUTER_TIMEOUT,
                     )
                     if r2.status_code == 200:
-                        t2 = r2.json().get("choices", [{}])[0].get(
-                            "message", {}
-                        ).get("content", "")
+                        t2 = r2.json().get("choices", [{}])[0].get("message", {}).get("content", "")
                         logger.warning(
-                            "OpenRouter model %s rotated; retried on %s "
-                            "(reply has JSON: %s)",
-                            OPENROUTER_MODEL, mid, _reply_has_json(t2),
+                            "OpenRouter model %s rotated; retried on %s (reply has JSON: %s)",
+                            OPENROUTER_MODEL,
+                            mid,
+                            _reply_has_json(t2),
                         )
                         if _reply_has_json(t2):
                             return t2
-                except Exception:  # noqa: BLE001
+                except Exception:
                     continue
-            logger.warning("OpenRouter fallback failed: HTTP %s (all refreshed models exhausted)", resp.status_code)
+            logger.warning(
+                "OpenRouter fallback failed: HTTP %s (all refreshed models exhausted)", resp.status_code
+            )
             return None
         if resp.status_code != 200:
             logger.warning("OpenRouter fallback failed: HTTP %s", resp.status_code)
             return None
         data = resp.json()
         return data["choices"][0]["message"]["content"]
-    except Exception as exc:  # noqa: BLE001 - fallback must never raise
+    except Exception as exc:
         logger.warning("OpenRouter fallback error: %s", exc)
         return None
-
-
 
 
 # 2026-08-17: Gemini 2.5 Flash (free tier) as the THIRD LLM fallback — when
@@ -274,7 +264,7 @@ GEMINI_TEXT_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemin
 GEMINI_TIMEOUT = 60
 
 
-def _gemini_generate(messages, temperature=None, max_tokens=None) -> Optional[str]:
+def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
     """Call Google Gemini 2.5 Flash (free) when Groq + OpenRouter both fail.
 
     Returns the raw assistant text or None (never raises). The system prompt
@@ -308,7 +298,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> Optional[st
                         t = part.get("text")
                         if t:
                             text += t
-            except Exception:  # noqa: BLE001
+            except Exception:
                 text = ""
             if "{" in text:
                 return text
@@ -337,7 +327,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> Optional[st
             return None
         logger.warning("Gemini fallback failed: HTTP %s", resp.status_code)
         return None
-    except Exception as exc:  # noqa: BLE001 - fallback must never raise
+    except Exception as exc:
         logger.warning("Gemini fallback error: %s", exc)
         return None
 
@@ -356,6 +346,7 @@ def groq_model_chain() -> list:
         chain.append(fallback)
     return chain
 
+
 # A fast, clear opening that comfortably fits in the first 2–3 seconds.
 HOOK_MIN_WORDS = 5
 HOOK_MAX_WORDS = 9
@@ -369,38 +360,95 @@ MAX_SCENE_WORDS = 10
 # watched on ~39s Shorts, because the first 2 seconds carry zero information.
 # _validate_script() rejects a scene-1 caption starting with any of them.
 GENERIC_HOOK_OPENERS = (
-    "vous avez déjà", "vous avez probablement", "vous avez peut-être",
-    "tu as déjà", "tu as probablement", "tu as peut-être",
-    "vous avez l'impression", "tu as l'impression",
-    "vous avez ressenti", "tu as ressenti",
-    "vous vous réveillez", "tu te réveilles", "tu t'es réveillé",
-    "ça vous arrive", "ca vous arrive",
-    "ça t'arrive", "n'avez-vous jamais", "navez-vous jamais",
-    "saviez-vous que", "imaginez que", "imagine que",
-    "il vous est déjà arrivé", "il t'est déjà arrivé",
+    "vous avez déjà",
+    "vous avez probablement",
+    "vous avez peut-être",
+    "tu as déjà",
+    "tu as probablement",
+    "tu as peut-être",
+    "vous avez l'impression",
+    "tu as l'impression",
+    "vous avez ressenti",
+    "tu as ressenti",
+    "vous vous réveillez",
+    "tu te réveilles",
+    "tu t'es réveillé",
+    "ça vous arrive",
+    "ca vous arrive",
+    "ça t'arrive",
+    "n'avez-vous jamais",
+    "navez-vous jamais",
+    "saviez-vous que",
+    "imaginez que",
+    "imagine que",
+    "il vous est déjà arrivé",
+    "il t'est déjà arrivé",
     # spoken-register equivalents the humanizer produces — without these the
     # gate would be blind to the same opener after « vous »→« tu » rewrite.
-    "t'as déjà", "t'as probablement", "t'as peut-être", "t'as l'impression",
-    "t'as ressenti", "t'as remarqué", "tu as remarqué",
+    "t'as déjà",
+    "t'as probablement",
+    "t'as peut-être",
+    "t'as l'impression",
+    "t'as ressenti",
+    "t'as remarqué",
+    "tu as remarqué",
 )
 
 # Scene 2 must open with the mechanism itself (V4 answer-first arc).
 ANSWER_FIRST_PREFIXES = (
-    "c'est", "cest", "ton cerveau", "ton corps", "votre cerveau", "votre corps",
-    "en fait", "la raison", "ce sont", "tes ", "vos ", "ton ", "votre ",
+    "c'est",
+    "cest",
+    "ton cerveau",
+    "ton corps",
+    "votre cerveau",
+    "votre corps",
+    "en fait",
+    "la raison",
+    "ce sont",
+    "tes ",
+    "vos ",
+    "ton ",
+    "votre ",
 )
 
 # A title such as "Why Got Fired Matters" is grammatically short but gives
 # viewers no scientific subject. Require a concrete channel-relevant anchor.
 TITLE_TOPIC_ANCHORS = {
-    "cerveau", "corps", "sommeil", "mémoire", "coeur", "cœur", "yeux", "oeil", "œil",
-    "ventre", "nerf", "hormone", "cellule", "sang", "immunité", "santé", "science",
-    "espace", "nasa", "planète", "océan", "physique", "technologie", "robot", "ia",
-    "anatomie", "biologie", "psychologie", "génétique", "virus",
+    "cerveau",
+    "corps",
+    "sommeil",
+    "mémoire",
+    "coeur",
+    "cœur",
+    "yeux",
+    "oeil",
+    "œil",
+    "ventre",
+    "nerf",
+    "hormone",
+    "cellule",
+    "sang",
+    "immunité",
+    "santé",
+    "science",
+    "espace",
+    "nasa",
+    "planète",
+    "océan",
+    "physique",
+    "technologie",
+    "robot",
+    "ia",
+    "anatomie",
+    "biologie",
+    "psychologie",
+    "génétique",
+    "virus",
 }
 # ============================================
 # 1. SYSTEM PROMPT (NATIVE TONE + RETENTION)
 # ============================================
+
 
 def _get_system_prompt() -> str:
     """French editorial standard for a France-first science Shorts channel."""
@@ -476,10 +524,10 @@ RÈGLES DE RÉTENTION (4 temps + boucle) :
   secondes — sinon le spectateur a sa récompense et part.
 """
 
+
 # ============================================
 # 2. PROMPT GENERATION
 # ============================================
-
 
 
 def _viral_inspiration() -> str:
@@ -490,6 +538,7 @@ def _viral_inspiration() -> str:
     only. Empty when no intel exists."""
     try:
         import json as _json
+
         path = os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
         if not os.path.exists(path):
             return ""
@@ -499,13 +548,11 @@ def _viral_inspiration() -> str:
         # Top viral title patterns by avg_views
         patterns = sorted(
             (p for p in intel.get("patterns", []) if p.get("avg_views", 0) > 0),
-            key=lambda p: p["avg_views"], reverse=True,
+            key=lambda p: p["avg_views"],
+            reverse=True,
         )[:4]
         if patterns:
-            pts = ", ".join(
-                f"{p['pattern']} ({p['avg_views']//1000}k vues moyennes)"
-                for p in patterns
-            )
+            pts = ", ".join(f"{p['pattern']} ({p['avg_views'] // 1000}k vues moyennes)" for p in patterns)
             parts.append(f"Les schémas de titres les plus viraux du créneau : {pts}.")
         # A few safe title keywords from viral winners
         kws = intel.get("title_keywords", []) or []
@@ -526,13 +573,17 @@ def _default_prompt(topic: str) -> str:
     body_glitch_mode = _series == "body_glitches_fr"
     evolution_mode = _series == "body_evolution_fr"
     surprise_mode = _series == "faits_surprenants_fr"
-    series_rules = """
+    series_rules = (
+        """
 RÈGLES SÉRIE « RÉFLEXES DU CORPS » :
 - Traite un phénomène quotidien, familier et à faible risque.
 - Adopte un ton calme, curieux et fiable ; pas de diagnostic, de traitement ou d'alarmisme.
 - Explique ce qui se produit habituellement, avec une conclusion simple et prudente.
 - Si nécessaire, rappelle que des symptômes nouveaux, persistants, sévères ou inquiétants justifient l'avis d'un professionnel qualifié.
-""" if body_glitch_mode else ""
+"""
+        if body_glitch_mode
+        else ""
+    )
     if surprise_mode:
         series_rules += """
 ANGLE UNIQUE « FAITS QUI SEMBLENT FAUX » (faible concurrence, forte demande) :
@@ -570,12 +621,14 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
     # intelligence layer can significance-test which hook style actually
     # retains viewers — instead of guessing.
     from viral_engineering import hook_arm_for_topic, hook_style_instruction, loop_bridge_for
+
     # ML LEARNED HOOK (2026-08-15): the growth engine measures which opening
     # frame actually survives past 3 s on THIS channel. When one is a proven
     # winner, bias the hook arm toward it (variety is kept: it applies when
     # the learned frame maps to an experiment arm).
     try:
         from growth_engine import get_preferred_hook_frame
+
         _learned_frame = get_preferred_hook_frame()
         if _learned_frame:
             # learned frames are growth_engine.hook_frame labels
@@ -586,9 +639,9 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
             # experiment engine speaks:
             _frame_to_arm = {
                 "question": "question",
-                "why": "question",          # FR titles "Pourquoi... ?"
-                "what": "question",          # "Ce qui se passe quand..."
-                "how": "question",           # "Comment..."
+                "why": "question",  # FR titles "Pourquoi... ?"
+                "what": "question",  # "Ce qui se passe quand..."
+                "how": "question",  # "Comment..."
                 "second_person": "pov_reveal",
                 "statement": "shock_fact",
             }
@@ -596,7 +649,7 @@ ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
             if _arm:
                 os.environ.setdefault("VIRAL_HOOK_ARM", _arm)
                 logger.info("🧠 ML learned hook: using proven frame '%s' (arm=%s)", _learned_frame, _arm)
-    except Exception as exc:  # noqa: BLE001 - learned hook must never break generation
+    except Exception as exc:
         logger.debug("Learned hook frame unavailable: %s", exc)
     hook_arm = hook_arm_for_topic(topic)
     hook_rule = hook_style_instruction(hook_arm)
@@ -680,9 +733,11 @@ JSON UNIQUEMENT :
 {{"title":"...","thumbnail_text":"...","hook":"...","scenes":[{{"visual":"...","caption":"..."}}],"cta":"...","description":"..."}}
 """
 
+
 # ============================================
 # 3. JSON CLEANING FUNCTION
 # ============================================
+
 
 def _clean_json_response(raw_reply: str) -> dict:
     """
@@ -691,97 +746,92 @@ def _clean_json_response(raw_reply: str) -> dict:
     """
     if not raw_reply:
         raise ValueError("Empty response from LLM")
-    
+
     # Remove markdown code blocks
-    raw_reply = re.sub(r'```json\s*', '', raw_reply)
-    raw_reply = re.sub(r'```\s*', '', raw_reply)
-    
+    raw_reply = re.sub(r"```json\s*", "", raw_reply)
+    raw_reply = re.sub(r"```\s*", "", raw_reply)
+
     # Try to find JSON object
-    json_match = re.search(r'\{.*\}', raw_reply, re.DOTALL)
-    if json_match:
-        json_str = json_match.group(0)
-    else:
-        json_str = raw_reply
-    
+    json_match = re.search(r"\{.*\}", raw_reply, re.DOTALL)
+    json_str = json_match.group(0) if json_match else raw_reply
+
     # Clean common JSON issues
     json_str = json_str.strip()
-    
+
     # Fix trailing commas
-    json_str = re.sub(r',\s*}', '}', json_str)
-    json_str = re.sub(r',\s*]', ']', json_str)
-    
+    json_str = re.sub(r",\s*}", "}", json_str)
+    json_str = re.sub(r",\s*]", "]", json_str)
+
     # NOTE: We intentionally do NOT blanket-convert single quotes to double
     # quotes here. Groq's response_format={"type": "json_object"} already
     # guarantees valid double-quoted JSON, and the system prompt asks for
     # natural contractions ("don't", "you're"), which contain apostrophes.
     # Converting those apostrophes to '"' corrupts the JSON mid-string
     # (this was the root cause of the "Expecting ',' delimiter" errors).
-    
+
     # Remove control characters
-    json_str = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', json_str)
-    
+    json_str = re.sub(r"[\x00-\x1f\x7f-\x9f]", "", json_str)
+
     # Fix unescaped newlines in strings
-    json_str = re.sub(r'(?<!\\)\n', ' ', json_str)
-    
+    json_str = re.sub(r"(?<!\\)\n", " ", json_str)
+
     # Try to parse
     try:
         return json.loads(json_str)
     except json.JSONDecodeError as e:
         logger.warning(f"JSON parsing failed: {e}")
         logger.debug(f"Cleaned JSON: {json_str[:500]}...")
-        
+
         # Fallback: Try to extract with regex
         fallback = {}
-        
+
         # Extract title
         title_match = re.search(r'"title"\s*:\s*"([^"]+)"', json_str)
         if title_match:
-            fallback['title'] = title_match.group(1)
-        
+            fallback["title"] = title_match.group(1)
+
         # Extract hook
         hook_match = re.search(r'"hook"\s*:\s*"([^"]+)"', json_str)
         if hook_match:
-            fallback['hook'] = hook_match.group(1)
-        
+            fallback["hook"] = hook_match.group(1)
+
         # Extract scenes
         scenes_match = re.search(r'"scenes"\s*:\s*\[(.*?)\]', json_str, re.DOTALL)
         if scenes_match:
             scenes_str = scenes_match.group(1)
             scenes = []
             # Find all scene objects
-            scene_blocks = re.finditer(r'\{[^{}]*\}', scenes_str, re.DOTALL)
+            scene_blocks = re.finditer(r"\{[^{}]*\}", scenes_str, re.DOTALL)
             for block in scene_blocks:
                 scene_str = block.group(0)
                 visual_match = re.search(r'"visual"\s*:\s*"([^"]+)"', scene_str)
                 caption_match = re.search(r'"caption"\s*:\s*"([^"]+)"', scene_str)
                 if visual_match and caption_match:
-                    scenes.append({
-                        'visual': visual_match.group(1),
-                        'caption': caption_match.group(1)
-                    })
+                    scenes.append({"visual": visual_match.group(1), "caption": caption_match.group(1)})
             if scenes:
-                fallback['scenes'] = scenes
-        
+                fallback["scenes"] = scenes
+
         # Extract CTA
         cta_match = re.search(r'"cta"\s*:\s*"([^"]+)"', json_str)
         if cta_match:
-            fallback['cta'] = cta_match.group(1)
-        
+            fallback["cta"] = cta_match.group(1)
+
         # Extract description
         desc_match = re.search(r'"description"\s*:\s*"([^"]+)"', json_str)
         if desc_match:
-            fallback['description'] = desc_match.group(1)
-        
+            fallback["description"] = desc_match.group(1)
+
         if fallback:
             logger.info("✅ Extracted data using regex fallback")
             return fallback
-        
+
         raise ValueError(f"Could not parse JSON from response: {raw_reply[:200]}") from e
 
 
 # ============================================
 # 4. SCRIPT VALIDATION & NORMALIZATION
 # ============================================
+
 
 def _trim_to_word_limit(caption: str, max_words: int) -> str:
     """Trim a caption down to at most max_words, preferring to stop at the
@@ -800,7 +850,7 @@ def _trim_to_word_limit(caption: str, max_words: int) -> str:
     # too short — regeneration is better than broken audio.
     last_stop = max(truncated.rfind("."), truncated.rfind("!"), truncated.rfind("?"))
     if last_stop >= len(truncated) * 0.3:
-        return truncated[:last_stop + 1]
+        return truncated[: last_stop + 1]
     # No sentence boundary: cut at the last clause boundary so the spoken
     # line still sounds like a deliberate end, not a crash.
     clause_floor = len(truncated) * 0.4
@@ -820,34 +870,28 @@ def _normalize_scenes(script_data: dict) -> dict:
     Ensures all required fields are present.
     """
     normalized = []
-    
-    for s in script_data.get('scenes', []):
+
+    for s in script_data.get("scenes", []):
         # Try different field names
-        visual = s.get('visual') or s.get('description') or s.get('image') or ''
-        caption = s.get('caption') or s.get('text') or s.get('speech') or ''
-        
+        visual = s.get("visual") or s.get("description") or s.get("image") or ""
+        caption = s.get("caption") or s.get("text") or s.get("speech") or ""
+
         # Clean and validate
         visual = visual.strip()
         caption = caption.strip()
-        
+
         if visual and caption:
-            normalized.append({
-                "visual": visual,
-                "caption": caption
-            })
+            normalized.append({"visual": visual, "caption": caption})
         elif caption and not visual:
             # If only caption exists, generate a generic visual
-            normalized.append({
-                "visual": f"Dark cinematic shot of {caption[:30]}...",
-                "caption": caption
-            })
+            normalized.append({"visual": f"Dark cinematic shot of {caption[:30]}...", "caption": caption})
 
     # Auto-fix: trim any scene that's over its word limit instead of
     # spending a full LLM retry on something a simple trim already solves.
     # Scene 1 (the hook) has a tighter cap - see _validate_script for why.
     for i, scene in enumerate(normalized):
         limit = HOOK_MAX_WORDS if i == 0 else MAX_SCENE_WORDS
-        scene['caption'] = _trim_to_word_limit(scene['caption'], limit)
+        scene["caption"] = _trim_to_word_limit(scene["caption"], limit)
 
     # HUMANIZE (2026-08-11): spoken-French post-pass. LLM output is written
     # register (« vous », « ce n'est pas », glued sentences); TTS reads that
@@ -855,26 +899,29 @@ def _normalize_scenes(script_data: dict) -> dict:
     # string is assembled and validated, so what viewers hear is what passed
     # the gates. Never blocks; failures just skip the pass.
     try:
-        from french_humanizer import humanize_spoken_fr, formality_leftovers
+        from french_humanizer import formality_leftovers, humanize_spoken_fr
+
         all_changes: list[str] = []
         # The hook (first words viewers hear) is the single most
         # AI-sounding line when left in written register — always run it
         # through the humanizer even when it matches scene 1's caption.
-        if script_data.get('hook'):
-            fixed_hook, hook_ch = humanize_spoken_fr(script_data['hook'])
-            script_data['hook'] = fixed_hook
+        if script_data.get("hook"):
+            fixed_hook, hook_ch = humanize_spoken_fr(script_data["hook"])
+            script_data["hook"] = fixed_hook
             all_changes.extend(hook_ch)
         for scene in normalized:
-            fixed, ch = humanize_spoken_fr(scene['caption'])
-            scene['caption'] = fixed
+            fixed, ch = humanize_spoken_fr(scene["caption"])
+            scene["caption"] = fixed
             all_changes.extend(ch)
-        if script_data.get('description'):
-            script_data['description'], _dh = humanize_spoken_fr(script_data['description'])
+        if script_data.get("description"):
+            script_data["description"], _dh = humanize_spoken_fr(script_data["description"])
             all_changes.extend(_dh)
         if all_changes:
             import logging as _log
+
             _log.getLogger(__name__).info(
-                "🗣️ Humanizer (français parlé): %s", ", ".join(sorted(set(all_changes))))
+                "🗣️ Humanizer (français parlé): %s", ", ".join(sorted(set(all_changes)))
+            )
         # 2026-08-17: formality_leftovers() was imported but never actually
         # called — its own docstring says it exists specifically "for the
         # pipeline logger to watch humanization coverage", so surface it.
@@ -882,19 +929,24 @@ def _normalize_scenes(script_data: dict) -> dict:
         # quality problem (breaks the "spoken to a friend" tone the scoring
         # gates are trying to enforce), so this is worth knowing per-video,
         # not just silently swallowed.
-        leftovers = formality_leftovers(script_data.get('voiceover', '') or ' '.join(
-            s['caption'] for s in normalized))
+        leftovers = formality_leftovers(
+            script_data.get("voiceover", "") or " ".join(s["caption"] for s in normalized)
+        )
         if leftovers > 0:
             import logging as _log
+
             _log.getLogger(__name__).warning(
                 "🗣️ %d formal-register marker(s) (vous/votre) survived "
-                "humanization — voiceover may read stiff.", leftovers)
+                "humanization — voiceover may read stiff.",
+                leftovers,
+            )
     except Exception as _hum_exc:  # pragma: no cover - defensive
         import logging as _log
+
         _log.getLogger(__name__).warning("Humanizer skipped: %s", _hum_exc)
 
-    script_data['scenes'] = normalized
-    script_data['voiceover'] = ' '.join(s['caption'] for s in normalized)
+    script_data["scenes"] = normalized
+    script_data["voiceover"] = " ".join(s["caption"] for s in normalized)
 
     # Auto-fix: the scored hook must be the exact line viewers hear first.
     # Rather than relying on the LLM to retype the hook identically to
@@ -902,7 +954,7 @@ def _normalize_scenes(script_data: dict) -> dict:
     # force them to match - scene 1's caption is the source of truth since
     # that's what's actually spoken.
     if normalized:
-        script_data['hook'] = normalized[0]['caption']
+        script_data["hook"] = normalized[0]["caption"]
 
     return script_data
 
@@ -910,14 +962,14 @@ def _normalize_scenes(script_data: dict) -> dict:
 def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     """
     Validates script for quality and completeness.
-    
+
     Returns:
         (is_valid, issues_list)
     """
     issues = []
-    
+
     # Check required fields
-    required_fields = ['title', 'hook', 'scenes', 'cta']
+    required_fields = ["title", "hook", "scenes", "cta"]
     for field in required_fields:
         if not script_data.get(field):
             issues.append(f"Missing required field: {field}")
@@ -926,47 +978,49 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # Glitch episode title before SEO/upload. Do not burn API retries over
     # title word counts here; the published title is validated by the series.
     # Check scenes
-    scenes = script_data.get('scenes', [])
+    scenes = script_data.get("scenes", [])
     if len(scenes) < MIN_SCENES:
         issues.append(f"Too few scenes: {len(scenes)} (minimum {MIN_SCENES})")
     elif len(scenes) > MAX_SCENES:
         issues.append(f"Too many scenes: {len(scenes)} (maximum {MAX_SCENES})")
-    
+
     # Check word count
-    voiceover = script_data.get('voiceover', '')
+    voiceover = script_data.get("voiceover", "")
     word_count = len(voiceover.split())
     if word_count < MIN_WORDS:
         issues.append(f"Too few words: {word_count} (minimum {MIN_WORDS})")
     elif word_count > MAX_WORDS:
         issues.append(f"Too many words: {word_count} (maximum {MAX_WORDS})")
-    
+
     # Check each scene
     # (HOOK_MIN_WORDS/HOOK_MAX_WORDS/MAX_SCENE_WORDS are the same constants
     # _normalize_scenes already auto-trims to, so a script that's been
     # normalized should always pass this - this check is now mostly a
     # safety net for anything normalization didn't catch.)
     for i, scene in enumerate(scenes):
-        if not scene.get('visual'):
-            issues.append(f"Scene {i+1} missing visual description")
-        if not scene.get('caption'):
-            issues.append(f"Scene {i+1} missing caption")
+        if not scene.get("visual"):
+            issues.append(f"Scene {i + 1} missing visual description")
+        if not scene.get("caption"):
+            issues.append(f"Scene {i + 1} missing caption")
         else:
-            scene_words = len(scene['caption'].split())
+            scene_words = len(scene["caption"].split())
             if i == 0:
                 if scene_words < HOOK_MIN_WORDS or scene_words > HOOK_MAX_WORDS:
                     issues.append(
-                        f"Scene {i+1} (hook) has {scene_words} words "
+                        f"Scene {i + 1} (hook) has {scene_words} words "
                         f"(allowed {HOOK_MIN_WORDS}-{HOOK_MAX_WORDS} to stay under the 4s hook-duration gate)"
                     )
             elif scene_words > MAX_SCENE_WORDS:
-                issues.append(f"Scene {i+1} has {scene_words} words (maximum {MAX_SCENE_WORDS})")
+                issues.append(f"Scene {i + 1} has {scene_words} words (maximum {MAX_SCENE_WORDS})")
 
     # The scored hook must be the line viewers actually hear first.
-    if scenes and script_data.get('hook'):
+    if scenes and script_data.get("hook"):
+
         def norm(value):
             return re.sub(r"[^a-z0-9 ]", "", value.lower()).strip()
-        hook = norm(script_data['hook'])
-        first = norm(scenes[0].get('caption', ''))
+
+        hook = norm(script_data["hook"])
+        first = norm(scenes[0].get("caption", ""))
         if hook != first:
             issues.append("Hook must exactly match the first scene caption")
 
@@ -986,7 +1040,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         # "Vous vous réveillez…") that names no phenomenon and burns the
         # entire 2-second swipe window. The prompt already forbids this, but
         # nothing enforced it, so the LLM kept shipping it. Now it retries.
-        hook_caption = scenes[0].get('caption', '').strip()
+        hook_caption = scenes[0].get("caption", "").strip()
         hook_norm = re.sub(r"[^a-zà-ÿœ' ]", "", hook_caption.lower()).strip()
         for opener in GENERIC_HOOK_OPENERS:
             if hook_norm.startswith(opener):
@@ -1001,24 +1055,19 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         # moved the answer to scene 2; this check previously demanded a
         # QUESTION there, directly contradicting the prompt and rewarding the
         # exact "setup drags on" pattern that loses viewers at scene 2.2.
-        answer = scenes[1].get('caption', '').strip()
+        answer = scenes[1].get("caption", "").strip()
         answer_norm = answer.lower()
-        starts_with_answer = any(
-            answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES
-        )
+        starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
         if not starts_with_answer:
             issues.append(
                 "Scene 2 (RÉPONSE FLASH) must deliver the mechanism immediately, "
                 "starting with « C'est… », « Ton cerveau… », « Ton corps… » or "
                 "« En fait… ». Viewers leave at ~scene 2 — the payoff must land there."
             )
-        if answer.endswith('?'):
-            issues.append(
-                "Scene 2 must ANSWER, not ask another question — the open loop "
-                "belongs in scene 1."
-            )
-        hook_concepts = _content_concepts(scenes[0].get('caption', ''))
-        tail_concepts = _content_concepts(scenes[-1].get('caption', ''))
+        if answer.endswith("?"):
+            issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
+        hook_concepts = _content_concepts(scenes[0].get("caption", ""))
+        tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
         if hook_concepts and not (hook_concepts & tail_concepts):
             issues.append(
                 "Final scene (LOOP-BACK) must echo the opening idea — share at "
@@ -1033,16 +1082,26 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # reusable model-isms; if any appear the script is retried, never shipped.
     # ------------------------------------------------------------------
     ai_telltales = [
-        "saviez-vous que", "le saviez-vous", "voici pourquoi",
-        "la science a découvert que", "aujourd'hui, on va voir",
-        "mais ce n'est pas tout", "incroyable, non ?",
-        "si vous voulez en savoir plus", "restez jusqu'à la fin",
-        "dans cette vidéo, nous allons", "bienvenue dans cette vidéo",
+        "saviez-vous que",
+        "le saviez-vous",
+        "voici pourquoi",
+        "la science a découvert que",
+        "aujourd'hui, on va voir",
+        "mais ce n'est pas tout",
+        "incroyable, non ?",
+        "si vous voulez en savoir plus",
+        "restez jusqu'à la fin",
+        "dans cette vidéo, nous allons",
+        "bienvenue dans cette vidéo",
         "préparez-vous à",
     ]
-    full_text = ((script_data.get('hook') or '') + " " +
-                 (script_data.get('voiceover') or '') + " " +
-                 " ".join(s.get('caption', '') for s in scenes)).lower()
+    full_text = (
+        (script_data.get("hook") or "")
+        + " "
+        + (script_data.get("voiceover") or "")
+        + " "
+        + " ".join(s.get("caption", "") for s in scenes)
+    ).lower()
     for phrase in ai_telltales:
         if phrase in full_text:
             issues.append(f"AI-telltale phrase detected: '{phrase}' — rewrite in authentic human voice")
@@ -1053,27 +1112,142 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
 
 _ARC_STOPWORDS = {
     # English (shared codepath)
-    "this", "that", "with", "from", "your", "yours", "when", "what", "why",
-    "how", "have", "has", "been", "there", "their", "they", "them", "about",
-    "just", "like", "over", "under", "more", "most", "some", "into", "also",
-    "very", "than", "then", "these", "those", "because", "while", "after",
-    "before", "people", "really", "actually", "don't", "doesn't", "every",
-    "many", "much", "feel", "feels", "thing", "things", "body",
+    "this",
+    "that",
+    "with",
+    "from",
+    "your",
+    "yours",
+    "when",
+    "what",
+    "why",
+    "how",
+    "have",
+    "has",
+    "been",
+    "there",
+    "their",
+    "they",
+    "them",
+    "about",
+    "just",
+    "like",
+    "over",
+    "under",
+    "more",
+    "most",
+    "some",
+    "into",
+    "also",
+    "very",
+    "than",
+    "then",
+    "these",
+    "those",
+    "because",
+    "while",
+    "after",
+    "before",
+    "people",
+    "really",
+    "actually",
+    "don't",
+    "doesn't",
+    "every",
+    "many",
+    "much",
+    "feel",
+    "feels",
+    "thing",
+    "things",
+    "body",
     # French — without these, function words would create false-overlap
     # between hook and loop-back for fr-FR scripts. (A real example caught
     # by the tests: "pendant" appears in almost every sentence and faked
     # the loop-back match.)
-    "votre", "vous", "avec", "pour", "dans", "cette", "quand", "pourquoi",
-    "comment", "mais", "plus", "très", "être", "avoir", "nous", "tout",
-    "tous", "toute", "fait", "faite", "aussi", "encore", "comme", "chose",
-    "choses", "corps", "bien", "dont", "leur", "leurs", "elles", "alors",
-    "peut", "faut", "sans", "soit", "rien", "jamais", "toujours", "parce",
-    "notre", "nos", "vos", "ceci", "cela", "celles", "ceux",
-    "quoi", "quel", "quelle", "même", "moins", "vraiment", "souvent",
-    "pendant", "après", "avant", "entre", "chez", "vers", "depuis",
-    "contre", "selon", "afin", "grâce", "malgré", "enfin", "puis", "dès",
-    "voici", "voilà", "autre", "autres", "chaque", "veut", "sont",
-    "avons", "avez", "suis", "es", "est", "était", "sera",
+    "votre",
+    "vous",
+    "avec",
+    "pour",
+    "dans",
+    "cette",
+    "quand",
+    "pourquoi",
+    "comment",
+    "mais",
+    "plus",
+    "très",
+    "être",
+    "avoir",
+    "nous",
+    "tout",
+    "tous",
+    "toute",
+    "fait",
+    "faite",
+    "aussi",
+    "encore",
+    "comme",
+    "chose",
+    "choses",
+    "corps",
+    "bien",
+    "dont",
+    "leur",
+    "leurs",
+    "elles",
+    "alors",
+    "peut",
+    "faut",
+    "sans",
+    "soit",
+    "rien",
+    "jamais",
+    "toujours",
+    "parce",
+    "notre",
+    "nos",
+    "vos",
+    "ceci",
+    "cela",
+    "celles",
+    "ceux",
+    "quoi",
+    "quel",
+    "quelle",
+    "même",
+    "moins",
+    "vraiment",
+    "souvent",
+    "pendant",
+    "après",
+    "avant",
+    "entre",
+    "chez",
+    "vers",
+    "depuis",
+    "contre",
+    "selon",
+    "afin",
+    "grâce",
+    "malgré",
+    "enfin",
+    "puis",
+    "dès",
+    "voici",
+    "voilà",
+    "autre",
+    "autres",
+    "chaque",
+    "veut",
+    "sont",
+    "avons",
+    "avez",
+    "suis",
+    "es",
+    "est",
+    "était",
+    "sera",
 }
 
 
@@ -1093,6 +1267,7 @@ def _content_concepts(text: str) -> set:
 # ---------------------------------------------------------------------------
 # PUBLIC API — stable importable interface.
 # ---------------------------------------------------------------------------
+
 
 def validate_script(script_data: dict) -> tuple[bool, list[str]]:
     """Validate a generated script for structural completeness.
@@ -1118,74 +1293,79 @@ def validate_script(script_data: dict) -> tuple[bool, list[str]]:
 # 5. RETENTION ANALYSIS
 # ============================================
 
+
 def analyze_retention_potential(script_data: dict) -> dict:
     """
     Analyzes script for retention potential.
     Returns score (0-100) and suggestions.
     """
-    scenes = script_data.get('scenes', [])
+    scenes = script_data.get("scenes", [])
     score = 0
     suggestions = []
-    
+
     # Check scene count
     if MIN_SCENES <= len(scenes) <= MAX_SCENES:
         score += 20
     else:
         suggestions.append(f"Optimal scene count: {MIN_SCENES}-{MAX_SCENES}, currently {len(scenes)}")
-    
+
     # Check hook
-    hook = script_data.get('hook', '')
+    hook = script_data.get("hook", "")
     if hook:
         hook_words = len(hook.split())
         if HOOK_MIN_WORDS <= hook_words <= HOOK_MAX_WORDS:
             score += 15
         else:
-            suggestions.append(f"Hook should be {HOOK_MIN_WORDS}-{HOOK_MAX_WORDS} words for a fast, clear opening")
-        
+            suggestions.append(
+                f"Hook should be {HOOK_MIN_WORDS}-{HOOK_MAX_WORDS} words for a fast, clear opening"
+            )
+
         # Check for pattern interrupt
-        if len(hook.split()) <= 9 and any(ch in hook for ch in ['?', '.', '!']):
+        if len(hook.split()) <= 9 and any(ch in hook for ch in ["?", ".", "!"]):
             score += 10
-    
+
     # Check "YOU" language
-    voiceover = script_data.get('voiceover', '')
-    you_count = sum(voiceover.lower().count(word) for word in ('vous', 'votre', 'tu', 'ton'))
+    voiceover = script_data.get("voiceover", "")
+    you_count = sum(voiceover.lower().count(word) for word in ("vous", "votre", "tu", "ton"))
     if you_count >= 2:
         score += 15
     else:
         suggestions.append("Use the viewer naturally once or twice where it helps clarity")
-    
+
     # Check cliffhangers
     cliffhanger_count = 0
     for scene in scenes:
-        caption = scene.get('caption', '')
-        if any(word in caption.lower() for word in ['...', 'mais', 'pourtant', 'alors', 'et si']):
+        caption = scene.get("caption", "")
+        if any(word in caption.lower() for word in ["...", "mais", "pourtant", "alors", "et si"]):
             cliffhanger_count += 1
-    
+
     if 1 <= cliffhanger_count <= 3:
         score += 20
     else:
-        suggestions.append(f"Only {cliffhanger_count}/{len(scenes)} scenes have cliffhangers - use only 1-3 natural open loops")
-    
+        suggestions.append(
+            f"Only {cliffhanger_count}/{len(scenes)} scenes have cliffhangers - use only 1-3 natural open loops"
+        )
+
     # Check word count
     word_count = len(voiceover.split())
     if MIN_WORDS <= word_count <= MAX_WORDS:
         score += 20
     else:
         suggestions.append(f"Word count: {word_count} (target: {MIN_WORDS}-{MAX_WORDS})")
-    
+
     # Check for loopable outro
-    cta = script_data.get('cta', '')
-    if any(word in cta.lower() for word in ['abonne', 'partage', 'commente', 'suivez']):
+    cta = script_data.get("cta", "")
+    if any(word in cta.lower() for word in ["abonne", "partage", "commente", "suivez"]):
         score += 10
-    
+
     return {
-        'retention_score': min(100, score),
-        'suggestions': suggestions,
-        'scenes': len(scenes),
-        'word_count': word_count,
-        'you_count': you_count,
-        'cliffhanger_ratio': cliffhanger_count / len(scenes) if scenes else 0,
-        'is_viral_ready': score >= 80
+        "retention_score": min(100, score),
+        "suggestions": suggestions,
+        "scenes": len(scenes),
+        "word_count": word_count,
+        "you_count": you_count,
+        "cliffhanger_ratio": cliffhanger_count / len(scenes) if scenes else 0,
+        "is_viral_ready": score >= 80,
     }
 
 
@@ -1193,67 +1373,65 @@ def analyze_retention_potential(script_data: dict) -> dict:
 # 6. MAIN GENERATE FUNCTION
 # ============================================
 
+
 def _score_decision_usable(metric: str) -> bool:
     """A self-grade may only GATE a decision when the daily Truth Gate has
     measured it as predictive on REAL outcomes. Default: False — every
     internal heuristic is advisory-only until proven (2026-08-12 doctrine)."""
     try:
         from intelligence.truth_gate import load_status
+
         status = load_status()
         return bool(status and status.get(metric, {}).get("decision_usable"))
     except Exception:
         return False
 
 
-def generate_script(
-    topic: str, 
-    custom_prompt: str | None = None, 
-    max_retries: int = MAX_RETRIES
-) -> dict:
+def generate_script(topic: str, custom_prompt: str | None = None, max_retries: int = MAX_RETRIES) -> dict:
     """
     Generates a RETENTION-OPTIMIZED script using Groq LLM.
-    
+
     Features:
     - JSON cleaning with regex fallback
     - Native English tone enforcement
     - Automatic validation and retry
     - Retention analysis
-    
+
     Args:
         topic: Topic for the script
         custom_prompt: Optional custom prompt
         max_retries: Maximum retry attempts
-    
+
     Returns:
         Script data dictionary
-    
+
     Raises:
         RuntimeError: If generation fails after all retries
         ValueError: If GROQ_API_KEY is missing
     """
     logger.info(
         "Script policy %s: %s scenes, %s-%s words; temporary title is not a retry gate.",
-        SCRIPT_POLICY_VERSION, MIN_SCENES, MIN_WORDS, MAX_WORDS,
+        SCRIPT_POLICY_VERSION,
+        MIN_SCENES,
+        MIN_WORDS,
+        MAX_WORDS,
     )
 
     # Check API key
     api_key = os.environ.get("GROQ_API_KEY")
     if not api_key:
         raise ValueError("GROQ_API_KEY is missing. Please set it in environment variables.")
-    
+
     # Initialize client only for an actual generation call. Structural checks
     # and offline tests do not require the optional runtime dependency.
     if Groq is None:
         raise RuntimeError("groq package is not installed; run pip install -r requirements.txt")
     client = Groq(api_key=api_key)
-    
+
     # Prepare prompt
     prompt = custom_prompt or _default_prompt(topic)
-    messages = [
-        {"role": "system", "content": _get_system_prompt()},
-        {"role": "user", "content": prompt}
-    ]
-    
+    messages = [{"role": "system", "content": _get_system_prompt()}, {"role": "user", "content": prompt}]
+
     last_error = None
     best_script = None
     best_score = 0
@@ -1274,7 +1452,9 @@ def generate_script(
             model_index[0] += 1
             logger.warning(
                 "Groq model %s failed (%s) — falling back to %s",
-                model_chain[model_index[0] - 1], exc, model_chain[model_index[0]],
+                model_chain[model_index[0] - 1],
+                exc,
+                model_chain[model_index[0]],
             )
             return True
         return False
@@ -1298,19 +1478,19 @@ def generate_script(
                 max_tokens=MAX_TOKENS + (1200 if is_reasoning else 0),
                 **extra,
             )
-            
+
             raw_reply = completion.choices[0].message.content
-            
+
             # Clean JSON
             script_data = _clean_json_response(raw_reply)
-            
+
             # Normalize scenes
             script_data = _normalize_scenes(script_data)
-            
+
             # Add metadata
-            script_data['topic'] = topic
-            script_data['generated_at'] = time.time()
-            script_data['attempt'] = attempt
+            script_data["topic"] = topic
+            script_data["generated_at"] = time.time()
+            script_data["attempt"] = attempt
 
             # 2026-08-12 viral engineering: tag the deterministic hook arm and
             # run the advisory audit (hook rubric, surprise beat, loop bridge).
@@ -1318,35 +1498,39 @@ def generate_script(
             # retention analysis; these warnings travel to history + dashboard.
             try:
                 from viral_engineering import hook_arm_for_topic, viral_script_audit
-                script_data['hook_arm'] = hook_arm_for_topic(topic)
-                script_data['viral_audit'] = viral_script_audit(script_data)
-                if script_data['viral_audit'].get('warnings'):
-                    logger.info("Viral audit: %s", " | ".join(script_data['viral_audit']['warnings']))
+
+                script_data["hook_arm"] = hook_arm_for_topic(topic)
+                script_data["viral_audit"] = viral_script_audit(script_data)
+                if script_data["viral_audit"].get("warnings"):
+                    logger.info("Viral audit: %s", " | ".join(script_data["viral_audit"]["warnings"]))
             except Exception as exc:
                 logger.warning("Viral audit skipped: %s", exc)
-            
+
             # Validate
             is_valid, issues = _validate_script(script_data)
-            
+
             if is_valid:
                 # Analyze retention
                 retention = analyze_retention_potential(script_data)
-                script_data['retention_analysis'] = retention
-                
-                score = retention['retention_score']
-                
+                script_data["retention_analysis"] = retention
+
+                score = retention["retention_score"]
+
                 # Track best script
                 if score > best_score:
                     best_script = script_data
                     best_score = score
-                
+
                 if score >= 80:
                     logger.info(f"✅ Excellent script! Retention score: {score}/100")
-                    logger.info(f"📊 {len(script_data['scenes'])} scenes, {len(script_data['voiceover'].split())} words")
+                    logger.info(
+                        f"📊 {len(script_data['scenes'])} scenes, {len(script_data['voiceover'].split())} words"
+                    )
                     # FEEDBACK LOOP: persist this script as part of the channel
                     # baseline so the NEXT script compares against it.
                     try:
                         from viral_baseline import record_script
+
                         record_script(script_data, score)
                     except Exception as exc:
                         logger.warning("Baseline record skipped: %s", exc)
@@ -1358,41 +1542,57 @@ def generate_script(
                     baseline_fb = ""
                     try:
                         from viral_baseline import feedback_to_beat_baseline
+
                         baseline_fb = " | ".join(feedback_to_beat_baseline(script_data, score))
                     except Exception as exc:
                         logger.warning("Baseline feedback skipped: %s", exc)
-                    messages.append({"role": "user", "content": (
-                        f"The script is good but retention could be improved. "
-                        f"Current score: {score}/100. Issues: {', '.join(retention['suggestions'][:3])}. "
-                        + (f"BEAT THE CHANNEL BASELINE: {baseline_fb}. " if baseline_fb else "")
-                        + f"Rewrite the script with these improvements while keeping the topic '{topic}'. "
-                        f"Return ONLY valid JSON with the same structure."
-                    )})
+                    messages.append(
+                        {
+                            "role": "user",
+                            "content": (
+                                f"The script is good but retention could be improved. "
+                                f"Current score: {score}/100. Issues: {', '.join(retention['suggestions'][:3])}. "
+                                + (f"BEAT THE CHANNEL BASELINE: {baseline_fb}. " if baseline_fb else "")
+                                + f"Rewrite the script with these improvements while keeping the topic '{topic}'. "
+                                f"Return ONLY valid JSON with the same structure."
+                            ),
+                        }
+                    )
             else:
                 last_error = "; ".join(issues)
                 logger.warning(f"⚠️ Validation issues: {', '.join(issues[:3])}")
                 messages.append({"role": "assistant", "content": raw_reply})
-                messages.append({"role": "user", "content": (
-                    f"The script has validation issues: {', '.join(issues[:3])}. "
-                    f"Rewrite it to fix these issues. Keep the same topic '{topic}'. "
-                    f"Return ONLY valid JSON with the same structure."
-                )})
-            
+                messages.append(
+                    {
+                        "role": "user",
+                        "content": (
+                            f"The script has validation issues: {', '.join(issues[:3])}. "
+                            f"Rewrite it to fix these issues. Keep the same topic '{topic}'. "
+                            f"Return ONLY valid JSON with the same structure."
+                        ),
+                    }
+                )
+
         except json.JSONDecodeError as e:
             logger.error(f"❌ JSON parsing failed: {e}")
-            messages.append({"role": "user", "content": (
-                "The previous response was not valid JSON. "
-                "Please return ONLY valid JSON with this exact structure: "
-                '{"title": "...", "hook": "...", "scenes": [{"visual": "...", "caption": "..."}], "cta": "..."}'
-            )})
-            
+            messages.append(
+                {
+                    "role": "user",
+                    "content": (
+                        "The previous response was not valid JSON. "
+                        "Please return ONLY valid JSON with this exact structure: "
+                        '{"title": "...", "hook": "...", "scenes": [{"visual": "...", "caption": "..."}], "cta": "..."}'
+                    ),
+                }
+            )
+
         except BadRequestError as e:
             logger.error(f"❌ Groq API error: {e}")
             last_error = e
             if _advance_model(e):
                 continue
             if attempt < max_retries:
-                wait_time = 2 ** attempt
+                wait_time = 2**attempt
                 logger.info(f"⏳ Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
             else:
@@ -1401,9 +1601,7 @@ def generate_script(
                 # without trying the backup LLM.
                 raw_reply = _openrouter_generate(
                     messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
-                ) or _gemini_generate(
-                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
-                )
+                ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
                 if raw_reply:
                     generate_script._or_fallback_reply = raw_reply
                     logger.info("✅ Third-provider fallback produced a script.")
@@ -1411,7 +1609,7 @@ def generate_script(
                 else:
                     logger.warning("OpenRouter and Gemini fallbacks also failed — ending run.")
                     break
-            
+
         except Exception as e:
             err_str = str(e)
             # Rate limits / server errors: prefer the fallback model over
@@ -1426,9 +1624,7 @@ def generate_script(
                 # daily token-cap reset.
                 raw_reply = _openrouter_generate(
                     messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
-                ) or _gemini_generate(
-                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
-                )
+                ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
                 if raw_reply:
                     generate_script._or_fallback_reply = raw_reply
                     logger.info("✅ Third-provider fallback produced a script during Groq 429.")
@@ -1445,38 +1641,39 @@ def generate_script(
                         "Groq quota needs ~%ds to reset (exceeds this run's "
                         "%ds budget) — failing fast instead of blocking the "
                         "job. Next scheduled run will retry.",
-                        wait_sec, MAX_RATE_LIMIT_SLEEP_SEC,
+                        wait_sec,
+                        MAX_RATE_LIMIT_SLEEP_SEC,
                     )
                     raise RuntimeError(
                         f"Groq rate limit needs ~{wait_sec}s to reset "
                         f"(exceeds {MAX_RATE_LIMIT_SLEEP_SEC}s per-run budget). "
                         f"Skipping this run; original error: {e}"
-                    )
+                    ) from e
                 logger.warning("Groq rate limited — waiting %ds", wait_sec)
                 time.sleep(wait_sec)
                 continue
             logger.error(f"❌ Unexpected error: {e}")
             last_error = e
             if attempt < max_retries:
-                wait_time = 2 ** attempt
+                wait_time = 2**attempt
                 logger.info(f"⏳ Waiting {wait_time}s before retry...")
                 time.sleep(wait_time)
-    
+
     # 2026-08-17: validate the OpenRouter fallback reply (Groq chain failed)
     # before declaring complete failure — mirrors Mr-Nextep's fall-through.
-    if getattr(generate_script, '_or_fallback_reply', None):
+    if getattr(generate_script, "_or_fallback_reply", None):
         raw_reply = generate_script._or_fallback_reply
         logger.info("🔧 Validating OpenRouter fallback reply outside the retry loop.")
         try:
             script_data = _clean_json_response(raw_reply)
             script_data = _normalize_scenes(script_data)
-            script_data['topic'] = topic
-            script_data['generated_at'] = time.time()
-            script_data['attempt'] = max_retries
+            script_data["topic"] = topic
+            script_data["generated_at"] = time.time()
+            script_data["attempt"] = max_retries
             is_valid, issues = _validate_script(script_data, lenient=True)
             if is_valid:
                 retention = analyze_retention_potential(script_data)
-                script_data['retention_analysis'] = retention
+                script_data["retention_analysis"] = retention
                 logger.warning("✅ OpenRouter fallback script passed validation (lenient).")
                 return script_data
             else:
@@ -1488,55 +1685,51 @@ def generate_script(
     if best_script:
         logger.warning(f"⚠️ Using best available script (Score: {best_score}/100)")
         return best_script
-    
+
     # Complete failure
-    raise RuntimeError(
-        f"❌ Script generation failed after {max_retries} attempts. "
-        f"Last error: {last_error}"
-    )
+    raise RuntimeError(f"❌ Script generation failed after {max_retries} attempts. Last error: {last_error}")
 
 
 # ============================================
 # 7. BATCH GENERATION
 # ============================================
 
+
 def generate_multiple_scripts(
-    topics: list[str],
-    max_retries: int = MAX_RETRIES,
-    delay: float = 2.0
+    topics: list[str], max_retries: int = MAX_RETRIES, delay: float = 2.0
 ) -> list[dict]:
     """
     Generates scripts for multiple topics.
-    
+
     Args:
         topics: List of topics
         max_retries: Retries per script
         delay: Delay between generations
-    
+
     Returns:
         List of script data dictionaries
     """
     scripts = []
     failed = []
-    
+
     for i, topic in enumerate(topics):
-        logger.info(f"📝 Generating script {i+1}/{len(topics)}: {topic}")
-        
+        logger.info(f"📝 Generating script {i + 1}/{len(topics)}: {topic}")
+
         try:
             script = generate_script(topic, max_retries=max_retries)
             scripts.append(script)
-            logger.info(f"✅ Script {i+1} generated successfully")
+            logger.info(f"✅ Script {i + 1} generated successfully")
         except Exception as e:
-            logger.error(f"❌ Script {i+1} failed: {e}")
-            failed.append({'topic': topic, 'error': str(e)})
-        
+            logger.error(f"❌ Script {i + 1} failed: {e}")
+            failed.append({"topic": topic, "error": str(e)})
+
         if i < len(topics) - 1:
             time.sleep(delay)
-    
+
     logger.info(f"📊 Generated {len(scripts)}/{len(topics)} scripts successfully")
     if failed:
         logger.warning(f"⚠️ Failed scripts: {len(failed)}")
-    
+
     return scripts, failed
 
 
@@ -1544,15 +1737,16 @@ def generate_multiple_scripts(
 # 8. SCRIPT EXPORT
 # ============================================
 
+
 def export_script(script_data: dict, output_path: str = "output/script.json") -> str:
     """
     Exports script data to JSON file.
     """
     os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-    
-    with open(output_path, 'w', encoding='utf-8') as f:
+
+    with open(output_path, "w", encoding="utf-8") as f:
         json.dump(script_data, f, indent=2, ensure_ascii=False)
-    
+
     logger.info(f"📄 Script exported to: {output_path}")
     return output_path
 
@@ -1562,19 +1756,19 @@ def export_script(script_data: dict, output_path: str = "output/script.json") ->
 # ============================================
 
 if __name__ == "__main__":
-    print("="*70)
+    print("=" * 70)
     print("SCRIPT GENERATOR - FULLY FIXED (JSON Cleaning + Native Tone)")
-    print("="*70)
+    print("=" * 70)
     print()
-    
+
     # Test single generation
     test_topic = "Why Your Brain Lies to You"
     print(f"🧪 Testing with topic: {test_topic}")
     print("-" * 70)
-    
+
     try:
         script = generate_script(test_topic)
-        
+
         print("✅ Script generated successfully!")
         print()
         print(f"📌 TITLE: {script.get('title')}")
@@ -1582,30 +1776,31 @@ if __name__ == "__main__":
         print(f"📊 SCENES: {len(script.get('scenes', []))}")
         print(f"📝 WORDS: {len(script.get('voiceover', '').split())}")
         print(f"📢 CTA: {script.get('cta')}")
-        
-        if 'retention_analysis' in script:
-            analysis = script['retention_analysis']
+
+        if "retention_analysis" in script:
+            analysis = script["retention_analysis"]
             print()
             print("📈 RETENTION ANALYSIS:")
             print(f"   Score: {analysis.get('retention_score')}/100")
             print(f"   Viral Ready: {analysis.get('is_viral_ready')}")
-            if analysis.get('suggestions'):
+            if analysis.get("suggestions"):
                 print("   Suggestions:")
-                for suggestion in analysis['suggestions'][:3]:
+                for suggestion in analysis["suggestions"][:3]:
                     print(f"     - {suggestion}")
-        
+
         print()
         print("📄 FIRST SCENE PREVIEW:")
-        scenes = script.get('scenes', [])
+        scenes = script.get("scenes", [])
         if scenes:
             print(f"   Visual: {scenes[0].get('visual')}")
             print(f"   Caption: {scenes[0].get('caption')}")
-        
+
         print()
         print("-" * 70)
         print("✅ Script generator is ready for production!")
-        
+
     except Exception as e:
         print(f"❌ Error: {e}")
         import traceback
+
         traceback.print_exc()

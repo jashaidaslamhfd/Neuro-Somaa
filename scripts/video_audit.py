@@ -24,6 +24,7 @@ Writes data/video_audit_<date>.json (full per-video detail) and prints a
 human summary. Stdlib only. READ-ONLY: repairs are a separate tool.
 Needs GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN env.
 """
+
 import datetime as dt
 import json
 import os
@@ -36,40 +37,183 @@ import urllib.request
 DATA = "https://www.googleapis.com/youtube/v3/"
 
 FR_MARKERS = {
-    "le", "la", "les", "des", "une", "et", "est", "sont", "que", "qui",
-    "dans", "pour", "avec", "sur", "pas", "plus", "vous", "votre", "vos",
-    "cette", "ces", "aux", "du", "au", "il", "elle", "on", "ne", "se",
-    "sa", "son", "ses", "par", "mais", "aussi", "comme", "peut", "encore",
-    "quand", "pourquoi", "comment", "sans", "sous", "chez", "leur", "notre",
-    "corps", "cerveau", "coeur", "temps", "vie", "toute", "fait",
-    "entre", "tres", "apres", "avant", "chaque", "pendant", "toujours",
-    "quoi", "voici", "cela", "cet", "effet", "raison", "vraiment",
+    "le",
+    "la",
+    "les",
+    "des",
+    "une",
+    "et",
+    "est",
+    "sont",
+    "que",
+    "qui",
+    "dans",
+    "pour",
+    "avec",
+    "sur",
+    "pas",
+    "plus",
+    "vous",
+    "votre",
+    "vos",
+    "cette",
+    "ces",
+    "aux",
+    "du",
+    "au",
+    "il",
+    "elle",
+    "on",
+    "ne",
+    "se",
+    "sa",
+    "son",
+    "ses",
+    "par",
+    "mais",
+    "aussi",
+    "comme",
+    "peut",
+    "encore",
+    "quand",
+    "pourquoi",
+    "comment",
+    "sans",
+    "sous",
+    "chez",
+    "leur",
+    "notre",
+    "corps",
+    "cerveau",
+    "coeur",
+    "temps",
+    "vie",
+    "toute",
+    "fait",
+    "entre",
+    "tres",
+    "apres",
+    "avant",
+    "chaque",
+    "pendant",
+    "toujours",
+    "quoi",
+    "voici",
+    "cela",
+    "cet",
+    "effet",
+    "raison",
+    "vraiment",
 }
 EN_MARKERS = {
-    "the", "and", "is", "are", "was", "were", "with", "your", "you", "why",
-    "how", "what", "when", "this", "that", "these", "those", "from", "have",
-    "has", "will", "would", "can", "could", "not", "but", "for", "into",
-    "about", "after", "before", "between", "because", "every", "really",
-    "science", "brain", "body", "time", "years", "sleep", "water", "heart",
-    "blood", "morning", "night", "truth", "secret", "hidden", "reason",
-    "happens", "strange", "weird", "actually", "ever", "during",
+    "the",
+    "and",
+    "is",
+    "are",
+    "was",
+    "were",
+    "with",
+    "your",
+    "you",
+    "why",
+    "how",
+    "what",
+    "when",
+    "this",
+    "that",
+    "these",
+    "those",
+    "from",
+    "have",
+    "has",
+    "will",
+    "would",
+    "can",
+    "could",
+    "not",
+    "but",
+    "for",
+    "into",
+    "about",
+    "after",
+    "before",
+    "between",
+    "because",
+    "every",
+    "really",
+    "science",
+    "brain",
+    "body",
+    "time",
+    "years",
+    "sleep",
+    "water",
+    "heart",
+    "blood",
+    "morning",
+    "night",
+    "truth",
+    "secret",
+    "hidden",
+    "reason",
+    "happens",
+    "strange",
+    "weird",
+    "actually",
+    "ever",
+    "during",
 }
 # A title ending on one of these almost certainly got cut mid-sentence.
-FR_DANGLERS = ("le", "la", "les", "un", "une", "de", "des", "du", "et",
-               "pour", "sur", "dans", "avec", "aux", "au", "quand", "que",
-               "qui", "ce", "cette", "votre", "notre", "son", "sa", "ses",
-               "the", "a", "an", "of", "to", "in", "on", "when", "why", "how")
+FR_DANGLERS = (
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "de",
+    "des",
+    "du",
+    "et",
+    "pour",
+    "sur",
+    "dans",
+    "avec",
+    "aux",
+    "au",
+    "quand",
+    "que",
+    "qui",
+    "ce",
+    "cette",
+    "votre",
+    "notre",
+    "son",
+    "sa",
+    "ses",
+    "the",
+    "a",
+    "an",
+    "of",
+    "to",
+    "in",
+    "on",
+    "when",
+    "why",
+    "how",
+)
 ACCENT_RE = re.compile(r"[àâäçéèêëîïôöùûüÿœæ]", re.IGNORECASE)
 WORD_RE = re.compile(r"[a-zA-Zàâäçéèêëîïôöùûüÿœæ']+")
 
 
 def _access_token() -> str:
-    payload = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    payload = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=payload)
     with urllib.request.urlopen(req, timeout=30) as resp:
         return json.load(resp)["access_token"]
@@ -133,8 +277,11 @@ def _audit_video(video: dict) -> list:
             faults.append("title_bilingual")
         last_word = WORD_RE.findall(title)
         last_word = last_word[-1].lower() if last_word else ""
-        if (last_word in FR_DANGLERS or title.endswith(("…", " -", " |", ":"))
-                or (len(title) >= 95 and not title.endswith(("?", "!", ".")))):
+        if (
+            last_word in FR_DANGLERS
+            or title.endswith(("…", " -", " |", ":"))
+            or (len(title) >= 95 and not title.endswith(("?", "!", ".")))
+        ):
             faults.append("title_truncated")
 
     # ---- description ----
@@ -195,8 +342,7 @@ def main() -> int:
     video_ids = []
     page_token = None
     while True:
-        params = {"part": "contentDetails", "playlistId": uploads_playlist,
-                  "maxResults": "50"}
+        params = {"part": "contentDetails", "playlistId": uploads_playlist, "maxResults": "50"}
         if page_token:
             params["pageToken"] = page_token
         page = _query("playlistItems", params, token)
@@ -211,12 +357,16 @@ def main() -> int:
     # 2) full metadata in batches of 50
     videos = []
     for idx in range(0, len(video_ids), 50):
-        batch = video_ids[idx:idx + 50]
-        resp = _query("videos", {
-            "part": "snippet,status,contentDetails,statistics",
-            "id": ",".join(batch),
-            "maxResults": "50",
-        }, token)
+        batch = video_ids[idx : idx + 50]
+        resp = _query(
+            "videos",
+            {
+                "part": "snippet,status,contentDetails,statistics",
+                "id": ",".join(batch),
+                "maxResults": "50",
+            },
+            token,
+        )
         videos.extend(resp.get("items", []))
 
     # 3) audit + duplicate-title detection
@@ -249,11 +399,12 @@ def main() -> int:
 
     # 4) summarise
     from collections import Counter
+
     counter = Counter(f for e in report for f in e["faults"])
     clean = [e for e in report if not e["faults"]]
     faulty = [e for e in report if e["faults"]]
 
-    today_iso = dt.datetime.now(dt.timezone.utc).date().isoformat()
+    today_iso = dt.datetime.now(dt.UTC).date().isoformat()
     out = {
         "date": today_iso,
         "channel_video_count": total_uploads,

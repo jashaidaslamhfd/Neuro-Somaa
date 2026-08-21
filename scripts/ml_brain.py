@@ -17,15 +17,15 @@ Run:  python scripts/ml_brain.py                    # train + report
       python scripts/ml_brain.py --serve              # interactive mode
 """
 
+import hashlib
 import json
+import logging
 import os
 import re
-import hashlib
-import logging
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Any, ClassVar
 
 import numpy as np
 
@@ -54,60 +54,156 @@ MIN_VIEWS_FOR_TRAINING = 10
 # ║  FEATURE ENGINEERING                                                       ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
 
+
 class FeatureExtractor:
     """Extract ML features from raw video/topic data."""
 
     # Body-science keyword clusters (semantic pillars)
-    PILLARS = {
+    PILLARS: ClassVar[dict[str, list[str]]] = {
         "neurological": [
-            "brain", "nerve", "neuron", "memory", "deja", "conscious", "sleep",
-            "dream", "falling asleep", "ringing", "ear", "tinnitus", "hearing",
-            "song", "loop", "stuck", "freezing", "scared", "fear",
+            "brain",
+            "nerve",
+            "neuron",
+            "memory",
+            "deja",
+            "conscious",
+            "sleep",
+            "dream",
+            "falling asleep",
+            "ringing",
+            "ear",
+            "tinnitus",
+            "hearing",
+            "song",
+            "loop",
+            "stuck",
+            "freezing",
+            "scared",
+            "fear",
         ],
         "muscular": [
-            "muscle", "cramp", "charley horse", "calf", "twitch", "spasm",
-            "knee", "crack", "joint", "foot", "numb", "jerking",
+            "muscle",
+            "cramp",
+            "charley horse",
+            "calf",
+            "twitch",
+            "spasm",
+            "knee",
+            "crack",
+            "joint",
+            "foot",
+            "numb",
+            "jerking",
         ],
         "circulatory": [
-            "heart", "blood", "pulse", "standing up", "lightheaded", "pressure",
-            "cold", "freeze", "warm", "beat", "heartbeat",
+            "heart",
+            "blood",
+            "pulse",
+            "standing up",
+            "lightheaded",
+            "pressure",
+            "cold",
+            "freeze",
+            "warm",
+            "beat",
+            "heartbeat",
         ],
         "sensory": [
-            "taste", "sight", "smell", "hear", "touch", "numb", "tingling",
-            "spot", "glowing", "wrinkling", "gag", "sensitive",
+            "taste",
+            "sight",
+            "smell",
+            "hear",
+            "touch",
+            "numb",
+            "tingling",
+            "spot",
+            "glowing",
+            "wrinkling",
+            "gag",
+            "sensitive",
         ],
         "behavioral": [
-            "yawn", "hungry", "craving", "habit", "lump", "throat", "sad",
-            "voice", "deeper", "waking", "coffee", "hot", "losing taste",
+            "yawn",
+            "hungry",
+            "craving",
+            "habit",
+            "lump",
+            "throat",
+            "sad",
+            "voice",
+            "deeper",
+            "waking",
+            "coffee",
+            "hot",
+            "losing taste",
         ],
         "temporal": [
-            "time", "hours", "minutes", "daily", "night", "morning", "moment",
-            "lived before", "deja vu", "familiar",
+            "time",
+            "hours",
+            "minutes",
+            "daily",
+            "night",
+            "morning",
+            "moment",
+            "lived before",
+            "deja vu",
+            "familiar",
         ],
     }
 
     # Hook pattern templates
-    HOOK_PATTERNS = [
-        ("your_", r"\byour\b"),           # "your foot falling asleep"
-        ("why_", r"\bwhy\b"),             # "Why your body freezes"
-        ("a_", r"\ba\b"),                 # "a sudden charley horse"
+    HOOK_PATTERNS: ClassVar[list[tuple[str, str]]] = [
+        ("your_", r"\byour\b"),  # "your foot falling asleep"
+        ("why_", r"\bwhy\b"),  # "Why your body freezes"
+        ("a_", r"\ba\b"),  # "a sudden charley horse"
         ("the_", r"\bthe\b"),
-        ("feeling_", r"\bfeeling\b"),     # "feeling like you've lived"
-        ("gerund", r"\b\w+ing\b"),        # gerund: "falling", "ringing", etc.
+        ("feeling_", r"\bfeeling\b"),  # "feeling like you've lived"
+        ("gerund", r"\b\w+ing\b"),  # gerund: "falling", "ringing", etc.
         ("when_", r"\bwhen\b"),
         ("question", r"\?"),
     ]
 
     # Word categories for richness scoring
-    POWER_WORDS = {
-        "mystery", "secret", "strange", "weird", "bizarre", "unexplained",
-        "hidden", "unknown", "surprising", "shocking", "sudden", "instantly",
-        "exact", "never", "nobody", "every", "always",
+    POWER_WORDS: ClassVar[set[str]] = {
+        "mystery",
+        "secret",
+        "strange",
+        "weird",
+        "bizarre",
+        "unexplained",
+        "hidden",
+        "unknown",
+        "surprising",
+        "shocking",
+        "sudden",
+        "instantly",
+        "exact",
+        "never",
+        "nobody",
+        "every",
+        "always",
     }
-    BODY_WORDS = {
-        "body", "brain", "muscle", "nerve", "blood", "heart", "skin", "ear",
-        "eye", "foot", "hand", "leg", "arm", "head", "throat", "voice",
-        "knee", "calf", "tongue", "taste",
+    BODY_WORDS: ClassVar[set[str]] = {
+        "body",
+        "brain",
+        "muscle",
+        "nerve",
+        "blood",
+        "heart",
+        "skin",
+        "ear",
+        "eye",
+        "foot",
+        "hand",
+        "leg",
+        "arm",
+        "head",
+        "throat",
+        "voice",
+        "knee",
+        "calf",
+        "tongue",
+        "taste",
     }
 
     def __init__(self):
@@ -122,12 +218,12 @@ class FeatureExtractor:
         features = []
 
         # 1-6: Pillar match scores (0 or 1)
-        for pillar, keywords in self.PILLARS.items():
+        for _pillar, keywords in self.PILLARS.items():
             score = sum(1 for kw in keywords if kw in topic_lower)
             features.append(min(score, 3) / 3.0)
 
         # 7-13: Hook pattern matches
-        for pattern_name, pattern_re in self.HOOK_PATTERNS:
+        for _pattern_name, pattern_re in self.HOOK_PATTERNS:
             match = 1.0 if re.search(pattern_re, topic_lower) else 0.0
             features.append(match)
 
@@ -145,9 +241,7 @@ class FeatureExtractor:
         features.append(1.0 if words and words[0] == "your" else 0.0)
 
         # 18: Contains a body part
-        features.append(
-            sum(1 for bw in self.BODY_WORDS if bw in word_set) / max(len(self.BODY_WORDS) / 3, 1)
-        )
+        features.append(sum(1 for bw in self.BODY_WORDS if bw in word_set) / max(len(self.BODY_WORDS) / 3, 1))
 
         # 19: Power word density
         pw_count = sum(1 for pw in self.POWER_WORDS if pw in topic_lower)
@@ -170,7 +264,7 @@ class FeatureExtractor:
 
         return np.array(features, dtype=np.float64)
 
-    def extract_all(self, topics: List[str]) -> np.ndarray:
+    def extract_all(self, topics: list[str]) -> np.ndarray:
         """Batch feature extraction."""
         return np.array([self.extract_from_topic(t) for t in topics], dtype=np.float64)
 
@@ -185,9 +279,9 @@ class RidgeRegression:
 
     def __init__(self, alpha: float = 1.0):
         self.alpha = alpha
-        self.weights: Optional[np.ndarray] = None
+        self.weights: np.ndarray | None = None
         self.bias: float = 0.0
-        self.feature_importances: Optional[np.ndarray] = None
+        self.feature_importances: np.ndarray | None = None
 
     def fit(self, X: np.ndarray, y: np.ndarray):
         n, d = X.shape
@@ -197,9 +291,9 @@ class RidgeRegression:
         y_norm = (y - self.y_mean) / self.y_std
 
         # Closed-form: (X^T X + alpha I)^(-1) X^T y
-        I = np.eye(d, dtype=np.float64)
+        identity = np.eye(d, dtype=np.float64)
         XtX = X.T @ X
-        ridge = XtX + self.alpha * n * I
+        ridge = XtX + self.alpha * n * identity
         try:
             self.weights = np.linalg.solve(ridge, X.T @ y_norm)
         except np.linalg.LinAlgError:
@@ -226,7 +320,7 @@ class LogisticClassifier:
     def __init__(self, lr: float = 0.1, epochs: int = 500):
         self.lr = lr
         self.epochs = epochs
-        self.weights: Optional[np.ndarray] = None
+        self.weights: np.ndarray | None = None
         self.bias: float = 0.0
 
     @staticmethod
@@ -238,7 +332,7 @@ class LogisticClassifier:
         self.weights = np.zeros(d, dtype=np.float64)
         self.bias = 0.0
 
-        for epoch in range(self.epochs):
+        for _epoch in range(self.epochs):
             z = X @ self.weights + self.bias
             preds = self._sigmoid(z)
             error = preds - y
@@ -262,11 +356,11 @@ class TopicClusterer:
 
     def __init__(self, n_clusters: int = 4):
         self.n_clusters = n_clusters
-        self.centroids: Optional[np.ndarray] = None
-        self.labels_: Optional[np.ndarray] = None
+        self.centroids: np.ndarray | None = None
+        self.labels_: np.ndarray | None = None
 
     def fit(self, X: np.ndarray, max_iters: int = 100):
-        n, d = X.shape
+        n, _d = X.shape
         # K-means++ init
         centroids = [X[np.random.randint(n)]]
         for _ in range(1, self.n_clusters):
@@ -281,10 +375,12 @@ class TopicClusterer:
             labels = np.argmin(dists, axis=0)
 
             # Update
-            new_centroids = np.array([
-                X[labels == k].mean(axis=0) if np.sum(labels == k) > 0 else centroids[k]
-                for k in range(self.n_clusters)
-            ])
+            new_centroids = np.array(
+                [
+                    X[labels == k].mean(axis=0) if np.sum(labels == k) > 0 else centroids[k]
+                    for k in range(self.n_clusters)
+                ]
+            )
 
             if np.allclose(centroids, new_centroids, rtol=1e-4):
                 break
@@ -307,17 +403,17 @@ class MLBrain:
 
     def __init__(self):
         self.extractor = FeatureExtractor()
-        self.views_model: Optional[RidgeRegression] = None
-        self.viral_model: Optional[LogisticClassifier] = None
-        self.clusterer: Optional[TopicClusterer] = None
+        self.views_model: RidgeRegression | None = None
+        self.viral_model: LogisticClassifier | None = None
+        self.clusterer: TopicClusterer | None = None
 
         # Learned patterns
-        self.topic_clusters: Dict[int, List[str]] = {}
-        self.slot_performance: Dict[str, float] = {}
-        self.hook_pattern_weights: Dict[str, float] = {}
-        self.pillar_performance: Dict[str, Dict] = {}
-        self.word_impact: Dict[str, float] = {}
-        self.best_word_patterns: List[Tuple[str, float]] = []
+        self.topic_clusters: dict[int, list[str]] = {}
+        self.slot_performance: dict[str, float] = {}
+        self.hook_pattern_weights: dict[str, float] = {}
+        self.pillar_performance: dict[str, dict] = {}
+        self.word_impact: dict[str, float] = {}
+        self.best_word_patterns: list[tuple[str, float]] = []
 
         # Stats
         self.trained = False
@@ -327,7 +423,7 @@ class MLBrain:
 
     # ── DATA LOADING ────────────────────────────────────────────────────
 
-    def load_all_data(self) -> Tuple[List[str], List[float], List[float], List[int]]:
+    def load_all_data(self) -> tuple[list[str], list[float], list[float], list[int]]:
         """Load and clean all training data. Returns (topics, views, retention, hook_scores)."""
         if not VIDEO_HISTORY.exists():
             logger.error("No video_history.json found!")
@@ -359,7 +455,7 @@ class MLBrain:
         logger.info("Loaded %d videos for training", self.n_samples)
         return topics, views, retention, hook_scores
 
-    def load_slot_data(self) -> Dict[str, float]:
+    def load_slot_data(self) -> dict[str, float]:
         """Load slot weights from growth_state."""
         if GROWTH_STATE.exists():
             with open(GROWTH_STATE) as f:
@@ -367,7 +463,7 @@ class MLBrain:
             self.slot_performance = gs.get("slot_weights", {})
         return self.slot_performance
 
-    def load_topic_catalog(self) -> List[str]:
+    def load_topic_catalog(self) -> list[str]:
         """Load the full topic catalog for scoring."""
         catalog_path = DATA_DIR / "body_glitch_topics.json"
         if catalog_path.exists():
@@ -385,7 +481,7 @@ class MLBrain:
                 return topics
             if isinstance(data, dict):
                 topics = []
-                
+
                 for v in data.values():
                     if isinstance(v, str):
                         topics.append(v)
@@ -403,11 +499,9 @@ class MLBrain:
         logger.info("=" * 60)
 
         # 1. Load data
-        topics, views, retention, hook_scores = self.load_all_data()
+        topics, views, retention, _hook_scores = self.load_all_data()
         if len(topics) < 5:
-            logger.error(
-                "Need at least 5 videos to train. Currently have %d.", len(topics)
-            )
+            logger.error("Need at least 5 videos to train. Currently have %d.", len(topics))
             return self
 
         # 2. Feature extraction
@@ -463,11 +557,14 @@ class MLBrain:
             self.topic_clusters[c].append(topic)
 
         for c, tlist in self.topic_clusters.items():
-            avg_views = np.mean([
-                views[topics.index(t)] for t in tlist if t in topics
-            ])
-            logger.info("  Cluster %d: %d topics | avg %.0f views | eg: %s",
-                       c, len(tlist), avg_views, tlist[0][:50] if tlist else "?")
+            avg_views = np.mean([views[topics.index(t)] for t in tlist if t in topics])
+            logger.info(
+                "  Cluster %d: %d topics | avg %.0f views | eg: %s",
+                c,
+                len(tlist),
+                avg_views,
+                tlist[0][:50] if tlist else "?",
+            )
 
         # 6. Hook pattern analysis
         logger.info("\n── Analyzing Hook Patterns ──")
@@ -484,17 +581,19 @@ class MLBrain:
         # 9. Slot optimization
         logger.info("\n── Publishing Slot Optimization ──")
         self.load_slot_data()
-        best_slot = max(self.slot_performance.items(), key=lambda x: x[1]) if self.slot_performance else ("?", 0)
+        best_slot = (
+            max(self.slot_performance.items(), key=lambda x: x[1]) if self.slot_performance else ("?", 0)
+        )
         logger.info("  Best slot: %s (weight: %.3f)", best_slot[0], best_slot[1])
 
         self.trained = True
         logger.info("\n✅ Training complete. Models ready for predictions.\n")
         return self
 
-    def _analyze_hook_patterns(self, topics: List[str], views: List[float]):
+    def _analyze_hook_patterns(self, topics: list[str], views: list[float]):
         """Analyze which hook opening words drive more views."""
         pattern_views = defaultdict(list)
-        for topic, v in zip(topics, views):
+        for topic, v in zip(topics, views, strict=False):
             first_word = topic.strip().split()[0].lower() if topic.strip() else ""
             pattern_views[first_word].append(v)
 
@@ -504,16 +603,14 @@ class MLBrain:
                 self.hook_pattern_weights[pattern] = float(np.mean(vlist))
 
         # Sort and display
-        sorted_patterns = sorted(self.hook_pattern_weights.items(),
-                                 key=lambda x: x[1], reverse=True)
+        sorted_patterns = sorted(self.hook_pattern_weights.items(), key=lambda x: x[1], reverse=True)
         for pw, avg_v in sorted_patterns[:8]:
-            logger.info("  '%s' → %.0f avg views (%d samples)", pw, avg_v,
-                       len(pattern_views[pw]))
+            logger.info("  '%s' → %.0f avg views (%d samples)", pw, avg_v, len(pattern_views[pw]))
 
-    def _analyze_word_impact(self, topics: List[str], views: List[float]):
+    def _analyze_word_impact(self, topics: list[str], views: list[float]):
         """Measure the impact of individual words on view count."""
         word_views = defaultdict(list)
-        for topic, v in zip(topics, views):
+        for topic, v in zip(topics, views, strict=False):
             words = set(re.findall(r"[a-z]+", topic.lower()))
             for w in words:
                 if len(w) >= 4:  # ignore short words
@@ -528,17 +625,15 @@ class MLBrain:
                 word_impact[word] = impact
 
         self.word_impact = word_impact
-        self.best_word_patterns = sorted(word_impact.items(),
-                                         key=lambda x: x[1], reverse=True)[:15]
+        self.best_word_patterns = sorted(word_impact.items(), key=lambda x: x[1], reverse=True)[:15]
 
         for word, impact in self.best_word_patterns[:10]:
-            logger.info("  '%s' → %+.0f views (appears in %d topics)",
-                       word, impact, len(word_views[word]))
+            logger.info("  '%s' → %+.0f views (appears in %d topics)", word, impact, len(word_views[word]))
 
-    def _analyze_pillars(self, topics: List[str], views: List[float], retention: List[float]):
+    def _analyze_pillars(self, topics: list[str], views: list[float], retention: list[float]):
         """Analyze which content pillars perform best."""
         pillar_data = defaultdict(lambda: {"views": [], "retention": [], "topics": []})
-        for topic, v, r in zip(topics, views, retention):
+        for topic, v, r in zip(topics, views, retention, strict=False):
             topic_lower = topic.lower()
             matched = False
             for pillar, keywords in self.extractor.PILLARS.items():
@@ -560,15 +655,17 @@ class MLBrain:
                     "avg_retention": float(np.mean(data["retention"])),
                     "count": len(data["views"]),
                 }
-                logger.info("  %-16s → %.0f views | %.1f%% retention | %d topics",
-                           pillar,
-                           self.pillar_performance[pillar]["avg_views"],
-                           self.pillar_performance[pillar]["avg_retention"],
-                           self.pillar_performance[pillar]["count"])
+                logger.info(
+                    "  %-16s → %.0f views | %.1f%% retention | %d topics",
+                    pillar,
+                    self.pillar_performance[pillar]["avg_views"],
+                    self.pillar_performance[pillar]["avg_retention"],
+                    self.pillar_performance[pillar]["count"],
+                )
 
     # ── PREDICTION ──────────────────────────────────────────────────────
 
-    def predict_topic(self, topic: str) -> Dict[str, Any]:
+    def predict_topic(self, topic: str) -> dict[str, Any]:
         """Score a single topic for viral potential across platforms."""
         if not self.trained:
             return {"error": "ML Brain not trained yet. Run .train() first."}
@@ -591,8 +688,8 @@ class MLBrain:
         if self.viral_model is not None:
             proba = float(self.viral_model.predict_proba(X)[0])
             result["viral_probability"] = round(proba, 3)
-            result["viral_verdict"] = "🔥 HIGH" if proba > 0.66 else (
-                "🟡 MEDIUM" if proba > 0.33 else "🔵 LOW"
+            result["viral_verdict"] = (
+                "🔥 HIGH" if proba > 0.66 else ("🟡 MEDIUM" if proba > 0.33 else "🔵 LOW")
             )
 
         # Hook analysis
@@ -614,9 +711,7 @@ class MLBrain:
             if any(kw in topic_lower for kw in keywords):
                 if pillar in self.pillar_performance:
                     result["pillar"] = pillar
-                    result["pillar_avg_views"] = int(
-                        self.pillar_performance[pillar]["avg_views"]
-                    )
+                    result["pillar_avg_views"] = int(self.pillar_performance[pillar]["avg_views"])
                 break
 
         # Overall score (0-100)
@@ -629,7 +724,7 @@ class MLBrain:
 
         return result
 
-    def rank_all_topics(self, topics: List[str], top_n: int = 20) -> List[Dict]:
+    def rank_all_topics(self, topics: list[str], top_n: int = 20) -> list[dict]:
         """Score and rank many topics, returning the best ones."""
         if not self.trained:
             return []
@@ -640,15 +735,21 @@ class MLBrain:
             if "error" not in pred:
                 results.append(pred)
 
-        unique_topics = set(); deduped = []; [deduped.append(x) for x in results if x.get("topic") not in unique_topics and not unique_topics.add(x.get("topic"))]
+        unique_topics = set()
+        deduped = []
+        [
+            deduped.append(x)
+            for x in results
+            if x.get("topic") not in unique_topics and not unique_topics.add(x.get("topic"))
+        ]
         results = deduped
         results.sort(key=lambda x: x.get("score", 0), reverse=True)
         return results[:top_n]
 
-    def recommend_publish_strategy(self) -> Dict:
+    def recommend_publish_strategy(self) -> dict:
         """Generate a complete publish strategy based on learned patterns."""
         strategy = {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "n_samples": self.n_samples,
             "models_trained": {
                 "views_regression": self.views_model is not None,
@@ -656,10 +757,11 @@ class MLBrain:
                 "topic_clusters": self.clusterer is not None,
             },
             "best_slot": max(self.slot_performance.items(), key=lambda x: x[1])
-            if self.slot_performance else ("20:00", 1.0),
-            "best_hook_openings": sorted(
-                self.hook_pattern_weights.items(), key=lambda x: x[1], reverse=True
-            )[:5],
+            if self.slot_performance
+            else ("20:00", 1.0),
+            "best_hook_openings": sorted(self.hook_pattern_weights.items(), key=lambda x: x[1], reverse=True)[
+                :5
+            ],
             "best_pillars": sorted(
                 self.pillar_performance.items(),
                 key=lambda x: x[1]["avg_views"],
@@ -673,7 +775,7 @@ class MLBrain:
         }
         return strategy
 
-    def _platform_strategy(self, platform: str) -> Dict:
+    def _platform_strategy(self, platform: str) -> dict:
         """Generate per-platform strategy."""
         strategies = {
             "youtube": {
@@ -715,25 +817,23 @@ class MLBrain:
         any human step.
         """
         try:
-            topics, views, retention, hook_scores = self.load_all_data()
+            topics, _views, _retention, _hook_scores = self.load_all_data()
             if len(topics) < 5:
                 logger.info("retrain_from_history: only %d real samples, keeping current model", len(topics))
                 return False
             prev_samples = self.n_samples
-            self.train()          # rebuild models on the (now larger) real set
+            self.train()  # rebuild models on the (now larger) real set
             self.save()
-            logger.info("Live-learning retrain: %d real samples (was %d)",
-                        self.n_samples, prev_samples)
+            logger.info("Live-learning retrain: %d real samples (was %d)", self.n_samples, prev_samples)
             return True
         except Exception as exc:
             logger.error("Live-learning retrain failed: %s", exc)
             return False
 
-
     def save(self):
         """Save brain state for future use."""
         state = {
-            "trained_at": datetime.now(timezone.utc).isoformat(),
+            "trained_at": datetime.now(UTC).isoformat(),
             "n_samples": self.n_samples,
             "views_r2": self.views_r2,
             "viral_accuracy": self.viral_accuracy,
@@ -814,7 +914,9 @@ def generate_viral_report(brain: MLBrain) -> str:
     report.append("  🧠 CONTENT PILLAR RANKINGS")
     report.append("─" * 72)
     for pillar, data in strategy["best_pillars"]:
-        report.append(f"  {pillar:<16s} → {data['avg_views']:.0f} views | {data['avg_retention']:.1f}% retention | {data['count']} videos")
+        report.append(
+            f"  {pillar:<16s} → {data['avg_views']:.0f} views | {data['avg_retention']:.1f}% retention | {data['count']} videos"
+        )
     report.append("")
     report.append("─" * 72)
     report.append("  ⏰ OPTIMAL PUBLISHING")
@@ -827,7 +929,9 @@ def generate_viral_report(brain: MLBrain) -> str:
         ("Facebook", strategy["facebook_strategy"]),
         ("Instagram", strategy["instagram_strategy"]),
     ]:
-        report.append(f"  {platform}: {ps.get('ideal_duration','?')}s | hook {ps.get('hook_seconds','?')}s | {ps.get('hashtags',[])}")
+        report.append(
+            f"  {platform}: {ps.get('ideal_duration', '?')}s | hook {ps.get('hook_seconds', '?')}s | {ps.get('hashtags', [])}"
+        )
 
     report.append("")
     report.append("=" * 72)
@@ -869,25 +973,26 @@ def main():
             if cmd:
                 result = brain.predict_topic(cmd)
                 print(f"\n📊 {result.get('topic', cmd)[:70]}")
-                print(f"   Score: {result.get('score','?')}/100")
-                print(f"   Predicted Views: {result.get('predicted_views','?')} (range: {result.get('views_range',('?','?'))})")
-                print(f"   Viral: {result.get('viral_verdict','?')} ({result.get('viral_probability',0):.1%})")
+                print(f"   Score: {result.get('score', '?')}/100")
+                print(
+                    f"   Predicted Views: {result.get('predicted_views', '?')} (range: {result.get('views_range', ('?', '?'))})"
+                )
+                print(
+                    f"   Viral: {result.get('viral_verdict', '?')} ({result.get('viral_probability', 0):.1%})"
+                )
                 if "positive_word_boosts" in result:
                     boosts = result["positive_word_boosts"]
                     if boosts:
-                        print(f"   Word Boosts: {', '.join(f'{w} (+{i})' for w,i in boosts[:5])}")
+                        print(f"   Word Boosts: {', '.join(f'{w} (+{i})' for w, i in boosts[:5])}")
                 if "pillar" in result:
-                    print(f"   Pillar: {result['pillar']} (avg {result.get('pillar_avg_views','?')} views)")
+                    print(f"   Pillar: {result['pillar']} (avg {result.get('pillar_avg_views', '?')} views)")
                 print()
         return
 
     if "--predict" in sys.argv:
         # Single topic prediction
         idx = sys.argv.index("--predict") + 1
-        if idx < len(sys.argv):
-            topic = sys.argv[idx]
-        else:
-            topic = input("Enter topic: ").strip()
+        topic = sys.argv[idx] if idx < len(sys.argv) else input("Enter topic: ").strip()
 
         brain.load() or brain.train()
         result = brain.predict_topic(topic)
@@ -911,8 +1016,10 @@ def main():
         print("  🏆 TOP 10 RECOMMENDED TOPICS")
         print("─" * 72)
         for i, r in enumerate(ranked, 1):
-            print(f"  {i:2d}. [{r.get('score',0):3d}/100] {r['topic'][:65]}")
-            print(f"      ~{r.get('predicted_views','?')} views | Viral: {r.get('viral_probability',0):.0%} | {r.get('viral_verdict','')}")
+            print(f"  {i:2d}. [{r.get('score', 0):3d}/100] {r['topic'][:65]}")
+            print(
+                f"      ~{r.get('predicted_views', '?')} views | Viral: {r.get('viral_probability', 0):.0%} | {r.get('viral_verdict', '')}"
+            )
         print()
 
 

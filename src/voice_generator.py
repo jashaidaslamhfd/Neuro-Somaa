@@ -5,6 +5,7 @@ import time
 
 import numpy as np
 
+
 # 2026-08-17 CI fix: the guard-workflow installs only requirements-ci.txt
 # (deliberately no torch/soundfile - avoids a 2GB download per push).
 # soundfile is used only inside TTS synthesis functions, so import it here
@@ -12,18 +13,27 @@ import numpy as np
 def _sf():
     """Lazy soundfile access — never fails at import time."""
     import soundfile as _s
+
     return _s
+
 
 class _SoundfileProxy:
     """Module-level proxy so existing sf.write/sf.read call sites keep working
     without touching hundreds of lines; the real import happens on first use."""
-    def write(self, *a, **kw): return _sf().write(*a, **kw)
-    def read(self, *a, **kw):  return _sf().read(*a, **kw)
-    def info(self, *a, **kw):  return _sf().info(*a, **kw)
+
+    def write(self, *a, **kw):
+        return _sf().write(*a, **kw)
+
+    def read(self, *a, **kw):
+        return _sf().read(*a, **kw)
+
+    def info(self, *a, **kw):
+        return _sf().info(*a, **kw)
+
 
 sf = _SoundfileProxy()
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -45,9 +55,10 @@ logger = logging.getLogger(__name__)
 _chatterbox_model = None
 _chatterbox_load_failed = False
 _chatterbox_load_error = None  # the real underlying exception, kept around so
-                                # every later "not loaded" error can still show
-                                # WHY, instead of just the first log line at
-                                # startup (which is easy to miss/lose in CI logs).
+# every later "not loaded" error can still show
+# WHY, instead of just the first log line at
+# startup (which is easy to miss/lose in CI logs).
+
 
 # NATURAL YOUTUBE VOICE PROFILE
 #
@@ -88,11 +99,9 @@ CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
 #   VOICE_MATURE_TEMPO           = slightly calmer delivery (authority)
 # When VOICE_REFERENCE_PATH is a usable clone, maturing is SKIPPED so the
 # creator's own voice is never altered.
-VOICE_MATURE_PITCH_SEMITONES = _env_float(
-    "VOICE_MATURE_PITCH_SEMITONES", -4.0, -6.0, 0.0)
+VOICE_MATURE_PITCH_SEMITONES = _env_float("VOICE_MATURE_PITCH_SEMITONES", -4.0, -6.0, 0.0)
 VOICE_MATURE_TEMPO = _env_float("VOICE_MATURE_TEMPO", 0.92, 0.75, 1.05)
-VOICE_MATURE_ENABLED = os.environ.get(
-    "VOICE_MATURE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
+VOICE_MATURE_ENABLED = os.environ.get("VOICE_MATURE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
 
 
 def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
@@ -105,7 +114,9 @@ def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
     try:
         import subprocess
         import tempfile
+
         import imageio_ffmpeg
+
         ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
         with tempfile.TemporaryDirectory() as tmpdir:
             in_path = os.path.join(tmpdir, "in.wav")
@@ -113,25 +124,36 @@ def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
             sf.write(in_path, audio, sr)
             result = subprocess.run(
                 [
-                    ffmpeg_exe, "-y", "-i", in_path, "-af",
-                    (f"asetrate={sr}*2^({VOICE_MATURE_PITCH_SEMITONES}/12),"
-                     f"aresample={sr},"
-                     f"atempo={VOICE_MATURE_TEMPO},"
-                     f"highpass=f=80,lowpass=f=14000,alimiter=limit=0.95"),
+                    ffmpeg_exe,
+                    "-y",
+                    "-i",
+                    in_path,
+                    "-af",
+                    (
+                        f"asetrate={sr}*2^({VOICE_MATURE_PITCH_SEMITONES}/12),"
+                        f"aresample={sr},"
+                        f"atempo={VOICE_MATURE_TEMPO},"
+                        f"highpass=f=80,lowpass=f=14000,alimiter=limit=0.95"
+                    ),
                     out_path,
                 ],
-                capture_output=True, timeout=30,
+                capture_output=True,
+                timeout=30,
             )
             if result.returncode != 0 or not os.path.exists(out_path):
-                logger.warning("Voice maturing failed, using unmodified audio: %s",
-                               result.stderr[:200])
+                logger.warning("Voice maturing failed, using unmodified audio: %s", result.stderr[:200])
                 return audio
             matured, _ = sf.read(out_path, dtype="float32")
-            logger.info("Voice maturing APPLIED: pitch %.1f st, tempo %.2f", VOICE_MATURE_PITCH_SEMITONES, VOICE_MATURE_TEMPO)
+            logger.info(
+                "Voice maturing APPLIED: pitch %.1f st, tempo %.2f",
+                VOICE_MATURE_PITCH_SEMITONES,
+                VOICE_MATURE_TEMPO,
+            )
             return matured
     except Exception as e:
         logger.warning("Voice maturing failed (%s), using unmodified audio", e)
         return audio
+
 
 # ── 2026-08-17: ADULT VOICE ROTATION POOL (edge-tts primary engine) ──
 # fr-FR-HenriNeural (young-ish) is the legacy default. This pool defaults to
@@ -142,15 +164,18 @@ def _mature_voice(audio: np.ndarray, sr: int) -> np.ndarray:
 # Can be overridden via the EDGE_FR_MATURE_VOICE_POOL secret.
 EDGE_FR_MATURE_VOICE_POOL = os.environ.get(
     "EDGE_FR_MATURE_VOICE_POOL",
-    "fr-FR-HenriNeural,fr-FR-MauriceNeural,fr-FR-GerardNeural,fr-FR-LucienNeural,fr-FR-AlainNeural"
+    "fr-FR-HenriNeural,fr-FR-MauriceNeural,fr-FR-GerardNeural,fr-FR-LucienNeural,fr-FR-AlainNeural",
 )
 # 2026-08-19: ADULT VOICE SAFEGUARD. Several workflow/env pools historically
 # included young-sounding voices (Denise/Eloise/Josephine/Remy) which the
 # audience flagged as "child-like". Only these deep, adult MALE timbres are
 # allowed on the channel unless the creator sets EDGE_FR_VOICE_ALLOW_LIGHT=1.
 ADULT_FR_MALE_VOICES = {
-    "fr-FR-MauriceNeural", "fr-FR-GerardNeural", "fr-FR-LucienNeural",
-    "fr-FR-AlainNeural", "fr-FR-HenriNeural",
+    "fr-FR-MauriceNeural",
+    "fr-FR-GerardNeural",
+    "fr-FR-LucienNeural",
+    "fr-FR-AlainNeural",
+    "fr-FR-HenriNeural",
 }
 # 2026-08-19 reliability note: the deep male timbres (Maurice/Gerard/Lucien/
 # Alain/Remy) intermittently return "No audio received" on the GitHub Actions
@@ -158,8 +183,11 @@ ADULT_FR_MALE_VOICES = {
 # keeps HenriNeural as the stable anchor; the maturing chain below deepens it
 # into a mature adult male sound so the channel never sounds child-like.
 LIGHT_FR_VOICES = {
-    "fr-FR-DeniseNeural", "fr-FR-EloiseNeural", "fr-FR-JosephineNeural",
-    "fr-FR-RemyNeural", "fr-FR-HenriNeural",
+    "fr-FR-DeniseNeural",
+    "fr-FR-EloiseNeural",
+    "fr-FR-JosephineNeural",
+    "fr-FR-RemyNeural",
+    "fr-FR-HenriNeural",
 }
 
 # ── 2026-08-15: NATURAL DELIVERY VARIATION (kill the AI monotone) ──────
@@ -170,14 +198,13 @@ LIGHT_FR_VOICES = {
 # are applied PER SEGMENT around the base tempo/rate; the jitter is symmetric
 # so the overall video length stays unchanged.
 _DELIVERY_PROFILES = {
-    "hook":       1.07,   # energetic opening — the first 2-3s win the scroll
-    "question":   0.94,   # a human leans in and slows before/inside a "?"
-    "emphasis":   0.92,   # reveals/punchlines drawn out for weight
-    "neutral":    1.00,
+    "hook": 1.07,  # energetic opening — the first 2-3s win the scroll
+    "question": 0.94,  # a human leans in and slows before/inside a "?"
+    "emphasis": 0.92,  # reveals/punchlines drawn out for weight
+    "neutral": 1.00,
 }
 _DELIVERY_JITTER = (-0.04, 0.04)  # tiny symmetric per-segment drift
-ENABLE_DELIVERY_VARIATION = os.environ.get(
-    "DELIVERY_VARIATION", "true").lower() in ("1", "true", "yes", "on")
+ENABLE_DELIVERY_VARIATION = os.environ.get("DELIVERY_VARIATION", "true").lower() in ("1", "true", "yes", "on")
 
 
 def _delivery_multiplier(caption: str, index: int, total: int) -> float:
@@ -188,9 +215,10 @@ def _delivery_multiplier(caption: str, index: int, total: int) -> float:
         profile = _DELIVERY_PROFILES["hook"]
     elif caption.rstrip().endswith("?"):
         profile = _DELIVERY_PROFILES["question"]
-    elif any(k in caption.lower() for k in (
-            "imagine", "voilà pourquoi", "c'est pour ça", "pourtant",
-            "tu vois", "et devine quoi")):
+    elif any(
+        k in caption.lower()
+        for k in ("imagine", "voilà pourquoi", "c'est pour ça", "pourtant", "tu vois", "et devine quoi")
+    ):
         profile = _DELIVERY_PROFILES["emphasis"]
     else:
         profile = _DELIVERY_PROFILES["neutral"]
@@ -205,6 +233,7 @@ def _edge_rate_for(segment_factor: float) -> str:
     # factor applies to duration: slower speech = more negative rate
     rate = (1.0 / segment_factor - 1.0) + base
     return f"{rate * 100:+.0f}%"
+
 
 # Number of times Chatterbox retries per segment before giving up and
 # falling back to Kokoro. Retries use the cloned voice reference every
@@ -298,20 +327,25 @@ def _get_chatterbox():
         # ------------------------------------------------------------------
         import perth
         import torch
+
         if getattr(perth, "PerthImplicitWatermarker", None) is None:
             logger.warning(
                 "perth.PerthImplicitWatermarker is None (known chatterbox/perth "
                 "issue #198) - patching in a no-op watermarker so Chatterbox can "
                 "still load and clone voices normally."
             )
+
             class _NoOpWatermarker:
                 def apply_watermark(self, wav, *args, **kwargs):
                     return wav
+
                 def get_watermark(self, *args, **kwargs):
                     return 0.0
+
             perth.PerthImplicitWatermarker = _NoOpWatermarker
 
         from chatterbox.tts import ChatterboxTTS
+
         device = "cuda" if torch.cuda.is_available() else "cpu"
         logger.info(f"Loading Chatterbox TTS model on {device} (first call only, then cached)...")
         _chatterbox_model = ChatterboxTTS.from_pretrained(device=device)
@@ -321,7 +355,9 @@ def _get_chatterbox():
         # log line) so every later "model not loaded" error downstream can
         # still report WHY, even in a trimmed/partial log.
         _chatterbox_load_error = f"{type(e).__name__}: {e}"
-        logger.error(f"Chatterbox unavailable ({_chatterbox_load_error}) - every segment will fall back to Kokoro.")
+        logger.error(
+            f"Chatterbox unavailable ({_chatterbox_load_error}) - every segment will fall back to Kokoro."
+        )
         _chatterbox_load_failed = True
         _chatterbox_model = None
     return _chatterbox_model
@@ -350,11 +386,16 @@ def _apply_tempo(audio: np.ndarray, sr: int, tempo: float) -> np.ndarray:
             sf.write(in_path, audio, sr)
             result = subprocess.run(
                 [
-                    ffmpeg_exe, "-y", "-i", in_path, "-filter:a",
+                    ffmpeg_exe,
+                    "-y",
+                    "-i",
+                    in_path,
+                    "-filter:a",
                     f"atempo={tempo},highpass=f=65,lowpass=f=15000,alimiter=limit=0.95",
                     out_path,
                 ],
-                capture_output=True, timeout=30,
+                capture_output=True,
+                timeout=30,
             )
             if result.returncode != 0 or not os.path.exists(out_path):
                 logger.warning(f"ffmpeg tempo adjustment failed, using original pace: {result.stderr[:200]}")
@@ -419,15 +460,19 @@ def _synthesize_chatterbox(text: str, attempt: int = 1) -> tuple:
         )
 
     kwargs = {
-        'exaggeration': CHATTERBOX_EXAGGERATION,
-        'cfg_weight': CHATTERBOX_CFG_WEIGHT,
-        'temperature': CHATTERBOX_TEMPERATURE,
+        "exaggeration": CHATTERBOX_EXAGGERATION,
+        "cfg_weight": CHATTERBOX_CFG_WEIGHT,
+        "temperature": CHATTERBOX_TEMPERATURE,
     }
     if use_clone:
         kwargs["audio_prompt_path"] = VOICE_REFERENCE_PATH
-        logger.info(f"Chatterbox attempt {attempt}/{CHATTERBOX_MAX_RETRIES}: using CLONED voice from {VOICE_REFERENCE_PATH}")
+        logger.info(
+            f"Chatterbox attempt {attempt}/{CHATTERBOX_MAX_RETRIES}: using CLONED voice from {VOICE_REFERENCE_PATH}"
+        )
     else:
-        logger.info(f"Chatterbox attempt {attempt}/{CHATTERBOX_MAX_RETRIES}: using DEFAULT voice (no valid reference)")
+        logger.info(
+            f"Chatterbox attempt {attempt}/{CHATTERBOX_MAX_RETRIES}: using DEFAULT voice (no valid reference)"
+        )
 
     wav = model.generate(text, **kwargs)
     audio = wav.squeeze().detach().cpu().numpy().astype(np.float32)
@@ -448,7 +493,9 @@ def _synthesize_chatterbox(text: str, attempt: int = 1) -> tuple:
     if use_clone:
         logger.info("Chatterbox: real creator clone in use - no post-processing.")
     else:
-        logger.info("Chatterbox: professional default narrator voice - no post-processing (real recorded voice).")
+        logger.info(
+            "Chatterbox: professional default narrator voice - no post-processing (real recorded voice)."
+        )
     return audio, model.sr
 
 
@@ -472,6 +519,7 @@ def _get_kokoro():
         return _kokoro_tts
     try:
         from kokoro import KPipeline
+
         logger.info("Loading Kokoro TTS model (fallback engine, first use only)...")
         lang_code = os.environ.get("KOKORO_LANG_CODE", "f")
         _kokoro_tts = KPipeline(lang_code=lang_code)  # 'f' = French
@@ -481,6 +529,7 @@ def _get_kokoro():
         _kokoro_load_failed = True
         _kokoro_tts = None
     return _kokoro_tts
+
 
 KOKORO_SAMPLE_RATE = 24000
 
@@ -498,6 +547,7 @@ def prepare_natural_narration(text: str) -> str:
     natural spoken pause, closer to how a French presenter delivers a fact.
     """
     import unicodedata
+
     cleaned = unicodedata.normalize("NFC", text or "")
     cleaned = re.sub(r"\s+", " ", cleaned).strip()
     cleaned = re.sub(r"(?<![.!?])\.{2}(?!\.)", ",", cleaned)
@@ -549,6 +599,7 @@ def _rotated_french_voice(topic: str = "") -> str:
     so the channel never sounds child-like without a creator clone reference.
     """
     import hashlib
+
     pool_raw = os.environ.get("EDGE_FR_VOICE_POOL", "").strip()
     # 2026-08-19: adult-only safeguard — never pick a young-sounding voice.
     # The workflow env pool previously contained Denise/Eloise/Josephine
@@ -557,15 +608,15 @@ def _rotated_french_voice(topic: str = "") -> str:
     # unless the creator explicitly opts in with EDGE_FR_VOICE_ALLOW_LIGHT=1.
     allow_light = os.environ.get("EDGE_FR_VOICE_ALLOW_LIGHT", "0").strip().lower() in ("1", "true", "yes")
     if not allow_light and pool_raw:
-        adult = [v.strip() for v in pool_raw.split(",")
-                 if v.strip() in ADULT_FR_MALE_VOICES]
+        adult = [v.strip() for v in pool_raw.split(",") if v.strip() in ADULT_FR_MALE_VOICES]
         if adult:
             pool_raw = ",".join(adult)
             logger.info("Voice pool filtered to adult male voices: %s", pool_raw)
         else:
             logger.warning(
                 "Configured EDGE_FR_VOICE_POOL has no adult voices — "
-                "using the guaranteed adult default pool instead")
+                "using the guaranteed adult default pool instead"
+            )
             pool_raw = ""
     # 2026-08-17: if no custom pool is set, prefer the mature adult pool
     # (module-level default: four deep, adult French male voices)
@@ -601,6 +652,7 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     Returns (audio np.ndarray float32, sample_rate int).
     """
     import asyncio as _asyncio
+
     import edge_tts as _edge
 
     candidates = [
@@ -631,15 +683,30 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
             # decode mp3 -> wav for the pipeline (raw numpy)
             import subprocess
             import tempfile
+
             with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
                 fh.write(mp3_bytes)
                 mp3_path = fh.name
             wav_path = mp3_path + ".wav"
             subprocess.run(
-                ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
-                 "-acodec", "pcm_s16le", wav_path],
-                check=True, capture_output=True)
+                [
+                    "ffmpeg",
+                    "-y",
+                    "-i",
+                    mp3_path,
+                    "-ar",
+                    "24000",
+                    "-ac",
+                    "1",
+                    "-acodec",
+                    "pcm_s16le",
+                    wav_path,
+                ],
+                check=True,
+                capture_output=True,
+            )
             import soundfile as _sf
+
             audio, sr = _sf.read(wav_path)
             logger.info("edge-tts voice OK: %s", use_voice)
             return audio, sr
@@ -649,8 +716,14 @@ def _synthesize_edge_french(text: str, voice: str | None = None, rate: str | Non
     raise RuntimeError(f"edge-tts failed on all voices: {last_err}")
 
 
-def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
-              topic: str = "", seg_index: int = 0, seg_total: int = 0):
+def _synthesize(
+    text: str,
+    voice: str = "ff_siwis",
+    speed: float = 1.0,
+    topic: str = "",
+    seg_index: int = 0,
+    seg_total: int = 0,
+):
     """Synthesize a single segment with retry logic.
 
     FLOW (2026-08-19):
@@ -694,7 +767,6 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     # beats ElevenLabs in blind evals) - no more synthetic edge-tts timbre.
     # edge-tts Henri pool remains the proven reliable fallback when Chatterbox
     # can't load on the runner, so no slot is ever missed.
-    prefer_chatterbox = engine_choice in ("chatterbox", "chatterbox_fr")
     prefer_edge = engine_choice in ("edge", "edge_fr", "edge-tts")
     chatterbox_errors = []
     # 2026-08-17: mature adult voice rotation (deterministic per topic).
@@ -702,10 +774,8 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
 
     def _try_edge():
         try:
-            seg_rate = _edge_rate_for(
-                _delivery_multiplier(text, seg_index, seg_total))
-            audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice,
-                                                rate=seg_rate)
+            seg_rate = _edge_rate_for(_delivery_multiplier(text, seg_index, seg_total))
+            audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice, rate=seg_rate)
             _validate_generated_audio(audio, sr, min_duration=0.3)
             return audio, sr
         except Exception as exc:
@@ -760,13 +830,13 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
     kokoro_err = "skipped (edge-tts mode preferred; Chatterbox unavailable or failed)"
     # ---- EDGE-TTS CLOUD FALLBACK (added 2026-08-02 audit) ----
     try:
-        import edge_tts as _edge
         import asyncio as _asyncio
+
+        import edge_tts as _edge
 
         async def _collect():
             chunks = []
-            c = _edge.Communicate(narration_text, "fr-FR-HenriNeural",
-                                  rate="-5%")
+            c = _edge.Communicate(narration_text, "fr-FR-HenriNeural", rate="-5%")
             async for chunk in c.stream():
                 if chunk["type"] == "audio":
                     chunks.append(chunk["data"])
@@ -777,16 +847,20 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             raise RuntimeError("edge-tts returned empty audio")
 
         # decode mp3 -> wav: write mp3, convert with ffmpeg (system dep).
-        import subprocess, tempfile
+        import subprocess
+        import tempfile
+
         with tempfile.NamedTemporaryFile(suffix=".mp3", delete=False) as fh:
             fh.write(mp3_bytes)
             mp3_path = fh.name
         wav_path = mp3_path + ".wav"
         subprocess.run(
-            ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1",
-             "-acodec", "pcm_s16le", wav_path],
-            check=True, capture_output=True)
+            ["ffmpeg", "-y", "-i", mp3_path, "-ar", "24000", "-ac", "1", "-acodec", "pcm_s16le", wav_path],
+            check=True,
+            capture_output=True,
+        )
         import soundfile as _sf
+
         audio, sr = _sf.read(wav_path)
         logger.info("edge-tts fallback SUCCESS (fr-FR-HenriNeural)")
         audio = _mature_voice(audio, sr)
@@ -802,10 +876,12 @@ def _synthesize(text: str, voice: str = "ff_siwis", speed: float = 1.0,
             f"Pipeline CANNOT continue without voiceover."
         )
         logger.error(error_msg)
-        raise RuntimeError(error_msg)
+        raise RuntimeError(error_msg) from edge_err
 
 
-def generate_voice(text: str, voice: str = "ff_siwis", output_path: str = "output/voice.wav", speed: float = 1.0) -> str:
+def generate_voice(
+    text: str, voice: str = "ff_siwis", output_path: str = "output/voice.wav", speed: float = 1.0
+) -> str:
     """Generate clear, natural YouTube narration.
 
     Chatterbox with the approved creator reference is always tried first.
@@ -816,7 +892,7 @@ def generate_voice(text: str, voice: str = "ff_siwis", output_path: str = "outpu
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
         audio, sr, engine = _synthesize(text, voice, speed)
         sf.write(output_path, audio, sr)
-        logger.info(f"Voice saved via {engine}: {output_path} ({len(audio)} samples, {len(audio)/sr:.2f}s)")
+        logger.info(f"Voice saved via {engine}: {output_path} ({len(audio)} samples, {len(audio) / sr:.2f}s)")
         return output_path
     except Exception as e:
         logger.error(f"Voice generation failed: {e}")
@@ -827,8 +903,8 @@ def generate_voice_segments(
     scenes: list[dict],
     voice: str = "ff_siwis",  # only used if a segment falls back to Kokoro
     output_dir: str = "output/segments",
-    speed: float = 1.0,      # only used if a segment falls back to Kokoro
-    topic: str = "",         # seeds EDGE_FR_VOICE_POOL rotation (topic-stable)
+    speed: float = 1.0,  # only used if a segment falls back to Kokoro
+    topic: str = "",  # seeds EDGE_FR_VOICE_POOL rotation (topic-stable)
 ) -> list[dict]:
     """
     Each scene gets clear, conversational narration via Chatterbox using the
@@ -846,25 +922,25 @@ def generate_voice_segments(
     engine_counts = {}
 
     for i, scene in enumerate(scenes):
-        caption = scene.get('caption', '').strip() if isinstance(scene, dict) else str(scene)
+        caption = scene.get("caption", "").strip() if isinstance(scene, dict) else str(scene)
         if not caption:
             caption = " "
 
         # No try/except swallowing here — if _synthesize raises, the whole
         # pipeline must abort. Silent 1.5s silence inserts are NOT acceptable;
         # main.py's quality gate will catch the crash and log it properly.
-        audio, sr, engine = _synthesize(caption, voice, speed,
-                                        topic=topic or scene.get("topic", ""),
-                                        seg_index=i, seg_total=len(scenes))
+        audio, sr, engine = _synthesize(
+            caption, voice, speed, topic=topic or scene.get("topic", ""), seg_index=i, seg_total=len(scenes)
+        )
         engine_counts[engine] = engine_counts.get(engine, 0) + 1
         path = os.path.join(output_dir, f"seg_{i}.wav")
         sf.write(path, audio, sr)
         duration = len(audio) / sr
 
         segments.append({"path": path, "duration": duration, "caption": caption, "tts_engine": engine})
-        logger.info(f"Segment {i+1}/{len(scenes)} via {engine}: {duration:.2f}s - \"{caption[:50]}...\"")
+        logger.info(f'Segment {i + 1}/{len(scenes)} via {engine}: {duration:.2f}s - "{caption[:50]}..."')
 
-    total = sum(s['duration'] for s in segments)
+    total = sum(s["duration"] for s in segments)
     logger.info(f"Total natural voiceover duration: {total:.2f}s | engines used: {engine_counts}")
 
     # Final consistency check — all segments must use the SAME engine.

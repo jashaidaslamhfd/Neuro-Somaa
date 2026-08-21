@@ -7,7 +7,7 @@ Problem: video_history.json has 23 entries but NONE have youtube_id/facebook_id.
 
 This script:
   1. Pulls ALL YouTube Shorts via YouTube Data API (search + analytics)
-  2. Pulls ALL Facebook Reels via Graph API 
+  2. Pulls ALL Facebook Reels via Graph API
   3. Pulls ALL Instagram Reels via Graph API
   4. Matches untracked videos to history by topic/title similarity
   5. Adds new entries for completely untracked videos
@@ -27,18 +27,17 @@ Secrets needed (in .env or GitHub Secrets):
 """
 
 import json
+import logging
 import os
 import re
 import sys
 import time
-import logging
-from datetime import datetime, timezone
-from pathlib import Path
-from typing import Dict, List, Optional, Set
+from datetime import UTC, datetime
 from difflib import SequenceMatcher
+from pathlib import Path
 
-import requests
 import pytz
+import requests
 
 logging.basicConfig(
     level=logging.INFO,
@@ -62,14 +61,13 @@ GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN", "")
 
-FB_ACCESS_TOKEN = os.environ.get("FACEBOOK_ACCESS_TOKEN",
-                                  os.environ.get("FB_ACCESS_TOKEN", ""))
-FB_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID",
-                             os.environ.get("FB_PAGE_ID", ""))
+FB_ACCESS_TOKEN = os.environ.get("FACEBOOK_ACCESS_TOKEN", os.environ.get("FB_ACCESS_TOKEN", ""))
+FB_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID", os.environ.get("FB_PAGE_ID", ""))
 FB_API_VERSION = os.environ.get("FB_API_VERSION", "v23.0")
 INSTAGRAM_USER_ID = os.environ.get("INSTAGRAM_USER_ID", "")
 
 # ── Helpers ───────────────────────────────────────────────────────
+
 
 def _topic_similarity(a: str, b: str) -> float:
     """How similar two topic strings are (0..1)."""
@@ -109,16 +107,17 @@ def _save_json_atomic(path: Path, data):
 # YOUTUBE — Pull ALL Shorts from the channel
 # ═══════════════════════════════════════════════════════════════════
 
+
 class YouTubeChannelAudit:
     """Pull every Short from the connected YouTube channel."""
 
     def __init__(self):
-        self.oauth_token: Optional[str] = None
+        self.oauth_token: str | None = None
         self.api_key = YT_API_KEY
-        self.channel_id: Optional[str] = None
-        self.videos: List[Dict] = []
+        self.channel_id: str | None = None
+        self.videos: list[dict] = []
 
-    def _get_oauth_token(self) -> Optional[str]:
+    def _get_oauth_token(self) -> str | None:
         """Exchange refresh token for access token."""
         if self.oauth_token:
             return self.oauth_token
@@ -142,7 +141,7 @@ class YouTubeChannelAudit:
             logger.warning("OAuth token refresh failed: %s", e)
             return None
 
-    def _yt_get(self, endpoint: str, params: dict) -> Dict:
+    def _yt_get(self, endpoint: str, params: dict) -> dict:
         """Make an authenticated YouTube API call."""
         base = "https://www.googleapis.com/youtube/v3"
         url = f"{base}/{endpoint}"
@@ -162,9 +161,9 @@ class YouTubeChannelAudit:
         except Exception as e:
             return {"error": str(e)}
 
-    def _yt_get_paginated(self, endpoint: str, params: dict,
-                          items_key: str = "items",
-                          max_pages: int = 20) -> List[Dict]:
+    def _yt_get_paginated(
+        self, endpoint: str, params: dict, items_key: str = "items", max_pages: int = 20
+    ) -> list[dict]:
         """Paginated YouTube API call."""
         all_items = []
         page_token = None
@@ -183,29 +182,33 @@ class YouTubeChannelAudit:
             time.sleep(0.5)  # Rate limit
         return all_items
 
-    def discover_channel(self) -> Optional[str]:
+    def discover_channel(self) -> str | None:
         """Find the channel ID from OAuth credentials."""
-        data = self._yt_get("channels", {
-            "part": "id,snippet,statistics,contentDetails",
-            "mine": "true",
-            "maxResults": 1,
-        })
+        data = self._yt_get(
+            "channels",
+            {
+                "part": "id,snippet,statistics,contentDetails",
+                "mine": "true",
+                "maxResults": 1,
+            },
+        )
         items = data.get("items", [])
         if items:
             self.channel_id = items[0]["id"]
-            logger.info("📺 Channel: %s (ID: %s)",
-                       items[0]["snippet"]["title"],
-                       self.channel_id)
+            logger.info("📺 Channel: %s (ID: %s)", items[0]["snippet"]["title"], self.channel_id)
             return self.channel_id
 
         # Fallback: search by handle
         if self.api_key:
             logger.warning("OAuth channel lookup failed, trying API key...")
-            data = self._yt_get("channels", {
-                "part": "id,snippet",
-                "forHandle": "@MrNextep",
-                "key": self.api_key,
-            })
+            data = self._yt_get(
+                "channels",
+                {
+                    "part": "id,snippet",
+                    "forHandle": "@MrNextep",
+                    "key": self.api_key,
+                },
+            )
             items = data.get("items", [])
             if items:
                 self.channel_id = items[0]["id"]
@@ -214,19 +217,21 @@ class YouTubeChannelAudit:
         logger.error("Could not discover YouTube channel. Check credentials.")
         return None
 
-    def pull_all_shorts(self) -> List[Dict]:
+    def pull_all_shorts(self) -> list[dict]:
         """Pull ALL Shorts from the channel."""
-        if not self.channel_id:
-            if not self.discover_channel():
-                return []
+        if not self.channel_id and not self.discover_channel():
+            return []
 
         logger.info("🔍 Pulling ALL YouTube Shorts from channel %s...", self.channel_id)
 
         # Get uploads playlist
-        ch_data = self._yt_get("channels", {
-            "part": "contentDetails",
-            "id": self.channel_id,
-        })
+        ch_data = self._yt_get(
+            "channels",
+            {
+                "part": "contentDetails",
+                "id": self.channel_id,
+            },
+        )
         items = ch_data.get("items", [])
         if not items:
             logger.error("No channel data returned")
@@ -235,11 +240,15 @@ class YouTubeChannelAudit:
         uploads_playlist = items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
         # Pull all videos from uploads
-        all_videos = self._yt_get_paginated("playlistItems", {
-            "part": "snippet,contentDetails",
-            "playlistId": uploads_playlist,
-            "maxResults": 50,
-        }, max_pages=10)
+        all_videos = self._yt_get_paginated(
+            "playlistItems",
+            {
+                "part": "snippet,contentDetails",
+                "playlistId": uploads_playlist,
+                "maxResults": 50,
+            },
+            max_pages=10,
+        )
 
         # Filter for Shorts (duration < 60s, or #shorts in title)
         shorts = []
@@ -249,24 +258,22 @@ class YouTubeChannelAudit:
             desc = snippet.get("description", "").lower()
 
             # Shorts indicators
-            is_short = (
-                "#shorts" in desc or
-                "#short" in desc or
-                "shorts" in title
-            )
+            is_short = "#shorts" in desc or "#short" in desc or "shorts" in title
 
             # Also check via videos.list for duration
             vid = item["contentDetails"]["videoId"]
 
             if is_short:
-                shorts.append({
-                    "youtube_id": vid,
-                    "title": snippet.get("title", ""),
-                    "description": snippet.get("description", "")[:500],
-                    "published_at": snippet.get("publishedAt", ""),
-                    "thumbnail": snippet.get("thumbnails", {}).get("high", {}).get("url", ""),
-                    "tags": snippet.get("tags", []),
-                })
+                shorts.append(
+                    {
+                        "youtube_id": vid,
+                        "title": snippet.get("title", ""),
+                        "description": snippet.get("description", "")[:500],
+                        "published_at": snippet.get("publishedAt", ""),
+                        "thumbnail": snippet.get("thumbnails", {}).get("high", {}).get("url", ""),
+                        "tags": snippet.get("tags", []),
+                    }
+                )
 
         logger.info("  Found %d shorts out of %d total videos", len(shorts), len(all_videos))
 
@@ -276,10 +283,13 @@ class YouTubeChannelAudit:
                 logger.info("  Fetching analytics... %d/%d", i + 1, len(shorts))
 
             vid = short["youtube_id"]
-            stats = self._yt_get("videos", {
-                "part": "statistics,contentDetails,status",
-                "id": vid,
-            })
+            stats = self._yt_get(
+                "videos",
+                {
+                    "part": "statistics,contentDetails,status",
+                    "id": vid,
+                },
+            )
 
             stat_items = stats.get("items", [])
             if stat_items:
@@ -291,13 +301,15 @@ class YouTubeChannelAudit:
                 duration_str = cd.get("duration", "PT0S")
                 duration_sec = self._parse_duration(duration_str)
 
-                short.update({
-                    "views": int(st.get("viewCount", 0)),
-                    "likes": int(st.get("likeCount", 0)),
-                    "comments": int(st.get("commentCount", 0)),
-                    "duration_seconds": duration_sec,
-                    "made_for_kids": s.get("status", {}).get("madeForKids", False),
-                })
+                short.update(
+                    {
+                        "views": int(st.get("viewCount", 0)),
+                        "likes": int(st.get("likeCount", 0)),
+                        "comments": int(st.get("commentCount", 0)),
+                        "duration_seconds": duration_sec,
+                        "made_for_kids": s.get("status", {}).get("madeForKids", False),
+                    }
+                )
 
             time.sleep(0.3)
 
@@ -315,7 +327,7 @@ class YouTubeChannelAudit:
         h, m, s = match.groups()
         return int(h or 0) * 3600 + int(m or 0) * 60 + int(s or 0)
 
-    def _pull_analytics_for_shorts(self, shorts: List[Dict]):
+    def _pull_analytics_for_shorts(self, shorts: list[dict]):
         """Pull YouTube Analytics for each short (retention, CTR)."""
         token = self._get_oauth_token()
         if not token:
@@ -372,6 +384,7 @@ class YouTubeChannelAudit:
 # FACEBOOK + INSTAGRAM — Pull ALL Reels
 # ═══════════════════════════════════════════════════════════════════
 
+
 class MetaChannelAudit:
     """Pull every Reel from the connected Facebook Page + Instagram account."""
 
@@ -380,10 +393,10 @@ class MetaChannelAudit:
         self.page_id = FB_PAGE_ID
         self.ig_user_id = INSTAGRAM_USER_ID
         self.base = f"https://graph.facebook.com/{FB_API_VERSION}"
-        self.fb_reels: List[Dict] = []
-        self.ig_reels: List[Dict] = []
+        self.fb_reels: list[dict] = []
+        self.ig_reels: list[dict] = []
 
-    def _graph_get(self, node: str, params: dict = None) -> Dict:
+    def _graph_get(self, node: str, params: dict | None = None) -> dict:
         """Make an authenticated Graph API call."""
         if not self.token:
             return {"error": "No Facebook access token"}
@@ -395,8 +408,7 @@ class MetaChannelAudit:
         except Exception as e:
             return {"error": str(e)}
 
-    def _graph_paginated(self, node: str, params: dict = None,
-                         max_pages: int = 10) -> List[Dict]:
+    def _graph_paginated(self, node: str, params: dict | None = None, max_pages: int = 10) -> list[dict]:
         """Paginated Graph API call."""
         all_items = []
         p = params.copy() if params else {}
@@ -419,14 +431,15 @@ class MetaChannelAudit:
             # Extract the full URL for next page
             url_node = next_url.split(f"{self.base}/")[-1].split("?")[0]
             # Parse query params
-            from urllib.parse import urlparse, parse_qs
+            from urllib.parse import parse_qs, urlparse
+
             parsed = urlparse(next_url)
             p = {k: v[0] for k, v in parse_qs(parsed.query).items()}
             time.sleep(0.5)
 
         return all_items
 
-    def pull_facebook_reels(self) -> List[Dict]:
+    def pull_facebook_reels(self) -> list[dict]:
         """Pull ALL Facebook Reels from the page."""
         if not self.token or not self.page_id:
             logger.warning("Facebook credentials missing — skipping FB backfill")
@@ -458,22 +471,24 @@ class MetaChannelAudit:
                 if values:
                     insights[name] = values[0].get("value", 0)
 
-            reels.append({
-                "facebook_id": vid,
-                "title": v.get("title", v.get("description", ""))[:200],
-                "description": v.get("description", "")[:500],
-                "published_at": v.get("created_time", ""),
-                "views": int(v.get("views", insights.get("total_video_views", 0))),
-                "avg_watch_ms": insights.get("total_video_avg_time_watched", 0),
-                "reactions": insights.get("post_reactions_by_type_total", {}),
-                "permalink": v.get("permalink_url", ""),
-            })
+            reels.append(
+                {
+                    "facebook_id": vid,
+                    "title": v.get("title", v.get("description", ""))[:200],
+                    "description": v.get("description", "")[:500],
+                    "published_at": v.get("created_time", ""),
+                    "views": int(v.get("views", insights.get("total_video_views", 0))),
+                    "avg_watch_ms": insights.get("total_video_avg_time_watched", 0),
+                    "reactions": insights.get("post_reactions_by_type_total", {}),
+                    "permalink": v.get("permalink_url", ""),
+                }
+            )
 
         self.fb_reels = reels
         logger.info("  Found %d Facebook Reels", len(reels))
         return reels
 
-    def pull_instagram_reels(self) -> List[Dict]:
+    def pull_instagram_reels(self) -> list[dict]:
         """Pull ALL Instagram Reels."""
         if not self.token or not self.ig_user_id:
             logger.warning("Instagram credentials missing — skipping IG backfill")
@@ -486,7 +501,7 @@ class MetaChannelAudit:
             f"{self.ig_user_id}/media",
             {
                 "fields": "id,caption,media_type,timestamp,permalink,thumbnail_url,"
-                          "like_count,comments_count,insights.metric(reach,plays,saved,shares,total_interactions,ig_reels_avg_watch_time)",
+                "like_count,comments_count,insights.metric(reach,plays,saved,shares,total_interactions,ig_reels_avg_watch_time)",
                 "media_type": "REELS",
             },
         )
@@ -502,19 +517,21 @@ class MetaChannelAudit:
                 if values:
                     insights[name] = values[0].get("value", 0)
 
-            reels.append({
-                "instagram_id": m.get("id", ""),
-                "caption": caption[:500],
-                "published_at": m.get("timestamp", ""),
-                "likes": m.get("like_count", 0),
-                "comments": m.get("comments_count", 0),
-                "reach": insights.get("reach", 0),
-                "plays": insights.get("plays", 0),
-                "saved": insights.get("saved", 0),
-                "shares": insights.get("shares", 0),
-                "avg_watch_time_ms": insights.get("ig_reels_avg_watch_time", 0),
-                "permalink": m.get("permalink", ""),
-            })
+            reels.append(
+                {
+                    "instagram_id": m.get("id", ""),
+                    "caption": caption[:500],
+                    "published_at": m.get("timestamp", ""),
+                    "likes": m.get("like_count", 0),
+                    "comments": m.get("comments_count", 0),
+                    "reach": insights.get("reach", 0),
+                    "plays": insights.get("plays", 0),
+                    "saved": insights.get("saved", 0),
+                    "shares": insights.get("shares", 0),
+                    "avg_watch_time_ms": insights.get("ig_reels_avg_watch_time", 0),
+                    "permalink": m.get("permalink", ""),
+                }
+            )
 
         self.ig_reels = reels
         logger.info("  Found %d Instagram Reels", len(reels))
@@ -524,6 +541,7 @@ class MetaChannelAudit:
 # ═══════════════════════════════════════════════════════════════════
 # BACKFILL ENGINE — Match & Merge
 # ═══════════════════════════════════════════════════════════════════
+
 
 class BackfillEngine:
     """Match API data to local history and merge everything."""
@@ -544,7 +562,7 @@ class BackfillEngine:
             "retention_updated": 0,
         }
 
-    def backfill_youtube(self, yt_shorts: List[Dict], dry_run: bool = True):
+    def backfill_youtube(self, yt_shorts: list[dict], dry_run: bool = True):
         """Backfill YouTube data into history."""
         logger.info("\n── Backfilling YouTube data ──")
 
@@ -555,8 +573,8 @@ class BackfillEngine:
             if topic:
                 history_topics.append((i, topic))
 
-        matched_ids: Set[str] = set()
-        matched_entries: Set[int] = set()
+        matched_ids: set[str] = set()
+        matched_entries: set[int] = set()
 
         for short in yt_shorts:
             yt_id = short.get("youtube_id", "")
@@ -593,7 +611,7 @@ class BackfillEngine:
                 if short.get("average_view_duration_sec"):
                     entry["average_view_duration_sec"] = short["average_view_duration_sec"]
                 entry["published_at"] = short.get("published_at", entry.get("published_at"))
-                entry["analytics_fetched_at"] = datetime.now(timezone.utc).isoformat()
+                entry["analytics_fetched_at"] = datetime.now(UTC).isoformat()
 
                 matched_ids.add(yt_id)
                 matched_entries.add(best_idx)
@@ -617,7 +635,7 @@ class BackfillEngine:
                     "hook_score": None,
                     "word_count": None,
                     "source": "youtube_backfill",
-                    "backfilled_at": datetime.now(timezone.utc).isoformat(),
+                    "backfilled_at": datetime.now(UTC).isoformat(),
                 }
                 if not dry_run:
                     self.history.append(new_entry)
@@ -625,16 +643,23 @@ class BackfillEngine:
                 self.stats["youtube_new"] += 1
                 logger.debug("  🆕 NEW: '%s' → %s (score=%.2f)", title[:50], yt_id, best_score)
 
-        logger.info("  YouTube: %d matched, %d new, %d views updated, %d retention updated",
-                   self.stats["youtube_matched"], self.stats["youtube_new"],
-                   self.stats["views_updated"], self.stats["retention_updated"])
+        logger.info(
+            "  YouTube: %d matched, %d new, %d views updated, %d retention updated",
+            self.stats["youtube_matched"],
+            self.stats["youtube_new"],
+            self.stats["views_updated"],
+            self.stats["retention_updated"],
+        )
 
-    def backfill_facebook(self, fb_reels: List[Dict], dry_run: bool = True):
+    def backfill_facebook(self, fb_reels: list[dict], dry_run: bool = True):
         """Backfill Facebook data."""
         logger.info("\n── Backfilling Facebook data ──")
 
-        history_topics = [(i, e.get("topic", "")) for i, e in enumerate(self.history)
-                         if e.get("topic") and not e.get("facebook_id")]
+        history_topics = [
+            (i, e.get("topic", ""))
+            for i, e in enumerate(self.history)
+            if e.get("topic") and not e.get("facebook_id")
+        ]
 
         matched = 0
         for reel in fb_reels:
@@ -645,8 +670,7 @@ class BackfillEngine:
             best_score = 0
             best_idx = -1
             for idx, topic in history_topics:
-                score = max(_topic_similarity(topic, title),
-                          _topic_similarity(topic, desc[:200]))
+                score = max(_topic_similarity(topic, title), _topic_similarity(topic, desc[:200]))
                 if score > best_score:
                     best_score = score
                     best_idx = idx
@@ -665,7 +689,7 @@ class BackfillEngine:
                     "fb_avg_watch_ms": reel.get("avg_watch_ms", 0),
                     "published_at": reel.get("published_at", ""),
                     "source": "facebook_backfill",
-                    "backfilled_at": datetime.now(timezone.utc).isoformat(),
+                    "backfilled_at": datetime.now(UTC).isoformat(),
                 }
                 if not dry_run:
                     self.history.append(new_entry)
@@ -674,12 +698,15 @@ class BackfillEngine:
         self.stats["facebook_matched"] = matched
         logger.info("  Facebook: %d matched, %d new", matched, self.stats["facebook_new"])
 
-    def backfill_instagram(self, ig_reels: List[Dict], dry_run: bool = True):
+    def backfill_instagram(self, ig_reels: list[dict], dry_run: bool = True):
         """Backfill Instagram data."""
         logger.info("\n── Backfilling Instagram data ──")
 
-        history_topics = [(i, e.get("topic", "")) for i, e in enumerate(self.history)
-                         if e.get("topic") and not e.get("instagram_id")]
+        history_topics = [
+            (i, e.get("topic", ""))
+            for i, e in enumerate(self.history)
+            if e.get("topic") and not e.get("instagram_id")
+        ]
 
         matched = 0
         for reel in ig_reels:
@@ -711,7 +738,7 @@ class BackfillEngine:
                     "ig_comments": reel.get("comments", 0),
                     "published_at": reel.get("published_at", ""),
                     "source": "instagram_backfill",
-                    "backfilled_at": datetime.now(timezone.utc).isoformat(),
+                    "backfilled_at": datetime.now(UTC).isoformat(),
                 }
                 if not dry_run:
                     self.history.append(new_entry)
@@ -738,7 +765,7 @@ class BackfillEngine:
         print(f"  Facebook:   {self.stats['facebook_matched']} matched | {self.stats['facebook_new']} new")
         print(f"  Instagram:  {self.stats['instagram_matched']} matched | {self.stats['instagram_new']} new")
         print("  ─────────────────────────────────────")
-        total = sum(v for k, v in self.stats.items() if k.endswith("_matched") or k.endswith("_new"))
+        total = sum(v for k, v in self.stats.items() if k.endswith(("_matched", "_new")))
         print(f"  TOTAL:      {total} videos processed")
         print(f"  Views updated:     {self.stats['views_updated']}")
         print(f"  Retention updated: {self.stats['retention_updated']}")
@@ -749,6 +776,7 @@ class BackfillEngine:
 # ═══════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════
+
 
 def main():
     dry_run = "--apply" not in sys.argv
@@ -792,7 +820,7 @@ def main():
 
         # Save backfill log
         log = {
-            "run_at": datetime.now(timezone.utc).isoformat(),
+            "run_at": datetime.now(UTC).isoformat(),
             "youtube_count": len(yt_shorts),
             "facebook_count": len(fb_reels),
             "instagram_count": len(ig_reels),
@@ -806,6 +834,7 @@ def main():
             logger.info("\n🧠 Retraining ML Brain with complete dataset...")
             try:
                 from scripts.ml_brain import MLBrain
+
                 brain = MLBrain()
                 brain.train()
                 brain.save()

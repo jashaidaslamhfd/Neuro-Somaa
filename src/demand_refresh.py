@@ -25,8 +25,10 @@ main pipeline before topic selection when the queue is empty or older than
 REFRESH_MAX_AGE_DAYS. Never raises — a mining failure must never stop the
 pipeline from publishing.
 """
+
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
 import os
@@ -34,7 +36,7 @@ import random
 import re
 import tempfile
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -49,9 +51,14 @@ MIN_CALL_SPACING = 0.35
 _DEMAND_RE = re.compile(r"'([^']+)'")
 
 _LEAK_SUFFIX_PATS = [
-    r"\s*peut\s+sembler\s+étrange\s*$", r"\s*peut\s+sembler\s*$",
-    r"\s*semble\s+soudain\s*$", r"\s*arrive\s*$", r"\s*devient\s*$",
-    r"\s*se\s*$", r"\s*la\s*$", r"\s*le\s*$",
+    r"\s*peut\s+sembler\s+étrange\s*$",
+    r"\s*peut\s+sembler\s*$",
+    r"\s*semble\s+soudain\s*$",
+    r"\s*arrive\s*$",
+    r"\s*devient\s*$",
+    r"\s*se\s*$",
+    r"\s*la\s*$",
+    r"\s*le\s*$",
 ]
 
 
@@ -59,10 +66,14 @@ def _clean_subject(text: str) -> str:
     """Strip LLM leak suffixes and any leading 'Ce qu'il faut comprendre sur '
     framing so the miner seeds are real phenomenon names, not essay titles."""
     t = re.sub(r"\s+", " ", (text or "")).strip()
-    for framing in ("ce qu'il faut comprendre sur ", "ce que votre corps vous dit quand ",
-                    "ce qui se passe quand ", "quand "):
+    for framing in (
+        "ce qu'il faut comprendre sur ",
+        "ce que votre corps vous dit quand ",
+        "ce qui se passe quand ",
+        "quand ",
+    ):
         if t.lower().startswith(framing):
-            t = t[len(framing):]
+            t = t[len(framing) :]
             break
     for pat in _LEAK_SUFFIX_PATS:
         t = re.sub(pat, "", t, flags=re.IGNORECASE)
@@ -78,14 +89,24 @@ def _short_core(topic: str) -> str:
     t = _clean_subject(topic)
     # strip leftover question/essay framing that _clean_subject missed so
     # the core is a natural search phrase, never 'pourquoi pourquoi ...'
-    for prefix in ("pourquoi ", "pourquoi le ", "pourquoi la ", "pourquoi les ",
-                   "pourquoi mon ", "pourquoi ma ", "pourquoi on ",
-                   "comprendre ", "ce qui se passe quand ", "ce qui se passe ",
-                   "ce que la science explique sur ",
-                   "ce que votre corps vous dit quand ",
-                   "ce qu'il faut comprendre sur ", "quand "):
+    for prefix in (
+        "pourquoi ",
+        "pourquoi le ",
+        "pourquoi la ",
+        "pourquoi les ",
+        "pourquoi mon ",
+        "pourquoi ma ",
+        "pourquoi on ",
+        "comprendre ",
+        "ce qui se passe quand ",
+        "ce qui se passe ",
+        "ce que la science explique sur ",
+        "ce que votre corps vous dit quand ",
+        "ce qu'il faut comprendre sur ",
+        "quand ",
+    ):
         if t.lower().startswith(prefix):
-            t = t[len(prefix):]
+            t = t[len(prefix) :]
             break
     t = _clean_subject(t)
     toks = [w for w in re.split(r"\s+", t) if w]
@@ -96,7 +117,7 @@ def _short_core(topic: str) -> str:
     best, best_score = t, max(1, len(words))
     for width in range(7, 3, -1):
         for i in range(len(toks) - width + 1):
-            span = " ".join(toks[i:i + width])
+            span = " ".join(toks[i : i + width])
             score = len(_topic_words(span) & words)
             if score > best_score:
                 best, best_score = span, score
@@ -116,14 +137,64 @@ _EVERGREEN_STEMS = [
 def _topic_words(text: str) -> set[str]:
     try:
         from trend_fetcher import _topic_words as _tw
+
         return _tw(text)
     except Exception:  # pragma: no cover - defensive, same as callers
-        stop = {"le", "la", "les", "un", "une", "du", "des", "de", "et", "ou",
-                "que", "qui", "quoi", "quand", "sans", "pour", "sur", "dans",
-                "par", "a", "au", "aux", "ton", "ta", "tes", "votre", "mon",
-                "ma", "mes", "son", "sa", "ses", "ce", "cette", "ces", "il",
-                "elle", "je", "tu", "nous", "vous", "ils", "elles", "y", "en",
-                "pas", "ne", "n", "est", "sont", "se", "l", "d"}
+        stop = {
+            "le",
+            "la",
+            "les",
+            "un",
+            "une",
+            "du",
+            "des",
+            "de",
+            "et",
+            "ou",
+            "que",
+            "qui",
+            "quoi",
+            "quand",
+            "sans",
+            "pour",
+            "sur",
+            "dans",
+            "par",
+            "a",
+            "au",
+            "aux",
+            "ton",
+            "ta",
+            "tes",
+            "votre",
+            "mon",
+            "ma",
+            "mes",
+            "son",
+            "sa",
+            "ses",
+            "ce",
+            "cette",
+            "ces",
+            "il",
+            "elle",
+            "je",
+            "tu",
+            "nous",
+            "vous",
+            "ils",
+            "elles",
+            "y",
+            "en",
+            "pas",
+            "ne",
+            "n",
+            "est",
+            "sont",
+            "se",
+            "l",
+            "d",
+        }
         toks = [w for w in re.split(r"\s+", (text or "").lower()) if w and len(w) >= 3]
         return {w.strip("'\".,;:!?-") for w in toks} - stop
 
@@ -133,12 +204,12 @@ def _winner_subjects(limit: int = 6) -> list[str]:
     from what the channel already wins with."""
     try:
         from intelligence.features import WINNER_VIEWS  # standard constants
+
         _ = WINNER_VIEWS
     except Exception:
         pass
     try:
-        state = json.loads(Path("data/performance_state.json")
-                           .read_text(encoding="utf-8"))
+        state = json.loads(Path("data/performance_state.json").read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         state = {}
     winners = []
@@ -150,9 +221,11 @@ def _winner_subjects(limit: int = 6) -> list[str]:
         if len(winners) >= limit:
             break
     if not winners:
-        winners = ["le ventre se serre lors d'une peur",
-                   "les genoux qui craquent",
-                   "un aliment froid provoque un mal de tête"]
+        winners = [
+            "le ventre se serre lors d'une peur",
+            "les genoux qui craquent",
+            "un aliment froid provoque un mal de tête",
+        ]
     out = []
     for t in winners:
         core = _short_core(t)
@@ -169,14 +242,15 @@ def _catalogue_subjects(limit: int = 4) -> list[str]:
     winner circle). Cheap to compute; failures degrade to []."""
     try:
         from trend_fetcher import get_body_glitch_topics
+
         pool = get_body_glitch_topics()
     except Exception:
         return []
     try:
         from video_history import load_history  # history shapes vary; best-effort
+
         history = load_history()
-        hist_topics = {(h.get("topic") or h.get("title") or "").lower()
-                       for h in (history or [])}
+        hist_topics = {(h.get("topic") or h.get("title") or "").lower() for h in (history or [])}
     except Exception:
         hist_topics = set()
     picked = []
@@ -199,16 +273,15 @@ def _mine_seed(seed: str, *, max_calls: int = MAX_API_CALLS) -> tuple[list[str],
     """Mine live FR autocomplete suggestions for one seed. Never raises.
     Returns (queries, actual_api_calls) so the caller can budget fairly."""
     import requests as _rq
+
     out, seen, calls = [], set(), 0
     ref = _topic_words(seed)
     # never double a leading question word — 'pourquoi pourquoi ...' is
     # dead weight that returns 0 suggestions
-    if any(seed.lower().startswith(q) for q in
-           ("pourquoi ", "comment ", "que faire ", "quand ", "où ")):
+    if any(seed.lower().startswith(q) for q in ("pourquoi ", "comment ", "que faire ", "quand ", "où ")):
         stems = [f"causes de {seed}", f"que faire quand {seed}", seed]
     else:
-        stems = [f"pourquoi {seed}", f"causes de {seed}",
-                 f"que faire quand {seed}", seed]
+        stems = [f"pourquoi {seed}", f"causes de {seed}", f"que faire quand {seed}", seed]
     stems = [s[:60] for s in stems]
     for s in stems:
         if calls >= max_calls:
@@ -217,10 +290,12 @@ def _mine_seed(seed: str, *, max_calls: int = MAX_API_CALLS) -> tuple[list[str],
         suggestions = []
         for attempt in range(2):  # one retry on rate-limit (429/403)
             try:
-                r = _rq.get("https://suggestqueries.google.com/complete/search",
-                            params={"client": "firefox", "hl": "fr", "gl": "fr",
-                                    "ds": "yt", "q": s},
-                            timeout=6, headers={"User-Agent": "Mozilla/5.0"})
+                r = _rq.get(
+                    "https://suggestqueries.google.com/complete/search",
+                    params={"client": "firefox", "hl": "fr", "gl": "fr", "ds": "yt", "q": s},
+                    timeout=6,
+                    headers={"User-Agent": "Mozilla/5.0"},
+                )
                 if r.status_code in (429, 403):
                     if attempt == 0:
                         time.sleep(5.0)
@@ -243,8 +318,7 @@ def _mine_seed(seed: str, *, max_calls: int = MAX_API_CALLS) -> tuple[list[str],
             toks = [w for w in re.split(r"\s+", p) if w]
             if len(toks) < 3:
                 continue  # too short to be a video-worthy demand query
-            if len(toks) >= 4 and len(toks) != len(set(toks)) \
-                    and any(len(w) >= 4 for w in toks):
+            if len(toks) >= 4 and len(toks) != len(set(toks)) and any(len(w) >= 4 for w in toks):
                 continue  # degenerate repeat ('la peau la peau la peau')
             words = _topic_words(p)
             shared = words & ref
@@ -281,13 +355,17 @@ def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
     # corps vous dit quand …"). An angle like "Pourquoi ce qui change…" is
     # broken French — strip the essay lead so the angle is always a clean
     # natural question: "Pourquoi <phénomène> ?"
-    for _lead in ("ce qui change lorsque ", "ce qui se passe quand ",
-                  "ce que votre corps vous dit quand ",
-                  "ce que la science explique sur ",
-                  "ce qu'il faut comprendre sur ",
-                  "la science derrière ", "comprendre pourquoi "):
+    for _lead in (
+        "ce qui change lorsque ",
+        "ce qui se passe quand ",
+        "ce que votre corps vous dit quand ",
+        "ce que la science explique sur ",
+        "ce qu'il faut comprendre sur ",
+        "la science derrière ",
+        "comprendre pourquoi ",
+    ):
         if core.lower().startswith(_lead):
-            core = core[len(_lead):].strip()
+            core = core[len(_lead) :].strip()
     # If nothing declarative is left, fall back to the nominal phrase
     if not core or len(core.split()) < 2:
         core = topic if not topic.lower().startswith("pourquoi ") else topic[8:].strip()
@@ -311,7 +389,7 @@ def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
         "thumbnail_text": thumbnail_text,
         "demand_note": notes,
         "pillar": "reflexes_du_corps",
-        "mined_at": datetime.now(timezone.utc).isoformat(),
+        "mined_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -327,16 +405,16 @@ def _queue_is_stale(*, force: bool = False) -> bool:
     topics = payload.get("topics") if isinstance(payload, dict) else payload
     if not isinstance(topics, list) or len(topics) < 2:
         return True
-    mined_at = (payload.get("mined_at") or "")
+    mined_at = payload.get("mined_at") or ""
     if not mined_at:
         return True
     try:
         when = datetime.fromisoformat(mined_at)
     except ValueError:
         return True
-    now = datetime.now(timezone.utc)
+    now = datetime.now(UTC)
     if when.tzinfo is None:
-        when = when.replace(tzinfo=timezone.utc)
+        when = when.replace(tzinfo=UTC)
     return (now - when).days >= REFRESH_MAX_AGE_DAYS
 
 
@@ -358,8 +436,9 @@ def refresh_demand_queue(*, force: bool = False) -> bool:
     except Exception as exc:
         logger.warning("Catalogue-seed mining failed: %s", exc)
     # de-dupe keeping order
-    subjects = list(dict.fromkeys(subj.lower().strip() for subj in subjects
-                                  if subj and len(subj.strip()) >= 5))
+    subjects = list(
+        dict.fromkeys(subj.lower().strip() for subj in subjects if subj and len(subj.strip()) >= 5)
+    )
 
     records, api_calls = [], 0
     for subj in subjects:
@@ -372,8 +451,7 @@ def refresh_demand_queue(*, force: bool = False) -> bool:
             continue
         api_calls += used or 1
         if queries:
-            records.append(_subject_to_record(subj, queries,
-                                              index=len(records) + 1))
+            records.append(_subject_to_record(subj, queries, index=len(records) + 1))
         time.sleep(MIN_CALL_SPACING)
 
     if not records:
@@ -382,29 +460,28 @@ def refresh_demand_queue(*, force: bool = False) -> bool:
 
     payload = {
         "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) "
-                  f"mined {datetime.now(timezone.utc):%Y-%m-%d}",
-        "mined_at": datetime.now(timezone.utc).isoformat(),
+        f"mined {datetime.now(UTC):%Y-%m-%d}",
+        "mined_at": datetime.now(UTC).isoformat(),
         "topics": records[:MAX_ENTRIES],
     }
     QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(prefix="demand_", dir=QUEUE_PATH.parent,
-                               suffix=".json.tmp")
+    fd, tmp = tempfile.mkstemp(prefix="demand_", dir=QUEUE_PATH.parent, suffix=".json.tmp")
     try:
         with os.fdopen(fd, "w", encoding="utf-8") as fh:
             json.dump(payload, fh, ensure_ascii=False, indent=2)
         os.replace(tmp, QUEUE_PATH)
     except Exception:
-        try:
+        with contextlib.suppress(OSError):
             os.unlink(tmp)
-        except OSError:
-            pass
         raise
-    logger.info("✅ Demand queue refreshed: %d subjects, mined %d queries",
-                len(records), sum(1 for r in records for _ in _DEMAND_RE.findall(r.get("demand_note", "") or "")))
+    logger.info(
+        "✅ Demand queue refreshed: %d subjects, mined %d queries",
+        len(records),
+        sum(1 for r in records for _ in _DEMAND_RE.findall(r.get("demand_note", "") or "")),
+    )
     return True
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO,
-                        format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     refresh_demand_queue()

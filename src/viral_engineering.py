@@ -19,6 +19,7 @@ one of the mechanics the winning Shorts channels actually engineer:
 French-native quality stays enforced upstream (french_quality_gate); this
 module never emits medical claims or engagement bait.
 """
+
 from __future__ import annotations
 
 import re
@@ -27,13 +28,44 @@ import zlib
 HOOK_ARMS = ("question", "shock_fact", "pov_reveal")
 
 _BODY_WORDS = {
-    "corps", "cerveau", "cœur", "coeur", "peau", "ventre", "yeux", "œil", "oeil",
-    "os", "sang", "sommeil", "paupière", "paupiere", "doigts", "mains", "bouche",
-    "langue", "oreilles", "nez", "pieds", "jambes", "muscles", "voix", "souffle",
+    "corps",
+    "cerveau",
+    "cœur",
+    "coeur",
+    "peau",
+    "ventre",
+    "yeux",
+    "œil",
+    "oeil",
+    "os",
+    "sang",
+    "sommeil",
+    "paupière",
+    "paupiere",
+    "doigts",
+    "mains",
+    "bouche",
+    "langue",
+    "oreilles",
+    "nez",
+    "pieds",
+    "jambes",
+    "muscles",
+    "voix",
+    "souffle",
 }
 _NOVELTY_WORDS = {
-    "jamais", "secret", "personne", "toujours", "soudain", "en fait",
-    "contrairement", "incroyable", "bizarre", "étrange", "etrange",
+    "jamais",
+    "secret",
+    "personne",
+    "toujours",
+    "soudain",
+    "en fait",
+    "contrairement",
+    "incroyable",
+    "bizarre",
+    "étrange",
+    "etrange",
 }
 _GAP_MARKERS = ("?", "mais", "sauf", "pourtant", "en fait", "et pourtant", "sauf que")
 _SECOND_PERSON = re.compile(r"\b(ton|ta|tes|votre|vos|vous|tu|te)\b", re.IGNORECASE)
@@ -97,14 +129,29 @@ def score_hook_v2(hook_text: str) -> dict:
         if not ok:
             missing.append(reason)
 
-    add("second_person", 18, bool(_SECOND_PERSON.search(lower)), "pas de « ton/vous » (adresser le spectateur)")
+    add(
+        "second_person",
+        18,
+        bool(_SECOND_PERSON.search(lower)),
+        "pas de « ton/vous » (adresser le spectateur)",
+    )
     add("verb", 14, has_french_verb(text), "aucun verbe conjugué")
     add("length", 14, 4 <= len(words) <= 12, f"{len(words)} mots (idéal 4-12)")
-    add("curiosity_gap", 12, any(m in lower for m in _GAP_MARKERS), "pas d'ouverture de boucle (?, mais, sauf…)")
+    add(
+        "curiosity_gap",
+        12,
+        any(m in lower for m in _GAP_MARKERS),
+        "pas d'ouverture de boucle (?, mais, sauf…)",
+    )
     add("body_anchor", 12, any(w in lower for w in _BODY_WORDS), "pas d'ancrage corps concret")
     add("novelty", 10, any(w in lower for w in _NOVELTY_WORDS), "aucun marqueur de surprise")
     add("digit", 10, any(c.isdigit() for c in text), "aucun chiffre")
-    add("specific", 10, not any(g in lower for g in ("truc", "chose incroyable", "dingue")), "terme générique (« truc »)")
+    add(
+        "specific",
+        10,
+        not any(g in lower for g in ("truc", "chose incroyable", "dingue")),
+        "terme générique (« truc »)",
+    )
 
     score = min(100, sum(breakdown.values()))
     return {
@@ -123,8 +170,16 @@ def loop_bridge_for(topic: str) -> str:
 def looks_like_loop_bridge(caption: str) -> bool:
     """Heuristic: does this caption pull the viewer back to the start?"""
     lower = (caption or "").lower()
-    pulls = ("recommence", "repart", "boucle", "début", "premiere seconde",
-             "première seconde", "encore une fois", "pareil")
+    pulls = (
+        "recommence",
+        "repart",
+        "boucle",
+        "début",
+        "premiere seconde",
+        "première seconde",
+        "encore une fois",
+        "pareil",
+    )
     verbs_hint = any(p in lower for p in pulls)
     return verbs_hint
 

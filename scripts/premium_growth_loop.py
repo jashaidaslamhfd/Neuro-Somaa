@@ -12,6 +12,7 @@ analytics into actionable state:
 It never writes to YouTube. Repair application stays in `seo_repair.yml` and is
 still dry-run by default.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -115,7 +116,7 @@ def _parse_dt(value: str | None):
     if not value:
         return None
     try:
-        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(str(value))
         return dt if dt.tzinfo else dt.replace(tzinfo=UTC)
     except ValueError:
         return None
@@ -134,13 +135,13 @@ def classify_title(title: str) -> str:
         return "pourquoi-question"
     if t.startswith("pourquoi"):
         return "pourquoi-declarative"
-    if t.startswith("ce qui se passe") or t.startswith("ce qui change") or t.startswith("ce qui arrive"):
+    if t.startswith(("ce qui se passe", "ce qui change", "ce qui arrive")):
         return "ce-qui-se-passe"
-    if t.startswith("ce que ton corps") or t.startswith("ce que votre corps") or t.startswith("ce que le corps"):
+    if t.startswith(("ce que ton corps", "ce que votre corps", "ce que le corps")):
         return "ce-que-corps-revele"
-    if t.startswith("ce qu'il faut") or t.startswith("ce qu’il faut"):
+    if t.startswith(("ce qu'il faut", "ce qu’il faut")):
         return "ce-quil-faut"
-    if t.startswith("la science") or t.startswith("ce que la science"):
+    if t.startswith(("la science", "ce que la science")):
         return "la-science"
     return "other"
 
@@ -184,13 +185,15 @@ def build_title_bandit(history: list[dict], competitor: dict) -> dict:
         # prior weight equals roughly two synthetic samples; fades as history grows
         prior = competitor_prior.get(pattern, 0.0)
         score = (observed_avg * len(observed) + prior * 2) / max(len(observed) + 2, 1)
-        preferred.append({
-            "pattern": pattern,
-            "score": round(score, 4),
-            "observed_samples": len(observed),
-            "observed_avg": round(observed_avg, 4),
-            "competitor_prior": round(prior, 4),
-        })
+        preferred.append(
+            {
+                "pattern": pattern,
+                "score": round(score, 4),
+                "observed_samples": len(observed),
+                "observed_avg": round(observed_avg, 4),
+                "competitor_prior": round(prior, 4),
+            }
+        )
     preferred.sort(key=lambda item: item["score"], reverse=True)
     return {
         "schema_version": 1,
@@ -264,12 +267,14 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
             retention_f /= 100
         score = math.log10(max(views_i, 1) + 10) + 1.2 * retention_f
         groups[key].append(score)
-        examples[key].append({
-            "video_id": entry.get("youtube_video_id"),
-            "title": entry.get("title"),
-            "views": views_i,
-            "published_paris": paris_dt.strftime("%Y-%m-%d %H:%M"),
-        })
+        examples[key].append(
+            {
+                "video_id": entry.get("youtube_video_id"),
+                "title": entry.get("title"),
+                "views": views_i,
+                "published_paris": paris_dt.strftime("%Y-%m-%d %H:%M"),
+            }
+        )
 
     rows = []
     all_slots = set(groups) | set(DEFAULT_UPLOAD_SLOT_PRIOR)
@@ -290,19 +295,23 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
         if 0 < len(values) < MIN_CONFIDENT_SLOT_SAMPLES:
             # Linear shrink: 1 sample keeps 1/5 of its deviation at MIN=5.
             confidence = len(values) / MIN_CONFIDENT_SLOT_SAMPLES
-            baseline = prior if prior else _global_average_score(groups)
+            baseline = prior or _global_average_score(groups)
             blended = baseline + (blended - baseline) * confidence
         hour, minute = map(int, key.split(":"))
-        rows.append({
-            "slot": key,
-            "hour": hour,
-            "minute": minute,
-            "score": round(blended, 4),
-            "observed_samples": len(values),
-            "observed_avg": round(observed_avg, 4),
-            "prior": round(prior, 4),
-            "examples": sorted(examples.get(key, []), key=lambda item: item.get("views", 0), reverse=True)[:3],
-        })
+        rows.append(
+            {
+                "slot": key,
+                "hour": hour,
+                "minute": minute,
+                "score": round(blended, 4),
+                "observed_samples": len(values),
+                "observed_avg": round(observed_avg, 4),
+                "prior": round(prior, 4),
+                "examples": sorted(
+                    examples.get(key, []), key=lambda item: item.get("views", 0), reverse=True
+                )[:3],
+            }
+        )
     rows.sort(key=lambda item: item["score"], reverse=True)
 
     # A slot is CONFIDENT when it either earned enough real evidence or is
@@ -311,7 +320,9 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
     # exist — this is what let a single 06:00 video displace the proven 12:30
     # lunch slot on 2026-08-11 (shrinkage alone was too weak a correction).
     def _is_confident(row: dict) -> bool:
-        return row["observed_samples"] >= MIN_CONFIDENT_SLOT_SAMPLES or row["slot"] in DEFAULT_UPLOAD_SLOT_PRIOR
+        return (
+            row["observed_samples"] >= MIN_CONFIDENT_SLOT_SAMPLES or row["slot"] in DEFAULT_UPLOAD_SLOT_PRIOR
+        )
 
     def _try_select(pool, min_samples_required: bool) -> list:
         chosen = []
@@ -334,11 +345,18 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
             if any(row["slot"] == key for row in selected):
                 continue
             hour, minute = map(int, key.split(":"))
-            selected.append({
-                "slot": key, "hour": hour, "minute": minute,
-                "score": DEFAULT_UPLOAD_SLOT_PRIOR[key], "observed_samples": 0,
-                "observed_avg": 0.0, "prior": DEFAULT_UPLOAD_SLOT_PRIOR[key], "examples": [],
-            })
+            selected.append(
+                {
+                    "slot": key,
+                    "hour": hour,
+                    "minute": minute,
+                    "score": DEFAULT_UPLOAD_SLOT_PRIOR[key],
+                    "observed_samples": 0,
+                    "observed_avg": 0.0,
+                    "prior": DEFAULT_UPLOAD_SLOT_PRIOR[key],
+                    "examples": [],
+                }
+            )
             if len(selected) >= max_slots:
                 break
 
@@ -353,22 +371,26 @@ def build_upload_slot_intel(history: list[dict], max_slots: int = 3, min_gap_min
             if len(selected) >= max_slots:
                 break
 
-    score_order = {row["slot"]: r for r, row in enumerate(
-        sorted(selected, key=lambda item: item["score"], reverse=True), start=1)}
+    score_order = {
+        row["slot"]: r
+        for r, row in enumerate(sorted(selected, key=lambda item: item["score"], reverse=True), start=1)
+    }
     recommended = []
     for rank, row in enumerate(sorted(selected, key=lambda item: (item["hour"], item["minute"])), start=1):
-        recommended.append({
-            "rank": rank,                 # chronological publish order of the day
-            "score_rank": score_order[row["slot"]],  # where this slot truly ranks by evidence
-            "slot": row["slot"],
-            "hour": row["hour"],
-            "minute": row["minute"],
-            "name": f"Dynamique {row['slot']}",
-            "score": row["score"],
-            "samples": row["observed_samples"],
-            "confident": _is_confident(row),
-            "prior": row["prior"],
-        })
+        recommended.append(
+            {
+                "rank": rank,  # chronological publish order of the day
+                "score_rank": score_order[row["slot"]],  # where this slot truly ranks by evidence
+                "slot": row["slot"],
+                "hour": row["hour"],
+                "minute": row["minute"],
+                "name": f"Dynamique {row['slot']}",
+                "score": row["score"],
+                "samples": row["observed_samples"],
+                "confident": _is_confident(row),
+                "prior": row["prior"],
+            }
+        )
 
     return {
         "schema_version": 1,
@@ -389,7 +411,12 @@ def build_topic_gaps(competitor: dict, comments: dict, limit: int = 30) -> list[
         if len(clean) < 4 or clean in {"shorts", "science", "français", "francais"}:
             return
         if clean not in candidates:
-            candidates[clean] = {"term": clean, "score": 0.0, "sources": set(), "in_catalogue": clean in catalogue}
+            candidates[clean] = {
+                "term": clean,
+                "score": 0.0,
+                "sources": set(),
+                "in_catalogue": clean in catalogue,
+            }
         candidates[clean]["score"] += score
         candidates[clean]["sources"].add(source)
 
@@ -402,13 +429,15 @@ def build_topic_gaps(competitor: dict, comments: dict, limit: int = 30) -> list[
 
     rows = []
     for data in candidates.values():
-        rows.append({
-            "term": data["term"],
-            "score": round(data["score"], 3),
-            "sources": sorted(data["sources"]),
-            "in_catalogue": bool(data["in_catalogue"]),
-            "recommendation": "cover/refresh" if data["in_catalogue"] else "consider adding to catalogue",
-        })
+        rows.append(
+            {
+                "term": data["term"],
+                "score": round(data["score"], 3),
+                "sources": sorted(data["sources"]),
+                "in_catalogue": bool(data["in_catalogue"]),
+                "recommendation": "cover/refresh" if data["in_catalogue"] else "consider adding to catalogue",
+            }
+        )
     rows.sort(key=lambda item: (item["in_catalogue"], -item["score"]))
     return rows[:limit]
 
@@ -459,17 +488,19 @@ def build_auto_repair_plan(history: list[dict], min_age_hours: int, low_views: i
             "title_issues": title_issues,
         }
         pkg = build_repair_package(row, None)
-        repairs.append({
-            "id": vid,
-            "url": f"https://youtu.be/{vid}",
-            "age_hours": round(age, 1),
-            "views": views,
-            "current_title": title,
-            "reasons": reasons,
-            "proposed_title": pkg.get("title"),
-            "proposed_description": pkg.get("description"),
-            "proposed_tags": pkg.get("tags", []),
-        })
+        repairs.append(
+            {
+                "id": vid,
+                "url": f"https://youtu.be/{vid}",
+                "age_hours": round(age, 1),
+                "views": views,
+                "current_title": title,
+                "reasons": reasons,
+                "proposed_title": pkg.get("title"),
+                "proposed_description": pkg.get("description"),
+                "proposed_tags": pkg.get("tags", []),
+            }
+        )
     return {
         "generated_at_utc": datetime.now(UTC).isoformat(),
         "policy": "Plan only. Apply via SEO Repair workflow after review.",
@@ -496,7 +527,9 @@ def build_dashboard(
         f"- Videos in history: **{len(uploaded)}**\n",
         f"- 48h repair candidates: **{len(repairs.get('repairs', []))}**\n",
         f"- Topic-gap ideas: **{len(gaps)}**\n",
-        "- Dynamic publish slots: " + ", ".join(s["slot"] for s in slot_intel.get("recommended_slots", [])) + "\n",
+        "- Dynamic publish slots: "
+        + ", ".join(s["slot"] for s in slot_intel.get("recommended_slots", []))
+        + "\n",
     ]
     if slot_intel.get("recommended_slots"):
         lines.append("\n## Dynamic publish-time learning\n")
@@ -523,7 +556,9 @@ def build_dashboard(
         lines.append("\n## Topic gaps / demand signals\n")
         for item in gaps[:15]:
             status = "in catalogue" if item["in_catalogue"] else "new gap"
-            lines.append(f"- **{item['term']}** — {status}, score {item['score']} ({', '.join(item['sources'])})\n")
+            lines.append(
+                f"- **{item['term']}** — {status}, score {item['score']} ({', '.join(item['sources'])})\n"
+            )
     if comments.get("topic_requests"):
         lines.append("\n## Audience comment requests\n")
         for item in comments["topic_requests"][:10]:
@@ -540,12 +575,18 @@ def build_dashboard(
 
 def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--history", default=str(DATA / "video_history.json"))
     parser.add_argument("--competitor", default=str(DATA / "competitor_intel_fr.json"))
     parser.add_argument("--comments", default=str(DATA / "comments_intel_fr.json"))
-    parser.add_argument("--min-age-hours", type=int, default=int(os.environ.get("AUTO_REPAIR_MIN_AGE_HOURS", "48")))
-    parser.add_argument("--low-views", type=int, default=int(os.environ.get("AUTO_REPAIR_LOW_VIEW_THRESHOLD", "200")))
+    parser.add_argument(
+        "--min-age-hours", type=int, default=int(os.environ.get("AUTO_REPAIR_MIN_AGE_HOURS", "48"))
+    )
+    parser.add_argument(
+        "--low-views", type=int, default=int(os.environ.get("AUTO_REPAIR_LOW_VIEW_THRESHOLD", "200"))
+    )
     args = parser.parse_args(argv)
 
     history = _load_json(Path(args.history), [])

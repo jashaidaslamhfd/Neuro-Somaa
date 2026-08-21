@@ -25,6 +25,7 @@ Example GitHub Actions cron (runs daily at 06:00 UTC):
       schedule:
         - cron: '0 6 * * *'
 """
+
 import logging
 import os
 import sys
@@ -34,7 +35,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 sys.path.insert(0, os.path.join(ROOT_DIR, "scripts"))
 from seo_analytics import update_history_with_real_metrics
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 if __name__ == "__main__":
@@ -56,7 +57,9 @@ if __name__ == "__main__":
     try:
         from platform_metrics import collect as collect_platform_metrics
 
-        result = collect_platform_metrics(min_hours_old=metrics_min_hours, refresh_hours=metrics_refresh_hours)
+        result = collect_platform_metrics(
+            min_hours_old=metrics_min_hours, refresh_hours=metrics_refresh_hours
+        )
         logger.info("Platform metrics refreshed: %s", result.get("stats"))
     except Exception as exc:
         logger.warning("Platform metrics collection skipped: %s", exc)
@@ -69,7 +72,8 @@ if __name__ == "__main__":
         state = growth_analyse()
         logger.info(
             "Growth engine learned: cadence=%s best_slot=%s samples=%s",
-            state.get("recommended_cadence"), state.get("best_slot"),
+            state.get("recommended_cadence"),
+            state.get("best_slot"),
             state.get("sample_size"),
         )
     except Exception as exc:
@@ -84,7 +88,8 @@ if __name__ == "__main__":
         controls = autonomous_analyse()
         logger.info(
             "Autonomous controls: cadence=%d throttle=%s block=%d repairs=%d",
-            controls.get("recommended_cadence"), controls.get("throttle"),
+            controls.get("recommended_cadence"),
+            controls.get("throttle"),
             len(controls.get("topic_blocklist", [])),
             controls.get("auto_repair_count", 0),
         )
@@ -97,6 +102,7 @@ if __name__ == "__main__":
     # better" loop — it corrects the script-level prediction with real data.
     try:
         from viral_baseline import learn_from_actual_performance
+
         perf = learn_from_actual_performance()
 
         # LIVE-LEARNING: retrain the ML brain on the now-real performance data
@@ -104,19 +110,23 @@ if __name__ == "__main__":
         # self-improving "living" brain).
         try:
             from ml_brain import MLBrain
+
             brain = MLBrain()
             brain.load()
             brain.retrain_from_history()
         except Exception as exc:
             logger.warning("Live-learning ML retrain skipped: %s", exc)
-        logger.info("Viral baseline learned from real performance: best_topic=%s best_hook_words=%s",
-                    (perf.get("best_topic") or {}).get("topic"),
-                    perf.get("best_hook_words"))
+        logger.info(
+            "Viral baseline learned from real performance: best_topic=%s best_hook_words=%s",
+            (perf.get("best_topic") or {}).get("topic"),
+            perf.get("best_hook_words"),
+        )
     except Exception as exc:
         logger.warning("Actual-performance learning skipped: %s", exc)
 
     try:
         from premium_growth_loop import main as premium_growth_main
+
         premium_growth_main([])
         logger.info("Premium growth intelligence refreshed after analytics sync")
     except Exception as exc:
@@ -129,6 +139,7 @@ if __name__ == "__main__":
     # Non-fatal by design: analytics sync must survive an advisory-layer miss.
     try:
         from intelligence import run_all as run_intelligence
+
         intel = run_intelligence()
         logger.info(
             "Intelligence layer: n=%s ridge_reliable=%s pattern=%s anomalies=%s",
@@ -147,6 +158,7 @@ if __name__ == "__main__":
     # it must not add minutes to the time-critical generate-and-upload run.
     try:
         from self_maintenance import main as self_maintenance_main
+
         self_maintenance_main([])
         logger.info("Self-maintenance pass complete")
     except Exception as exc:

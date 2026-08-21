@@ -58,7 +58,7 @@ from __future__ import annotations
 import logging
 import os
 import re
-from typing import Dict, Iterable, List, Optional, Tuple
+from collections.abc import Iterable
 
 # ---------------------------------------------------------------------------
 # Version + review metadata. scripts/growth_report.py prints these so nobody
@@ -114,7 +114,7 @@ WORDS_PER_SECOND = float(os.environ.get("SPEECH_WORDS_PER_SECOND", "2.62"))
 # says so loudly. Any OTHER value is honoured normally — deliberate
 # experiments still work, stale defaults do not.
 # ---------------------------------------------------------------------------
-_RETIRED_ENV_VALUES: Dict[str, Tuple[str, ...]] = {
+_RETIRED_ENV_VALUES: dict[str, tuple[str, ...]] = {
     "TARGET_MIN_SECONDS": ("40", "40.0"),
     "TARGET_MAX_SECONDS": ("55", "55.0"),
     "MAX_HOOK_SECONDS": ("5", "5.0"),
@@ -124,7 +124,7 @@ _RETIRED_ENV_VALUES: Dict[str, Tuple[str, ...]] = {
 _warned_retired: set = set()
 
 
-def env_override(name: str) -> Optional[str]:
+def env_override(name: str) -> str | None:
     """Read an env override, ignoring values left over from a retired strategy.
 
     Returns None when the variable is unset, empty, or holds a value this
@@ -141,7 +141,9 @@ def env_override(name: str) -> Optional[str]:
                 "%s=%s is a retired setting from the pre-%s strategy and is being "
                 "IGNORED; using the policy value instead. Remove it from the "
                 "workflow/env to silence this.",
-                name, raw, POLICY_VERSION,
+                name,
+                raw,
+                POLICY_VERSION,
             )
         return None
     return raw
@@ -187,7 +189,7 @@ def env_int(name: str, fallback: int) -> int:
 # caption:         first-line and total character budgets
 # spoken_cta:      whether an out-loud "follow me" is allowed in the audio
 # ---------------------------------------------------------------------------
-PLATFORM_POLICY: Dict[str, Dict] = {
+PLATFORM_POLICY: dict[str, dict] = {
     YOUTUBE: {
         "label": "YouTube Shorts",
         # FIXED 2026-08-15: channel's measured avg watch is still 10-14s, which
@@ -295,7 +297,7 @@ PLATFORM_POLICY: Dict[str, Dict] = {
 # channel makes in the audio, and since the spoken CTA was removed it is the
 # caption's job to carry it.
 # ---------------------------------------------------------------------------
-_UNIVERSAL_BAIT: Tuple[str, ...] = (
+_UNIVERSAL_BAIT: tuple[str, ...] = (
     r"\blike (this|if|and)\b",
     r"\bdouble tap\b",
     r"\bsmash (that )?like\b",
@@ -310,18 +312,18 @@ _UNIVERSAL_BAIT: Tuple[str, ...] = (
 )
 
 # Extra restrictions that apply only on Facebook and Instagram.
-_META_ONLY_BAIT: Tuple[str, ...] = (
+_META_ONLY_BAIT: tuple[str, ...] = (
     r"\bsubscribe\b",
     r"\blink in bio\b",
     r"\bcheck (out )?(my|our) (channel|youtube)\b",
 )
 
 # Kept as the union for callers that want the strictest possible check.
-BAIT_PATTERNS: Tuple[str, ...] = _UNIVERSAL_BAIT + _META_ONLY_BAIT
+BAIT_PATTERNS: tuple[str, ...] = _UNIVERSAL_BAIT + _META_ONLY_BAIT
 
 # Phrases that make YouTube's advertiser-friendly + medical-misinformation
 # reviewers nervous on a body-science channel. Blocked at script level.
-FEAR_BAIT_PATTERNS: Tuple[str, ...] = (
+FEAR_BAIT_PATTERNS: tuple[str, ...] = (
     r"doctors? (don'?t|won'?t) want",
     r"they don'?t want you to know",
     r"\bbig pharma\b",
@@ -359,17 +361,16 @@ ORIGINALITY_RULES = {
 # dict, so a policy change can never be half-applied.
 # ---------------------------------------------------------------------------
 
-def get_policy(platform: str) -> Dict:
+
+def get_policy(platform: str) -> dict:
     """Return the policy block for a platform (raises on typos on purpose)."""
     try:
         return PLATFORM_POLICY[platform]
     except KeyError as exc:  # pragma: no cover - programmer error
-        raise KeyError(
-            f"Unknown platform {platform!r}; expected one of {PLATFORMS}"
-        ) from exc
+        raise KeyError(f"Unknown platform {platform!r}; expected one of {PLATFORMS}") from exc
 
 
-def duration_policy(platform: str) -> Tuple[float, float, float]:
+def duration_policy(platform: str) -> tuple[float, float, float]:
     """(floor, ideal, ceiling) seconds for that platform's cut."""
     return tuple(get_policy(platform)["duration"])  # type: ignore[return-value]
 
@@ -400,7 +401,7 @@ def decision_seconds(platform: str = YOUTUBE) -> float:
     return float(get_policy(platform)["decision_seconds"])
 
 
-def shared_hook_seconds(platforms: Optional[Iterable[str]] = None) -> float:
+def shared_hook_seconds(platforms: Iterable[str] | None = None) -> float:
     """Hook budget for the ONE audio track that serves every enabled platform.
 
     All three platforms receive the same narration, so the budget is the
@@ -424,16 +425,16 @@ def shared_hook_seconds(platforms: Optional[Iterable[str]] = None) -> float:
 HOOK_DELIVERY_TOLERANCE = 1.35
 
 
-def hook_enforcement_seconds(platforms: Optional[Iterable[str]] = None) -> float:
+def hook_enforcement_seconds(platforms: Iterable[str] | None = None) -> float:
     """The hard limit the rendered audio is actually checked against."""
     return round(shared_hook_seconds(platforms) * HOOK_DELIVERY_TOLERANCE, 2)
 
 
-def hashtag_limits(platform: str) -> Tuple[int, int]:
+def hashtag_limits(platform: str) -> tuple[int, int]:
     return tuple(get_policy(platform)["hashtags"])  # type: ignore[return-value]
 
 
-def caption_limits(platform: str) -> Dict[str, int]:
+def caption_limits(platform: str) -> dict[str, int]:
     return dict(get_policy(platform)["caption"])
 
 
@@ -448,7 +449,7 @@ def spoken_cta_allowed_anywhere(platforms: Iterable[str]) -> bool:
     return all(allows_spoken_cta(p) for p in platforms)
 
 
-def script_word_budget(platform: str = YOUTUBE) -> Tuple[int, int]:
+def script_word_budget(platform: str = YOUTUBE) -> tuple[int, int]:
     """Words of narration that fit the master cut, derived from the duration
     policy and the measured speech rate — never hand-tuned separately.
 
@@ -459,12 +460,12 @@ def script_word_budget(platform: str = YOUTUBE) -> Tuple[int, int]:
     """
     floor, _ideal, ceiling = duration_policy(platform)
     return (
-        int(round(floor * WORDS_PER_SECOND * 0.95)),
-        int(round(ceiling * WORDS_PER_SECOND)),
+        round(floor * WORDS_PER_SECOND * 0.95),
+        round(ceiling * WORDS_PER_SECOND),
     )
 
 
-def hook_word_budget(platform: str = YOUTUBE) -> Tuple[int, int]:
+def hook_word_budget(platform: str = YOUTUBE) -> tuple[int, int]:
     """Hook length in words, sized against the SHARED audio budget.
 
     The single narration track goes to every enabled platform, so the writer
@@ -479,7 +480,7 @@ def hook_word_budget(platform: str = YOUTUBE) -> Tuple[int, int]:
     return (4, max(5, max_words))
 
 
-def scene_word_budget(scene_count: int = 8, platform: str = YOUTUBE) -> Tuple[int, int]:
+def scene_word_budget(scene_count: int = 8, platform: str = YOUTUBE) -> tuple[int, int]:
     """Per-scene caption budget for the non-hook scenes, derived from the total
     word budget so scene count and video length can never drift apart."""
     total_min, total_max = script_word_budget(platform)
@@ -500,14 +501,14 @@ _META_BAIT_RE = re.compile("|".join(_UNIVERSAL_BAIT + _META_ONLY_BAIT), re.IGNOR
 _FEAR_RE = re.compile("|".join(FEAR_BAIT_PATTERNS), re.IGNORECASE)
 
 
-def _bait_matcher(platform: Optional[str]):
+def _bait_matcher(platform: str | None):
     """Meta enforces a wider bait vocabulary than YouTube — see the note above
     the pattern lists. Passing no platform applies the strict Meta rules,
     which is the safe default for shared assets like the spoken script."""
     return _UNIVERSAL_BAIT_RE if platform == YOUTUBE else _META_BAIT_RE
 
 
-def contains_bait(text: str, platform: Optional[str] = None) -> bool:
+def contains_bait(text: str, platform: str | None = None) -> bool:
     """True if the text contains an engagement-bait ask for that platform."""
     return bool(text) and bool(_bait_matcher(platform).search(text))
 
@@ -516,7 +517,7 @@ def contains_fear_bait(text: str) -> bool:
     return bool(text) and bool(_FEAR_RE.search(text))
 
 
-def strip_bait(text: str, platform: Optional[str] = None) -> str:
+def strip_bait(text: str, platform: str | None = None) -> str:
     """Remove bait sentences, keeping everything else — including layout.
 
     Two things matter here:
@@ -541,7 +542,7 @@ def strip_bait(text: str, platform: Optional[str] = None) -> str:
     return "\n\n".join(clean_blocks)
 
 
-def enforce_hashtag_limit(hashtags: List[str], platform: str) -> List[str]:
+def enforce_hashtag_limit(hashtags: list[str], platform: str) -> list[str]:
     """Trim to the platform's working range and de-duplicate case-insensitively.
 
     Over-tagging is measurably useless on all three platforms in 2026 and looks
@@ -650,8 +651,7 @@ def summary() -> str:
         "",
         f"Script budget: {words_lo}-{words_hi} words at {WORDS_PER_SECOND} w/s "
         f"(hook {hook_lo}-{hook_hi} words).",
-        f"Cadence ceiling: {MAX_UPLOADS_PER_DAY}/day, "
-        f">= {MIN_MINUTES_BETWEEN_PUBLISHES} min apart.",
+        f"Cadence ceiling: {MAX_UPLOADS_PER_DAY}/day, >= {MIN_MINUTES_BETWEEN_PUBLISHES} min apart.",
     ]
     return "\n".join(lines)
 

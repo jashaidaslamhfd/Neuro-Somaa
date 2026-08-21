@@ -25,7 +25,7 @@ import logging
 import os
 import re
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Readable range for on-screen word-by-word captions. Below this, text
@@ -53,36 +53,53 @@ def score_hook_detailed(hook: str) -> dict:
     hook = (hook or "").strip()
     words = hook.split()
     if not hook:
-        return {'score': 0, 'checks': [{'name': 'present', 'passed': False, 'note': 'Hook is missing.'}]}
+        return {"score": 0, "checks": [{"name": "present", "passed": False, "note": "Hook is missing."}]}
 
     checks, score = [], 35
     length_ok = 5 <= len(words) <= 9
-    checks.append({'name': 'spoken_length', 'passed': length_ok,
-                   'note': f'{len(words)} words; target is 5-9.'})
+    checks.append(
+        {"name": "spoken_length", "passed": length_ok, "note": f"{len(words)} words; target is 5-9."}
+    )
     if length_ok:
         score += 25
 
-    direct = any(re.search(rf"\b{w}\b", hook.lower()) for w in ('vous', 'votre', 'corps', 'cerveau', 'coeur', 'cœur'))
-    checks.append({'name': 'viewer_or_subject', 'passed': direct,
-                   'note': 'Names the viewer or a clear body subject.'})
+    direct = any(
+        re.search(rf"\b{w}\b", hook.lower()) for w in ("vous", "votre", "corps", "cerveau", "coeur", "cœur")
+    )
+    checks.append(
+        {"name": "viewer_or_subject", "passed": direct, "note": "Names the viewer or a clear body subject."}
+    )
     if direct:
         score += 15
 
-    specific = bool(re.search(r"\b(sommeil|lumière|mémoire|coeur|cœur|cerveau|sang|nerf|hormone|cellule|muscle|peau|ventre|énergie|souffle)\w*\b", hook.lower()))
-    checks.append({'name': 'specificity', 'passed': specific,
-                   'note': 'Uses a concrete topic word instead of generic hype.'})
+    specific = bool(
+        re.search(
+            r"\b(sommeil|lumière|mémoire|coeur|cœur|cerveau|sang|nerf|hormone|cellule|muscle|peau|ventre|énergie|souffle)\w*\b",
+            hook.lower(),
+        )
+    )
+    checks.append(
+        {
+            "name": "specificity",
+            "passed": specific,
+            "note": "Uses a concrete topic word instead of generic hype.",
+        }
+    )
     if specific:
         score += 20
 
-    clickbait = any(x in hook.lower() for x in ("les médecins cachent", "secret choquant", "incroyable", "100 % vrai"))
-    checks.append({'name': 'no_fake_hype', 'passed': not clickbait,
-                   'note': 'Avoids manipulative or unsupported hype.'})
+    clickbait = any(
+        x in hook.lower() for x in ("les médecins cachent", "secret choquant", "incroyable", "100 % vrai")
+    )
+    checks.append(
+        {"name": "no_fake_hype", "passed": not clickbait, "note": "Avoids manipulative or unsupported hype."}
+    )
     if not clickbait:
         score += 10
     else:
         score -= 30
 
-    return {'score': max(0, min(score, 100)), 'checks': checks}
+    return {"score": max(0, min(score, 100)), "checks": checks}
 
 
 # Backward/alt-compatible alias: some callers import the shorter name
@@ -99,14 +116,13 @@ def score_hook(hook_or_script_data) -> dict:
     score_hook_detailed's 'checks'.
     """
     if isinstance(hook_or_script_data, dict):
-        hook = hook_or_script_data.get('hook', '')
+        hook = hook_or_script_data.get("hook", "")
     else:
-        hook = hook_or_script_data or ''
+        hook = hook_or_script_data or ""
 
     result = score_hook_detailed(hook)
-    result['suggestions'] = [
-        check['note'] for check in result.get('checks', [])
-        if not check.get('passed', True)
+    result["suggestions"] = [
+        check["note"] for check in result.get("checks", []) if not check.get("passed", True)
     ]
     return result
 
@@ -114,6 +130,7 @@ def score_hook(hook_or_script_data) -> dict:
 # ---------------------------------------------------------------------------
 # Per-scene caption pacing
 # ---------------------------------------------------------------------------
+
 
 def check_caption_pacing(scenes: list[dict], audio_segments: list[dict]) -> dict:
     """Flags any individual scene whose words-per-second falls outside the
@@ -125,31 +142,36 @@ def check_caption_pacing(scenes: list[dict], audio_segments: list[dict]) -> dict
     per_scene = []
 
     for i, (scene, seg) in enumerate(zip(scenes, audio_segments, strict=False)):
-        caption = scene.get('caption', '')
-        duration = max(seg.get('duration', 0), 0.01)
+        caption = scene.get("caption", "")
+        duration = max(seg.get("duration", 0), 0.01)
         word_count = len(caption.split())
         wps = word_count / duration
 
         status = "ok"
         if wps < MIN_WORDS_PER_SEC:
             status = "too_slow"
-            issues.append(f"Scene {i+1}: {wps:.1f} words/sec - dragging, consider trimming the caption or shortening the scene.")
+            issues.append(
+                f"Scene {i + 1}: {wps:.1f} words/sec - dragging, consider trimming the caption or shortening the scene."
+            )
         elif wps > MAX_WORDS_PER_SEC:
             status = "too_fast"
-            issues.append(f"Scene {i+1}: {wps:.1f} words/sec - too fast to read, consider splitting into two scenes.")
+            issues.append(
+                f"Scene {i + 1}: {wps:.1f} words/sec - too fast to read, consider splitting into two scenes."
+            )
 
-        per_scene.append({'scene': i + 1, 'words_per_sec': round(wps, 2), 'status': status})
+        per_scene.append({"scene": i + 1, "words_per_sec": round(wps, 2), "status": status})
 
     return {
-        'per_scene': per_scene,
-        'issues': issues,
-        'all_readable': len(issues) == 0,
+        "per_scene": per_scene,
+        "issues": issues,
+        "all_readable": len(issues) == 0,
     }
 
 
 # ---------------------------------------------------------------------------
 # Autofix: trim captions that read too fast for their scene's spoken duration
 # ---------------------------------------------------------------------------
+
 
 def autofix_too_fast_captions(scenes: list[dict], audio_segments: list[dict]) -> list[dict]:
     """For any scene whose words-per-second (per check_caption_pacing) is
@@ -165,8 +187,8 @@ def autofix_too_fast_captions(scenes: list[dict], audio_segments: list[dict]) ->
     fixed_scenes = []
     for i, scene in enumerate(scenes):
         seg = audio_segments[i] if i < len(audio_segments) else {}
-        duration = max(seg.get('duration', 0), 0.01)
-        caption = scene.get('caption', '')
+        duration = max(seg.get("duration", 0), 0.01)
+        caption = scene.get("caption", "")
         words = caption.split()
         wps = len(words) / duration if words else 0
 
@@ -180,11 +202,11 @@ def autofix_too_fast_captions(scenes: list[dict], audio_segments: list[dict]) ->
                 if not trimmed.endswith((".", "!", "?")):
                     trimmed += "."
                 logger.info(
-                    f"Scene {i+1}: autofixed caption from {len(words)} to "
+                    f"Scene {i + 1}: autofixed caption from {len(words)} to "
                     f"{max_words} words ({wps:.1f} -> "
-                    f"{max_words/duration:.1f} words/sec)"
+                    f"{max_words / duration:.1f} words/sec)"
                 )
-                new_scene['caption'] = trimmed
+                new_scene["caption"] = trimmed
         fixed_scenes.append(new_scene)
     return fixed_scenes
 
@@ -213,16 +235,14 @@ def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
     """
     suggestions = []
 
-    hook = script_data.get('hook', '')
-    hook_score = score_hook_detailed(hook).get('score', 0)  # 0-100
+    hook = script_data.get("hook", "")
+    hook_score = score_hook_detailed(hook).get("score", 0)  # 0-100
 
-    scenes = script_data.get('scenes', [])
+    scenes = script_data.get("scenes", [])
     pacing = check_caption_pacing(scenes, audio_segments)
-    unreadable_ratio = (
-        len(pacing.get('issues', [])) / len(scenes) if scenes else 0
-    )
+    unreadable_ratio = len(pacing.get("issues", [])) / len(scenes) if scenes else 0
 
-    total_seconds = sum(float(s.get('duration', 0)) for s in audio_segments)
+    total_seconds = sum(float(s.get("duration", 0)) for s in audio_segments)
 
     # Base retention scales with hook strength - a weak hook loses viewers
     # before anything else in the video matters.
@@ -284,9 +304,9 @@ def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
     swipe_away = max(0.0, min(1.0 - retention, 0.95))
 
     return {
-        'predicted_avg_retention': round(retention, 3),
-        'predicted_swipe_away': round(swipe_away, 3),
-        'suggestions': suggestions,
+        "predicted_avg_retention": round(retention, 3),
+        "predicted_swipe_away": round(swipe_away, 3),
+        "suggestions": suggestions,
     }
 
 
@@ -294,13 +314,14 @@ def predict_retention(script_data: dict, audio_segments: list[dict]) -> dict:
 # Shorts hashtags
 # ---------------------------------------------------------------------------
 
+
 def generate_shorts_hashtags(topic_tags: list[str], n: int = 5) -> list[str]:
     """#shorts-family tags first (near-mandatory for Shorts shelf
     placement), then the top niche tags already computed by
     seo_generator/niche_strategy - avoids re-deriving tags from scratch."""
     result = list(SHORTS_HASHTAGS)
     for t in topic_tags:
-        tag = f"#{t}" if not t.startswith('#') else t
+        tag = f"#{t}" if not t.startswith("#") else t
         if tag.lower() not in (x.lower() for x in result):
             result.append(tag)
         if len(result) >= n:
@@ -312,15 +333,16 @@ def generate_shorts_hashtags(topic_tags: list[str], n: int = 5) -> list[str]:
 # SRT subtitle export
 # ---------------------------------------------------------------------------
 
+
 def _seconds_to_srt_timestamp(seconds: float) -> str:
-    millis = int(round(seconds * 1000))
+    millis = round(seconds * 1000)
     hours, millis = divmod(millis, 3_600_000)
     minutes, millis = divmod(millis, 60_000)
     secs, millis = divmod(millis, 1000)
     return f"{hours:02d}:{minutes:02d}:{secs:02d},{millis:03d}"
 
 
-def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: str = None) -> str:
+def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: str | None = None) -> str:
     """Builds standard SRT subtitle content from each scene's caption and
     its real audio duration (same timing source video_editor.py uses for
     burned-in captions, so the uploaded closed-caption file matches what's
@@ -329,11 +351,11 @@ def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: st
     lines = []
     t = 0.0
     for i, (scene, seg) in enumerate(zip(scenes, audio_segments, strict=False), start=1):
-        duration = max(seg.get('duration', 0), 0.6)
+        duration = max(seg.get("duration", 0), 0.6)
         start, end = t, t + duration
         lines.append(str(i))
         lines.append(f"{_seconds_to_srt_timestamp(start)} --> {_seconds_to_srt_timestamp(end)}")
-        lines.append(scene.get('caption', '').strip())
+        lines.append(scene.get("caption", "").strip())
         lines.append("")
         t = end
 
@@ -341,7 +363,7 @@ def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: st
 
     if output_path:
         os.makedirs(os.path.dirname(output_path) or ".", exist_ok=True)
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open(output_path, "w", encoding="utf-8") as f:
             f.write(srt_content)
         logger.info(f"SRT subtitles written to {output_path}")
 
@@ -351,6 +373,7 @@ def generate_srt(scenes: list[dict], audio_segments: list[dict], output_path: st
 # ---------------------------------------------------------------------------
 # Combined report
 # ---------------------------------------------------------------------------
+
 
 def check_five_second_cliff(audio_segments: list[dict]) -> dict:
     """Guard the 4.6-9.0s window where THIS channel actually loses viewers.
@@ -380,24 +403,24 @@ def check_five_second_cliff(audio_segments: list[dict]) -> dict:
     decided by how many viewers are still there at 10 seconds.
     """
     if not audio_segments:
-        return {'ok': True, 'note': 'no audio to inspect'}
+        return {"ok": True, "note": "no audio to inspect"}
 
     CLIFF_START, CLIFF_END = 4.0, 9.0
     elapsed, covering, issues = 0.0, [], []
     for index, segment in enumerate(audio_segments):
-        duration = float(segment.get('duration', 0) or 0)
+        duration = float(segment.get("duration", 0) or 0)
         start, end = elapsed, elapsed + duration
         if end > CLIFF_START and start < CLIFF_END:
             covering.append((index, segment, start, end))
         elapsed = end
 
     if not covering:
-        return {'ok': True, 'note': 'video shorter than the cliff window'}
+        return {"ok": True, "note": "video shorter than the cliff window"}
 
     words_in_window = 0
     for _index, segment, start, end in covering:
         overlap = min(end, CLIFF_END) - max(start, CLIFF_START)
-        text = (segment.get('text') or segment.get('caption') or '')
+        text = segment.get("text") or segment.get("caption") or ""
         if not text:
             continue
         rate = len(text.split()) / duration if (duration := (end - start)) else 0
@@ -415,11 +438,11 @@ def check_five_second_cliff(audio_segments: list[dict]) -> dict:
         )
 
     return {
-        'ok': not issues,
-        'issues': issues,
-        'window': f"{CLIFF_START:.0f}-{CLIFF_END:.0f}s",
-        'words_in_window': round(words_in_window, 1),
-        'scenes_covering_cliff': [i for i, _s, _a, _b in covering],
+        "ok": not issues,
+        "issues": issues,
+        "window": f"{CLIFF_START:.0f}-{CLIFF_END:.0f}s",
+        "words_in_window": round(words_in_window, 1),
+        "scenes_covering_cliff": [i for i, _s, _a, _b in covering],
     }
 
 
@@ -427,26 +450,30 @@ def build_shorts_report(script_data: dict, audio_segments: list[dict], topic_tag
     """Single entry point main.py can call alongside quality_checker /
     anti_spam. Doesn't gate publishing on its own (quality_checker already
     owns the approve/reject decision) - this is diagnostic + asset output."""
-    hook_detail = score_hook_detailed(script_data.get('hook', ''))
-    pacing = check_caption_pacing(script_data.get('scenes', []), audio_segments)
+    hook_detail = score_hook_detailed(script_data.get("hook", ""))
+    pacing = check_caption_pacing(script_data.get("scenes", []), audio_segments)
     hashtags = generate_shorts_hashtags(topic_tags)
     retention_prediction = predict_retention(script_data, audio_segments)
     cliff = check_five_second_cliff(audio_segments)
 
     return {
-        'hook_detail': hook_detail,
-        'caption_pacing': pacing,
-        'five_second_cliff': cliff,
-        'shorts_hashtags': hashtags,
-        'retention_prediction': retention_prediction,
+        "hook_detail": hook_detail,
+        "caption_pacing": pacing,
+        "five_second_cliff": cliff,
+        "shorts_hashtags": hashtags,
+        "retention_prediction": retention_prediction,
     }
 
 
 if __name__ == "__main__":
     import json
+
     test_scenes = [
         {"visual": "human heart beating", "caption": "Your heart has its own brain."},
-        {"visual": "close up neurons", "caption": "It contains over 40000 neurons that operate independently of your actual brain."},
+        {
+            "visual": "close up neurons",
+            "caption": "It contains over 40000 neurons that operate independently of your actual brain.",
+        },
     ]
     test_segments = [{"duration": 2.0}, {"duration": 3.0}]
     report = build_shorts_report(

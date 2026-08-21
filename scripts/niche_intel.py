@@ -11,16 +11,16 @@
 """
 
 import json
+import logging
 import os
 import time
-import logging
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
 
-import requests
 import numpy as np
+import requests
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
@@ -49,14 +49,12 @@ COMPETITOR_CHANNELS = [
     {"handle": "@DoctorMike", "name": "Doctor Mike", "niche": "medical_explained"},
     {"handle": "@MedlifeCrisis", "name": "Medlife Crisis", "niche": "medical_explained"},
     {"handle": "@ZackDFilms", "name": "Zack D Films", "niche": "body_mystery"},
-    
     # Faceless shorts competitors (very similar format)
     {"handle": "@FactasticShorts", "name": "Factastic Shorts", "niche": "body_facts"},
     {"handle": "@TheInfographicsShow", "name": "The Infographics Show", "niche": "science_explained"},
     {"handle": "@BEAMAZED", "name": "Be Amazed", "niche": "body_facts"},
     {"handle": "@BrainBurstShorts", "name": "Brain Burst", "niche": "brain_facts"},
     {"handle": "@DailyDoseOfInternet", "name": "Daily Dose Of Internet", "niche": "viral_moments"},
-
     # 2026 S-TIER "Skeleton / 3D Body Science" faceless Shorts niche — the
     # highest-performing body-science shorts on the platform right now.
     {"handle": "@H3lixSquar3d", "name": "Helix2", "niche": "skeleton_body_science"},
@@ -73,9 +71,25 @@ COMPETITOR_CHANNELS = [
 SUBNICHES = {
     "brain_mysteries": {
         "label": "🧠 Brain Mysteries",
-        "keywords": ["brain", "memory", "forget", "deja vu", "dream", "subconscious",
-                     "neuron", "mind", "think", "iq", "intelligence", "psychology",
-                     "cognitive", "thought", "consciousness", "brain fog", "focus"],
+        "keywords": [
+            "brain",
+            "memory",
+            "forget",
+            "deja vu",
+            "dream",
+            "subconscious",
+            "neuron",
+            "mind",
+            "think",
+            "iq",
+            "intelligence",
+            "psychology",
+            "cognitive",
+            "thought",
+            "consciousness",
+            "brain fog",
+            "focus",
+        ],
         "demand": "HIGH",
         "avg_views_competitor": 450000,
         "content_angles": [
@@ -86,9 +100,25 @@ SUBNICHES = {
     },
     "body_reactions": {
         "label": "⚡ Body Reactions",
-        "keywords": ["twitch", "cramp", "spasm", "jerk", "reflex", "reaction",
-                     "goosebumps", "shiver", "shaking", "tremble", "freeze",
-                     "sweat", "hiccup", "sneeze", "yawn", "gag", "blush"],
+        "keywords": [
+            "twitch",
+            "cramp",
+            "spasm",
+            "jerk",
+            "reflex",
+            "reaction",
+            "goosebumps",
+            "shiver",
+            "shaking",
+            "tremble",
+            "freeze",
+            "sweat",
+            "hiccup",
+            "sneeze",
+            "yawn",
+            "gag",
+            "blush",
+        ],
         "demand": "VERY HIGH",
         "avg_views_competitor": 680000,
         "content_angles": [
@@ -99,9 +129,25 @@ SUBNICHES = {
     },
     "sensory_phenomena": {
         "label": "👁️ Sensory Phenomena",
-        "keywords": ["ringing", "ears", "tinnitus", "vision", "spots", "floaters",
-                     "taste", "smell", "numb", "tingle", "pins", "needles",
-                     "hearing", "sight", "touch", "phantom", "sensation"],
+        "keywords": [
+            "ringing",
+            "ears",
+            "tinnitus",
+            "vision",
+            "spots",
+            "floaters",
+            "taste",
+            "smell",
+            "numb",
+            "tingle",
+            "pins",
+            "needles",
+            "hearing",
+            "sight",
+            "touch",
+            "phantom",
+            "sensation",
+        ],
         "demand": "VERY HIGH",
         "avg_views_competitor": 520000,
         "content_angles": [
@@ -112,9 +158,24 @@ SUBNICHES = {
     },
     "sleep_body": {
         "label": "😴 Sleep & Body",
-        "keywords": ["sleep", "dream", "nightmare", "insomnia", "wake", "tired",
-                     "rest", "circadian", "melatonin", "snore", "paralysis",
-                     "sleepwalk", "nap", "jetlag", "alarm", "morning"],
+        "keywords": [
+            "sleep",
+            "dream",
+            "nightmare",
+            "insomnia",
+            "wake",
+            "tired",
+            "rest",
+            "circadian",
+            "melatonin",
+            "snore",
+            "paralysis",
+            "sleepwalk",
+            "nap",
+            "jetlag",
+            "alarm",
+            "morning",
+        ],
         "demand": "HIGH",
         "avg_views_competitor": 390000,
         "content_angles": [
@@ -125,9 +186,23 @@ SUBNICHES = {
     },
     "pain_signals": {
         "label": "🩺 Pain & Signals",
-        "keywords": ["pain", "ache", "sore", "hurt", "headache", "migraine",
-                     "cramp", "sting", "burn", "inflammation", "chronic",
-                     "back pain", "joint", "arthritis", "nerve pain"],
+        "keywords": [
+            "pain",
+            "ache",
+            "sore",
+            "hurt",
+            "headache",
+            "migraine",
+            "cramp",
+            "sting",
+            "burn",
+            "inflammation",
+            "chronic",
+            "back pain",
+            "joint",
+            "arthritis",
+            "nerve pain",
+        ],
         "demand": "HIGH",
         "avg_views_competitor": 410000,
         "content_angles": [
@@ -138,9 +213,23 @@ SUBNICHES = {
     },
     "aging_body": {
         "label": "⏳ Aging & Body",
-        "keywords": ["aging", "age", "wrinkle", "grey hair", "old", "youth",
-                     "longevity", "lifespan", "regenerate", "heal", "repair",
-                     "collagen", "elasticity", "metabolism", "hormone"],
+        "keywords": [
+            "aging",
+            "age",
+            "wrinkle",
+            "grey hair",
+            "old",
+            "youth",
+            "longevity",
+            "lifespan",
+            "regenerate",
+            "heal",
+            "repair",
+            "collagen",
+            "elasticity",
+            "metabolism",
+            "hormone",
+        ],
         "demand": "MEDIUM",
         "avg_views_competitor": 320000,
         "content_angles": [
@@ -151,9 +240,23 @@ SUBNICHES = {
     },
     "heart_circulation": {
         "label": "💓 Heart & Circulation",
-        "keywords": ["heart", "blood", "pulse", "beat", "circulation", "pressure",
-                     "vein", "artery", "oxygen", "cardio", "heartbeat",
-                     "palpitation", "bp", "hypertension", "cholesterol"],
+        "keywords": [
+            "heart",
+            "blood",
+            "pulse",
+            "beat",
+            "circulation",
+            "pressure",
+            "vein",
+            "artery",
+            "oxygen",
+            "cardio",
+            "heartbeat",
+            "palpitation",
+            "bp",
+            "hypertension",
+            "cholesterol",
+        ],
         "demand": "HIGH",
         "avg_views_competitor": 380000,
         "content_angles": [
@@ -164,9 +267,26 @@ SUBNICHES = {
     },
     "food_science": {
         "label": "🍽️ Food Science",
-        "keywords": ["food", "eat", "drink", "caffeine", "sugar", "spicy", "hunger",
-                     "appetite", "digestion", "taste", "craving", "meal", "coffee",
-                     "chocolate", "cheese", "garlic", "spice", "hot food"],
+        "keywords": [
+            "food",
+            "eat",
+            "drink",
+            "caffeine",
+            "sugar",
+            "spicy",
+            "hunger",
+            "appetite",
+            "digestion",
+            "taste",
+            "craving",
+            "meal",
+            "coffee",
+            "chocolate",
+            "cheese",
+            "garlic",
+            "spice",
+            "hot food",
+        ],
         "demand": "HIGH",
         "avg_views_competitor": 350000,
         "content_angles": [
@@ -188,42 +308,47 @@ SUBNICHES = {
 # and don't pretend to have a competition/growth/CPM/audience-fit signal
 # that hasn't actually been measured. Fill these in for real once
 # real per-niche research (or measured audience-fit data) exists.
-EXTERNAL_NICHE_INTEL: Dict[str, Dict[str, Any]] = {}
-AUDIENCE_TARGET: Dict[str, List[str]] = {"best_fit_subniches": []}
+EXTERNAL_NICHE_INTEL: dict[str, dict[str, Any]] = {}
+AUDIENCE_TARGET: dict[str, list[str]] = {"best_fit_subniches": []}
 
 # ═══════════════════════════════════════════════════════════════════
 # NICHE INTELLIGENCE ENGINE
 # ═══════════════════════════════════════════════════════════════════
 
+
 class NicheIntelligence:
     """Comprehensive competitor + sub-niche demand analysis."""
 
     def __init__(self):
-        self.competitor_data: Dict[str, Dict] = {}
-        self.subniche_scores: Dict[str, Dict] = {}
-        self.trending_topics: List[Dict] = []
-        self.opportunity_ranking: List[Dict] = []
-        self.our_videos: List[Dict] = []
-        self.our_coverage: Dict[str, int] = {}
+        self.competitor_data: dict[str, dict] = {}
+        self.subniche_scores: dict[str, dict] = {}
+        self.trending_topics: list[dict] = []
+        self.opportunity_ranking: list[dict] = []
+        self.our_videos: list[dict] = []
+        self.our_coverage: dict[str, int] = {}
 
-    def _get_oauth_token(self) -> Optional[str]:
+    def _get_oauth_token(self) -> str | None:
         if not REFRESH_TOKEN or not GOOGLE_CLIENT_ID:
             return None
         try:
-            resp = requests.post("https://oauth2.googleapis.com/token", data={
-                "client_id": GOOGLE_CLIENT_ID,
-                "client_secret": GOOGLE_CLIENT_SECRET,
-                "refresh_token": REFRESH_TOKEN,
-                "grant_type": "refresh_token",
-            }, timeout=15)
+            resp = requests.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GOOGLE_CLIENT_ID,
+                    "client_secret": GOOGLE_CLIENT_SECRET,
+                    "refresh_token": REFRESH_TOKEN,
+                    "grant_type": "refresh_token",
+                },
+                timeout=15,
+            )
             return resp.json().get("access_token")
         except Exception:
             return None
 
-    def _yt_search(self, query: str, max_results: int = 20) -> List[Dict]:
+    def _yt_search(self, query: str, max_results: int = 20) -> list[dict]:
         """Search YouTube for trending content."""
         token = self._get_oauth_token()
-        
+
         results = []
         params = {
             "part": "snippet",
@@ -246,20 +371,21 @@ class NicheIntelligence:
 
         try:
             resp = requests.get(
-                "https://www.googleapis.com/youtube/v3/search",
-                params=params, headers=headers, timeout=20
+                "https://www.googleapis.com/youtube/v3/search", params=params, headers=headers, timeout=20
             )
             data = resp.json() if resp.content else {}
-            
+
             for item in data.get("items", []):
                 snippet = item.get("snippet", {})
-                results.append({
-                    "video_id": item.get("id", {}).get("videoId", ""),
-                    "title": snippet.get("title", ""),
-                    "channel": snippet.get("channelTitle", ""),
-                    "published": snippet.get("publishedAt", ""),
-                    "query": query,
-                })
+                results.append(
+                    {
+                        "video_id": item.get("id", {}).get("videoId", ""),
+                        "title": snippet.get("title", ""),
+                        "channel": snippet.get("channelTitle", ""),
+                        "published": snippet.get("publishedAt", ""),
+                        "query": query,
+                    }
+                )
 
             # Get stats for these videos
             if results:
@@ -272,13 +398,15 @@ class NicheIntelligence:
                     stats_params.pop("key", None)
                 elif YT_API_KEY:
                     stats_params["key"] = YT_API_KEY
-                
+
                 stats_resp = requests.get(
                     "https://www.googleapis.com/youtube/v3/videos",
-                    params=stats_params, headers=headers if token else {}, timeout=20
+                    params=stats_params,
+                    headers=headers if token else {},
+                    timeout=20,
                 )
                 stats_data = stats_resp.json() if stats_resp.content else {}
-                
+
                 for item in stats_data.get("items", []):
                     vid = item["id"]
                     stats = item.get("statistics", {})
@@ -292,33 +420,33 @@ class NicheIntelligence:
 
         return results
 
-    def scan_competitors(self) -> Dict:
+    def scan_competitors(self) -> dict:
         """Scan all competitor channels for top-performing content."""
         logger.info("🔍 Scanning %d competitor channels...", len(COMPETITOR_CHANNELS))
-        
+
         for comp in COMPETITOR_CHANNELS:
             try:
                 # Search for channel by handle
                 ch_data = self._yt_search(f"body science shorts {comp['niche']}", 5)
-                
+
                 self.competitor_data[comp["handle"]] = {
                     "name": comp["name"],
                     "niche": comp["niche"],
                     "top_videos": ch_data,
-                    "scanned_at": datetime.now(timezone.utc).isoformat(),
+                    "scanned_at": datetime.now(UTC).isoformat(),
                 }
-                
+
                 if ch_data:
                     top_views = max(v.get("views", 0) for v in ch_data)
                     logger.info("  %-25s → top video: %,d views", comp["name"], top_views)
-                
+
                 time.sleep(0.5)  # Rate limit
             except Exception as e:
                 logger.warning("  Failed to scan %s: %s", comp["name"], e)
 
         return self.competitor_data
 
-    def scan_subniche_competition(self, max_results: int = 20) -> Dict:
+    def scan_subniche_competition(self, max_results: int = 20) -> dict:
         """Scan YouTube for REAL competition + demand per sub-niche, quota-aware.
 
         YouTube's free API Search quota is ~100 units/day (1 search = 100
@@ -337,6 +465,7 @@ class NicheIntelligence:
         import json as _json
         import os as _os
         import time as _time
+
         logger.info("\n🔍 Scanning sub-niche competition (quota-aware, cached)...")
 
         cache_path = "data/subniche_scan_cache.json"
@@ -351,8 +480,7 @@ class NicheIntelligence:
         self.competition_scan = dict(cached)  # start from cache
         # Priority order: built-in demand desc -> scan the valuable ones first.
         demand_order = {"VERY HIGH": 0, "HIGH": 1, "MEDIUM": 2, "LOW": 3}
-        ordered = sorted(SUBNICHES.items(),
-                         key=lambda kv: demand_order.get(kv[1].get("demand", "MEDIUM"), 2))
+        ordered = sorted(SUBNICHES.items(), key=lambda kv: demand_order.get(kv[1].get("demand", "MEDIUM"), 2))
 
         quota_hit = False
         for niche_key, niche_data in ordered:
@@ -366,8 +494,12 @@ class NicheIntelligence:
             results = self._yt_search(query, max_results=max_results)
             if not results:
                 self.competition_scan[niche_key] = {
-                    "label": niche_data["label"], "channels": 0, "avg_views": 0,
-                    "top_views": 0, "opportunity": 0, "note": "no search data (likely quota)"
+                    "label": niche_data["label"],
+                    "channels": 0,
+                    "avg_views": 0,
+                    "top_views": 0,
+                    "opportunity": 0,
+                    "note": "no search data (likely quota)",
                 }
                 # if every search is failing, assume quota exhausted -> stop
                 # 2026-08-17: removed a dead `for r in []` expression here
@@ -377,11 +509,12 @@ class NicheIntelligence:
                 # The actual behavior was always just this heuristic:
                 quota_hit = True  # heuristic: no results at quota-exhausted point
                 continue
-            channels = set(r["channel"] for r in results if r.get("channel"))
+            channels = {r["channel"] for r in results if r.get("channel")}
             views = [r.get("views", 0) for r in results if r.get("views")]
             avg_views = sum(views) / len(views) if views else 0
             top_views = max(views) if views else 0
             import math
+
             competition_penalty = 1 + math.log(len(channels) + 1)
             opportunity = (avg_views / 1000.0) / competition_penalty
             self.competition_scan[niche_key] = {
@@ -391,8 +524,13 @@ class NicheIntelligence:
                 "top_views": top_views,
                 "opportunity": round(opportunity, 1),
             }
-            logger.info("  %-22s → channels:%3d avg_views:%7d opportunity:%5.1f",
-                        niche_data["label"], len(channels), int(avg_views), opportunity)
+            logger.info(
+                "  %-22s → channels:%3d avg_views:%7d opportunity:%5.1f",
+                niche_data["label"],
+                len(channels),
+                int(avg_views),
+                opportunity,
+            )
             # small delay to stay under rate limits
             _time.sleep(1.0)
 
@@ -404,11 +542,10 @@ class NicheIntelligence:
             pass
         return self.competition_scan
 
-
-    def analyze_subniche_demand(self) -> Dict:
+    def analyze_subniche_demand(self) -> dict:
         """Analyze demand for each sub-niche based on search + competitor data."""
         logger.info("\n📊 Analyzing sub-niche demand...")
-        
+
         for niche_key, niche_data in SUBNICHES.items():
             comp = (self.competition_scan or {}).get(niche_key, {})
             real_avg_views = comp.get("avg_views", 0)
@@ -417,20 +554,17 @@ class NicheIntelligence:
             # 1. Built-in demand rating
             demand_scores = {"VERY HIGH": 100, "HIGH": 75, "MEDIUM": 50, "LOW": 25}
             base_score = demand_scores.get(niche_data["demand"], 50)
-            
+
             # 2. Competitor avg views (normalize)
             comp_views = niche_data.get("avg_views_competitor", 0)
             view_score = min(comp_views / 5000, 100)  # Cap at 100
-            
+
             # 3. Our coverage gap (less = more opportunity)
             our_count = self.our_coverage.get(niche_key, 0)
             gap_score = max(100 - (our_count * 10), 10) if our_count < 30 else 10
             # 3b. LOW REAL COMPETITION = big opportunity (owner's core request)
-            if real_channels > 0:
-                comp_score = max(0, 100 - real_channels * 5)  # fewer channels = higher
-            else:
-                comp_score = 0
-            
+            comp_score = max(0, 100 - real_channels * 5) if real_channels > 0 else 0
+
             # 4. Topic catalog coverage
             niche_keywords = set(niche_data.get("keywords", []))
             catalog_match = 0
@@ -438,14 +572,15 @@ class NicheIntelligence:
                 if any(kw in (t or "") for t in self.our_videos):
                     catalog_match += 1
             catalog_coverage = min(catalog_match * 10, 40)
-            
+
             # 5. Diversity of content angles
             angle_score = len(niche_data.get("content_angles", [])) * 15
-            
+
             # External 2026 industry research (competition + RPM + growth)
             ext = EXTERNAL_NICHE_INTEL.get(niche_key, {})
             ext_comp = {"VERY LOW": 100, "LOW": 75, "MEDIUM": 50, "HIGH": 25, "VERY HIGH": 10}.get(
-                ext.get("competition", "MEDIUM"), 50)
+                ext.get("competition", "MEDIUM"), 50
+            )
             ext_growth = ext.get("growth", 50)
             ext_cpm = ext.get("cpm", 5)
 
@@ -454,18 +589,18 @@ class NicheIntelligence:
             aud_fit = 100 if niche_key in AUDIENCE_TARGET.get("best_fit_subniches", []) else 40
 
             total_score = (
-                base_score * 0.10 +
-                view_score * 0.12 +
-                gap_score * 0.08 +
-                comp_score * 0.15 +          # real low competition
-                ext_comp * 0.18 +            # industry low-competition signal
-                ext_growth * 0.13 +          # industry growth signal
-                min(ext_cpm, 15) * 4 * 0.06 +  # RPM (monetization)
-                aud_fit * 0.12 +             # 18-34 male-curious audience fit
-                catalog_coverage * 0.03 +
-                angle_score * 0.03
+                base_score * 0.10
+                + view_score * 0.12
+                + gap_score * 0.08
+                + comp_score * 0.15  # real low competition
+                + ext_comp * 0.18  # industry low-competition signal
+                + ext_growth * 0.13  # industry growth signal
+                + min(ext_cpm, 15) * 4 * 0.06  # RPM (monetization)
+                + aud_fit * 0.12  # 18-34 male-curious audience fit
+                + catalog_coverage * 0.03
+                + angle_score * 0.03
             )
-            
+
             self.subniche_scores[niche_key] = {
                 "label": niche_data["label"],
                 "demand_rating": niche_data["demand"],
@@ -474,25 +609,31 @@ class NicheIntelligence:
                 "competitor_avg_views": real_avg_views or niche_data["avg_views_competitor"],
                 "real_channels": real_channels,
                 "our_video_count": our_count,
-                "coverage_gap": "🟢 UNTAPPED" if our_count < 3 else ("🟡 LOW" if our_count < 8 else "🔴 SATURATED"),
+                "coverage_gap": "🟢 UNTAPPED"
+                if our_count < 3
+                else ("🟡 LOW" if our_count < 8 else "🔴 SATURATED"),
                 "total_score": round(total_score, 1),
                 "content_angles": niche_data["content_angles"],
                 "keywords": niche_data["keywords"][:8],
             }
-            
-            logger.info("  %-22s → Score:%5.0f | Our vids:%3d | Gap: %s",
-                       niche_data["label"], total_score, our_count,
-                       self.subniche_scores[niche_key]["coverage_gap"])
-        
+
+            logger.info(
+                "  %-22s → Score:%5.0f | Our vids:%3d | Gap: %s",
+                niche_data["label"],
+                total_score,
+                our_count,
+                self.subniche_scores[niche_key]["coverage_gap"],
+            )
+
         return self.subniche_scores
 
-    def scan_trending_topics(self) -> List[Dict]:
+    def scan_trending_topics(self) -> list[dict]:
         """Scan YouTube for currently trending body-science topics."""
         logger.info("\n🔥 Scanning trending body-science topics...")
-        
+
         trending_queries = [
             "why your body",
-            "body science explained", 
+            "body science explained",
             "strange body facts",
             "human body mystery",
             "why does my body",
@@ -500,16 +641,16 @@ class NicheIntelligence:
             "weird body things",
             "your body is",
         ]
-        
+
         all_results = []
         seen_ids = set()
-        
+
         for query in trending_queries:
             results = self._yt_search(f"{query} shorts", 10)
             for r in results:
                 if r["video_id"] not in seen_ids:
                     seen_ids.add(r["video_id"])
-                    
+
                     # Classify into sub-niche
                     title_lower = r.get("title", "").lower()
                     matched_niche = "other"
@@ -517,43 +658,46 @@ class NicheIntelligence:
                         if any(kw in title_lower for kw in niche_data["keywords"]):
                             matched_niche = niche_key
                             break
-                    
+
                     r["subniche"] = matched_niche
                     r["subniche_label"] = SUBNICHES.get(matched_niche, {}).get("label", "Other")
                     all_results.append(r)
-            
+
             time.sleep(0.6)  # Rate limit
-        
+
         # Sort by views descending
         all_results.sort(key=lambda x: x.get("views", 0), reverse=True)
         self.trending_topics = all_results[:50]
-        
-        logger.info("  Found %d trending topics across %d queries", 
-                   len(self.trending_topics), len(trending_queries))
-        
+
+        logger.info(
+            "  Found %d trending topics across %d queries", len(self.trending_topics), len(trending_queries)
+        )
+
         # Show top subniches
         niche_counts = Counter(r.get("subniche", "other") for r in self.trending_topics)
         for niche, count in niche_counts.most_common(5):
-            logger.info("    %-25s: %d trending", 
-                       SUBNICHES.get(niche, {}).get("label", niche), count)
-        
+            logger.info("    %-25s: %d trending", SUBNICHES.get(niche, {}).get("label", niche), count)
+
         return self.trending_topics
 
-    def rank_opportunities(self) -> List[Dict]:
+    def rank_opportunities(self) -> list[dict]:
         """Rank sub-niches by opportunity score (demand × gap)."""
         self.opportunity_ranking = sorted(
-            self.subniche_scores.values(),
-            key=lambda x: x["total_score"],
-            reverse=True
+            self.subniche_scores.values(), key=lambda x: x["total_score"], reverse=True
         )
-        
+
         logger.info("\n🏆 OPPORTUNITY RANKING:")
         for i, opp in enumerate(self.opportunity_ranking, 1):
             icon = "🥇" if i == 1 else ("🥈" if i == 2 else ("🥉" if i == 3 else f"{i:2d}."))
-            logger.info("  %s %-22s Score: %5.0f | %s | %s",
-                       icon, opp["label"], opp["total_score"],
-                       opp["coverage_gap"], opp["demand_rating"])
-        
+            logger.info(
+                "  %s %-22s Score: %5.0f | %s | %s",
+                icon,
+                opp["label"],
+                opp["total_score"],
+                opp["coverage_gap"],
+                opp["demand_rating"],
+            )
+
         return self.opportunity_ranking
 
     def load_our_videos(self):
@@ -561,13 +705,12 @@ class NicheIntelligence:
         history_path = DATA_DIR / "video_history.json"
         if not history_path.exists():
             return
-        
+
         with open(history_path) as f:
             videos = json.load(f)
-        
-        self.our_videos = [v.get("topic", v.get("youtube_title", "")) for v in videos
-                          if v.get("youtube_id")]
-        
+
+        self.our_videos = [v.get("topic", v.get("youtube_title", "")) for v in videos if v.get("youtube_id")]
+
         # Calculate coverage per subniche
         for niche_key, niche_data in SUBNICHES.items():
             count = 0
@@ -576,21 +719,21 @@ class NicheIntelligence:
                 if any(kw in topic_lower for kw in niche_data["keywords"]):
                     count += 1
             self.our_coverage[niche_key] = count
-        
+
         logger.info("📺 Our videos: %d across niches", len(self.our_videos))
 
-    def generate_attack_plan(self) -> Dict:
+    def generate_attack_plan(self) -> dict:
         """Generate a concrete attack plan for the best sub-niches."""
         if not self.opportunity_ranking:
             self.rank_opportunities()
-        
+
         plan = {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "overall_strategy": "Attack UNTAPPED high-demand sub-niches with 5-10 videos each",
             "priority_targets": [],
             "content_ideas": [],
         }
-        
+
         for opp in self.opportunity_ranking[:3]:
             target = {
                 "subniche": opp["label"],
@@ -598,27 +741,31 @@ class NicheIntelligence:
                 "our_coverage": opp["our_video_count"],
                 "gap": opp["coverage_gap"],
                 "competitor_avg_views": opp["competitor_avg_views"],
-                "recommended_videos": 10 if opp["our_video_count"] < 3 else (5 if opp["our_video_count"] < 8 else 3),
+                "recommended_videos": 10
+                if opp["our_video_count"] < 3
+                else (5 if opp["our_video_count"] < 8 else 3),
                 "content_angles": opp.get("content_angles", []),
                 "sample_topics": self._generate_topic_ideas(opp),
             }
             plan["priority_targets"].append(target)
-        
+
         # Add trending topics as quick wins
         if self.trending_topics:
             plan["trending_quick_wins"] = []
             for t in self.trending_topics[:5]:
                 if t.get("views", 0) > 100000:
-                    plan["trending_quick_wins"].append({
-                        "trending_title": t.get("title", ""),
-                        "views": t.get("views", 0),
-                        "subniche": t.get("subniche_label", ""),
-                        "hijack_angle": f"Our version: {t.get('title','')} — but body-science focused",
-                    })
-        
+                    plan["trending_quick_wins"].append(
+                        {
+                            "trending_title": t.get("title", ""),
+                            "views": t.get("views", 0),
+                            "subniche": t.get("subniche_label", ""),
+                            "hijack_angle": f"Our version: {t.get('title', '')} — but body-science focused",
+                        }
+                    )
+
         return plan
 
-    def _generate_topic_ideas(self, opportunity: Dict) -> List[str]:
+    def _generate_topic_ideas(self, opportunity: dict) -> list[str]:
         """Generate specific topic ideas for a sub-niche."""
         label_to_key = {
             "🧠 Brain Mysteries": "brain_mysteries",
@@ -697,10 +844,11 @@ class NicheIntelligence:
             ],
         }
         return templates.get(key, templates.get("body_reactions", []))[:10]
+
     def save(self):
         """Save the complete intelligence report."""
         report = {
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": datetime.now(UTC).isoformat(),
             "competitors_scanned": len(self.competitor_data),
             "subniches_analyzed": len(self.subniche_scores),
             "trending_topics_found": len(self.trending_topics),
@@ -713,7 +861,7 @@ class NicheIntelligence:
             "attack_plan": self.generate_attack_plan(),
             "our_coverage": self.our_coverage,
         }
-        
+
         os.makedirs(DATA_DIR, exist_ok=True)
         tmp = str(NICHE_INTEL_PATH) + ".tmp"
         with open(tmp, "w") as f:
@@ -724,14 +872,14 @@ class NicheIntelligence:
     def print_battle_plan(self):
         """Print a visual battle plan."""
         plan = self.generate_attack_plan()
-        
+
         print("\n" + "=" * 70)
         print("  ⚔️  SKILLOR BATTLE PLAN — Sub-Niche Attack Strategy")
         print("=" * 70)
-        
+
         for i, target in enumerate(plan.get("priority_targets", [])[:3]):
             icon = ["🥇", "🥈", "🥉"][i]
-            print(f"\n  {icon} PRIORITY {i+1}: {target['subniche']}")
+            print(f"\n  {icon} PRIORITY {i + 1}: {target['subniche']}")
             print(f"     Score: {target['score']:.0f}/100")
             print(f"     Our Videos: {target['our_coverage']} | Gap: {target['gap']}")
             print(f"     Competitors Avg: {target['competitor_avg_views']:,} views")
@@ -742,7 +890,7 @@ class NicheIntelligence:
             print("     Sample Topics:")
             for idea in target.get("sample_topics", [])[:4]:
                 print(f"       ✏️  {idea}")
-        
+
         print("\n  ⚡ QUICK WINS (Trending Now):")
         for win in plan.get("trending_quick_wins", [])[:3]:
             print(f"     📈 {win['trending_title'][:60]}")
@@ -754,26 +902,29 @@ class NicheIntelligence:
 # COMPETITOR ML FEED — Feed competitor data into ML Brain
 # ═══════════════════════════════════════════════════════════════════
 
+
 class CompetitorMLFeed:
     """Feed competitor intelligence into the ML training pipeline."""
-    
+
     def __init__(self, niche_intel: NicheIntelligence):
         self.niche = niche_intel
-        self.combined_features: List[np.ndarray] = []
-        self.combined_labels: List[float] = []
-    
-    def build_combined_dataset(self) -> Tuple[np.ndarray, np.ndarray]:
+        self.combined_features: list[np.ndarray] = []
+        self.combined_labels: list[float] = []
+
+    def build_combined_dataset(self) -> tuple[np.ndarray, np.ndarray]:
         """Build a combined training dataset from our videos + competitor patterns."""
         import sys
+
         sys.path.insert(0, str(Path(__file__).parent))
-        
+
         try:
             from ml_brain import FeatureExtractor
+
             extractor = FeatureExtractor()
         except Exception as e:
             logger.error("Could not load FeatureExtractor: %s", e)
             return np.array([]), np.array([])
-        
+
         # 1. Our existing training data
         our_X, our_y = [], []
         if DATA_DIR.joinpath("video_history.json").exists():
@@ -785,9 +936,9 @@ class CompetitorMLFeed:
                 if topic and len(topic) > 5:
                     our_X.append(extractor.extract_from_topic(topic))
                     our_y.append(float(views))
-        
+
         logger.info("Our data: %d samples", len(our_X))
-        
+
         # 2. Competitor virtual samples (weighted by subniche demand)
         comp_X, comp_y = [], []
         for opp in self.niche.opportunity_ranking[:5]:
@@ -802,15 +953,15 @@ class CompetitorMLFeed:
                         topic = topic.replace("[situation]", kw)
                         topic = topic.replace("[trigger]", kw)
                         topic = topic.replace("[sensation]", f"{kw}")
-                        
+
                         if len(topic) > 10:
                             comp_X.append(extractor.extract_from_topic(topic))
                             # Weight by competitor avg views
                             weighted_views = opp.get("competitor_avg_views", 100000) / 1000
                             comp_y.append(float(weighted_views))
-        
+
         logger.info("Competitor virtual samples: %d", len(comp_X))
-        
+
         # 3. Trending topic samples
         trend_X, trend_y = [], []
         for t in self.niche.trending_topics[:15]:
@@ -819,48 +970,49 @@ class CompetitorMLFeed:
             if topic and views > 0:
                 trend_X.append(extractor.extract_from_topic(topic))
                 trend_y.append(float(views))
-        
+
         logger.info("Trending samples: %d", len(trend_X))
-        
+
         # Combine all
         all_X = our_X + comp_X[:100] + trend_X[:30]
         all_y = our_y + comp_y[:100] + trend_y[:30]
-        
+
         self.combined_features = np.array(all_X, dtype=np.float64) if all_X else np.array([])
         self.combined_labels = np.array(all_y, dtype=np.float64) if all_y else np.array([])
-        
+
         logger.info("✅ Combined dataset: %d total samples", len(self.combined_features))
         return self.combined_features, self.combined_labels
-    
+
     def retrain_brain(self):
         """Retrain ML Brain with combined dataset."""
         # Add scripts dir to path
         import sys
+
         sys.path.insert(0, str(Path(__file__).parent))
-        
+
         try:
-            from ml_brain import MLBrain, RidgeRegression, LogisticClassifier, FeatureExtractor
+            from ml_brain import FeatureExtractor, LogisticClassifier, MLBrain, RidgeRegression
         except Exception as e:
             logger.error("Could not import ML Brain: %s", e)
             return
-        
+
         X, y = self.build_combined_dataset()
         if len(X) < 10:
             logger.warning("Not enough data to retrain.")
             return
-        
+
         brain = MLBrain()
         brain.load()
-        
+
         # Retrain with combined data
         brain.extractor = FeatureExtractor()
         brain.n_samples = len(X)
-        
+
         y_log = np.log1p(y)
         brain.views_model = RidgeRegression(alpha=0.5)
         brain.views_model.fit(X, y_log)
         brain.views_r2 = brain.views_model.score(X, y_log)
-        
+
         viral_threshold = np.percentile(y, 75)
         y_viral = (y >= viral_threshold).astype(int)
         if np.sum(y_viral) >= 3 and np.sum(y_viral == 0) >= 3:
@@ -868,29 +1020,33 @@ class CompetitorMLFeed:
             brain.viral_model.fit(X, y_viral)
             pred_viral = brain.viral_model.predict(X)
             brain.viral_accuracy = float(np.mean(pred_viral == y_viral))
-        
+
         brain.trained = True
         brain.save()
-        
+
         logger.info("🧠 Brain retrained with %d samples (ours + competitors + trends)", len(X))
-        logger.info("   Views R²: %.3f | Viral Accuracy: %.1f%%",
-                   brain.views_r2, brain.viral_accuracy * 100 if brain.viral_model else 0)
+        logger.info(
+            "   Views R²: %.3f | Viral Accuracy: %.1f%%",
+            brain.views_r2,
+            brain.viral_accuracy * 100 if brain.viral_model else 0,
+        )
 
 
 # ═══════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════
 
+
 def main():
     print("\n" + "=" * 70)
     print("  🧬 SKILLOR NICHE INTELLIGENCE — Competitor + Demand Engine")
     print("=" * 70)
-    
+
     intel = NicheIntelligence()
-    
+
     # Step 1: Load our data
     intel.load_our_videos()
-    
+
     # Step 2: Scan competitors (API-based, skips if no key)
     if YT_API_KEY or (GOOGLE_CLIENT_ID and REFRESH_TOKEN):
         intel.scan_competitors()
@@ -899,28 +1055,27 @@ def main():
         logger.info("No YouTube API key — using built-in competitor data")
         # Use bundled data from SUBNICHES
         intel.competitor_data = {
-            c["handle"]: {"name": c["name"], "niche": c["niche"]}
-            for c in COMPETITOR_CHANNELS
+            c["handle"]: {"name": c["name"], "niche": c["niche"]} for c in COMPETITOR_CHANNELS
         }
-    
+
     # Step 3: Analyze demand
     intel.scan_subniche_competition()
     intel.analyze_subniche_demand()
-    
+
     # Step 4: Rank opportunities
     intel.rank_opportunities()
-    
+
     # Step 5: Print battle plan
     intel.print_battle_plan()
-    
+
     # Step 6: Save
     intel.save()
-    
+
     # Step 7: Feed into ML Brain
     print("\n🧠 Feeding competitor intelligence into ML Brain...")
     feed = CompetitorMLFeed(intel)
     feed.retrain_brain()
-    
+
     print("\n✅ DONE! Niche intelligence ready.")
     print(f"   Report: {NICHE_INTEL_PATH}")
     print("   Run 'python scripts/niche_intel.py' to refresh daily.")

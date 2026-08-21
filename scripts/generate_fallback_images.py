@@ -35,7 +35,7 @@ from image_generator import _build_prompt
 from image_providers import RateLimitError, available_providers
 from niche_strategy import DARK_TOPICS
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
@@ -107,7 +107,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Build/top-up the local fallback image pool.")
     parser.add_argument("--count", type=int, default=100, help="How many NEW images to generate this run.")
     parser.add_argument("--out-dir", type=str, default="assets/fallback_images", help="Output directory.")
-    parser.add_argument("--delay", type=float, default=3.0, help="Seconds to wait between requests (politeness).")
+    parser.add_argument(
+        "--delay", type=float, default=3.0, help="Seconds to wait between requests (politeness)."
+    )
     args = parser.parse_args()
 
     build_pool(args.count, args.out_dir, args.delay)

@@ -11,13 +11,12 @@ from unittest import mock
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import script_generator  # noqa: E402
+import script_generator
 
 
 class GroqModelChainTests(unittest.TestCase):
     def _chain(self, env):
-        clean = {k: v for k, v in os.environ.items()
-                 if not k.startswith("GROQ_MODEL")}
+        clean = {k: v for k, v in os.environ.items() if not k.startswith("GROQ_MODEL")}
         clean.update(env)
         with mock.patch.dict(os.environ, clean, clear=True):
             return script_generator.groq_model_chain()
@@ -44,8 +43,9 @@ class GroqModelChainTests(unittest.TestCase):
         self.assertEqual(chain[0], "openai/gpt-oss-120b")
 
     def test_duplicate_fallback_deduped(self):
-        chain = self._chain({"GROQ_MODEL": "openai/gpt-oss-120b",
-                             "GROQ_MODEL_FALLBACK": "openai/gpt-oss-120b"})
+        chain = self._chain(
+            {"GROQ_MODEL": "openai/gpt-oss-120b", "GROQ_MODEL_FALLBACK": "openai/gpt-oss-120b"}
+        )
         self.assertEqual(chain, ["openai/gpt-oss-120b"])
 
 

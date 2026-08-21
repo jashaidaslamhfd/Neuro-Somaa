@@ -10,14 +10,15 @@ Engine: ModelsLab text-to-music (MODELSLAB_API_KEY already in repo
 secrets). Fallback: legacy mood-picked stock track / synth drone — the
 pipeline NEVER blocks.
 """
+
+import contextlib
 import json
 import os
 import random
+import re
 import time
 import urllib.parse
 import urllib.request
-
-import re
 
 import requests
 
@@ -60,6 +61,7 @@ def generate_sad_music(theme: str = "", duration: int = 30) -> str | None:
     if not api_key:
         return None
     import logging
+
     logger = logging.getLogger("music_generator")
     os.makedirs(BASE_VAULT, exist_ok=True)
     payload = {
@@ -70,7 +72,7 @@ def generate_sad_music(theme: str = "", duration: int = 30) -> str | None:
     }
     try:
         resp = requests.post(_MUSIC_GEN_URL, json=payload, timeout=120)
-    except Exception as exc:  # noqa: BLE001 - fallback is intentional
+    except Exception as exc:
         logger.warning("Music API unreachable (%s) — using stock track", exc)
         return None
     if resp.status_code == 429:
@@ -92,7 +94,7 @@ def generate_sad_music(theme: str = "", duration: int = 30) -> str | None:
             try:
                 with urllib.request.urlopen(fetch, timeout=30) as r:
                     d = json.load(r)
-            except Exception:  # noqa: BLE001
+            except Exception:
                 continue
             out = d.get("output") or []
             if d.get("status") == "success" and out:
@@ -105,23 +107,20 @@ def generate_sad_music(theme: str = "", duration: int = 30) -> str | None:
 
 def _download_track(url: str, theme: str) -> str:
     slug = re.sub(r"[^\w]+", "_", theme or "mystery")[:40]
-    path = os.path.join(BASE_VAULT,
-                        f"viral_dark_{slug}_{int(time.time())}_{random.randint(100,999)}".strip() + ".wav")
+    path = os.path.join(
+        BASE_VAULT, f"viral_dark_{slug}_{int(time.time())}_{random.randint(100, 999)}".strip() + ".wav"
+    )
     try:
         with urllib.request.urlopen(url, timeout=120) as r, open(path, "wb") as f:
             f.write(r.read())
-    except Exception:  # noqa: BLE001
-        try:
+    except Exception:
+        with contextlib.suppress(OSError):
             os.remove(path)
-        except OSError:
-            pass
         return None
     size = os.path.getsize(path)
     if size < 100000:  # empty/broken response
-        try:
+        with contextlib.suppress(OSError):
             os.remove(path)
-        except OSError:
-            pass
         return None
     return path
 
@@ -134,6 +133,7 @@ def pick_track(theme: str = "", target_duration: float = 0.0) -> str | None:
         return gen
     try:
         from video_editor import _pick_music  # legacy mood selection
+
         return _pick_music(theme=theme)
     except ImportError:
         return None

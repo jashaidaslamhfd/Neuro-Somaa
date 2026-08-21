@@ -23,6 +23,7 @@ import re
 
 try:
     import requests
+
     _HAS_REQUESTS = True
 except ImportError:  # pragma: no cover - requests is a core dep
     _HAS_REQUESTS = False
@@ -75,10 +76,7 @@ def _rule_patterns(topic: str) -> list:
         f"La vraie raison pour laquelle {p}",
         f"99% des gens ne savent pas que {p}",
     ]
-    return list(dict.fromkeys(
-        t for t in patterns
-        if t and len(t.encode("utf-8")) <= CTR_TITLE_MAX_CHARS
-    ))[:4]
+    return list(dict.fromkeys(t for t in patterns if t and len(t.encode("utf-8")) <= CTR_TITLE_MAX_CHARS))[:4]
 
 
 def _llm_patterns(topic: str, seed_title: str) -> list:
@@ -92,12 +90,12 @@ def _llm_patterns(topic: str, seed_title: str) -> list:
     prompt = (
         f"Tu es un rédacteur de titres YouTube Shorts en français pour une "
         f"chaîne de faits scientifiques sur le corps humain. Sujet : "
-        f"\"{topic}\". Titre actuel : \"{seed_title}\". Écris exactement 4 "
+        f'"{topic}". Titre actuel : "{seed_title}". Écris exactement 4 '
         f"nouveaux titres à fort taux de clics pour le feed Shorts français. "
         f"Utilise ces modèles éprouvés : nombres et spécificité "
-        f"(\"7 signes...\"), autorité (\"Ce que les médecins ne vous disent "
-        f"pas...\"), enjeu personnel (\"Votre corps essaie de...\"), curiosité "
-        f"inachevée (\"Ce qui arrive vraiment quand...\"). Aucun emoji, aucun "
+        f'("7 signes..."), autorité ("Ce que les médecins ne vous disent '
+        f'pas..."), enjeu personnel ("Votre corps essaie de..."), curiosité '
+        f'inachevée ("Ce qui arrive vraiment quand..."). Aucun emoji, aucun '
         f"clickbait mensonger, pas de MAJUSCULES intégrales, maximum "
         f"{CTR_TITLE_MAX_CHARS} caractères chacun. Réponds UNIQUEMENT avec un "
         f"tableau JSON de 4 chaînes, rien d'autre."
@@ -105,22 +103,19 @@ def _llm_patterns(topic: str, seed_title: str) -> list:
     try:
         resp = requests.post(
             OPENROUTER_URL,
-            headers={"Authorization": f"Bearer {key}",
-                     "Content-Type": "application/json"},
-            json={"model": model, "messages": [{"role": "user", "content": prompt}],
-                  "temperature": 0.8},
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+            json={"model": model, "messages": [{"role": "user", "content": prompt}], "temperature": 0.8},
             timeout=CTR_TIMEOUT,
         )
         if resp.status_code != 200:
             return []
         text = resp.json()["choices"][0]["message"]["content"].strip()
-        m = re.search(r"\[.*\]", text, re.S)
+        m = re.search(r"\[.*\]", text, re.DOTALL)
         if not m:
             return []
-        items = [s.strip().strip('"').strip("'") for s in
-                 m.group(0)[1:-1].split(",")]
-        return [t.strip() for t in items if t and 10 <= len(t.strip())]
-    except Exception:  # noqa: BLE001 - LLM layer is advisory
+        items = [s.strip().strip('"').strip("'") for s in m.group(0)[1:-1].split(",")]
+        return [t.strip() for t in items if t and len(t.strip()) >= 10]
+    except Exception:
         return []
 
 
@@ -128,13 +123,16 @@ def get_ctr_title_options(topic: str, seed_title: str) -> list:
     """Return high-CTR French title candidates. LLM first (novelty), then
     rule-based patterns so a fully-degraded LLM still adds value."""
     off = os.environ.get("CTR_TITLES", "true").strip().lower() in (
-        "false", "0", "no", "off",
+        "false",
+        "0",
+        "no",
+        "off",
     )
     if off:
         return []
     try:
         options = _llm_patterns(topic, seed_title)
-    except Exception:  # noqa: BLE001 - must never break a run
+    except Exception:
         options = []
     options.extend(_rule_patterns(topic))
     seen, unique = set(), []

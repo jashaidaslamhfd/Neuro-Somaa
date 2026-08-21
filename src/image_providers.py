@@ -42,13 +42,15 @@ REQUEST_TIMEOUT = 30
 # doesn't change the eventual outcome when Pollinations is down/degraded -
 # it just gets to a working image sooner.
 POLLINATIONS_TIMEOUT = 25  # 2026-08-20: raised 15->25s after live runs showed
-                      # intermittent flux/turbo responses landing at 20-24s
-                      # (was being wrongly retried and failed to the wrong
-                      # provider before the response could finish)
+# intermittent flux/turbo responses landing at 20-24s
+# (was being wrongly retried and failed to the wrong
+# provider before the response could finish)
 
 POLLINATIONS_URL = "https://image.pollinations.ai/prompt"
 HF_API_URL = "https://router.huggingface.co/hf-inference/models/black-forest-labs/FLUX.1-schnell"
-GEMINI_IMAGE_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent"
+GEMINI_IMAGE_URL = (
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent"
+)
 
 
 class RateLimitError(RuntimeError):
@@ -135,9 +137,7 @@ def gen_gemini(prompt, seed, scene_text=None):
     # knob for Gemini image generation; setting it directly is far more
     # reliable than hoping the prompt wording is honored.
     payload = {
-        "contents": [{"parts": [{
-            "text": f"Generate a photorealistic image, portrait orientation: {text}"
-        }]}],
+        "contents": [{"parts": [{"text": f"Generate a photorealistic image, portrait orientation: {text}"}]}],
         "generationConfig": {
             "responseModalities": ["IMAGE"],
             "imageConfig": {"aspectRatio": "9:16"},
@@ -204,7 +204,9 @@ def gen_deepai(prompt, seed, scene_text=None):
 #    just get lower queue priority, so this polls for up to ~90s before
 #    giving up and letting the next provider take over.)
 # ---------------------------------------------------------------------------
+import contextlib
 import logging as _logging
+
 logger = _logging.getLogger("image_providers")
 _HORDE_ANON_KEY = "0000000000"
 
@@ -258,7 +260,10 @@ def gen_ai_horde(prompt, seed, scene_text=None):
             json={
                 "prompt": text,
                 "params": {
-                    "width": width, "height": height, "steps": 30, "n": 1,
+                    "width": width,
+                    "height": height,
+                    "steps": 30,
+                    "n": 1,
                     "sampler_name": "k_euler_a",
                     "cfg_scale": 7,
                 },
@@ -282,7 +287,8 @@ def gen_ai_horde(prompt, seed, scene_text=None):
             if headers["apikey"] != _HORDE_ANON_KEY:
                 logger.warning(
                     "AI Horde: secret key invalid (%s) — retrying with "
-                    "anonymous key for the rest of this run", submit.text[:120],
+                    "anonymous key for the rest of this run",
+                    submit.text[:120],
                 )
                 headers = {"apikey": _HORDE_ANON_KEY}
                 _horde_key_invalidated[0] = True
@@ -311,13 +317,12 @@ def gen_ai_horde(prompt, seed, scene_text=None):
         if check.get("faulted"):
             raise RuntimeError("AI Horde: job faulted")
     else:
-        try:
+        with contextlib.suppress(Exception):
             requests.delete(
                 f"https://aihorde.net/api/v2/generate/status/{job_id}",
-                headers=headers, timeout=15,
+                headers=headers,
+                timeout=15,
             )
-        except Exception:
-            pass
         raise RuntimeError(f"AI Horde: timed out after {max_wait_seconds} seconds")
 
     status = requests.get(f"https://aihorde.net/api/v2/generate/status/{job_id}", timeout=15).json()
@@ -428,7 +433,9 @@ def gen_TEMPLATE(prompt, seed, scene_text=None):
     4. Koi aur error ho to RuntimeError raise karo
     5. Success par (image_bytes, "jpg"/"png") return karo
     """
-    raise NotImplementedError("Ye sirf template hai — PROVIDER_REGISTRY mein register mat karo jab tak likha na ho")
+    raise NotImplementedError(
+        "Ye sirf template hai — PROVIDER_REGISTRY mein register mat karo jab tak likha na ho"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -438,15 +445,14 @@ def gen_TEMPLATE(prompt, seed, scene_text=None):
 # 50 tak yahan providers add kar sakte hain — bas ek line.
 # ---------------------------------------------------------------------------
 PROVIDER_REGISTRY = [
-    {"name": "AI-Horde",           "env_keys": [],                       "generate": gen_ai_horde},
-    {"name": "Pollinations-flux",  "env_keys": [],                       "generate": gen_pollinations_flux},
-    {"name": "Pollinations-turbo", "env_keys": [],                       "generate": gen_pollinations_turbo},
-    {"name": "HuggingFace",        "env_keys": ["HF_API_KEY"],           "generate": gen_huggingface},
-    {"name": "Gemini",             "env_keys": ["GEMINI_API_KEY"],       "generate": gen_gemini},
-    {"name": "DeepAI",             "env_keys": ["DEEPAI_API_KEY"],       "generate": gen_deepai},
-    {"name": "ModelsLab",          "env_keys": ["MODELSLAB_API_KEY"],    "generate": gen_modelslab},
-    {"name": "Replicate",          "env_keys": ["REPLICATE_API_TOKEN"],  "generate": gen_replicate},
-
+    {"name": "AI-Horde", "env_keys": [], "generate": gen_ai_horde},
+    {"name": "Pollinations-flux", "env_keys": [], "generate": gen_pollinations_flux},
+    {"name": "Pollinations-turbo", "env_keys": [], "generate": gen_pollinations_turbo},
+    {"name": "HuggingFace", "env_keys": ["HF_API_KEY"], "generate": gen_huggingface},
+    {"name": "Gemini", "env_keys": ["GEMINI_API_KEY"], "generate": gen_gemini},
+    {"name": "DeepAI", "env_keys": ["DEEPAI_API_KEY"], "generate": gen_deepai},
+    {"name": "ModelsLab", "env_keys": ["MODELSLAB_API_KEY"], "generate": gen_modelslab},
+    {"name": "Replicate", "env_keys": ["REPLICATE_API_TOKEN"], "generate": gen_replicate},
     # --- Yahan neeche naye providers add karte jayein (up to 50) ---
     # Big platforms jo isi TEMPLATE pattern se add ho sakte hain jaise jaise
     # aap unki free/trial keys banate hain — README.md mein poori list hai:
@@ -474,8 +480,13 @@ POLLINATIONS_VIDEO_URL = "https://gen.pollinations.ai/video"
 POLLINATIONS_VIDEO_TIMEOUT = int(os.environ.get("POLLINATIONS_VIDEO_TIMEOUT", "90"))
 
 
-def gen_pollinations_video(prompt: str, scene_text: str, image_path: str | None = None,
-                           model: str | None = None, duration: str | None = None):
+def gen_pollinations_video(
+    prompt: str,
+    scene_text: str,
+    image_path: str | None = None,
+    model: str | None = None,
+    duration: str | None = None,
+):
     """Generate a vertical AI motion clip from text (+ optional source image).
     Returns (bytes, ext) or raises RuntimeError / RateLimitError."""
     key = os.environ.get("POLLINATIONS_KEY", "")
@@ -506,13 +517,16 @@ def gen_pollinations_video(prompt: str, scene_text: str, image_path: str | None 
                 media_id = data.get("id")
                 if media_id:
                     params["image[0]"] = (
-                        str(media_id) if str(media_id).startswith("http")
+                        str(media_id)
+                        if str(media_id).startswith("http")
                         else f"https://media.pollinations.ai/{media_id}"
                     )
                 elif data.get("url"):
                     params["image[0]"] = data["url"]
         except Exception as exc:  # media upload is optional - never block the run
-            logger.warning("AI-video: reference image upload failed (%s) - falling back to text-to-video", exc)
+            logger.warning(
+                "AI-video: reference image upload failed (%s) - falling back to text-to-video", exc
+            )
     url = f"{POLLINATIONS_VIDEO_URL}/{prompt}"
     resp = requests.get(url, params=params, timeout=POLLINATIONS_VIDEO_TIMEOUT)
     if resp.status_code == 401:
@@ -537,4 +551,3 @@ def available_providers():
     """Sirf wo providers return karta hai jinke required env vars set hain
     (no-key providers hamesha available hote hain)."""
     return [p for p in PROVIDER_REGISTRY if all(os.environ.get(k) for k in p["env_keys"])]
-              

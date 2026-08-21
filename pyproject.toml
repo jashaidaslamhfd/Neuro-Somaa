@@ -31,6 +31,9 @@ extend-exclude = [
 ]
 
 [tool.ruff.lint]
+# French copy intentionally uses Unicode apostrophes, dashes, symbols, and
+# typography. These are content characters, not Python operator ambiguity.
+ignore = ["RUF001", "RUF002", "RUF003"]
 # Default set + a few targeted quality groups:
 #   I   = isort (import sorting)
 #   UP  = pyupgrade (modern Python syntax)
@@ -46,10 +49,16 @@ select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "PIE", "RUF", "C4", "FUR
 [tool.ruff.lint.per-file-ignores]
 # CLI entry points and repair scripts legitimately swallow broad exceptions
 # so one bad video never aborts a channel-wide batch run.
-"scripts/*.py" = ["BLE001", "S110", "S112"]
+"scripts/*.py" = ["BLE001", "S110", "S112", "E402"]
 "src/main.py" = ["BLE001"]
-# Offline unit tests may construct stubs loosely.
-"tests/*.py" = ["BLE001", "DTZ", "S101"]
+# These modules intentionally bootstrap sys.path before optional imports.
+"src/analytics_updater.py" = ["E402"]
+"src/image_providers.py" = ["E402"]
+"src/video_editor.py" = ["E402"]
+"src/intelligence/bandit.py" = ["E402"]
+# Offline unit tests may construct stubs loosely and bootstrap src imports.
+"tests/*.py" = ["BLE001", "DTZ", "S101", "E402"]
+"tests/test_runtime_config.py" = ["B018"]
 
 [tool.ruff.lint.isort]
 known-first-party = [
@@ -57,7 +66,7 @@ known-first-party = [
     "uploader", "niche_strategy", "quality_checker", "scheduler", "anti_spam",
     "french_quality_gate", "seo_generator", "shorts_enhancer", "seo_analytics",
     "trend_fetcher", "media_validator", "analytics_updater", "image_providers",
-    "trend_research",
+    "trend_research", "strict_quality_gate",
 ]
 
 # ---------------------------------------------------------------------------

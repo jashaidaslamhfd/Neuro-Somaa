@@ -10,6 +10,7 @@ Checks the things the YouTube algorithm looks at ABOVE single videos:
 Mode A (default) = READ audit only.
 Mode B (--apply) = writes optimized branding via channels.update.
 """
+
 import argparse
 import json
 import logging
@@ -39,12 +40,14 @@ def _access_token() -> str:
     import urllib.parse
     import urllib.request
 
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=data)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)["access_token"]
@@ -78,14 +81,18 @@ def audit(item):
     print("================ CHANNEL AUDIT ================")
     print(f"Title:           {ch.get('title')}")
     print(f"Handle:          {ch.get('customUrl')}")
-    print(f"Subscribers:     {stats.get('subscriberCount')} | Views: {stats.get('viewCount')} | Videos: {stats.get('videoCount')}")
+    print(
+        f"Subscribers:     {stats.get('subscriberCount')} | Views: {stats.get('viewCount')} | Videos: {stats.get('videoCount')}"
+    )
     print(f"defaultLanguage: {chs.get('defaultLanguage')!r}")
     print(f"country:         {chs.get('country')!r}")
     print(f"keywords:        {chs.get('keywords')!r}")
     print(f"description len: {len(chs.get('description') or '')}")
     print(f"--- description ---\n{chs.get('description') or '(EMPTY)'}")
     print(f"avatar set:      {'YES' if (ch.get('thumbnails') or {}).get('medium') else 'NO'}")
-    print(f"banner set:      {'YES' if img.get('bannerExternalUrl') else 'NO'}  ({(img.get('bannerExternalUrl') or '')[:60]})")
+    print(
+        f"banner set:      {'YES' if img.get('bannerExternalUrl') else 'NO'}  ({(img.get('bannerExternalUrl') or '')[:60]})"
+    )
     print(f"watermark set:   {'YES' if img.get('watchIconImageUrl') else 'NO'}")
     print("===============================================")
     issues = []
@@ -104,14 +111,18 @@ def audit(item):
 def geo_report(token, days=90):
     """Audience geography from YouTube Analytics API (needs yt-analytics.readonly)."""
     import datetime
-    end = datetime.datetime.now(datetime.timezone.utc).date()
+
+    end = datetime.datetime.now(datetime.UTC).date()
     start = end - datetime.timedelta(days=days)
-    path = ("https://youtubeanalytics.googleapis.com/v2/reports"
-            f"?ids=channel==MINE&startDate={start}&endDate={end}"
-            "&metrics=views,estimatedMinutesWatched,subscribersGained"
-            "&dimensions=country&sort=-views&maxResults=10")
+    path = (
+        "https://youtubeanalytics.googleapis.com/v2/reports"
+        f"?ids=channel==MINE&startDate={start}&endDate={end}"
+        "&metrics=views,estimatedMinutesWatched,subscribersGained"
+        "&dimensions=country&sort=-views&maxResults=10"
+    )
     import urllib.error
     import urllib.request
+
     req = urllib.request.Request(path)
     req.add_header("Authorization", f"Bearer {token}")
     try:
@@ -124,7 +135,7 @@ def geo_report(token, days=90):
     total = sum(r[1] for r in rows) or 1
     print(f"================ AUDIENCE GEOGRAPHY (last {days}d) ================")
     for r in rows:
-        print(f"  {r[0]:4} | {r[1]:>7} views ({100*r[1]/total:4.1f}%) | {r[2]:>7} min | +{r[3]} subs")
+        print(f"  {r[0]:4} | {r[1]:>7} views ({100 * r[1] / total:4.1f}%) | {r[2]:>7} min | +{r[3]} subs")
     print("=================================================================")
 
 
@@ -144,12 +155,17 @@ def main():
 
     if args.apply:
         cid = item["id"]
-        body = {"id": cid, "brandingSettings": {"channel": {
-            "description": NEW_DESCRIPTION,
-            "keywords": NEW_KEYWORDS,
-            "defaultLanguage": "fr",
-            "country": "FR",
-        }}}
+        body = {
+            "id": cid,
+            "brandingSettings": {
+                "channel": {
+                    "description": NEW_DESCRIPTION,
+                    "keywords": NEW_KEYWORDS,
+                    "defaultLanguage": "fr",
+                    "country": "FR",
+                }
+            },
+        }
         try:
             _api("channels?part=brandingSettings", token, method="PUT", body=body)
             print("APPLY: branding updated (description + keywords + defaultLanguage=fr + country=FR)")
@@ -159,11 +175,17 @@ def main():
         # Read-back verification
         ver = _api("channels?part=brandingSettings&mine=true", token)
         vch = ver["items"][0].get("brandingSettings", {}).get("channel", {})
-        print("VERIFY branding:", json.dumps({
-            "defaultLanguage": vch.get("defaultLanguage"),
-            "country": vch.get("country"),
-            "keywords_head": (vch.get("keywords") or "")[:80],
-        }, ensure_ascii=False))
+        print(
+            "VERIFY branding:",
+            json.dumps(
+                {
+                    "defaultLanguage": vch.get("defaultLanguage"),
+                    "country": vch.get("country"),
+                    "keywords_head": (vch.get("keywords") or "")[:80],
+                },
+                ensure_ascii=False,
+            ),
+        )
         repair_video_languages(token)
         repair_broken_titles(token)
     return 0
@@ -176,6 +198,7 @@ def repair_broken_titles(token) -> None:
     title engine rebuilds a complete question/clause from the SAME topic, so
     re-running is idempotent: once live == engine(topic) the video is skipped."""
     import sys
+
     sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "src"))
     try:
         from seo_generator import _truncate_title
@@ -189,22 +212,28 @@ def repair_broken_titles(token) -> None:
     except Exception as exc:
         print("TITLE REPAIR: history unreadable:", exc)
         return
-    topics = {v["youtube_video_id"]: (v.get("topic") or "")
-              for v in hist if v.get("youtube_video_id") and v.get("topic")}
+    topics = {
+        v["youtube_video_id"]: (v.get("topic") or "")
+        for v in hist
+        if v.get("youtube_video_id") and v.get("topic")
+    }
 
     ch = _api("channels?part=contentDetails&mine=true", token)
     upl = ch["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
     ids, page = [], None
     while len(ids) < 30:
-        url = (f"playlistItems?part=contentDetails&maxResults=30&playlistId={upl}"
-               + (f"&pageToken={page}" if page else ""))
+        url = f"playlistItems?part=contentDetails&maxResults=30&playlistId={upl}" + (
+            f"&pageToken={page}" if page else ""
+        )
         res = _api(url, token)
         ids += [it["contentDetails"]["videoId"] for it in res.get("items", [])]
         page = res.get("nextPageToken")
         if not page:
             break
+
     def _norm(s: str) -> str:
         import re as _re
+
         return " ".join(_re.findall(r"[\wÀ-ÿŒœ'’-]+", (s or "").lower(), flags=_re.UNICODE))
 
     vids = _api("videos?part=snippet&id=" + ",".join(ids), token).get("items", [])
@@ -226,14 +255,17 @@ def repair_broken_titles(token) -> None:
         if not new_title or new_title == sn["title"]:
             skipped += 1
             continue
-        body = {"id": v["id"], "snippet": {
-            "title": new_title,
-            "description": sn.get("description", ""),
-            "tags": sn.get("tags", []),
-            "categoryId": sn.get("categoryId", "28"),
-            "defaultLanguage": (sn.get("defaultLanguage") or "fr"),
-            "defaultAudioLanguage": (sn.get("defaultAudioLanguage") or "fr"),
-        }}
+        body = {
+            "id": v["id"],
+            "snippet": {
+                "title": new_title,
+                "description": sn.get("description", ""),
+                "tags": sn.get("tags", []),
+                "categoryId": sn.get("categoryId", "28"),
+                "defaultLanguage": (sn.get("defaultLanguage") or "fr"),
+                "defaultAudioLanguage": (sn.get("defaultAudioLanguage") or "fr"),
+            },
+        }
         try:
             _api("videos?part=snippet", token, method="PUT", body=body)
             fixed += 1
@@ -254,8 +286,9 @@ def repair_video_languages(token) -> None:
     upl = ch["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"]
     ids, page = [], None
     while len(ids) < 30:
-        url = (f"playlistItems?part=contentDetails&maxResults=30&playlistId={upl}"
-               + (f"&pageToken={page}" if page else ""))
+        url = f"playlistItems?part=contentDetails&maxResults=30&playlistId={upl}" + (
+            f"&pageToken={page}" if page else ""
+        )
         res = _api(url, token)
         ids += [it["contentDetails"]["videoId"] for it in res.get("items", [])]
         page = res.get("nextPageToken")
@@ -269,14 +302,17 @@ def repair_video_languages(token) -> None:
         if lang == "fr":
             skipped += 1
             continue
-        body = {"id": v["id"], "snippet": {
-            "title": sn["title"],
-            "description": sn.get("description", ""),
-            "tags": sn.get("tags", []),
-            "categoryId": sn.get("categoryId", "28"),
-            "defaultLanguage": "fr",
-            "defaultAudioLanguage": "fr",
-        }}
+        body = {
+            "id": v["id"],
+            "snippet": {
+                "title": sn["title"],
+                "description": sn.get("description", ""),
+                "tags": sn.get("tags", []),
+                "categoryId": sn.get("categoryId", "28"),
+                "defaultLanguage": "fr",
+                "defaultAudioLanguage": "fr",
+            },
+        }
         try:
             resp = _api("videos?part=snippet", token, method="PUT", body=body)
             got = (resp or {}).get("snippet", {}).get("defaultLanguage")

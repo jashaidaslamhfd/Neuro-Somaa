@@ -8,6 +8,7 @@ Honesty rules (this channel is n≈50 videos, median ~760 views):
   * milestones (Tier-1 500 subs...) are stated only when trend actually
     exists — never as marketing.
 """
+
 from __future__ import annotations
 
 from collections import defaultdict
@@ -15,6 +16,7 @@ from collections import defaultdict
 
 def _daily_views_series(history: list[dict]) -> list[tuple[str, int]]:
     from .features import _parse_dt
+
     daily: dict[str, int] = defaultdict(int)
     for entry in history or []:
         views = entry.get("views")
@@ -42,7 +44,7 @@ def holt_forecast(series: list[float], horizon: int = 30, alpha: float = 0.4, be
         level = alpha * x + (1 - alpha) * (level + trend)
         trend = beta * (level - prev_level) + (1 - beta) * trend
         fitted.append(level)
-    residuals = [x - f for x, f in zip(series, fitted)]
+    residuals = [x - f for x, f in zip(series, fitted, strict=False)]
     sigma = (sum(r * r for r in residuals) / max(len(residuals) - 2, 1)) ** 0.5
     forecast = [max(0.0, level + (h + 1) * trend) for h in range(horizon)]
     return {
@@ -56,7 +58,7 @@ def holt_forecast(series: list[float], horizon: int = 30, alpha: float = 0.4, be
         "band_30d_low": round(sum(max(0.0, f - sigma) for f in forecast) / max(horizon, 1), 1),
         "band_30d_high": round(sum(f + sigma for f in forecast) / max(horizon, 1), 1),
         "honesty": "trend extrapolation assumes current strategy/format holds; "
-                   "a single viral outlier reshapes everything — re-read weekly.",
+        "a single viral outlier reshapes everything — re-read weekly.",
     }
 
 

@@ -9,6 +9,7 @@ Requires OAuth env vars with youtube.force-ssl or readonly-compatible access:
 GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, REFRESH_TOKEN.
 Missing credentials are non-fatal and produce an empty report.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -30,7 +31,10 @@ API = "https://www.googleapis.com/youtube/v3"
 LOG = logging.getLogger("comments-intel")
 
 REQUEST_PATTERNS = [
-    re.compile(r"(?:peux[- ]tu|pouvez[- ]vous|tu peux|vous pouvez).{0,40}\b(?:expliquer|faire|parler de)\s+([^?.!\n]{4,80})", re.IGNORECASE),
+    re.compile(
+        r"(?:peux[- ]tu|pouvez[- ]vous|tu peux|vous pouvez).{0,40}\b(?:expliquer|faire|parler de)\s+([^?.!\n]{4,80})",
+        re.IGNORECASE,
+    ),
     re.compile(r"(?:une vidéo|un short)\s+sur\s+([^?.!\n]{4,80})", re.IGNORECASE),
     re.compile(r"(?:pourquoi|comment)\s+([^?.!\n]{6,90})\?", re.IGNORECASE),
 ]
@@ -49,12 +53,14 @@ def _token() -> str | None:
     if any(not os.environ.get(name) for name in required):
         LOG.warning("OAuth env vars missing; writing empty comment intelligence.")
         return None
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     try:
         req = urllib.request.Request("https://oauth2.googleapis.com/token", data=data)
         with urllib.request.urlopen(req, timeout=30) as response:
@@ -83,8 +89,16 @@ def _recent_video_ids(token: str, limit: int) -> list[str]:
     playlist = _uploads_playlist(token)
     if not playlist:
         return []
-    data = _req(token, "playlistItems", {"part": "contentDetails", "playlistId": playlist, "maxResults": min(limit, 50)})
-    return [item.get("contentDetails", {}).get("videoId") for item in data.get("items", []) if item.get("contentDetails", {}).get("videoId")]
+    data = _req(
+        token,
+        "playlistItems",
+        {"part": "contentDetails", "playlistId": playlist, "maxResults": min(limit, 50)},
+    )
+    return [
+        item.get("contentDetails", {}).get("videoId")
+        for item in data.get("items", [])
+        if item.get("contentDetails", {}).get("videoId")
+    ]
 
 
 def _comments_for_video(token: str, video_id: str, max_comments: int) -> list[dict]:
@@ -108,12 +122,14 @@ def _comments_for_video(token: str, video_id: str, max_comments: int) -> list[di
             raise
         for item in data.get("items", []):
             sn = item.get("snippet", {}).get("topLevelComment", {}).get("snippet", {})
-            comments.append({
-                "video_id": video_id,
-                "text": sn.get("textDisplay", ""),
-                "like_count": sn.get("likeCount", 0),
-                "published_at": sn.get("publishedAt"),
-            })
+            comments.append(
+                {
+                    "video_id": video_id,
+                    "text": sn.get("textDisplay", ""),
+                    "like_count": sn.get("likeCount", 0),
+                    "published_at": sn.get("publishedAt"),
+                }
+            )
         page = data.get("nextPageToken") or ""
         if not page:
             break
@@ -122,7 +138,9 @@ def _comments_for_video(token: str, video_id: str, max_comments: int) -> list[di
 
 def _clean_topic(raw: str) -> str:
     text = re.sub(r"\s+", " ", (raw or "").strip(" .?!:;,-"))
-    text = re.sub(r"\b(" + "|".join(re.escape(x) for x in STOP_FRAGMENTS) + r")\b", "", text, flags=re.IGNORECASE)
+    text = re.sub(
+        r"\b(" + "|".join(re.escape(x) for x in STOP_FRAGMENTS) + r")\b", "", text, flags=re.IGNORECASE
+    )
     text = re.sub(r"\s+", " ", text).strip(" .?!:;,-")
     return text[:90]
 
@@ -149,18 +167,23 @@ def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--videos", type=int, default=int(os.environ.get("COMMENTS_INTEL_VIDEOS", "20")))
-    parser.add_argument("--comments-per-video", type=int, default=int(os.environ.get("COMMENTS_PER_VIDEO", "50")))
+    parser.add_argument(
+        "--comments-per-video", type=int, default=int(os.environ.get("COMMENTS_PER_VIDEO", "50"))
+    )
     parser.add_argument("--out", default=os.environ.get("COMMENTS_INTEL_PATH", "data/comments_intel_fr.json"))
     args = parser.parse_args(argv)
 
     token = _token()
     if not token:
-        _write_json(Path(args.out), {
-            "generated_at_utc": datetime.now(UTC).isoformat(),
-            "configured": False,
-            "comments": [],
-            "topic_requests": [],
-        })
+        _write_json(
+            Path(args.out),
+            {
+                "generated_at_utc": datetime.now(UTC).isoformat(),
+                "configured": False,
+                "comments": [],
+                "topic_requests": [],
+            },
+        )
         return 0
 
     ids = _recent_video_ids(token, args.videos)

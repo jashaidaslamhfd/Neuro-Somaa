@@ -26,7 +26,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from seo_generator import _question_hook_from_title  # noqa: E402 — verb-ful FR hooks
+from seo_generator import _question_hook_from_title
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("fr_thumbnail_regen")
@@ -39,6 +39,7 @@ THUMB_DIR.mkdir(parents=True, exist_ok=True)
 def _make_thumbnail(title: str, out_path: str, src_img: str | None = None) -> bool:
     """House-style thumbnail: dark blue gradient + big hook text."""
     from PIL import Image, ImageDraw, ImageFont
+
     W, H = 1080, 1920
     if src_img and Path(src_img).exists():
         img = Image.open(src_img).convert("RGB").resize((W, H), Image.LANCZOS)
@@ -54,8 +55,10 @@ def _make_thumbnail(title: str, out_path: str, src_img: str | None = None) -> bo
                     px[xx, y] = px_set
 
     draw = ImageDraw.Draw(img)
-    font_paths = ["/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-                  "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"]
+    font_paths = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
+    ]
     font = None
     for fp in font_paths:
         if os.path.exists(fp):
@@ -73,13 +76,19 @@ def _make_thumbnail(title: str, out_path: str, src_img: str | None = None) -> bo
 
     # wrap text
     import textwrap
+
     lines = textwrap.wrap(title, width=16)[:4]
     y = H - 560
     for line in lines:
         w = draw.textlength(line, font=font)
-        draw.text(((W - w) / 2, y), line, font=font,
-                  fill=(255, 255, 255, 255), stroke_width=3,
-                  stroke_fill=(10, 30, 60))
+        draw.text(
+            ((W - w) / 2, y),
+            line,
+            font=font,
+            fill=(255, 255, 255, 255),
+            stroke_width=3,
+            stroke_fill=(10, 30, 60),
+        )
         y += 105
 
     img.save(out_path, quality=90)
@@ -95,13 +104,14 @@ def main() -> int:
     plan = json.loads(PLAN_JSON.read_text(encoding="utf-8"))
     videos = plan["videos"]
     if args.limit:
-        videos = videos[:args.limit]
+        videos = videos[: args.limit]
 
     client = None
     if args.apply:
         import google.oauth2.credentials
         from googleapiclient.discovery import build
         from googleapiclient.http import MediaFileUpload
+
         cid = os.environ.get("GOOGLE_CLIENT_ID")
         csec = os.environ.get("GOOGLE_CLIENT_SECRET")
         rtok = os.environ.get("REFRESH_TOKEN")
@@ -109,9 +119,12 @@ def main() -> int:
             log.error("Missing Google creds for --apply")
             return 1
         creds = google.oauth2.credentials.Credentials(
-            token=None, refresh_token=rtok,
+            token=None,
+            refresh_token=rtok,
             token_uri="https://oauth2.googleapis.com/token",
-            client_id=cid, client_secret=csec)
+            client_id=cid,
+            client_secret=csec,
+        )
         client = build("youtube", "v3", credentials=creds)
 
     ok = 0
@@ -137,8 +150,12 @@ def main() -> int:
         except Exception as exc:
             log.error("❌ thumb %s: %s", vid, exc)
 
-    log.info("Generated %d thumbnails -> %s%s", ok, THUMB_DIR,
-             " (uploaded)" if args.apply else " (dry-run: use --apply to upload)")
+    log.info(
+        "Generated %d thumbnails -> %s%s",
+        ok,
+        THUMB_DIR,
+        " (uploaded)" if args.apply else " (dry-run: use --apply to upload)",
+    )
     return 0
 
 

@@ -20,12 +20,13 @@ Design contract with the existing pipeline:
 
 Run:  python -m intelligence          (from src/, or via analytics_updater Step D)
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 logger = logging.getLogger("intelligence")
@@ -35,14 +36,25 @@ HISTORY_PATH = Path(os.environ.get("VIDEO_HISTORY_PATH", str(ROOT / "data" / "vi
 
 
 def run_all(history_path: Path | str | None = None) -> dict:
-    from . import anomaly, bandit, clustering, features, forecast, models, report, stats, truth_gate, viral_miner
+    from . import (
+        anomaly,
+        bandit,
+        clustering,
+        features,
+        forecast,
+        models,
+        report,
+        stats,
+        truth_gate,
+        viral_miner,
+    )
 
     path = Path(history_path) if history_path else HISTORY_PATH
     history = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
     if isinstance(history, dict):
         history = history.get("videos", [])
 
-    rows, targets, ids = features.build_dataset(history)
+    rows, targets, _ids = features.build_dataset(history)
     logger.info("intelligence: %d real-analytics videos scored", len(rows))
 
     anomalies = anomaly.detect_anomalies(history)
@@ -50,7 +62,7 @@ def run_all(history_path: Path | str | None = None) -> dict:
     truth = truth_gate.run(history)
 
     full = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "n_videos_analyzed": len(rows),
         "truth_gate": truth["calibration"],
         "data_quality": report._data_quality(history),

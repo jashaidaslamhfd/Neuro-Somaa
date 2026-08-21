@@ -1,22 +1,31 @@
-import os
-import re
-import random
 import logging
+import os
+import random
+import re
 import subprocess
-from typing import Dict
+
 import numpy as np
+
 
 # 2026-08-17 CI fix (same as voice_generator.py): guard-workflow installs
 # only requirements-ci.txt (no soundfile), so this lazy proxy keeps the
 # module collectable while all existing sf.read/sf.write call sites work.
 def _sf():
     import soundfile as _s
+
     return _s
 
+
 class _SoundfileProxy:
-    def write(self, *a, **kw): return _sf().write(*a, **kw)
-    def read(self, *a, **kw):  return _sf().read(*a, **kw)
-    def info(self, *a, **kw):  return _sf().info(*a, **kw)
+    def write(self, *a, **kw):
+        return _sf().write(*a, **kw)
+
+    def read(self, *a, **kw):
+        return _sf().read(*a, **kw)
+
+    def info(self, *a, **kw):
+        return _sf().info(*a, **kw)
+
 
 sf = _SoundfileProxy()
 from PIL import Image, ImageDraw, ImageFont
@@ -34,15 +43,21 @@ from PIL import Image, ImageDraw, ImageFont
 if not hasattr(Image, "ANTIALIAS"):
     Image.ANTIALIAS = Image.LANCZOS
 
-from moviepy.editor import (
-    ImageClip, VideoFileClip, ColorClip, CompositeVideoClip,
-    AudioFileClip, AudioClip, concatenate_videoclips, concatenate_audioclips,
-    CompositeAudioClip,
-)
-import moviepy.video.fx.all as vfx
 import moviepy.audio.fx.all as afx
+import moviepy.video.fx.all as vfx
+from moviepy.editor import (
+    AudioClip,
+    AudioFileClip,
+    ColorClip,
+    CompositeAudioClip,
+    CompositeVideoClip,
+    ImageClip,
+    VideoFileClip,
+    concatenate_audioclips,
+    concatenate_videoclips,
+)
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # ============================================
@@ -57,7 +72,7 @@ AUDIO_EDGE_FADE = 0.01
 # jerky. New system is deliberate: gentle capped range, smooth ease-in-out
 # motion, zoom extra is now SMALLER so nothing looks unprofessional.
 ZOOM_AMOUNT = 0.06
-ZOOM_MAX = 0.12              # hard ceiling on any single beat
+ZOOM_MAX = 0.12  # hard ceiling on any single beat
 PAN_PX = 25
 ZOOM_SMOOTH = True
 # Render targets follow the platform policy rather than a local constant, so
@@ -66,14 +81,21 @@ ZOOM_SMOOTH = True
 try:
     from algorithm_policy import (
         YOUTUBE as _YT_PLATFORM,
+    )
+    from algorithm_policy import (
         duration_policy as _duration_policy,
+    )
+    from algorithm_policy import (
         env_float as _env_float,
     )
+
     _POLICY_MIN, _POLICY_IDEAL, _POLICY_MAX = _duration_policy(_YT_PLATFORM)
 except Exception:  # pragma: no cover - editor must stay importable standalone
     _POLICY_MIN, _POLICY_IDEAL, _POLICY_MAX = 30.0, 36.0, 42.0
+
     def _env_float(name, fallback):
         return float(os.environ.get(name) or fallback)
+
 
 # env_float ignores values retired with the old strategy (e.g. the workflow's
 # legacy TARGET_MAX_SECONDS="55"), so a stale deployment cannot silently
@@ -94,11 +116,14 @@ MUSIC_DIR = "assets/music"
 USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lower() != "false"
 
 # CAPTION STYLING
-CAPTION_FONT_PATH = os.environ.get("CAPTION_FONT_PATH", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
+CAPTION_FONT_PATH = os.environ.get(
+    "CAPTION_FONT_PATH", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+)
 CAPTION_FONT_SIZE = 72
 CAPTION_STROKE_W = 4
 CAPTION_MAX_WORDS_PER_LINE = 2
 CAPTION_MIN_FONT_SIZE = 40
+
 
 def _get_caption_font(font_size: int):
     """Safely resolve bold sans-serif font across Linux, macOS, and Windows."""
@@ -120,24 +145,45 @@ def _get_caption_font(font_size: int):
                 continue
     return ImageFont.load_default()
 
+
 # ✅ NEW: Priority improvements (safe additions)
-IMPORTANT_WORDS = ['dangerous', 'secret', 'never', 'shocking', 'impossible', 
-                   'truth', 'hidden', 'actually', 'why', 'what', 'how',
-                   'when', 'always', 'every', 'mind', 'brain', 'heart',
-                   'real', 'finally', 'explained', 'proven']
+IMPORTANT_WORDS = [
+    "dangerous",
+    "secret",
+    "never",
+    "shocking",
+    "impossible",
+    "truth",
+    "hidden",
+    "actually",
+    "why",
+    "what",
+    "how",
+    "when",
+    "always",
+    "every",
+    "mind",
+    "brain",
+    "heart",
+    "real",
+    "finally",
+    "explained",
+    "proven",
+]
 
 # Color themes
 COLOR_THEMES = [
-    {'primary': (255, 200, 50), 'secondary': (255, 100, 50), 'bg': (20, 20, 40)},   # Gold/Orange
-    {'primary': (50, 200, 255), 'secondary': (50, 100, 255), 'bg': (20, 30, 50)},   # Blue
-    {'primary': (255, 80, 80), 'secondary': (255, 50, 50), 'bg': (40, 20, 20)},     # Red
-    {'primary': (50, 255, 150), 'secondary': (50, 200, 100), 'bg': (20, 40, 30)},   # Green
-    {'primary': (200, 100, 255), 'secondary': (150, 50, 255), 'bg': (30, 20, 40)},  # Purple
+    {"primary": (255, 200, 50), "secondary": (255, 100, 50), "bg": (20, 20, 40)},  # Gold/Orange
+    {"primary": (50, 200, 255), "secondary": (50, 100, 255), "bg": (20, 30, 50)},  # Blue
+    {"primary": (255, 80, 80), "secondary": (255, 50, 50), "bg": (40, 20, 20)},  # Red
+    {"primary": (50, 255, 150), "secondary": (50, 200, 100), "bg": (20, 40, 30)},  # Green
+    {"primary": (200, 100, 255), "secondary": (150, 50, 255), "bg": (30, 20, 40)},  # Purple
 ]
 
 # ============================================
 # 1. IMAGE PROCESSING FUNCTIONS
 # ============================================
+
 
 def _cover_fit(img_path: str, out_path: str, size=(CANVAS_W, CANVAS_H)):
     """Resize+crop an image to exactly fill `size` (cover-fit)."""
@@ -168,11 +214,13 @@ def _ease_in_out(frac: float) -> float:
     if not ZOOM_SMOOTH:
         return frac
     import math
+
     return 0.5 - 0.5 * math.cos(frac * math.pi)
 
 
-def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: float = 0.0,
-                    hook_snap: bool = False) -> CompositeVideoClip:
+def _ken_burns_clip(
+    img_path: str, duration: float, direction: str, zoom_extra: float = 0.0, hook_snap: bool = False
+) -> CompositeVideoClip:
     """2026-08-19 HOOK SNAP: when hook_snap=True (scene 1 only) the zoom
     accelerates in the first 0.4s — a deliberate "jerk of attention" that
     reads as live camera punch-in instead of the slow documentary drift
@@ -197,8 +245,9 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
         # frame feels alive within 0.3s, which is where Shorts retention is
         # decided. Everything else keeps smooth ease-in-out.
         if hook_snap:
-            return frac ** 3
+            return frac**3
         return _ease_in_out(frac)
+
     pan_dir = 1 if direction == "in" else -1
 
     base_clip = ImageClip(prepped).set_duration(duration)
@@ -207,13 +256,11 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
         # 2026-08-17: clamp frac one tick short of exactly 1.0 — moviepy's
         # frame-at-end fetch (t == duration) renders an off-canvas position
         # as black borders. One sub-frame difference, invisible in playback.
-        frac = min(max(t / duration if duration > 0 else 0, 0.0),
-                   1.0 - 1e-6) if duration > 0 else 0.0
+        frac = min(max(t / duration if duration > 0 else 0, 0.0), 1.0 - 1e-6) if duration > 0 else 0.0
         return zoom_start + (zoom_end - zoom_start) * _easing(frac)
 
     def pos_fn(t):
-        frac = min(max(t / duration if duration > 0 else 0, 0.0),
-                   1.0 - 1e-6) if duration > 0 else 0.0
+        frac = min(max(t / duration if duration > 0 else 0, 0.0), 1.0 - 1e-6) if duration > 0 else 0.0
         s = scale_fn(t)
         w, h = overscan_w * s, overscan_h * s
         dx = pan_dir * PAN_PX * (_easing(frac) - 0.5) * 2
@@ -230,12 +277,13 @@ def _ken_burns_clip(img_path: str, duration: float, direction: str, zoom_extra: 
 # 2. CAPTION RENDERING (PRIORITY: HIGHLIGHTED WORDS)
 # ============================================
 
+
 def _wrap_text(draw, text, font, max_width, max_words_per_line=CAPTION_MAX_WORDS_PER_LINE):
     """Groups words into short punchy lines (max N words each)."""
     words = text.split()
     lines, current = [], []
     for w in words:
-        candidate = current + [w]
+        candidate = [*current, w]
         test = " ".join(candidate)
         bbox = draw.textbbox((0, 0), test, font=font, stroke_width=CAPTION_STROKE_W)
         too_wide = (bbox[2] - bbox[0]) > max_width
@@ -252,12 +300,17 @@ def _wrap_text(draw, text, font, max_width, max_words_per_line=CAPTION_MAX_WORDS
 
 def _is_important_word(word: str) -> bool:
     """Check if word is important for highlighting"""
-    word_clean = re.sub(r'[^a-zA-Z]', '', word.lower())
+    word_clean = re.sub(r"[^a-zA-Z]", "", word.lower())
     return word_clean in IMPORTANT_WORDS
 
 
-def _caption_clip(text: str, duration: float, is_important: bool = False, color_theme: Dict = None,
-                  is_hook: bool = False) -> ImageClip:
+def _caption_clip(
+    text: str,
+    duration: float,
+    is_important: bool = False,
+    color_theme: dict | None = None,
+    is_hook: bool = False,
+) -> ImageClip:
     """
     Renders caption with RETENTION OPTIMIZATIONS:
     - Large, readable text
@@ -267,8 +320,8 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
     - Centered on screen in vertical safe zone (Y=0.52)
     """
     if color_theme is None:
-        color_theme = {'primary': (255, 255, 255), 'secondary': (255, 200, 50)}
-    
+        color_theme = {"primary": (255, 255, 255), "secondary": (255, 200, 50)}
+
     # Caption block must fit between its anchor and the platform-safe
     # baseline. The old ceiling of 0.90 allowed a tall block to run to 90% of
     # the frame — well inside every platform's caption/CTA chrome, where the
@@ -278,6 +331,7 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
     max_width = int(CANVAS_W * 0.82)
     try:
         from safe_zones import caption_baseline, safe_text_width
+
         baseline = caption_baseline(CANVAS_H)
         max_width = min(max_width, safe_text_width(CANVAS_W))
     except Exception:  # pragma: no cover - rendering must never depend on this
@@ -326,39 +380,53 @@ def _caption_clip(text: str, duration: float, is_important: bool = False, color_
         # ✅ Priority: Check if this line has important words
         words_in_line = line.split()
         line_has_important = any(_is_important_word(w) for w in words_in_line)
-        
+
         bbox = draw.textbbox((0, 0), line, font=font, stroke_width=CAPTION_STROKE_W)
         line_w = bbox[2] - bbox[0]
         x = max((canvas.width - line_w) / 2, 0)
-        
+
         # ✅ Priority: Highlight important words
         if line_has_important and is_important:
             # Draw each word separately with colors
             current_x = x
             for idx, word in enumerate(words_in_line):
-                word_clean = re.sub(r'[^a-zA-Z]', '', word.lower())
+                word_clean = re.sub(r"[^a-zA-Z]", "", word.lower())
                 display_word = word + (" " if idx < len(words_in_line) - 1 else "")
                 if word_clean in IMPORTANT_WORDS:
-                    color = color_theme.get('secondary', (255, 200, 50))
-                    draw.text((current_x, y), display_word, font=font, fill=color,
-                              stroke_width=CAPTION_STROKE_W, stroke_fill="black")
+                    color = color_theme.get("secondary", (255, 200, 50))
+                    draw.text(
+                        (current_x, y),
+                        display_word,
+                        font=font,
+                        fill=color,
+                        stroke_width=CAPTION_STROKE_W,
+                        stroke_fill="black",
+                    )
                 else:
-                    draw.text((current_x, y), display_word, font=font, fill=(255, 255, 255),
-                              stroke_width=CAPTION_STROKE_W, stroke_fill="black")
+                    draw.text(
+                        (current_x, y),
+                        display_word,
+                        font=font,
+                        fill=(255, 255, 255),
+                        stroke_width=CAPTION_STROKE_W,
+                        stroke_fill="black",
+                    )
                 current_x += draw.textlength(display_word, font=font)
         else:
             # Normal rendering (all white)
-            draw.text((x, y), line, font=font, fill="white",
-                      stroke_width=CAPTION_STROKE_W, stroke_fill="black")
+            draw.text(
+                (x, y), line, font=font, fill="white", stroke_width=CAPTION_STROKE_W, stroke_fill="black"
+            )
         y += line_height
 
     frame = np.array(canvas)
     txt = ImageClip(frame).set_duration(duration)
-    return txt.set_position(('center', CAPTION_Y_FRACTION), relative=True)
+    return txt.set_position(("center", CAPTION_Y_FRACTION), relative=True)
 
 
-def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = None,
-                        scene_index: int = -1):
+def _word_by_word_clips(
+    text: str, total_duration: float, color_theme: dict | None = None, scene_index: int = -1
+):
     """Show short, punchy 1-2 word phrases instead of dense multi-word blocks.
 
     Timing is punctuation/word-length weighted. This is still lightweight and
@@ -382,12 +450,13 @@ def _word_by_word_clips(text: str, total_duration: float, color_theme: Dict = No
     total_weight = sum(weights)
     durations = [total_duration * w / total_weight for w in weights]
     clips, cursor = [], 0.0
-    for phrase, duration in zip(groups, durations):
+    for phrase, duration in zip(groups, durations, strict=False):
         important = any(_is_important_word(w) for w in phrase.split())
         # 2026-08-19: scene 0 is the 3-second scroll-stopper — its first
         # caption phrase renders 25% larger for a hard hook impression.
-        clip = _caption_clip(phrase, duration, important, color_theme,
-                             is_hook=(scene_index == 0)).set_start(cursor)
+        clip = _caption_clip(phrase, duration, important, color_theme, is_hook=(scene_index == 0)).set_start(
+            cursor
+        )
         clips.append(clip)
         cursor += duration
     return clips
@@ -406,9 +475,9 @@ DUCK_THRESHOLD = float(os.environ.get("DUCK_THRESHOLD", "0.015"))
 DUCK_SMOOTH_SEC = float(os.environ.get("DUCK_SMOOTH_SEC", "0.08"))
 
 
-def _build_ducking_envelope(audio_segments: list, total_duration: float,
-                            sample_rate: int = 24000,
-                            window_ms: int = 50) -> np.ndarray:
+def _build_ducking_envelope(
+    audio_segments: list, total_duration: float, sample_rate: int = 24000, window_ms: int = 50
+) -> np.ndarray:
     """Build a time-varying gain envelope from real voice activity.
 
     Reads every voice segment WAV, computes per-window RMS energy, and
@@ -476,13 +545,15 @@ def _build_ducking_envelope(audio_segments: list, total_duration: float,
             chunk = audio_data[win_start:win_end]
             if chunk.size == 0:
                 continue
-            rms = float(np.sqrt(np.mean(chunk ** 2)))
+            rms = float(np.sqrt(np.mean(chunk**2)))
 
             # Map RMS to gain: loud → duck, quiet → unduck
             gain = DUCK_LEVEL if rms >= DUCK_THRESHOLD else UNDUCK_LEVEL
 
             # Write into the global envelope at the correct offset
-            env_start = cursor + int(win_start * sample_rate / sr) if sr != sample_rate else cursor + win_start
+            env_start = (
+                cursor + int(win_start * sample_rate / sr) if sr != sample_rate else cursor + win_start
+            )
             env_end = cursor + int(win_end * sample_rate / sr) if sr != sample_rate else cursor + win_end
             env_start = min(env_start, n_samples)
             env_end = min(env_end, n_samples)
@@ -503,7 +574,7 @@ def _build_ducking_envelope(audio_segments: list, total_duration: float,
     return envelope
 
 
-def _synthesize_ambient_bed(duration: float, seed: int = None) -> np.ndarray:
+def _synthesize_ambient_bed(duration: float, seed: int | None = None) -> np.ndarray:
     """Procedural dark-ambient drone for background."""
     rng = np.random.default_rng(seed)
     sr = MUSIC_SAMPLE_RATE
@@ -532,11 +603,11 @@ def _synthesize_ambient_bed(duration: float, seed: int = None) -> np.ndarray:
 
 def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> str:
     """Select a niche-appropriate background track based on topic content.
-    
+
     Priority: MUSIC_TRACK env → topic-based smart selection → random rotation"""
-    
+
     supported_extensions = (".wav", ".mp3", ".m4a", ".ogg", ".aac", ".flac")
-    
+
     # 1. Explicit override always wins
     configured_track = os.environ.get("MUSIC_TRACK", "").strip()
     if configured_track:
@@ -562,23 +633,41 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
             # through all 6 via a deterministic topic hash, so no two
             # consecutive topics repeat the same bed (variety) while the
             # SAME topic always keeps the SAME bed (idempotent retries).
-            "default": ["own_dark_drone.ogg", "own_mystery_voices.ogg",
-                        "own_melancholy_dusk.ogg", "own_serene_eerie.ogg",
-                        "own_tension_rise.ogg", "own_suspense_thrum.ogg"],
+            "default": [
+                "own_dark_drone.ogg",
+                "own_mystery_voices.ogg",
+                "own_melancholy_dusk.ogg",
+                "own_serene_eerie.ogg",
+                "own_tension_rise.ogg",
+                "own_suspense_thrum.ogg",
+            ],
         }
 
         topic_lower = (topic or "").lower()
-        if any(w in topic_lower for w in ["why", "how", "explain", "reason", "science"]): cat = "explain"
-        elif any(w in topic_lower for w in ["secret", "dark", "mystery", "strange", "weird", "unknown"]): cat = "mystery"
-        elif any(w in topic_lower for w in ["sudden", "instant", "fast", "shock", "surprise"]): cat = "hook"
-        elif any(w in topic_lower for w in ["react", "reflex", "twitch", "jerk", "freeze", "cramp", "spasm"]): cat = "react"
-        elif any(w in topic_lower for w in ["sad", "grief", "lonely", "alone", "quiet", "calm", "sleep", "peace", "payoff"]): cat = "payoff"
-        elif any(w in topic_lower for w in ["fear", "panic", "danger", "threat", "stress", "pain"]): cat = "react"
-        else: cat = "default"
+        if any(w in topic_lower for w in ["why", "how", "explain", "reason", "science"]):
+            cat = "explain"
+        elif any(w in topic_lower for w in ["secret", "dark", "mystery", "strange", "weird", "unknown"]):
+            cat = "mystery"
+        elif any(w in topic_lower for w in ["sudden", "instant", "fast", "shock", "surprise"]):
+            cat = "hook"
+        elif any(w in topic_lower for w in ["react", "reflex", "twitch", "jerk", "freeze", "cramp", "spasm"]):
+            cat = "react"
+        elif any(
+            w in topic_lower
+            for w in ["sad", "grief", "lonely", "alone", "quiet", "calm", "sleep", "peace", "payoff"]
+        ):
+            cat = "payoff"
+        elif any(w in topic_lower for w in ["fear", "panic", "danger", "threat", "stress", "pain"]):
+            cat = "react"
+        else:
+            cat = "default"
 
         if cat == "default":
             import hashlib as _mh
-            idx = int(_mh.sha256((topic or "default").encode()).hexdigest(), 16) % len(niche_tracks["default"])
+
+            idx = int(_mh.sha256((topic or "default").encode()).hexdigest(), 16) % len(
+                niche_tracks["default"]
+            )
             pool = [niche_tracks["default"][idx]]
         else:
             pool = niche_tracks.get(cat, niche_tracks["default"])
@@ -613,6 +702,7 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
     if os.environ.get("VIRAL_BGM_FALLBACK", "").strip().lower() == "true":
         try:
             import music_generator as _mg
+
             gen = _mg.generate_sad_music(
                 theme=topic or "mystery",
                 duration=max(20, int(duration)),
@@ -620,7 +710,7 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
             if gen and os.path.isfile(gen) and os.path.getsize(gen) > 100_000:
                 logger.info("Viral unique BGM generated for topic '%s' -> %s", topic, gen)
                 return gen
-        except Exception as exc:  # noqa: BLE001 - drone is the safe floor
+        except Exception as exc:
             logger.warning("Viral BGM generation skipped (%s) - falling through", exc)
 
     logger.warning("No playable track found in %s; using generated ambient fallback.", MUSIC_DIR)
@@ -635,6 +725,7 @@ def _get_music_track(duration: float, topic: str = "", output_dir: str = "") -> 
 # 4. MAIN BUILD FUNCTION (PRIORITY IMPROVEMENTS)
 # ============================================
 
+
 def _validate_scene_mp4(path: str) -> bool:
     """Probe a scene MP4 with ffprobe before MoviePy touches it.
 
@@ -648,10 +739,22 @@ def _validate_scene_mp4(path: str) -> bool:
     """
     try:
         probe = subprocess.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-show_streams", "-of", "csv=p=0", path],
-            capture_output=True, text=True, timeout=30)
-        lines = [l for l in probe.stdout.splitlines() if l.strip()]
+            [
+                "ffprobe",
+                "-v",
+                "error",
+                "-show_entries",
+                "format=duration",
+                "-show_streams",
+                "-of",
+                "csv=p=0",
+                path,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        lines = [line for line in probe.stdout.splitlines() if line.strip()]
         if not lines:
             return False
         try:
@@ -693,9 +796,7 @@ def _cover_video_clip(path: str, duration: float) -> VideoFileClip:
         clip = clip.resize(height=CANVAS_H)
     x1 = max((clip.w - CANVAS_W) / 2, 0)
     y1 = max((clip.h - CANVAS_H) / 2, 0)
-    return clip.fx(
-        vfx.crop, x1=x1, y1=y1, width=CANVAS_W, height=CANVAS_H
-    ).set_duration(duration)
+    return clip.fx(vfx.crop, x1=x1, y1=y1, width=CANVAS_W, height=CANVAS_H).set_duration(duration)
 
 
 def build_video(image_paths, audio_segments, scenes, output_path="output/final_video.mp4", media_types=None):
@@ -724,15 +825,19 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     # Neuro-Somaa signature world: white on deep teal with amber lab-light
     # accents, matching the signature AI visuals. Override via COLOR_THEME_*
     # env vars for experiments.
-    _teal = (int(os.environ.get('COLOR_THEME_BG_R', '8')),
-             int(os.environ.get('COLOR_THEME_BG_G', '38')),
-             int(os.environ.get('COLOR_THEME_BG_B', '42')))
+    _teal = (
+        int(os.environ.get("COLOR_THEME_BG_R", "8")),
+        int(os.environ.get("COLOR_THEME_BG_G", "38")),
+        int(os.environ.get("COLOR_THEME_BG_B", "42")),
+    )
     color_theme = {
-        'primary': (255, 255, 255),
-        'secondary': (int(os.environ.get('COLOR_THEME_ACCENT_R', '255')),
-                      int(os.environ.get('COLOR_THEME_ACCENT_G', '171')),
-                      int(os.environ.get('COLOR_THEME_ACCENT_B', '64'))),
-        'bg': _teal,
+        "primary": (255, 255, 255),
+        "secondary": (
+            int(os.environ.get("COLOR_THEME_ACCENT_R", "255")),
+            int(os.environ.get("COLOR_THEME_ACCENT_G", "171")),
+            int(os.environ.get("COLOR_THEME_ACCENT_B", "64")),
+        ),
+        "bg": _teal,
     }
     logger.info("Using Neuro-Somaa 'Le Labo Obscur' brand theme: %s", color_theme)
 
@@ -745,11 +850,13 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
     # (default 0.45s, clamped 0.2-1.0). Only added between scenes, never
     # after the last one, so the loop-ending beat is untouched.
     _breath = max(0.2, min(1.0, float(os.environ.get("BREATH_PAUSE_SECONDS", "0.45"))))
-    for i, (img_path, seg, media_type) in enumerate(zip(image_paths, audio_segments, media_types)):
-        duration = max(seg['duration'], 0.6)
+    for i, (img_path, seg, media_type) in enumerate(
+        zip(image_paths, audio_segments, media_types, strict=False)
+    ):
+        duration = max(seg["duration"], 0.6)
 
         # ✅ Priority: Check if caption has important words
-        caption_text = scenes[i].get('caption', seg.get('caption', ''))
+        caption_text = scenes[i].get("caption", seg.get("caption", ""))
         has_important = any(_is_important_word(w) for w in caption_text.split())
         # ✅ Priority: Dynamic zoom for important words
         # 2026-08-17: extras are SMALL now — ZOOM_MAX in _ken_burns_clip caps
@@ -789,38 +896,50 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 logger.warning(
                     "Scene %d: stock video unusable (%s) — falling back to "
                     "a still-frame Ken Burns treatment for this scene only.",
-                    i + 1, _clip_err,
+                    i + 1,
+                    _clip_err,
                 )
                 still_path = img_path + ".recovered_still.jpg"
                 try:
                     subprocess.run(
-                        ["ffmpeg", "-y", "-v", "error", "-i", img_path,
-                         "-frames:v", "1", "-q:v", "3", still_path],
-                        capture_output=True, timeout=30,
+                        [
+                            "ffmpeg",
+                            "-y",
+                            "-v",
+                            "error",
+                            "-i",
+                            img_path,
+                            "-frames:v",
+                            "1",
+                            "-q:v",
+                            "3",
+                            still_path,
+                        ],
+                        capture_output=True,
+                        timeout=30,
                     )
                     if not (os.path.exists(still_path) and os.path.getsize(still_path) > 0):
                         raise RuntimeError("ffmpeg produced no recoverable frame")
                     Image.open(still_path).verify()  # confirm it's a real image
-                except Exception:
-                    # Nothing recoverable from this file at all — this is the
+                except Exception as recovery_error:
+                    # Nothing recoverable from this file at all - this is the
                     # one case that still has to fail the video, same as before.
-                    raise _clip_err
+                    raise _clip_err from recovery_error
                 media_type = "image"
                 img_path = still_path
                 _rng = random.Random(hash(("beat", caption_text)))
-                _split = (first_beat_frac if i == 0
-                          else 0.5 + _rng.uniform(-0.15, 0.15))
+                _split = first_beat_frac if i == 0 else 0.5 + _rng.uniform(-0.15, 0.15)
                 first_duration = duration * _split
                 second_duration = duration - first_duration
                 # 2026-08-19: scene 0 (the 3-second hook) gets a
                 # front-loaded punch-in so the opening frame moves within
                 # ~0.3s — the rest keep the smooth documentary drift.
-                first_beat = _ken_burns_clip(img_path, first_duration,
-                                             direction, zoom_extra,
-                                             hook_snap=(i == 0))
+                first_beat = _ken_burns_clip(
+                    img_path, first_duration, direction, zoom_extra, hook_snap=(i == 0)
+                )
                 second_beat = _ken_burns_clip(
-                    img_path, second_duration,
-                    "out" if direction == "in" else "in", zoom_extra + 0.02)
+                    img_path, second_duration, "out" if direction == "in" else "in", zoom_extra + 0.02
+                )
                 scene_visual = concatenate_videoclips(
                     [first_beat, second_beat], method="compose"
                 ).set_duration(duration)
@@ -831,32 +950,25 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
             # the early-punch split (40/60, gap-5 fix); other scenes drift
             # ±15% deterministically so no two scenes repeat the same rhythm.
             _rng = random.Random(hash(("beat", caption_text)))
-            _split = (first_beat_frac if i == 0
-                      else 0.5 + _rng.uniform(-0.15, 0.15))
+            _split = first_beat_frac if i == 0 else 0.5 + _rng.uniform(-0.15, 0.15)
             first_duration = duration * _split
             second_duration = duration - first_duration
             # 2026-08-19: hook snap on the opening scene (same logic as the
             # recovered-clip branch above).
-            first_beat = _ken_burns_clip(img_path, first_duration,
-                                         direction, zoom_extra,
-                                         hook_snap=(i == 0))
+            first_beat = _ken_burns_clip(img_path, first_duration, direction, zoom_extra, hook_snap=(i == 0))
             second_direction = "out" if direction == "in" else "in"
-            second_beat = _ken_burns_clip(
-                img_path, second_duration, second_direction, zoom_extra + 0.02
+            second_beat = _ken_burns_clip(img_path, second_duration, second_direction, zoom_extra + 0.02)
+            scene_visual = concatenate_videoclips([first_beat, second_beat], method="compose").set_duration(
+                duration
             )
-            scene_visual = concatenate_videoclips(
-                [first_beat, second_beat], method="compose"
-            ).set_duration(duration)
 
         # ✅ Priority: Word-by-word captions with highlighting
-        word_clips = _word_by_word_clips(caption_text, duration, color_theme,
-                                         scene_index=i)
+        word_clips = _word_by_word_clips(caption_text, duration, color_theme, scene_index=i)
 
         # Combine visual + captions
-        combined = CompositeVideoClip(
-            [scene_visual] + word_clips,
-            size=(CANVAS_W, CANVAS_H)
-        ).set_duration(duration)
+        combined = CompositeVideoClip([scene_visual, *word_clips], size=(CANVAS_W, CANVAS_H)).set_duration(
+            duration
+        )
 
         # ✅ Priority: Overlays (arrows, circles, glow effects)
         # Note: Complex overlays require additional processing
@@ -869,10 +981,10 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         video_clips.append(combined)
 
         # Audio segment
-        seg_audio = AudioFileClip(seg['path']).fx(
-            afx.audio_fadein, AUDIO_EDGE_FADE
-        ).fx(
-            afx.audio_fadeout, AUDIO_EDGE_FADE
+        seg_audio = (
+            AudioFileClip(seg["path"])
+            .fx(afx.audio_fadein, AUDIO_EDGE_FADE)
+            .fx(afx.audio_fadeout, AUDIO_EDGE_FADE)
         )
         audio_clips.append(seg_audio)
         t_cursor += duration
@@ -882,7 +994,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # longer "beat" pause — how a human presenter paces before a reveal.
         # Jitter is symmetric, so total length stays on the retention target.
         if i < len(image_paths) - 1 and _breath > 0:
-            next_caption = scenes[i + 1].get('caption', '') if i + 1 < len(scenes) else ''
+            next_caption = scenes[i + 1].get("caption", "") if i + 1 < len(scenes) else ""
             rng = random.Random(hash(("breath", caption_text)))
             drift = 1.0 + rng.uniform(-0.30, 0.30)
             beat = 1.35 if next_caption.rstrip().endswith("?") else 1.0
@@ -902,34 +1014,35 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 # plain image hold instead of burning the run.
                 try:
                     _src = VideoFileClip(img_path, audio=False)
-                    still_frame = _src.get_frame(
-                        min(_src.duration, max(0.0, _src.duration - 0.01)))
-                    breath_video = ImageClip(still_frame, duration=pause).resize(
-                        (CANVAS_W, CANVAS_H)
-                    ).set_fps(30)
+                    still_frame = _src.get_frame(min(_src.duration, max(0.0, _src.duration - 0.01)))
+                    breath_video = (
+                        ImageClip(still_frame, duration=pause).resize((CANVAS_W, CANVAS_H)).set_fps(30)
+                    )
                     _src.close()
-                except (OSError, IOError) as exc:
+                except OSError as exc:
                     logger.warning(
                         "Breath-hold probe failed for %s (%s) — holding on a "
-                        "neutral background frame instead.", img_path, exc)
-                    breath_video = ColorClip(
-                        size=(CANVAS_W, CANVAS_H), color=(16, 26, 28)
-                    ).set_duration(pause).set_fps(30)
+                        "neutral background frame instead.",
+                        img_path,
+                        exc,
+                    )
+                    breath_video = (
+                        ColorClip(size=(CANVAS_W, CANVAS_H), color=(16, 26, 28))
+                        .set_duration(pause)
+                        .set_fps(30)
+                    )
             else:
-                breath_video = ImageClip(img_path, duration=pause).resize(
-                    (CANVAS_W, CANVAS_H)
-                ).set_fps(30)
+                breath_video = ImageClip(img_path, duration=pause).resize((CANVAS_W, CANVAS_H)).set_fps(30)
+
             def _silent_frame(tt):
                 # MoviePy may pass a scalar t (with fps) or a numpy array
                 # of timestamps — the breath pause must be silent either way.
                 tt = np.atleast_1d(np.asarray(tt))
                 return np.zeros((len(tt), 2))
-            breath_audio = AudioClip(
-                _silent_frame, duration=pause, fps=48000
-            )
+
+            breath_audio = AudioClip(_silent_frame, duration=pause, fps=48000)
             video_clips.append(
-                CompositeVideoClip([breath_video], size=(CANVAS_W, CANVAS_H))
-                .set_duration(pause)
+                CompositeVideoClip([breath_video], size=(CANVAS_W, CANVAS_H)).set_duration(pause)
             )
             audio_clips.append(breath_audio)
             t_cursor += pause
@@ -949,19 +1062,15 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 video_topic = scene["caption"]
                 break
     music_path = _get_music_track(
-        voice_audio.duration,
-        topic=video_topic,
-        output_dir=os.path.dirname(output_path) or "output"
+        voice_audio.duration, topic=video_topic, output_dir=os.path.dirname(output_path) or "output"
     )
     music_clip = AudioFileClip(music_path)
 
     if music_clip.duration < voice_audio.duration:
         loops_needed = int(voice_audio.duration // music_clip.duration) + 1
         music_clip = concatenate_audioclips([music_clip] * loops_needed)
-    music_clip = music_clip.subclip(0, voice_audio.duration).fx(
-        afx.audio_fadein, 1.0
-    ).fx(
-        afx.audio_fadeout, 1.0
+    music_clip = (
+        music_clip.subclip(0, voice_audio.duration).fx(afx.audio_fadein, 1.0).fx(afx.audio_fadeout, 1.0)
     )
 
     # ✅ REAL Voice-Activity Music Ducking
@@ -1013,7 +1122,9 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # estimate because of natural pauses; 32.9s over a 29s gate = 1.13x,
         # still inaudible. The old cap killed ~half of otherwise good runs.
         if required_speed <= 1.15:
-            logger.warning("Applying small %.3fx correction to meet %.1fs limit", required_speed, TARGET_MAX_SEC)
+            logger.warning(
+                "Applying small %.3fx correction to meet %.1fs limit", required_speed, TARGET_MAX_SEC
+            )
             final_video = final_video.fx(vfx.speedx, required_speed)
         else:
             raise RuntimeError(
@@ -1021,7 +1132,9 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
                 f"Regenerate a script that fits the {TARGET_MAX_SEC:.0f}s target."
             )
     elif duration < TARGET_MIN_SEC:
-        logger.warning("Short is %.1fs (target starts at %.1fs); keeping natural speed", duration, TARGET_MIN_SEC)
+        logger.warning(
+            "Short is %.1fs (target starts at %.1fs); keeping natural speed", duration, TARGET_MIN_SEC
+        )
     else:
         logger.info("Video duration %.1fs is within Shorts target", duration)
 
@@ -1047,7 +1160,7 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
         # 7GB runner (prevents the mid-render OOM kill). Quality is unchanged;
         # a 30-60s 1080p Short still encodes in well under the timeout.
         threads=int(os.environ.get("FFMPEG_THREADS", "2")),
-        ffmpeg_params=["-pix_fmt", "yuv420p", "-movflags", "+faststart", "-aspect", "9:16"]
+        ffmpeg_params=["-pix_fmt", "yuv420p", "-movflags", "+faststart", "-aspect", "9:16"],
     )
     logger.info(f"Video created: {output_path} ({final_video.duration:.1f}s)")
 
@@ -1058,7 +1171,10 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
 # 5. THUMBNAIL GENERATION (PRIORITY: BETTER THUMBNAILS)
 # ============================================
 
-def generate_thumbnail(image_path: str, title: str, output_path: str = "output/thumbnail.jpg", category: str = "Body") -> str:
+
+def generate_thumbnail(
+    image_path: str, title: str, output_path: str = "output/thumbnail.jpg", category: str = "Body"
+) -> str:
     """
     Creates RETENTION-OPTIMIZED YouTube thumbnail:
     - High contrast
@@ -1104,7 +1220,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     # subject and reading as an unprofessional, badly-cropped thumbnail.
     THUMB_W, THUMB_H = 1080, 1920
     canvas = Image.new("RGB", (THUMB_W, THUMB_H), bg_color)
-    
+
     # First scene may be an actual Pexels/Pixabay MP4 B-roll clip. Extract a
     # clean early frame for the upload thumbnail instead of trying to decode
     # an MP4 with Pillow (which would crash after an otherwise good render).
@@ -1121,7 +1237,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     # ✅ Priority: Face zoom (focus on center 70% of image)
     src_ratio = src.width / src.height
     target_ratio = THUMB_W / THUMB_H
-    
+
     # Zoom in more on center for face/object focus
     zoom_factor = 1.15  # 15% zoom
     if src_ratio > target_ratio:
@@ -1130,33 +1246,32 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     else:
         new_w = int(THUMB_W * zoom_factor)
         new_h = int(new_w / src_ratio)
-    
+
     src = src.resize((new_w, new_h), Image.LANCZOS)
     left = (new_w - THUMB_W) // 2
     top = (new_h - THUMB_H) // 2
     src = src.crop((left, top, left + THUMB_W, top + THUMB_H))
-    
+
     # ✅ Priority: Glow effect (add radial gradient overlay)
     overlay = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
     draw_overlay = ImageDraw.Draw(overlay)
-    
+
     # Dark gradient from bottom
     strip_top = THUMB_H - 340
     for y in range(strip_top, THUMB_H):
         alpha = int(200 * (y - strip_top) / 340)
         draw_overlay.line([(0, y), (THUMB_W, y)], fill=(0, 0, 0, alpha))
-    
+
     # ✅ Priority: Glow effect (center radial)
-    for i in range(100):
+    for _i in range(100):
         x = random.randint(250, 830)
         y = random.randint(150, 700)
         radius = random.randint(150, 300)
         alpha = random.randint(5, 15)
         draw_overlay.ellipse(
-            [(x - radius, y - radius), (x + radius, y + radius)],
-            fill=(255, 255, 255, alpha)
+            [(x - radius, y - radius), (x + radius, y + radius)], fill=(255, 255, 255, alpha)
         )
-    
+
     canvas = Image.alpha_composite(canvas.convert("RGBA"), src.convert("RGBA"))
     canvas = Image.alpha_composite(canvas, overlay).convert("RGB")
 
@@ -1187,6 +1302,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     _ink_margin = 2 * (_THUMB_STROKE_W + _THUMB_OUTLINE_OFFSET)
     try:
         from safe_zones import safe_box as _safe_box
+
         safe_left, _sy0, safe_right, _sy1 = _safe_box(THUMB_W, THUMB_H)
     except Exception:  # pragma: no cover
         safe_left, safe_right = int(THUMB_W * 0.04), int(THUMB_W * 0.87)
@@ -1224,6 +1340,7 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
     # read it on any of the three platforms.
     try:
         from safe_zones import thumbnail_text_band
+
         band_top, band_bottom = thumbnail_text_band(THUMB_W, THUMB_H)
     except Exception:  # pragma: no cover - thumbnails must never fail to render
         band_top, band_bottom = int(THUMB_H * 0.55), int(THUMB_H * 0.80)
@@ -1248,23 +1365,14 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
         # Never let the ink cross either safe edge, whatever the wrap produced.
         x = max(safe_left + _ink_margin / 2, min(x, safe_right - w - _ink_margin / 2))
 
-        
         # Draw outline (glow effect)
         for dx in range(-_THUMB_OUTLINE_OFFSET, _THUMB_OUTLINE_OFFSET + 1):
             for dy in range(-_THUMB_OUTLINE_OFFSET, _THUMB_OUTLINE_OFFSET + 1):
                 if abs(dx) == _THUMB_OUTLINE_OFFSET or abs(dy) == _THUMB_OUTLINE_OFFSET:
-                    draw.text((x + dx, y + dy), line, font=font, 
-                              fill=(0, 0, 0, 100), stroke_width=0)
-        
+                    draw.text((x + dx, y + dy), line, font=font, fill=(0, 0, 0, 100), stroke_width=0)
+
         # Main text
-        draw.text(
-            (x, y),
-            line,
-            font=font,
-            fill=text_color,
-            stroke_width=_THUMB_STROKE_W,
-            stroke_fill="black"
-        )
+        draw.text((x, y), line, font=font, fill=text_color, stroke_width=_THUMB_STROKE_W, stroke_fill="black")
         y += line_height
 
     canvas.save(output_path, quality=95)
@@ -1276,7 +1384,8 @@ def generate_thumbnail(image_path: str, title: str, output_path: str = "output/t
 # 6. RETENTION ANALYSIS FUNCTION
 # ============================================
 
-def analyze_video_retention_potential(video_path: str) -> Dict:
+
+def analyze_video_retention_potential(video_path: str) -> dict:
     """
     Analyzes video for retention potential.
     Checks: duration, scene count, caption pacing, etc.
@@ -1290,34 +1399,32 @@ def analyze_video_retention_potential(video_path: str) -> Dict:
     scenes = int(duration / 5)
 
     analysis = {
-        'duration': duration,
-        'duration_optimal': TARGET_MIN_SEC <= duration <= TARGET_MAX_SEC,
-        'estimated_scenes': scenes,
-        'scene_count_optimal': 7 <= scenes <= 12,
-        'retention_score': 0,
-        'suggestions': []
+        "duration": duration,
+        "duration_optimal": TARGET_MIN_SEC <= duration <= TARGET_MAX_SEC,
+        "estimated_scenes": scenes,
+        "scene_count_optimal": 7 <= scenes <= 12,
+        "retention_score": 0,
+        "suggestions": [],
     }
 
     score = 50
 
-    if analysis['duration_optimal']:
+    if analysis["duration_optimal"]:
         score += 20
     else:
-        analysis['suggestions'].append(
+        analysis["suggestions"].append(
             f"Duration {duration:.1f}s - aim for {TARGET_MIN_SEC}-{TARGET_MAX_SEC}s"
         )
 
-    if analysis['scene_count_optimal']:
+    if analysis["scene_count_optimal"]:
         score += 20
     else:
-        analysis['suggestions'].append(
-            f"Estimated {scenes} scenes - aim for 7-12 scenes"
-        )
+        analysis["suggestions"].append(f"Estimated {scenes} scenes - aim for 7-12 scenes")
 
     if scenes > 5 and duration > 30:
         score += 10
 
-    analysis['retention_score'] = min(100, score)
+    analysis["retention_score"] = min(100, score)
 
     clip.close()
     return analysis
@@ -1330,9 +1437,9 @@ def analyze_video_retention_potential(video_path: str) -> Dict:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    print("="*60)
+    print("=" * 60)
     print("RETENTION-OPTIMIZED VIDEO EDITOR")
-    print("="*60)
+    print("=" * 60)
     print()
 
     print("✅ Features enabled:")
@@ -1354,4 +1461,4 @@ if __name__ == "__main__":
     print("   - Audio transitions for flow")
     print("   - Thumbnail contrast for CTR")
     print()
-    print("="*60)
+    print("=" * 60)

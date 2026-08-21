@@ -12,6 +12,7 @@ Feature groups (all honest, all observable BEFORE upload except slot/day):
   topic:    base phenomenon hash bucket (8 buckets), question-pattern
 Target:   log1p(views)  (regression) / winner = views >= WINNER_VIEWS
 """
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -21,11 +22,26 @@ PARIS = ZoneInfo("Europe/Paris")
 WINNER_VIEWS = 1000  # channel-scale "winner" threshold (median is ~760)
 
 FEATURE_NAMES = [
-    "title_chars", "title_words", "is_question", "starts_pourquoi",
-    "starts_comment", "has_second_person", "has_digits", "caps_ratio",
-    "hook_score", "seo_score", "predicted_ctr", "predicted_retention",
-    "hour_sin", "hour_cos", "dow_sin", "dow_cos",
-    "topic_bucket_0", "topic_bucket_1", "topic_bucket_2", "topic_bucket_3",
+    "title_chars",
+    "title_words",
+    "is_question",
+    "starts_pourquoi",
+    "starts_comment",
+    "has_second_person",
+    "has_digits",
+    "caps_ratio",
+    "hook_score",
+    "seo_score",
+    "predicted_ctr",
+    "predicted_retention",
+    "hour_sin",
+    "hour_cos",
+    "dow_sin",
+    "dow_cos",
+    "topic_bucket_0",
+    "topic_bucket_1",
+    "topic_bucket_2",
+    "topic_bucket_3",
     "phrase_words",
 ]
 
@@ -34,7 +50,7 @@ def _parse_dt(text: str | None) -> datetime | None:
     if not text:
         return None
     try:
-        dt = datetime.fromisoformat(str(text).replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(str(text))
         return dt if dt.tzinfo else dt.replace(tzinfo=ZoneInfo("UTC"))
     except ValueError:
         return None
@@ -61,6 +77,7 @@ def extract_features(entry: dict) -> dict:
     topic = str(entry.get("base_phenomenon") or entry.get("topic") or "")
     # stable across processes (hash() is randomized per Python run!)
     import zlib
+
     bucket = (zlib.crc32(topic.encode("utf-8")) % 4) if topic else -1
 
     def _num(key: str, default: float = 0.0) -> float:
@@ -95,7 +112,9 @@ def extract_features(entry: dict) -> dict:
     }
 
 
-def build_dataset(history: list[dict], min_views: int | None = 0) -> tuple[list[dict], list[float], list[str]]:
+def build_dataset(
+    history: list[dict], min_views: int | None = 0
+) -> tuple[list[dict], list[float], list[str]]:
     """Return (feature_rows, targets_log1p_views, video_ids) for entries with real views."""
     import math
 

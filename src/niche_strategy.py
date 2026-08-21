@@ -71,7 +71,6 @@ DARK_TOPICS = [
     "The Reason You Get Dizzy When You Spin",
     "Why Your Brain Craves Patterns in Randomness",
     "What Happens to Your Brain When You're Bored",
-
     # ── Heart / Blood / Circulatory (40+) ──
     "Your Body Has 100,000 km of Veins",
     "Why Your Heart Skips a Beat",
@@ -112,7 +111,6 @@ DARK_TOPICS = [
     "Why Your Heart Beats Differently When You're Sick",
     "How Your Blood Vessels Expand in Heat and Shrink in Cold",
     "The Reason Your Blood Has a Metallic Taste",
-
     # ── Lungs / Breathing (30+) ──
     "Your Lungs Can Drown You From Inside",
     "Why You Yawn When You See Someone Else Yawn",
@@ -143,7 +141,6 @@ DARK_TOPICS = [
     "How Your Body Controls Breathing Without You Thinking",
     "The Reason You Breathe Through One Nostril at a Time",
     "Why Your Lungs Are the Only Organs That Float on Water",
-
     # ── Bones / Muscles (30+) ──
     "The Bone That Breaks Most in Fights",
     "Your Bones Are Being Replaced Right Now",
@@ -174,7 +171,6 @@ DARK_TOPICS = [
     "How Your Bones Communicate With Your Brain",
     "The Reason Your Muscles Feel Stiff After Sitting",
     "Why Your Jaw Muscle Can Exert 200 Pounds of Force",
-
     # ── Digestive / Organs (40+) ──
     "Your Stomach Can Digest Itself",
     "The Organ You Can Live Without",
@@ -215,7 +211,6 @@ DARK_TOPICS = [
     "Why Your Adrenaline Glands Sit on Top of Your Kidneys",
     "How Your Body Signals Hunger vs Thirst",
     "The Reason Your Digestive System Slows Down When You're Sick",
-
     # ── Skin / Senses (40+) ──
     "Your Skin Replaces Itself Every Month",
     "Why Your Eyes Never Actually Stop Moving",
@@ -257,7 +252,6 @@ DARK_TOPICS = [
     "The Reason Your Eyes See Floaters Sometimes",
     "Why Your Skin Gets Dry in Winter",
     "How Your Inner Ear Detects Sound Vibrations",
-
     # ── Immune / Hormones / Cells (40+) ──
     "Your Immune System Has a Memory",
     "Why Your Body Runs a Fever on Purpose",
@@ -298,7 +292,6 @@ DARK_TOPICS = [
     "The Reason Your Muscles Ache the Day After a Workout",
     "How Your Body Heals a Broken Bone Without You Thinking",
     "Why Your Immune System Treats a Splinter Like an Invasion",
-
     # ── Sleep / Dreams (30+) ──
     "Why Your Brain Paralyzes You While You Sleep",
     "The Reason You Dream in 90-Minute Cycles",
@@ -330,7 +323,6 @@ DARK_TOPICS = [
     "The Reason Your Body Twitches in the First Stage of Sleep",
     "Why You Sleep Better in a Cold Room",
     "How Your Brain Recharges Your Immune System While You Sleep",
-
     # ── Evolution / Odd Body Facts (30+) ──
     "Why Humans Have a Tailbone But No Tail",
     "The Reason You Have an Appendix That Seems Useless",
@@ -362,7 +354,6 @@ DARK_TOPICS = [
     "The Reason You Have More Bacteria in Your Body Than Human Cells",
     "Why Your Body Can Adapt to High Altitude Over Time",
     "The Reason Your Body Temperature Is 37 Degrees Celsius",
-
     # ── Senses / Perception (30+) ──
     "Why You Can't Lick Your Own Elbow",
     "The Reason Your Voice Sounds Different on a Recording",
@@ -418,6 +409,7 @@ def _generate_dynamic_topics(count: int = 50) -> list[str]:
         import os
 
         from groq import Groq
+
         api_key = os.environ.get("GROQ_API_KEY")
         if not api_key:
             return []
@@ -425,22 +417,25 @@ def _generate_dynamic_topics(count: int = 50) -> list[str]:
         resp = client.chat.completions.create(
             # Env-driven (2026-08-12): llama-3.1-8b-instant retires 2026-08-16.
             model=os.environ.get("GROQ_MODEL") or "openai/gpt-oss-120b",
-            messages=[{
-                "role": "user",
-                "content": (
-                    f"Generate exactly {count} unique, curiosity-driven YouTube Shorts "
-                    "topic titles about the human body, brain, health, and science. "
-                    "Each must be under 60 characters, sound like a real person talking "
-                    "(use 'Your' or 'You'), and NOT use clickbait phrases like "
-                    "'doctors don't want', 'shocking', 'you won't believe', or "
-                    "'this will blow your mind'. Return ONLY a JSON array of strings."
-                ),
-            }],
+            messages=[
+                {
+                    "role": "user",
+                    "content": (
+                        f"Generate exactly {count} unique, curiosity-driven YouTube Shorts "
+                        "topic titles about the human body, brain, health, and science. "
+                        "Each must be under 60 characters, sound like a real person talking "
+                        "(use 'Your' or 'You'), and NOT use clickbait phrases like "
+                        "'doctors don't want', 'shocking', 'you won't believe', or "
+                        "'this will blow your mind'. Return ONLY a JSON array of strings."
+                    ),
+                }
+            ],
             response_format={"type": "json_object"},
             temperature=0.9,
             max_tokens=2000,
         )
         import json
+
         data = json.loads(resp.choices[0].message.content)
         if isinstance(data, list):
             return data
@@ -558,24 +553,58 @@ CTAS = [
 # (audit 2026-07-25 — "tags_english_only" fault). Never re-add English tags.
 CATEGORY_TAGS = {
     "Brain": [
-        "cerveau", "neuroscience", "psychologie", "science du cerveau",
-        "système nerveux", "cerveau humain", "mental", "mémoire",
-        "neuroplasticité", "cognition", "esprit", "santé du cerveau",
+        "cerveau",
+        "neuroscience",
+        "psychologie",
+        "science du cerveau",
+        "système nerveux",
+        "cerveau humain",
+        "mental",
+        "mémoire",
+        "neuroplasticité",
+        "cognition",
+        "esprit",
+        "santé du cerveau",
     ],
     "Body": [
-        "corps humain", "anatomie", "physiologie", "corps",
-        "mystères du corps", "biologie", "organes", "réflexes",
-        "science du corps", "fonctions du corps", "santé", "faits du corps",
+        "corps humain",
+        "anatomie",
+        "physiologie",
+        "corps",
+        "mystères du corps",
+        "biologie",
+        "organes",
+        "réflexes",
+        "science du corps",
+        "fonctions du corps",
+        "santé",
+        "faits du corps",
     ],
     "Mystery": [
-        "mystère", "faits étranges", "inexpliqué", "science mystérieuse",
-        "secrets du corps", "bizarre", "phénomènes", "curiosité",
-        "inconnu", "étonnant", "surprenant", "faits cachés",
+        "mystère",
+        "faits étranges",
+        "inexpliqué",
+        "science mystérieuse",
+        "secrets du corps",
+        "bizarre",
+        "phénomènes",
+        "curiosité",
+        "inconnu",
+        "étonnant",
+        "surprenant",
+        "faits cachés",
     ],
     "Health": [
-        "santé", "bien-être", "science de la santé", "conseils santé",
-        "vie saine", "faits santé", "corps et santé", "prévention",
-        "médecine", "hygiène de vie",
+        "santé",
+        "bien-être",
+        "science de la santé",
+        "conseils santé",
+        "vie saine",
+        "faits santé",
+        "corps et santé",
+        "prévention",
+        "médecine",
+        "hygiène de vie",
     ],
 }
 
@@ -583,9 +612,21 @@ CATEGORY_TAGS = {
 # 7. BASE TAGS — 100% FRENCH (audit 2026-07-25)
 # ============================================
 BASE_TAGS = [
-    "faits", "shorts", "science", "le saviez-vous", "étonnant",
-    "faits amusants", "viral", "mystère", "intéressant", "éducation",
-    "curiosité", "savoir", "apprendre", "culture générale", "découverte",
+    "faits",
+    "shorts",
+    "science",
+    "le saviez-vous",
+    "étonnant",
+    "faits amusants",
+    "viral",
+    "mystère",
+    "intéressant",
+    "éducation",
+    "curiosité",
+    "savoir",
+    "apprendre",
+    "culture générale",
+    "découverte",
 ]
 
 # ============================================
@@ -600,15 +641,27 @@ SCENES_PER_SCRIPT = 8  # Body Glitch 40-55 second series policy
 # 9. MEDICAL RED FLAGS
 # ============================================
 _MEDICAL_ADVICE_RED_FLAGS = [
-    "cure", "diagnose", "you have", "stop taking", "don't need a doctor",
-    "instead of medication", "guaranteed to heal", "definitely means you have",
-    "you should", "you must", "never go to the doctor", "ignore your doctor",
-    "this is the only cure", "better than medicine", "replace your medication",
+    "cure",
+    "diagnose",
+    "you have",
+    "stop taking",
+    "don't need a doctor",
+    "instead of medication",
+    "guaranteed to heal",
+    "definitely means you have",
+    "you should",
+    "you must",
+    "never go to the doctor",
+    "ignore your doctor",
+    "this is the only cure",
+    "better than medicine",
+    "replace your medication",
 ]
 
 # ============================================
 # 10. RETENTION-OPTIMIZED PROMPT GENERATION
 # ============================================
+
 
 def get_script_prompt_for_niche(
     topic: str,
@@ -622,6 +675,7 @@ def get_script_prompt_for_niche(
     always share exactly one contract.
     """
     from script_generator import _default_prompt
+
     return _default_prompt(topic)
 
 
@@ -636,9 +690,11 @@ def get_transition_hooks(count: int = 3) -> list[str]:
     """Get multiple transition hooks"""
     return random.sample(TRANSITION_HOOKS, min(count, len(TRANSITION_HOOKS)))
 
+
 # ============================================
 # 11. CORE FUNCTIONS
 # ============================================
+
 
 def get_random_topic(exclude: list[str] | None = None) -> str:
     """
@@ -658,6 +714,7 @@ def get_random_topic(exclude: list[str] | None = None) -> str:
     trending = []
     try:
         from trend_research import fetch_trending_topics
+
         trending = fetch_trending_topics()
         logger.debug(f"Fetched {len(trending)} trending topics")
     except ImportError:
@@ -670,6 +727,7 @@ def get_random_topic(exclude: list[str] | None = None) -> str:
     # 🚀 BRAIN UPGRADE: Apply learned weights to candidates
     try:
         from autonomous_brain import apply_learned_weights_to_topics
+
         trend_candidates = apply_learned_weights_to_topics(trend_candidates)
     except Exception:
         pass
@@ -709,12 +767,12 @@ def get_topic_category(topic: str) -> str:
     """Categorizes a topic into Brain, Body, Mystery, or Health."""
     topic_lower = topic.lower()
 
-    brain_keywords = ['brain', 'mind', 'sleep', 'nerve', 'psych', 'memory', 'thought', 'conscious']
-    body_keywords = ['heart', 'blood', 'lung', 'kidney', 'bone', 'organ', 'muscle', 'vein', 'artery']
-    mystery_keywords = ['scary', 'secret', 'dark', 'mystery', 'hidden', 'unknown', 'creepy', 'weird']
+    brain_keywords = ["brain", "mind", "sleep", "nerve", "psych", "memory", "thought", "conscious"]
+    body_keywords = ["heart", "blood", "lung", "kidney", "bone", "organ", "muscle", "vein", "artery"]
+    mystery_keywords = ["scary", "secret", "dark", "mystery", "hidden", "unknown", "creepy", "weird"]
 
     def _has_word(words):
-        return any(re.search(r'\b' + re.escape(w), topic_lower) for w in words)
+        return any(re.search(r"\b" + re.escape(w), topic_lower) for w in words)
 
     if _has_word(brain_keywords):
         return "Brain"
@@ -729,25 +787,61 @@ def get_topic_category(topic: str) -> str:
 def get_seo_tags(topic: str, category: str = "Body") -> list[str]:
     """Returns YouTube-optimized tags (max 15)."""
     _FR_STOPWORDS = {
-        'dans', 'avec', 'pour', 'quand', 'vous', 'votre', 'vos', 'notre',
-        'est', 'sont', 'être', 'avoir', 'cela', 'peut', 'plus', 'très',
-        'tout', 'toute', 'entre', 'leur', 'leurs', 'comme', 'aussi', 'sans',
-        'sous', 'chez', 'alors', 'encore', 'faire', 'fait', 'avant', 'après',
-        'pendant', 'toujours', 'jamais', 'même', 'cette', 'quoi',
-        'your', 'this', 'that', 'what', 'when',
+        "dans",
+        "avec",
+        "pour",
+        "quand",
+        "vous",
+        "votre",
+        "vos",
+        "notre",
+        "est",
+        "sont",
+        "être",
+        "avoir",
+        "cela",
+        "peut",
+        "plus",
+        "très",
+        "tout",
+        "toute",
+        "entre",
+        "leur",
+        "leurs",
+        "comme",
+        "aussi",
+        "sans",
+        "sous",
+        "chez",
+        "alors",
+        "encore",
+        "faire",
+        "fait",
+        "avant",
+        "après",
+        "pendant",
+        "toujours",
+        "jamais",
+        "même",
+        "cette",
+        "quoi",
+        "your",
+        "this",
+        "that",
+        "what",
+        "when",
     }
-    topic_words = [
-        w.strip(",.?!:;'’«»\"()") for w in topic.lower().split()
-    ]
-    topic_words = [
-        w for w in topic_words
-        if len(w) > 3 and w not in _FR_STOPWORDS
-    ]
+    topic_words = [w.strip(",.?!:;'’«»\"()") for w in topic.lower().split()]
+    topic_words = [w for w in topic_words if len(w) > 3 and w not in _FR_STOPWORDS]
     tags = topic_words[:5]
     tags.extend(CATEGORY_TAGS.get(category, []))
     related_phrases = [
-        "corps humain", "faits scientifiques", "science expliquée",
-        "secrets du corps", "faits mystérieux", "anatomie humaine"
+        "corps humain",
+        "faits scientifiques",
+        "science expliquée",
+        "secrets du corps",
+        "faits mystérieux",
+        "anatomie humaine",
     ]
     tags.extend(related_phrases)
     tags.extend(BASE_TAGS)
@@ -772,67 +866,55 @@ def generate_seo_tags(topic: str, category: str = "Body", title: str = "") -> li
 
 def validate_script_for_medical_accuracy(script_data: dict) -> dict:
     """Validates that script doesn't contain medical advice."""
-    voiceover = script_data.get('voiceover', '')
+    voiceover = script_data.get("voiceover", "")
     if not voiceover:
-        voiceover = ' '.join([
-            s.get('caption', '')
-            for s in script_data.get('scenes', [])
-            if isinstance(s, dict)
-        ])
+        voiceover = " ".join(
+            [s.get("caption", "") for s in script_data.get("scenes", []) if isinstance(s, dict)]
+        )
 
     lowered = voiceover.lower()
     flags = [phrase for phrase in _MEDICAL_ADVICE_RED_FLAGS if phrase in lowered]
 
-    return {
-        "valid": len(flags) == 0,
-        "flags": flags,
-        "has_red_flags": len(flags) > 0
-    }
+    return {"valid": len(flags) == 0, "flags": flags, "has_red_flags": len(flags) > 0}
 
 
 def auto_add_disclaimer(script_data: dict) -> dict:
     """Adds medical disclaimer to script."""
     disclaimer = "Cette vidéo est éducative et ne remplace pas un avis médical. En cas de question de santé, consultez un professionnel qualifié."
 
-    script_data['cta'] = (
-        script_data.get('cta', '') + " " + disclaimer
-    ).strip()
+    script_data["cta"] = (script_data.get("cta", "") + " " + disclaimer).strip()
 
-    if 'description' in script_data:
-        script_data['description'] = (
-            script_data['description'] + " " + disclaimer
-        ).strip()
+    if "description" in script_data:
+        script_data["description"] = (script_data["description"] + " " + disclaimer).strip()
 
-    script_data['disclaimer_added'] = True
+    script_data["disclaimer_added"] = True
     logger.info("Added medical disclaimer to script")
     return script_data
 
 
 # Emoji chosen by matching actual topic keywords
 _TOPIC_EMOJI_MAP = [
-    (['bone', 'bones', 'skeleton'], '🦴'),
-    (['leg', 'legs', 'knee', 'knees'], '🦵'),
-    (['ear', 'ears', 'hearing', 'sound'], '👂'),
-    (['heart', 'blood', 'pulse', 'heartbeat'], '🫀'),
-    (['immune', 'microbiome', 'bacteria', 'germ', 'germs', 'virus'], '🦠'),
-    (['fingerprint', 'fingerprints', 'finger', 'fingers'], '🫆'),
-    (['cold', 'chill', 'chills', 'temperature', 'fever'], '🥶'),
-    (['eye', 'eyes', 'see', 'sight', 'blind spot'], '👁️'),
-    (['muscle', 'muscles', 'strength', 'exercise'], '💪'),
-    (['sleep', 'sleeping', 'night', 'nightmare', 'nightmares'], '😴'),
-    (['brain', 'mind', 'memory', 'thought'], '🧠'),
+    (["bone", "bones", "skeleton"], "🦴"),
+    (["leg", "legs", "knee", "knees"], "🦵"),
+    (["ear", "ears", "hearing", "sound"], "👂"),
+    (["heart", "blood", "pulse", "heartbeat"], "🫀"),
+    (["immune", "microbiome", "bacteria", "germ", "germs", "virus"], "🦠"),
+    (["fingerprint", "fingerprints", "finger", "fingers"], "🫆"),
+    (["cold", "chill", "chills", "temperature", "fever"], "🥶"),
+    (["eye", "eyes", "see", "sight", "blind spot"], "👁️"),
+    (["muscle", "muscles", "strength", "exercise"], "💪"),
+    (["sleep", "sleeping", "night", "nightmare", "nightmares"], "😴"),
+    (["brain", "mind", "memory", "thought"], "🧠"),
 ]
 
-_EMOJI_PATTERN = re.compile(
-    r"[\U0001F300-\U0001FAFF\u2600-\u27BF\U0001F1E6-\U0001F1FF]+\s*"
-)
+_EMOJI_PATTERN = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\U0001F1E6-\U0001F1FF]+\s*")
 
 
 def _pick_topic_emoji(topic: str) -> str:
     """Pick the most relevant emoji for a topic."""
     topic_lower = topic.lower()
     for keywords, emoji in _TOPIC_EMOJI_MAP:
-        if any(re.search(r'\b' + re.escape(kw) + r'\b', topic_lower) for kw in keywords):
+        if any(re.search(r"\b" + re.escape(kw) + r"\b", topic_lower) for kw in keywords):
             return emoji
 
     category = get_topic_category(topic)
@@ -841,10 +923,22 @@ def _pick_topic_emoji(topic: str) -> str:
 
 def _make_seo_title(title: str, topic: str) -> str:
     """Enhances title for SEO while keeping under 55 chars."""
-    clean_title = _EMOJI_PATTERN.sub('', title, count=1).strip()
+    clean_title = _EMOJI_PATTERN.sub("", title, count=1).strip()
 
-    power_words = ["secret", "nobody", "never", "actually", "dark", "scary",
-                   "real", "hidden", "warning", "shock", "fact", "truth"]
+    power_words = [
+        "secret",
+        "nobody",
+        "never",
+        "actually",
+        "dark",
+        "scary",
+        "real",
+        "hidden",
+        "warning",
+        "shock",
+        "fact",
+        "truth",
+    ]
     if any(pw in clean_title.lower() for pw in power_words):
         return clean_title[:MAX_TITLE_LENGTH]
 
@@ -861,6 +955,7 @@ def _make_seo_title(title: str, topic: str) -> str:
 # PUBLIC API
 # ---------------------------------------------------------------------------
 
+
 def make_seo_title(title: str, topic: str) -> str:
     """Enhance a video title for SEO (emoji + power-word detection).
 
@@ -873,6 +968,7 @@ def make_seo_title(title: str, topic: str) -> str:
 # 12. UTILITY FUNCTIONS
 # ============================================
 
+
 def _log_blind_pick_warning(name: str) -> None:
     """These legacy helpers pick a template with random.choice and NO
     measured-outcome input. Post truth-gate doctrine (2026-08-12): nothing in
@@ -881,11 +977,14 @@ def _log_blind_pick_warning(name: str) -> None:
     compatibility only. Any caller gets a loud log so the blindness is
     observable, not silent."""
     import logging
+
     logging.getLogger(__name__).warning(
         "BLIND-PICK: %s uses unmeasured random templates. Production must "
         "prefer measured sources (demand queue / truth gate / bandit). "
         "If this log appears in main runs, wire the caller to intelligence "
-        "instead.", name)
+        "instead.",
+        name,
+    )
 
 
 def get_random_hook(topic: str | None = None) -> str:
@@ -918,13 +1017,15 @@ def get_scene_count() -> int:
     """Get the optimal number of scenes for retention."""
     return SCENES_PER_SCRIPT
 
+
 # ============================================
 # 13. RETENTION ANALYSIS FUNCTIONS
 # ============================================
 
+
 def analyze_retention_potential(script_data: dict) -> dict:
     """Analyzes script for retention potential."""
-    scenes = script_data.get('scenes', [])
+    scenes = script_data.get("scenes", [])
     score = 0
     suggestions = []
 
@@ -935,8 +1036,8 @@ def analyze_retention_potential(script_data: dict) -> dict:
 
     cliffhanger_count = 0
     for scene in scenes:
-        caption = scene.get('caption', '')
-        if any(word in caption.lower() for word in ['...', 'but', 'however', 'yet', 'still']):
+        caption = scene.get("caption", "")
+        if any(word in caption.lower() for word in ["...", "but", "however", "yet", "still"]):
             cliffhanger_count += 1
 
     cliffhanger_ratio = cliffhanger_count / len(scenes) if scenes else 0
@@ -949,8 +1050,8 @@ def analyze_retention_potential(script_data: dict) -> dict:
 
     you_count = 0
     for scene in scenes:
-        caption = scene.get('caption', '')
-        you_count += caption.lower().count('you')
+        caption = scene.get("caption", "")
+        you_count += caption.lower().count("you")
 
     if you_count >= len(scenes) * 2:
         score += 25
@@ -959,8 +1060,8 @@ def analyze_retention_potential(script_data: dict) -> dict:
 
     visual_quality = 0
     for scene in scenes:
-        visual = scene.get('visual', '')
-        if any(word in visual.lower() for word in ['cinematic', 'macro', 'close', 'dark', 'dramatic']):
+        visual = scene.get("visual", "")
+        if any(word in visual.lower() for word in ["cinematic", "macro", "close", "dark", "dramatic"]):
             visual_quality += 1
 
     if visual_quality >= len(scenes) * 0.6:
@@ -969,12 +1070,13 @@ def analyze_retention_potential(script_data: dict) -> dict:
         suggestions.append("Make visuals more CINEMATIC and DYNAMIC")
 
     return {
-        'retention_score': min(100, score),
-        'suggestions': suggestions,
-        'cliffhanger_ratio': cliffhanger_ratio,
-        'you_count': you_count,
-        'visual_quality': visual_quality / len(scenes) if scenes else 0
+        "retention_score": min(100, score),
+        "suggestions": suggestions,
+        "cliffhanger_ratio": cliffhanger_ratio,
+        "you_count": you_count,
+        "visual_quality": visual_quality / len(scenes) if scenes else 0,
     }
+
 
 # ============================================
 # 14. MAIN EXECUTION
@@ -983,10 +1085,10 @@ def analyze_retention_potential(script_data: dict) -> dict:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    print("="*60)
+    print("=" * 60)
     print("RETENTION-OPTIMIZED NICHE STRATEGY TEST")
     print(f"Static topic pool: {len(DARK_TOPICS)} topics")
-    print("="*60)
+    print("=" * 60)
 
     print("\n1. Topic Selection:")
     for _i in range(3):
@@ -1001,6 +1103,6 @@ if __name__ == "__main__":
     for _i in range(3):
         print(f"   - {get_random_cta()}")
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("✅ NICHE STRATEGY MODULE READY!")
-    print("="*60)
+    print("=" * 60)

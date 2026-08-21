@@ -5,6 +5,7 @@ Static defaults are kept as a safe fallback, but the scheduler can now read
 pipeline publishes at the Paris slots that have actually produced the most
 views/retention for this channel.
 """
+
 from __future__ import annotations
 
 import json
@@ -26,8 +27,7 @@ class FrancePeakTimeScheduler:
     def __init__(self):
         # 2026-08-12 truth sweep: honour PUBLISH_TIMEZONE from the workflow
         # instead of a second hardcoded copy (was blind config drift risk).
-        self.paris_tz = pytz.timezone(
-            os.environ.get("PUBLISH_TIMEZONE", "Europe/Paris"))
+        self.paris_tz = pytz.timezone(os.environ.get("PUBLISH_TIMEZONE", "Europe/Paris"))
         self.utc_tz = pytz.UTC
 
     def _dynamic_peak_times(self) -> list[dict]:
@@ -67,14 +67,18 @@ class FrancePeakTimeScheduler:
             if key in seen:
                 continue
             seen.add(key)
-            slots.append({
-                "hour": hour,
-                "minute": minute,
-                "name": str(item.get("name") or item.get("label") or f"Dynamique {hour:02d}:{minute:02d}"),
-                "score": item.get("score"),
-                "samples": item.get("samples", 0),
-                "dynamic": True,
-            })
+            slots.append(
+                {
+                    "hour": hour,
+                    "minute": minute,
+                    "name": str(
+                        item.get("name") or item.get("label") or f"Dynamique {hour:02d}:{minute:02d}"
+                    ),
+                    "score": item.get("score"),
+                    "samples": item.get("samples", 0),
+                    "dynamic": True,
+                }
+            )
             if len(slots) >= max_slots:
                 break
         # Schedule should be chronological within the day so three daily runs
@@ -105,17 +109,19 @@ class FrancePeakTimeScheduler:
                 if when > now:
                     reason = (
                         "Créneau appris depuis les performances YouTube réelles"
-                        if slot.get("dynamic") else
-                        "Créneau de consultation France / francophonie"
+                        if slot.get("dynamic")
+                        else "Créneau de consultation France / francophonie"
                     )
-                    result.append({
-                        "time_paris": when.strftime("%Y-%m-%d %H:%M %Z"),
-                        "time_utc": when.astimezone(self.utc_tz).isoformat(),
-                        "peak_name": slot["name"],
-                        "reason": reason,
-                        "dynamic_score": slot.get("score"),
-                        "dynamic_samples": slot.get("samples"),
-                    })
+                    result.append(
+                        {
+                            "time_paris": when.strftime("%Y-%m-%d %H:%M %Z"),
+                            "time_utc": when.astimezone(self.utc_tz).isoformat(),
+                            "peak_name": slot["name"],
+                            "reason": reason,
+                            "dynamic_score": slot.get("score"),
+                            "dynamic_samples": slot.get("samples"),
+                        }
+                    )
         return result[:count]
 
     def get_scheduled_publish_settings(self, posting_time):

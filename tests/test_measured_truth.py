@@ -10,35 +10,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import trend_fetcher  # noqa: E402
-import seo_analytics  # noqa: E402
+import seo_analytics
+import trend_fetcher
 
 
 def _history(rows):
     out = []
     for i, (topic, views, ret) in enumerate(rows):
-        out.append({"topic": topic, "title": topic, "views": views,
-                    "average_view_percentage": ret,
-                    "youtube_video_id": f"v{i}",
-                    "posted_at": "2026-07-01T00:00:00+00:00"})
+        out.append(
+            {
+                "topic": topic,
+                "title": topic,
+                "views": views,
+                "average_view_percentage": ret,
+                "youtube_video_id": f"v{i}",
+                "posted_at": "2026-07-01T00:00:00+00:00",
+            }
+        )
     return out
 
 
 class MeasuredTopicBoostTests(unittest.TestCase):
     def setUp(self):
         # corpus family retains great, flop family retains terribly
-        rows = [(f"Pourquoi votre corps devient lourd numero {i}", 600, 45.0)
-                for i in range(6)]
-        rows += [(f"Pourquoi le temps semble accelerer version {i}", 600, 25.0)
-                 for i in range(6)]
+        rows = [(f"Pourquoi votre corps devient lourd numero {i}", 600, 45.0) for i in range(6)]
+        rows += [(f"Pourquoi le temps semble accelerer version {i}", 600, 25.0) for i in range(6)]
         self.h = _history(rows)
 
     def test_good_family_is_boosted(self):
-        cands = [{"topic": "Pourquoi votre corps devient lourd apres le sport"},
-                 {"topic": "Pourquoi le temps semble accelerer en vieillissant"}]
+        cands = [
+            {"topic": "Pourquoi votre corps devient lourd apres le sport"},
+            {"topic": "Pourquoi le temps semble accelerer en vieillissant"},
+        ]
         boosted, rest = trend_fetcher._measured_topic_boost(cands, self.h)
-        self.assertEqual([c["topic"] for c in boosted],
-                         ["Pourquoi votre corps devient lourd apres le sport"])
+        self.assertEqual([c["topic"] for c in boosted], ["Pourquoi votre corps devient lourd apres le sport"])
         self.assertEqual(len(rest), 1)
 
     def test_bad_family_is_not_boosted(self):
@@ -47,10 +52,11 @@ class MeasuredTopicBoostTests(unittest.TestCase):
         self.assertEqual(boosted, [])
 
     def test_picker_prefers_boosted_pool(self):
-        cands = [{"topic": "Pourquoi votre corps devient lourd apres le sport"},
-                 {"topic": "Pourquoi le temps semble accelerer en vieillissant"}]
-        picks = {trend_fetcher._pick_by_retention_class(cands, history=self.h)["topic"]
-                 for _ in range(10)}
+        cands = [
+            {"topic": "Pourquoi votre corps devient lourd apres le sport"},
+            {"topic": "Pourquoi le temps semble accelerer en vieillissant"},
+        ]
+        picks = {trend_fetcher._pick_by_retention_class(cands, history=self.h)["topic"] for _ in range(10)}
         self.assertEqual(picks, {"Pourquoi votre corps devient lourd apres le sport"})
 
     def test_empty_history_falls_back_to_class_bias(self):

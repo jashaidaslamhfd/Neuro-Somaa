@@ -1,0 +1,42 @@
+{
+  "source": "Google France autocomplete (suggestqueries, hl=fr gl=fr) captured 2026-08-21",
+  "provenance": "data/autocomplete_probe_fr.json",
+  "topics": [
+    {
+      "series_number": "BACKFILL-1",
+      "series_title": "Le corps qui tremble",
+      "topic": "mon corps tremble",
+      "nominal_phrase": "mon corps tremble",
+      "question_phrase": "pourquoi mon corps tremble",
+      "angle": "Pourquoi mon corps tremble ?",
+      "thumbnail_text": "MON CORPS TREMBLE ?",
+      "demand_note": "Google autocomplete FR exact suggestion: pourquoi mon corps tremble",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-21T19:25:53.237497+00:00"
+    },
+    {
+      "series_number": "BACKFILL-2",
+      "series_title": "Les yeux qui pleurent",
+      "topic": "les yeux pleurent",
+      "nominal_phrase": "les yeux pleurent",
+      "question_phrase": "pourquoi les yeux pleurent",
+      "angle": "Pourquoi les yeux pleurent ?",
+      "thumbnail_text": "LES YEUX PLEURENT ?",
+      "demand_note": "Google autocomplete FR exact suggestion: pourquoi les yeux pleurent",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-21T19:25:53.237497+00:00"
+    },
+    {
+      "series_number": "BACKFILL-3",
+      "series_title": "Le cerveau et le sucre",
+      "topic": "le cerveau a besoin de sucre",
+      "nominal_phrase": "le cerveau a besoin de sucre",
+      "question_phrase": "pourquoi le cerveau a besoin de sucre",
+      "angle": "Pourquoi le cerveau a besoin de sucre ?",
+      "thumbnail_text": "LE CERVEAU ET LE SUCRE ?",
+      "demand_note": "Google autocomplete FR exact suggestion: pourquoi le cerveau a besoin de sucre",
+      "pillar": "cerveau_et_memoire",
+      "mined_at": "2026-08-21T19:25:53.237497+00:00"
+    }
+  ]
+}

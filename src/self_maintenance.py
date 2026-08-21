@@ -34,6 +34,7 @@ Usage:
     python src/self_maintenance.py            # report only
     SELF_MAINTENANCE_APPLY=true python src/self_maintenance.py
 """
+
 from __future__ import annotations
 
 import json
@@ -41,7 +42,7 @@ import logging
 import os
 import subprocess
 import sys
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -50,7 +51,7 @@ sys.path.insert(0, str(ROOT_DIR / "scripts"))
 
 logger = logging.getLogger(__name__)
 
-UTC = timezone.utc
+UTC = UTC
 
 HISTORY_PATH = ROOT_DIR / "data" / "video_history.json"
 SLOT_INTEL_PATH = ROOT_DIR / "data" / "upload_slot_intel_fr.json"
@@ -73,13 +74,67 @@ MIN_USEFUL_TITLE_CHARS = 25
 # this channel: "...entendre son cœur battre la", "...quand le silence devient".
 # Articles/prepositions/auxiliaries can never legitimately end a French title.
 DANGLING_FRENCH_ENDINGS = {
-    "le", "la", "les", "l", "un", "une", "des", "du", "de", "d",
-    "au", "aux", "à", "et", "ou", "en", "dans", "sur", "sous", "par",
-    "pour", "avec", "sans", "que", "qui", "quand", "dont", "où",
-    "ce", "cet", "cette", "ces", "son", "sa", "ses", "leur", "leurs",
-    "mon", "ma", "mes", "ton", "ta", "tes", "notre", "votre",
-    "est", "sont", "être", "avoir", "peut", "semble", "devient", "fait",
-    "plus", "moins", "très", "trop", "si", "ne", "se", "on",
+    "le",
+    "la",
+    "les",
+    "l",
+    "un",
+    "une",
+    "des",
+    "du",
+    "de",
+    "d",
+    "au",
+    "aux",
+    "à",
+    "et",
+    "ou",
+    "en",
+    "dans",
+    "sur",
+    "sous",
+    "par",
+    "pour",
+    "avec",
+    "sans",
+    "que",
+    "qui",
+    "quand",
+    "dont",
+    "où",
+    "ce",
+    "cet",
+    "cette",
+    "ces",
+    "son",
+    "sa",
+    "ses",
+    "leur",
+    "leurs",
+    "mon",
+    "ma",
+    "mes",
+    "ton",
+    "ta",
+    "tes",
+    "notre",
+    "votre",
+    "est",
+    "sont",
+    "être",
+    "avoir",
+    "peut",
+    "semble",
+    "devient",
+    "fait",
+    "plus",
+    "moins",
+    "très",
+    "trop",
+    "si",
+    "ne",
+    "se",
+    "on",
 }
 
 # "Pourquoi le hoquet commence brusquement ?" is a question. "Pourquoi le
@@ -108,7 +163,7 @@ def _parse_dt(value):
     if not value or not isinstance(value, str):
         return None
     try:
-        parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(value)
     except ValueError:
         return None
     return parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
@@ -131,8 +186,10 @@ def check_schedule_health() -> dict:
         return {
             "ok": False,
             "slots": [],
-            "problems": [f"upload_slot_intel_fr.json unreadable ({exc}); "
-                         "scheduler will fall back to default French peaks"],
+            "problems": [
+                f"upload_slot_intel_fr.json unreadable ({exc}); "
+                "scheduler will fall back to default French peaks"
+            ],
         }
 
     slots = intel.get("recommended_slots") or []
@@ -143,7 +200,7 @@ def check_schedule_health() -> dict:
         )
 
     for i, first in enumerate(slots):
-        for second in slots[i + 1:]:
+        for second in slots[i + 1 :]:
             gap = _slot_gap_minutes(first, second)
             if gap < MIN_SLOT_GAP_MINUTES:
                 problems.append(
@@ -186,8 +243,7 @@ def check_publishing_cadence(history: list[dict], days: int = 3) -> dict:
     # Today is still in progress, so only completed days can be judged short.
     today = now.date().isoformat()
     short_days = {
-        day: count for day, count in per_day.items()
-        if count < EXPECTED_VIDEOS_PER_DAY and day != today
+        day: count for day, count in per_day.items() if count < EXPECTED_VIDEOS_PER_DAY and day != today
     }
     return {
         "ok": not short_days,
@@ -228,8 +284,17 @@ def _carries_description_text(title: str) -> bool:
     """
     low = (title or "").lower()
     leaked = (
-        "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
-        "description", "voici", "```", "#", "http", "www.",
+        "dans ce short",
+        "ce short",
+        "abonne",
+        "abonnez",
+        "hashtags",
+        "description",
+        "voici",
+        "```",
+        "#",
+        "http",
+        "www.",
     )
     if any(token in low for token in leaked):
         return True
@@ -254,9 +319,7 @@ def _is_malformed_question(title: str) -> bool:
         return False
     # "Pourquoi X qui/de ..." — the opener never reaches a main verb.
     lowered = [w.lower().strip(",;:") for w in words]
-    if "qui" in lowered[1:] or "l'apparition" in lowered or "le sursaut" in lowered:
-        return True
-    return False
+    return bool("qui" in lowered[1:] or "l'apparition" in lowered or "le sursaut" in lowered)
 
 
 def find_uploaded_video_defects(history: list[dict]) -> list[dict]:
@@ -303,8 +366,7 @@ def run_uploaded_video_repair(apply: bool) -> dict:
     metadata and PATCH it onto YouTube; re-implementing that here would create
     a second, drifting copy of the rules.
     """
-    if not all(os.environ.get(var) for var in
-               ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN")):
+    if not all(os.environ.get(var) for var in ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN")):
         return {"ran": False, "reason": "YouTube OAuth secrets absent — repair skipped"}
 
     command = [sys.executable, str(ROOT_DIR / "scripts" / "metadata_repair.py")]
@@ -313,7 +375,11 @@ def run_uploaded_video_repair(apply: bool) -> dict:
 
     try:
         completed = subprocess.run(
-            command, cwd=str(ROOT_DIR), capture_output=True, text=True, timeout=900,
+            command,
+            cwd=str(ROOT_DIR),
+            capture_output=True,
+            text=True,
+            timeout=900,
         )
     except (subprocess.SubprocessError, OSError) as exc:
         return {"ran": False, "reason": f"repair script could not start: {exc}"}
@@ -344,9 +410,7 @@ def build_report(schedule: dict, cadence: dict, defects: list[dict], repair: dic
         mark = "✅" if count >= EXPECTED_VIDEOS_PER_DAY else "⚠️"
         lines.append(f"{mark} {day} : {count}/{EXPECTED_VIDEOS_PER_DAY}")
     if cadence["short_days"]:
-        lines.append(
-            "⚠️ Journées incomplètes — vérifier les échecs du workflow de génération."
-        )
+        lines.append("⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.")
 
     lines += ["", "## 3. Vidéos déjà publiées à réparer"]
     if defects:
@@ -364,25 +428,23 @@ def build_report(schedule: dict, cadence: dict, defects: list[dict], repair: dic
         lines.append(f"Mode : {mode} — code de sortie {repair.get('exit_code')}")
         lines.extend(f"    {line}" for line in repair.get("tail", []))
         if not repair.get("applied"):
-            lines.append(
-                "ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube."
-            )
+            lines.append("ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.")
     return "\n".join(lines) + "\n"
 
 
 def main(argv: list[str] | None = None) -> int:
-    logging.basicConfig(
-        level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
-    )
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
     apply = _apply_enabled()
     history = _load_history()
 
     schedule = check_schedule_health()
     cadence = check_publishing_cadence(history)
     defects = find_uploaded_video_defects(history)
-    repair = run_uploaded_video_repair(apply) if defects else {
-        "ran": False, "reason": "aucun défaut détecté, rien à réparer"
-    }
+    repair = (
+        run_uploaded_video_repair(apply)
+        if defects
+        else {"ran": False, "reason": "aucun défaut détecté, rien à réparer"}
+    )
 
     report = build_report(schedule, cadence, defects, repair)
     out_dir = ROOT_DIR / "data"
@@ -390,8 +452,13 @@ def main(argv: list[str] | None = None) -> int:
     stamp = datetime.now(UTC).strftime("%Y%m%d")
     (out_dir / f"self_maintenance_{stamp}.md").write_text(report, encoding="utf-8")
 
-    logger.info("Maintenance: schedule_ok=%s cadence_ok=%s defects=%d repair_ran=%s",
-                schedule["ok"], cadence["ok"], len(defects), repair.get("ran"))
+    logger.info(
+        "Maintenance: schedule_ok=%s cadence_ok=%s defects=%d repair_ran=%s",
+        schedule["ok"],
+        cadence["ok"],
+        len(defects),
+        repair.get("ran"),
+    )
     print(report)
     # Always succeed: this is a monitor, and failing it would mask the
     # analytics sync that runs alongside it.

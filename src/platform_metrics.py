@@ -61,8 +61,14 @@ _GRAPH = f"https://graph.facebook.com/{FB_API_VERSION}"
 # -- VERIFIED 2026-08-04 live test: these 8 work for IG Reel insights.
 # -- FAILED: impressions, plays, replies, follows, profile_visits
 IG_METRICS = (
-    "views", "reach", "saved", "shares", "comments", "likes",
-    "total_interactions", "ig_reels_avg_watch_time",
+    "views",
+    "reach",
+    "saved",
+    "shares",
+    "comments",
+    "likes",
+    "total_interactions",
+    "ig_reels_avg_watch_time",
 )
 # FB_METRICS — for video_insights endpoint (Reels). LIVE VERIFIED 2026-08-04.
 # WORKING: total_video_views, total_video_avg_time_watched,
@@ -71,8 +77,10 @@ IG_METRICS = (
 # BROKEN:  post_impressions, post_impressions_unique,
 #          post_reactions_by_type_total, post_engaged_users
 FB_METRICS = (
-    "total_video_views", "total_video_avg_time_watched",
-    "total_video_impressions", "total_video_impressions_unique",
+    "total_video_views",
+    "total_video_avg_time_watched",
+    "total_video_impressions",
+    "total_video_impressions_unique",
     "post_video_avg_time_watched",
 )
 
@@ -80,6 +88,7 @@ FB_METRICS = (
 # ---------------------------------------------------------------------------
 # small IO helpers
 # ---------------------------------------------------------------------------
+
 
 def _load_json(path: str, default):
     try:
@@ -108,9 +117,7 @@ def _graph_get(node: str, **params) -> dict:
     if not token:
         return {"error": "no_token"}
     try:
-        response = requests.get(
-            f"{_GRAPH}/{node}", params={**params, "access_token": token}, timeout=30
-        )
+        response = requests.get(f"{_GRAPH}/{node}", params={**params, "access_token": token}, timeout=30)
         data = response.json() if response.content else {}
         if response.status_code >= 400 or "error" in data:
             message = str(data.get("error", {}).get("message", response.status_code))
@@ -139,6 +146,7 @@ def _probe_insights(node: str, metrics, token: str, endpoint: str = "insights") 
 # ---------------------------------------------------------------------------
 # per-platform fetchers
 # ---------------------------------------------------------------------------
+
 
 def fetch_youtube(video_id: str) -> dict:
     """Real YouTube Analytics for one video, normalised.
@@ -220,21 +228,23 @@ def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> dict:
     Only post_video_avg_time_watched works from the insights endpoint."""
     if not video_id or not token:
         return {"error": "missing video_id or token"}
-    
+
     # 1. Get views from direct video fields (ALWAYS works)
     video_data = _graph_get(video_id, fields="views,length", access_token=token)
     views = None
     if "views" in video_data:
         views = video_data["views"]
-    
+
     # 2. Get avg watch time from video_insights (only metric that works)
     probe = _probe_insights(video_id, ("post_video_avg_time_watched",), token, endpoint="video_insights")
     avg_ms = probe.get("values", {}).get("post_video_avg_time_watched")
     if avg_ms is None:
         # Fallback: try total_video_avg_time_watched — returns empty but worth trying
-        probe2 = _probe_insights(video_id, ("total_video_avg_time_watched",), token, endpoint="video_insights")
+        probe2 = _probe_insights(
+            video_id, ("total_video_avg_time_watched",), token, endpoint="video_insights"
+        )
         avg_ms = probe2.get("values", {}).get("total_video_avg_time_watched")
-    
+
     completion = None
     if avg_ms and clip_seconds > 0:
         completion = round(min(float(avg_ms) / (clip_seconds * 1000.0), 1.5), 4)
@@ -250,6 +260,7 @@ def fetch_facebook(video_id: str, clip_seconds: float, token: str) -> dict:
 # ---------------------------------------------------------------------------
 # collection
 # ---------------------------------------------------------------------------
+
 
 def _clip_seconds(entry: dict, platform: str) -> float:
     """Length of the cut THAT PLATFORM received.
@@ -300,8 +311,7 @@ def _instagram_user_id() -> str:
         recorded = str((diag.get("account") or {}).get("id") or "").strip()
         if recorded:
             logger.info(
-                "INSTAGRAM_USER_ID not set; using the id recorded in "
-                "data/ig_diag.json (@%s).",
+                "INSTAGRAM_USER_ID not set; using the id recorded in data/ig_diag.json (@%s).",
                 (diag.get("account") or {}).get("username", "unknown"),
             )
             return recorded
@@ -381,18 +391,20 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> dict:
                 pass
 
         stats["checked"] += 1
-        record.update({
-            "title": entry.get("title"),
-            "topic": entry.get("topic"),
-            "posted_at": posted_at,
-            "publish_at": entry.get("publish_at"),
-            "age_hours": round(age_hours, 1),
-            "hook_score": entry.get("hook_score"),
-            "seo_score": entry.get("seo_score"),
-            "duration_seconds": entry.get("duration_seconds"),
-            "meta_cut_seconds": entry.get("meta_cut_seconds"),
-            "fetched_at": now.isoformat(),
-        })
+        record.update(
+            {
+                "title": entry.get("title"),
+                "topic": entry.get("topic"),
+                "posted_at": posted_at,
+                "publish_at": entry.get("publish_at"),
+                "age_hours": round(age_hours, 1),
+                "hook_score": entry.get("hook_score"),
+                "seo_score": entry.get("seo_score"),
+                "duration_seconds": entry.get("duration_seconds"),
+                "meta_cut_seconds": entry.get("meta_cut_seconds"),
+                "fetched_at": now.isoformat(),
+            }
+        )
 
         video_id = entry.get("youtube_video_id")
         if video_id:
@@ -405,9 +417,8 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> dict:
         # Backward-compatible: accept both the nested schema
         # (facebook.video_id / instagram.media_id) and the older flat keys
         # (facebook_video_id / instagram_media_id).
-        fb_id = (
-            (platform_state.get("facebook") or {}).get("video_id")
-            or platform_state.get("facebook_video_id")
+        fb_id = (platform_state.get("facebook") or {}).get("video_id") or platform_state.get(
+            "facebook_video_id"
         )
         if fb_id and meta_token:
             result = fetch_facebook(fb_id, _clip_seconds(record, FACEBOOK), meta_token)
@@ -415,9 +426,8 @@ def collect(min_hours_old: int = 24, refresh_hours: int = 20) -> dict:
             if "error" in result:
                 stats["errors"].setdefault(FACEBOOK, result.get("detail") or result["error"])
 
-        ig_id = (
-            (platform_state.get("instagram") or {}).get("media_id")
-            or platform_state.get("instagram_media_id")
+        ig_id = (platform_state.get("instagram") or {}).get("media_id") or platform_state.get(
+            "instagram_media_id"
         )
         if ig_id and meta_token:
             result = fetch_instagram(ig_id, _clip_seconds(record, INSTAGRAM), meta_token)

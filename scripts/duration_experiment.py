@@ -30,6 +30,7 @@ Usage :
   python scripts/duration_experiment.py --assign     # quel bras aujourd'hui
   python scripts/duration_experiment.py --report     # résultats à ce jour
 """
+
 import argparse
 import json
 import os
@@ -102,12 +103,15 @@ def report() -> int:
         if not video or video.get("average_view_percentage") is None:
             continue
         curve = curves.get(record_entry["video_id"], {})
-        buckets.setdefault(record_entry["arm"], []).append({
-            "retention": video["average_view_percentage"],
-            "views": video.get("views") or 0,
-            "watched_s": (video["average_view_percentage"]
-                          * curve.get("duration_s", 0) / 100) if curve else None,
-        })
+        buckets.setdefault(record_entry["arm"], []).append(
+            {
+                "retention": video["average_view_percentage"],
+                "views": video.get("views") or 0,
+                "watched_s": (video["average_view_percentage"] * curve.get("duration_s", 0) / 100)
+                if curve
+                else None,
+            }
+        )
 
     if not buckets:
         print("Aucune vidéo assignée n'a encore de données de rétention.")
@@ -117,15 +121,18 @@ def report() -> int:
     print(f"{'bras':<16} {'n':>3} {'rétention':>10} {'vues':>8} {'secondes vues':>14}")
     for arm, rows in sorted(buckets.items()):
         watched = [r["watched_s"] for r in rows if r["watched_s"]]
-        print(f"{arm:<16} {len(rows):>3} "
-              f"{statistics.mean(r['retention'] for r in rows):>9.1f}% "
-              f"{statistics.mean(r['views'] for r in rows):>8.0f} "
-              f"{statistics.mean(watched) if watched else 0:>13.1f}s")
+        print(
+            f"{arm:<16} {len(rows):>3} "
+            f"{statistics.mean(r['retention'] for r in rows):>9.1f}% "
+            f"{statistics.mean(r['views'] for r in rows):>8.0f} "
+            f"{statistics.mean(watched) if watched else 0:>13.1f}s"
+        )
 
     if len(buckets) == 2 and all(len(v) >= 5 for v in buckets.values()):
         arms = sorted(buckets)
-        diff = (statistics.mean(r["retention"] for r in buckets[arms[1]])
-                - statistics.mean(r["retention"] for r in buckets[arms[0]]))
+        diff = statistics.mean(r["retention"] for r in buckets[arms[1]]) - statistics.mean(
+            r["retention"] for r in buckets[arms[0]]
+        )
         print(f"\nécart : {diff:+.1f} points ({arms[1]} vs {arms[0]})")
         if abs(diff) < 4:
             print("→ écart trop faible pour cet échantillon : pas de conclusion.")
@@ -141,8 +148,9 @@ def main() -> int:
     parser.add_argument("--assign", action="store_true")
     parser.add_argument("--report", action="store_true")
     parser.add_argument("--record", nargs=2, metavar=("VIDEO_ID", "ARM"))
-    parser.add_argument("--last-video-id", action="store_true",
-                        help="print the newest uploaded video id (for CI)")
+    parser.add_argument(
+        "--last-video-id", action="store_true", help="print the newest uploaded video id (for CI)"
+    )
     args = parser.parse_args()
 
     if args.last_video_id:

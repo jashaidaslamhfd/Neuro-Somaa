@@ -3,13 +3,14 @@ daily/hourly Groq quota waits to a useless few-minute default (root cause
 of a day with zero videos produced: 'try again in 5h44m...' parsed as if
 it were 'try again in 5m...').
 """
+
 import sys
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
-from script_generator import (  # noqa: E402
+from script_generator import (
     MAX_RATE_LIMIT_SLEEP_SEC,
     _parse_groq_rate_limit_wait,
 )
@@ -21,8 +22,7 @@ class GroqRateLimitWaitParsingTests(unittest.TestCase):
         self.assertEqual(_parse_groq_rate_limit_wait(err), 45 * 60 + 12 + 10)
 
     def test_hours_minutes_seconds_with_decimals(self):
-        err = ("Rate limit reached for model on tokens per day (TPD). "
-               "Please try again in 5h44m32.891s.")
+        err = "Rate limit reached for model on tokens per day (TPD). Please try again in 5h44m32.891s."
         expected = 5 * 3600 + 44 * 60 + 32 + 10
         self.assertEqual(_parse_groq_rate_limit_wait(err), expected)
 

@@ -6,23 +6,28 @@ Skips videos already public or already published; reschedules private ones
 whose publishAt is not on a peak slot (or publishes immediately if publishAt
 is already passed).
 """
+
 from __future__ import annotations
+
 import json
 import os
 import sys
 import urllib.parse
 import urllib.request
+from datetime import UTC
 
 PEAK_SLOTS_MIN = [10 * 60 + 30, 17 * 60 + 30, 19 * 60 + 0]  # 10:30, 17:30, 19:00
 
 
 def _token():
-    payload = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    payload = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=payload)
     return json.load(urllib.request.urlopen(req, timeout=30))["access_token"]
 
@@ -33,9 +38,10 @@ def _q(path, params, token, method="GET", body=None):
         url += "?" + urllib.parse.urlencode(params)
     data = json.dumps(body).encode() if body else None
     req = urllib.request.Request(
-        url, data=data, method=method,
-        headers={"Authorization": f"Bearer {token}",
-                 "Content-Type": "application/json"} if token else None,
+        url,
+        data=data,
+        method=method,
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"} if token else None,
     )
     try:
         return json.load(urllib.request.urlopen(req, timeout=60)), None
@@ -45,7 +51,8 @@ def _q(path, params, token, method="GET", body=None):
 
 def utc_minutes(ts_iso):
     from datetime import datetime
-    dt = datetime.fromisoformat(ts_iso.replace("Z", "+00:00"))
+
+    dt = datetime.fromisoformat(ts_iso)
     return dt.hour * 60 + dt.minute
 
 
@@ -77,7 +84,7 @@ def main():
             break
 
     for i in range(0, len(vids), 50):
-        batch = vids[i:i + 50]
+        batch = vids[i : i + 50]
         d, err = _q("videos", {"part": "snippet,status", "id": ",".join(batch)}, token)
         if err:
             raise SystemExit(f"videos list failed: {err}")
@@ -95,8 +102,9 @@ def main():
                     continue
                 # publish immediately at next opportunity: YouTube rejects
                 # publishAt in the past; set to now + few minutes if due.
-                from datetime import datetime, timezone, timedelta
-                now = datetime.now(timezone.utc)
+                from datetime import datetime, timedelta
+
+                now = datetime.now(UTC)
                 target = (now + timedelta(minutes=5)).strftime("%Y-%m-%dT%H:%M:%SZ")
                 body = {
                     "id": vid,
@@ -106,16 +114,21 @@ def main():
                         "selfDeclaredMadeForKids": False,
                     },
                 }
-                r, err = _q("videos", {"part": "snippet,status"}, token,
-                            method="PUT", body=body)
+                r, err = _q("videos", {"part": "snippet,status"}, token, method="PUT", body=body)
                 if err:
                     # YouTube rejects a future publishAt on plain-private
                     # uploads (400); fall back to an immediate public release.
-                    r, err = _q("videos", {"part": "snippet,status"}, token,
-                                method="PUT",
-                                body={"id": vid,
-                                      "snippet": {"title": title[:100]},
-                                      "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False}})
+                    r, err = _q(
+                        "videos",
+                        {"part": "snippet,status"},
+                        token,
+                        method="PUT",
+                        body={
+                            "id": vid,
+                            "snippet": {"title": title[:100]},
+                            "status": {"privacyStatus": "public", "selfDeclaredMadeForKids": False},
+                        },
+                    )
                 if err:
                     print(f"[fail] {vid}: {err}")
                 else:

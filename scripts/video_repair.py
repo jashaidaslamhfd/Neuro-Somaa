@@ -26,6 +26,7 @@ Faults and the fix for each:
 Run DRY by default (prints the plan); pass --apply to write changes.
 Needs GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN env.
 """
+
 import argparse
 import json
 import logging
@@ -52,34 +53,92 @@ RETITLE = {
 BASE_TAGS = ["shorts", "science", "corps humain", "faits étonnants", "curiosité"]
 
 RETAG = {
-    "nQI2RkTODb0": ["pourquoi", "poumons", "respiration", "air", "santé",
-                    "poumon", "corps", "expliqué simplement"],
-    "vAmu8qhid6w": ["pourquoi", "chair de poule", "froid", "réflexe", "peau",
-                    "température", "corps", "expliqué simplement"],
-    "b3W6KVeZuCo": ["pourquoi", "poumons", "froid", "air froid", "respiration",
-                    "poitrine", "hiver", "santé"],
-    "6TMN07KA8g4": ["vaisseaux sanguins", "corps humain", "sang", "cœur",
-                    "anatomie", "pourquoi", "surprenant", "record"],
-    "oYWA48Tbcyc": ["cerveau", "illusions", "perception", "psychologie",
-                    "pourquoi", "surprenant", "expliqué simplement", "preuve"],
-    "yxoI9-KWXzI": ["stress", "mémoire", "cerveau", "cortisol", "pourquoi",
-                    "santé mentale", "oublier", "concentration"],
-    "68B-7lTf8nU": ["genoux qui craquent", "articulations", "pourquoi", "corps",
-                    "os", "craquement", "santé", "expliqué simplement"],
-    "hAb8ztZnG-k": ["oreilles", "grandissent", "vieillir", "corps", "pourquoi",
-                    "oreille", "vieillissement", "surprenant"],
+    "nQI2RkTODb0": [
+        "pourquoi",
+        "poumons",
+        "respiration",
+        "air",
+        "santé",
+        "poumon",
+        "corps",
+        "expliqué simplement",
+    ],
+    "vAmu8qhid6w": [
+        "pourquoi",
+        "chair de poule",
+        "froid",
+        "réflexe",
+        "peau",
+        "température",
+        "corps",
+        "expliqué simplement",
+    ],
+    "b3W6KVeZuCo": ["pourquoi", "poumons", "froid", "air froid", "respiration", "poitrine", "hiver", "santé"],
+    "6TMN07KA8g4": [
+        "vaisseaux sanguins",
+        "corps humain",
+        "sang",
+        "cœur",
+        "anatomie",
+        "pourquoi",
+        "surprenant",
+        "record",
+    ],
+    "oYWA48Tbcyc": [
+        "cerveau",
+        "illusions",
+        "perception",
+        "psychologie",
+        "pourquoi",
+        "surprenant",
+        "expliqué simplement",
+        "preuve",
+    ],
+    "yxoI9-KWXzI": [
+        "stress",
+        "mémoire",
+        "cerveau",
+        "cortisol",
+        "pourquoi",
+        "santé mentale",
+        "oublier",
+        "concentration",
+    ],
+    "68B-7lTf8nU": [
+        "genoux qui craquent",
+        "articulations",
+        "pourquoi",
+        "corps",
+        "os",
+        "craquement",
+        "santé",
+        "expliqué simplement",
+    ],
+    "hAb8ztZnG-k": [
+        "oreilles",
+        "grandissent",
+        "vieillir",
+        "corps",
+        "pourquoi",
+        "oreille",
+        "vieillissement",
+        "surprenant",
+    ],
 }
 
 
 def _token() -> str:
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token"}).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
-            urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
-            timeout=30) as r:
+        urllib.request.Request("https://oauth2.googleapis.com/token", data=data), timeout=30
+    ) as r:
         return json.load(r)["access_token"]
 
 
@@ -95,15 +154,12 @@ def _req(method: str, url: str, token: str, payload: dict | None = None):
 
 
 def _get_snippet(token: str, vid: str) -> dict | None:
-    cur = _req("GET",
-               f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}",
-               token)
+    cur = _req("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}", token)
     items = cur.get("items") or []
     return items[0]["snippet"] if items else None
 
 
-def _update_snippet(token: str, vid: str, sn: dict, *, title=None, tags=None,
-                    apply=False) -> None:
+def _update_snippet(token: str, vid: str, sn: dict, *, title=None, tags=None, apply=False) -> None:
     new_title = title if title is not None else sn.get("title", "")
     new_tags = tags if tags is not None else (sn.get("tags") or [])
     if not apply:
@@ -112,17 +168,20 @@ def _update_snippet(token: str, vid: str, sn: dict, *, title=None, tags=None,
         if tags is not None:
             log.info("[dry] RETAG %s\n  old: %r\n  new: %r", vid, sn.get("tags"), new_tags)
         return
-    payload = {"id": vid, "snippet": {
-        "title": new_title,
-        "description": sn.get("description", ""),
-        "categoryId": sn.get("categoryId", "27"),
-        "tags": new_tags,
-        **({"defaultLanguage": sn["defaultLanguage"]} if sn.get("defaultLanguage") else {}),
-        **({"defaultAudioLanguage": sn["defaultAudioLanguage"]}
-           if sn.get("defaultAudioLanguage") else {}),
-    }}
-    _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
-         token, payload)
+    payload = {
+        "id": vid,
+        "snippet": {
+            "title": new_title,
+            "description": sn.get("description", ""),
+            "categoryId": sn.get("categoryId", "27"),
+            "tags": new_tags,
+            **({"defaultLanguage": sn["defaultLanguage"]} if sn.get("defaultLanguage") else {}),
+            **(
+                {"defaultAudioLanguage": sn["defaultAudioLanguage"]} if sn.get("defaultAudioLanguage") else {}
+            ),
+        },
+    }
+    _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet", token, payload)
     log.info("updated %s (title/tags)", vid)
 
 

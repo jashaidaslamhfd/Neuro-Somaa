@@ -27,6 +27,7 @@ Everything YouTube-mutating is dry by default. Nothing is ever published or
 deleted here; only video *metadata* (title/description/tags) is ever changed,
 and only with --apply.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -58,8 +59,12 @@ MIN_AGE_DAYS_FOR_STATS = 4
 # --------------------------------------------------------------------------- #
 # Trailing fragments the old broken engine leaked into published titles.
 LEAKED_FRAGMENTS = (
-    "peut sembler", "semble étrange", "semble etrangement",
-    "peut paraître", "peut paraitre", "semble familier",
+    "peut sembler",
+    "semble étrange",
+    "semble etrangement",
+    "peut paraître",
+    "peut paraitre",
+    "semble familier",
     # Old catalogue grammar bug: "Pourquoi le cerveau remarque entendre..."
     # is literal/robotic French and must be rewritten, not reused in repairs.
     "remarque entendre",
@@ -72,14 +77,14 @@ TRUNCATION_TAILS = re.compile(
 
 # Opener archetypes seen on this channel. Order matters: first match wins.
 OPENER_RULES = [
-    ("pourquoi-question",      re.compile(r"^pourquoi\b.+\?\s*$", re.IGNORECASE)),
-    ("pourquoi-declarative",   re.compile(r"^pourquoi\b", re.IGNORECASE)),
-    ("comprendre-pourquoi",    re.compile(r"^comprendre\b", re.IGNORECASE)),
-    ("ce-qu-il-faut",          re.compile(r"^ce qu'?il faut comprendre", re.IGNORECASE)),
-    ("ce-que-corps-dit",       re.compile(r"^ce que (votre |ton |le )?corps (vous )?dit", re.IGNORECASE)),
-    ("ce-qui-se-passe",        re.compile(r"^ce qui (se passe|change|arrive)", re.IGNORECASE)),
-    ("la-science",             re.compile(r"^(la science|ce que la science)", re.IGNORECASE)),
-    ("short-fragment",         re.compile(r"^[\wàâäçéèêëîïôöùûüÿœæ]{1,12}$", re.IGNORECASE)),
+    ("pourquoi-question", re.compile(r"^pourquoi\b.+\?\s*$", re.IGNORECASE)),
+    ("pourquoi-declarative", re.compile(r"^pourquoi\b", re.IGNORECASE)),
+    ("comprendre-pourquoi", re.compile(r"^comprendre\b", re.IGNORECASE)),
+    ("ce-qu-il-faut", re.compile(r"^ce qu'?il faut comprendre", re.IGNORECASE)),
+    ("ce-que-corps-dit", re.compile(r"^ce que (votre |ton |le )?corps (vous )?dit", re.IGNORECASE)),
+    ("ce-qui-se-passe", re.compile(r"^ce qui (se passe|change|arrive)", re.IGNORECASE)),
+    ("la-science", re.compile(r"^(la science|ce que la science)", re.IGNORECASE)),
+    ("short-fragment", re.compile(r"^[\wàâäçéèêëîïôöùûüÿœæ]{1,12}$", re.IGNORECASE)),
 ]
 
 
@@ -173,25 +178,27 @@ def analyze_videos(videos: list[dict]) -> list[dict]:
         age_days = (TODAY - d).days if d else None
         views = int(v.get("views") or 0)
         retention = v.get("average_view_percentage")
-        out.append({
-            "id": v.get("youtube_video_id", ""),
-            "title": title,
-            "topic": v.get("topic", ""),
-            "series_title": v.get("series_title", ""),
-            "base_phenomenon": v.get("base_phenomenon", ""),
-            "nominal_phrase": v.get("nominal_phrase", ""),
-            "question_phrase": v.get("question_phrase", ""),
-            "views": views,
-            "opener": classify_opener(title),
-            "retention_pct": round(retention * 100, 1) if isinstance(retention, (int, float)) else None,
-            "avd_sec": v.get("average_view_duration_sec"),
-            "hook_score": v.get("hook_score"),
-            "posted": d.isoformat() if d else None,
-            "age_days": age_days,
-            "too_new": (age_days is not None and age_days < MIN_AGE_DAYS_FOR_STATS),
-            "title_issues": analyze_title(title),
-            "title_seo_score": title_seo_score(title),
-        })
+        out.append(
+            {
+                "id": v.get("youtube_video_id", ""),
+                "title": title,
+                "topic": v.get("topic", ""),
+                "series_title": v.get("series_title", ""),
+                "base_phenomenon": v.get("base_phenomenon", ""),
+                "nominal_phrase": v.get("nominal_phrase", ""),
+                "question_phrase": v.get("question_phrase", ""),
+                "views": views,
+                "opener": classify_opener(title),
+                "retention_pct": round(retention * 100, 1) if isinstance(retention, (int, float)) else None,
+                "avd_sec": v.get("average_view_duration_sec"),
+                "hook_score": v.get("hook_score"),
+                "posted": d.isoformat() if d else None,
+                "age_days": age_days,
+                "too_new": (age_days is not None and age_days < MIN_AGE_DAYS_FOR_STATS),
+                "title_issues": analyze_title(title),
+                "title_seo_score": title_seo_score(title),
+            }
+        )
     return out
 
 
@@ -202,10 +209,7 @@ def opener_performance(rows: list[dict]) -> list[tuple[str, float, int]]:
         if r["too_new"] or r["age_days"] is None:
             continue
         groups[r["opener"]].append(r["views"])
-    ranked = [
-        (opener, round(sum(v) / len(v)), len(v))
-        for opener, v in groups.items() if v
-    ]
+    ranked = [(opener, round(sum(v) / len(v)), len(v)) for opener, v in groups.items() if v]
     return sorted(ranked, key=lambda x: x[1], reverse=True)
 
 
@@ -264,9 +268,11 @@ def build_report(rows: list[dict]) -> str:
     # New videos need attention
     if fresh:
         lines.append("\n## ⚠️ New uploads (0 views, <4 days old)\n")
-        lines.append("These are NOT failures yet — Shorts need a few days. But their title/SEO "
-                     "matters MOST right now, so review the issues above and fix before the "
-                     "algorithm decides their fate.\n")
+        lines.append(
+            "These are NOT failures yet — Shorts need a few days. But their title/SEO "
+            "matters MOST right now, so review the issues above and fix before the "
+            "algorithm decides their fate.\n"
+        )
         for r in fresh:
             lines.append(f"- `{r['title']}` — opener `{r['opener']}`")
         lines.append("")
@@ -278,18 +284,22 @@ def build_report(rows: list[dict]) -> str:
 # LIVE YouTube mode
 # --------------------------------------------------------------------------- #
 def _oauth_token() -> str:
-    missing = [k for k in ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN")
-               if not os.environ.get(k)]
+    missing = [
+        k for k in ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN") if not os.environ.get(k)
+    ]
     if missing:
         raise SystemExit(f"LIVE mode needs env vars: {missing}. Set them in .env or GitHub Secrets.")
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
-        urllib.request.Request("https://oauth2.googleapis.com/token", data=data), timeout=30,
+        urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
+        timeout=30,
     ) as r:
         return json.load(r)["access_token"]
 
@@ -336,9 +346,11 @@ def list_my_video_ids(token: str) -> list[str]:
 def fetch_video_details(token: str, ids: list[str]) -> list[dict]:
     out = []
     for i in range(0, len(ids), 50):
-        batch = ",".join(ids[i:i + 50])
-        res = _req(token,
-                   "https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=" + batch)
+        batch = ",".join(ids[i : i + 50])
+        res = _req(
+            token,
+            "https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=" + batch,
+        )
         out.extend(res.get("items", []))
         time.sleep(0.3)
     return out
@@ -369,8 +381,10 @@ def propose_title(client, topic: str, current: str) -> str | None:
     )
     try:
         resp = client.chat.completions.create(
-            model=model, messages=[{"role": "user", "content": prompt}],
-            temperature=0.7, max_tokens=60,
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=60,
         )
         title = (resp.choices[0].message.content or "").strip().strip('"').strip("«» ")
         # guardrail: never ship something longer than YT comfortably shows
@@ -393,6 +407,7 @@ def _seo_generator():
     if SEO_GEN is None:
         sys.path.insert(0, os.path.join(ROOT, "src"))
         import seo_generator as _sg
+
         SEO_GEN = _sg
     return SEO_GEN
 
@@ -414,7 +429,9 @@ def clean_topic(topic: str) -> str:
         t = re.sub(re.escape(frag) + r"[^.?!]*", "", t, flags=re.IGNORECASE)
     t = re.sub(
         r"\s+(de|du|la|le|les|un|une|des|se|ne|ce|que|qui|pour|sur|dans|avec)$",
-        "", t, flags=re.IGNORECASE,
+        "",
+        t,
+        flags=re.IGNORECASE,
     )
     return t.strip(" .,") or (topic or "").strip()
 
@@ -492,14 +509,24 @@ def _repair_title_is_safe(title: str) -> bool:
     if not t or len(t) > 70 or len(t.split()) > 12:
         return False
     banned = (
-        "dans ce short", "ce short", "abonne", "abonnez", "hashtags", "tags",
-        "description", "titre", "voici", "```", "#", "http", "www.", " on e",
+        "dans ce short",
+        "ce short",
+        "abonne",
+        "abonnez",
+        "hashtags",
+        "tags",
+        "description",
+        "titre",
+        "voici",
+        "```",
+        "#",
+        "http",
+        "www.",
+        " on e",
     )
     if any(token in low for token in banned):
         return False
-    if analyze_title(t):
-        return False
-    return True
+    return not analyze_title(t)
 
 
 def build_repair_package(row: dict, groq_client) -> dict:
@@ -518,7 +545,10 @@ def build_repair_package(row: dict, groq_client) -> dict:
         "title": row.get("title", ""),
         "series_title": row.get("series_title") or catalogue_meta.get("series_title") or row.get("title", ""),
         "base_phenomenon": row.get("base_phenomenon") or catalogue_meta.get("topic") or "",
-        "nominal_phrase": row.get("nominal_phrase") or catalogue_meta.get("nominal_phrase") or catalogue_meta.get("topic") or "",
+        "nominal_phrase": row.get("nominal_phrase")
+        or catalogue_meta.get("nominal_phrase")
+        or catalogue_meta.get("topic")
+        or "",
         "question_phrase": row.get("question_phrase") or catalogue_meta.get("question_phrase") or "",
         "hook": topic,
         "description": topic,
@@ -587,8 +617,16 @@ def regenerate_thumbnail(video_id: str, thumbnail_text: str) -> str | None:
     overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
 
-    font_big = ImageFont.truetype(THUMB_FONT, int(w * 0.135)) if os.path.exists(THUMB_FONT) else ImageFont.load_default()
-    font_badge = ImageFont.truetype(THUMB_FONT, int(w * 0.06)) if os.path.exists(THUMB_FONT) else ImageFont.load_default()
+    font_big = (
+        ImageFont.truetype(THUMB_FONT, int(w * 0.135))
+        if os.path.exists(THUMB_FONT)
+        else ImageFont.load_default()
+    )
+    font_badge = (
+        ImageFont.truetype(THUMB_FONT, int(w * 0.06))
+        if os.path.exists(THUMB_FONT)
+        else ImageFont.load_default()
+    )
 
     def _wrap(text: str, font, max_w: float) -> list[str]:
         words, lines, cur = text.split(), [], ""
@@ -621,7 +659,9 @@ def regenerate_thumbnail(video_id: str, thumbnail_text: str) -> str | None:
         draw.rounded_rectangle([bx, by, bx + bw, by + bh], radius=int(bh * 0.4), fill=(230, 40, 40, 255))
     except AttributeError:  # older Pillow without rounded_rectangle
         draw.rectangle([bx, by, bx + bw, by + bh], fill=(230, 40, 40, 255))
-    draw.text((bx + int(w * 0.04), by + int(h * 0.012)), badge_txt, font=font_badge, fill=(255, 255, 255, 255))
+    draw.text(
+        (bx + int(w * 0.04), by + int(h * 0.012)), badge_txt, font=font_badge, fill=(255, 255, 255, 255)
+    )
 
     # ---- Text lines: last word of the last line highlighted for emphasis. ----
     y = band_top + int(h * 0.03)
@@ -639,10 +679,14 @@ def regenerate_thumbnail(video_id: str, thumbnail_text: str) -> str | None:
             try:
                 draw.rounded_rectangle(
                     [cx - chip_pad, y - chip_pad, cx + tail_w + chip_pad, y + int(w * 0.135) + chip_pad],
-                    radius=int(w * 0.02), fill=(220, 30, 30, 255),
+                    radius=int(w * 0.02),
+                    fill=(220, 30, 30, 255),
                 )
             except AttributeError:
-                draw.rectangle([cx - chip_pad, y - chip_pad, cx + tail_w + chip_pad, y + int(w * 0.135) + chip_pad], fill=(220, 30, 30, 255))
+                draw.rectangle(
+                    [cx - chip_pad, y - chip_pad, cx + tail_w + chip_pad, y + int(w * 0.135) + chip_pad],
+                    fill=(220, 30, 30, 255),
+                )
             if head:
                 for dx, dy in [(-3, 0), (3, 0), (0, -3), (0, 3)]:
                     draw.text((x + dx, y + dy), head, font=font_big, fill=(0, 0, 0, 240))
@@ -670,16 +714,18 @@ def build_repair_plan(rows: list[dict], generate_thumbs: bool) -> dict:
             continue
         pkg = build_repair_package(r, client)
         thumb = regenerate_thumbnail(r["id"], pkg["thumbnail_text"]) if generate_thumbs else None
-        plan["repairs"].append({
-            "id": r["id"],
-            "views": r["views"],
-            "current_title": r["title"],
-            "topic": r["topic"],
-            **pkg,
-            "issues": r["title_issues"],
-            "new_thumbnail": thumb,
-            "has_base_thumbnail": os.path.exists(os.path.join(THUMBS_DIR, f"{r['id']}.jpg")),
-        })
+        plan["repairs"].append(
+            {
+                "id": r["id"],
+                "views": r["views"],
+                "current_title": r["title"],
+                "topic": r["topic"],
+                **pkg,
+                "issues": r["title_issues"],
+                "new_thumbnail": thumb,
+                "has_base_thumbnail": os.path.exists(os.path.join(THUMBS_DIR, f"{r['id']}.jpg")),
+            }
+        )
         log.info("planned repair %s: %r -> %r", r["id"], r["title"], pkg["title"])
     return plan
 
@@ -715,7 +761,8 @@ def _set_thumbnail(token: str, vid: str, image_path: str, apply: bool) -> bool:
             data = fh.read()
         req = urllib.request.Request(
             f"https://www.googleapis.com/youtube/v3/thumbnails/set?videoId={vid}",
-            data=data, method="POST",
+            data=data,
+            method="POST",
         )
         req.add_header("Authorization", f"Bearer {token}")
         req.add_header("Content-Type", "image/jpeg")
@@ -725,8 +772,9 @@ def _set_thumbnail(token: str, vid: str, image_path: str, apply: bool) -> bool:
         return True
     except urllib.error.HTTPError as e:
         log.warning(
-            "  thumbnail set failed for %s (channel must be verified for custom "
-            "thumbnails): %s", vid, e.read().decode("utf-8", "replace")[:200],
+            "  thumbnail set failed for %s (channel must be verified for custom thumbnails): %s",
+            vid,
+            e.read().decode("utf-8", "replace")[:200],
         )
         return False
     except Exception as exc:
@@ -748,15 +796,21 @@ def apply_repair_plan(token: str, plan: dict, apply: bool, with_thumbnails: bool
         log.info("UPDATE %s\n  title: %r -> %r", vid, sn.get("title", ""), new_title)
         if not apply:
             continue
-        payload = {"id": vid, "snippet": {
-            "title": new_title,
-            "description": item["description"] or sn.get("description", ""),
-            "categoryId": sn.get("categoryId", "27"),
-            "tags": item["tags"] or sn.get("tags", []),
-            "defaultLanguage": "fr",
-            **({"defaultAudioLanguage": sn["defaultAudioLanguage"]}
-               if sn.get("defaultAudioLanguage") else {}),
-        }}
+        payload = {
+            "id": vid,
+            "snippet": {
+                "title": new_title,
+                "description": item["description"] or sn.get("description", ""),
+                "categoryId": sn.get("categoryId", "27"),
+                "tags": item["tags"] or sn.get("tags", []),
+                "defaultLanguage": "fr",
+                **(
+                    {"defaultAudioLanguage": sn["defaultAudioLanguage"]}
+                    if sn.get("defaultAudioLanguage")
+                    else {}
+                ),
+            },
+        }
         _req(token, "https://www.googleapis.com/youtube/v3/videos?part=snippet", "PUT", payload)
         updated += 1
         time.sleep(0.5)
@@ -766,8 +820,10 @@ def apply_repair_plan(token: str, plan: dict, apply: bool, with_thumbnails: bool
             time.sleep(0.5)
     log.info(
         "Applied: %d snippet(s) %s, %d thumbnail(s) %s.",
-        updated, "updated" if apply else "planned",
-        thumbs, "updated" if apply else "planned",
+        updated,
+        "updated" if apply else "planned",
+        thumbs,
+        "updated" if apply else "planned",
     )
 
 
@@ -776,12 +832,19 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--live", action="store_true", help="pull fresh stats from YouTube (needs OAuth)")
     ap.add_argument("--apply", action="store_true", help="(with --live) actually rewrite SEO on YouTube")
-    ap.add_argument("--plan", action="store_true",
-                    help="generate an offline SEO repair plan (title/description/tags/thumbnail) for review")
-    ap.add_argument("--with-thumbnails", action="store_true",
-                    help="(with --plan or --apply) regenerate and replace thumbnails too")
-    ap.add_argument("--all", action="store_true",
-                    help="repair ALL videos, not just the ones flagged with title issues")
+    ap.add_argument(
+        "--plan",
+        action="store_true",
+        help="generate an offline SEO repair plan (title/description/tags/thumbnail) for review",
+    )
+    ap.add_argument(
+        "--with-thumbnails",
+        action="store_true",
+        help="(with --plan or --apply) regenerate and replace thumbnails too",
+    )
+    ap.add_argument(
+        "--all", action="store_true", help="repair ALL videos, not just the ones flagged with title issues"
+    )
     ap.add_argument("--out", default=os.path.join(DATA, f"channel_seo_audit_{TODAY.strftime('%Y%m%d')}.md"))
     args = ap.parse_args()
 
@@ -796,16 +859,18 @@ def main() -> int:
         for it in details:
             sn = it.get("snippet", {})
             st = it.get("statistics", {})
-            videos.append({
-                "youtube_video_id": it.get("id"),
-                "title": sn.get("title", ""),
-                "topic": sn.get("description", "").split("\n")[0][:80],
-                "views": int(st.get("viewCount", 0)),
-                "posted_at": sn.get("publishedAt"),
-                "average_view_percentage": None,
-                "average_view_duration_sec": None,
-                "hook_score": None,
-            })
+            videos.append(
+                {
+                    "youtube_video_id": it.get("id"),
+                    "title": sn.get("title", ""),
+                    "topic": sn.get("description", "").split("\n")[0][:80],
+                    "views": int(st.get("viewCount", 0)),
+                    "posted_at": sn.get("publishedAt"),
+                    "average_view_percentage": None,
+                    "average_view_duration_sec": None,
+                    "hook_score": None,
+                }
+            )
         rows = analyze_videos(videos)
     else:
         log.info("OFFLINE mode: analysing data/video_history.json (no secrets needed).")

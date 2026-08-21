@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """2026-08-19 FRENCH GROWTH-STRATEGY TESTS
 
 Verifies the millions-views French growth stack WITHOUT any network, TTS
@@ -14,15 +13,17 @@ Coverage (the FR growth conversion of 2026-08-19):
 5. CTA pool: no English words, no "vous", always ends with a reply invite.
 6. Tags: English blocklist enforced even for category/competitor bleed.
 """
+
 import os
 import re
 import sys
 import unittest
+from typing import ClassVar
 
 SRC = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "src")
 sys.path.insert(0, SRC)
 
-import seo_generator as seo  # noqa: E402
+import seo_generator as seo
 
 _FRENCH_RE = re.compile(r"[a-zà-ÿœâæçîïôûéèêëàù]")
 
@@ -35,9 +36,16 @@ def _is_french(text: str) -> bool:
     return any(_FRENCH_RE.search(w) for w in ascii_words)
 
 
-_ENGLISH_SIGNALS = ("subscribe", "like and share", "hit subscribe",
-                    "smash", "you guys", "follow for more", "like this video",
-                    "drop a like")
+_ENGLISH_SIGNALS = (
+    "subscribe",
+    "like and share",
+    "hit subscribe",
+    "smash",
+    "you guys",
+    "follow for more",
+    "like this video",
+    "drop a like",
+)
 
 
 def _no_english_engagement(text: str) -> bool:
@@ -46,7 +54,7 @@ def _no_english_engagement(text: str) -> bool:
 
 
 class FrenchGrowthStrategyTests(unittest.TestCase):
-    SAMPLE_SCRIPT = {
+    SAMPLE_SCRIPT: ClassVar[dict[str, str]] = {
         "title": "Facteurs surprenants",
         "series_title": "Faits surprenants",
         "hook": "Ton corps fait ça sans que tu le saches — et la raison est bizarre.",
@@ -77,8 +85,13 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
     def test_pinned_pool_never_clickbait_words(self):
         for tpl in seo.PINNED_QUESTION_TEMPLATES:
             low = tpl.lower()
-            for banned in ("secret exclusif", "choc", "incroyable ?",
-                           "tu ne devineras jamais", "médecins cachent"):
+            for banned in (
+                "secret exclusif",
+                "choc",
+                "incroyable ?",
+                "tu ne devineras jamais",
+                "médecins cachent",
+            ):
                 self.assertNotIn(banned, low)
 
     def test_description_starts_with_hook(self):
@@ -92,7 +105,6 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
         desc = pkg["description"]
         # the default pool CTA (reply-bait) must be one of the blocks
         seed = sum(ord(c) for c in self.TOPIC.lower())
-        expected = seo.generate_seo_package.__code__  # no-op guard
         pool = [
             "Abonne-toi pour plus de science simple — et dis-moi : ça t'arrive aussi ?",
             "Abonne-toi si ton corps te fait des trucs bizarres comme ça — ton réflexe préféré en commentaire ?",
@@ -103,11 +115,10 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
         self.assertIn(pool[seed % len(pool)], desc)
 
     def test_cta_pool_all_french_tu_reply_bait(self):
-        for cta in seo.generate_seo_package.__globals__.get("_CTA_POOL_TEST_ONLY", []):
-            pass  # real pool checked below
         import inspect
+
         src_text = inspect.getsource(seo.generate_seo_package)
-        pool_m = re.search(r"cta_pool = \[(.*?)\]", src_text, re.S)
+        pool_m = re.search(r"cta_pool = \[(.*?)\]", src_text, re.DOTALL)
         self.assertTrue(pool_m)
         pool = re.findall(r'"([^"]+)"', pool_m.group(1))
         self.assertGreaterEqual(len(pool), 5)
@@ -122,15 +133,13 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
                 re.search(r"(commentaire|dis[- ]?moi|raconte|arriv[eé]|t'intéresse)", low)
             )
             has_direct_question = bool(re.search(r"\?(\s*)$", cta.strip()))
-            self.assertTrue(has_comment_bait or has_direct_question,
-                            f"CTA missing reply-bait: {cta}")
+            self.assertTrue(has_comment_bait or has_direct_question, f"CTA missing reply-bait: {cta}")
 
     def test_hashtag_order_niche_first_shorts_last(self):
         pkg = seo.generate_seo_package(self.TOPIC, self.SAMPLE_SCRIPT)
         tags = pkg["hashtags"]
         self.assertGreater(len(tags), 1)
-        self.assertNotEqual(tags[0], "#shorts",
-                            "broad #shorts must not lead the hashtag line")
+        self.assertNotEqual(tags[0], "#shorts", "broad #shorts must not lead the hashtag line")
         # category hashtags come from the niche map (French slugs)
         first = tags[0]
         self.assertTrue(first.startswith("#") and _is_french(first[1:]))
@@ -139,8 +148,7 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
         pkg = seo.generate_seo_package(self.TOPIC, self.SAMPLE_SCRIPT)
         for h in pkg["hashtags"]:
             slug = h.lstrip("#")
-            self.assertNotIn(slug, seo.ENGLISH_TAG_BLOCKLIST,
-                             f"English hashtag shipped: {h}")
+            self.assertNotIn(slug, seo.ENGLISH_TAG_BLOCKLIST, f"English hashtag shipped: {h}")
         # FR growth pool is part of the shipped set for some topics
         pool_slugs = {h.lstrip("#") for h in seo.FR_GROWTH_HASHTAGS}
         shipped = {h.lstrip("#") for h in pkg["hashtags"]}
@@ -148,14 +156,12 @@ class FrenchGrowthStrategyTests(unittest.TestCase):
 
     def test_growth_pool_not_tiktok_tags(self):
         for h in seo.FR_GROWTH_HASHTAGS:
-            self.assertNotIn(h.lstrip("#"),
-                             {"fyp", "pourtoi", "viral", "trend", "xyzbca"})
+            self.assertNotIn(h.lstrip("#"), {"fyp", "pourtoi", "viral", "trend", "xyzbca"})
 
     def test_tags_french_only(self):
         pkg = seo.generate_seo_package(self.TOPIC, self.SAMPLE_SCRIPT)
         for tag in pkg["tags"]:
-            self.assertNotIn(tag.lower(), seo.ENGLISH_TAG_BLOCKLIST,
-                             f"English tag shipped: {tag}")
+            self.assertNotIn(tag.lower(), seo.ENGLISH_TAG_BLOCKLIST, f"English tag shipped: {tag}")
 
     def test_pinned_comment_fits_and_french(self):
         pkg = seo.generate_seo_package(self.TOPIC, self.SAMPLE_SCRIPT)

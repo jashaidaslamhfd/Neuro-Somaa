@@ -10,6 +10,7 @@ Actions stay conservative: under-performer → repair candidate list (which the
 existing repair workflows already consume); over-performer → pattern mining
 (mine WHAT worked, don't celebrate vanity numbers).
 """
+
 from __future__ import annotations
 
 import math
@@ -25,13 +26,15 @@ def detect_anomalies(history: list[dict], recent_n: int = 20) -> dict:
             views = int(views)
         except (TypeError, ValueError):
             continue
-        points.append({
-            "video_id": entry.get("youtube_video_id") or "?",
-            "title": str(entry.get("title") or ""),
-            "views": views,
-            "log_views": math.log1p(views),
-            "retention_pct": entry.get("average_view_percentage"),
-        })
+        points.append(
+            {
+                "video_id": entry.get("youtube_video_id") or "?",
+                "title": str(entry.get("title") or ""),
+                "views": views,
+                "log_views": math.log1p(views),
+                "retention_pct": entry.get("average_view_percentage"),
+            }
+        )
 
     if len(points) < 8:
         return {"reliable": False, "reason": f"n={len(points)} too small", "anomalies": []}
@@ -49,18 +52,20 @@ def detect_anomalies(history: list[dict], recent_n: int = 20) -> dict:
         if abs(z) <= 3.5:
             continue
         direction = "over" if z > 0 else "under"
-        anomalies.append({
-            "video_id": p["video_id"],
-            "title": p["title"][:80],
-            "views": p["views"],
-            "modified_z": round(z, 2),
-            "direction": direction,
-            "action": (
-                "mine the winning hook/topic pattern for reuse"
-                if direction == "over" else
-                "queue metadata+thumbnail repair (hooks, CTR signals)"
-            ),
-        })
+        anomalies.append(
+            {
+                "video_id": p["video_id"],
+                "title": p["title"][:80],
+                "views": p["views"],
+                "modified_z": round(z, 2),
+                "direction": direction,
+                "action": (
+                    "mine the winning hook/topic pattern for reuse"
+                    if direction == "over"
+                    else "queue metadata+thumbnail repair (hooks, CTR signals)"
+                ),
+            }
+        )
 
     flagged = sorted(anomalies, key=lambda a: abs(a["modified_z"]), reverse=True)
     return {

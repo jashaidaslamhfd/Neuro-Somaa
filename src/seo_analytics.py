@@ -41,7 +41,7 @@ from collections import defaultdict
 # "YouTube Analytics Sync" run failed this way, which is why no video in
 # data/video_history.json ever received real views/CTR.
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 HISTORY_FILE = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
@@ -51,6 +51,7 @@ HISTORY_FILE = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
 # 1. CTR Prediction (heuristic, not ML-trained on real data - see module note)
 # ---------------------------------------------------------------------------
 
+
 def predict_ctr(script_data: dict) -> dict:
     """Combines signals already computed elsewhere in the pipeline
     (hook score, SEO score, title pattern) into a single 0-10 CTR estimate
@@ -59,10 +60,10 @@ def predict_ctr(script_data: dict) -> dict:
     CTR correlations (strong hook + specific title + tight tags), not
     fitted on this channel's own data."""
     hook_score = None
-    if 'shorts_report' in script_data:
-        hook_score = script_data['shorts_report'].get('hook_detail', {}).get('score')
-    seo_score = script_data.get('seo_score', {}).get('scores', {}).get('overall_seo_score')
-    title = script_data.get('title', '')
+    if "shorts_report" in script_data:
+        hook_score = script_data["shorts_report"].get("hook_detail", {}).get("score")
+    seo_score = script_data.get("seo_score", {}).get("scores", {}).get("overall_seo_score")
+    title = script_data.get("title", "")
 
     signals_available = sum(x is not None for x in (hook_score, seo_score, title))
 
@@ -78,7 +79,11 @@ def predict_ctr(script_data: dict) -> dict:
         parts.append((title_len_score, 0.20))
 
     if not parts:
-        return {'ctr_prediction': None, 'confidence': 0.0, 'note': 'No signals available - run quality/SEO scoring first.'}
+        return {
+            "ctr_prediction": None,
+            "confidence": 0.0,
+            "note": "No signals available - run quality/SEO scoring first.",
+        }
 
     weighted_sum = sum(score * weight for score, weight in parts)
     total_weight = sum(weight for _, weight in parts)
@@ -88,15 +93,16 @@ def predict_ctr(script_data: dict) -> dict:
     confidence = min(confidence, 0.85)  # cap - this is a heuristic, never claim near-certainty
 
     return {
-        'ctr_prediction': ctr,
-        'confidence': confidence,
-        'basis': 'heuristic (hook/SEO/title-length signals) - not trained on real channel CTR data yet',
+        "ctr_prediction": ctr,
+        "confidence": confidence,
+        "basis": "heuristic (hook/SEO/title-length signals) - not trained on real channel CTR data yet",
     }
 
 
 # ---------------------------------------------------------------------------
 # 2. Thumbnail SEO scoring (real image analysis via PIL/numpy)
 # ---------------------------------------------------------------------------
+
 
 def score_thumbnail(thumb_path: str, title: str) -> dict:
     """Analyzes the actual generated thumbnail file. Only measures what's
@@ -106,7 +112,7 @@ def score_thumbnail(thumb_path: str, title: str) -> dict:
     well-documented CTR-correlated end of that scale, not literally
     modeling emotion)."""
     if not thumb_path or not os.path.exists(thumb_path):
-        return {'error': f'Thumbnail not found at {thumb_path}'}
+        return {"error": f"Thumbnail not found at {thumb_path}"}
 
     # Lazy import: keeps the analytics-only entrypoint runnable on a runner
     # that never installed numpy/Pillow (see module header note).
@@ -114,7 +120,7 @@ def score_thumbnail(thumb_path: str, title: str) -> dict:
         import numpy as np
         from PIL import Image
     except ImportError as exc:
-        return {'error': f'Thumbnail scoring needs numpy+Pillow: {exc}'}
+        return {"error": f"Thumbnail scoring needs numpy+Pillow: {exc}"}
 
     img = Image.open(thumb_path).convert("RGB")
     arr = np.array(img)
@@ -152,13 +158,13 @@ def score_thumbnail(thumb_path: str, title: str) -> dict:
     overall = round((contrast_score * 0.45) + (readability_score * 0.35) + (color_score * 0.20))
 
     return {
-        'contrast_score': contrast_score,
-        'readability_score': readability_score,
-        'color_score': color_score,
-        'face_emotion_score': 'not_available (no face/emotion model configured)',
-        'overall_thumbnail_score': overall,
-        'title_char_count': char_count,
-        'title_word_count': word_count,
+        "contrast_score": contrast_score,
+        "readability_score": readability_score,
+        "color_score": color_score,
+        "face_emotion_score": "not_available (no face/emotion model configured)",
+        "overall_thumbnail_score": overall,
+        "title_char_count": char_count,
+        "title_word_count": word_count,
     }
 
 
@@ -172,8 +178,16 @@ def score_thumbnail(thumb_path: str, title: str) -> dict:
 # highest relevance. This mirrors real tag-volume distributions without
 # needing live search-volume data.
 _BROAD_TAG_HINTS = {
-    "darkfacts", "facts", "shorts", "youtubeshorts", "science",
-    "didyouknow", "mindblowing", "funfacts", "scaryfacts", "viral",
+    "darkfacts",
+    "facts",
+    "shorts",
+    "youtubeshorts",
+    "science",
+    "didyouknow",
+    "mindblowing",
+    "funfacts",
+    "scaryfacts",
+    "viral",
 }
 
 
@@ -184,7 +198,7 @@ def rank_hashtags(tags: list[str]) -> list[dict]:
     list."""
     ranked = []
     for tag in tags:
-        clean = tag.lower().lstrip('#')
+        clean = tag.lower().lstrip("#")
         if clean in _BROAD_TAG_HINTS:
             volume, competition, tier = 90, 90, "broad"
         elif len(clean) <= 12:
@@ -196,21 +210,24 @@ def rank_hashtags(tags: list[str]) -> list[dict]:
         # i.e. the classic "easier to rank, still gets found" sweet spot.
         discovery_score = round((volume * 0.5) + ((100 - competition) * 0.5))
 
-        ranked.append({
-            'tag': tag,
-            'tier': tier,
-            'volume_proxy': volume,
-            'competition_proxy': competition,
-            'discovery_score': discovery_score,
-        })
+        ranked.append(
+            {
+                "tag": tag,
+                "tier": tier,
+                "volume_proxy": volume,
+                "competition_proxy": competition,
+                "discovery_score": discovery_score,
+            }
+        )
 
-    ranked.sort(key=lambda x: x['discovery_score'], reverse=True)
+    ranked.sort(key=lambda x: x["discovery_score"], reverse=True)
     return ranked
 
 
 # ---------------------------------------------------------------------------
 # 4. A/B variant generation + auto-ranking
 # ---------------------------------------------------------------------------
+
 
 def generate_ab_variants(script_data: dict, title_options: list[str]) -> dict:
     """Builds description variants (short-punchy vs longer-context) for
@@ -219,33 +236,35 @@ def generate_ab_variants(script_data: dict, title_options: list[str]) -> dict:
     so the top of the list is the recommended combo - true A/B test PREP,
     not a live split test (that needs real traffic, which happens after
     upload)."""
-    hook = script_data.get('hook', '')
-    cta = script_data.get('cta', '')
-    desc_base = script_data.get('description', '')
+    hook = script_data.get("hook", "")
+    cta = script_data.get("cta", "")
+    desc_base = script_data.get("description", "")
 
     description_variants = {
-        'short_punchy': f"{hook}\n\n👇 {cta}",
-        'context_first': f"{desc_base}\n\n{hook}\n\n👇 {cta}",
+        "short_punchy": f"{hook}\n\n👇 {cta}",
+        "context_first": f"{desc_base}\n\n{hook}\n\n👇 {cta}",
     }
 
     variants = []
     for title in title_options:
         for desc_label, desc_text in description_variants.items():
             trial_script = dict(script_data)
-            trial_script['title'] = title
-            trial_script['description'] = desc_text
+            trial_script["title"] = title
+            trial_script["description"] = desc_text
             ctr = predict_ctr(trial_script)
-            variants.append({
-                'title': title,
-                'description_variant': desc_label,
-                'description_preview': desc_text[:120],
-                'predicted_ctr': ctr.get('ctr_prediction'),
-            })
+            variants.append(
+                {
+                    "title": title,
+                    "description_variant": desc_label,
+                    "description_preview": desc_text[:120],
+                    "predicted_ctr": ctr.get("ctr_prediction"),
+                }
+            )
 
-    variants.sort(key=lambda v: (v['predicted_ctr'] or 0), reverse=True)
+    variants.sort(key=lambda v: v["predicted_ctr"] or 0, reverse=True)
     return {
-        'variants': variants,
-        'recommended': variants[0] if variants else None,
+        "variants": variants,
+        "recommended": variants[0] if variants else None,
     }
 
 
@@ -253,8 +272,8 @@ def generate_ab_variants(script_data: dict, title_options: list[str]) -> dict:
 # 5. Historical learning over output/video_history.json
 # ---------------------------------------------------------------------------
 
-def _classify_growth(prev_views, prev_at_iso: str | None,
-                     new_views, now) -> dict:
+
+def _classify_growth(prev_views, prev_at_iso: str | None, new_views, now) -> dict:
     """Truth-meter for 'views ruk gaye' (2026-08-12).
 
     Before this, the daily sync overwrote `views` and the old number was
@@ -306,25 +325,24 @@ def _title_pattern(title: str) -> str:
     making the title-pattern comparison completely useless."""
     t = title.lower().strip()
 
-    if t.startswith('pourquoi'):
-        return 'POURQUOI'                    # "Pourquoi le hoquet commence brusquement ?"
-    if t.startswith('ce que votre corps'):
-        return 'CE_QUE_VOTRE_CORPS'          # "Ce que votre corps vous dit quand..."
-    if t.startswith("ce qu'il faut comprendre") or t.startswith('ce qu’il faut comprendre'):
-        return 'CE_QUIL_FAUT_COMPRENDRE'
-    if t.startswith('ce que la science') or t.startswith('la science derrière') \
-            or t.startswith('la science derriere'):
-        return 'LA_SCIENCE'
-    if t.startswith('ce qui se passe'):
-        return 'CE_QUI_SE_PASSE'
-    if t.startswith('comment'):
-        return 'COMMENT'
-    if any(e in title for e in ('🧠', '🫀', '🔬', '⚡')):
-        return 'EMOJI_ENHANCED'
+    if t.startswith("pourquoi"):
+        return "POURQUOI"  # "Pourquoi le hoquet commence brusquement ?"
+    if t.startswith("ce que votre corps"):
+        return "CE_QUE_VOTRE_CORPS"  # "Ce que votre corps vous dit quand..."
+    if t.startswith(("ce qu'il faut comprendre", "ce qu’il faut comprendre")):
+        return "CE_QUIL_FAUT_COMPRENDRE"
+    if t.startswith(("ce que la science", "la science derrière", "la science derriere")):
+        return "LA_SCIENCE"
+    if t.startswith("ce qui se passe"):
+        return "CE_QUI_SE_PASSE"
+    if t.startswith("comment"):
+        return "COMMENT"
+    if any(e in title for e in ("🧠", "🫀", "🔬", "⚡")):
+        return "EMOJI_ENHANCED"
     # Short branded series labels ("Corps lourd", "Réveil avant l'alarme").
     if len(t.split()) <= 3:
-        return 'SERIE_COURTE'
-    return 'OTHER'
+        return "SERIE_COURTE"
+    return "OTHER"
 
 
 def get_historical_insights(min_sample: int = 3) -> dict:
@@ -336,22 +354,22 @@ def get_historical_insights(min_sample: int = 3) -> dict:
     data to say anything meaningful yet."""
     history = _load_history()
     if not history:
-        return {'insights': [], 'note': 'No video history yet.'}
+        return {"insights": [], "note": "No video history yet."}
 
-    using_real_data = any('actual_ctr' in v or 'views' in v for v in history)
+    using_real_data = any("actual_ctr" in v or "views" in v for v in history)
 
     buckets = defaultdict(list)
     for v in history:
-        title = v.get('title', '')
+        title = v.get("title", "")
         if not title:
             continue
         pattern = _title_pattern(title)
-        if 'actual_ctr' in v:
-            metric = v['actual_ctr']
-        elif 'predicted_ctr' in v:
-            metric = v['predicted_ctr']
-        elif 'seo_score' in v:
-            metric = v['seo_score']
+        if "actual_ctr" in v:
+            metric = v["actual_ctr"]
+        elif "predicted_ctr" in v:
+            metric = v["predicted_ctr"]
+        elif "seo_score" in v:
+            metric = v["seo_score"]
         else:
             continue
         if metric is not None:
@@ -360,17 +378,21 @@ def get_historical_insights(min_sample: int = 3) -> dict:
     insights = []
     for pattern, values in buckets.items():
         if len(values) >= min_sample:
-            insights.append({
-                'title_pattern': pattern,
-                'sample_size': len(values),
-                'avg_score': round(sum(values) / len(values), 2),
-            })
-    insights.sort(key=lambda x: x['avg_score'], reverse=True)
+            insights.append(
+                {
+                    "title_pattern": pattern,
+                    "sample_size": len(values),
+                    "avg_score": round(sum(values) / len(values), 2),
+                }
+            )
+    insights.sort(key=lambda x: x["avg_score"], reverse=True)
 
     return {
-        'insights': insights,
-        'data_source': 'real_analytics' if using_real_data else 'predicted_scores (no analytics connected yet)',
-        'note': None if insights else f'Not enough videos per title-pattern yet (need >= {min_sample} each).',
+        "insights": insights,
+        "data_source": "real_analytics"
+        if using_real_data
+        else "predicted_scores (no analytics connected yet)",
+        "note": None if insights else f"Not enough videos per title-pattern yet (need >= {min_sample} each).",
     }
 
 
@@ -387,6 +409,7 @@ def get_historical_insights(min_sample: int = 3) -> dict:
 # REFRESH_TOKEN was issued. If it wasn't, this returns an 'error' instead
 # of raising, so a missing scope never crashes the pipeline.
 # ---------------------------------------------------------------------------
+
 
 def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
     """Data API v3 fallback: views/likes/comments via videos.list(statistics).
@@ -412,13 +435,14 @@ def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
         if not (client_id and client_secret and refresh_token):
             return {"error": "Missing Google credentials for statistics fallback"}
         creds = google.oauth2.credentials.Credentials(
-            token=None, refresh_token=refresh_token,
+            token=None,
+            refresh_token=refresh_token,
             token_uri="https://oauth2.googleapis.com/token",
-            client_id=client_id, client_secret=client_secret,
+            client_id=client_id,
+            client_secret=client_secret,
         )
         yt = _build("youtube", "v3", credentials=creds)
-        resp = yt.videos().list(
-            part="statistics", id=youtube_video_id).execute()
+        resp = yt.videos().list(part="statistics", id=youtube_video_id).execute()
         items = resp.get("items") or []
         if not items:
             return {"error": f"video {youtube_video_id} not found via Data API"}
@@ -429,7 +453,7 @@ def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
             "comments": int(stats.get("commentCount", 0)),
             "via": "statistics",
         }
-    except Exception as exc:  # noqa: BLE001 - fallback must never crash the sync
+    except Exception as exc:
         return {"error": f"statistics fallback failed: {str(exc)[:200]}"}
 
 
@@ -452,10 +476,15 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     client_id = os.environ.get("GOOGLE_CLIENT_ID")
     client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
     refresh_token = os.environ.get("REFRESH_TOKEN")
-    missing = [n for n, v in {
-        "GOOGLE_CLIENT_ID": client_id, "GOOGLE_CLIENT_SECRET": client_secret,
-        "REFRESH_TOKEN": refresh_token,
-    }.items() if not v]
+    missing = [
+        n
+        for n, v in {
+            "GOOGLE_CLIENT_ID": client_id,
+            "GOOGLE_CLIENT_SECRET": client_secret,
+            "REFRESH_TOKEN": refresh_token,
+        }.items()
+        if not v
+    ]
     if missing:
         return {"error": f"Missing credentials: {missing}"}
 
@@ -469,13 +498,15 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     # The token already carries yt-analytics.readonly; the access token
     # inherits it automatically.
     creds = google.oauth2.credentials.Credentials(
-        token=None, refresh_token=refresh_token,
+        token=None,
+        refresh_token=refresh_token,
         token_uri="https://oauth2.googleapis.com/token",
-        client_id=client_id, client_secret=client_secret,
+        client_id=client_id,
+        client_secret=client_secret,
     )
     yta = _build("youtubeAnalytics", "v2", credentials=creds)
 
-    end = _dt.date.today()
+    end = _dt.datetime.now(_dt.UTC).date()
     start = end - _dt.timedelta(days=max(days_back, 1))
 
     # Self-healing metric list. `impressions` / `impressionClickThroughRate`
@@ -495,24 +526,33 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     # and SEO loop trained blind on views only. Keep the exact API names:
     #   views, impressions, impressionClickThroughRate.
     requested = [
-        "views", "averageViewDuration", "averageViewPercentage",
-        "impressions", "impressionClickThroughRate",
+        "views",
+        "averageViewDuration",
+        "averageViewPercentage",
+        "impressions",
+        "impressionClickThroughRate",
     ]
     resp, dropped = None, []
     for _ in range(len(requested)):
         try:
-            resp = yta.reports().query(
-                ids="channel==MINE",
-                startDate=start.isoformat(),
-                endDate=end.isoformat(),
-                metrics=",".join(requested),
-                dimensions="video",
-                filters=f"video=={youtube_video_id}",
-            ).execute()
+            resp = (
+                yta.reports()
+                .query(
+                    ids="channel==MINE",
+                    startDate=start.isoformat(),
+                    endDate=end.isoformat(),
+                    metrics=",".join(requested),
+                    dimensions="video",
+                    filters=f"video=={youtube_video_id}",
+                )
+                .execute()
+            )
             break
         except HttpError as e:
             status = getattr(e.resp, "status", None)
-            raw = e.content.decode("utf-8", "replace") if isinstance(e.content, bytes) else str(e.content or e)
+            raw = (
+                e.content.decode("utf-8", "replace") if isinstance(e.content, bytes) else str(e.content or e)
+            )
             unknown = _re.search(r"Unknown identifier \((\w+)\)", raw)
             if status == 400 and unknown and unknown.group(1) in requested and len(requested) > 1:
                 bad = unknown.group(1)
@@ -526,7 +566,9 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
                 fb = _fetch_statistics_fallback(youtube_video_id)
                 if "error" not in fb:
                     return fb
-                return {"error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN (fallback also failed: {fb['error']})"}
+                return {
+                    "error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN (fallback also failed: {fb['error']})"
+                }
             return {"error": f"HttpError {status}: {raw[:200]}"}
         except Exception as e:
             logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
@@ -557,8 +599,7 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     }
 
 
-def update_history_with_real_metrics(min_hours_old: int = 24,
-                                     refresh_after_hours: int = 24) -> dict:
+def update_history_with_real_metrics(min_hours_old: int = 24, refresh_after_hours: int = 24) -> dict:
     """Meant to run on its OWN schedule (separate cron/GitHub Action),
     NOT inside the main generation pipeline - real analytics data isn't
     available immediately after upload.
@@ -592,7 +633,7 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
             continue
         try:
             posted_dt = _dt.datetime.fromisoformat(posted_at)
-            if posted_dt.tzinfo is None:                     # tolerate legacy naive stamps
+            if posted_dt.tzinfo is None:  # tolerate legacy naive stamps
                 posted_dt = posted_dt.replace(tzinfo=_dt.UTC)
         except Exception:
             continue
@@ -619,8 +660,9 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
 
         # 2026-08-12: keep the PREVIOUS reading before overwriting so the
         # truth report can see growth vs stall per video (was invisible).
-        growth = _classify_growth(entry.get("views"), entry.get("analytics_fetched_at"),
-                                  metrics.get("views"), now)
+        growth = _classify_growth(
+            entry.get("views"), entry.get("analytics_fetched_at"), metrics.get("views"), now
+        )
         if growth["growth_state"] == "flat":
             entry["stall_streak"] = int(entry.get("stall_streak") or 0) + 1
             if entry["stall_streak"] >= 2:
@@ -639,12 +681,11 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
             entry["likes"] = metrics["likes"]
         if metrics.get("comments") is not None:
             entry["comments"] = metrics["comments"]
-        entry["analytics_fetched_at"] = metrics.get("fetched_at") or (
-            _dt.datetime.now(_dt.UTC).isoformat())
+        entry["analytics_fetched_at"] = metrics.get("fetched_at") or (_dt.datetime.now(_dt.UTC).isoformat())
         entry["analytics_via"] = metrics.get("via", "analytics")
         updated += 1
         logger.info(
-            f"Updated real metrics for {vid} (via {metrics.get('via','analytics')}): "
+            f"Updated real metrics for {vid} (via {metrics.get('via', 'analytics')}): "
             f"views={metrics.get('views')}, "
             f"CTR={metrics.get('actual_ctr')}, avg_view_pct={metrics.get('average_view_percentage')}"
         )
@@ -668,13 +709,13 @@ def update_history_with_real_metrics(min_hours_old: int = 24,
 
 if __name__ == "__main__":
     test_script = {
-        'title': "🫀 Your Heart Has Its Own Brain",
-        'hook': "Doctors don't want you to know this about your heart...",
-        'cta': 'Follow for more dark body secrets',
-        'description': 'Your heart contains its own independent nervous system.',
-        'seo_score': {'scores': {'overall_seo_score': 85}},
-        'shorts_report': {'hook_detail': {'score': 60}},
+        "title": "🫀 Your Heart Has Its Own Brain",
+        "hook": "Doctors don't want you to know this about your heart...",
+        "cta": "Follow for more dark body secrets",
+        "description": "Your heart contains its own independent nervous system.",
+        "seo_score": {"scores": {"overall_seo_score": 85}},
+        "shorts_report": {"hook_detail": {"score": 60}},
     }
     print(json.dumps(predict_ctr(test_script), indent=2))
-    print(json.dumps(rank_hashtags(['darkfacts', 'heartfacts', 'neuroscience']), indent=2))
+    print(json.dumps(rank_hashtags(["darkfacts", "heartfacts", "neuroscience"]), indent=2))
     print(json.dumps(generate_ab_variants(test_script, ["Title A", "Title B"]), indent=2))

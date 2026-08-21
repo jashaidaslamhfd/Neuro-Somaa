@@ -8,6 +8,7 @@ Two honest views of each title pattern:
 
 Uses seo_analytics._title_pattern so pattern definitions stay SINGLE-source.
 """
+
 from __future__ import annotations
 
 import math
@@ -18,7 +19,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from .features import WINNER_VIEWS  # noqa: E402
+from .features import WINNER_VIEWS
 
 MIN_SAMPLES_DECISION = 5  # same bar as slots/experiments
 
@@ -26,8 +27,9 @@ MIN_SAMPLES_DECISION = 5  # same bar as slots/experiments
 def _pattern_of(title: str) -> str:
     try:
         from seo_analytics import _title_pattern
+
         return _title_pattern(title)
-    except Exception:  # noqa: BLE001 - offline safety
+    except Exception:
         t = title.lower()
         if t.startswith("pourquoi"):
             return "POURQUOI"
@@ -61,7 +63,9 @@ def bandit_report(history: list[dict], samples: int = 4000, seed: int = 11) -> d
 
         # Thompson: beta posterior for winner-rate; gaussian approx for log-views
         beta_wins = sum(rng.betavariate(1 + wins, 1 + n - wins) for _ in range(samples)) / samples
-        gauss = sum(rng.gauss(mean, math.sqrt(var / n + 1e-9)) for _ in range(min(samples, 800))) / min(samples, 800)
+        gauss = sum(rng.gauss(mean, math.sqrt(var / n + 1e-9)) for _ in range(min(samples, 800))) / min(
+            samples, 800
+        )
         arms[pattern] = {
             "n": n,
             "wins_ge_1000_views": wins,
@@ -77,8 +81,12 @@ def bandit_report(history: list[dict], samples: int = 4000, seed: int = 11) -> d
     recommendation = None
     for pattern, a in ranked:
         if a["confident"]:
-            recommendation = {"pattern": pattern, "why": f"highest winner-rate among patterns with ≥{MIN_SAMPLES_DECISION} samples",
-                              "thompson_score": a["thompson_score"], "avg_views": a["avg_views"]}
+            recommendation = {
+                "pattern": pattern,
+                "why": f"highest winner-rate among patterns with ≥{MIN_SAMPLES_DECISION} samples",
+                "thompson_score": a["thompson_score"],
+                "avg_views": a["avg_views"],
+            }
             break
 
     for a in arms.values():
@@ -89,5 +97,5 @@ def bandit_report(history: list[dict], samples: int = 4000, seed: int = 11) -> d
         "min_samples_rule": MIN_SAMPLES_DECISION,
         "winner_threshold_views": WINNER_VIEWS,
         "honesty": "Beta posterior beats raw avg ranking at small n; "
-                   "patterns below the sample bar are reported but never recommended.",
+        "patterns below the sample bar are reported but never recommended.",
     }

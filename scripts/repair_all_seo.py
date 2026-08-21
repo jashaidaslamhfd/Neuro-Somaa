@@ -30,13 +30,12 @@
 """
 
 import json
+import logging
 import os
 import re
 import sys
-import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Dict, List, Optional
 
 import requests
 
@@ -57,10 +56,8 @@ GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET", "")
 REFRESH_TOKEN = os.environ.get("REFRESH_TOKEN", "")
 
-FB_TOKEN = (os.environ.get("FACEBOOK_ACCESS_TOKEN") or
-            os.environ.get("FB_ACCESS_TOKEN") or "")
-FB_PAGE_ID = (os.environ.get("FACEBOOK_PAGE_ID") or
-              os.environ.get("FB_PAGE_ID") or "")
+FB_TOKEN = os.environ.get("FACEBOOK_ACCESS_TOKEN") or os.environ.get("FB_ACCESS_TOKEN") or ""
+FB_PAGE_ID = os.environ.get("FACEBOOK_PAGE_ID") or os.environ.get("FB_PAGE_ID") or ""
 FB_API = os.environ.get("FB_API_VERSION", "v23.0")
 IG_USER_ID = os.environ.get("INSTAGRAM_USER_ID", "")
 
@@ -75,8 +72,14 @@ YOUTUBE_RULES = {
     "description_max_chars": 500,
     "max_hashtags": 3,
     "hashtags": ["#shorts", "#science", "#humanbody"],
-    "bait_words": ["subscribe", "like and subscribe", "smash that like",
-                   "hit the bell", "comment below", "tag someone"],
+    "bait_words": [
+        "subscribe",
+        "like and subscribe",
+        "smash that like",
+        "hit the bell",
+        "comment below",
+        "tag someone",
+    ],
     "cta_templates": [
         "New body-science Short every day. Subscribe for more 🧬",
         "One strange body fact, explained daily. Follow along.",
@@ -89,11 +92,26 @@ FACEBOOK_RULES = {
     "caption_max_chars": 400,
     "max_hashtags": 3,
     "hashtags": ["#bodyfacts", "#science", "#didyouknow"],
-    "forbidden_tags": ["#shorts", "#short", "#youtubeshorts", "#ytshorts",
-                       "#youtube", "#viral", "#fyp", "#trending"],
-    "bait_words": ["subscribe", "like and subscribe", "smash that like",
-                   "hit the bell", "comment below", "share this",
-                   "tag a friend", "send this to"],
+    "forbidden_tags": [
+        "#shorts",
+        "#short",
+        "#youtubeshorts",
+        "#ytshorts",
+        "#youtube",
+        "#viral",
+        "#fyp",
+        "#trending",
+    ],
+    "bait_words": [
+        "subscribe",
+        "like and subscribe",
+        "smash that like",
+        "hit the bell",
+        "comment below",
+        "share this",
+        "tag a friend",
+        "send this to",
+    ],
     "cta_templates": [
         "Follow for daily body science 🧬",
         "More everyday biology, explained simply. Follow.",
@@ -104,8 +122,7 @@ FACEBOOK_RULES = {
 INSTAGRAM_RULES = {
     "caption_max_chars": 400,
     "max_hashtags": 5,
-    "hashtags": ["#bodyfacts", "#dailyscience", "#humanbody",
-                 "#scienceexplained", "#didyouknow"],
+    "hashtags": ["#bodyfacts", "#dailyscience", "#humanbody", "#scienceexplained", "#didyouknow"],
     "forbidden_tags": FACEBOOK_RULES["forbidden_tags"],
     "bait_words": FACEBOOK_RULES["bait_words"],
     "payoff_templates": [
@@ -126,24 +143,74 @@ HOOK_TITLE_FORMATS = [
 ]
 
 BODY_KEYWORDS = [
-    "body", "brain", "muscle", "nerve", "blood", "heart", "skin",
-    "ear", "eye", "foot", "hand", "leg", "arm", "head", "throat",
-    "voice", "knee", "calf", "tongue", "taste", "nose", "finger",
-    "spine", "lung", "stomach", "gut", "cell", "dna", "gene",
-    "sleep", "dream", "memory", "pain", "feel", "brainhealth",
-    "science", "biology", "psychology", "neuroscience",
+    "body",
+    "brain",
+    "muscle",
+    "nerve",
+    "blood",
+    "heart",
+    "skin",
+    "ear",
+    "eye",
+    "foot",
+    "hand",
+    "leg",
+    "arm",
+    "head",
+    "throat",
+    "voice",
+    "knee",
+    "calf",
+    "tongue",
+    "taste",
+    "nose",
+    "finger",
+    "spine",
+    "lung",
+    "stomach",
+    "gut",
+    "cell",
+    "dna",
+    "gene",
+    "sleep",
+    "dream",
+    "memory",
+    "pain",
+    "feel",
+    "brainhealth",
+    "science",
+    "biology",
+    "psychology",
+    "neuroscience",
 ]
 
 SCIENCE_TRIGGERS = [
-    "because", "signal", "trigger", "response", "system", "reflex",
-    "chemical", "hormone", "nerve", "receptor", "pathway", "mechanism",
-    "pressure", "oxygen", "cells", "fluid", "explain", "why", "cause",
+    "because",
+    "signal",
+    "trigger",
+    "response",
+    "system",
+    "reflex",
+    "chemical",
+    "hormone",
+    "nerve",
+    "receptor",
+    "pathway",
+    "mechanism",
+    "pressure",
+    "oxygen",
+    "cells",
+    "fluid",
+    "explain",
+    "why",
+    "cause",
 ]
 
 
 # ═══════════════════════════════════════════════════════════════════
 # TITLE & DESCRIPTION GENERATOR
 # ═══════════════════════════════════════════════════════════════════
+
 
 def clean_text(text: str, max_len: int = 500) -> str:
     """Normalize + trim."""
@@ -159,19 +226,18 @@ def extract_topic_from_title(title: str) -> str:
     body_does_match = re.match(r"(Why\s+)?(Your\s+)?Body\s+(Does\s+)?(This[:\s]+)?(.+)", t, re.IGNORECASE)
     if body_does_match:
         core = body_does_match.group(5) or t
-        core = re.sub(r'[^\w\s\-.,!?()\'\"]+', '', core).strip()
+        core = re.sub(r"[^\w\s\-.,!?()\'\"]+", "", core).strip()
         if core and len(core) > 3:
             # Make it a proper topic
             return f"your body {core.lower().rstrip('.,!?')}"
 
     # Generic prefixes
-    for prefix in ["Why Your Body Does This: ", "Why ", "What ", "How ",
-                    "The ", "This is ", "Do you "]:
+    for prefix in ["Why Your Body Does This: ", "Why ", "What ", "How ", "The ", "This is ", "Do you "]:
         if t.lower().startswith(prefix.lower()):
-            t = t[len(prefix):]
+            t = t[len(prefix) :]
 
     # Strip emojis
-    t = re.sub(r'[^\w\s\-.,!?()\'\"]+', '', t).strip()
+    t = re.sub(r"[^\w\s\-.,!?()\'\"]+", "", t).strip()
 
     if not t or len(t) < 5:
         return title
@@ -196,7 +262,7 @@ def generate_youtube_title(topic: str) -> str:
 
     # Clean topic for title
     clean = topic_short.rstrip(".,!?")
-    
+
     # Best hook format
     if clean.startswith("your "):
         title = "Your " + clean[5:].strip().capitalize()
@@ -210,7 +276,27 @@ def generate_youtube_title(topic: str) -> str:
         title = "Why " + clean.capitalize()
 
     # Add science marker if topic is body-related
-    body_words = ["body", "brain", "muscle", "nerve", "heart", "skin", "ear", "eye", "sleep", "dream", "memory", "psychology", "knee", "blood", "taste", "voice", "nose", "finger", "tongue"]
+    body_words = [
+        "body",
+        "brain",
+        "muscle",
+        "nerve",
+        "heart",
+        "skin",
+        "ear",
+        "eye",
+        "sleep",
+        "dream",
+        "memory",
+        "psychology",
+        "knee",
+        "blood",
+        "taste",
+        "voice",
+        "nose",
+        "finger",
+        "tongue",
+    ]
     if any(w in topic_short for w in body_words) and "—" not in title:
         title += " — Explained"
 
@@ -236,9 +322,11 @@ def generate_youtube_description(title: str, topic: str) -> str:
     # Line 2-3: What viewers learn
     if body_kws:
         lines.append("")
-        lines.append(f"Your {body_kws[0] if body_kws else 'body'} does something "
-                     f"strange every day. Here's the real science behind "
-                     f"{topic_clean.lower()}.")
+        lines.append(
+            f"Your {body_kws[0] if body_kws else 'body'} does something "
+            f"strange every day. Here's the real science behind "
+            f"{topic_clean.lower()}."
+        )
 
     # Line 4-5: Keywords for search
     lines.append("")
@@ -248,6 +336,7 @@ def generate_youtube_description(title: str, topic: str) -> str:
 
     # Line 6: CTA
     import random
+
     lines.append("")
     lines.append(random.choice(YOUTUBE_RULES["cta_templates"]))
 
@@ -267,11 +356,11 @@ def generate_facebook_caption(topic: str) -> str:
     caption = f"{topic_clean} — here's the simple science.\n\n"
 
     # Add curiosity without bait
-    caption += ("Our bodies do strange things every day. "
-                "Most people never learn why.\n\n")
+    caption += "Our bodies do strange things every day. Most people never learn why.\n\n"
 
     # CTA (safe, no bait)
     import random
+
     caption += random.choice(FACEBOOK_RULES["cta_templates"])
 
     # Hashtags (no #shorts!)
@@ -292,6 +381,7 @@ def generate_instagram_caption(topic: str) -> str:
     caption += f"The science: {payoff.lower()} — and here's the quick explanation.\n\n"
 
     import random
+
     caption += random.choice(FACEBOOK_RULES["cta_templates"])
 
     # Hashtag clusters (more on IG)
@@ -319,32 +409,43 @@ def filter_hashtags(text: str, platform_rules: dict) -> str:
 # API CLIENTS
 # ═══════════════════════════════════════════════════════════════════
 
+
 class YouTubeRepair:
     """Update YouTube video metadata via Data API v3."""
 
     def __init__(self):
-        self._token: Optional[str] = None
+        self._token: str | None = None
 
-    def _get_token(self) -> Optional[str]:
+    def _get_token(self) -> str | None:
         if self._token:
             return self._token
         if not REFRESH_TOKEN or not GOOGLE_CLIENT_ID:
             return None
         try:
-            resp = requests.post("https://oauth2.googleapis.com/token", data={
-                "client_id": GOOGLE_CLIENT_ID,
-                "client_secret": GOOGLE_CLIENT_SECRET,
-                "refresh_token": REFRESH_TOKEN,
-                "grant_type": "refresh_token",
-            }, timeout=15)
+            resp = requests.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": GOOGLE_CLIENT_ID,
+                    "client_secret": GOOGLE_CLIENT_SECRET,
+                    "refresh_token": REFRESH_TOKEN,
+                    "grant_type": "refresh_token",
+                },
+                timeout=15,
+            )
             self._token = resp.json().get("access_token")
             return self._token
         except Exception as e:
             logger.warning("OAuth failed: %s", e)
             return None
 
-    def update_video(self, video_id: str, title: str, description: str,
-                    tags: List[str] = None, category_id: str = "27") -> Dict:
+    def update_video(
+        self,
+        video_id: str,
+        title: str,
+        description: str,
+        tags: list[str] | None = None,
+        category_id: str = "27",
+    ) -> dict:
         """Update a YouTube video's metadata."""
         token = self._get_token()
         if not token:
@@ -380,7 +481,7 @@ class YouTubeRepair:
         except Exception as e:
             return {"error": str(e), "video_id": video_id}
 
-    def add_comment(self, video_id: str, comment_text: str) -> Dict:
+    def add_comment(self, video_id: str, comment_text: str) -> dict:
         """Post a pinned-comment seed (engagement signal)."""
         token = self._get_token()
         if not token:
@@ -393,9 +494,7 @@ class YouTubeRepair:
                 json={
                     "snippet": {
                         "videoId": video_id,
-                        "topLevelComment": {
-                            "snippet": {"textOriginal": comment_text[:500]}
-                        },
+                        "topLevelComment": {"snippet": {"textOriginal": comment_text[:500]}},
                     }
                 },
                 headers={
@@ -405,8 +504,7 @@ class YouTubeRepair:
                 timeout=15,
             )
             if resp.status_code >= 400:
-                return {"error": resp.json().get("error", {}).get("message", ""),
-                       "video_id": video_id}
+                return {"error": resp.json().get("error", {}).get("message", ""), "video_id": video_id}
             return {"ok": True, "video_id": video_id}
         except Exception as e:
             return {"error": str(e)}
@@ -420,7 +518,7 @@ class FacebookRepair:
         self.page_id = FB_PAGE_ID
         self.base = f"https://graph.facebook.com/{FB_API}"
 
-    def _graph_post(self, node: str, data: dict) -> Dict:
+    def _graph_post(self, node: str, data: dict) -> dict:
         if not self.token:
             return {"error": "no_token"}
         data["access_token"] = self.token
@@ -430,20 +528,25 @@ class FacebookRepair:
         except Exception as e:
             return {"error": str(e)}
 
-    def update_reel_caption(self, reel_id: str, caption: str,
-                           title: str = "") -> Dict:
+    def update_reel_caption(self, reel_id: str, caption: str, title: str = "") -> dict:
         """Update a Facebook Reel's caption/title."""
         caption = strip_bait_words(caption, FACEBOOK_RULES)
         caption = filter_hashtags(caption, FACEBOOK_RULES)
 
-        result = self._graph_post(reel_id, {
-            "description": caption[:2200],
-        })
+        result = self._graph_post(
+            reel_id,
+            {
+                "description": caption[:2200],
+            },
+        )
 
         if title:
-            title_result = self._graph_post(reel_id, {
-                "title": title[:80],
-            })
+            title_result = self._graph_post(
+                reel_id,
+                {
+                    "title": title[:80],
+                },
+            )
             # 2026-08-17 bugfix: this call's result used to be thrown away
             # (`r2 = ...` was never read) — a failed title update silently
             # reported success as long as the caption update worked.
@@ -456,7 +559,7 @@ class FacebookRepair:
             return {"error": err.get("message", str(result)), "reel_id": reel_id}
         return {"ok": True, "reel_id": reel_id}
 
-    def add_comment(self, reel_id: str, comment: str) -> Dict:
+    def add_comment(self, reel_id: str, comment: str) -> dict:
         """Post a comment as the page (engagement seed)."""
         return self._graph_post(f"{reel_id}/comments", {"message": comment[:500]})
 
@@ -469,7 +572,7 @@ class InstagramRepair:
         self.ig_id = IG_USER_ID
         self.base = f"https://graph.facebook.com/{FB_API}"
 
-    def _graph_post(self, node: str, data: dict) -> Dict:
+    def _graph_post(self, node: str, data: dict) -> dict:
         if not self.token:
             return {"error": "no_token"}
         data["access_token"] = self.token
@@ -479,7 +582,7 @@ class InstagramRepair:
         except Exception as e:
             return {"error": str(e)}
 
-    def update_caption(self, media_id: str, caption: str) -> Dict:
+    def update_caption(self, media_id: str, caption: str) -> dict:
         """Update Instagram media caption."""
         caption = strip_bait_words(caption, INSTAGRAM_RULES)
         caption = filter_hashtags(caption, INSTAGRAM_RULES)
@@ -494,6 +597,7 @@ class InstagramRepair:
 # ═══════════════════════════════════════════════════════════════════
 # MAIN REPAIR ENGINE
 # ═══════════════════════════════════════════════════════════════════
+
 
 class SEO2026RepairEngine:
     """Orchestrate repairs across all 3 platforms."""
@@ -511,7 +615,7 @@ class SEO2026RepairEngine:
         }
         self.results = []
 
-    def load_videos(self) -> List[Dict]:
+    def load_videos(self) -> list[dict]:
         """Load all videos from history."""
         if not VIDEO_HISTORY.exists():
             return []
@@ -536,22 +640,25 @@ class SEO2026RepairEngine:
             old_desc = v.get("description", str(v.get("youtube_title", "")))
 
             # Skip if already modern (has hook-driven title)
-            if skip_modern and ("—" in old_title or "🤯" in old_title):
-                if not any(bait in (old_desc or "").lower()
-                          for bait in YOUTUBE_RULES["bait_words"]):
-                    self.stats["youtube"]["skipped"] += 1
-                    continue
+            if skip_modern and ("—" in old_title or "🤯" in old_title) and not any(
+                bait in (old_desc or "").lower() for bait in YOUTUBE_RULES["bait_words"]
+            ):
+                self.stats["youtube"]["skipped"] += 1
+                continue
 
             # Generate new metadata
             new_title = generate_youtube_title(topic)
             new_desc = generate_youtube_description(new_title, topic)
 
             # Check if actually needs repair
-            needs_title = (len(old_title or "") < 20 or
-                          "Why Your Body Does This" in old_title or
-                          old_title == new_title[:len(old_title)] if old_title else True)
-            needs_desc = (len(old_desc or "") < 100 or
-                         "Why Your Body Does This" in (old_desc or ""))
+            needs_title = (
+                len(old_title or "") < 20
+                or "Why Your Body Does This" in old_title
+                or old_title == new_title[: len(old_title)]
+                if old_title
+                else True
+            )
+            needs_desc = len(old_desc or "") < 100 or "Why Your Body Does This" in (old_desc or "")
 
             if not needs_title and not needs_desc:
                 self.stats["youtube"]["skipped"] += 1
@@ -570,19 +677,27 @@ class SEO2026RepairEngine:
 
             if not self.dry_run:
                 # Apply title + description update
-                api_result = self.yt.update_video(vid, new_title, new_desc,
-                                                  tags=["body science", "human body",
-                                                        "science shorts",
-                                                        "everyday science",
-                                                        "how body works"])
+                api_result = self.yt.update_video(
+                    vid,
+                    new_title,
+                    new_desc,
+                    tags=[
+                        "body science",
+                        "human body",
+                        "science shorts",
+                        "everyday science",
+                        "how body works",
+                    ],
+                )
 
                 if api_result.get("ok"):
                     self.stats["youtube"]["repaired"] += 1
                     result["applied"] = True
 
                     # Also add comment seed
-                    comment = ("Your body is incredible! 🧬 "
-                               "What other weird body things should I explain next?")
+                    comment = (
+                        "Your body is incredible! 🧬 What other weird body things should I explain next?"
+                    )
                     cmt_result = self.yt.add_comment(vid, comment)
                     result["comment"] = cmt_result.get("ok", False)
                 else:
@@ -595,15 +710,20 @@ class SEO2026RepairEngine:
             count += 1
 
             if i % 20 == 0 and i > 0:
-                logger.info("  Progress: %d/%d | repaired=%d errors=%d",
-                           i, len(yt_vids),
-                           self.stats["youtube"]["repaired"],
-                           self.stats["youtube"]["errors"])
+                logger.info(
+                    "  Progress: %d/%d | repaired=%d errors=%d",
+                    i,
+                    len(yt_vids),
+                    self.stats["youtube"]["repaired"],
+                    self.stats["youtube"]["errors"],
+                )
 
-        logger.info("  YouTube done: %d repaired, %d errors, %d skipped",
-                   self.stats["youtube"]["repaired"],
-                   self.stats["youtube"]["errors"],
-                   self.stats["youtube"]["skipped"])
+        logger.info(
+            "  YouTube done: %d repaired, %d errors, %d skipped",
+            self.stats["youtube"]["repaired"],
+            self.stats["youtube"]["errors"],
+            self.stats["youtube"]["skipped"],
+        )
 
     def repair_facebook(self, limit: int = 0):
         """Repair ALL Facebook Reels."""
@@ -611,9 +731,8 @@ class SEO2026RepairEngine:
         self.stats["facebook"]["total"] = len(fb_vids)
         logger.info("\n📘 Repairing %d Facebook Reels...", len(fb_vids))
 
-        count = 0
-        for i, v in enumerate(fb_vids):
-            if limit and count >= limit:
+        for i, v in enumerate(fb_vids, start=1):
+            if limit and i > limit:
                 break
 
             fb_id = v["facebook_id"]
@@ -631,7 +750,8 @@ class SEO2026RepairEngine:
 
             if not self.dry_run:
                 api_result = self.fb.update_reel_caption(
-                    fb_id, new_caption,
+                    fb_id,
+                    new_caption,
                     title=generate_youtube_title(topic),
                 )
                 if api_result.get("ok"):
@@ -639,8 +759,7 @@ class SEO2026RepairEngine:
                     result["applied"] = True
 
                     # Seed comment
-                    self.fb.add_comment(fb_id,
-                        "What body fact surprised you most? 🧬")
+                    self.fb.add_comment(fb_id, "What body fact surprised you most? 🧬")
                 else:
                     self.stats["facebook"]["errors"] += 1
                     result["error"] = api_result.get("error", "unknown")
@@ -648,14 +767,15 @@ class SEO2026RepairEngine:
                 self.stats["facebook"]["repaired"] += 1
 
             self.results.append(result)
-            count += 1
 
             if i % 10 == 0:
                 logger.info("  Progress: %d/%d", i, len(fb_vids))
 
-        logger.info("  Facebook done: %d repaired, %d errors",
-                   self.stats["facebook"]["repaired"],
-                   self.stats["facebook"]["errors"])
+        logger.info(
+            "  Facebook done: %d repaired, %d errors",
+            self.stats["facebook"]["repaired"],
+            self.stats["facebook"]["errors"],
+        )
 
     def repair_instagram(self, limit: int = 0):
         """Repair Instagram Reels."""
@@ -667,9 +787,8 @@ class SEO2026RepairEngine:
             logger.info("  No Instagram videos found.")
             return
 
-        count = 0
-        for i, v in enumerate(ig_vids):
-            if limit and count >= limit:
+        for i, v in enumerate(ig_vids, start=1):
+            if limit and i > limit:
                 break
 
             ig_id = v["instagram_id"]
@@ -694,12 +813,11 @@ class SEO2026RepairEngine:
                 self.stats["instagram"]["repaired"] += 1
 
             self.results.append(result)
-            count += 1
 
     def save_report(self):
         """Save repair log."""
         report = {
-            "run_at": datetime.now(timezone.utc).isoformat(),
+            "run_at": datetime.now(UTC).isoformat(),
             "dry_run": self.dry_run,
             "stats": self.stats,
             "results": self.results[:200],  # Cap for file size
@@ -726,13 +844,15 @@ class SEO2026RepairEngine:
             ("Instagram", s["instagram"]),
         ]:
             if data["total"] > 0:
-                print(f"  {platform:<12s}: {data['repaired']:>4d} repaired | "
-                      f"{data['errors']:>3d} errors | "
-                      f"{data['skipped']:>3d} skipped | "
-                      f"{data['total']:>3d} total")
+                print(
+                    f"  {platform:<12s}: {data['repaired']:>4d} repaired | "
+                    f"{data['errors']:>3d} errors | "
+                    f"{data['skipped']:>3d} skipped | "
+                    f"{data['total']:>3d} total"
+                )
         total_repaired = sum(s[p]["repaired"] for p in s)
         total_errors = sum(s[p]["errors"] for p in s)
-        print(f"  {'─'*45}")
+        print(f"  {'─' * 45}")
         print(f"  {'TOTAL':<12s}: {total_repaired:>4d} repaired | {total_errors:>3d} errors")
         print("=" * 65)
 
@@ -744,6 +864,7 @@ class SEO2026RepairEngine:
 # ═══════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════
+
 
 def main():
     dry_run = "--apply" not in sys.argv

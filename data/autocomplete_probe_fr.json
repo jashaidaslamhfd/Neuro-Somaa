@@ -1,0 +1,102 @@
+{
+  "fetched_at_utc": "2026-08-21T19:25:53.237497+00:00",
+  "locale": "fr-FR",
+  "responses": [
+    {
+      "seed": "pourquoi mon corps",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=pourquoi%20mon%20corps",
+      "suggestions": [
+        "pourquoi mon corps me gratte",
+        "pourquoi mon corps dégage beaucoup de chaleur",
+        "pourquoi mon corps tremble",
+        "pourquoi mon corps est toujours chaud",
+        "pourquoi mon corps me gratte de partout",
+        "pourquoi mon corps ne supporte pas la chaleur",
+        "pourquoi mon corps demange apres le bain",
+        "pourquoi mon corps gonfle quand il fait chaud",
+        "pourquoi mon corps est chaud",
+        "pourquoi mon corps dégage une mauvaise odeur"
+      ]
+    },
+    {
+      "seed": "pourquoi le cerveau",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=pourquoi%20le%20cerveau",
+      "suggestions": [
+        "pourquoi le cerveau continue de fonctionner après la mort",
+        "pourquoi le cerveau a besoin de sucre",
+        "pourquoi le cerveau ne ressent pas la douleur",
+        "pourquoi le cerveau manque d oxygène",
+        "pourquoi le cerveau rétrécit",
+        "pourquoi le cerveau procrastine",
+        "pourquoi le cerveau ne comprend pas la negation",
+        "pourquoi le cerveau du fœtus est-il particulièrement sensible à l'alcool",
+        "pourquoi le cerveau gele quand on mange de la glace",
+        "pourquoi le cerveau rumine"
+      ]
+    },
+    {
+      "seed": "pourquoi les yeux",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=pourquoi%20les%20yeux",
+      "suggestions": [
+        "pourquoi les yeux pleurent",
+        "pourquoi les yeux piquent",
+        "pourquoi les yeux rouges",
+        "pourquoi les yeux sont bleus",
+        "pourquoi les yeux grattent",
+        "pourquoi les yeux pleurent tout seul",
+        "pourquoi les yeux pleurent tout le temps",
+        "pourquoi les yeux changent de couleur",
+        "pourquoi les yeux coulent",
+        "pourquoi les yeux me brûlent"
+      ]
+    },
+    {
+      "seed": "pourquoi je me réveille",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=pourquoi%20je%20me%20r%C3%A9veille",
+      "suggestions": [
+        "pourquoi je me réveille à 3h du matin",
+        "pourquoi je me réveille toujours à 3h du matin",
+        "pourquoi je me réveille à 4h du matin",
+        "pourquoi je me réveille plusieurs fois dans la nuit",
+        "pourquoi je me réveille à 2h du matin",
+        "pourquoi je me réveille toujours à 4h du matin",
+        "pourquoi je me réveille avec un mal de tête",
+        "pourquoi je me réveille souvent la nuit",
+        "pourquoi je me réveille fatiguée le matin",
+        "pourquoi je me réveille à 5h du matin"
+      ]
+    },
+    {
+      "seed": "muscle qui tremble tout seul",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=muscle%20qui%20tremble%20tout%20seul",
+      "suggestions": [
+        "muscle qui tremble tout seul",
+        "muscle qui tremble tout seul au repos",
+        "muscle qui tremble tout seul cause",
+        "muscle qui bouge tout seul",
+        "muscle qui bouge tout seul cause",
+        "muscle qui bouge tout seul au repos bras",
+        "muscle qui bouge tout seul bras",
+        "muscle qui bouge tout seul au repos sans douleur",
+        "muscle qui bouge tout seul cuisse",
+        "muscle qui bouge tout seul au repos que faire"
+      ]
+    },
+    {
+      "seed": "sommeil paradoxal",
+      "url": "https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q=sommeil%20paradoxal",
+      "suggestions": [
+        "sommeil paradoxal",
+        "sommeil paradoxal définition",
+        "sommeil paradoxal trop long",
+        "sommeil paradoxal c'est quoi",
+        "sommeil paradoxal durée",
+        "sommeil paradoxal et sommeil profond",
+        "sommeil paradoxal trop court",
+        "sommeil paradoxal en arabe",
+        "sommeil paradoxal insuffisant",
+        "sommeil paradoxal long"
+      ]
+    }
+  ]
+}

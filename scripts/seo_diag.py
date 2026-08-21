@@ -17,6 +17,7 @@ Plus (YouTube Data API v3 — a few units):
 Writes everything to data/seo_diag_<date>.json and prints a human summary.
 Stdlib only.
 """
+
 import datetime as dt
 import json
 import os
@@ -30,12 +31,14 @@ DATA = "https://www.googleapis.com/youtube/v3/"
 
 
 def access_token() -> str:
-    body = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    body = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=body)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)["access_token"]
@@ -70,6 +73,7 @@ def ana(token, start, end, metrics, dims=None, sort=None, maxr=None, filters=Non
             res["_dropped_metrics"] = [m for m in metrics.split(",") if m not in mets]
             return res
         import re as _re
+
         m = _re.search(r"Unknown identifier \(([\w]+)\)", res.get("body", ""))
         if res["error"] == 400 and m and m.group(1) in mets and len(mets) > 1:
             print(f"metric '{m.group(1)}' unavailable -> retrying without it")
@@ -81,23 +85,43 @@ def ana(token, start, end, metrics, dims=None, sort=None, maxr=None, filters=Non
 
 def main() -> int:
     tok = access_token()
-    today = dt.datetime.now(dt.timezone.utc).date()
+    today = dt.datetime.now(dt.UTC).date()
     start = (today - dt.timedelta(days=28)).isoformat()
     end = today.isoformat()
-    out = {"window": {"start": start, "end": end, "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat()}}
+    out = {"window": {"start": start, "end": end, "generated_at_utc": dt.datetime.now(dt.UTC).isoformat()}}
 
-    out["daily_28d"] = ana(tok, start, end,
+    out["daily_28d"] = ana(
+        tok,
+        start,
+        end,
         "views,impressions,impressionClickThroughRate,averageViewDuration,subscribersGained,likes,shares,comments",
-        dims="day")
-    out["shorts_daily_28d"] = ana(tok, start, end,
+        dims="day",
+    )
+    out["shorts_daily_28d"] = ana(
+        tok,
+        start,
+        end,
         "views,impressions,impressionClickThroughRate,engagedViews,averageViewDuration",
-        dims="day", filters="insightTrafficSourceType==SHORTS")
-    out["traffic_28d"] = ana(tok, start, end,
+        dims="day",
+        filters="insightTrafficSourceType==SHORTS",
+    )
+    out["traffic_28d"] = ana(
+        tok,
+        start,
+        end,
         "views,impressions,impressionClickThroughRate,averageViewDuration",
-        dims="insightTrafficSourceType", sort="-views")
-    out["pervideo_28d"] = ana(tok, start, end,
+        dims="insightTrafficSourceType",
+        sort="-views",
+    )
+    out["pervideo_28d"] = ana(
+        tok,
+        start,
+        end,
         "views,averageViewDuration,likes,comments,shares,subscribersGained",
-        dims="video", sort="-views", maxr=25)
+        dims="video",
+        sort="-views",
+        maxr=25,
+    )
 
     ch = get_json(DATA + "channels?part=snippet,statistics,brandingSettings,contentDetails&mine=true", tok)
     out["channel"] = ch
@@ -108,7 +132,8 @@ def main() -> int:
         ids = [it["contentDetails"]["videoId"] for it in pl.get("items", [])]
         if ids:
             out["videos_detail"] = get_json(
-                DATA + "videos?part=snippet,statistics,contentDetails&id=" + ",".join(ids), tok)
+                DATA + "videos?part=snippet,statistics,contentDetails&id=" + ",".join(ids), tok
+            )
     except Exception as e:
         out["recent_uploads_error"] = str(e)
 

@@ -1,3 +1,4 @@
+import contextlib
 import hashlib
 import logging
 import os
@@ -9,7 +10,7 @@ import requests
 from image_providers import RateLimitError, available_providers
 from media_validator import MediaValidationError, validate_scene_image
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
@@ -54,10 +55,32 @@ DARK_STYLE_SUFFIX = (
 # Scene descriptions such as "le corps se fige de peur" were being passed
 # through verbatim and returning horror B-roll.
 UNSAFE_QUERY_TERMS = {
-    "sang", "sanglant", "blood", "bloody", "gore", "horreur", "horror",
-    "zombie", "monstre", "monster", "cadavre", "corpse", "mort", "death",
-    "blessure", "wound", "injury", "effrayant", "scary", "terreur", "terror",
-    "cauchemar", "nightmare", "creepy", "violence", "violent",
+    "sang",
+    "sanglant",
+    "blood",
+    "bloody",
+    "gore",
+    "horreur",
+    "horror",
+    "zombie",
+    "monstre",
+    "monster",
+    "cadavre",
+    "corpse",
+    "mort",
+    "death",
+    "blessure",
+    "wound",
+    "injury",
+    "effrayant",
+    "scary",
+    "terreur",
+    "terror",
+    "cauchemar",
+    "nightmare",
+    "creepy",
+    "violence",
+    "violent",
 }
 
 FALLBACK_POOL_DIR = "assets/fallback_images"
@@ -71,17 +94,40 @@ def _safe_query(scene_text: str, default: str) -> str:
     the opening frame of an educational Short. Removing the trigger words
     keeps the subject while dropping the tone that pulls horror results."""
     original = (scene_text or "").split()
-    words = [
-        word for word in original
-        if word.strip(".,;:!?()\"'").lower() not in UNSAFE_QUERY_TERMS
-    ]
+    words = [word for word in original if word.strip(".,;:!?()\"'").lower() not in UNSAFE_QUERY_TERMS]
     # Once the shock words are gone, whatever remains must still describe
     # something. "un cauchemar effrayant avec du sang" reduces to "un avec du"
     # — grammatical debris that would return random stock. Keep only real
     # content words, and fall back to the safe default if too little is left.
-    filler = {"un", "une", "le", "la", "les", "de", "du", "des", "avec", "sans",
-              "et", "ou", "en", "dans", "sur", "ce", "cette", "qui", "que",
-              "se", "son", "sa", "ses", "au", "aux", "pour", "par"}
+    filler = {
+        "un",
+        "une",
+        "le",
+        "la",
+        "les",
+        "de",
+        "du",
+        "des",
+        "avec",
+        "sans",
+        "et",
+        "ou",
+        "en",
+        "dans",
+        "sur",
+        "ce",
+        "cette",
+        "qui",
+        "que",
+        "se",
+        "son",
+        "sa",
+        "ses",
+        "au",
+        "aux",
+        "pour",
+        "par",
+    }
     content = [w for w in words if w.strip(".,;:!?()\"'").lower() not in filler]
     if len(content) < 2:
         return default
@@ -106,6 +152,7 @@ def _build_prompt(scene_text: str, *, topic: str = "", hook_scene: bool = False)
     base = (scene_text or "mystery science").strip()
     try:
         from visual_signature import signature_suffix
+
         # 2026-08-19 HOOK ACTIVATION: the EXTREME FIRST-FRAME HOOK suffix
         # (instantly readable action + tight macro of the exact body
         # phenomenon) existed in visual_signature but was never wired —
@@ -130,6 +177,7 @@ def _layer_ai_video(index, scene_text, image_path: str | None = None, topic=""):
     (6-min GitHub Actions limit) and Pollen budget.
     """
     from image_providers import gen_pollinations_video
+
     max_ai_video = int(os.environ.get("AI_VIDEO_SCENES", "5"))
     if index >= max_ai_video:
         raise RuntimeError(f"AI video skipped: scene {index} beyond AI_VIDEO_SCENES={max_ai_video}")
@@ -215,14 +263,43 @@ def _scene_theme(scene_text: str) -> str:
     scene. Cheap keyword -> theme mapping; returns 'generic' if nothing
     matches. This is what fixes the 'one same pattern image' complaint."""
     t = (scene_text or "").lower()
-    body = ["corps", "muscle", "cerveau", "nerf", "sang", "cœur", "cœur",
-            "cellule", "nerf", "poitrine", "ventre", "bras", "doigt",
-            "visage", "peau", "os", "articul", "genou", "cou", "epaule"]
-    brain = ["cerveau", "neurone", "esprit", "pensée", "pense", "memoire",
-             "réflexe", "reflexe", "sommeil", "reve", "déjà"]
+    body = [
+        "corps",
+        "muscle",
+        "cerveau",
+        "nerf",
+        "sang",
+        "cœur",
+        "cœur",
+        "cellule",
+        "nerf",
+        "poitrine",
+        "ventre",
+        "bras",
+        "doigt",
+        "visage",
+        "peau",
+        "os",
+        "articul",
+        "genou",
+        "cou",
+        "epaule",
+    ]
+    brain = [
+        "cerveau",
+        "neurone",
+        "esprit",
+        "pensée",
+        "pense",
+        "memoire",
+        "réflexe",
+        "reflexe",
+        "sommeil",
+        "reve",
+        "déjà",
+    ]
     night = ["nuit", "sommeil", "reve", "lune", "obscur"]
-    warning = ["danger", "alerte", "réagit", "reagit", "signal", "stress",
-               "peur", "douleur", "blessure"]
+    warning = ["danger", "alerte", "réagit", "reagit", "signal", "stress", "peur", "douleur", "blessure"]
     if any(w in t for w in brain):
         return "brain"
     if any(w in t for w in night):
@@ -251,9 +328,11 @@ def _layer_procedural(index, scene_text):
     when every AI provider is down."""
     try:
         import numpy as _np
-        from PIL import Image as _PIL, ImageDraw as _PILD, ImageFilter as _PILF
-    except Exception:
-        raise RuntimeError("procedural fallback needs numpy/Pillow")
+        from PIL import Image as _PIL
+        from PIL import ImageDraw as _PILD
+        from PIL import ImageFilter as _PILF
+    except Exception as exc:
+        raise RuntimeError("procedural fallback needs numpy/Pillow") from exc
 
     seed = (index * 100003) + (hashlib.sha256(scene_text.encode()).digest()[0] * 7919)
     rng = _np.random.RandomState(seed % (2**31))
@@ -298,8 +377,7 @@ def _layer_procedural(index, scene_text):
     # identical bokeh+rings pattern that looked like "one same image".
     overlay = _PIL.new("RGB", (W, H), (0, 0, 0))
     dr = _PILD.Draw(overlay)
-    bokeh = [(60, 90, 170), (120, 60, 60), (50, 50, 90),
-             (110, 60, 160), (160, 50, 40), (40, 70, 140)]
+    bokeh = [(60, 90, 170), (120, 60, 60), (50, 50, 90), (110, 60, 160), (160, 50, 40), (40, 70, 140)]
     accent = (200, 220, 255)
 
     if theme == "brain":
@@ -308,21 +386,18 @@ def _layer_procedural(index, scene_text):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
             x2, y2 = x1 + rng.randint(-350, 350), y1 + rng.randint(-350, 350)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.line([x1, y1, x2, y2], fill=tuple(int(v * 0.5) for v in col),
-                    width=rng.randint(3, 9))
+            dr.line([x1, y1, x2, y2], fill=tuple(int(v * 0.5) for v in col), width=rng.randint(3, 9))
         for _ in range(30):
             x, y = rng.randint(0, W), rng.randint(0, H)
             r = rng.randint(10, 60)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.ellipse([x - r, y - r, x + r, y + r],
-                       fill=tuple(int(v * 0.55) for v in col))
+            dr.ellipse([x - r, y - r, x + r, y + r], fill=tuple(int(v * 0.55) for v in col))
     elif theme == "alert":
         # concentric warning pulses radiating from center
         cx, cy = W // 2, H // 2
         for k in range(7):
             r = (k + 1) * (H // 8)
-            dr.ellipse([cx - r, cy - r, cx + r, cy + r],
-                       outline=(220, 60, 40), width=rng.randint(4, 10))
+            dr.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(220, 60, 40), width=rng.randint(4, 10))
         for _ in range(24):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
             x2, y2 = x1 + rng.randint(-120, 120), y1 + rng.randint(-120, 120)
@@ -330,21 +405,19 @@ def _layer_procedural(index, scene_text):
     elif theme == "night":
         # moon + horizon silhouette
         mx, my, mr = rng.randint(200, W - 200), rng.randint(200, 600), rng.randint(120, 220)
-        dr.ellipse([mx - mr, my - mr, mx + mr, my + mr],
-                   fill=tuple(int(v * 0.4) for v in accent))
+        dr.ellipse([mx - mr, my - mr, mx + mr, my + mr], fill=tuple(int(v * 0.4) for v in accent))
         for _ in range(40):
             sx = rng.randint(0, W)
             sy = rng.randint(H // 2, H)
             sh = rng.randint(80, 300)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.polygon([(sx, sy), (sx + 90, sy), (sx + 45, sy - sh)],
-                       fill=tuple(int(v * 0.45) for v in col))
+            dr.polygon([(sx, sy), (sx + 90, sy), (sx + 45, sy - sh)], fill=tuple(int(v * 0.45) for v in col))
     elif theme == "body":
         # flowing bloodstream / cellular filaments
         for _ in range(18):
             pts = []
             cx, cy = rng.randint(0, W), rng.randint(0, H)
-            for j in range(6):
+            for _j in range(6):
                 cx += rng.randint(-120, 120)
                 cy += rng.randint(60, 160)
                 pts.append((cx, cy))
@@ -354,16 +427,14 @@ def _layer_procedural(index, scene_text):
             x, y = rng.randint(0, W), rng.randint(0, H)
             r = rng.randint(20, 70)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.ellipse([x - r, y - r, x + r, y + r],
-                       outline=tuple(int(v * 0.6) for v in col), width=4)
+            dr.ellipse([x - r, y - r, x + r, y + r], outline=tuple(int(v * 0.6) for v in col), width=4)
     else:
         # generic: bokeh lights
         for _ in range(18):
             r = rng.randint(30, 140)
             x, y = rng.randint(0, W), rng.randint(0, H)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.ellipse([x - r, y - r, x + r, y + r],
-                       fill=tuple(int(v * 0.35) for v in col))
+            dr.ellipse([x - r, y - r, x + r, y + r], fill=tuple(int(v * 0.35) for v in col))
 
     overlay = overlay.filter(_PILF.GaussianBlur(60))
     img = _PIL.blend(img, overlay, 0.45)
@@ -374,7 +445,7 @@ def _layer_procedural(index, scene_text):
     dv.ellipse([-W * 0.3, -H * 0.25, W * 1.3, H * 1.2], fill=255)
     vign = vign.filter(_PILF.GaussianBlur(250))
     arr = _np.asarray(img).astype(_np.float32)
-    arr *= (0.55 + 0.45 * _np.asarray(vign)[..., None] / 255.0)
+    arr *= 0.55 + 0.45 * _np.asarray(vign)[..., None] / 255.0
     img = _PIL.fromarray(_np.clip(arr, 0, 255).astype(_np.uint8))
 
     # final brightness normalization to clear the validator gate
@@ -396,8 +467,7 @@ def _layer_procedural(index, scene_text):
         for _ in range(24):
             cx, cy = rng.randint(0, W), rng.randint(0, H)
             r = rng.randint(60, 240)
-            dd.ellipse([cx - r, cy - r, cx + r, cy + r],
-                       outline=accent, width=rng.randint(2, 4))
+            dd.ellipse([cx - r, cy - r, cx + r, cy + r], outline=accent, width=rng.randint(2, 4))
     elif theme == "alert":
         for _ in range(20):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
@@ -412,8 +482,7 @@ def _layer_procedural(index, scene_text):
         for _ in range(14):
             cx, cy = rng.randint(0, W), rng.randint(0, H)
             r = rng.randint(120, 420)
-            dd.ellipse([cx - r, cy - r, cx + r, cy + r],
-                       outline=accent, width=rng.randint(2, 5))
+            dd.ellipse([cx - r, cy - r, cx + r, cy + r], outline=accent, width=rng.randint(2, 5))
         for _ in range(10):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
             x2, y2 = rng.randint(0, W), rng.randint(0, H)
@@ -425,11 +494,14 @@ def _layer_procedural(index, scene_text):
     # AI provider is down (keeps the Short on-topic instead of generic pattern).
     try:
         from PIL import ImageFont
+
         _text_overlay = _PIL.new("RGBA", (W, H), (0, 0, 0, 0))
         _td = _PILD.Draw(_text_overlay)
         _font = None
-        for _fp in ("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-                    "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"):
+        for _fp in (
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+            "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        ):
             if os.path.exists(_fp):
                 _font = ImageFont.truetype(_fp, 72)
                 break
@@ -493,8 +565,10 @@ def _perceptual_hash(path: str, media_type: str = "image") -> str | None:
     so a decode problem never blocks an otherwise valid asset."""
     try:
         from PIL import Image as _Image
+
         if media_type != "image":
             from moviepy.editor import VideoFileClip
+
             with VideoFileClip(path, audio=False) as clip:
                 frame = clip.get_frame(min(0.3, max(clip.duration - 0.05, 0.0)))
             image = _Image.fromarray(frame)
@@ -535,7 +609,7 @@ def _perceptual_clash(candidate: str | None, used_hashes: set) -> int | None:
             other = int(known.split(":", 1)[1], 16)
         except ValueError:
             continue
-        distance = bin(value ^ other).count("1")
+        distance = (value ^ other).bit_count()
         if distance <= PERCEPTUAL_MAX_DISTANCE:
             return distance
     return None
@@ -549,16 +623,18 @@ def _validate_clip_first_frame(clip_path: str, source_name: str) -> None:
     frame_path = None
     try:
         from moviepy.editor import VideoFileClip
+
         with VideoFileClip(clip_path, audio=False) as clip:
             # ~0.3s in: past any fade-in, still within the swipe window.
             stamp = min(0.3, max(clip.duration - 0.05, 0.0))
             frame = clip.get_frame(stamp)
         from PIL import Image as _Image
+
         frame_path = f"{clip_path}.firstframe.jpg"
         _Image.fromarray(frame).convert("RGB").save(frame_path, quality=92)
     except MediaValidationError:
         raise
-    except Exception as exc:                      # extraction problem only
+    except Exception as exc:  # extraction problem only
         logger.warning("%s: could not inspect first frame (%s)", source_name, exc)
         return
 
@@ -567,10 +643,8 @@ def _validate_clip_first_frame(clip_path: str, source_name: str) -> None:
     except MediaValidationError as exc:
         raise RuntimeError(f"{source_name}: first frame rejected — {exc}") from exc
     finally:
-        try:
+        with contextlib.suppress(OSError):
             os.remove(frame_path)
-        except OSError:
-            pass
 
 
 def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
@@ -591,8 +665,10 @@ def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
         if not photos:
             raise RuntimeError(f"Pexels: no results for '{query}'")
         img_urls = [
-            p["src"].get("portrait") or p["src"].get("large2x")
-            or p["src"].get("original") or p["src"]["large"]
+            p["src"].get("portrait")
+            or p["src"].get("large2x")
+            or p["src"].get("original")
+            or p["src"]["large"]
             for p in photos
         ]
 
@@ -602,8 +678,14 @@ def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
             raise RuntimeError("PIXABAY_API_KEY not set - skipping live Pixabay layer")
         resp = requests.get(
             "https://pixabay.com/api/",
-            params={"key": key, "q": query, "image_type": "photo",
-                    "orientation": "vertical", "per_page": 15, "safesearch": "true"},
+            params={
+                "key": key,
+                "q": query,
+                "image_type": "photo",
+                "orientation": "vertical",
+                "per_page": 15,
+                "safesearch": "true",
+            },
             timeout=REQUEST_TIMEOUT,
         )
         if resp.status_code != 200:
@@ -639,7 +721,7 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     # clips (<3s) loop visibly. Enforce all three here so the first
     # accepted candidate already fits the Shorts standard.
     min_clip_w = int(os.environ.get("MIN_STOCK_CLIP_WIDTH", "720"))
-    min_clip_s = int(os.environ.get("MIN_STOCK_CLIP_SECONDS", "3"))
+    int(os.environ.get("MIN_STOCK_CLIP_SECONDS", "3"))
     if source == "pexels":
         key = os.environ.get("PEXELS_API_KEY")
         if not key:
@@ -662,10 +744,12 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
             # a landscape file wastes ~60% of its width in the 9:16 crop
             # and a 360p file blurs at 1080x1920.
             candidates = [
-                f for f in files
-                if f.get("file_type") == "video/mp4" and f.get("link")
+                f
+                for f in files
+                if f.get("file_type") == "video/mp4"
+                and f.get("link")
                 and f.get("width", 0) < f.get("height", 0)  # must be portrait
-                and f.get("width", 0) >= min_clip_w          # resolution floor
+                and f.get("width", 0) >= min_clip_w  # resolution floor
             ]
             if video.get("duration", 0) <= 0:
                 continue
@@ -697,8 +781,7 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
                 var = variants.get(key)
                 if not var or not var.get("url"):
                     continue
-                if (var.get("width", 0) < var.get("height", 0)
-                        and var.get("width", 0) >= min_clip_w):
+                if var.get("width", 0) < var.get("height", 0) and var.get("width", 0) >= min_clip_w:
                     chosen = var
                     break
             if chosen:
@@ -709,7 +792,8 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     if not urls:
         raise RuntimeError(
             f"{source}: no portrait B-roll clip >= {min_clip_w}px wide for "
-            f"'{query}' - orientation/quality filter passed none")
+            f"'{query}' - orientation/quality filter passed none"
+        )
     with _fallback_lock:
         url = next((item for item in urls if item not in used_fallbacks), urls[0])
         used_fallbacks.add(url)
@@ -736,7 +820,8 @@ def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     if not _probe_is_valid_video(path):
         raise RuntimeError(
             f"{source}: downloaded clip is truncated or container-corrupt "
-            f"(ffprobe failed) — next video candidate will be tried")
+            f"(ffprobe failed) — next video candidate will be tried"
+        )
     return path, "video"
 
 
@@ -748,13 +833,16 @@ def _probe_is_valid_video(path: str) -> bool:
     attempt)."""
     try:
         import subprocess as _sp
+
         probe = _sp.run(
-            ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-             "-of", "csv=p=0", path],
-            capture_output=True, text=True, timeout=30)
+            ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", path],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
         dur = probe.stdout.strip()
         return bool(dur) and float(dur) > 0.0
-    except Exception:  # noqa: BLE001 - probe must never break the download path
+    except Exception:
         return False
 
 
@@ -776,7 +864,13 @@ def _layer3_pixabay_live(index, scene_text, used_fallbacks: set):
 
 def _scene_text(scene) -> str:
     if isinstance(scene, dict):
-        return scene.get('visual') or scene.get('description') or scene.get('scene') or scene.get('caption') or ''
+        return (
+            scene.get("visual")
+            or scene.get("description")
+            or scene.get("scene")
+            or scene.get("caption")
+            or ""
+        )
     return str(scene)
 
 
@@ -786,7 +880,7 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
     # script_data['topic'] into it). It locks the signature style for the
     # whole video — one cohesive "Le Labo Obscur" look per video, unlike the
     # shared-stock look every other channel ships.
-    topic = scene.get('topic', '') if isinstance(scene, dict) else ''
+    topic = scene.get("topic", "") if isinstance(scene, dict) else ""
 
     # 2026-08-20 ORDER FLIP (owner request: "videos Pexels/Pixabay se bnwao,
     # professional clips primary; AI image generator fallback"). Real filmed
@@ -798,21 +892,37 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
     # never-fail procedural/Playwright floors.
     layers = [
         # --- PRIMARY: professional stock clips (real footage) ---
-        ("Pexels-video-primary",  lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
+        ("Pexels-video-primary", lambda: _layer_pexels_video(index, scene_text, used_fallbacks)),
         ("Pixabay-video-primary", lambda: _layer_pixabay_video(index, scene_text, used_fallbacks)),
         # --- FALLBACK: AI image generation (unique per scene) ---
-        ("Signature-AI-fallback", lambda: _layer_ai_providers(index, scene_text, [
-            "Pollinations-flux", "Pollinations-turbo", "HuggingFace", "Gemini",
-            "DeepAI", "ModelsLab", "Replicate",
-        ], topic=topic)),
-        ("AI-Horde-fallback",     lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"], topic=topic)),
+        (
+            "Signature-AI-fallback",
+            lambda: _layer_ai_providers(
+                index,
+                scene_text,
+                [
+                    "Pollinations-flux",
+                    "Pollinations-turbo",
+                    "HuggingFace",
+                    "Gemini",
+                    "DeepAI",
+                    "ModelsLab",
+                    "Replicate",
+                ],
+                topic=topic,
+            ),
+        ),
+        ("AI-Horde-fallback", lambda: _layer_ai_providers(index, scene_text, ["AI-Horde"], topic=topic)),
         # REAL stock photos (photographic, no motion) - below clips+AI-art.
         ("Pexels-image-fallback", lambda: _layer2_pexels_live(index, scene_text, used_fallbacks)),
         ("Pixabay-image-fallback", lambda: _layer3_pixabay_live(index, scene_text, used_fallbacks)),
-        ("Local-fallback-pool",   lambda: _layer_local_pool(index, used_fallbacks)),
-        ("Procedural-fallback",   lambda: _layer_procedural(index, scene_text)),
-        *([("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]
-            if os.environ.get("ENABLE_SCREENSHOT_FALLBACK", "false").lower() == "true" else []),
+        ("Local-fallback-pool", lambda: _layer_local_pool(index, used_fallbacks)),
+        ("Procedural-fallback", lambda: _layer_procedural(index, scene_text)),
+        *(
+            [("Playwright-screenshot", lambda: _layer1_playwright_screenshot(index, scene_text))]
+            if os.environ.get("ENABLE_SCREENSHOT_FALLBACK", "false").lower() == "true"
+            else []
+        ),
     ]
 
     for name, fn in layers:
@@ -875,24 +985,35 @@ def _generate_one(index, scene, used_hashes: set, used_fallbacks: set):
                     if os.path.isfile(clip_path) and os.path.getsize(clip_path) >= 100_000:
                         # Re-validate the rendered clip and swap it in.
                         _validate_clip_first_frame(clip_path, "AI-image-to-video")
-                        clip_hash = hashlib.sha256(open(clip_path, "rb").read()).hexdigest()
+                        with open(clip_path, "rb") as clip_file:
+                            clip_hash = hashlib.sha256(clip_file.read()).hexdigest()
                         if clip_hash not in used_hashes:
                             used_hashes.discard(file_hash)
                             if perceptual and not is_procedural:
                                 used_hashes.discard(perceptual)
                             used_hashes.add(clip_hash)
-                            logger.info(f"Scene {index}: static image upgraded to AI motion clip "
-                                        f"(AI-image-to-video) -> {clip_path}")
-                            return {"index": index, "path": clip_path, "source": "AI-image-to-video",
-                                    "media_type": "video"}
+                            logger.info(
+                                f"Scene {index}: static image upgraded to AI motion clip "
+                                f"(AI-image-to-video) -> {clip_path}"
+                            )
+                            return {
+                                "index": index,
+                                "path": clip_path,
+                                "source": "AI-image-to-video",
+                                "media_type": "video",
+                            }
                         logger.info(f"Scene {index}: AI clip hash-collision - keeping static image")
                     else:
-                        logger.warning(f"Scene {index}: AI video clip too small/missing - keeping static image")
+                        logger.warning(
+                            f"Scene {index}: AI video clip too small/missing - keeping static image"
+                        )
                 except Exception as exc:
                     # Budget exhausted, rate-limited, or network - keep the
                     # static image, never burn the slot.
-                    logger.warning(f"Scene {index}: AI video upgrade skipped ({exc}); "
-                                   f"static image will play with Ken Burns motion")
+                    logger.warning(
+                        f"Scene {index}: AI video upgrade skipped ({exc}); "
+                        f"static image will play with Ken Burns motion"
+                    )
 
             logger.info(f"Scene {index}: {media_type} generated via {name} -> {path}")
             return {"index": index, "path": path, "source": name, "media_type": media_type}

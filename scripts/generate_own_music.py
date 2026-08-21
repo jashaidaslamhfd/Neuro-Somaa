@@ -14,6 +14,7 @@ Usage:
 
 import os
 import wave
+
 import numpy as np
 
 SR = 22050
@@ -58,11 +59,11 @@ def build(name: str, root: int = 36, bpm: float = 55, chords=(36, 39, 43, 46), s
         pos = int(tt * SR)
         if pos + int(0.14 * SR) < n:
             tl = np.arange(int(0.14 * SR)) / SR
-            hb[pos:pos + len(tl)] += np.sin(2 * np.pi * 55 * tl) * np.exp(-tl * 16) * 0.08
+            hb[pos : pos + len(tl)] += np.sin(2 * np.pi * 55 * tl) * np.exp(-tl * 16) * 0.08
             dp = pos + int(0.22 * SR)
             if dp + int(0.09 * SR) < n:
                 td = np.arange(int(0.09 * SR)) / SR
-                hb[dp:dp + len(td)] += np.sin(2 * np.pi * 70 * td) * np.exp(-td * 20) * 0.045
+                hb[dp : dp + len(td)] += np.sin(2 * np.pi * 70 * td) * np.exp(-td * 20) * 0.045
         tt += period
 
     # dissonant pad (original chord cluster, detuned)
@@ -83,8 +84,11 @@ def build(name: str, root: int = 36, bpm: float = 55, chords=(36, 39, 43, 46), s
         nl = int(SR * 2.2)
         if pos + nl < n:
             tn = np.arange(nl) / SR
-            pluck[pos:pos + nl] += (np.sin(2 * np.pi * fl * tn) +
-                                    0.3 * np.sin(2 * np.pi * 2 * fl * tn)) * np.exp(-tn / 1.1) * 0.05
+            pluck[pos : pos + nl] += (
+                (np.sin(2 * np.pi * fl * tn) + 0.3 * np.sin(2 * np.pi * 2 * fl * tn))
+                * np.exp(-tn / 1.1)
+                * 0.05
+            )
         pt += rng.uniform(4.5, 9.0)
 
     # noise texture
@@ -118,6 +122,7 @@ def _genres():
 
 if __name__ == "__main__":
     import sys
+
     print("🎵 Génération de musiques ORIGINALES (monétisation-safe):")
     # Repo ships .ogg (10x smaller); regenerate then convert:
     #   ffmpeg -i own_dark_drone.wav -c:a libvorbis -q:a 6 own_dark_drone.ogg

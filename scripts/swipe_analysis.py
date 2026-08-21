@@ -21,6 +21,8 @@ Ce script :
 Lecture seule. Aucune modification n'est faite sur la chaîne.
 Env requis : GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN
 """
+
+import itertools
 import json
 import logging
 import os
@@ -28,8 +30,7 @@ import sys
 import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timezone, timedelta
-import itertools
+from datetime import UTC, datetime, timedelta
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("swipe")
@@ -43,12 +44,14 @@ OUT = "data/swipe_curves.json"
 def access_token() -> str:
     """Bare refresh grant — never send `scope`, Google rejects narrowing it
     with invalid_scope (that bug silently killed the analytics sync)."""
-    body = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    body = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     request = urllib.request.Request("https://oauth2.googleapis.com/token", data=body)
     with urllib.request.urlopen(request, timeout=30) as response:
         return json.load(response)["access_token"]
@@ -61,28 +64,33 @@ def get_json(url: str, token: str) -> dict:
         with urllib.request.urlopen(request, timeout=45) as response:
             return json.load(response)
     except urllib.error.HTTPError as exc:
-        return {"error": exc.code,
-                "body": exc.read().decode("utf-8", "replace")[:300]}
+        return {"error": exc.code, "body": exc.read().decode("utf-8", "replace")[:300]}
 
 
 def retention_curve(token: str, video_id: str, start: str, end: str) -> dict:
-    query = urllib.parse.urlencode({
-        "ids": "channel==MINE",
-        "startDate": start,
-        "endDate": end,
-        "metrics": "audienceWatchRatio,relativeRetentionPerformance",
-        "dimensions": "elapsedVideoTimeRatio",
-        "filters": f"video=={video_id};audienceType==ORGANIC",
-    })
+    query = urllib.parse.urlencode(
+        {
+            "ids": "channel==MINE",
+            "startDate": start,
+            "endDate": end,
+            "metrics": "audienceWatchRatio,relativeRetentionPerformance",
+            "dimensions": "elapsedVideoTimeRatio",
+            "filters": f"video=={video_id};audienceType==ORGANIC",
+        }
+    )
     result = get_json(ANALYTICS + query, token)
     if "error" in result:
         # relativeRetentionPerformance is not served for every channel.
-        query = urllib.parse.urlencode({
-            "ids": "channel==MINE", "startDate": start, "endDate": end,
-            "metrics": "audienceWatchRatio",
-            "dimensions": "elapsedVideoTimeRatio",
-            "filters": f"video=={video_id}",
-        })
+        query = urllib.parse.urlencode(
+            {
+                "ids": "channel==MINE",
+                "startDate": start,
+                "endDate": end,
+                "metrics": "audienceWatchRatio",
+                "dimensions": "elapsedVideoTimeRatio",
+                "filters": f"video=={video_id}",
+            }
+        )
         result = get_json(ANALYTICS + query, token)
     return result
 
@@ -91,7 +99,7 @@ def video_durations(token: str, ids: list) -> dict:
     """Seconds per video, so a ratio can be converted to a real second."""
     out = {}
     for i in range(0, len(ids), 50):
-        chunk = ",".join(ids[i:i + 50])
+        chunk = ",".join(ids[i : i + 50])
         data = get_json(f"{DATA_API}videos?part=contentDetails&id={chunk}", token)
         for item in data.get("items", []):
             iso = item["contentDetails"]["duration"]
@@ -120,7 +128,7 @@ def survival_at(curve: list, duration: int, second: float) -> float | None:
 
 def main() -> int:
     token = access_token()
-    end = datetime.now(timezone.utc).date()
+    end = datetime.now(UTC).date()
     start = end - timedelta(days=90)
 
     try:
@@ -170,21 +178,26 @@ def main() -> int:
             "curve": [[round(r, 4), round(w, 4)] for r, w in curve],
         }
         results.append(entry)
-        log.info("%s  %ss  1s=%s  3s=%s  drop %.1f%% @ %ss",
-                 video_id, duration,
-                 f"{marks['1s']:.0%}" if marks["1s"] else "?",
-                 f"{marks['3s']:.0%}" if marks["3s"] else "?",
-                 worst_drop * 100, entry["biggest_drop_at_s"])
+        log.info(
+            "%s  %ss  1s=%s  3s=%s  drop %.1f%% @ %ss",
+            video_id,
+            duration,
+            f"{marks['1s']:.0%}" if marks["1s"] else "?",
+            f"{marks['3s']:.0%}" if marks["3s"] else "?",
+            worst_drop * 100,
+            entry["biggest_drop_at_s"],
+        )
 
     if not results:
-        log.error("No retention curves returned. Shorts curves can take a few "
-                  "days, and very low-view videos may never get them.")
+        log.error(
+            "No retention curves returned. Shorts curves can take a few "
+            "days, and very low-view videos may never get them."
+        )
         return 1
 
     os.makedirs("data", exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as handle:
-        json.dump({"generated": end.isoformat(), "videos": results},
-                  handle, ensure_ascii=False, indent=2)
+        json.dump({"generated": end.isoformat(), "videos": results}, handle, ensure_ascii=False, indent=2)
     log.info("WROTE %s (%d videos)", OUT, len(results))
 
     # ---- comparison that actually answers "why do they swipe?" ----
@@ -207,8 +220,10 @@ def main() -> int:
 
     print("\n=== biggest drop per video ===")
     for r in scored:
-        print(f"  {r['avg_retention']:5.1f}%  -{r['biggest_drop_pct']:5.1f}% "
-              f"@ {r['biggest_drop_at_s']}s   {(r['title'] or '')[:42]}")
+        print(
+            f"  {r['avg_retention']:5.1f}%  -{r['biggest_drop_pct']:5.1f}% "
+            f"@ {r['biggest_drop_at_s']}s   {(r['title'] or '')[:42]}"
+        )
     return 0
 
 

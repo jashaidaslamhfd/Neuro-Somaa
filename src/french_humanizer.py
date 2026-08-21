@@ -31,7 +31,6 @@ The caller logs the change list; nothing here ever blocks a script.
 from __future__ import annotations
 
 import re
-from typing import List, Tuple
 
 # ── 1. AI-cliché sweep (soft — validation hard-blocks the worst already) ──
 _CLICHE_DROPS = (
@@ -46,7 +45,7 @@ _CLICHE_DROPS = (
 # ── 2/3/4. Register rewrite tables (longest match first) ─────────────────
 # Each tuple: (regex, replacement). Capitalisation of the replacement is
 # matched to the original automatically by _matchcase.
-_REGISTER: Tuple[Tuple[str, str], ...] = (
+_REGISTER: tuple[tuple[str, str], ...] = (
     # classic AI/formal tail-question → spoken one
     (r",?\s*n'est-ce pas\s*\?", " non ?"),
     # full negations → spoken (« ne » drop, only in frozen safe patterns)
@@ -112,22 +111,98 @@ _REGISTER: Tuple[Tuple[str, str], ...] = (
 
 # possessives need gender: « votre peau » → « ta peau » but « votre corps » → « ton corps »
 _FEM_NOUNS = {
-    "peau", "voix", "tête", "mémoire", "respiration", "bouche", "main",
-    "mains", "jambe", "jambes", "gorge", "paupière", "mâchoire",
-    "oreille", "oreilles", "faim", "peur", "température", "lumière",
-    "douleur", "nuque", "langue", "sueur", "chair", "larme", "larmes",
-    "poitrine", "vision", "ouïe", "fatigue", "alarme", "nuit", "journée",
-    "semaine", "santé", "vie", "famille", "envie", "horloge", "routine",
-    "raison", "question", "pompe", "minute", "heure", "seconde",
+    "peau",
+    "voix",
+    "tête",
+    "mémoire",
+    "respiration",
+    "bouche",
+    "main",
+    "mains",
+    "jambe",
+    "jambes",
+    "gorge",
+    "paupière",
+    "mâchoire",
+    "oreille",
+    "oreilles",
+    "faim",
+    "peur",
+    "température",
+    "lumière",
+    "douleur",
+    "nuque",
+    "langue",
+    "sueur",
+    "chair",
+    "larme",
+    "larmes",
+    "poitrine",
+    "vision",
+    "ouïe",
+    "fatigue",
+    "alarme",
+    "nuit",
+    "journée",
+    "semaine",
+    "santé",
+    "vie",
+    "famille",
+    "envie",
+    "horloge",
+    "routine",
+    "raison",
+    "question",
+    "pompe",
+    "minute",
+    "heure",
+    "seconde",
 }
 _MASC_NOUNS = {
-    "corps", "cerveau", "cœur", "coeur", "ventre", "dos", "sommeil",
-    "stress", "système", "rythme", "réflexe", "nez", "visage", "hoquet",
-    "souffle", "muscle", "muscles", "sang", "pied", "pieds", "vertige",
-    "frisson", "sourire", "regard", "doigt", "doigts", "genou", "genoux",
-    "bâillement", "spasme", "sanglot", "soupir", "cri", "bruit",
-    "réveil", "matin", "soir", "déjeuner", "dîner", "travail",
-    "téléphone", "écran", "lit", "bureau", "corps",
+    "corps",
+    "cerveau",
+    "cœur",
+    "coeur",
+    "ventre",
+    "dos",
+    "sommeil",
+    "stress",
+    "système",
+    "rythme",
+    "réflexe",
+    "nez",
+    "visage",
+    "hoquet",
+    "souffle",
+    "muscle",
+    "muscles",
+    "sang",
+    "pied",
+    "pieds",
+    "vertige",
+    "frisson",
+    "sourire",
+    "regard",
+    "doigt",
+    "doigts",
+    "genou",
+    "genoux",
+    "bâillement",
+    "spasme",
+    "sanglot",
+    "soupir",
+    "cri",
+    "bruit",
+    "réveil",
+    "matin",
+    "soir",
+    "déjeuner",
+    "dîner",
+    "travail",
+    "téléphone",
+    "écran",
+    "lit",
+    "bureau",
 }
 
 # ── 5. sentence-boundary repair ───────────────────────────────────────────
@@ -136,25 +211,109 @@ _MASC_NOUNS = {
 # punctuation, means two sentences were glued — the TTS then reads one
 # endless drone ("…fatigué C'est dû au fait…" real production example).
 _OPENERS = (
-    "Le", "La", "Les", "Il", "Ils", "Elle", "Elles", "On", "Un", "Une",
-    "Des", "Ce", "Ces", "Cela", "Ça", "Son", "Sa", "Ses", "Ton", "Ta",
-    "Tes", "Quand", "Lorsque", "Mais", "Et", "En", "Si", "Alors",
-    "Résultat", "Surtout", "Pourtant", "Parfois", "Voilà", "Voici",
-    "Pourquoi", "Parce", "Tout", "Toute", "C'est", "Chaque", "Puis",
-    "Car", "Donc",
+    "Le",
+    "La",
+    "Les",
+    "Il",
+    "Ils",
+    "Elle",
+    "Elles",
+    "On",
+    "Un",
+    "Une",
+    "Des",
+    "Ce",
+    "Ces",
+    "Cela",
+    "Ça",
+    "Son",
+    "Sa",
+    "Ses",
+    "Ton",
+    "Ta",
+    "Tes",
+    "Quand",
+    "Lorsque",
+    "Mais",
+    "Et",
+    "En",
+    "Si",
+    "Alors",
+    "Résultat",
+    "Surtout",
+    "Pourtant",
+    "Parfois",
+    "Voilà",
+    "Voici",
+    "Pourquoi",
+    "Parce",
+    "Tout",
+    "Toute",
+    "C'est",
+    "Chaque",
+    "Puis",
+    "Car",
+    "Donc",
 )
-_BOUNDARY_RE = re.compile(
-    r"(?<=[a-zàâäæçéèêëîïôöœùûüÿ'’])\s+(?=(?:" + "|".join(_OPENERS) + r")(?:\s|'|$))"
-)
+_BOUNDARY_RE = re.compile(r"(?<=[a-zàâäæçéèêëîïôöœùûüÿ'’])\s+(?=(?:" + "|".join(_OPENERS) + r")(?:\s|'|$))")
 
 # ── 6. dangling-tail guard (cut words like « …de lourdeur Al ») ──────────
 _DANGLING_TAIL = {
-    "et", "mais", "que", "qui", "quoi", "de", "du", "des", "à", "au",
-    "aux", "en", "dans", "sur", "par", "pour", "avec", "sans", "ce", "cet",
-    "cette", "ces", "un", "une", "le", "la", "les", "il", "elle", "on",
-    "ton", "ta", "tes", "son", "sa", "ses", "votre", "vos", "mon", "ma",
-    "mes", "si", "car", "ni", "ou", "donc", "or",
-    "alors", "comme", "quand", "lors", "afin", "al", "lorsq", "parce",
+    "et",
+    "mais",
+    "que",
+    "qui",
+    "quoi",
+    "de",
+    "du",
+    "des",
+    "à",
+    "au",
+    "aux",
+    "en",
+    "dans",
+    "sur",
+    "par",
+    "pour",
+    "avec",
+    "sans",
+    "ce",
+    "cet",
+    "cette",
+    "ces",
+    "un",
+    "une",
+    "le",
+    "la",
+    "les",
+    "il",
+    "elle",
+    "on",
+    "ton",
+    "ta",
+    "tes",
+    "son",
+    "sa",
+    "ses",
+    "votre",
+    "vos",
+    "mon",
+    "ma",
+    "mes",
+    "si",
+    "car",
+    "ni",
+    "ou",
+    "donc",
+    "or",
+    "alors",
+    "comme",
+    "quand",
+    "lors",
+    "afin",
+    "al",
+    "lorsq",
+    "parce",
 }
 # NOTE: words that CAN legitimately close a spoken sentence (« …ton corps
 # aussi. », « …et bien plus. », « …c'est très rare. ») must never be in this
@@ -167,7 +326,7 @@ def _matchcase(original: str, replacement: str) -> str:
     return replacement
 
 
-def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
+def humanize_spoken_fr(text: str) -> tuple[str, list[str]]:
     """Rewrite written/LLM French into natural spoken French.
 
     Returns ``(new_text, changes)`` — ``changes`` lists the rule names that
@@ -176,7 +335,7 @@ def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
     """
     original = text or ""
     out = " ".join(original.split())  # normalise whitespace first
-    changes: List[str] = []
+    changes: list[str] = []
 
     def _sub(pattern: str, repl: str, label: str, flags: int = 0) -> None:
         nonlocal out
@@ -203,7 +362,8 @@ def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
 
     # 2–4. register tables (case-insensitive; case restored from the match)
     for pat, repl in _REGISTER:
-        def _do(m: "re.Match[str]", r: str = repl) -> str:
+
+        def _do(m: re.Match[str], r: str = repl) -> str:
             return _matchcase(m.group(0), r)
 
         new = re.sub(pat, _do, out, flags=re.IGNORECASE)
@@ -213,7 +373,7 @@ def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
                 changes.append("register:parlé")
 
     # possessives with gender lookup
-    def _poss(m: "re.Match[str]") -> str:
+    def _poss(m: re.Match[str]) -> str:
         art, noun = m.group(1), m.group(2)
         if art.lower() == "vos":
             fixed = "tes"
@@ -239,7 +399,7 @@ def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
         if changes_added:
             changes.append("fin:pendante")
     out = " ".join(words)
-    if out and not out.endswith((".", "!", "?", "…", "»", "\"")):
+    if out and not out.endswith((".", "!", "?", "…", "»", '"')):
         # Never truncate back to an earlier sentence: the tail may be real
         # content missing only its final mark (dangling words were already
         # popped above). Truncating erased « Ça reste normal » in tests.
@@ -250,8 +410,7 @@ def humanize_spoken_fr(text: str) -> Tuple[str, List[str]]:
     # capitalise after any ". x" lowercase start introduced by cliché drops,
     # and at the very start of the text (« il est important de… » drop can
     # leave a lowercase opener).
-    out = re.sub(r"([.!?…]\s+)([a-zàâäæçéèêëîïôöœùûüÿ])",
-                 lambda m: m.group(1) + m.group(2).upper(), out)
+    out = re.sub(r"([.!?…]\s+)([a-zàâäæçéèêëîïôöœùûüÿ])", lambda m: m.group(1) + m.group(2).upper(), out)
     out = re.sub(r"\s{2,}", " ", out).strip()
     if out and out[0].islower():
         out = out[0].upper() + out[1:]
@@ -265,5 +424,4 @@ def formality_leftovers(text: str) -> int:
     Used by the pipeline logger to watch the humanization coverage — a
     healthy script trends to 0. Never blocks anything."""
     t = " " + (text or "").lower() + " "
-    return (len(re.findall(r"\bvous\b", t))
-            + len(re.findall(r"\bvotre\b|\bvos\b", t)))
+    return len(re.findall(r"\bvous\b", t)) + len(re.findall(r"\bvotre\b|\bvos\b", t))

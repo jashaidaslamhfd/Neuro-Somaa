@@ -34,6 +34,7 @@ Sécurité :
 
 Env requis : GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN
 """
+
 import argparse
 import json
 import logging
@@ -52,13 +53,39 @@ API = "https://www.googleapis.com/youtube/v3"
 
 # --- Tags anglais à supprimer d'une chaîne francophone ---------------------
 ENGLISH_TAGS = {
-    "anatomy", "physiology", "humanbody", "human body", "yourbody", "your body",
-    "bodyfacts", "body facts", "bodyparts", "body parts", "bodymystery",
-    "bodyawareness", "humanfacts", "humananatomy", "human anatomy",
-    "brainfacts", "brain facts", "sciencefacts", "science facts",
-    "didyouknow", "facts", "body", "brain", "health", "mindblown",
-    "amazingfacts", "shortsfeed", "viral", "fyp", "bodyscience",
-    "body science", "bodyhacks", "healthfacts",
+    "anatomy",
+    "physiology",
+    "humanbody",
+    "human body",
+    "yourbody",
+    "your body",
+    "bodyfacts",
+    "body facts",
+    "bodyparts",
+    "body parts",
+    "bodymystery",
+    "bodyawareness",
+    "humanfacts",
+    "humananatomy",
+    "human anatomy",
+    "brainfacts",
+    "brain facts",
+    "sciencefacts",
+    "science facts",
+    "didyouknow",
+    "facts",
+    "body",
+    "brain",
+    "health",
+    "mindblown",
+    "amazingfacts",
+    "shortsfeed",
+    "viral",
+    "fyp",
+    "bodyscience",
+    "body science",
+    "bodyhacks",
+    "healthfacts",
 }
 
 # Préfixes anglais : attrape les variantes composées non listées
@@ -67,16 +94,80 @@ ENGLISH_PREFIXES = ("body", "human", "brain", "health", "science f", "your body"
 
 # --- Mots de gabarit : jamais des mots-clés de recherche -------------------
 TEMPLATE_TAGS = {
-    "faut", "qu'il", "quil", "qu", "comprendre", "explique", "expliquer",
-    "derrière", "derriere", "passe", "semble", "sembler", "avant", "après",
-    "apres", "moment", "important", "vraiment", "toujours", "jamais",
-    "chaque", "aussi", "très", "bien", "faire", "fait", "dit", "dire",
-    "voici", "vraie", "vrai", "raison", "chose", "choses", "tout", "tous",
-    "autre", "autres", "alors", "donc", "mais", "lors", "lorsque", "parfois",
-    "souvent", "votre", "vous", "notre", "ton", "ta", "tes", "cela", "quand",
-    "pourquoi", "comment", "bougeant", "entendus", "mâchant", "repère",
-    "propre", "science", "d'une", "dune", "d'un", "plus", "vite", "cette",
-    "leur", "sans", "dans", "avec", "pour", "étrangement", "devient",
+    "faut",
+    "qu'il",
+    "quil",
+    "qu",
+    "comprendre",
+    "explique",
+    "expliquer",
+    "derrière",
+    "derriere",
+    "passe",
+    "semble",
+    "sembler",
+    "avant",
+    "après",
+    "apres",
+    "moment",
+    "important",
+    "vraiment",
+    "toujours",
+    "jamais",
+    "chaque",
+    "aussi",
+    "très",
+    "bien",
+    "faire",
+    "fait",
+    "dit",
+    "dire",
+    "voici",
+    "vraie",
+    "vrai",
+    "raison",
+    "chose",
+    "choses",
+    "tout",
+    "tous",
+    "autre",
+    "autres",
+    "alors",
+    "donc",
+    "mais",
+    "lors",
+    "lorsque",
+    "parfois",
+    "souvent",
+    "votre",
+    "vous",
+    "notre",
+    "ton",
+    "ta",
+    "tes",
+    "cela",
+    "quand",
+    "pourquoi",
+    "comment",
+    "bougeant",
+    "entendus",
+    "mâchant",
+    "repère",
+    "propre",
+    "science",
+    "d'une",
+    "dune",
+    "d'un",
+    "plus",
+    "vite",
+    "cette",
+    "leur",
+    "sans",
+    "dans",
+    "avec",
+    "pour",
+    "étrangement",
+    "devient",
 }
 
 
@@ -87,25 +178,37 @@ def _is_english_tag(tag: str) -> bool:
     if normalized in ENGLISH_TAGS:
         return True
     if any(ch in normalized for ch in "àâäéèêëïîôöùûüÿçœæ"):
-        return False                      # accent => français
+        return False  # accent => français
     return normalized.startswith(ENGLISH_PREFIXES)
 
+
 # Socle FR appliqué à toutes les vidéos de la série.
-BASE_TAGS = ["shorts", "corps humain", "science", "français",
-             "faits étonnants", "curiosité", "anatomie", "vulgarisation"]
+BASE_TAGS = [
+    "shorts",
+    "corps humain",
+    "science",
+    "français",
+    "faits étonnants",
+    "curiosité",
+    "anatomie",
+    "vulgarisation",
+]
 
 MAX_TAGS = 14
 
 
 def _token() -> str:
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token"}).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
-            urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
-            timeout=30) as response:
+        urllib.request.Request("https://oauth2.googleapis.com/token", data=data), timeout=30
+    ) as response:
         return json.load(response)["access_token"]
 
 
@@ -120,8 +223,13 @@ def _req(method: str, url: str, token: str, payload: dict | None = None):
             raw = response.read()
             return json.loads(raw) if raw else {}
     except urllib.error.HTTPError as exc:
-        log.error("%s %s -> HTTP %s: %s", method, url.split("?")[0],
-                  exc.code, exc.read().decode("utf-8", "replace")[:300])
+        log.error(
+            "%s %s -> HTTP %s: %s",
+            method,
+            url.split("?")[0],
+            exc.code,
+            exc.read().decode("utf-8", "replace")[:300],
+        )
         raise
 
 
@@ -143,7 +251,7 @@ def _all_video_ids(token: str) -> list[str]:
 def _fetch(token: str, ids: list[str]) -> list[dict]:
     out = []
     for i in range(0, len(ids), 50):
-        chunk = ",".join(ids[i:i + 50])
+        chunk = ",".join(ids[i : i + 50])
         data = _req("GET", f"{API}/videos?part=snippet,statistics&id={chunk}", token)
         out += data.get("items", [])
     return out
@@ -154,9 +262,13 @@ def _topic_words(title: str) -> list[str]:
     words = re.findall(r"[a-zà-ÿœæ]+(?:'[a-zà-ÿœæ]+)?", title.lower())
     keep = []
     for word in words:
-        if len(word) > 3 and word not in TEMPLATE_TAGS and word not in ENGLISH_TAGS:
-            if word not in keep:
-                keep.append(word)
+        if (
+            len(word) > 3
+            and word not in TEMPLATE_TAGS
+            and word not in ENGLISH_TAGS
+            and word not in keep
+        ):
+            keep.append(word)
     return keep[:6]
 
 
@@ -164,15 +276,11 @@ def clean_tags(title: str, current: list[str]) -> tuple[list[str], dict]:
     """Retourne (nouveaux_tags, rapport). Conserve les bons tags FR existants."""
     current = current or []
     removed_en = [t for t in current if _is_english_tag(t)]
-    removed_tpl = [
-        t for t in current
-        if not _is_english_tag(t) and t.lower().strip() in TEMPLATE_TAGS
-    ]
+    removed_tpl = [t for t in current if not _is_english_tag(t) and t.lower().strip() in TEMPLATE_TAGS]
     kept = [
-        t for t in current
-        if not _is_english_tag(t)
-        and t.lower().strip() not in TEMPLATE_TAGS
-        and len(t.strip()) > 2
+        t
+        for t in current
+        if not _is_english_tag(t) and t.lower().strip() not in TEMPLATE_TAGS and len(t.strip()) > 2
     ]
     # Ordre stable et prioritaire : mots-clés du sujet d'abord (ce que les
     # gens tapent réellement), puis les bons tags déjà en place, puis le
@@ -233,10 +341,19 @@ def clean_description(description: str) -> tuple[str, dict]:
     # #comprendre", "#explique", "#passe", "#semble", "#derrière" — plus the
     # far-too-broad "#science" (19 of them across 8 videos on 2026-07-27).
     # Merging duplicates alone left all of them in place.
-    HASHTAG_JUNK = TEMPLATE_TAGS | {"science", "sciences", "corps", "chose",
-                                    "choses", "effet", "cause", "raison"}
+    HASHTAG_JUNK = TEMPLATE_TAGS | {
+        "science",
+        "sciences",
+        "corps",
+        "chose",
+        "choses",
+        "effet",
+        "cause",
+        "raison",
+    }
     kept_hashtags = [
-        tag for tag in merged_hashtags
+        tag
+        for tag in merged_hashtags
         if len(tag.lstrip("#")) > 3
         and tag.lstrip("#").lower() not in HASHTAG_JUNK
         and not _is_english_tag(tag.lstrip("#"))
@@ -261,9 +378,8 @@ def main() -> int:
     ids = _all_video_ids(token)
     videos = _fetch(token, ids)
     if args.limit:
-        videos = videos[:args.limit]
-    log.info("%d vidéos scannées (mode %s)", len(videos),
-             "APPLY" if args.apply else "DRY-RUN")
+        videos = videos[: args.limit]
+    log.info("%d vidéos scannées (mode %s)", len(videos), "APPLY" if args.apply else "DRY-RUN")
 
     changed = 0
     report = []
@@ -287,7 +403,9 @@ def main() -> int:
 
         changed += 1
         entry = {
-            "video_id": vid, "title": title, "views": views,
+            "video_id": vid,
+            "title": title,
+            "views": views,
             "removed_english_tags": tag_report["removed_english"],
             "removed_template_tags": tag_report["removed_template"],
             "paragraphs_removed": desc_report["paragraphs_removed"],
@@ -301,15 +419,18 @@ def main() -> int:
         if tag_report["removed_template"]:
             log.info("    - tags gabarit supprimés : %s", tag_report["removed_template"])
         if desc_report["paragraphs_removed"]:
-            log.info("    - %d paragraphe(s) dupliqué(s) retirés (%d caractères)",
-                     desc_report["paragraphs_removed"], desc_report["chars_saved"])
+            log.info(
+                "    - %d paragraphe(s) dupliqué(s) retirés (%d caractères)",
+                desc_report["paragraphs_removed"],
+                desc_report["chars_saved"],
+            )
         log.info("    → tags : %s", new_tags)
 
         if args.apply:
             payload = {
                 "id": vid,
                 "snippet": {
-                    "title": title,                       # inchangé volontairement
+                    "title": title,  # inchangé volontairement
                     "description": new_desc,
                     "tags": new_tags,
                     "categoryId": snippet.get("categoryId", "28"),
@@ -323,12 +444,24 @@ def main() -> int:
 
     os.makedirs("output", exist_ok=True)
     with open("output/fr_metadata_sweep.json", "w", encoding="utf-8") as handle:
-        json.dump({"mode": "apply" if args.apply else "dry-run",
-                   "scanned": len(videos), "changed": changed,
-                   "videos": report}, handle, ensure_ascii=False, indent=2)
+        json.dump(
+            {
+                "mode": "apply" if args.apply else "dry-run",
+                "scanned": len(videos),
+                "changed": changed,
+                "videos": report,
+            },
+            handle,
+            ensure_ascii=False,
+            indent=2,
+        )
 
-    log.info("Terminé : %d/%d vidéos %s", changed, len(videos),
-             "mises à jour" if args.apply else "à corriger (dry-run)")
+    log.info(
+        "Terminé : %d/%d vidéos %s",
+        changed,
+        len(videos),
+        "mises à jour" if args.apply else "à corriger (dry-run)",
+    )
     if not args.apply and changed:
         log.info("Relancer avec --apply pour écrire les corrections.")
     return 0

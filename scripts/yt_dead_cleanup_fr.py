@@ -13,6 +13,7 @@ Safety rails:
 DRY by default; pass --apply to delete for real.
 Needs GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN env (FR OAuth).
 """
+
 import argparse
 import json
 import logging
@@ -29,14 +30,17 @@ API = "https://www.googleapis.com/youtube/v3"
 
 
 def _token() -> str:
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token"}).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
-            urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
-            timeout=30) as r:
+        urllib.request.Request("https://oauth2.googleapis.com/token", data=data), timeout=30
+    ) as r:
         return json.load(r)["access_token"]
 
 
@@ -71,20 +75,22 @@ def main() -> int:
 
     rows = []
     for i in range(0, len(ids), 50):
-        data = _get(f"{API}/videos?part=snippet,status,statistics&id={','.join(ids[i:i + 50])}", token)
+        data = _get(f"{API}/videos?part=snippet,status,statistics&id={','.join(ids[i : i + 50])}", token)
         for video in data.get("items", []):
             snippet = video.get("snippet", {})
             status = video.get("status", {})
             stats = video.get("statistics", {})
             published = datetime.fromisoformat(snippet["publishedAt"])
             age_days = (datetime.now(UTC) - published).total_seconds() / 86400
-            rows.append({
-                "id": video["id"],
-                "title": snippet.get("title", "")[:60],
-                "views": int(stats.get("viewCount", 0)),
-                "age_days": age_days,
-                "scheduled": bool(status.get("publishAt")),
-            })
+            rows.append(
+                {
+                    "id": video["id"],
+                    "title": snippet.get("title", "")[:60],
+                    "views": int(stats.get("viewCount", 0)),
+                    "age_days": age_days,
+                    "scheduled": bool(status.get("publishAt")),
+                }
+            )
 
     dead, kept = [], []
     for row in rows:
@@ -95,11 +101,19 @@ def main() -> int:
         else:
             kept.append(row)
 
-    log.info("channel uploads: %d | dead (<= %d views, >= %d days): %d | kept: %d",
-             len(rows), args.max_views, args.min_age_days, len(dead), len(kept))
+    log.info(
+        "channel uploads: %d | dead (<= %d views, >= %d days): %d | kept: %d",
+        len(rows),
+        args.max_views,
+        args.min_age_days,
+        len(dead),
+        len(kept),
+    )
     for row in sorted(rows, key=lambda r: r["views"]):
         marker = "DEAD " if row in dead else ("SCHED" if row["scheduled"] else "keep ")
-        log.info("%s %5d views | %5.1fd | %s (%s)", marker, row["views"], row["age_days"], row["title"], row["id"])
+        log.info(
+            "%s %5d views | %5.1fd | %s (%s)", marker, row["views"], row["age_days"], row["title"], row["id"]
+        )
 
     deleted, failed = 0, 0
     for row in dead:
@@ -112,7 +126,13 @@ def main() -> int:
             with urllib.request.urlopen(req, timeout=40) as r:
                 r.read()
             deleted += 1
-            log.info("DELETED %s (%d views, %.0f days — %s)", row["id"], row["views"], row["age_days"], row["title"])
+            log.info(
+                "DELETED %s (%d views, %.0f days — %s)",
+                row["id"],
+                row["views"],
+                row["age_days"],
+                row["title"],
+            )
         except Exception as exc:
             failed += 1
             log.error("FAILED %s: %s", row["id"], exc)

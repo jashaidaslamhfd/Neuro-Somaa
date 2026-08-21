@@ -28,5 +28,7 @@ jobs:
           for i in 1 2 3; do python -m pip install -r requirements-ci.txt && break || { echo retry; sleep 10; }; done
       - name: Compile gate (syntax crash-landed commits die here)
         run: python -m compileall -q src scripts tests
+      - name: Ruff lint gate (no unresolved repository violations)
+        run: ruff check src scripts tests
       - name: Run test suite
         run: python -m pytest tests/ -q

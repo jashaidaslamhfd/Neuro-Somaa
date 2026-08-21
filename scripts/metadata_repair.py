@@ -24,7 +24,7 @@ import logging
 import os
 import sys
 import time
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -57,13 +57,14 @@ def _in_cooldown(vid: str, ledger: dict, days: int) -> bool:
         last = datetime.fromisoformat(stamp)
     except ValueError:
         return False
-    return datetime.now(timezone.utc) - last < timedelta(days=days)
+    return datetime.now(UTC) - last < timedelta(days=days)
+
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("metadata_repair")
 
-from niche_strategy import generate_seo_tags  # noqa: E402
-from seo_generator import _truncate_title  # noqa: E402 — clean dangling-safe truncation
+from niche_strategy import generate_seo_tags
+from seo_generator import _truncate_title
 
 
 # --------------------------------------------------------------------------- #
@@ -74,18 +75,20 @@ def _access_token() -> str:
     import urllib.parse
     import urllib.request
 
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=data)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)["access_token"]
 
 
-def _api(path: str, token: str, *, method: str = "GET", body: dict = None):
+def _api(path: str, token: str, *, method: str = "GET", body: dict | None = None):
     import urllib.error
     import urllib.request
 
@@ -120,6 +123,7 @@ def _looks_truncated(title: str) -> bool:
         return True
     last = t.split()[-1].lower().rstrip("?!.")
     from seo_generator import _DANGLING_ENDINGS
+
     if last in _DANGLING_ENDINGS:
         return True
     # A dangling ARTICLE is not the only way a title gets cut. "Ce que votre
@@ -149,8 +153,18 @@ def _carries_description_text(title: str) -> bool:
     """
     low = (title or "").lower()
     leaked = (
-        "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
-        "description", "voici", "```", "#", "http", "www.", " on e",
+        "dans ce short",
+        "ce short",
+        "abonne",
+        "abonnez",
+        "hashtags",
+        "description",
+        "voici",
+        "```",
+        "#",
+        "http",
+        "www.",
+        " on e",
     )
     return any(token in low for token in leaked)
 
@@ -178,16 +192,18 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
     # alone even if it differs from the catalogue angle — question titles in
     # second person ("Pourquoi ton corps... ?") are the winning style.
     title_broken = (
-        _looks_truncated(old_title)
-        or _is_label_title(old_title)
-        or _carries_description_text(old_title)
+        _looks_truncated(old_title) or _is_label_title(old_title) or _carries_description_text(old_title)
     )
     if topic_full and title_broken:
         cap = topic_full[0].upper() + topic_full[1:]
         new_title = _truncate_title(cap)
-        if new_title and new_title != old_title and len(new_title.split()) >= 3 \
-                and not _looks_truncated(new_title) \
-                and not _carries_description_text(new_title):
+        if (
+            new_title
+            and new_title != old_title
+            and len(new_title.split()) >= 3
+            and not _looks_truncated(new_title)
+            and not _carries_description_text(new_title)
+        ):
             # Never write a replacement that is itself polluted or unresolved —
             # that is how "…Dans ce Short on e ?" reached the channel.
             changes["title"] = new_title
@@ -197,8 +213,30 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
     title_for_tags = changes.get("title", old_title)
     raw_tags = generate_seo_tags(changes.get("title", old_title) or topic_full, category, title_for_tags)
     # strip connector/short junk ("d'une", "lors") — tags must be searchable words/phrases
-    junk = {"d'une", "d'un", "lors", "dans", "avec", "sans", "pour", "quand", "que", "qui", "des", "les",
-            "sur", "sous", "une", "par", "aux", "est", "sont", "pas", "plus", "tout"}
+    junk = {
+        "d'une",
+        "d'un",
+        "lors",
+        "dans",
+        "avec",
+        "sans",
+        "pour",
+        "quand",
+        "que",
+        "qui",
+        "des",
+        "les",
+        "sur",
+        "sous",
+        "une",
+        "par",
+        "aux",
+        "est",
+        "sont",
+        "pas",
+        "plus",
+        "tout",
+    }
     new_tags = []
     for t in raw_tags:
         t = (t or "").strip()
@@ -226,12 +264,12 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
     script_like = {
         "title": changes.get("title", old_title),
         "description": (
-            f"Dans ce Short, on explique clairement : {desc_topic}. "
-            f"{voiceover[:240].rstrip()}".strip()
+            f"Dans ce Short, on explique clairement : {desc_topic}. {voiceover[:240].rstrip()}".strip()
         ),
         "cta": "Abonnez-vous pour plus de science expliquée simplement.",
     }
     from seo_generator import generate_description
+
     new_desc = generate_description(script_like, changes.get("tags", old_tags) or new_tags)
     # tidy the hashtag block: dedupe, drop junk fragments, cap at 10 (YouTube
     # only surfaces the first 3 above the title; the rest are search signals)
@@ -289,7 +327,9 @@ def main() -> int:
         old_hist_title = (e.get("title") or "")[:70]
         if _in_cooldown(vid, ledger, cooldown_days):
             skipped += 1
-            plan_rows.append(f"SKIP  {vid} | repaired <{cooldown_days}d ago (cooldown) | {old_hist_title[:60]}")
+            plan_rows.append(
+                f"SKIP  {vid} | repaired <{cooldown_days}d ago (cooldown) | {old_hist_title[:60]}"
+            )
             continue
         try:
             current = _get_video(token, vid)
@@ -299,19 +339,30 @@ def main() -> int:
                 skipped += 1
                 plan_rows.append(f"SKIP  {vid} | already good | {live_title[:60]}")
                 continue
-            plan_rows.append(f"FIX   {vid}\n"
-                             f"  old: {live_title[:90]}\n"
-                             f"  new: {changes.get('title', live_title)[:90]}")
+            plan_rows.append(
+                f"FIX   {vid}\n  old: {live_title[:90]}\n  new: {changes.get('title', live_title)[:90]}"
+            )
             if args.apply:
                 snip = dict(current["snippet"])
                 snip.update(changes)
                 # 'position' is not writable on update; keep known fields only
-                allowed = {"title", "description", "tags", "categoryId",
-                           "defaultLanguage", "defaultAudioLanguage"}
-                body = {"id": vid, "snippet": {k: v for k, v in snip.items() if k in allowed and v is not None}}
+                allowed = {
+                    "title",
+                    "description",
+                    "tags",
+                    "categoryId",
+                    "defaultLanguage",
+                    "defaultAudioLanguage",
+                }
+                body = {
+                    "id": vid,
+                    "snippet": {k: v for k, v in snip.items() if k in allowed and v is not None},
+                }
                 _api("videos?part=snippet", token, method="PUT", body=body)
-                ledger[vid] = {"last_repaired_at": datetime.now(timezone.utc).isoformat(),
-                               "title": changes.get("title", live_title)}
+                ledger[vid] = {
+                    "last_repaired_at": datetime.now(UTC).isoformat(),
+                    "title": changes.get("title", live_title),
+                }
                 updated += 1
                 time.sleep(1.5)  # gentle on quota — 10k/day, each update ~50
             else:
@@ -328,8 +379,13 @@ def main() -> int:
     print(report)
     Path("output").mkdir(exist_ok=True)
     Path("output/metadata_repair_report.txt").write_text(report, encoding="utf-8")
-    logger.info("DONE — fixed: %d, skipped: %d, failed: %d (mode=%s)",
-                updated, skipped, failed, "APPLY" if args.apply else "DRY RUN")
+    logger.info(
+        "DONE — fixed: %d, skipped: %d, failed: %d (mode=%s)",
+        updated,
+        skipped,
+        failed,
+        "APPLY" if args.apply else "DRY RUN",
+    )
     return 0 if failed == 0 else 1
 
 

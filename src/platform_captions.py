@@ -8,7 +8,7 @@ from __future__ import annotations
 import hashlib
 import logging
 import re
-from typing import Dict, List, Sequence
+from collections.abc import Sequence
 
 from algorithm_policy import (
     FACEBOOK,
@@ -77,18 +77,16 @@ _YOUTUBE_ONLY_TAGS = {
 
 
 def _pick(options: Sequence[str], seed_text: str) -> str:
-    digest = hashlib.sha256(
-        (seed_text or "x").encode("utf-8")
-    ).hexdigest()[:8]
+    digest = hashlib.sha256((seed_text or "x").encode("utf-8")).hexdigest()[:8]
 
     return options[int(digest, 16) % len(options)]
 
 
 def _keywords(
-    script_data: Dict,
+    script_data: dict,
     tags: Sequence[str],
     limit: int = 4,
-) -> List[str]:
+) -> list[str]:
     """Return readable keywords instead of hashtag stuffing."""
     stop = {
         "shorts",
@@ -132,7 +130,7 @@ def _keywords(
     return output
 
 
-def _meta_tags(tags: Sequence[str]) -> List[str]:
+def _meta_tags(tags: Sequence[str]) -> list[str]:
     """Return Meta hashtags without YouTube-only tags."""
     output = []
 
@@ -151,7 +149,7 @@ def _meta_tags(tags: Sequence[str]) -> List[str]:
     return output
 
 
-def _payoff_fact(script_data: Dict) -> str:
+def _payoff_fact(script_data: dict) -> str:
     """Extract the payoff scene (scene 7) — the one concrete quotable fact
     that makes a Reel sendable. Instagram's #2 signal is sends-per-reach,
     nobody forwards a vague summary. This is what fixes 0% send rate."""
@@ -162,30 +160,22 @@ def _payoff_fact(script_data: Dict) -> str:
         if payoff and len(payoff.split()) >= 5:
             return payoff
     # fallback: use cta or last meaningful caption
-    for idx in range(len(scenes)-1, -1, -1):
+    for idx in range(len(scenes) - 1, -1, -1):
         cap = _clean((scenes[idx] or {}).get("caption", ""), 200)
         if cap and len(cap.split()) >= 6:
             return cap
     return ""
 
 
-def _hook_and_summary(script_data: Dict) -> tuple[str, str]:
+def _hook_and_summary(script_data: dict) -> tuple[str, str]:
     hook = _clean(script_data.get("hook"), 180)
 
     summary = _clean(
-        script_data.get("summary")
-        or script_data.get("description"),
+        script_data.get("summary") or script_data.get("description"),
         400,
     )
 
-    if (
-        summary
-        and hook
-        and (
-            summary.lower() in hook.lower()
-            or hook.lower() in summary.lower()
-        )
-    ):
+    if summary and hook and (summary.lower() in hook.lower() or hook.lower() in summary.lower()):
         summary = ""
 
     return hook, summary
@@ -195,15 +185,16 @@ def _hook_and_summary(script_data: Dict) -> tuple[str, str]:
 # YouTube
 # ---------------------------------------------------------------------------
 
+
 def build_youtube_description(
-    script_data: Dict,
+    script_data: dict,
     tags: Sequence[str],
 ) -> str:
     """Build a YouTube Shorts search-oriented description."""
     limits = caption_limits(YOUTUBE)
     hook, summary = _hook_and_summary(script_data)
 
-    parts: List[str] = []
+    parts: list[str] = []
 
     if hook:
         parts.append(_sentence(hook))
@@ -220,9 +211,7 @@ def build_youtube_description(
             script_data.get("topic") or readable,
         )
 
-        parts.append(
-            f"Learn the science behind {readable}. {closer}"
-        )
+        parts.append(f"Learn the science behind {readable}. {closer}")
 
     hashtags = enforce_hashtag_limit(
         [
@@ -244,9 +233,7 @@ def build_youtube_description(
         parts.append(" ".join(hashtags))
 
     description = strip_bait(
-        "\n\n".join(
-            part for part in parts if part
-        ),
+        "\n\n".join(part for part in parts if part),
         YOUTUBE,
     )
 
@@ -257,8 +244,9 @@ def build_youtube_description(
 # Facebook
 # ---------------------------------------------------------------------------
 
+
 def build_facebook_caption(
-    script_data: Dict,
+    script_data: dict,
     tags: Sequence[str],
 ) -> str:
     """Build a Facebook-native Reel caption optimized for UTIS (Jan 2026).
@@ -269,7 +257,7 @@ def build_facebook_caption(
     hook, summary = _hook_and_summary(script_data)
     payoff = _payoff_fact(script_data)
 
-    parts: List[str] = []
+    parts: list[str] = []
 
     # Line 1 must name topic plainly for UTIS — not teaser
     if hook:
@@ -299,9 +287,7 @@ def build_facebook_caption(
         parts.append(" ".join(hashtags))
 
     caption = strip_bait(
-        "\n\n".join(
-            part for part in parts if part
-        ),
+        "\n\n".join(part for part in parts if part),
         FACEBOOK,
     )
 
@@ -312,8 +298,9 @@ def build_facebook_caption(
 # Instagram
 # ---------------------------------------------------------------------------
 
+
 def build_instagram_caption(
-    script_data: Dict,
+    script_data: dict,
     tags: Sequence[str],
 ) -> str:
     """Build an Instagram-native, keyword-searchable caption optimized for sends-per-reach.
@@ -324,25 +311,14 @@ def build_instagram_caption(
     hook, summary = _hook_and_summary(script_data)
     payoff = _payoff_fact(script_data)
 
-    first_line = (
-        hook
-        or summary
-        or ""
-    ).strip()
+    first_line = (hook or summary or "").strip()
 
     # FIXED 2026-07-31: First line limit 90 -> 85 for safer fold
     fold_limit = limits["first_line_chars"]
     if len(first_line) > fold_limit:
-        first_line = (
-            first_line[
-                : fold_limit
-            ]
-            .rsplit(" ", 1)[0]
-            .rstrip(",;:")
-            + "…"
-        )
+        first_line = first_line[:fold_limit].rsplit(" ", 1)[0].rstrip(",;:") + "…"
 
-    parts: List[str] = []
+    parts: list[str] = []
 
     if first_line:
         parts.append(_sentence(first_line))
@@ -368,11 +344,7 @@ def build_instagram_caption(
     )
 
     if keywords:
-        parts.append(
-            "Body science: "
-            + ", ".join(keywords)
-            + "."
-        )
+        parts.append("Body science: " + ", ".join(keywords) + ".")
 
     closer = _pick(
         _META_CLOSERS,
@@ -384,6 +356,7 @@ def build_instagram_caption(
     # 🚀 US-STRATEGY: Add targeted hashtag clusters for US audience
     try:
         from hashtag_clusters import get_optimized_us_tags
+
         tags = get_optimized_us_tags(script_data.get("topic", ""), tags)
     except Exception:
         pass
@@ -397,9 +370,7 @@ def build_instagram_caption(
         parts.append(" ".join(hashtags))
 
     caption = strip_bait(
-        "\n\n".join(
-            part for part in parts if part
-        ),
+        "\n\n".join(part for part in parts if part),
         INSTAGRAM,
     )
 
@@ -410,12 +381,11 @@ def build_instagram_caption(
 # Pinned YouTube comment
 # ---------------------------------------------------------------------------
 
-def build_pinned_comment(script_data: Dict) -> str:
+
+def build_pinned_comment(script_data: dict) -> str:
     """Build a genuine topic-specific YouTube comment."""
     topic = _clean(
-        script_data.get("topic")
-        or script_data.get("title")
-        or "this",
+        script_data.get("topic") or script_data.get("title") or "this",
         80,
     ).lower()
 
@@ -428,15 +398,9 @@ def build_pinned_comment(script_data: Dict) -> str:
     ).strip()
 
     templates = (
-        f"Has this ever happened to you with {topic}? "
-        "I read every reply.",
-
-        f"Curious — did you already know what causes "
-        f"{topic}, or is it new to you?",
-
-        f"What part of {topic} still doesn't make sense? "
-        "I'll cover it next.",
-
+        f"Has this ever happened to you with {topic}? I read every reply.",
+        f"Curious — did you already know what causes {topic}, or is it new to you?",
+        f"What part of {topic} still doesn't make sense? I'll cover it next.",
         f"Which body question should I explain after {topic}?",
     )
 

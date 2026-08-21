@@ -43,9 +43,8 @@ import logging
 import os
 import re
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from statistics import mean
-from typing import Dict, List, Optional, Tuple
 
 import pytz
 
@@ -89,6 +88,7 @@ WINNER_MARGIN = 0.10
 # helpers
 # ---------------------------------------------------------------------------
 
+
 def _load_json(path: str, default):
     try:
         if os.path.exists(path):
@@ -111,13 +111,13 @@ def _clamp(value: float, low: float = WEIGHT_FLOOR, high: float = WEIGHT_CEILING
     return round(max(low, min(float(value), high)), 3)
 
 
-def _configured_slots() -> List[str]:
+def _configured_slots() -> list[str]:
     """The publish slots the scheduler actually targets, as "HH:MM" strings."""
     try:
         from scheduler import USAPeakTimeScheduler
-        return [f"{p['hour']:02d}:{p['minute']:02d}"
-                for p in USAPeakTimeScheduler.PEAK_TIMES]
-    except Exception:  # noqa: BLE001 - learning must not depend on the scheduler
+
+        return [f"{p['hour']:02d}:{p['minute']:02d}" for p in USAPeakTimeScheduler.PEAK_TIMES]
+    except Exception:
         return []
 
 
@@ -129,7 +129,7 @@ def _configured_slots() -> List[str]:
 _SLOT_MATCH_MINUTES = 45
 
 
-def _slot_key(record: Dict) -> Optional[str]:
+def _slot_key(record: dict) -> str | None:
     """Which publish slot a video belongs to, in New York local time.
 
     Two details that were quietly corrupting the data:
@@ -148,8 +148,8 @@ def _slot_key(record: Dict) -> Optional[str]:
     if not stamp:
         return None
     try:
-        parsed = datetime.fromisoformat(str(stamp).replace("Z", "+00:00"))
-        parsed = parsed if parsed.tzinfo else parsed.replace(tzinfo=timezone.utc)
+        parsed = datetime.fromisoformat(str(stamp))
+        parsed = parsed if parsed.tzinfo else parsed.replace(tzinfo=UTC)
     except ValueError:
         return None
 
@@ -175,45 +175,224 @@ _TOPIC_PILLARS = {
     # English + French keywords so a France-first channel's topics actually
     # group into learning buckets. Before this, 48/48 French topics landed in
     # "other", starving the ML of per-pillar samples.
-    "eye": ("eye", "vision", "blink", "pupil", "sight", "tears",
-            "œil", "oeil", "yeux", "regard", "larme", "pleure", "larmes",
-            "paupière", "paupiere", "cligner", "corps flottants", "voile",
-            "lumiere vive", "lumière", "couleur", "nuance", "nuances",
-            "retine", "rétine", "voir", "aveugle"),
-    "ear": ("ear", "hearing", "ringing", "tinnitus", "sound",
-            "oreille", "oreilles", "ouïe", "entendre", "sifflent", "siffle",
-            "acouphène", "acouphene", "sourd", "bruit", "voix"),
-    "brain": ("brain", "memory", "dream", "sleep", "focus", "thought", "deja",
-              "cerveau", "mémoire", "memoire", "rêve", "reve", "sommeil",
-              "pensée", "pense", "déjà", "deja", "esprit", "oublier",
-              "neuron", "neurone", "réflexe", "reflexe", "psychologie",
-              "cerveau immature", "prénom", "prenom", "stress sur la memoire"),
-    "heart": ("heart", "pulse", "blood", "circulation", "beat",
-              "cœur", "coeur", "sang", "battre", "cœur battre", "pouls",
-              "circulation", "palpitation", "emballe", "s'emballe"),
-    "muscle": ("muscle", "cramp", "twitch", "spasm", "joint", "knee", "back",
-               "muscle", "genou", "genoux", "articul", "crampe", "tressaille",
-               "contract", "fourmillement", "fourmillements", "engourdi",
-               "pied s'endort", "dos", "mâchoire", "machoire", "craque",
-               "craquent", "bras", "doigt", "jambes", "jambe"),
-    "gut": ("stomach", "gut", "hunger", "digest", "nausea", "throat",
-            "ventre", "estomac", "faim", "digest", "nausée", "nausee",
-            "gargouille", "gorge", "nœud", "noeud", "gêné", "gene",
-            "mal au ventre", "faim revient"),
-    "skin": ("skin", "goosebump", "itch", "sweat", "blush", "hair",
-             "peau", "chair de poule", "frisson", "frisonne", "démange",
-             "démangeaison", "transpir", "rougit", "rougeur", "cheveux",
-             "fripe", "fripent", "sèche", "seche"),
-    "breath": ("breath", "yawn", "hiccup", "sneeze", "cough", "lung",
-               "respiration", "bâille", "baillement", "hoquet", "éternu",
-               "eternu", "toux", "tousser", "poumon", "poumons", "nez coule",
-               "respire", "souffle"),
-    "nerve": ("nerve", "tingle", "numb", "shiver", "chill", "pain",
-              "nerf", "fourmillement", "engourd", "frisson", "douleur",
-              "chatouille", "piquote", "démange", "voix tremble", "tremble",
-              "nervosité", "nervosite", "stress", "peur", "anxiété", "anxiete",
-              "chaudes", "chaleur", "vibration", "téléphone", "telephone",
-              "imaginaire"),
+    "eye": (
+        "eye",
+        "vision",
+        "blink",
+        "pupil",
+        "sight",
+        "tears",
+        "œil",
+        "oeil",
+        "yeux",
+        "regard",
+        "larme",
+        "pleure",
+        "larmes",
+        "paupière",
+        "paupiere",
+        "cligner",
+        "corps flottants",
+        "voile",
+        "lumiere vive",
+        "lumière",
+        "couleur",
+        "nuance",
+        "nuances",
+        "retine",
+        "rétine",
+        "voir",
+        "aveugle",
+    ),
+    "ear": (
+        "ear",
+        "hearing",
+        "ringing",
+        "tinnitus",
+        "sound",
+        "oreille",
+        "oreilles",
+        "ouïe",
+        "entendre",
+        "sifflent",
+        "siffle",
+        "acouphène",
+        "acouphene",
+        "sourd",
+        "bruit",
+        "voix",
+    ),
+    "brain": (
+        "brain",
+        "memory",
+        "dream",
+        "sleep",
+        "focus",
+        "thought",
+        "deja",
+        "cerveau",
+        "mémoire",
+        "memoire",
+        "rêve",
+        "reve",
+        "sommeil",
+        "pensée",
+        "pense",
+        "déjà",
+        "deja",
+        "esprit",
+        "oublier",
+        "neuron",
+        "neurone",
+        "réflexe",
+        "reflexe",
+        "psychologie",
+        "cerveau immature",
+        "prénom",
+        "prenom",
+        "stress sur la memoire",
+    ),
+    "heart": (
+        "heart",
+        "pulse",
+        "blood",
+        "circulation",
+        "beat",
+        "cœur",
+        "coeur",
+        "sang",
+        "battre",
+        "cœur battre",
+        "pouls",
+        "circulation",
+        "palpitation",
+        "emballe",
+        "s'emballe",
+    ),
+    "muscle": (
+        "muscle",
+        "cramp",
+        "twitch",
+        "spasm",
+        "joint",
+        "knee",
+        "back",
+        "muscle",
+        "genou",
+        "genoux",
+        "articul",
+        "crampe",
+        "tressaille",
+        "contract",
+        "fourmillement",
+        "fourmillements",
+        "engourdi",
+        "pied s'endort",
+        "dos",
+        "mâchoire",
+        "machoire",
+        "craque",
+        "craquent",
+        "bras",
+        "doigt",
+        "jambes",
+        "jambe",
+    ),
+    "gut": (
+        "stomach",
+        "gut",
+        "hunger",
+        "digest",
+        "nausea",
+        "throat",
+        "ventre",
+        "estomac",
+        "faim",
+        "digest",
+        "nausée",
+        "nausee",
+        "gargouille",
+        "gorge",
+        "nœud",
+        "noeud",
+        "gêné",
+        "gene",
+        "mal au ventre",
+        "faim revient",
+    ),
+    "skin": (
+        "skin",
+        "goosebump",
+        "itch",
+        "sweat",
+        "blush",
+        "hair",
+        "peau",
+        "chair de poule",
+        "frisson",
+        "frisonne",
+        "démange",
+        "démangeaison",
+        "transpir",
+        "rougit",
+        "rougeur",
+        "cheveux",
+        "fripe",
+        "fripent",
+        "sèche",
+        "seche",
+    ),
+    "breath": (
+        "breath",
+        "yawn",
+        "hiccup",
+        "sneeze",
+        "cough",
+        "lung",
+        "respiration",
+        "bâille",
+        "baillement",
+        "hoquet",
+        "éternu",
+        "eternu",
+        "toux",
+        "tousser",
+        "poumon",
+        "poumons",
+        "nez coule",
+        "respire",
+        "souffle",
+    ),
+    "nerve": (
+        "nerve",
+        "tingle",
+        "numb",
+        "shiver",
+        "chill",
+        "pain",
+        "nerf",
+        "fourmillement",
+        "engourd",
+        "frisson",
+        "douleur",
+        "chatouille",
+        "piquote",
+        "démange",
+        "voix tremble",
+        "tremble",
+        "nervosité",
+        "nervosite",
+        "stress",
+        "peur",
+        "anxiété",
+        "anxiete",
+        "chaudes",
+        "chaleur",
+        "vibration",
+        "téléphone",
+        "telephone",
+        "imaginaire",
+    ),
 }
 
 
@@ -257,7 +436,8 @@ def hook_frame(title_or_hook: str) -> str:
 # core scoring
 # ---------------------------------------------------------------------------
 
-def _platform_score(record: Dict, platform: str) -> Optional[float]:
+
+def _platform_score(record: dict, platform: str) -> float | None:
     """How well one video did on one platform, as a 0..~2 ratio of the
     platform's own retention gate.
 
@@ -281,7 +461,7 @@ def _platform_score(record: Dict, platform: str) -> Optional[float]:
     return float(completion) / gate
 
 
-def _combined_score(record: Dict) -> Optional[float]:
+def _combined_score(record: dict) -> float | None:
     """One number per video across every platform that reported.
 
     YouTube is weighted highest because it is the monetisation target and the
@@ -298,7 +478,7 @@ def _combined_score(record: Dict) -> Optional[float]:
     return round(total / weight_sum, 4) if weight_sum else None
 
 
-def _bucket_weights(buckets: Dict[str, List[float]], previous: Dict[str, float]) -> Dict[str, float]:
+def _bucket_weights(buckets: dict[str, list[float]], previous: dict[str, float]) -> dict[str, float]:
     """Turn per-bucket scores into damped weights around the global mean.
 
     A bucket scoring exactly the channel average keeps weight 1.0. Buckets are
@@ -312,11 +492,11 @@ def _bucket_weights(buckets: Dict[str, List[float]], previous: Dict[str, float])
         # every bucket we have OBSERVED, so the report can show "we are
         # watching this slot, it just has 2 videos" instead of silently
         # showing nothing — an empty table reads like a broken feature.
-        observed = {key: 1.0 for key in buckets}
+        observed = dict.fromkeys(buckets, 1.0)
         return {**observed, **{k: _clamp(v) for k, v in previous.items()}}
 
     global_mean = mean([score for values in eligible.values() for score in values]) or 1.0
-    weights: Dict[str, float] = {}
+    weights: dict[str, float] = {}
     for key, values in buckets.items():
         prior = float(previous.get(key, 1.0))
         if len(values) < min_samples:
@@ -333,10 +513,11 @@ def _bucket_weights(buckets: Dict[str, List[float]], previous: Dict[str, float])
 # platform health
 # ---------------------------------------------------------------------------
 
-def _platform_health(records: List[Dict], platform: str) -> Dict:
+
+def _platform_health(records: list[dict], platform: str) -> dict:
     """Verdict + the single most useful next action for one platform."""
     scores, completions, views = [], [], []
-    errors: Dict[str, int] = defaultdict(int)
+    errors: dict[str, int] = defaultdict(int)
 
     for record in records:
         data = record.get(platform) or {}
@@ -366,8 +547,9 @@ def _platform_health(records: List[Dict], platform: str) -> Dict:
             "gate": gate,
             "blocking_error": top_error,
             "action": (
-                f"No readable metrics. {top_error}" if top_error else
-                "No metrics yet — publish and wait 24h, or connect this platform's analytics."
+                f"No readable metrics. {top_error}"
+                if top_error
+                else "No metrics yet — publish and wait 24h, or connect this platform's analytics."
             ),
         }
 
@@ -376,21 +558,30 @@ def _platform_health(records: List[Dict], platform: str) -> Dict:
     critical = HEALTH_THRESHOLDS["critical_retention_ratio"]
 
     if avg_score >= 1.0:
-        status, action = "healthy", (
-            f"Clearing the {gate:.0%} bar (avg {avg_completion:.0%} completion). "
-            "Keep the current format; scale topics that score above average."
+        status, action = (
+            "healthy",
+            (
+                f"Clearing the {gate:.0%} bar (avg {avg_completion:.0%} completion). "
+                "Keep the current format; scale topics that score above average."
+            ),
         )
     elif avg_score >= critical:
-        status, action = "below_gate", (
-            f"Averaging {avg_completion:.0%} against a {gate:.0%} bar. "
-            f"Shorten the cut toward {duration_policy(platform)[0]:.0f}s and tighten the "
-            "first 3 seconds — the gap is retention, not reach."
+        status, action = (
+            "below_gate",
+            (
+                f"Averaging {avg_completion:.0%} against a {gate:.0%} bar. "
+                f"Shorten the cut toward {duration_policy(platform)[0]:.0f}s and tighten the "
+                "first 3 seconds — the gap is retention, not reach."
+            ),
         )
     else:
-        status, action = "critical", (
-            f"Only {avg_completion:.0%} of a {gate:.0%} bar. The format itself is losing "
-            "viewers early: rebuild the hook (visual payoff in frame one, promise in "
-            "under 3 seconds) before changing anything else."
+        status, action = (
+            "critical",
+            (
+                f"Only {avg_completion:.0%} of a {gate:.0%} bar. The format itself is losing "
+                "viewers early: rebuild the hook (visual payoff in frame one, promise in "
+                "under 3 seconds) before changing anything else."
+            ),
         )
 
     return {
@@ -406,7 +597,7 @@ def _platform_health(records: List[Dict], platform: str) -> Dict:
     }
 
 
-def _instagram_share_health(records: List[Dict]) -> Optional[Dict]:
+def _instagram_share_health(records: list[dict]) -> dict | None:
     """Instagram's #2 ranking signal is sends-per-reach (DM shares), which is
     invisible in every other report we have. A near-zero rate means the
     content is watchable but not *sendable* — a content problem with a
@@ -414,8 +605,7 @@ def _instagram_share_health(records: List[Dict]) -> Optional[Dict]:
     rates = [
         r[INSTAGRAM]["sends_per_reach"]
         for r in records
-        if isinstance(r.get(INSTAGRAM), dict)
-        and r[INSTAGRAM].get("sends_per_reach") is not None
+        if isinstance(r.get(INSTAGRAM), dict) and r[INSTAGRAM].get("sends_per_reach") is not None
     ]
     if not rates:
         return None
@@ -429,8 +619,8 @@ def _instagram_share_health(records: List[Dict]) -> Optional[Dict]:
         "healthy": healthy,
         "action": (
             "Send rate is fine — keep payoffs concrete and forwardable."
-            if healthy else
-            "Almost nobody DMs these Reels. Sends are Instagram's strongest "
+            if healthy
+            else "Almost nobody DMs these Reels. Sends are Instagram's strongest "
             "non-follower signal: end on one surprising, quotable fact a viewer "
             "would send to a specific friend, not a generic wrap-up line."
         ),
@@ -441,7 +631,8 @@ def _instagram_share_health(records: List[Dict]) -> Optional[Dict]:
 # main entry point
 # ---------------------------------------------------------------------------
 
-def analyse(min_age_hours: Optional[int] = None) -> Dict:
+
+def analyse(min_age_hours: int | None = None) -> dict:
     """Read metrics, learn, and write data/growth_state.json.
 
     Only videos older than the maturity window are used: a video still inside
@@ -455,13 +646,14 @@ def analyse(min_age_hours: Optional[int] = None) -> Dict:
     previous = _load_json(GROWTH_STATE_PATH, {}) or {}
 
     mature = [
-        record for record in metrics.values()
+        record
+        for record in metrics.values()
         if isinstance(record, dict) and float(record.get("age_hours") or 0) >= maturity
     ]
 
-    slot_buckets: Dict[str, List[float]] = defaultdict(list)
-    topic_buckets: Dict[str, List[float]] = defaultdict(list)
-    hook_buckets: Dict[str, List[float]] = defaultdict(list)
+    slot_buckets: dict[str, list[float]] = defaultdict(list)
+    topic_buckets: dict[str, list[float]] = defaultdict(list)
+    hook_buckets: dict[str, list[float]] = defaultdict(list)
 
     for record in mature:
         score = _combined_score(record)
@@ -487,7 +679,7 @@ def analyse(min_age_hours: Optional[int] = None) -> Dict:
         alerts.append({"level": "warn", "message": ig_shares["action"]})
 
     state = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "sample_size": len(mature),
         "scored_videos": len(scored),
         "channel_gate_ratio": round(mean(scored), 3) if scored else None,
@@ -514,12 +706,14 @@ def analyse(min_age_hours: Optional[int] = None) -> Dict:
     _save_json_atomic(GROWTH_STATE_PATH, state)
     logger.info(
         "Growth state: %d mature videos, cadence=%d, best slot=%s",
-        len(mature), cadence, state["best_slot"],
+        len(mature),
+        cadence,
+        state["best_slot"],
     )
     return state
 
 
-def _best_of(weights: Dict[str, float], count: int = 1, margin: float = None):
+def _best_of(weights: dict[str, float], count: int = 1, margin: float | None = None):
     """Top bucket(s), but only when the weights have genuinely separated.
 
     `margin` is the minimum distance above neutral (1.0) a bucket must reach
@@ -542,7 +736,7 @@ def _best_of(weights: Dict[str, float], count: int = 1, margin: float = None):
     return winners
 
 
-def _recommend_cadence(scores: List[float], health: Dict) -> Tuple[int, str]:
+def _recommend_cadence(scores: list[float], health: dict) -> tuple[int, str]:
     """Let the data pick 1-3 uploads/day.
 
     The logic is deliberately conservative in one direction only: it will
@@ -588,38 +782,45 @@ def _recommend_cadence(scores: List[float], health: Dict) -> Tuple[int, str]:
     )
 
 
-def _build_alerts(health: Dict, slot_buckets: Dict, scores: List[float]) -> List[Dict]:
+def _build_alerts(health: dict, slot_buckets: dict, scores: list[float]) -> list[dict]:
     """Things a human genuinely needs to see, phrased as actions."""
-    alerts: List[Dict] = []
+    alerts: list[dict] = []
 
-    for platform, info in health.items():
+    for _platform, info in health.items():
         if info["status"] == "no_data" and info.get("blocking_error"):
-            alerts.append({
-                "level": "error",
-                "message": f"{info['label']}: {info['blocking_error']} — analytics are blind here.",
-            })
+            alerts.append(
+                {
+                    "level": "error",
+                    "message": f"{info['label']}: {info['blocking_error']} — analytics are blind here.",
+                }
+            )
         elif info["status"] == "critical":
             alerts.append({"level": "error", "message": f"{info['label']}: {info['action']}"})
 
     if scores and mean(scores) < HEALTH_THRESHOLDS["critical_retention_ratio"]:
-        alerts.append({
-            "level": "error",
-            "message": (
-                "Channel-wide retention is far below every platform's gate. Stop tuning "
-                "SEO and posting times — those only matter after the video holds viewers."
-            ),
-        })
+        alerts.append(
+            {
+                "level": "error",
+                "message": (
+                    "Channel-wide retention is far below every platform's gate. Stop tuning "
+                    "SEO and posting times — those only matter after the video holds viewers."
+                ),
+            }
+        )
 
     weak = [
-        slot for slot, values in slot_buckets.items()
+        slot
+        for slot, values in slot_buckets.items()
         if len(values) >= HEALTH_THRESHOLDS["min_samples_per_slot"] and mean(values) < 0.7
     ]
     for slot in weak:
-        alerts.append({
-            "level": "warn",
-            "message": f"Slot {slot} NY is under-performing across {len(slot_buckets[slot])} videos "
-                       "— its weight has been reduced automatically.",
-        })
+        alerts.append(
+            {
+                "level": "warn",
+                "message": f"Slot {slot} NY is under-performing across {len(slot_buckets[slot])} videos "
+                "— its weight has been reduced automatically.",
+            }
+        )
     return alerts
 
 
@@ -627,16 +828,17 @@ def _build_alerts(health: Dict, slot_buckets: Dict, scores: List[float]) -> List
 # consumers — the pipeline reads these, never the raw file
 # ---------------------------------------------------------------------------
 
-def load_state() -> Dict:
+
+def load_state() -> dict:
     return _load_json(GROWTH_STATE_PATH, {}) or {}
 
 
-def get_topic_weights() -> Dict[str, float]:
+def get_topic_weights() -> dict[str, float]:
     """Pillar weights used by trend_fetcher to bias topic selection."""
     return load_state().get("topic_weights", {}) or {}
 
 
-def get_slot_weights() -> Dict[str, float]:
+def get_slot_weights() -> dict[str, float]:
     return load_state().get("slot_weights", {}) or {}
 
 
@@ -645,7 +847,7 @@ def get_recommended_cadence() -> int:
     return clamp_cadence(int(state.get("recommended_cadence") or 3))
 
 
-def get_preferred_hook_frame() -> Optional[str]:
+def get_preferred_hook_frame() -> str | None:
     """The opening frame with the best measured survival, if one has earned it.
 
     Returned only when it is meaningfully better than neutral — otherwise the

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Visual signature system — "Le Labo Obscur" (Neuro-Somaa).
 
 Every channel on YouTube uses the same generic stock footage. What makes a
@@ -20,8 +19,9 @@ The stock layers (Pexels/Pixabay) remain available as a *fallback only* —
 they are license-safe (verified 2026-08-15) but generic; the signature world
 is the default now.
 """
-import random
+
 import logging
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -72,8 +72,9 @@ SIGNATURE_STYLES = [
     "gentle morning atmosphere, calm scientific revelation, serene clarity",
 ]
 
-_IDENTITY_TAIL = ("vertical composition, no text, no watermark, not blurry, "
-                  "no plastic skin, no distorted anatomy")
+_IDENTITY_TAIL = (
+    "vertical composition, no text, no watermark, not blurry, no plastic skin, no distorted anatomy"
+)
 
 
 def pick(value: str, options: list):

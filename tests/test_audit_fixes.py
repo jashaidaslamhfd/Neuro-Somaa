@@ -8,11 +8,12 @@ Covers:
   3. French quality gate: a verb-less French question title is hard-blocked.
   4. Thumbnail hooks: bare labels are downgraded to a verb-ful question hook.
 """
+
 from __future__ import annotations
 
 import sys
 import unittest
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,10 +28,7 @@ class CtrMetricNameTests(unittest.TestCase):
         src = (ROOT / "src" / "seo_analytics.py").read_text(encoding="utf-8")
         self.assertIn('"impressionClickThroughRate"', src)
         # the misspelled request form must not survive outside explanatory comments
-        code_lines = [
-            line for line in src.splitlines()
-            if not line.lstrip().startswith("#")
-        ]
+        code_lines = [line for line in src.splitlines() if not line.lstrip().startswith("#")]
         self.assertNotIn('"impressionsClickThroughRate"', "\n".join(code_lines))
 
     def test_seo_diag_uses_correct_ctr_metric(self):
@@ -55,20 +53,18 @@ class SlotConfidenceTests(unittest.TestCase):
 
         # 4 strong videos at 06:00 Paris — below the 5-sample confidence bar.
         history = [
-            self._video(f"low{i}", datetime(2026, 7, 10 + i, 4, 0, tzinfo=timezone.utc), 20000)
-            for i in range(4)
+            self._video(f"low{i}", datetime(2026, 7, 10 + i, 4, 0, tzinfo=UTC), 20000) for i in range(4)
         ]
         intel = build_upload_slot_intel(history)
         chosen = [s["slot"] for s in intel["recommended_slots"]]
-        self.assertNotIn("06:00", chosen,
-                         "a sub-5-sample slot must not capture a daily publish slot")
+        self.assertNotIn("06:00", chosen, "a sub-5-sample slot must not capture a daily publish slot")
         self.assertEqual(len(chosen), 3)
 
     def test_confident_slot_is_adopted(self):
         from premium_growth_loop import build_upload_slot_intel
 
         history = [
-            self._video(f"hi{i}", datetime(2026, 7, 10 + i, 16, 0, tzinfo=timezone.utc), 20000)
+            self._video(f"hi{i}", datetime(2026, 7, 10 + i, 16, 0, tzinfo=UTC), 20000)
             for i in range(5)  # exactly the confidence minimum
         ]
         intel = build_upload_slot_intel(history)
@@ -88,16 +84,12 @@ class SlotConfidenceTests(unittest.TestCase):
 
 
 class FrenchVerbGateTests(unittest.TestCase):
-
     def test_verbless_question_title_is_blocked(self):
         from french_quality_gate import is_french_question_without_verb
 
-        self.assertTrue(is_french_question_without_verb(
-            "Pourquoi des corps flottants visibles dans l'œil ?"))
-        self.assertFalse(is_french_question_without_verb(
-            "Pourquoi le corps sursaute en s'endormant ?"))
-        self.assertFalse(is_french_question_without_verb(
-            "Le cœur bat plus vite la nuit"))  # not a question
+        self.assertTrue(is_french_question_without_verb("Pourquoi des corps flottants visibles dans l'œil ?"))
+        self.assertFalse(is_french_question_without_verb("Pourquoi le corps sursaute en s'endormant ?"))
+        self.assertFalse(is_french_question_without_verb("Le cœur bat plus vite la nuit"))  # not a question
 
     def test_verb_detector_handles_accents_and_apostrophes(self):
         from french_quality_gate import has_french_verb
@@ -109,7 +101,6 @@ class FrenchVerbGateTests(unittest.TestCase):
 
 
 class ThumbnailHookTests(unittest.TestCase):
-
     def test_bare_label_is_downgraded_to_question_hook(self):
         from seo_generator import _fr_thumbnail_hook
 
@@ -155,16 +146,17 @@ class TestManualTitleOverrides(unittest.TestCase):
     damage a truncated ('pou ?') or oversized (63 chars) title does."""
 
     def test_overrides_are_clean_and_feed_visible(self):
-        from seo_generator import _title_is_clean, TITLE_MAX_LEN
         from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
+
+        from seo_generator import TITLE_MAX_LEN, _title_is_clean
 
         self.assertGreater(len(_MANUAL_TITLE_OVERRIDES), 8)
         for vid, title in _MANUAL_TITLE_OVERRIDES.items():
             with self.subTest(video=vid, title=title):
-                self.assertLessEqual(len(title), TITLE_MAX_LEN,
-                                     f"override too long for Shorts feed: {title!r}")
-                self.assertTrue(title.rstrip().endswith("?"),
-                                f"override lost its question mark: {title!r}")
+                self.assertLessEqual(
+                    len(title), TITLE_MAX_LEN, f"override too long for Shorts feed: {title!r}"
+                )
+                self.assertTrue(title.rstrip().endswith("?"), f"override lost its question mark: {title!r}")
                 ok, why = _title_is_clean(title)
                 self.assertTrue(ok, f"override not clean ({why}): {title!r}")
 
@@ -174,15 +166,16 @@ class TestManualTitleOverrides(unittest.TestCase):
         seen = {}
         for vid, title in _MANUAL_TITLE_OVERRIDES.items():
             key = title.strip().lower()
-            self.assertNotIn(key, seen,
-                             f"duplicate override title between {seen.get(key)} and {vid}")
+            self.assertNotIn(key, seen, f"duplicate override title between {seen.get(key)} and {vid}")
             seen[key] = vid
 
     def test_no_truncated_word_endings(self):
         # 'chair de pou ?' / 'moment importan' style damage: last content
         # word must not be a clipped prefix of the obvious full word.
-        from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
         import re
+
+        from fr_batch_optimize import _MANUAL_TITLE_OVERRIDES
+
         clipped = {"pou": "poule", "importan": "important", "appara": "apparaît"}
         for vid, title in _MANUAL_TITLE_OVERRIDES.items():
             last = re.sub(r"[ ?!.,]+$", "", title).split()[-1].lower()

@@ -19,6 +19,7 @@ returns nothing usable, fetch_trending_topics() returns an empty list so the
 caller (niche_strategy.get_random_topic) falls back to the static pool
 instead of breaking the pipeline.
 """
+
 import logging
 import re
 
@@ -37,10 +38,37 @@ REDDIT_SOURCES = [
 # Only pull posts that are actually relevant to this channel's niche -
 # random trending Reddit posts about politics/gaming/etc. would be off-brand.
 RELEVANT_KEYWORDS = [
-    "brain", "heart", "body", "blood", "lung", "bone", "nerve", "sleep",
-    "organ", "skin", "muscle", "cell", "dna", "gene", "hormone", "immune",
-    "stomach", "kidney", "liver", "eye", "ear", "spine", "human", "brains",
-    "spinal", "gut", "digest", "breath", "pain", "reflex", "instinct",
+    "brain",
+    "heart",
+    "body",
+    "blood",
+    "lung",
+    "bone",
+    "nerve",
+    "sleep",
+    "organ",
+    "skin",
+    "muscle",
+    "cell",
+    "dna",
+    "gene",
+    "hormone",
+    "immune",
+    "stomach",
+    "kidney",
+    "liver",
+    "eye",
+    "ear",
+    "spine",
+    "human",
+    "brains",
+    "spinal",
+    "gut",
+    "digest",
+    "breath",
+    "pain",
+    "reflex",
+    "instinct",
 ]
 
 # Reddit titles often start with meta-prefixes that don't belong in a

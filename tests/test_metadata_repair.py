@@ -3,6 +3,7 @@
 Both cases below are REAL titles that survived a live `apply=true` repair run
 on 2026-07-30 because the detector considered them healthy.
 """
+
 import sys
 import unittest
 from pathlib import Path
@@ -11,7 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from metadata_repair import (  # noqa: E402
+from metadata_repair import (
     _carries_description_text,
     _looks_truncated,
     build_new_metadata,
@@ -28,20 +29,15 @@ class UnresolvedClauseTests(unittest.TestCase):
     def test_unresolved_quand_clause_is_truncated(self):
         # TaXxSn0YoMc — ends on "silence", a fine noun, but "quand ..." never
         # resolves so the viewer is never told what actually happens.
-        self.assertTrue(
-            _looks_truncated("Ce que votre corps vous dit quand le silence")
-        )
+        self.assertTrue(_looks_truncated("Ce que votre corps vous dit quand le silence"))
 
     def test_resolved_quand_clause_is_healthy(self):
         # rR7yLwzBakA — the clause completes; must not be rewritten.
-        self.assertFalse(
-            _looks_truncated("Pourquoi votre visage rougit quand vous avez honte ?")
-        )
+        self.assertFalse(_looks_truncated("Pourquoi votre visage rougit quand vous avez honte ?"))
 
     def test_unresolved_clause_gets_repaired(self):
         changes = build_new_metadata(
-            {"topic": "Ce que votre corps vous dit quand le silence devient inconfortable",
-             "voiceover": "x"},
+            {"topic": "Ce que votre corps vous dit quand le silence devient inconfortable", "voiceover": "x"},
             _snippet("Ce que votre corps vous dit quand le silence"),
         )
         self.assertIsNotNone(changes)
@@ -56,19 +52,16 @@ class DescriptionLeakTests(unittest.TestCase):
         # 1XVYcxQqDqo — description template bled into the title, then got cut
         # mid-word at "on e". channel_seo_audit.py guarded against this;
         # metadata_repair.py did not, so the polluted title stayed live.
-        self.assertTrue(_carries_description_text(
-            "Pourquoi se réveiller avant son réveil Dans ce Short on e ?"
-        ))
+        self.assertTrue(
+            _carries_description_text("Pourquoi se réveiller avant son réveil Dans ce Short on e ?")
+        )
 
     def test_clean_title_is_not_flagged_as_leaked(self):
-        self.assertFalse(_carries_description_text(
-            "Pourquoi le hoquet commence brusquement ?"
-        ))
+        self.assertFalse(_carries_description_text("Pourquoi le hoquet commence brusquement ?"))
 
     def test_leaked_title_gets_repaired(self):
         changes = build_new_metadata(
-            {"topic": "Pourquoi se réveiller avant son réveil peut sembler étrange",
-             "voiceover": "x"},
+            {"topic": "Pourquoi se réveiller avant son réveil peut sembler étrange", "voiceover": "x"},
             _snippet("Pourquoi se réveiller avant son réveil Dans ce Short on e ?"),
         )
         self.assertIsNotNone(changes)
@@ -78,8 +71,7 @@ class DescriptionLeakTests(unittest.TestCase):
     def test_replacement_title_is_never_polluted(self):
         # The repair must not be able to WRITE a polluted title either.
         changes = build_new_metadata(
-            {"topic": "Dans ce Short on explique pourquoi le corps tremble",
-             "voiceover": "x"},
+            {"topic": "Dans ce Short on explique pourquoi le corps tremble", "voiceover": "x"},
             _snippet("Corps"),
         )
         if changes and changes.get("title"):
@@ -99,9 +91,7 @@ class HealthyTitlesAreLeftAloneTests(unittest.TestCase):
     def test_healthy_titles_are_not_rewritten(self):
         for title in self.GOOD:
             with self.subTest(title=title):
-                changes = build_new_metadata(
-                    {"topic": title, "voiceover": "x"}, _snippet(title)
-                )
+                changes = build_new_metadata({"topic": title, "voiceover": "x"}, _snippet(title))
                 self.assertIsNone(
                     (changes or {}).get("title"),
                     f"healthy title must not be rewritten: {title!r}",

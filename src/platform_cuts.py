@@ -48,7 +48,7 @@ from __future__ import annotations
 
 import logging
 import re
-from typing import Dict, List, Sequence, Tuple
+from collections.abc import Sequence
 
 from algorithm_policy import FACEBOOK, INSTAGRAM, YOUTUBE, duration_policy
 
@@ -59,16 +59,40 @@ logger = logging.getLogger(__name__)
 # them is carrying mechanism — the part that makes the video worth watching —
 # so it is dropped last.
 _INFORMATION_MARKERS = (
-    "because", "which", "signal", "nerve", "muscle", "brain", "blood",
-    "pressure", "oxygen", "cells", "receptor", "reflex", "chemical",
-    "hormone", "fluid", "pathway", "response", "system", "trigger",
+    "because",
+    "which",
+    "signal",
+    "nerve",
+    "muscle",
+    "brain",
+    "blood",
+    "pressure",
+    "oxygen",
+    "cells",
+    "receptor",
+    "reflex",
+    "chemical",
+    "hormone",
+    "fluid",
+    "pathway",
+    "response",
+    "system",
+    "trigger",
 )
 
 # Connective/filler openings that add rhythm but almost no information. A
 # scene starting with these is the cheapest thing to lose.
 _FILLER_OPENERS = (
-    "and ", "so ", "but ", "then ", "also ", "that's why", "in other words",
-    "basically", "of course", "it turns out",
+    "and ",
+    "so ",
+    "but ",
+    "then ",
+    "also ",
+    "that's why",
+    "in other words",
+    "basically",
+    "of course",
+    "it turns out",
 )
 
 
@@ -98,11 +122,11 @@ def _scene_value(caption: str) -> float:
 
 
 def select_meta_cut(
-    scenes: Sequence[Dict],
-    audio_segments: Sequence[Dict],
+    scenes: Sequence[dict],
+    audio_segments: Sequence[dict],
     target_seconds: float | None = None,
     hard_ceiling: float | None = None,
-) -> List[int]:
+) -> list[int]:
     """Indices of the scenes that make up the Meta (FB/IG) cut.
 
     Returns them in playback order. The four structural beats are always kept;
@@ -171,7 +195,11 @@ def select_meta_cut(
     ordered = sorted(keep)
     logger.info(
         "Meta cut: %d/%d scenes, %.1fs (target %.0fs, ceiling %.0fs) — dropped scene(s) %s",
-        len(ordered), count, kept_duration, target, limit,
+        len(ordered),
+        count,
+        kept_duration,
+        target,
+        limit,
         [i + 1 for i in range(count) if i not in keep] or "none",
     )
     return ordered
@@ -180,10 +208,10 @@ def select_meta_cut(
 def apply_cut(
     indices: Sequence[int],
     image_paths: Sequence[str],
-    audio_segments: Sequence[Dict],
-    scenes: Sequence[Dict],
+    audio_segments: Sequence[dict],
+    scenes: Sequence[dict],
     media_types: Sequence[str] | None = None,
-) -> Tuple[List[str], List[Dict], List[Dict], List[str]]:
+) -> tuple[list[str], list[dict], list[dict], list[str]]:
     """Slice every parallel asset list with one index set.
 
     Keeping this in a single helper is the point: the four lists MUST stay
@@ -200,7 +228,7 @@ def apply_cut(
     )
 
 
-def cut_summary(indices: Sequence[int], audio_segments: Sequence[Dict], total_scenes: int) -> Dict:
+def cut_summary(indices: Sequence[int], audio_segments: Sequence[dict], total_scenes: int) -> dict:
     """Machine-readable description of a cut, stored in video history so the
     growth engine knows which edit each platform actually received.
 
@@ -225,7 +253,7 @@ def cut_summary(indices: Sequence[int], audio_segments: Sequence[Dict], total_sc
     }
 
 
-def fits_platform(seconds: float, platform: str) -> Tuple[bool, str]:
+def fits_platform(seconds: float, platform: str) -> tuple[bool, str]:
     """Check a rendered duration against that platform's policy window."""
     floor, ideal, ceiling = duration_policy(platform)
     if seconds > ceiling:
@@ -241,6 +269,6 @@ def fits_platform(seconds: float, platform: str) -> Tuple[bool, str]:
     return True, f"{seconds:.1f}s is inside the {floor:.0f}-{ceiling:.0f}s window."
 
 
-def master_target() -> Tuple[float, float, float]:
+def master_target() -> tuple[float, float, float]:
     """Duration window for the YouTube master cut."""
     return duration_policy(YOUTUBE)

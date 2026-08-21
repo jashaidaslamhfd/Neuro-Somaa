@@ -6,6 +6,7 @@ thumbnail, final French metadata and generated audio segments. It is designed to
 fail hard only on public-quality blockers and report softer CTR/retention risks
 as warnings.
 """
+
 from __future__ import annotations
 
 import logging

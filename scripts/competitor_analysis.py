@@ -19,6 +19,7 @@ Configuration (env or CLI):
 - COMPETITOR_MAX_DURATION_SECONDS  default: 90
 - COMPETITOR_INTEL_PATH            default: data/competitor_intel_fr.json
 """
+
 from __future__ import annotations
 
 import argparse
@@ -34,9 +35,9 @@ import urllib.error
 import urllib.parse
 import urllib.request
 from collections import defaultdict
+from collections.abc import Iterable
 from datetime import UTC, datetime
 from pathlib import Path
-from typing import Iterable
 
 LOG = logging.getLogger("competitor-intel")
 API = "https://www.googleapis.com/youtube/v3"
@@ -57,22 +58,102 @@ DEFAULT_QUERIES = (
 )
 
 FRENCH_MARKERS = {
-    "le", "la", "les", "un", "une", "des", "du", "de", "ce", "cette", "ces",
-    "ton", "ta", "tes", "votre", "vos", "tu", "vous", "pourquoi", "comment",
-    "quand", "corps", "cerveau", "sommeil", "cœur", "coeur", "science", "santé",
-    "mémoire", "stress", "ventre", "peau", "français", "france",
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "des",
+    "du",
+    "de",
+    "ce",
+    "cette",
+    "ces",
+    "ton",
+    "ta",
+    "tes",
+    "votre",
+    "vos",
+    "tu",
+    "vous",
+    "pourquoi",
+    "comment",
+    "quand",
+    "corps",
+    "cerveau",
+    "sommeil",
+    "cœur",
+    "coeur",
+    "science",
+    "santé",
+    "mémoire",
+    "stress",
+    "ventre",
+    "peau",
+    "français",
+    "france",
 }
 ENGLISH_TAG_BLOCKLIST = {
-    "facts", "bodyfacts", "body facts", "humanbody", "human body", "brainfacts",
-    "brain facts", "sciencefacts", "science facts", "didyouknow", "mindblown",
-    "amazingfacts", "health", "body", "brain",
+    "facts",
+    "bodyfacts",
+    "body facts",
+    "humanbody",
+    "human body",
+    "brainfacts",
+    "brain facts",
+    "sciencefacts",
+    "science facts",
+    "didyouknow",
+    "mindblown",
+    "amazingfacts",
+    "health",
+    "body",
+    "brain",
 }
 STOP = {
-    "le", "la", "les", "un", "une", "des", "du", "de", "ce", "cette", "ces",
-    "et", "ou", "pour", "dans", "sur", "avec", "sans", "que", "qui", "quand",
-    "quoi", "dont", "plus", "très", "tres", "votre", "vous", "ton", "tes",
-    "pourquoi", "comment", "short", "shorts", "video", "vidéo", "français",
-    "francaise", "française", "science", "savoir", "faut", "comprendre",
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "des",
+    "du",
+    "de",
+    "ce",
+    "cette",
+    "ces",
+    "et",
+    "ou",
+    "pour",
+    "dans",
+    "sur",
+    "avec",
+    "sans",
+    "que",
+    "qui",
+    "quand",
+    "quoi",
+    "dont",
+    "plus",
+    "très",
+    "tres",
+    "votre",
+    "vous",
+    "ton",
+    "tes",
+    "pourquoi",
+    "comment",
+    "short",
+    "shorts",
+    "video",
+    "vidéo",
+    "français",
+    "francaise",
+    "française",
+    "science",
+    "savoir",
+    "faut",
+    "comprendre",
 }
 
 SAFE_TEMPLATE_BY_PATTERN = {
@@ -149,7 +230,9 @@ def _request(path: str, params: dict, api_key: str, *, retries: int = 3) -> dict
                 # YouTube rate limit: honor Retry-After, back off longer.
                 retry_after = exc.headers.get("Retry-After")
                 wait = float(retry_after) if retry_after else 8.0 * attempt
-                LOG.warning("YouTube API rate-limited (429); waiting %.0fs (attempt %d/%d)", wait, attempt, retries)
+                LOG.warning(
+                    "YouTube API rate-limited (429); waiting %.0fs (attempt %d/%d)", wait, attempt, retries
+                )
                 time.sleep(wait)
                 continue
         except Exception as exc:  # network timeout/transient
@@ -207,13 +290,13 @@ def classify_title_pattern(title: str) -> str:
         return "pourquoi-question"
     if t.startswith("pourquoi"):
         return "pourquoi-declarative"
-    if t.startswith("ce qui se passe") or t.startswith("ce qui arrive") or t.startswith("ce qui change"):
+    if t.startswith(("ce qui se passe", "ce qui arrive", "ce qui change")):
         return "ce-qui-se-passe"
-    if t.startswith("ce que ton corps") or t.startswith("ce que votre corps") or t.startswith("ce que le corps"):
+    if t.startswith(("ce que ton corps", "ce que votre corps", "ce que le corps")):
         return "ce-que-corps-revele"
-    if t.startswith("ce qu'il faut") or t.startswith("ce qu’il faut"):
+    if t.startswith(("ce qu'il faut", "ce qu’il faut")):
         return "ce-quil-faut"
-    if t.startswith("la science") or t.startswith("ce que la science"):
+    if t.startswith(("la science", "ce que la science")):
         return "la-science"
     if t.startswith("comment"):
         return "comment"
@@ -289,7 +372,7 @@ def fetch_query_video_ids(query: str, api_key: str, max_results: int) -> list[st
 def fetch_video_details(video_ids: list[str], api_key: str) -> list[dict]:
     details: list[dict] = []
     for i in range(0, len(video_ids), 50):
-        chunk = video_ids[i:i + 50]
+        chunk = video_ids[i : i + 50]
         payload = _request(
             "videos",
             {"part": "snippet,statistics,contentDetails", "id": ",".join(chunk), "maxResults": 50},
@@ -389,12 +472,14 @@ def build_intel(records: list[dict], *, min_views: int, sources: dict) -> dict:
     patterns = []
     for pattern, score in sorted(pattern_scores.items(), key=lambda kv: kv[1], reverse=True):
         views = pattern_views[pattern]
-        patterns.append({
-            "pattern": pattern,
-            "score": round(score, 3),
-            "count": len(views),
-            "avg_views": round(sum(views) / len(views)) if views else 0,
-        })
+        patterns.append(
+            {
+                "pattern": pattern,
+                "score": round(score, 3),
+                "count": len(views),
+                "avg_views": round(sum(views) / len(views)) if views else 0,
+            }
+        )
 
     safe_templates = []
     for row in patterns:
@@ -407,16 +492,20 @@ def build_intel(records: list[dict], *, min_views: int, sources: dict) -> dict:
     thumbnail_rows = [r.get("thumbnail_profile", {}) for r in records if r.get("thumbnail_profile")]
     thumbnail_intel = {}
     if thumbnail_rows:
+
         def avg(key: str) -> float:
             vals = [float(row.get(key, 0)) for row in thumbnail_rows if row.get(key) is not None]
             return round(sum(vals) / len(vals), 3) if vals else 0.0
+
         thumbnail_intel = {
             "sample_size": len(thumbnail_rows),
             "avg_brightness": avg("brightness"),
             "avg_contrast": avg("contrast"),
             "avg_warm_bias": avg("warm_bias"),
             "avg_red_yellow_ratio": avg("red_yellow_ratio"),
-            "recommendation": "high-contrast warm text band" if avg("warm_bias") >= 0 else "high-contrast cool/neutral text band",
+            "recommendation": "high-contrast warm text band"
+            if avg("warm_bias") >= 0
+            else "high-contrast cool/neutral text band",
         }
 
     top_refs = sorted(records, key=lambda r: int(r.get("views") or 0), reverse=True)[:25]
@@ -441,7 +530,9 @@ def build_intel(records: list[dict], *, min_views: int, sources: dict) -> dict:
             {"keyword": word, "score": round(score, 3)}
             for word, score in sorted(keyword_scores.items(), key=lambda kv: kv[1], reverse=True)[:40]
         ],
-        "exact_title_hashes": sorted({record["title_hash"] for record in records if record.get("title_hash")}),
+        "exact_title_hashes": sorted(
+            {record["title_hash"] for record in records if record.get("title_hash")}
+        ),
         "reference_videos_for_human_review": [
             {
                 "video_id": r["video_id"],
@@ -495,7 +586,9 @@ def collect_competitor_records(
         source_by_id[vid] = source
 
     for item in fetch_video_details(batch_ids, api_key) if batch_ids else []:
-        record = _record_from_video(item, source_by_id.get(item.get("id"), "unknown"), min_views, max_duration)
+        record = _record_from_video(
+            item, source_by_id.get(item.get("id"), "unknown"), min_views, max_duration
+        )
         if record:
             records.append(record)
     return records
@@ -511,14 +604,28 @@ def _write_json(path: str, data: dict) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--channels", default=os.environ.get("COMPETITOR_CHANNEL_IDS", ""))
-    parser.add_argument("--queries", default=os.environ.get("COMPETITOR_QUERIES_FR", "|".join(DEFAULT_QUERIES)))
-    parser.add_argument("--min-views", type=int, default=int(os.environ.get("COMPETITOR_MIN_VIEWS", "200000")))
-    parser.add_argument("--max-duration", type=int, default=int(os.environ.get("COMPETITOR_MAX_DURATION_SECONDS", "90")))
-    parser.add_argument("--max-per-channel", type=int, default=int(os.environ.get("COMPETITOR_MAX_VIDEOS_PER_CHANNEL", "50")))
-    parser.add_argument("--max-per-query", type=int, default=int(os.environ.get("COMPETITOR_MAX_RESULTS_PER_QUERY", "50")))
-    parser.add_argument("--out", default=os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json"))
+    parser.add_argument(
+        "--queries", default=os.environ.get("COMPETITOR_QUERIES_FR", "|".join(DEFAULT_QUERIES))
+    )
+    parser.add_argument(
+        "--min-views", type=int, default=int(os.environ.get("COMPETITOR_MIN_VIEWS", "200000"))
+    )
+    parser.add_argument(
+        "--max-duration", type=int, default=int(os.environ.get("COMPETITOR_MAX_DURATION_SECONDS", "90"))
+    )
+    parser.add_argument(
+        "--max-per-channel", type=int, default=int(os.environ.get("COMPETITOR_MAX_VIDEOS_PER_CHANNEL", "50"))
+    )
+    parser.add_argument(
+        "--max-per-query", type=int, default=int(os.environ.get("COMPETITOR_MAX_RESULTS_PER_QUERY", "50"))
+    )
+    parser.add_argument(
+        "--out", default=os.environ.get("COMPETITOR_INTEL_PATH", "data/competitor_intel_fr.json")
+    )
     args = parser.parse_args(argv)
 
     api_key = os.environ.get("YOUTUBE_API_KEY")
@@ -527,23 +634,30 @@ def main(argv: list[str] | None = None) -> int:
     sources = {
         "channels": channels,
         "queries": queries,
-        "selection_mode": "auto-discover from French high-view query winners" if not channels else "channels + auto-discovery queries",
+        "selection_mode": "auto-discover from French high-view query winners"
+        if not channels
+        else "channels + auto-discovery queries",
         "max_duration_seconds": args.max_duration,
     }
 
     if not api_key:
         LOG.warning("YOUTUBE_API_KEY missing; writing empty competitor-intel file.")
-        _write_json(args.out, {
-            "schema_version": 1,
-            "generated_at_utc": datetime.now(UTC).isoformat(),
-            "configured": False,
-            "reason": "YOUTUBE_API_KEY missing",
-            "sources": sources,
-            "safe_title_templates": [{**SAFE_TEMPLATE_BY_PATTERN["pourquoi-question"], "score": 0, "count": 0}],
-            "high_value_tags": [],
-            "exact_title_hashes": [],
-            "reference_videos_for_human_review": [],
-        })
+        _write_json(
+            args.out,
+            {
+                "schema_version": 1,
+                "generated_at_utc": datetime.now(UTC).isoformat(),
+                "configured": False,
+                "reason": "YOUTUBE_API_KEY missing",
+                "sources": sources,
+                "safe_title_templates": [
+                    {**SAFE_TEMPLATE_BY_PATTERN["pourquoi-question"], "score": 0, "count": 0}
+                ],
+                "high_value_tags": [],
+                "exact_title_hashes": [],
+                "reference_videos_for_human_review": [],
+            },
+        )
         return 0
 
     # Resolve any @handle entries to UC... channel ids so COMPETITOR_CHANNEL_IDS

@@ -32,12 +32,14 @@ def _access_token() -> str:
     import urllib.parse
     import urllib.request
 
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     req = urllib.request.Request("https://oauth2.googleapis.com/token", data=data)
     with urllib.request.urlopen(req, timeout=30) as r:
         return json.load(r)["access_token"]
@@ -105,13 +107,10 @@ def main() -> int:
         known = _channel_video_ids(token)
         source = "live channel"
     except Exception as exc:
-        logger.warning("Could not list channel uploads (%s); "
-                       "falling back to data/video_history.json", exc)
-        known = {e["youtube_video_id"] for e in json.loads(HISTORY.read_text())
-                 if e.get("youtube_video_id")}
+        logger.warning("Could not list channel uploads (%s); falling back to data/video_history.json", exc)
+        known = {e["youtube_video_id"] for e in json.loads(HISTORY.read_text()) if e.get("youtube_video_id")}
         source = "video_history.json"
-    logger.info("Thumbnails found: %d (allow-list from %s covers %d videos)",
-                len(images), source, len(known))
+    logger.info("Thumbnails found: %d (allow-list from %s covers %d videos)", len(images), source, len(known))
 
     jobs, skips = [], []
     for img in images:
@@ -123,7 +122,7 @@ def main() -> int:
         if len(data) > 2 * 1024 * 1024:
             skips.append((vid, "image > 2MB — refused"))
             continue
-        if not data[:3] == b"\xff\xd8\xff":
+        if data[:3] != b"\xff\xd8\xff":
             skips.append((vid, "not a valid JPEG — refused"))
             continue
         jobs.append((vid, data))
@@ -145,7 +144,13 @@ def main() -> int:
             time.sleep(1.5)
 
     REPORT.parent.mkdir(parents=True, exist_ok=True)
-    lines = ["THUMBNAIL UPDATE REPORT", f"uploaded: {ok} / {len(jobs)}", f"skipped: {len(skips)}", f"failed: {len(failed)}", ""]
+    lines = [
+        "THUMBNAIL UPDATE REPORT",
+        f"uploaded: {ok} / {len(jobs)}",
+        f"skipped: {len(skips)}",
+        f"failed: {len(failed)}",
+        "",
+    ]
     lines += [f"FAIL {v}: {m}" for v, m in failed]
     REPORT.write_text("\n".join(lines))
     logger.info("DONE — uploaded: %d, skipped: %d, failed: %d", ok, len(skips), len(failed))

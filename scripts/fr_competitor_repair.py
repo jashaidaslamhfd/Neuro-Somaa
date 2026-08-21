@@ -26,6 +26,7 @@ Run:
 
 Needs GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN when --apply.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -41,7 +42,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "src"))
 sys.path.insert(0, ROOT)
 
-import seo_generator  # noqa: E402
+import seo_generator
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 log = logging.getLogger("fr-competitor-repair")
@@ -55,12 +56,14 @@ BASE_TAGS = ["shorts", "science", "corps humain", "curiosité", "science du quot
 # YouTube OAuth (same pattern as scripts/video_repair.py)
 # --------------------------------------------------------------------------- #
 def _token() -> str:
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token",
-    }).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
         urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
         timeout=30,
@@ -80,9 +83,7 @@ def _req(method: str, url: str, token: str, payload: dict | None = None):
 
 
 def _get_snippet(token: str, vid: str) -> dict | None:
-    cur = _req("GET",
-               f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}",
-               token)
+    cur = _req("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}", token)
     items = cur.get("items") or []
     return items[0]["snippet"] if items else None
 
@@ -90,17 +91,26 @@ def _get_snippet(token: str, vid: str) -> dict | None:
 def _update_snippet(token: str, vid: str, sn: dict, *, title, description, tags, apply: bool):
     if not apply:
         log.info("[dry] RETITLE %s\n   old: %r\n   new: %r", vid, sn.get("title"), title)
-        log.info("[dry]   desc %d -> %d chars | %d tags", len(sn.get("description", "")), len(description), len(tags))
+        log.info(
+            "[dry]   desc %d -> %d chars | %d tags",
+            len(sn.get("description", "")),
+            len(description),
+            len(tags),
+        )
         return False
-    payload = {"id": vid, "snippet": {
-        "title": title,
-        "description": description,
-        "categoryId": sn.get("categoryId", "27"),
-        "tags": tags,
-        **( {"defaultLanguage": sn["defaultLanguage"]} if sn.get("defaultLanguage") else {}),
-        **( {"defaultAudioLanguage": sn["defaultAudioLanguage"]}
-           if sn.get("defaultAudioLanguage") else {}),
-    }}
+    payload = {
+        "id": vid,
+        "snippet": {
+            "title": title,
+            "description": description,
+            "categoryId": sn.get("categoryId", "27"),
+            "tags": tags,
+            **({"defaultLanguage": sn["defaultLanguage"]} if sn.get("defaultLanguage") else {}),
+            **(
+                {"defaultAudioLanguage": sn["defaultAudioLanguage"]} if sn.get("defaultAudioLanguage") else {}
+            ),
+        },
+    }
     _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet", token, payload)
     log.info("updated %s", vid)
     return True
@@ -111,17 +121,22 @@ def _update_snippet(token: str, vid: str, sn: dict, *, title, description, tags,
 # --------------------------------------------------------------------------- #
 def _set_thumbnail(token: str, vid: str, jpeg_path: str) -> None:
     """Upload a rendered thumbnail for a video via thumbnails.set."""
+    from google.oauth2 import credentials as gc
     from googleapiclient.discovery import build
     from googleapiclient.http import MediaFileUpload
-    from google.oauth2 import credentials as gc
+
     cid = os.environ.get("GOOGLE_CLIENT_ID")
     csec = os.environ.get("GOOGLE_CLIENT_SECRET")
     rtok = os.environ.get("REFRESH_TOKEN")
     if not (cid and csec and rtok):
         raise RuntimeError("Missing Google creds for thumbnail upload")
-    creds = gc.Credentials(token=None, refresh_token=rtok,
-                           token_uri="https://oauth2.googleapis.com/token",
-                           client_id=cid, client_secret=csec)
+    creds = gc.Credentials(
+        token=None,
+        refresh_token=rtok,
+        token_uri="https://oauth2.googleapis.com/token",
+        client_id=cid,
+        client_secret=csec,
+    )
     yt = build("youtube", "v3", credentials=creds)
     yt.thumbnails().set(
         videoId=vid,
@@ -133,9 +148,11 @@ def _set_thumbnail(token: str, vid: str, jpeg_path: str) -> None:
 def _make_thumbnail(title: str, out_path: str) -> str:
     """Render an ML/SEO-aware thumbnail using the pipeline's generate_thumbnail."""
     from video_editor import generate_thumbnail
+
     src = os.path.join(ROOT, "assets", "thumbnails_fr", "_base.jpg")
     if not os.path.exists(src):
         from PIL import Image
+
         os.makedirs(os.path.dirname(src), exist_ok=True)
         Image.new("RGB", (1080, 1920), (12, 14, 34)).save(src)
     return generate_thumbnail(src, title, output_path=out_path, category="Body")
@@ -145,8 +162,7 @@ def _make_thumbnail(title: str, out_path: str) -> str:
 # Repair
 # --------------------------------------------------------------------------- #
 def _video_topic(entry: dict) -> str:
-    return (entry.get("topic") or entry.get("base_phenomenon")
-            or entry.get("title") or "")
+    return entry.get("topic") or entry.get("base_phenomenon") or entry.get("title") or ""
 
 
 def _needs_repair(sn_title: str, sn_desc: str, new_title: str) -> bool:
@@ -166,10 +182,8 @@ def _needs_repair(sn_title: str, sn_desc: str, new_title: str) -> bool:
         return True
     if len(t) < 20:
         return True
-    if not sn_desc or len(sn_desc.strip()) < 80:
-        return True
     # French, reasonably long, already a question/curiosity -> leave it
-    return False
+    return not sn_desc or len(sn_desc.strip()) < 80
 
 
 def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thumbnails: bool = False):
@@ -192,7 +206,7 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thum
     token = _token() if apply else None
     stats = {"scanned": 0, "repair_needed": 0, "applied": 0, "skipped": 0, "errors": 0}
 
-    for i, entry in enumerate(vids):
+    for _i, entry in enumerate(vids):
         if limit and stats["applied"] >= limit:
             break
         vid = entry["youtube_video_id"]
@@ -251,8 +265,15 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thum
             continue
 
         stats["repair_needed"] += 1
-        did = _update_snippet(token, vid, {"title": live_title, "description": live_desc, "categoryId": "27"},
-                              title=new_title, description=new_desc, tags=new_tags, apply=apply)
+        did = _update_snippet(
+            token,
+            vid,
+            {"title": live_title, "description": live_desc, "categoryId": "27"},
+            title=new_title,
+            description=new_desc,
+            tags=new_tags,
+            apply=apply,
+        )
         if apply and did:
             stats["applied"] += 1
         elif apply:
@@ -265,8 +286,6 @@ def repair(apply: bool, limit: int = 0, only_topic: str | None = None, with_thum
     log.info("=" * 60)
     log.info("Repair done (apply=%s): %s", apply, stats)
     return 0
-
-
 
 
 # --------------------------------------------------------------------------- #
@@ -304,7 +323,9 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     # ML best slots (PKT) from upload_slot_intel_fr.json
     slots = []
     try:
-        with open(os.environ.get("DYNAMIC_SCHEDULE_PATH", "data/upload_slot_intel_fr.json"), encoding="utf-8") as f:
+        with open(
+            os.environ.get("DYNAMIC_SCHEDULE_PATH", "data/upload_slot_intel_fr.json"), encoding="utf-8"
+        ) as f:
             intel = json.load(f)
         for s in (intel.get("recommended_slots") or [])[:3]:
             slots.append((int(s.get("hour", 0)), int(s.get("minute", 0))))
@@ -343,9 +364,9 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     stats = {"found": len(scheduled), "rescheduled": 0, "errors": 0}
     # Assign next best slot per video (distinct, dedup like uploader)
     used = set()
-    for vid, title, old_pa in scheduled:
+    for vid, _title, _old_pa in scheduled:
         chosen = None
-        for (hh, mm) in slots:
+        for hh, mm in slots:
             candidate = f"{hh:02d}:{mm:02d}"
             if candidate in used:
                 continue
@@ -374,15 +395,22 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="write changes to YouTube (default: dry-run)")
     ap.add_argument("--limit", type=int, default=0, help="max videos to process")
     ap.add_argument("--topic", default=None, help="only repair a specific topic")
-    ap.add_argument("--with-thumbnails", action="store_true",
-                    help="also render and upload an optimized thumbnail for every video")
-    ap.add_argument("--reschedule", action="store_true",
-                    help="re-align scheduled (private) videos to ML-learned best slots")
+    ap.add_argument(
+        "--with-thumbnails",
+        action="store_true",
+        help="also render and upload an optimized thumbnail for every video",
+    )
+    ap.add_argument(
+        "--reschedule",
+        action="store_true",
+        help="re-align scheduled (private) videos to ML-learned best slots",
+    )
     args = ap.parse_args()
     if args.reschedule:
         return 0 if reschedule_ml_slots(apply=args.apply, limit=args.limit).get("rescheduled", 0) >= 0 else 1
-    return repair(apply=args.apply, limit=args.limit, only_topic=args.topic,
-                  with_thumbnails=args.with_thumbnails)
+    return repair(
+        apply=args.apply, limit=args.limit, only_topic=args.topic, with_thumbnails=args.with_thumbnails
+    )
 
 
 if __name__ == "__main__":

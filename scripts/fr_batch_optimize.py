@@ -33,34 +33,42 @@ import logging
 import os
 import re
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-logging.basicConfig(level=logging.INFO,
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 log = logging.getLogger("fr_batch_optimize")
 
 HISTORY = ROOT / "data" / "video_history.json"
 PLAN_JSON = ROOT / "data" / "fr_optimize_plan.json"
 PLAN_MD = ROOT / "data" / "fr_optimize_plan.md"
 
-DISCLAIMER = ("Contenu éducatif, pas un avis médical. Si un symptôme persiste, "
-              "parle à un professionnel de santé.")
+DISCLAIMER = (
+    "Contenu éducatif, pas un avis médical. Si un symptôme persiste, parle à un professionnel de santé."
+)
 HASHTAGS = ["#shorts", "#corpshumain", "#science"]
 CTA = "Abonne-toi pour plus de science simple. 🔬"
+
 
 # ── French title optimisation (topic-driven, leak-gate + question pattern) ──
 def _strip_leak_suffix(text: str) -> str:
     """Remove LLM filler that leaks into topics: 'peut sembler étrange',
     'peut sembler', 'arrive', dangling connectors, etc."""
     t = re.sub(r"\s+", " ", (text or "")).strip()
-    for pat in (r"\s*peut\s+sembler\s+étrange\s*$", r"\s*peut\s+sembler\s*$",
-                r"\s*semble\s+soudain\s*$", r"\s*arrive\s*$", r"\s*devient\s*$",
-                r"\s*se\s*$", r"\s*la\s*$", r"\s*le\s*$"):
+    for pat in (
+        r"\s*peut\s+sembler\s+étrange\s*$",
+        r"\s*peut\s+sembler\s*$",
+        r"\s*semble\s+soudain\s*$",
+        r"\s*arrive\s*$",
+        r"\s*devient\s*$",
+        r"\s*se\s*$",
+        r"\s*la\s*$",
+        r"\s*le\s*$",
+    ):
         t = re.sub(pat, "", t, flags=re.IGNORECASE)
     return t.strip()
 
@@ -78,27 +86,33 @@ def _title_from_topic(topic: str) -> str:
     French convention: the first word after 'Pourquoi' stays lowercase
     ('Pourquoi le corps...', not 'Pourquoi Le corps...').
     """
-    from seo_generator import _truncate_title, _title_is_clean
+    from seo_generator import _title_is_clean, _truncate_title
+
     t = _strip_leak_suffix(topic or "").strip().rstrip(" .?")
     if not t:
         return _truncate_title("Pourquoi votre corps fait ça ?")
 
     low = t.lower()
     core = t
-    for prefix in ("ce que votre corps vous dit quand ",
-                   "ce que votre corps vous dit lorsque ",
-                   "ce que la science explique sur ",
-                   "ce que la science explique ",
-                   "ce qui se passe quand ", "ce qui se passe lorsque ",
-                   "la science derrière ", "ce qu'il faut comprendre sur ",
-                   "ce qu'il faut savoir sur ", "comprendre pourquoi ",
-                   "voici pourquoi "):
+    for prefix in (
+        "ce que votre corps vous dit quand ",
+        "ce que votre corps vous dit lorsque ",
+        "ce que la science explique sur ",
+        "ce que la science explique ",
+        "ce qui se passe quand ",
+        "ce qui se passe lorsque ",
+        "la science derrière ",
+        "ce qu'il faut comprendre sur ",
+        "ce qu'il faut savoir sur ",
+        "comprendre pourquoi ",
+        "voici pourquoi ",
+    ):
         if low.startswith(prefix):
-            core = t[len(prefix):].strip()
+            core = t[len(prefix) :].strip()
             break
     else:
         if low.startswith("pourquoi "):
-            core = t[len("pourquoi "):].strip()
+            core = t[len("pourquoi ") :].strip()
 
     # guard against empty/garbage cores
     words = [w for w in core.split() if w.strip()]
@@ -204,30 +218,32 @@ _MANUAL_TITLE_OVERRIDES = {
 }
 
 
-def _optimize_title(current: str, topic: str, history_titles: list,
-                    video_id: str = "", views: int = 0) -> str:
+def _optimize_title(
+    current: str, topic: str, history_titles: list, video_id: str = "", views: int = 0
+) -> str:
     """Pick the best title:
-      1. HUMAN-REVIEWED manual override (if any)      — highest trust.
-         Comes FIRST: it exists precisely for cases the heuristics get
-         wrong, e.g. XLIFrONS2rc (1205 views) whose live title carries a
-         truncated word ('...chair de pou ?') that the winner-keep rule
-         would otherwise preserve forever.
-      2. current if it's a PROVEN winner (>=800 views & clean & question)
-         — never touch a video the audience already loves
-      3. repo-verified repair prior (if any)          — high trust
-      4. current, if already clean & question-y       — no change needed
-      5. rebuild from topic with the leak-gate        — auto-repair
+    1. HUMAN-REVIEWED manual override (if any)      — highest trust.
+       Comes FIRST: it exists precisely for cases the heuristics get
+       wrong, e.g. XLIFrONS2rc (1205 views) whose live title carries a
+       truncated word ('...chair de pou ?') that the winner-keep rule
+       would otherwise preserve forever.
+    2. current if it's a PROVEN winner (>=800 views & clean & question)
+       — never touch a video the audience already loves
+    3. repo-verified repair prior (if any)          — high trust
+    4. current, if already clean & question-y       — no change needed
+    5. rebuild from topic with the leak-gate        — auto-repair
     """
     from seo_generator import _title_is_clean
+
     ok_cur, _ = _title_is_clean(current)
     if video_id and _MANUAL_TITLE_OVERRIDES.get(video_id):
         ov = _MANUAL_TITLE_OVERRIDES[video_id]
         # Oversized hand-written overrides would be visually cut on the
         # Shorts feed (~60 chars). Defensive trim, never mid-word.
-        from seo_generator import _truncate_title, TITLE_MAX_LEN
+        from seo_generator import TITLE_MAX_LEN, _truncate_title
+
         return ov if len(ov) <= TITLE_MAX_LEN else _truncate_title(ov)
-    if (ok_cur and current.strip().rstrip().endswith("?")
-            and len(current) >= 25 and views >= 800):
+    if ok_cur and current.strip().rstrip().endswith("?") and len(current) >= 25 and views >= 800:
         return current.strip()
     if video_id and _REPAIR_PRIORS.get(video_id):
         prior = _REPAIR_PRIORS[video_id]
@@ -280,8 +296,7 @@ def _demand_phrases_for(topic: str, title: str) -> list:
     A video matches when it shares a strong content word with the demand topic.
     """
     try:
-        payload = json.loads((ROOT / "data" / "search_demand_queue_fr.json")
-                             .read_text(encoding="utf-8"))
+        payload = json.loads((ROOT / "data" / "search_demand_queue_fr.json").read_text(encoding="utf-8"))
         items = payload.get("topics") if isinstance(payload, dict) else payload
     except (OSError, json.JSONDecodeError):
         return []
@@ -289,6 +304,7 @@ def _demand_phrases_for(topic: str, title: str) -> list:
         return []
 
     from trend_fetcher import _topic_words  # shared stop-word aware tokeniser
+
     ref = _topic_words((topic or "") + " " + (title or ""))
     phrases, seen = [], set()
     for item in items:
@@ -350,11 +366,14 @@ def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
     if not subj or len(subj) < 6:
         return []
     from trend_fetcher import _topic_words
+
     ref = _topic_words((topic or "") + " " + (title or ""))
     seeds = [f"pourquoi {subj}", subj, f"pourquoi mon {subj}"[:60]]
     out, seen, calls = [], set(), 0
     import time as _time
+
     import requests as _rq
+
     for seed in seeds:
         if calls >= max_calls:
             break
@@ -362,9 +381,10 @@ def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
         try:
             r = _rq.get(
                 "https://suggestqueries.google.com/complete/search",
-                params={"client": "firefox", "hl": "fr", "gl": "fr",
-                        "ds": "yt", "q": seed},
-                timeout=6, headers={"User-Agent": "Mozilla/5.0"})
+                params={"client": "firefox", "hl": "fr", "gl": "fr", "ds": "yt", "q": seed},
+                timeout=6,
+                headers={"User-Agent": "Mozilla/5.0"},
+            )
             suggestions = r.json()[1] if r.ok else []
         except Exception:
             suggestions = []
@@ -381,7 +401,7 @@ def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
                 continue
             words = _topic_words(p)
             shared = words & ref
-            if not shared:      # relevance guard: zero overlap = off-topic
+            if not shared:  # relevance guard: zero overlap = off-topic
                 continue
             # single weak-word matches like 'muscle'/'peau' alone pulled in
             # junk ('pourquoi je ne prend pas de muscle'). Require either 2+
@@ -396,15 +416,23 @@ def _mine_live_demand(topic: str, title: str, *, max_calls: int = 3) -> list:
 
 
 # ── French tags (≤500 chars) ──
-def _optimize_tags(old_tags: list, title: str, topic: str,
-                   demand_phrases: list | None = None) -> list:
+def _optimize_tags(old_tags: list, title: str, topic: str, demand_phrases: list | None = None) -> list:
     from seo_generator import _keywords
+
     # MEASURED DEMAND FIRST (2026-08-12): real autocomplete queries are the
     # single best tag evidence we have — users literally typed these.
     base = list(demand_phrases or [])
     guessed = _keywords(topic or title, n=6)
-    fixed = ["science", "corps humain", "pourquoi", "curiosité",
-             "biologie", "santé", "france", "vulgarisation scientifique"]
+    fixed = [
+        "science",
+        "corps humain",
+        "pourquoi",
+        "curiosité",
+        "biologie",
+        "santé",
+        "france",
+        "vulgarisation scientifique",
+    ]
     out, seen = [], set()
     for t in base + guessed + fixed:
         k = t.lower().strip()
@@ -425,15 +453,19 @@ def _optimize_tags(old_tags: list, title: str, topic: str,
 def _build_client():
     import google.oauth2.credentials
     from googleapiclient.discovery import build
+
     cid = os.environ.get("GOOGLE_CLIENT_ID")
     csec = os.environ.get("GOOGLE_CLIENT_SECRET")
     rtok = os.environ.get("REFRESH_TOKEN")
     if not (cid and csec and rtok):
         raise SystemExit("Missing GOOGLE_CLIENT_ID/SECRET/REFRESH_TOKEN env")
     creds = google.oauth2.credentials.Credentials(
-        token=None, refresh_token=rtok,
+        token=None,
+        refresh_token=rtok,
         token_uri="https://oauth2.googleapis.com/token",
-        client_id=cid, client_secret=csec)
+        client_id=cid,
+        client_secret=csec,
+    )
     return build("youtube", "v3", credentials=creds)
 
 
@@ -444,14 +476,13 @@ def fetch_all_videos(yt, max_results: int = 50) -> list:
     videos, token = [], None
     while True:
         req = yt.playlistItems().list(
-            part="snippet,contentDetails", playlistId=uploads,
-            maxResults=50, pageToken=token)
+            part="snippet,contentDetails", playlistId=uploads, maxResults=50, pageToken=token
+        )
         resp = req.execute()
         for it in resp.get("items", []):
             vid = it["contentDetails"]["videoId"]
             status = it["snippet"].get("status", "")
-            videos.append({"id": vid, "playlist_status": status,
-                           "title": it["snippet"]["title"]})
+            videos.append({"id": vid, "playlist_status": status, "title": it["snippet"]["title"]})
         token = resp.get("nextPageToken")
         if not token or len(videos) >= max_results:
             break
@@ -459,18 +490,19 @@ def fetch_all_videos(yt, max_results: int = 50) -> list:
     full = []
     for v in videos:
         try:
-            r = yt.videos().list(part="snippet,status,statistics",
-                                 id=v["id"]).execute()["items"][0]
-            full.append({
-                "id": v["id"],
-                "title": r["snippet"]["title"],
-                "description": r["snippet"].get("description", ""),
-                "tags": r["snippet"].get("tags", []),
-                "privacy": r["status"]["privacyStatus"],
-                "views": int(r.get("statistics", {}).get("viewCount", 0) or 0),
-                "scheduled": r["status"].get("privacyStatus") == "private" and
-                             bool(r["status"].get("publishAt")),
-            })
+            r = yt.videos().list(part="snippet,status,statistics", id=v["id"]).execute()["items"][0]
+            full.append(
+                {
+                    "id": v["id"],
+                    "title": r["snippet"]["title"],
+                    "description": r["snippet"].get("description", ""),
+                    "tags": r["snippet"].get("tags", []),
+                    "privacy": r["status"]["privacyStatus"],
+                    "views": int(r.get("statistics", {}).get("viewCount", 0) or 0),
+                    "scheduled": r["status"].get("privacyStatus") == "private"
+                    and bool(r["status"].get("publishAt")),
+                }
+            )
         except Exception as exc:
             log.warning("skip %s: %s", v["id"], exc)
     return full
@@ -479,29 +511,25 @@ def fetch_all_videos(yt, max_results: int = 50) -> list:
 # ── main ──
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--apply", action="store_true",
-                    help="write changes to YouTube (default: dry-run plan)")
-    ap.add_argument("--limit", type=int, default=0,
-                    help="max videos to process (0 = all)")
+    ap.add_argument("--apply", action="store_true", help="write changes to YouTube (default: dry-run plan)")
+    ap.add_argument("--limit", type=int, default=0, help="max videos to process (0 = all)")
     args = ap.parse_args()
 
     yt = _build_client()
     videos = fetch_all_videos(yt)
     if args.limit:
-        videos = videos[:args.limit]
+        videos = videos[: args.limit]
     log.info("Fetched %d videos (published + scheduled)", len(videos))
 
     # history titles for duplicate-guard
     history_titles = []
     try:
         h = json.loads(HISTORY.read_text(encoding="utf-8"))
-        history_titles = [v.get("title", "") for v in
-                          (h if isinstance(h, list) else h.values())]
+        history_titles = [v.get("title", "") for v in (h if isinstance(h, list) else h.values())]
     except Exception:
         pass
 
-    plan = {"generated_at": datetime.now(timezone.utc).isoformat(),
-            "count": len(videos), "videos": []}
+    plan = {"generated_at": datetime.now(UTC).isoformat(), "count": len(videos), "videos": []}
     yt_update = None
     if args.apply:
         yt_update = yt.videos()
@@ -514,14 +542,15 @@ def main() -> int:
     # into "fait ce signe N ?" garbage).
     for v in videos:
         v["_new_title"] = _optimize_title(
-            v["title"], v["title"], history_titles,
-            video_id=v["id"], views=v["views"])
+            v["title"], v["title"], history_titles, video_id=v["id"], views=v["views"]
+        )
 
     # Pass 2: only REAL collisions — the same proposed title landing on TWO
     # DIFFERENT video IDs — are resolved. The higher-view video keeps its
     # title; the sibling gets a manual override (human-reviewed, distinct
     # natural French angle) or, if none exists, a topic-rebuild that differs.
     from collections import defaultdict
+
     by_title = defaultdict(list)
     for v in videos:
         by_title[v["_new_title"].strip().lower()].append(v)
@@ -532,21 +561,23 @@ def main() -> int:
         for v in group[1:]:
             ov = _MANUAL_TITLE_OVERRIDES.get(v["id"])
             if ov:
-                from seo_generator import _truncate_title, TITLE_MAX_LEN
-                v["_new_title"] = (ov if len(ov) <= TITLE_MAX_LEN
-                                   else _truncate_title(ov))
+                from seo_generator import TITLE_MAX_LEN, _truncate_title
+
+                v["_new_title"] = ov if len(ov) <= TITLE_MAX_LEN else _truncate_title(ov)
             else:
                 alt = _title_from_topic(f"{v['title']} en détail")
                 v["_new_title"] = alt
-                log.warning("No manual override for duplicate %s -> %r",
-                            v["id"], alt)
+                log.warning("No manual override for duplicate %s -> %r", v["id"], alt)
 
     def _same_tags(a: list, b: list) -> bool:
         """Order/case-insensitive tag comparison: YouTube normalises tag
         storage, so a naive list != made EVERY video look 'changed' on every
         run (observed 2026-08-11: runs rewrote all 50 videos even with
         identical plans). Churn only on real differences."""
-        norm = lambda ts: sorted({(t or "").strip().lower() for t in (ts or []) if (t or "").strip()})
+
+        def norm(ts):
+            return sorted({(t or "").strip().lower() for t in (ts or []) if (t or "").strip()})
+
         return norm(a) == norm(b)
 
     for v in videos:
@@ -557,16 +588,18 @@ def main() -> int:
         # Idempotency guard: skip live mining when this video's tags already
         # carry a real demand phrase — otherwise evolving autocomplete output
         # would churn tags on every sweep for zero ranking gain.
-        cur_tags_lc = { (t or "").strip().lower() for t in v["tags"] }
+        cur_tags_lc = {(t or "").strip().lower() for t in v["tags"]}
         has_demand = any(d in cur_tags_lc for d in demand)
         live_demand = [] if has_demand else _mine_live_demand(topic, new_title)
         merged_demand = list(dict.fromkeys(live_demand + demand))
         new_tags = _optimize_tags(v["tags"], new_title, topic, demand_phrases=merged_demand)
         if merged_demand:
             log.info("  📈 demand-backed tags for %s: %s", v["id"], merged_demand[:2])
-        changed = (new_title.strip() != (v["title"] or "").strip()
-                   or new_desc.strip() != (v["description"] or "").strip()
-                   or not _same_tags(new_tags, v["tags"]))
+        changed = (
+            new_title.strip() != (v["title"] or "").strip()
+            or new_desc.strip() != (v["description"] or "").strip()
+            or not _same_tags(new_tags, v["tags"])
+        )
 
         entry = {
             "id": v["id"],
@@ -583,12 +616,15 @@ def main() -> int:
         plan["videos"].append(entry)
 
         if changed and args.apply:
-            body = {"id": v["id"], "snippet": {
-                "title": new_title,
-                "description": new_desc,
-                "tags": new_tags,
-                "categoryId": "27",
-            }}
+            body = {
+                "id": v["id"],
+                "snippet": {
+                    "title": new_title,
+                    "description": new_desc,
+                    "tags": new_tags,
+                    "categoryId": "27",
+                },
+            }
             # keep current category + defaultLanguage if present
             try:
                 yt_update.update(part="snippet", body=body).execute()
@@ -600,24 +636,30 @@ def main() -> int:
                 log.error("❌ %s: %s", v["id"], exc)
 
     PLAN_JSON.parent.mkdir(exist_ok=True)
-    PLAN_JSON.write_text(json.dumps(plan, ensure_ascii=False, indent=2),
-                         encoding="utf-8")
+    PLAN_JSON.write_text(json.dumps(plan, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # markdown report
-    md = [f"# FR Optimize Plan — {plan['count']} videos",
-          f"_Generated {plan['generated_at']}_",
-          "", "## Summary", f"- Videos: {plan['count']}",
-          f"- Need change: {sum(1 for x in plan['videos'] if x['needs_change'])}",
-          f"- Applied: {sum(1 for x in plan['videos'] if x.get('applied'))}",
-          "", "## Per-video plan", ""]
+    md = [
+        f"# FR Optimize Plan — {plan['count']} videos",
+        f"_Generated {plan['generated_at']}_",
+        "",
+        "## Summary",
+        f"- Videos: {plan['count']}",
+        f"- Need change: {sum(1 for x in plan['videos'] if x['needs_change'])}",
+        f"- Applied: {sum(1 for x in plan['videos'] if x.get('applied'))}",
+        "",
+        "## Per-video plan",
+        "",
+    ]
     for x in plan["videos"]:
-        md.append(f"### {x['id']} ({x['privacy']}{' scheduled' if x['scheduled'] else ''}, {x['views']} vues)")
+        md.append(
+            f"### {x['id']} ({x['privacy']}{' scheduled' if x['scheduled'] else ''}, {x['views']} vues)"
+        )
         md.append(f"- OLD: {x['current_title']}")
         md.append(f"- NEW: **{x['new_title']}**")
         md.append(f"- DESC: {x['current_desc_len']} → {x['new_desc_len']} chars")
-        md.append(f"- TAGS: {', '.join(x['tags'][:8])}{'…' if len(x['tags'])>8 else ''}")
-        md.append(f"- NEEDS: {'✅' if x['needs_change'] else '—'}"
-                  f"{' (APPLIED)' if x.get('applied') else ''}")
+        md.append(f"- TAGS: {', '.join(x['tags'][:8])}{'…' if len(x['tags']) > 8 else ''}")
+        md.append(f"- NEEDS: {'✅' if x['needs_change'] else '—'}{' (APPLIED)' if x.get('applied') else ''}")
         if x.get("error"):
             md.append(f"- ERROR: {x['error']}")
         md.append("")

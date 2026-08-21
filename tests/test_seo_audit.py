@@ -4,6 +4,7 @@ These exercise the pure analysis functions in scripts/channel_seo_audit.py
 against the channel's REAL title patterns, so a regression that stops
 detecting truncated/leaked titles is caught immediately.
 """
+
 import os
 import sys
 import unittest
@@ -69,12 +70,14 @@ class SeoScoreTests(unittest.TestCase):
 class AnalyzeVideosTests(unittest.TestCase):
     def test_too_new_flag(self):
         from datetime import timedelta
+
         recent = (audit.TODAY - timedelta(days=1)).isoformat()
         rows = audit.analyze_videos([{"youtube_video_id": "x", "title": "Pourquoi x ?", "posted_at": recent}])
         self.assertTrue(rows[0]["too_new"])
 
     def test_mature_not_flagged(self):
         from datetime import timedelta
+
         old = (audit.TODAY - timedelta(days=30)).isoformat()
         rows = audit.analyze_videos([{"youtube_video_id": "x", "title": "Pourquoi x ?", "posted_at": old}])
         self.assertFalse(rows[0]["too_new"])

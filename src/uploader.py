@@ -103,8 +103,11 @@ def _next_publish_time() -> dict | None:
         # Also honor video_history published entries.
         try:
             import json as _json
-            vh = _json.loads(open(os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8").read())
-            for rec in (vh if isinstance(vh, list) else []):
+
+            history_path = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
+            with open(history_path, encoding="utf-8") as history_file:
+                vh = _json.load(history_file)
+            for rec in vh if isinstance(vh, list) else []:
                 pa = rec.get("publish_at") if isinstance(rec, dict) else None
                 if pa:
                     taken.add(pa)
@@ -140,7 +143,9 @@ def _retry(fn, *args, retries=MAX_RETRIES, **kwargs):
         except requests.exceptions.RequestException as exc:
             last_err = exc
             if attempt < retries:
-                logger.warning("Attempt %d/%d failed (%s); retrying in %ss", attempt, retries, exc, RETRY_DELAY)
+                logger.warning(
+                    "Attempt %d/%d failed (%s); retrying in %ss", attempt, retries, exc, RETRY_DELAY
+                )
                 time.sleep(RETRY_DELAY)
     raise last_err
 
@@ -205,7 +210,12 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
 
     if DRY_RUN:
         logger.info("[DRY_RUN] Would upload YouTube: %r", body["snippet"]["title"])
-        return {"ok": True, "video_id": None, "dry_run": True, "publish_at": scheduled and scheduled["publishAt"]}
+        return {
+            "ok": True,
+            "video_id": None,
+            "dry_run": True,
+            "publish_at": scheduled and scheduled["publishAt"],
+        }
 
     media = MediaFileUpload(video_path, chunksize=1024 * 1024, resumable=True)
     request = yt.videos().insert(part="snippet,status", body=body, media_body=media)
@@ -335,8 +345,16 @@ def upload_all(video_path, thumb_path, script_data, meta_video_path=None) -> dic
     # stance: Reels publish instantly, so don't send them out until the operator
     # has switched them on.
     socials_on = os.environ.get("FB_UPLOAD_ENABLED", "false").lower() == "true"
-    fb = _facebook_upload_reel(video_path, script_data, tags) if socials_on else {"ok": False, "reason": "disabled"}
-    ig = _instagram_upload_reel(video_path, script_data, tags) if socials_on else {"ok": False, "reason": "disabled"}
+    fb = (
+        _facebook_upload_reel(video_path, script_data, tags)
+        if socials_on
+        else {"ok": False, "reason": "disabled"}
+    )
+    ig = (
+        _instagram_upload_reel(video_path, script_data, tags)
+        if socials_on
+        else {"ok": False, "reason": "disabled"}
+    )
 
     state = _load_upload_state()
     fp = _content_fingerprint(script_data)

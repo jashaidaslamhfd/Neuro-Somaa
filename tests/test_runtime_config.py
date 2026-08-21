@@ -32,7 +32,8 @@ class GitignoreSafetyTests(unittest.TestCase):
         self.assertIn("assets/voice_reference.wav", self.gitignore)
         result = subprocess.run(
             ["git", "ls-files", "--error-unmatch", "assets/voice_reference.wav"],
-            cwd=ROOT, capture_output=True,
+            cwd=ROOT,
+            capture_output=True,
         )
         self.assertNotEqual(result.returncode, 0, "voice reference must not be git-tracked")
 
@@ -48,8 +49,8 @@ class RequirementsTests(unittest.TestCase):
         self.optional = self._declared_packages((ROOT / "requirements-optional.txt").read_text().lower())
 
     def test_previously_missing_imports_are_declared(self):
-        self.assertIn("feedparser", self.core)   # fetch_trending_now.py crashed without it
-        self.assertIn("edge-tts", self.core)     # emergency cloud TTS was undeclared
+        self.assertIn("feedparser", self.core)  # fetch_trending_now.py crashed without it
+        self.assertIn("edge-tts", self.core)  # emergency cloud TTS was undeclared
 
     def test_unused_google_genai_removed_from_core(self):
         self.assertNotIn("google-genai", self.core)
@@ -79,13 +80,18 @@ class DynamicScheduleTests(unittest.TestCase):
         old_enabled = os.environ.get("USE_DYNAMIC_SCHEDULE")
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "upload_slot_intel_fr.json"
-            path.write_text(json.dumps({
-                "recommended_slots": [
-                    {"hour": 21, "minute": 0, "name": "winner", "score": 9},
-                    {"hour": 12, "minute": 30, "name": "lunch", "score": 7},
-                    {"hour": 19, "minute": 30, "name": "prime", "score": 8},
-                ]
-            }), encoding="utf-8")
+            path.write_text(
+                json.dumps(
+                    {
+                        "recommended_slots": [
+                            {"hour": 21, "minute": 0, "name": "winner", "score": 9},
+                            {"hour": 12, "minute": 30, "name": "lunch", "score": 7},
+                            {"hour": 19, "minute": 30, "name": "prime", "score": 8},
+                        ]
+                    }
+                ),
+                encoding="utf-8",
+            )
             os.environ["DYNAMIC_SCHEDULE_PATH"] = str(path)
             os.environ["USE_DYNAMIC_SCHEDULE"] = "true"
             try:
@@ -179,9 +185,10 @@ class CompetitorIntelTests(unittest.TestCase):
         # hoquet qui commence brusquement ?" (nominal phrase) are complete,
         # natural questions. The A/B bandit ranks them; assert the winner is
         # one of them and never the copied competitor title.
-        self.assertIn(package["chosen_title"],
-                      ["Pourquoi le hoquet commence ?",
-                       "Pourquoi le hoquet qui commence brusquement ?"])
+        self.assertIn(
+            package["chosen_title"],
+            ["Pourquoi le hoquet commence ?", "Pourquoi le hoquet qui commence brusquement ?"],
+        )
         self.assertIn("vulgarisation scientifique", package["tags"])
         self.assertNotIn("bodyfacts", [tag.lower() for tag in package["tags"]])
 
@@ -197,12 +204,15 @@ class CompetitorIntelTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, "title_bandit_fr.json")
             with open(path, "w", encoding="utf-8") as handle:
-                json.dump({
-                    "preferred_patterns": [
-                        {"pattern": "ce-qui-se-passe", "score": 99},
-                        {"pattern": "pourquoi-question", "score": 1},
-                    ]
-                }, handle)
+                json.dump(
+                    {
+                        "preferred_patterns": [
+                            {"pattern": "ce-qui-se-passe", "score": 99},
+                            {"pattern": "pourquoi-question", "score": 1},
+                        ]
+                    },
+                    handle,
+                )
             os.environ["TITLE_BANDIT_PATH"] = path
             os.environ["USE_TITLE_BANDIT"] = "true"
             try:
@@ -227,7 +237,9 @@ class CompetitorIntelTests(unittest.TestCase):
                 else:
                     os.environ["USE_TITLE_BANDIT"] = old_enabled
 
-        self.assertTrue(package["chosen_title"].lower().startswith("ce qui se passe"), package["title_options"])
+        self.assertTrue(
+            package["chosen_title"].lower().startswith("ce qui se passe"), package["title_options"]
+        )
 
 
 class WorkflowRegressionTests(unittest.TestCase):
@@ -248,8 +260,11 @@ class WorkflowRegressionTests(unittest.TestCase):
         # already removed earlier. The pinned primary must be a current model.
         # Check the ASSIGNED value only — comments legitimately mention old names.
         import re
+
         retired = (
-            "llama-3.1-70b", "llama-3.1-8b-instant", "llama-3.3-70b-versatile",
+            "llama-3.1-70b",
+            "llama-3.1-8b-instant",
+            "llama-3.3-70b-versatile",
         )
         match = re.search(r'GROQ_MODEL:\s*"([^"]+)"', self.workflow)
         self.assertIsNotNone(match, "GROQ_MODEL should be pinned in the workflow")
@@ -263,8 +278,7 @@ class WorkflowRegressionTests(unittest.TestCase):
             fb.group(1).startswith(retired),
             f"GROQ_MODEL_FALLBACK points at a retired model: {fb.group(1)}",
         )
-        self.assertNotEqual(match.group(1), fb.group(1),
-                            "fallback model must differ from primary")
+        self.assertNotEqual(match.group(1), fb.group(1), "fallback model must differ from primary")
 
     def test_fallback_model_is_actually_consumed(self):
         # 2026-08-12: GROQ_MODEL_FALLBACK existed in the workflow for months
@@ -275,8 +289,7 @@ class WorkflowRegressionTests(unittest.TestCase):
 
     def test_no_hardcoded_retired_models_in_code(self):
         retired = ("llama-3.1-8b-instant", "llama-3.3-70b-versatile")
-        for path in ("src/script_generator.py", "src/niche_strategy.py",
-                     "scripts/channel_seo_audit.py"):
+        for path in ("src/script_generator.py", "src/niche_strategy.py", "scripts/channel_seo_audit.py"):
             text = (ROOT / path).read_text()
             for m in retired:
                 for line in text.splitlines():
@@ -331,12 +344,27 @@ def _arc_fixture():
         "hook": "Votre cerveau trie vos souvenirs la nuit.",
         "cta": "Abonnez-vous pour la science du corps, simplement.",
         "scenes": [
-            {"visual": "cerveau lumineux pendant le sommeil", "caption": "Votre cerveau trie vos souvenirs la nuit."},
-            {"visual": "signaux de mémoire entre neurones", "caption": "Ton cerveau rejoue et fixe chaque souvenir utile pendant le sommeil profond."},
-            {"visual": "étudiant dans une chambre calme", "caption": "Sans sommeil, une info claire disparaît plus vite."},
-            {"visual": "connexions cérébrales renforcées", "caption": "La nuit, il renforce les connexions utiles."},
+            {
+                "visual": "cerveau lumineux pendant le sommeil",
+                "caption": "Votre cerveau trie vos souvenirs la nuit.",
+            },
+            {
+                "visual": "signaux de mémoire entre neurones",
+                "caption": "Ton cerveau rejoue et fixe chaque souvenir utile pendant le sommeil profond.",
+            },
+            {
+                "visual": "étudiant dans une chambre calme",
+                "caption": "Sans sommeil, une info claire disparaît plus vite.",
+            },
+            {
+                "visual": "connexions cérébrales renforcées",
+                "caption": "La nuit, il renforce les connexions utiles.",
+            },
             {"visual": "chemin de mémoire lumineux", "caption": "Ce processus garde l'apprentissage stable."},
-            {"visual": "lumière du matin, personne concentrée", "caption": "Le sommeil sauvegarde les souvenirs que demain tu perdrais."},
+            {
+                "visual": "lumière du matin, personne concentrée",
+                "caption": "Le sommeil sauvegarde les souvenirs que demain tu perdrais.",
+            },
         ],
     }
 
@@ -349,6 +377,7 @@ class StoryArcTests(unittest.TestCase):
         try:
             import importlib
             import os
+
             # FIXED 2026-08-02: the arc fixture is a 6-scene SHORT-format
             # script. script_generator reads MIN_WORDS/MAX_WORDS from
             # TARGET_MIN/MAX_SECONDS at import time, and DurationBudgetTests
@@ -364,7 +393,9 @@ class StoryArcTests(unittest.TestCase):
 
     def tearDown(self):
         try:
-            import os, importlib
+            import importlib
+            import os
+
             os.environ["TARGET_MIN_SECONDS"] = "20"
             os.environ["TARGET_MAX_SECONDS"] = "26"
             importlib.reload(self.sg)
@@ -383,7 +414,9 @@ class StoryArcTests(unittest.TestCase):
         viewers leave at ~scene 2.2/8, so a scene 2 that merely teases is the
         single most expensive retention mistake."""
         data = _arc_fixture()
-        data["scenes"][1]["caption"] = "Mais comment votre cerveau choisit-il vraiment les moments importants ?"
+        data["scenes"][1]["caption"] = (
+            "Mais comment votre cerveau choisit-il vraiment les moments importants ?"
+        )
         valid, issues = self._validated(data)
         self.assertFalse(valid)
         self.assertTrue(any("RÉPONSE FLASH" in i or "ANSWER" in i for i in issues), issues)
@@ -392,8 +425,10 @@ class StoryArcTests(unittest.TestCase):
         """11 of 17 published videos opened with an interchangeable
         "Vous avez déjà…" filler and averaged 11s watched on ~39s Shorts.
         The prompt forbade it; nothing enforced it."""
-        for filler in ("Vous avez déjà ressenti cela, n'est-ce pas ?",
-                       "Vous vous réveillez avant votre alarme parfois."):
+        for filler in (
+            "Vous avez déjà ressenti cela, n'est-ce pas ?",
+            "Vous vous réveillez avant votre alarme parfois.",
+        ):
             data = _arc_fixture()
             data["hook"] = filler
             data["scenes"][0]["caption"] = filler
@@ -440,9 +475,11 @@ class FrenchSeoOutputTests(unittest.TestCase):
 
     def test_no_english_tags_on_a_french_channel(self):
         from seo_generator import ENGLISH_TAG_BLOCKLIST
+
         for tag in self.package["tags"]:
             self.assertNotIn(
-                tag.lower(), ENGLISH_TAG_BLOCKLIST,
+                tag.lower(),
+                ENGLISH_TAG_BLOCKLIST,
                 f"English tag '{tag}' splits the French audience signal",
             )
 
@@ -453,18 +490,22 @@ class FrenchSeoOutputTests(unittest.TestCase):
 
     def test_description_does_not_repeat_the_opening_sentence(self):
         import re
+
         description = self.package["description"]
         sentences = [
             re.sub(r"[^a-zà-ÿœ0-9 ]", "", s.lower()).strip()
-            for s in re.split(r"(?<=[.!?])\s+", description) if s.strip()
+            for s in re.split(r"(?<=[.!?])\s+", description)
+            if s.strip()
         ]
         self.assertEqual(
-            len(sentences), len(set(sentences)),
+            len(sentences),
+            len(set(sentences)),
             f"duplicate sentence in description:\n{description}",
         )
 
     def test_hashtags_are_unique(self):
         import re
+
         tags = [h.lower() for h in re.findall(r"#\w+", self.package["description"])]
         self.assertEqual(len(tags), len(set(tags)), tags)
 
@@ -475,6 +516,7 @@ class MetadataSweepTests(unittest.TestCase):
     def setUp(self):
         sys.path.insert(0, str(ROOT / "scripts"))
         import fr_metadata_sweep
+
         self.sweep = fr_metadata_sweep
 
     def test_strips_english_tags_keeps_french(self):
@@ -494,8 +536,10 @@ class MetadataSweepTests(unittest.TestCase):
         self.assertTrue(self.sweep._is_english_tag("humanbody"))
 
     def test_merges_repeated_hashtag_blocks(self):
-        raw = ("Phrase utile.\n\nAutre phrase.\n\n"
-               "#shorts #anatomie #genoux\n\n#shorts #anatomie #genoux\n\n#genoux")
+        raw = (
+            "Phrase utile.\n\nAutre phrase.\n\n"
+            "#shorts #anatomie #genoux\n\n#shorts #anatomie #genoux\n\n#genoux"
+        )
         cleaned, report = self.sweep.clean_description(raw)
         self.assertEqual(cleaned.count("#shorts"), 1)
         self.assertEqual(cleaned.count("#genoux"), 1)
@@ -503,8 +547,10 @@ class MetadataSweepTests(unittest.TestCase):
 
     def test_junk_hashtags_are_stripped_from_published_descriptions(self):
         # Exactly what is live on 8 videos today.
-        raw = ("Le nœud au ventre avant un moment important.\n\n"
-               "#shorts #corpshumain #anatomie #quil #faut #comprendre #science")
+        raw = (
+            "Le nœud au ventre avant un moment important.\n\n"
+            "#shorts #corpshumain #anatomie #quil #faut #comprendre #science"
+        )
         cleaned, _ = self.sweep.clean_description(raw)
         for junk in ("#quil", "#faut", "#comprendre", "#science"):
             self.assertNotIn(junk, cleaned.lower())
@@ -545,6 +591,7 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
         import numpy as np
         from PIL import Image
+
         with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
             path = tmp.name
         Image.fromarray(np.uint8(array)).save(path, quality=95)
@@ -552,6 +599,7 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
     def test_out_of_focus_image_is_rejected(self):
         import numpy as np
+
         # Smooth gradient = no edges = the "mush" that shipped.
         blur = np.tile(np.linspace(40, 90, 700, dtype=float), (900, 1)).T
         blurry = np.dstack([blur] * 3)
@@ -561,6 +609,7 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
     def test_sharp_image_still_passes(self):
         import numpy as np
+
         rng = np.random.default_rng(7)
         sharp = rng.integers(0, 255, size=(900, 700, 3))
         result = self.validate(self._write(sharp))
@@ -568,16 +617,20 @@ class SceneVisualSafetyTests(unittest.TestCase):
 
     def test_shock_terms_never_reach_a_stock_search(self):
         from image_generator import _safe_query
-        for unsafe in ("un cauchemar effrayant avec du sang",
-                       "du sang partout", "une scène de zombie horreur"):
-            self.assertEqual(_safe_query(unsafe, "human body science"),
-                             "human body science", unsafe)
+
+        for unsafe in (
+            "un cauchemar effrayant avec du sang",
+            "du sang partout",
+            "une scène de zombie horreur",
+        ):
+            self.assertEqual(_safe_query(unsafe, "human body science"), "human body science", unsafe)
         # A legitimate scene must survive untouched.
         good = "les genoux qui craquent en bougeant"
         self.assertEqual(_safe_query(good, "human body science"), good)
 
     def test_prompt_carries_anti_gore_constraints(self):
         from image_generator import DARK_STYLE_SUFFIX
+
         for term in ("no blood", "no gore", "no horror"):
             self.assertIn(term, DARK_STYLE_SUFFIX)
 
@@ -590,10 +643,14 @@ class ThumbnailTextTests(unittest.TestCase):
 
     def test_accented_french_survives_the_word_filter(self):
         import re
+
         pattern = r"[^A-ZÀ-ÿŒÆ0-9'’-]"
         cases = {
-            "PRÉNOM": "PRÉNOM", "NŒUD": "NŒUD",
-            "MÂCHOIRE": "MÂCHOIRE", "REPÈRE": "REPÈRE", "CŒUR": "CŒUR",
+            "PRÉNOM": "PRÉNOM",
+            "NŒUD": "NŒUD",
+            "MÂCHOIRE": "MÂCHOIRE",
+            "REPÈRE": "REPÈRE",
+            "CŒUR": "CŒUR",
         }
         for raw, expected in cases.items():
             self.assertEqual(re.sub(pattern, "", raw), expected)
@@ -601,7 +658,8 @@ class ThumbnailTextTests(unittest.TestCase):
     def test_video_editor_uses_the_accent_safe_pattern(self):
         source = (SRC_DIR / "video_editor.py").read_text()
         self.assertNotIn(
-            'sub(r"[^A-Z0-9\']"', source,
+            'sub(r"[^A-Z0-9\']"',
+            source,
             "the accent-destroying regex must never come back",
         )
 
@@ -620,14 +678,15 @@ class CorruptedStockClipRecoveryTests(unittest.TestCase):
     def test_cover_video_clip_call_is_guarded(self):
         source = (SRC_DIR / "video_editor.py").read_text()
         self.assertIn(
-            "except Exception as _clip_err:", source,
+            "except Exception as _clip_err:",
+            source,
             "_cover_video_clip() must be called inside a try/except — an "
             "unguarded call lets one corrupted scene kill the whole render",
         )
         # The guard must specifically wrap the video-branch call, not just
         # exist somewhere else in the file.
         idx = source.index("scene_visual = _cover_video_clip(img_path, duration)")
-        preceding = source[max(0, idx - 40):idx]
+        preceding = source[max(0, idx - 40) : idx]
         self.assertIn("try:", preceding)
 
     def test_recovery_falls_back_to_ken_burns_not_a_bare_raise(self):
@@ -635,12 +694,16 @@ class CorruptedStockClipRecoveryTests(unittest.TestCase):
         guard_start = source.index("except Exception as _clip_err:")
         guard_end = source.index("else:", guard_start)
         guard_block = source[guard_start:guard_end]
-        self.assertIn("_ken_burns_clip", guard_block,
-                       "recovery path should degrade to a still-frame Ken "
-                       "Burns beat, not just re-raise unconditionally")
-        self.assertIn("raise _clip_err", guard_block,
-                       "if even the still-frame recovery fails, the "
-                       "original error must still surface (no silent skip)")
+        self.assertIn(
+            "_ken_burns_clip",
+            guard_block,
+            "recovery path should degrade to a still-frame Ken Burns beat, not just re-raise unconditionally",
+        )
+        self.assertIn(
+            "raise _clip_err",
+            guard_block,
+            "if even the still-frame recovery fails, the original error must still surface (no silent skip)",
+        )
 
 
 class VisualReuseTests(unittest.TestCase):
@@ -663,8 +726,8 @@ class VisualReuseTests(unittest.TestCase):
         self.assertIsNotNone(self.ig._perceptual_clash(near, {base}))
 
     def test_distinct_visuals_are_allowed(self):
-        base = "phash:021a1e3c3c3c3804"      # knee X-ray
-        other = "phash:90bc3c7838001800"     # time render (distance 18)
+        base = "phash:021a1e3c3c3c3804"  # knee X-ray
+        other = "phash:90bc3c7838001800"  # time render (distance 18)
         self.assertIsNone(self.ig._perceptual_clash(other, {base}))
 
     def test_malformed_or_missing_hash_never_blocks(self):
@@ -683,13 +746,13 @@ class ThumbnailAllowListTests(unittest.TestCase):
     def setUp(self):
         sys.path.insert(0, str(ROOT / "scripts"))
         import thumbnail_update
+
         self.tu = thumbnail_update
 
     def test_allow_list_comes_from_the_live_channel(self):
         source = (ROOT / "scripts" / "thumbnail_update.py").read_text()
         self.assertIn("_channel_video_ids", source)
-        self.assertIn("relatedPlaylists", source,
-                      "the allow-list must be read from the uploads playlist")
+        self.assertIn("relatedPlaylists", source, "the allow-list must be read from the uploads playlist")
 
     def test_falls_back_to_history_when_the_api_fails(self):
         # A listing failure must not abort the run; history is the fallback.
@@ -709,12 +772,14 @@ class PublicApiTests(unittest.TestCase):
 
     def test_every_advertised_name_is_lazy_mapped(self):
         import src
+
         self.assertGreater(len(src.__all__), 10)
         for name in src.__all__:
             self.assertIn(name, src._LAZY_EXPORTS, f"{name} in __all__ but has no lazy mapping")
 
     def test_unknown_attribute_still_raises(self):
         import src
+
         with self.assertRaises(AttributeError):
             src.DEFINITELY_NOT_A_REAL_EXPORT_123
 
@@ -737,9 +802,7 @@ class SecretHygieneTests(unittest.TestCase):
             self.assertIn(pattern, self.gitignore, f".gitignore missing {pattern}")
 
     def test_no_env_file_is_tracked_by_git(self):
-        tracked = subprocess.run(
-            ["git", "ls-files"], cwd=ROOT, capture_output=True, text=True
-        ).stdout.split()
+        tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True).stdout.split()
         leaked = [f for f in tracked if f == ".env" or f.startswith(".env.")]
         self.assertEqual(leaked, [], f"secret files are tracked: {leaked}")
 
@@ -752,16 +815,18 @@ class AnalyticsDependencyTests(unittest.TestCase):
 
     def test_seo_analytics_does_not_import_numpy_or_pillow_at_module_level(self):
         import ast
+
         tree = ast.parse((SRC_DIR / "seo_analytics.py").read_text())
         top_level = set()
-        for node in tree.body:                      # module scope ONLY
+        for node in tree.body:  # module scope ONLY
             if isinstance(node, ast.Import):
                 top_level |= {a.name.split(".")[0] for a in node.names}
             elif isinstance(node, ast.ImportFrom) and node.module and node.level == 0:
                 top_level.add(node.module.split(".")[0])
         for heavy in ("numpy", "PIL"):
             self.assertNotIn(
-                heavy, top_level,
+                heavy,
+                top_level,
                 f"{heavy} must stay a lazy import inside score_thumbnail()",
             )
 
@@ -773,18 +838,17 @@ class AnalyticsDependencyTests(unittest.TestCase):
             f"sys.path.insert(0, {str(SRC_DIR)!r})\n"
             "import analytics_updater\n"
         )
-        result = subprocess.run([sys.executable, "-c", code], cwd=ROOT,
-                                capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0,
-                         f"analytics entrypoint needs numpy: {result.stderr[-400:]}")
+        result = subprocess.run([sys.executable, "-c", code], cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, f"analytics entrypoint needs numpy: {result.stderr[-400:]}")
 
     def test_optional_metrics_are_dropped_not_fatal(self):
         """impressions/CTR are unavailable on this channel (see the
         _dropped_metrics field in data/seo_diag_*.json). Requesting them
         unconditionally failed the whole query, losing views AND retention."""
         source = (SRC_DIR / "seo_analytics.py").read_text()
-        self.assertIn("Unknown identifier", source,
-                      "fetch_actual_performance must retry without unsupported metrics")
+        self.assertIn(
+            "Unknown identifier", source, "fetch_actual_performance must retry without unsupported metrics"
+        )
 
 
 class ThresholdParityTests(unittest.TestCase):
@@ -797,6 +861,7 @@ class ThresholdParityTests(unittest.TestCase):
 
     def _env_value(self, text, key, sep):
         import re
+
         match = re.search(rf'^\s*{key}{sep}\s*"?([\d.]+)"?\s*$', text, re.MULTILINE)
         self.assertIsNotNone(match, f"{key} not found")
         return match.group(1)
@@ -821,7 +886,8 @@ class DestructiveWorkflowTests(unittest.TestCase):
         self.assertIn("inputs:", workflow, "cleanup must expose an apply input")
         self.assertIn("default: false", workflow)
         self.assertNotIn(
-            "run: python scripts/yt_dead_cleanup_fr.py --apply", workflow,
+            "run: python scripts/yt_dead_cleanup_fr.py --apply",
+            workflow,
             "cleanup must not hardcode --apply",
         )
 
@@ -832,6 +898,7 @@ class TitlePatternTests(unittest.TestCase):
 
     def test_french_titles_bucket_distinctly(self):
         from seo_analytics import _title_pattern
+
         cases = {
             "Pourquoi le hoquet commence brusquement ?": "POURQUOI",
             "Ce que votre corps vous dit quand le ventre se serre": "CE_QUE_VOTRE_CORPS",
@@ -857,14 +924,14 @@ class AnalyticsScopeTests(unittest.TestCase):
 
     def test_credentials_do_not_pin_scopes_on_refresh(self):
         import re
+
         source = (SRC_DIR / "seo_analytics.py").read_text()
-        block = re.search(
-            r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.DOTALL)
+        block = re.search(r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.DOTALL)
         self.assertIsNotNone(block, "Credentials(...) call not found")
         self.assertNotIn(
-            "scopes=", block.group(1),
-            "scopes= on refresh triggers invalid_scope; the token already "
-            "carries yt-analytics.readonly",
+            "scopes=",
+            block.group(1),
+            "scopes= on refresh triggers invalid_scope; the token already carries yt-analytics.readonly",
         )
 
 
@@ -882,22 +949,29 @@ class RetentionTopicSelectionTests(unittest.TestCase):
         self.tf = trend_fetcher
 
     def test_classifier_matches_measured_outcomes(self):
-        physical = ["Pourquoi le ventre se serre lors d'une peur",
-                    "Pourquoi les genoux qui craquent en bougeant",
-                    "Pourquoi le silence devient inconfortable"]
-        abstract = ["Pourquoi le temps semble passer plus vite en vieillissant",
-                    "Ce que la science explique sur l'effet du stress sur la mémoire",
-                    "Ce qui se passe quand un déjà-vu semble familier"]
+        physical = [
+            "Pourquoi le ventre se serre lors d'une peur",
+            "Pourquoi les genoux qui craquent en bougeant",
+            "Pourquoi le silence devient inconfortable",
+        ]
+        abstract = [
+            "Pourquoi le temps semble passer plus vite en vieillissant",
+            "Ce que la science explique sur l'effet du stress sur la mémoire",
+            "Ce qui se passe quand un déjà-vu semble familier",
+        ]
         for topic in physical:
             self.assertEqual(self.tf.classify_topic_retention(topic), "physical", topic)
         for topic in abstract:
             self.assertEqual(self.tf.classify_topic_retention(topic), "abstract", topic)
 
     def test_selection_favours_physical_without_starving_the_rest(self):
-        pool = ([{"topic": "Pourquoi le ventre se serre"}] * 50
-                + [{"topic": "Pourquoi le temps semble accélérer"}] * 50)
-        picks = [self.tf.classify_topic_retention(
-            self.tf._pick_by_retention_class(pool)["topic"]) for _ in range(400)]
+        pool = [{"topic": "Pourquoi le ventre se serre"}] * 50 + [
+            {"topic": "Pourquoi le temps semble accélérer"}
+        ] * 50
+        picks = [
+            self.tf.classify_topic_retention(self.tf._pick_by_retention_class(pool)["topic"])
+            for _ in range(400)
+        ]
         share = picks.count("physical") / len(picks)
         self.assertGreater(share, 0.6, "physical topics must be favoured")
         self.assertLess(share, 0.95, "abstract topics must still ship sometimes")
@@ -926,7 +1000,7 @@ class FiveSecondCliffTests(unittest.TestCase):
     def test_filler_in_the_cliff_window_is_flagged(self):
         segments = [
             self._seg("Ton ventre se serre avant de parler.", 3.5),
-            self._seg("Mais pourquoi ?", 5.0),          # 3 words over 5s
+            self._seg("Mais pourquoi ?", 5.0),  # 3 words over 5s
             self._seg("Le nerf vague relie ton cerveau à ton estomac.", 4.0),
         ]
         result = self.check(segments)
@@ -947,6 +1021,7 @@ class FiveSecondCliffTests(unittest.TestCase):
 
     def test_report_exposes_the_cliff(self):
         from shorts_enhancer import build_shorts_report
+
         segments = [self._seg("Ton corps réagit vite et fort ici.", 4.0)] * 3
         report = build_shorts_report({"hook": "Ton corps réagit vite"}, segments, ["corps"])
         self.assertIn("five_second_cliff", report)
@@ -962,6 +1037,7 @@ class DurationExperimentTests(unittest.TestCase):
     def setUp(self):
         sys.path.insert(0, str(ROOT / "scripts"))
         import duration_experiment
+
         self.de = duration_experiment
 
     def test_arms_are_distinct_and_sane(self):
@@ -991,8 +1067,11 @@ class DurationExperimentTests(unittest.TestCase):
             stripped = line.strip()
             if stripped.startswith("#"):
                 continue
-            self.assertNotRegex(stripped, r"^(EXPERIMENT_ARM|DURATION_EXPERIMENT)\s*:",
-                                f"blind experiment env var back in workflow: {stripped}")
+            self.assertNotRegex(
+                stripped,
+                r"^(EXPERIMENT_ARM|DURATION_EXPERIMENT)\s*:",
+                f"blind experiment env var back in workflow: {stripped}",
+            )
 
     def test_no_dead_env_vars_in_main_workflow(self):
         """Truth doctrine: every env var the workflow sets must be READ by
@@ -1000,18 +1079,17 @@ class DurationExperimentTests(unittest.TestCase):
         unread is a lie about what the pipeline does — this is exactly how
         the phantom 70B fallback happened."""
         import re
+
         text = (ROOT / ".github" / "workflows" / "main.yml").read_text()
-        envs = set(re.findall(r'^\s{8,10}([A-Z][A-Z0-9_]+):\s*[\'"]', text, re.M))
+        envs = set(re.findall(r'^\s{8,10}([A-Z][A-Z0-9_]+):\s*[\'"]', text, re.MULTILINE))
         # Toolchain/interpreter vars legitimately consumed without references:
-        toolchain = {"PYTHONUNBUFFERED", "OMP_NUM_THREADS",
-                     "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"}
+        toolchain = {"PYTHONUNBUFFERED", "OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"}
         code = ""
         for folder in ("src", "scripts"):
             for p in (ROOT / folder).rglob("*.py"):
                 code += p.read_text(encoding="utf-8", errors="ignore") + "\n"
         for var in sorted(envs - toolchain):
-            self.assertIn(var, code,
-                          f"{var} is set in main.yml but never read by code — blind config")
+            self.assertIn(var, code, f"{var} is set in main.yml but never read by code — blind config")
 
     def test_report_is_safe_with_no_data(self):
         self.assertEqual(self.de.report(), 0)
@@ -1032,9 +1110,12 @@ class HashtagQualityTests(unittest.TestCase):
         self.build = generate_seo_package
 
     def _hashtags(self, topic):
-        return [h.lower() for h in self.build(
-            topic, {"title": "X", "hook": "h", "cta": "c", "description": "d"}
-        )["hashtags"]]
+        return [
+            h.lower()
+            for h in self.build(topic, {"title": "X", "hook": "h", "cta": "c", "description": "d"})[
+                "hashtags"
+            ]
+        ]
 
     def test_template_scaffolding_never_becomes_a_hashtag(self):
         topics = [
@@ -1044,8 +1125,7 @@ class HashtagQualityTests(unittest.TestCase):
         ]
         for topic in topics:
             tags = self._hashtags(topic)
-            for junk in ("#quil", "#faut", "#comprendre", "#semble",
-                         "#explique", "#passe", "#derrière"):
+            for junk in ("#quil", "#faut", "#comprendre", "#semble", "#explique", "#passe", "#derrière"):
                 self.assertNotIn(junk, tags, f"{junk} in {tags}")
 
     def test_overly_broad_hashtags_are_dropped(self):
@@ -1074,26 +1154,31 @@ class DurationBudgetTests(unittest.TestCase):
     def _budget(self, low, high):
         import importlib
         import os
+
         os.environ["TARGET_MIN_SECONDS"] = str(low)
         os.environ["TARGET_MAX_SECONDS"] = str(high)
         import script_generator
+
         importlib.reload(script_generator)
         return script_generator
 
     def tearDown(self):
         import importlib
         import os
+
         os.environ["TARGET_MIN_SECONDS"] = "40"
         os.environ["TARGET_MAX_SECONDS"] = "55"
         import script_generator
+
         importlib.reload(script_generator)
 
     def test_word_budget_never_exceeds_the_abort_threshold(self):
         for low, high in ((20, 24), (24, 28), (20, 26)):
             sg = self._budget(low, high)
-            narration = sg.MAX_WORDS / 2.6          # measured Kokoro FR pace
+            narration = sg.MAX_WORDS / 2.6  # measured Kokoro FR pace
             self.assertLessEqual(
-                narration, high * 1.12,
+                narration,
+                high * 1.12,
                 f"{low}-{high}s arm: {sg.MAX_WORDS} words = {narration:.1f}s "
                 f"exceeds the {high * 1.12:.1f}s abort threshold",
             )
@@ -1115,6 +1200,7 @@ class DurationBudgetTests(unittest.TestCase):
             capacity = sg.HOOK_MAX_WORDS + 5 * sg.MAX_SCENE_WORDS
             self.assertGreaterEqual(capacity, sg.MIN_WORDS)
 
+
 class ShortsTierResolutionTests(unittest.TestCase):
     """2026-08-20: AI-Horde (anonymous key) was shipping 320x512 and 448x768
     images which blur visibly on the 1080x1920 Shorts canvas.
@@ -1134,6 +1220,7 @@ class ShortsTierResolutionTests(unittest.TestCase):
 
         import numpy as np
         from PIL import Image
+
         with tempfile.NamedTemporaryFile(suffix=".jpg", delete=False) as tmp:
             path = tmp.name
         Image.fromarray(np.uint8(array)).save(path, quality=95)
@@ -1141,6 +1228,7 @@ class ShortsTierResolutionTests(unittest.TestCase):
 
     def test_small_ai_horde_image_rejected_under_strict(self):
         import numpy as np
+
         rng = np.random.default_rng(3)
         small = rng.integers(0, 255, size=(768, 448, 3))  # AI-Horde bottom tier
         path = self._write(small)
@@ -1155,14 +1243,17 @@ class ShortsTierResolutionTests(unittest.TestCase):
 
     def test_hd_image_passes_strict_mode(self):
         import numpy as np
+
         rng = np.random.default_rng(11)
         hd = rng.integers(0, 255, size=(1920, 1080, 3))  # Pollinations/Flux tier
         result = self.validate(self._write(hd), strict=True)
         self.assertEqual(result["width"], 1080)
 
     def test_strict_mode_env_is_honoured(self):
-        import numpy as np
         import os
+
+        import numpy as np
+
         rng = np.random.default_rng(5)
         small = rng.integers(0, 255, size=(512, 320, 3))
         path = self._write(small)
@@ -1185,7 +1276,9 @@ class ViralBgmFallbackTests(unittest.TestCase):
 
     def test_viral_fallback_wired_into_video_editor(self):
         import inspect
+
         from video_editor import _get_music_track
+
         src = inspect.getsource(_get_music_track)
         self.assertIn("VIRAL_BGM_FALLBACK", src)
         self.assertIn("music_generator", src)
@@ -1193,12 +1286,13 @@ class ViralBgmFallbackTests(unittest.TestCase):
         self.assertIn("_synthesize_ambient_bed", src)
 
     def test_music_generator_brand_is_dark_science(self):
-        import inspect
         from music_generator import _BASE_PROMPT
+
         for term in ("minor-key piano", "mysterious", "instrumental only"):
             self.assertIn(term, _BASE_PROMPT, _BASE_PROMPT)
         # Old Khateb-Ishq sad-poetry wording must not leak into NS.
         self.assertNotIn("sad poetry", _BASE_PROMPT.lower())
+
 
 class StockClipOrientationQualityTests(unittest.TestCase):
     """2026-08-21: stock clips were selected by max(width*height) alone.
@@ -1213,7 +1307,7 @@ class StockClipOrientationQualityTests(unittest.TestCase):
         # Portrait shape enforcement on Pexels file candidates.
         self.assertIn('f.get("width", 0) < f.get("height", 0)', source)
         # Resolution floor applied to candidates.
-        self.assertIn("f.get(\"width\", 0) >= min_clip_w", source)
+        self.assertIn('f.get("width", 0) >= min_clip_w', source)
         # The filter text is present (regression-proofing).
         self.assertIn("no portrait B-roll clip", source)
 
@@ -1223,8 +1317,8 @@ class StockClipOrientationQualityTests(unittest.TestCase):
         # per-variant portrait + floor check must exist (no API-level guard).
         self.assertIn("large", source)
         idx = source.index("def _stock_video_request")
-        block = source[idx:idx + 8000]  # full function incl. pixabay branch
-        self.assertIn("< var.get(\"height\", 0)", block)
+        block = source[idx : idx + 8000]  # full function incl. pixabay branch
+        self.assertIn('< var.get("height", 0)', block)
         self.assertIn(">= min_clip_w", block)
         self.assertIn("no portrait B-roll clip", block)
 
@@ -1233,12 +1327,12 @@ class StockClipOrientationQualityTests(unittest.TestCase):
         self.assertIn("MIN_STOCK_CLIP_WIDTH", wf)
 
 
-
 class CtrTitlesFrTests(unittest.TestCase):
     """2026-08-21: CTR booster regression tests (src/ctr_titles.py, FR)."""
 
     def _mod(self):
         import importlib
+
         return importlib.import_module("ctr_titles")
 
     def test_rule_pattern_french_grammar(self):
@@ -1250,6 +1344,7 @@ class CtrTitlesFrTests(unittest.TestCase):
         # uppercase; mid-sentence Title-Case ("Ce Que Les Médecins...")
         # is broken French.
         import re as _re
+
         for pat in pats:
             rest = pat[1:]
             self.assertFalse(_re.search(r"[A-ZÀ-Ü]", rest), pat)
@@ -1269,8 +1364,7 @@ class CtrTitlesFrTests(unittest.TestCase):
         old = os.environ.get("CTR_TITLES")
         try:
             os.environ["CTR_TITLES"] = "false"
-            self.assertEqual(ct.get_ctr_title_options(
-                "pourquoi vos genoux craquent", "t"), [])
+            self.assertEqual(ct.get_ctr_title_options("pourquoi vos genoux craquent", "t"), [])
         finally:
             if old is None:
                 os.environ.pop("CTR_TITLES", None)
@@ -1280,32 +1374,26 @@ class CtrTitlesFrTests(unittest.TestCase):
     def test_ctr_titles_under_mobile_budget(self):
         ct = self._mod()
         emoji_re = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\uFE0F]+")
-        for topic in ("pourquoi vos genoux craquent",
-                      "la science derrière le hoquet nocturne"):
+        for topic in ("pourquoi vos genoux craquent", "la science derrière le hoquet nocturne"):
             for opt in ct.get_ctr_title_options(topic, topic.title()):
                 self.assertLessEqual(len(opt.encode("utf-8")), 55, opt)
                 self.assertIsNone(emoji_re.search(opt), opt)
 
     def test_ctr_titles_llm_failure_degrades_gracefully(self):
         ct = self._mod()
-        with unittest.mock.patch.object(
-                ct, "_llm_patterns", side_effect=RuntimeError("down")):
-            opts = ct.get_ctr_title_options(
-                "pourquoi vos genoux craquent", "t")
+        with unittest.mock.patch.object(ct, "_llm_patterns", side_effect=RuntimeError("down")):
+            opts = ct.get_ctr_title_options("pourquoi vos genoux craquent", "t")
         self.assertGreater(len(opts), 0)
 
     def test_seo_package_includes_ctr_options(self):
         ct = self._mod()
-        script = {"title": "Genoux qui craquent", "series_title": "",
-                  "scenes": [{"caption": "c1"}]}
+        script = {"title": "Genoux qui craquent", "series_title": "", "scenes": [{"caption": "c1"}]}
         with unittest.mock.patch.object(
-                ct, "_llm_patterns",
-                return_value=["Ce qui se passe vraiment dans vos genoux ?"]):
-            pkg = seo.generate_seo_package(
-                "pourquoi vos genoux craquent", script)
+            ct, "_llm_patterns", return_value=["Ce qui se passe vraiment dans vos genoux ?"]
+        ):
+            pkg = seo.generate_seo_package("pourquoi vos genoux craquent", script)
         self.assertGreater(len(pkg["title_options"]), 0)
         # The CTR novelty layer feeds the A/B pool; the leak-gate and the
         # question-first ranking decide the winner, so assert presence
         # (never absence) rather than a fixed slot.
-        self.assertIn("Ce qui se passe vraiment dans vos genoux ?",
-                      pkg["title_options"])
+        self.assertIn("Ce qui se passe vraiment dans vos genoux ?", pkg["title_options"])

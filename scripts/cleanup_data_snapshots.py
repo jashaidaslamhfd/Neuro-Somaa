@@ -20,12 +20,13 @@ Usage:
     python scripts/cleanup_data_snapshots.py --dry-run  # preview
     DATA_SNAPSHOT_KEEP_DAYS=14 python scripts/cleanup_data_snapshots.py
 """
+
 from __future__ import annotations
 
 import argparse
 import os
 import re
-from datetime import date, timedelta
+from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -51,7 +52,7 @@ def _parse_date(raw: str) -> date:
 
 
 def prune(data_dir: Path = DATA_DIR, keep_days: int = 7, dry_run: bool = False) -> dict:
-    today = date.today()
+    today = datetime.now(UTC).date()
     cutoff = today - timedelta(days=keep_days)
     summary = {"kept": 0, "deleted": 0, "by_family": {}}
 
@@ -82,8 +83,10 @@ def prune(data_dir: Path = DATA_DIR, keep_days: int = 7, dry_run: bool = False) 
         summary["deleted"] += deleted
 
     action = "would delete" if dry_run else "deleted"
-    print(f"[cleanup_data_snapshots] keep_days={keep_days}: "
-          f"{action}={summary['deleted']}, kept={summary['kept']}")
+    print(
+        f"[cleanup_data_snapshots] keep_days={keep_days}: "
+        f"{action}={summary['deleted']}, kept={summary['kept']}"
+    )
     for family, row in summary["by_family"].items():
         print(f"  {family}: kept {row['kept']}, {action} {row['deleted']}")
     return summary
@@ -92,8 +95,7 @@ def prune(data_dir: Path = DATA_DIR, keep_days: int = 7, dry_run: bool = False) 
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--keep-days", type=int,
-                    default=int(os.environ.get("DATA_SNAPSHOT_KEEP_DAYS", "7")))
+    ap.add_argument("--keep-days", type=int, default=int(os.environ.get("DATA_SNAPSHOT_KEEP_DAYS", "7")))
     args = ap.parse_args()
     prune(keep_days=args.keep_days, dry_run=args.dry_run)
     return 0

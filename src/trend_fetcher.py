@@ -10,6 +10,7 @@ never prevents a video from being made; a curated, non-duplicated topic pool
 is the final fallback. Do not treat a trending headline as evidence for a
 medical/scientific claim: the script/fact-review layer must still verify it.
 """
+
 from __future__ import annotations
 
 import base64
@@ -39,10 +40,37 @@ YOUTUBE_REGION = os.environ.get("YOUTUBE_REGION_CODE", TARGET_REGION).upper()
 # "history" and "nature" admitted entertainment headlines like "Why Got Fired
 # Matters" that did not give this channel a real explainable science topic.
 RELEVANCE_TERMS = (
-    "cerveau", "corps", "santé", "médecine", "médecin", "science", "espace", "nasa",
-    "technologie", "intelligence artificielle", "robot", "climat", "océan", "planète",
-    "physique", "psychologie", "sommeil", "coeur", "cœur", "mémoire", "nerf", "hormone",
-    "cellule", "génétique", "recherche", "étude", "virus", "nutrition", "immunité", "anatomie", "biologie",
+    "cerveau",
+    "corps",
+    "santé",
+    "médecine",
+    "médecin",
+    "science",
+    "espace",
+    "nasa",
+    "technologie",
+    "intelligence artificielle",
+    "robot",
+    "climat",
+    "océan",
+    "planète",
+    "physique",
+    "psychologie",
+    "sommeil",
+    "coeur",
+    "cœur",
+    "mémoire",
+    "nerf",
+    "hormone",
+    "cellule",
+    "génétique",
+    "recherche",
+    "étude",
+    "virus",
+    "nutrition",
+    "immunité",
+    "anatomie",
+    "biologie",
 )
 # These are UI/navigation strings sometimes accidentally extracted by fragile
 # HTML scrapers. The project no longer scrapes YouTube HTML, but retaining the
@@ -63,19 +91,33 @@ INVALID_TOPIC_PATTERNS = (
 # goosebumps)—not broad news headlines or generic "dark" claims. These are
 # proven-pillar prompts, never labelled as daily trends.
 PROVEN_TOPIC_POOL = [
-    "Pourquoi une chanson reste dans la tête", "Pourquoi on oublie un prénom tout de suite",
-    "Pourquoi le bâillement est contagieux", "Pourquoi une paupière tressaille",
-    "Pourquoi la chair de poule apparaît", "Pourquoi les rêves s'effacent au réveil",
-    "Pourquoi le déjà-vu semble familier", "Pourquoi le cœur s'emballe avec le stress",
-    "Pourquoi le corps se fige face à la peur", "Pourquoi le ventre gargouille",
-    "Pourquoi on se réveille avant le réveil", "Pourquoi les mains se fripent dans l'eau",
-    "Pourquoi les souvenirs gênants reviennent le soir", "Pourquoi on oublie une pièce",
-    "Pourquoi le silence peut gêner", "Pourquoi le cerveau entend son prénom",
-    "Pourquoi le temps semble accélérer", "Pourquoi le stress brouille la mémoire",
-    "Pourquoi on a la tête qui tourne en se levant", "Pourquoi le cerveau rejoue les conversations",
-    "Pourquoi on entend son coeur la nuit", "Pourquoi la lumière fait éternuer",
-    "Pourquoi le cerveau a besoin de sommeil profond", "Pourquoi la musique change l'humeur",
-    "Pourquoi on rougit", "Pourquoi on frissonne", "Pourquoi le corps est lourd quand on est fatigué",
+    "Pourquoi une chanson reste dans la tête",
+    "Pourquoi on oublie un prénom tout de suite",
+    "Pourquoi le bâillement est contagieux",
+    "Pourquoi une paupière tressaille",
+    "Pourquoi la chair de poule apparaît",
+    "Pourquoi les rêves s'effacent au réveil",
+    "Pourquoi le déjà-vu semble familier",
+    "Pourquoi le cœur s'emballe avec le stress",
+    "Pourquoi le corps se fige face à la peur",
+    "Pourquoi le ventre gargouille",
+    "Pourquoi on se réveille avant le réveil",
+    "Pourquoi les mains se fripent dans l'eau",
+    "Pourquoi les souvenirs gênants reviennent le soir",
+    "Pourquoi on oublie une pièce",
+    "Pourquoi le silence peut gêner",
+    "Pourquoi le cerveau entend son prénom",
+    "Pourquoi le temps semble accélérer",
+    "Pourquoi le stress brouille la mémoire",
+    "Pourquoi on a la tête qui tourne en se levant",
+    "Pourquoi le cerveau rejoue les conversations",
+    "Pourquoi on entend son coeur la nuit",
+    "Pourquoi la lumière fait éternuer",
+    "Pourquoi le cerveau a besoin de sommeil profond",
+    "Pourquoi la musique change l'humeur",
+    "Pourquoi on rougit",
+    "Pourquoi on frissonne",
+    "Pourquoi le corps est lourd quand on est fatigué",
 ]
 
 REDDIT_SUBREDDITS = ("france", "science", "technology", "space")
@@ -93,32 +135,95 @@ def _normalise_topic(value: str) -> str:
 # exact-string dedupe above cannot see this, so topics that merely REWORD a
 # recent upload must also be blocked.
 _FR_STOPWORDS = {
-    "le", "la", "les", "un", "une", "de", "des", "du", "en", "et", "ou",
-    "qui", "que", "quand", "avec", "sans", "on", "vous", "tu", "ton", "ta",
-    "tes", "votre", "vos", "son", "sa", "ses", "il", "elle", "se", "ce",
-    "cette", "pour", "pourquoi", "est", "ne", "pas", "peut", "sembler",
-    "dans", "sur", "au", "aux", "a", "d", "l", "j", "qu", "n", "s", "y",
-    "comment", "quoi", "nos", "notre",
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "de",
+    "des",
+    "du",
+    "en",
+    "et",
+    "ou",
+    "qui",
+    "que",
+    "quand",
+    "avec",
+    "sans",
+    "on",
+    "vous",
+    "tu",
+    "ton",
+    "ta",
+    "tes",
+    "votre",
+    "vos",
+    "son",
+    "sa",
+    "ses",
+    "il",
+    "elle",
+    "se",
+    "ce",
+    "cette",
+    "pour",
+    "pourquoi",
+    "est",
+    "ne",
+    "pas",
+    "peut",
+    "sembler",
+    "dans",
+    "sur",
+    "au",
+    "aux",
+    "a",
+    "d",
+    "l",
+    "j",
+    "qu",
+    "n",
+    "s",
+    "y",
+    "comment",
+    "quoi",
+    "nos",
+    "notre",
 }
 
 
 _WORD_FAMILIES = (
-    ("vieill", "age"), ("vieux", "age"),
-    ("accel", "vite"), ("rapid", "vite"), ("vitess", "vite"),
-    ("pass", "passe"), ("ecoul", "passe"),
-    ("dorm", "dort"), ("sommeil", "dort"), ("reveill", "reveil"),
-    ("mang", "mange"), ("aliment", "mange"), ("nourrit", "mange"),
-    ("peur", "peur"), ("angois", "peur"), ("stress", "peur"), ("anxie", "peur"),
-    ("froid", "froid"), ("friss", "froid"),
-    ("coeur", "coeur"), ("cardia", "coeur"),
-    ("genou", "genou"), ("articul", "genou"),
+    ("vieill", "age"),
+    ("vieux", "age"),
+    ("accel", "vite"),
+    ("rapid", "vite"),
+    ("vitess", "vite"),
+    ("pass", "passe"),
+    ("ecoul", "passe"),
+    ("dorm", "dort"),
+    ("sommeil", "dort"),
+    ("reveill", "reveil"),
+    ("mang", "mange"),
+    ("aliment", "mange"),
+    ("nourrit", "mange"),
+    ("peur", "peur"),
+    ("angois", "peur"),
+    ("stress", "peur"),
+    ("anxie", "peur"),
+    ("froid", "froid"),
+    ("friss", "froid"),
+    ("coeur", "coeur"),
+    ("cardia", "coeur"),
+    ("genou", "genou"),
+    ("articul", "genou"),
 )
 
 
 def _strip_accents(text: str) -> str:
     import unicodedata
-    return "".join(c for c in unicodedata.normalize("NFKD", text)
-                   if not unicodedata.combining(c))
+
+    return "".join(c for c in unicodedata.normalize("NFKD", text) if not unicodedata.combining(c))
 
 
 def _topic_words(value: str) -> set:
@@ -140,7 +245,7 @@ def _near_duplicate_of_recent(topic: str, excluded: Iterable[str]) -> bool:
     words = _topic_words(topic)
     if len(words) < 2:
         return False
-    for recent in (excluded or []):
+    for recent in excluded or []:
         rwords = _topic_words(recent)
         if not rwords:
             continue
@@ -183,7 +288,10 @@ def _request(method: str, url: str, *, source: str, **kwargs) -> requests.Respon
                 return response
             logger.warning(
                 "%s unavailable (HTTP %s, attempt %s/%s): %s",
-                source, response.status_code, attempt, MAX_SOURCE_RETRIES,
+                source,
+                response.status_code,
+                attempt,
+                MAX_SOURCE_RETRIES,
                 response.text[:180].replace("\n", " "),
             )
             # Retrying a permanent auth/not-found failure only wastes a run.
@@ -228,8 +336,11 @@ def get_google_trends_topics(region: str | None = None) -> list[dict]:
     """
     region = (region or TARGET_REGION).upper()
     response = _request(
-        "GET", "https://trends.google.com/trending/rss", source="Google Trends RSS",
-        params={"geo": region}, headers={"Accept": "application/rss+xml, application/xml;q=0.9"},
+        "GET",
+        "https://trends.google.com/trending/rss",
+        source="Google Trends RSS",
+        params={"geo": region},
+        headers={"Accept": "application/rss+xml, application/xml;q=0.9"},
     )
     if response is None:
         return []
@@ -243,10 +354,14 @@ def get_google_trends_topics(region: str | None = None) -> list[dict]:
     for item in root.findall("./channel/item"):
         title = _clean_topic(item.findtext("title", default=""))
         if title and _is_relevant(title):
-            topics.append(_topic_record(
-                title, "google_trends", region=region,
-                source_url=item.findtext("link", default=""),
-            ))
+            topics.append(
+                _topic_record(
+                    title,
+                    "google_trends",
+                    region=region,
+                    source_url=item.findtext("link", default=""),
+                )
+            )
     logger.info("Google Trends RSS: %s relevant topics for %s.", len(topics), region)
     return _deduplicate(topics)
 
@@ -259,10 +374,15 @@ def get_youtube_trending_topics(region: str | None = None) -> list[dict]:
         return []
     region = (region or YOUTUBE_REGION).upper()
     response = _request(
-        "GET", "https://www.googleapis.com/youtube/v3/videos", source="YouTube Data API",
+        "GET",
+        "https://www.googleapis.com/youtube/v3/videos",
+        source="YouTube Data API",
         params={
-            "part": "snippet,statistics", "chart": "mostPopular", "regionCode": region,
-            "maxResults": 25, "key": api_key,
+            "part": "snippet,statistics",
+            "chart": "mostPopular",
+            "regionCode": region,
+            "maxResults": 25,
+            "key": api_key,
         },
     )
     if response is None:
@@ -278,12 +398,16 @@ def get_youtube_trending_topics(region: str | None = None) -> list[dict]:
         snippet = item.get("snippet", {})
         title = _clean_topic(snippet.get("title", ""))
         if title and _is_relevant(title):
-            topics.append(_topic_record(
-                title, "youtube_trending", region=region,
-                video_id=item.get("id", ""),
-                source_url=f"https://www.youtube.com/watch?v={item.get('id', '')}",
-                category_id=snippet.get("categoryId", ""),
-            ))
+            topics.append(
+                _topic_record(
+                    title,
+                    "youtube_trending",
+                    region=region,
+                    video_id=item.get("id", ""),
+                    source_url=f"https://www.youtube.com/watch?v={item.get('id', '')}",
+                    category_id=snippet.get("categoryId", ""),
+                )
+            )
     logger.info("YouTube Data API: %s relevant topics for %s.", len(topics), region)
     return _deduplicate(topics)
 
@@ -297,8 +421,11 @@ def _reddit_access_token() -> str | None:
         return None
     basic = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode("ascii")
     response = _request(
-        "POST", "https://www.reddit.com/api/v1/access_token", source="Reddit OAuth",
-        headers={"Authorization": f"Basic {basic}"}, data={"grant_type": "client_credentials"},
+        "POST",
+        "https://www.reddit.com/api/v1/access_token",
+        source="Reddit OAuth",
+        headers={"Authorization": f"Basic {basic}"},
+        data={"grant_type": "client_credentials"},
     )
     if response is None:
         return None
@@ -320,8 +447,11 @@ def get_reddit_trending_topics() -> list[dict]:
     headers = {"Authorization": f"Bearer {token}"}
     for subreddit in REDDIT_SUBREDDITS:
         response = _request(
-            "GET", f"https://oauth.reddit.com/r/{subreddit}/top", source=f"Reddit r/{subreddit}",
-            headers=headers, params={"limit": 25, "t": "day", "raw_json": 1},
+            "GET",
+            f"https://oauth.reddit.com/r/{subreddit}/top",
+            source=f"Reddit r/{subreddit}",
+            headers=headers,
+            params={"limit": 25, "t": "day", "raw_json": 1},
         )
         if response is None:
             continue
@@ -334,12 +464,16 @@ def get_reddit_trending_topics() -> list[dict]:
             post = child.get("data", {})
             title = _clean_topic(post.get("title", ""))
             if title and _is_relevant(title) and not post.get("over_18", False):
-                topics.append(_topic_record(
-                    title, f"reddit_r/{subreddit}", subreddit=subreddit,
-                    permalink=post.get("permalink", ""),
-                    source_url=f"https://www.reddit.com{post.get('permalink', '')}",
-                    score=post.get("score", 0),
-                ))
+                topics.append(
+                    _topic_record(
+                        title,
+                        f"reddit_r/{subreddit}",
+                        subreddit=subreddit,
+                        permalink=post.get("permalink", ""),
+                        source_url=f"https://www.reddit.com{post.get('permalink', '')}",
+                        score=post.get("score", 0),
+                    )
+                )
     topics = _deduplicate(topics)
     logger.info("Reddit OAuth: %s relevant topics.", len(topics))
     return topics
@@ -368,20 +502,92 @@ def get_reddit_trending_topics() -> list[dict]:
 # pipeline. This is a WEIGHTING, not a ban: abstract topics still ship (they
 # keep the catalogue varied), just less often.
 PHYSICAL_SENSATION_MARKERS = {
-    "ventre", "estomac", "gorge", "poitrine", "peau", "chair", "poil",
-    "genou", "genoux", "muscle", "jambe", "bras", "main", "doigt", "pied",
-    "dos", "nuque", "épaule", "mâchoire", "dent", "langue", "lèvre",
-    "oeil", "œil", "yeux", "paupière", "oreille", "nez", "visage", "joue",
-    "rougir", "rougit", "frisson", "chair de poule", "tremble", "tressaille",
-    "craque", "craquent", "serre", "fige", "sursaut", "hoquet", "bâille",
-    "bâillement", "éternue", "démange", "picote", "engourdi", "crampe",
-    "transpire", "sueur", "battement", "souffle", "respiration", "faim", "soif", "fatigue", "lourd", "silence", "réveil", "endormir",
-    "sommeil", "dormir", "nuit", "cœur", "coeur", "pouls",
+    "ventre",
+    "estomac",
+    "gorge",
+    "poitrine",
+    "peau",
+    "chair",
+    "poil",
+    "genou",
+    "genoux",
+    "muscle",
+    "jambe",
+    "bras",
+    "main",
+    "doigt",
+    "pied",
+    "dos",
+    "nuque",
+    "épaule",
+    "mâchoire",
+    "dent",
+    "langue",
+    "lèvre",
+    "oeil",
+    "œil",
+    "yeux",
+    "paupière",
+    "oreille",
+    "nez",
+    "visage",
+    "joue",
+    "rougir",
+    "rougit",
+    "frisson",
+    "chair de poule",
+    "tremble",
+    "tressaille",
+    "craque",
+    "craquent",
+    "serre",
+    "fige",
+    "sursaut",
+    "hoquet",
+    "bâille",
+    "bâillement",
+    "éternue",
+    "démange",
+    "picote",
+    "engourdi",
+    "crampe",
+    "transpire",
+    "sueur",
+    "battement",
+    "souffle",
+    "respiration",
+    "faim",
+    "soif",
+    "fatigue",
+    "lourd",
+    "silence",
+    "réveil",
+    "endormir",
+    "sommeil",
+    "dormir",
+    "nuit",
+    "cœur",
+    "coeur",
+    "pouls",
 }
 ABSTRACT_CONCEPT_MARKERS = {
-    "temps", "mémoire", "souvenir", "déjà-vu", "deja-vu", "stress",
-    "anxiété", "pensée", "conscience", "perception", "attention",
-    "émotion", "humeur", "rêve", "imagination", "vieillissant", "âge",
+    "temps",
+    "mémoire",
+    "souvenir",
+    "déjà-vu",
+    "deja-vu",
+    "stress",
+    "anxiété",
+    "pensée",
+    "conscience",
+    "perception",
+    "attention",
+    "émotion",
+    "humeur",
+    "rêve",
+    "imagination",
+    "vieillissant",
+    "âge",
 }
 # Odds of picking from the physical pool when both pools are available.
 PHYSICAL_TOPIC_BIAS = float(os.environ.get("PHYSICAL_TOPIC_BIAS", "0.75"))
@@ -438,15 +644,14 @@ def _measured_topic_boost(candidates: list[dict], history: list[dict]) -> tuple[
             rest.append(record)
     if boosted:
         logger.info(
-            "Measured-truth boost: %d/%d candidates have similar-video retention "
-            ">= channel median+3pts",
-            len(boosted), len(candidates),
+            "Measured-truth boost: %d/%d candidates have similar-video retention >= channel median+3pts",
+            len(boosted),
+            len(candidates),
         )
     return boosted, rest
 
 
-def _pick_by_retention_class(candidates: list[dict],
-                             history: list[dict] | None = None) -> dict:
+def _pick_by_retention_class(candidates: list[dict], history: list[dict] | None = None) -> dict:
     """Prefer body-sensation + MEASURED-outcome topics, without ever starving
     the catalogue. Selection layers (highest priority first):
 
@@ -456,14 +661,12 @@ def _pick_by_retention_class(candidates: list[dict],
     boosted, rest = _measured_topic_boost(candidates, history or [])
     if boosted:
         chosen = random.choice(boosted)
-        logger.info("Topic pick: MEASURED winner-family -> %s",
-                    chosen.get("topic", "")[:60])
+        logger.info("Topic pick: MEASURED winner-family -> %s", chosen.get("topic", "")[:60])
         return chosen
 
     physical, other = [], []
     for record in rest:
-        target = physical if classify_topic_retention(
-            record.get("topic", "")) == "physical" else other
+        target = physical if classify_topic_retention(record.get("topic", "")) == "physical" else other
         target.append(record)
 
     if physical and other:
@@ -475,7 +678,9 @@ def _pick_by_retention_class(candidates: list[dict],
     logger.info(
         "Topic class: %s (physical pool=%d, other=%d, bias=%.2f) -> %s",
         classify_topic_retention(chosen.get("topic", "")),
-        len(physical), len(other), PHYSICAL_TOPIC_BIAS,
+        len(physical),
+        len(other),
+        PHYSICAL_TOPIC_BIAS,
         chosen.get("topic", "")[:60],
     )
     return chosen
@@ -495,18 +700,22 @@ def get_body_glitch_topics() -> list[dict]:
         if not topic:
             continue
         record = _topic_record(topic, "body_glitch_series_fr", pillar="reflexes_du_corps")
-        record.update({
-            "series_number": item.get("series_number"),
-            "series_title": item.get("series_title"),
-            "thumbnail_text": item.get("thumbnail_text"),
-            "base_phenomenon": item.get("topic"),
-            "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
-            "question_phrase": item.get("question_phrase"),
-            "angle": item.get("angle"),
-        })
+        record.update(
+            {
+                "series_number": item.get("series_number"),
+                "series_title": item.get("series_title"),
+                "thumbnail_text": item.get("thumbnail_text"),
+                "base_phenomenon": item.get("topic"),
+                "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
+                "question_phrase": item.get("question_phrase"),
+                "angle": item.get("angle"),
+            }
+        )
         result.append(record)
     if len(result) < 500:
-        raise RuntimeError(f"Body Glitch catalogue must contain at least 500 valid topics; found {len(result)}")
+        raise RuntimeError(
+            f"Body Glitch catalogue must contain at least 500 valid topics; found {len(result)}"
+        )
     return result
 
 
@@ -516,6 +725,8 @@ def get_proven_topics() -> list[dict]:
 
 
 SEARCH_DEMAND_QUEUE_PATH = Path("data/search_demand_queue_fr.json")
+SEARCH_DEMAND_BACKFILL_PATH = Path("data/search_demand_backfill_fr.json")
+MIN_SEARCH_DEMAND_ENTRIES = 5
 
 
 def load_search_demand_queue() -> list[dict]:
@@ -534,26 +745,59 @@ def load_search_demand_queue() -> list[dict]:
     items = payload.get("topics") if isinstance(payload, dict) else payload
     if not isinstance(items, list):
         return []
+    def to_record(item: dict, *, backfill: bool = False) -> dict | None:
+        topic = _clean_topic(item.get("angle") or item.get("topic", ""))
+        if not topic:
+            return None
+        record = _topic_record(topic, "fr_search_demand", pillar=item.get("pillar") or "reflexes_du_corps")
+        record.update(
+            {
+                "series_number": item.get("series_number", "DEM"),
+                "series_title": item.get("series_title"),
+                "thumbnail_text": item.get("thumbnail_text"),
+                "base_phenomenon": item.get("topic"),
+                "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
+                "question_phrase": item.get("question_phrase"),
+                "angle": item.get("angle"),
+                "demand_note": item.get("demand_note"),
+            }
+        )
+        if backfill:
+            record["demand_provenance"] = "autocomplete_backfill"
+        return record
+
     result = []
+    seen_topics: set[str] = set()
     for item in items:
         if not isinstance(item, dict):
             continue
-        topic = _clean_topic(item.get("angle") or item.get("topic", ""))
-        if not topic:
+        record = to_record(item)
+        if record is None or record["topic"] in seen_topics:
             continue
-        record = _topic_record(topic, "fr_search_demand",
-                               pillar=item.get("pillar") or "reflexes_du_corps")
-        record.update({
-            "series_number": item.get("series_number", "DEM"),
-            "series_title": item.get("series_title"),
-            "thumbnail_text": item.get("thumbnail_text"),
-            "base_phenomenon": item.get("topic"),
-            "nominal_phrase": item.get("nominal_phrase") or item.get("topic"),
-            "question_phrase": item.get("question_phrase"),
-            "angle": item.get("angle"),
-            "demand_note": item.get("demand_note"),
-        })
         result.append(record)
+        seen_topics.add(record["topic"])
+
+    # The primary queue is intentionally rotated by the refresh job. Keep the
+    # minimum catalogue contract without inventing demand: supplement only from
+    # a separately captured autocomplete probe with explicit provenance.
+    if len(result) < MIN_SEARCH_DEMAND_ENTRIES and SEARCH_DEMAND_BACKFILL_PATH != SEARCH_DEMAND_QUEUE_PATH:
+        try:
+            with SEARCH_DEMAND_BACKFILL_PATH.open(encoding="utf-8") as file_handle:
+                backfill_payload = json.load(file_handle)
+            backfill_items = backfill_payload.get("topics") if isinstance(backfill_payload, dict) else backfill_payload
+        except (OSError, json.JSONDecodeError):
+            backfill_items = []
+        if isinstance(backfill_items, list):
+            for item in backfill_items:
+                if not isinstance(item, dict):
+                    continue
+                record = to_record(item, backfill=True)
+                if record is None or record["topic"] in seen_topics:
+                    continue
+                result.append(record)
+                seen_topics.add(record["topic"])
+                if len(result) >= MIN_SEARCH_DEMAND_ENTRIES:
+                    break
     return result
 
 
@@ -576,6 +820,7 @@ def get_trending_topic(
     # Dynamic competitor viral hijacker & real-time search trends strategy for France
     if strategy in ("competitor_hijack", "viral_hijack"):
         from competitor_hijacker_fr import get_hijacked_viral_topic_fr
+
         chosen = get_hijacked_viral_topic_fr(exclude)
         return chosen if return_metadata else str(chosen["topic"])
 
@@ -589,18 +834,24 @@ def get_trending_topic(
         # single highest-EV move — so the fastlane is consulted FIRST.
         try:
             from intelligence.viral_miner import load_fresh_fastlane
+
             fastlane = load_fresh_fastlane()
             if fastlane:
                 exclude_lower = {t.strip().lower() for t in (exclude or []) if t}
-                fresh = [e for e in fastlane
-                         if e["topic"].strip().lower() not in exclude_lower
-                         and not _near_duplicate_of_recent(e["topic"], exclude or [])]
+                fresh = [
+                    e
+                    for e in fastlane
+                    if e["topic"].strip().lower() not in exclude_lower
+                    and not _near_duplicate_of_recent(e["topic"], exclude or [])
+                ]
                 if fresh:
                     chosen = random.choice(fresh)
                     chosen.setdefault("series_number", "WIN")
-                    logger.info("🚀 Winner-clone fastlane topic: %s (cloned from %s views)",
-                                chosen["topic"],
-                                (chosen.get("cloned_from") or {}).get("views"))
+                    logger.info(
+                        "🚀 Winner-clone fastlane topic: %s (cloned from %s views)",
+                        chosen["topic"],
+                        (chosen.get("cloned_from") or {}).get("views"),
+                    )
                     return chosen if return_metadata else str(chosen["topic"])
         except Exception as exc:
             logger.warning("Fastlane unavailable, falling back to catalogue: %s", exc)
@@ -625,6 +876,7 @@ def get_trending_topic(
             demand = load_search_demand_queue()
             if demand:
                 exclude_lower = {t.strip().lower() for t in (exclude or []) if t}
+
                 def _demand_is_used(topic: str) -> bool:
                     if topic.strip().lower() in exclude_lower:
                         return True
@@ -634,7 +886,7 @@ def get_trending_topic(
                     # query's phenomenon core against published topics and
                     # block only when the SAME phenomenon already shipped
                     # (shared core word ratio >= 0.75 among content words).
-                    for published in (exclude or []):
+                    for published in exclude or []:
                         p_words = _topic_words(published)
                         d_words = _topic_words(topic)
                         content = {w for w in d_words if len(w) > 3}
@@ -644,11 +896,16 @@ def get_trending_topic(
                         if shared and len(shared) / len(content) >= 0.75:
                             return True
                     return False
+
                 fresh = [e for e in demand if not _demand_is_used(e["topic"])]
                 _skipped = len(demand) - len(fresh)
                 if _skipped:
-                    logger.info("🔎 Demand queue: %d entry/entries already covered by "
-                                "published videos — picking among %d fresh", _skipped, len(fresh))
+                    logger.info(
+                        "🔎 Demand queue: %d entry/entries already covered by "
+                        "published videos — picking among %d fresh",
+                        _skipped,
+                        len(fresh),
+                    )
                 if fresh:
                     # 🧠 ML topic steering (2026-08-15): when the intelligence
                     # layer's trained models found a WINNER CLUSTER (a group of
@@ -658,10 +915,9 @@ def get_trending_topic(
                     # plus proven performance is the highest-EV pick.
                     try:
                         _intel_path = os.environ.get(
-                            "INTELLIGENCE_REPORT_PATH",
-                            "data/intelligence_report.json")
-                        _intel = json.loads(
-                            Path(_intel_path).read_text(encoding="utf-8"))
+                            "INTELLIGENCE_REPORT_PATH", "data/intelligence_report.json"
+                        )
+                        _intel = json.loads(Path(_intel_path).read_text(encoding="utf-8"))
                         _wc_name = (_intel.get("clusters") or {}).get("winner_cluster")
                         if _wc_name:
                             # The winner cluster is a group of topics that the
@@ -670,6 +926,7 @@ def get_trending_topic(
                             # phenomenon words (demand topics are full French
                             # queries, examples are the clustered titles).
                             from growth_engine import topic_pillar as _tpillar
+
                             _winner = None
                             for _c in (_intel.get("clusters") or {}).get("clusters", []):
                                 if _c.get("name") == _wc_name:
@@ -678,26 +935,30 @@ def get_trending_topic(
                             if _winner:
                                 _ex_words = set()
                                 for _ex in _winner.get("examples") or []:
-                                    _ex_words.update(
-                                        w for w in _tpillar(str(_ex)).split()
-                                        if len(w) > 3)
+                                    _ex_words.update(w for w in _tpillar(str(_ex)).split() if len(w) > 3)
+
                                 def _match_score(e):
-                                    _tw = set(w for w in _tpillar(e["topic"]).split()
-                                              if len(w) > 3)
+                                    _tw = {w for w in _tpillar(e["topic"]).split() if len(w) > 3}
                                     return len(_tw & _ex_words) / max(1, len(_tw))
+
                                 _scores = [_match_score(e) for e in fresh]
                                 _best = max(_scores) if _scores else 0.0
                                 if _best > 0.0:
-                                    fresh = [e for e, s in zip(fresh, _scores)
-                                             if s >= _best]
-                                    logger.info("🧠 ML steering: %d demand topic(s) match "
-                                                "winner cluster '%s'", len(fresh), _wc_name)
+                                    fresh = [e for e, s in zip(fresh, _scores, strict=False) if s >= _best]
+                                    logger.info(
+                                        "🧠 ML steering: %d demand topic(s) match winner cluster '%s'",
+                                        len(fresh),
+                                        _wc_name,
+                                    )
                     except Exception:
                         pass  # intelligence output missing → random pick is fine
                     chosen = random.choice(fresh)
                     chosen.setdefault("series_number", "DEM")
-                    logger.info("🔎 Search-demand topic: %s (%s)",
-                                chosen["topic"], chosen.get("demand_note") or "real FR query")
+                    logger.info(
+                        "🔎 Search-demand topic: %s (%s)",
+                        chosen["topic"],
+                        chosen.get("demand_note") or "real FR query",
+                    )
                     return chosen if return_metadata else str(chosen["topic"])
                 # 2026-08-20 fix: queue exhausted (every topic already
                 # shipped) — mine a fresh live batch immediately so the
@@ -707,16 +968,17 @@ def get_trending_topic(
                 if len(fresh) == 0 and len(demand) > 0:
                     try:
                         from demand_refresh import refresh_demand_queue
+
                         if refresh_demand_queue(force=True):
                             demand = load_search_demand_queue()
-                            fresh = [e for e in demand
-                                     if not _demand_is_used(e["topic"])]
+                            fresh = [e for e in demand if not _demand_is_used(e["topic"])]
                             if fresh:
                                 chosen = random.choice(fresh)
                                 chosen.setdefault("series_number", "DEM")
-                                logger.info("🔎 Exhausted demand queue force-refreshed "
-                                            "(live mining) — picked: %s",
-                                            chosen["topic"])
+                                logger.info(
+                                    "🔎 Exhausted demand queue force-refreshed (live mining) — picked: %s",
+                                    chosen["topic"],
+                                )
                                 return chosen if return_metadata else str(chosen["topic"])
                     except Exception as _exc:
                         logger.warning("Demand queue force-refresh failed: %s", _exc)
@@ -724,13 +986,15 @@ def get_trending_topic(
             logger.warning("Search-demand queue unavailable: %s", exc)
 
         series_topics = _deduplicate(get_body_glitch_topics(), exclude)
-        series_topics = [t for t in series_topics
-                         if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
+        series_topics = [
+            t for t in series_topics if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])
+        ]
         # AUTONOMOUS CONTROL: the ML brain auto-bans topics that flopped hard
         # (avg views below threshold after min samples). Skip them here so a
         # proven flop can't be re-picked and hurt the feed again.
         try:
             from autonomous_controller import should_skip_topic
+
             pre = len(series_topics)
             series_topics = [t for t in series_topics if not should_skip_topic(t.get("topic", ""))]
             if pre and len(series_topics) < pre:
@@ -740,21 +1004,28 @@ def get_trending_topic(
             # clusters (gut/heart/skin/muscle/brain) that the ML found perform
             # best, so even brand-new topics in those clusters are preferred.
             from autonomous_controller import get_controls
+
             controls = get_controls()
             winners = set(controls.get("winner_topics", []))
             winner_pillars = set(controls.get("winner_pillars", []))
             if winner_pillars:
                 try:
                     from growth_engine import topic_pillar
+
                     wpillar = [t for t in series_topics if topic_pillar(t.get("topic", "")) in winner_pillars]
                     if wpillar:
-                        logger.info("Autonomous ML prioritizing %d topic(s) from winner pillars %s",
-                                    len(wpillar), sorted(winner_pillars))
+                        logger.info(
+                            "Autonomous ML prioritizing %d topic(s) from winner pillars %s",
+                            len(wpillar),
+                            sorted(winner_pillars),
+                        )
                         series_topics = wpillar + [t for t in series_topics if t not in wpillar]
                 except Exception:
                     pass
             if winners:
-                winners_in_pool = [t for t in series_topics if (t.get("topic") or "").strip().lower() in winners]
+                winners_in_pool = [
+                    t for t in series_topics if (t.get("topic") or "").strip().lower() in winners
+                ]
                 if winners_in_pool:
                     logger.info("Autonomous ML prioritizing %d proven winner topic(s)", len(winners_in_pool))
                     series_topics = winners_in_pool + [t for t in series_topics if t not in winners_in_pool]
@@ -767,9 +1038,9 @@ def get_trending_topic(
             cached_history = getattr(_pick_by_retention_class, "_history_cache", None)
             if cached_history is None:
                 try:
-                    with open(os.environ.get("VIDEO_HISTORY_PATH",
-                                             "data/video_history.json"),
-                              encoding="utf-8") as fh:
+                    with open(
+                        os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8"
+                    ) as fh:
                         cached_history = json.load(fh) or []
                 except Exception:
                     cached_history = []
@@ -787,10 +1058,10 @@ def get_trending_topic(
     records.extend(get_reddit_trending_topics())
     real_topics = _deduplicate(records, exclude)
     proven_topics = _deduplicate(get_proven_topics(), exclude)
-    real_topics = [t for t in real_topics
-                   if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
-    proven_topics = [t for t in proven_topics
-                     if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
+    real_topics = [t for t in real_topics if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])]
+    proven_topics = [
+        t for t in proven_topics if not _near_duplicate_of_recent(t.get("topic", ""), exclude or [])
+    ]
 
     if require_daily_trend:
         if not real_topics:
@@ -814,7 +1085,9 @@ def get_trending_topic(
 
     logger.info(
         "Selected topic from %s: %s | source=%s",
-        chosen["source"], chosen["topic"], chosen.get("source_url", "n/a"),
+        chosen["source"],
+        chosen["topic"],
+        chosen.get("source_url", "n/a"),
     )
     return chosen if return_metadata else str(chosen["topic"])
 

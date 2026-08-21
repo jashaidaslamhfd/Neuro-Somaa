@@ -15,6 +15,7 @@ This module closes that gap:
 
 Written to data/script_history.json so the loop is durable across runs.
 """
+
 from __future__ import annotations
 
 import json
@@ -106,18 +107,19 @@ def record_script(script_data: dict, retention_score: float) -> None:
     """Persist a generated script's quality signals so future scripts can
     compare against it."""
     history = _load_history()
-    history.append({
-        "topic": script_data.get("topic", ""),
-        "hook": script_data.get("hook", ""),
-        "retention_score": round(float(retention_score), 1),
-        "hook_words": len((script_data.get("hook") or "").split()),
-        "you_language": sum(
-            (script_data.get("voiceover") or "").lower().count(w)
-            for w in ("vous", "votre", "tu", "ton")
-        ),
-        "scene_count": len(script_data.get("scenes", [])),
-        "generated_at": script_data.get("generated_at"),
-    })
+    history.append(
+        {
+            "topic": script_data.get("topic", ""),
+            "hook": script_data.get("hook", ""),
+            "retention_score": round(float(retention_score), 1),
+            "hook_words": len((script_data.get("hook") or "").split()),
+            "you_language": sum(
+                (script_data.get("voiceover") or "").lower().count(w) for w in ("vous", "votre", "tu", "ton")
+            ),
+            "scene_count": len(script_data.get("scenes", [])),
+            "generated_at": script_data.get("generated_at"),
+        }
+    )
     # Keep only the last 500 scripts so the baseline stays recent.
     _save_history(history[-500:])
 
@@ -150,14 +152,14 @@ def feedback_to_beat_baseline(script_data: dict, retention_score: float) -> list
     return feedback
 
 
-
-
 # ---------------------------------------------------------------------------
 # ACTUAL-PERFORMANCE FEEDBACK LOOP (reads real YouTube data)
 # ---------------------------------------------------------------------------
 
 VIDEO_HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", str(ROOT / "data" / "video_history.json"))
-PERFORMANCE_STATE_PATH = os.environ.get("PERFORMANCE_STATE_PATH", str(ROOT / "data" / "performance_state.json"))
+PERFORMANCE_STATE_PATH = os.environ.get(
+    "PERFORMANCE_STATE_PATH", str(ROOT / "data" / "performance_state.json")
+)
 
 
 def _load_video_history() -> list:
@@ -200,7 +202,7 @@ def learn_from_actual_performance() -> dict:
     for v in history:
         if _views(v) == 0 and _retention(v) == 0:
             continue  # no real data yet
-        topic = (v.get("topic") or v.get("title") or "unknown")
+        topic = v.get("topic") or v.get("title") or "unknown"
         topic_ret.setdefault(topic, []).append({"views": _views(v), "ret": _retention(v)})
         hook = v.get("hook") or ""
         if hook:
@@ -215,17 +217,23 @@ def learn_from_actual_performance() -> dict:
         avg_ret = sum(e["ret"] for e in entries) / len(entries)
         if avg_views <= 0:
             continue
-        topic_rank.append({
-            "topic": topic, "n": len(entries),
-            "avg_views": round(avg_views, 1), "avg_retention": round(avg_ret, 1),
-        })
+        topic_rank.append(
+            {
+                "topic": topic,
+                "n": len(entries),
+                "avg_views": round(avg_views, 1),
+                "avg_retention": round(avg_ret, 1),
+            }
+        )
     topic_rank.sort(key=lambda x: x["avg_views"], reverse=True)
 
     # Best hook word-count by views
     hook_rank = []
     for words, views in hook_ret.items():
         if views:
-            hook_rank.append({"words": words, "avg_views": round(sum(views) / len(views), 1), "n": len(views)})
+            hook_rank.append(
+                {"words": words, "avg_views": round(sum(views) / len(views), 1), "n": len(views)}
+            )
     hook_rank.sort(key=lambda x: x["avg_views"], reverse=True)
 
     state = {
@@ -237,10 +245,12 @@ def learn_from_actual_performance() -> dict:
         "best_hook_words": hook_rank[0]["words"] if hook_rank else None,
     }
     _save_json(PERFORMANCE_STATE_PATH, state)
-    logger.info("Learned from %d real videos: best topic=%s best hook words=%s",
-                len(history),
-                (state.get("best_topic") or {}).get("topic"),
-                state.get("best_hook_words"))
+    logger.info(
+        "Learned from %d real videos: best topic=%s best hook words=%s",
+        len(history),
+        (state.get("best_topic") or {}).get("topic"),
+        state.get("best_hook_words"),
+    )
     return state
 
 

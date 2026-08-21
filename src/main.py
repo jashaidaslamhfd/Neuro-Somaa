@@ -21,11 +21,8 @@ load_dotenv()
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('pipeline.log'),
-        logging.StreamHandler()
-    ]
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("pipeline.log"), logging.StreamHandler()],
 )
 logger = logging.getLogger(__name__)
 
@@ -43,7 +40,7 @@ try:
     )
     from quality_checker import QualityChecker
     from scheduler import FrancePeakTimeScheduler
-    from script_generator import generate_script, _score_decision_usable
+    from script_generator import _score_decision_usable, generate_script
     from seo_analytics import (
         generate_ab_variants,
         get_historical_insights,
@@ -53,6 +50,7 @@ try:
     )
     from seo_generator import generate_seo_package
     from shorts_enhancer import build_shorts_report, generate_srt, score_hook
+    from strict_quality_gate import require_strict_gate
     from trend_fetcher import get_trending_topic
     from trend_spiker import get_trend_spike
     from uploader import upload_all
@@ -139,7 +137,7 @@ class SKILLORPipeline:
             os.makedirs(os.path.dirname(MEDIA_HASH_HISTORY_PATH) or ".", exist_ok=True)
             trimmed = list(hashes)[-MAX_MEDIA_HASH_HISTORY:]
             temp_path = MEDIA_HASH_HISTORY_PATH + ".tmp"
-            with open(temp_path, 'w') as f:
+            with open(temp_path, "w") as f:
                 json.dump(trimmed, f)
             os.replace(temp_path, MEDIA_HASH_HISTORY_PATH)
         except Exception as e:
@@ -154,7 +152,7 @@ class SKILLORPipeline:
             if len(self.video_history) > 540:
                 self.video_history = self.video_history[-540:]
             temp_path = VIDEO_HISTORY_PATH + ".tmp"
-            with open(temp_path, 'w') as f:
+            with open(temp_path, "w") as f:
                 json.dump(self.video_history, f, indent=2)
             os.replace(temp_path, VIDEO_HISTORY_PATH)
             logger.info(f"Saved video to history: {video_data.get('title', 'Unknown')}")
@@ -177,7 +175,11 @@ class SKILLORPipeline:
             t = _re.sub(r"[\U0001F000-\U0001FAFF\u2600-\u27BF]", " ", str(t or ""))
             t = _re.sub(r"#[A-Za-z0-9_]+", "", t)
             # strip common French (and English) series frames
-            t = _re.sub(r"(?i)^(ce qui se passe quand |ce que (la )?science explique sur |comprendre |pourquoi |que se passe-t-il (quand|si) )", "", t)
+            t = _re.sub(
+                r"(?i)^(ce qui se passe quand |ce que (la )?science explique sur |comprendre |pourquoi |que se passe-t-il (quand|si) )",
+                "",
+                t,
+            )
             t = _re.sub(r"[^a-z0-9à-ÿ ]", " ", t.lower())
             return _re.sub(r"\s+", " ", t).strip()
 
@@ -208,7 +210,7 @@ class SKILLORPipeline:
 
     def _get_recent_topics(self, n: int = 90) -> list:
         """Get recent topics to avoid repetition"""
-        return [v.get('topic') for v in self.video_history[-n:] if v.get('topic')]
+        return [v.get("topic") for v in self.video_history[-n:] if v.get("topic")]
 
     def _generate_and_check_once(self, topic: str) -> dict:
         """Generate script once and check quality"""
@@ -227,56 +229,55 @@ class SKILLORPipeline:
 
             # Medical accuracy check
             med_check = validate_script_for_medical_accuracy(script_data)
-            if not med_check.get('valid', False):
+            if not med_check.get("valid", False):
                 logger.warning("Medical accuracy check failed, adding disclaimer")
                 script_data = auto_add_disclaimer(script_data)
 
             # Quality check
             quality_result = self.quality_checker.check_script_quality(script_data)
             if not quality_result:
-                quality_result = {'approved': False, 'scores': {'overall_quality': 0}}
+                quality_result = {"approved": False, "scores": {"overall_quality": 0}}
 
             # Spam check
             spam_result = self.anti_spam.check_for_spam_risks(script_data, self.video_history)
 
             # Generate SEO tags
-            tags = generate_seo_tags(topic, category, script_data.get('title', ''))
+            tags = generate_seo_tags(topic, category, script_data.get("title", ""))
 
             # Add metadata
-            script_data['topic'] = topic
-            script_data['category'] = category
-            script_data['quality_scores'] = quality_result.get('scores', {})
-            script_data['spam_risk'] = spam_result.get('spam_risk_level', 'UNKNOWN')
-            script_data['tags'] = tags
+            script_data["topic"] = topic
+            script_data["category"] = category
+            script_data["quality_scores"] = quality_result.get("scores", {})
+            script_data["spam_risk"] = spam_result.get("spam_risk_level", "UNKNOWN")
+            script_data["tags"] = tags
 
             # Check if script has scenes
-            if not script_data.get('scenes') or len(script_data['scenes']) < 3:
+            if not script_data.get("scenes") or len(script_data["scenes"]) < 3:
                 raise ValueError("Script has insufficient scenes")
 
             # French quality gate at SCRIPT stage: broken French (cut sentences,
             # English slips, risky medical terms) must trigger a script retry,
             # not reach voice generation. This gate was previously never called.
             gate_ok, gate_report = validate_publication_quality(script_data)
-            if not gate_ok:
-                logger.warning(f"French quality gate rejected script draft: {gate_report.get('issues')}")
-            if gate_report.get('warnings'):
+            require_strict_gate(gate_ok, gate_report, "script generation")
+            if gate_report.get("warnings"):
                 logger.info(f"French quality gate warnings: {gate_report.get('warnings')}")
 
             return {
                 "script_data": script_data,
-                "quality_approved": quality_result.get('approved', False),
-                "quality_score": quality_result.get('scores', {}).get('overall_quality', 0),
-                "spam_ok": spam_result.get('spam_risk_level', 'UNKNOWN') not in ['CRITICAL', 'HIGH'],
-                "spam_level": spam_result.get('spam_risk_level', 'UNKNOWN'),
+                "quality_approved": quality_result.get("approved", False),
+                "quality_score": quality_result.get("scores", {}).get("overall_quality", 0),
+                "spam_ok": spam_result.get("spam_risk_level", "UNKNOWN") not in ["CRITICAL", "HIGH"],
+                "spam_level": spam_result.get("spam_risk_level", "UNKNOWN"),
                 "gate_ok": gate_ok,
-                "gate_issues": gate_report.get('issues', []),
+                "gate_issues": gate_report.get("issues", []),
             }
 
         except Exception as e:
             logger.error(f"Error in _generate_and_check_once: {e}")
             raise
 
-    def generate_with_niche_strategy(self, topic: str = None) -> dict:
+    def generate_with_niche_strategy(self, topic: str | None = None) -> dict:
         """Generate script with retry logic - uses trending topics if no topic provided"""
         fixed_topic = topic
         recent_topics = self._get_recent_topics()
@@ -296,6 +297,7 @@ class SKILLORPipeline:
         # — they check facts (length, grammar, duplication), not vibes.
         try:
             from intelligence.truth_gate import load_status as _load_truth
+
             _truth = _load_truth()
         except Exception:
             _truth = None
@@ -309,10 +311,16 @@ class SKILLORPipeline:
                 logger.warning(
                     "TRUTH GATE: hook_score verdict=%s (r=%s vs real views) — uncalibrated "
                     "self-grade, so MIN_HOOK_SCORE=%s is advisory-only this run",
-                    _h.get("verdict"), _h.get("spearman_vs_views"), MIN_HOOK_SCORE)
+                    _h.get("verdict"),
+                    _h.get("spearman_vs_views"),
+                    MIN_HOOK_SCORE,
+                )
             else:
-                logger.info("TRUTH GATE: hook_score is %s (r=%s) — threshold enforced",
-                            _h.get("verdict"), _h.get("spearman_vs_views"))
+                logger.info(
+                    "TRUTH GATE: hook_score is %s (r=%s) — threshold enforced",
+                    _h.get("verdict"),
+                    _h.get("spearman_vs_views"),
+                )
 
         for attempt in range(1, MAX_SCRIPT_ATTEMPTS + 1):
             try:
@@ -325,59 +333,63 @@ class SKILLORPipeline:
                     spike_record = get_trend_spike(recent_topics)
                     if spike_record:
                         trend_record = spike_record
-                        logger.info("SPIKE OVERRIDE active for this slot - "
-                                    "topic pulled from live trend heat.")
+                        logger.info(
+                            "SPIKE OVERRIDE active for this slot - topic pulled from live trend heat."
+                        )
                     else:
                         # Production requires a real same-day external trend;
                         # the selected source/URL is retained with the video.
-                        trend_record = get_trending_topic(
-                            exclude=recent_topics, return_metadata=True
-                        )
-                    current_topic = trend_record['topic']
+                        trend_record = get_trending_topic(exclude=recent_topics, return_metadata=True)
+                    current_topic = trend_record["topic"]
 
                 logger.info(f"Attempt {attempt}/{MAX_SCRIPT_ATTEMPTS} for topic: {current_topic}")
 
                 result = self._generate_and_check_once(current_topic)
                 if not fixed_topic:
-                    generated = result['script_data']
-                    generated['trend_source'] = trend_record.get('source')
-                    generated['trend_url'] = trend_record.get('source_url')
-                    generated['series_number'] = trend_record.get('series_number')
-                    generated['series_title'] = trend_record.get('series_title')
-                    generated['base_phenomenon'] = trend_record.get('base_phenomenon')
-                    generated['nominal_phrase'] = trend_record.get('nominal_phrase')
-                    generated['question_phrase'] = trend_record.get('question_phrase')
-                    generated['thumbnail_text'] = trend_record.get('thumbnail_text', '')
-                    if trend_record.get('spike'):
-                        generated['spike'] = True
+                    generated = result["script_data"]
+                    generated["trend_source"] = trend_record.get("source")
+                    generated["trend_url"] = trend_record.get("source_url")
+                    generated["series_number"] = trend_record.get("series_number")
+                    generated["series_title"] = trend_record.get("series_title")
+                    generated["base_phenomenon"] = trend_record.get("base_phenomenon")
+                    generated["nominal_phrase"] = trend_record.get("nominal_phrase")
+                    generated["question_phrase"] = trend_record.get("question_phrase")
+                    generated["thumbnail_text"] = trend_record.get("thumbnail_text", "")
+                    if trend_record.get("spike"):
+                        generated["spike"] = True
                     # series_title reste en métadonnée (numérotation d'épisodes) —
                     # il ne remplace plus le titre LLM: les étiquettes 2-3 mots
                     # ont mesuré un faible CTR vs les titres curiosité complets.
-                script_data = result['script_data']
+                script_data = result["script_data"]
                 # Preserve the actual French episode angle for SEO, history and analytics.
-                script_data['topic'] = current_topic
+                script_data["topic"] = current_topic
 
                 # Hook quality check
                 hook_result = score_hook(script_data)
-                hook_score = hook_result['score']
+                hook_score = hook_result["score"]
                 logger.info(f"Hook score: {hook_score}/100")
-                
-                if hook_result.get('suggestions'):
-                    for suggestion in hook_result['suggestions']:
+
+                if hook_result.get("suggestions"):
+                    for suggestion in hook_result["suggestions"]:
                         logger.info(f"Hook suggestion: {suggestion}")
 
                 # Keep best attempt. TRUTH GATE: ranking fallbacks by the
                 # hook self-grade just re-orders noise (score proven
                 # non-predictive). Rank fallback attempts by STRUCTURAL gate
                 # completions only — facts that can be checked, not vibes.
-                structural_passes = sum((
-                    bool(result.get('quality_approved')),
-                    bool(result.get('spam_ok')),
-                    bool(result.get('gate_ok')),
-                ))
-                if best_attempt is None or structural_passes > best_attempt.get('structural_passes', -1):
-                    best_attempt = {**result, 'hook_score': hook_score,
-                                    'structural_passes': structural_passes}
+                structural_passes = sum(
+                    (
+                        bool(result.get("quality_approved")),
+                        bool(result.get("spam_ok")),
+                        bool(result.get("gate_ok")),
+                    )
+                )
+                if best_attempt is None or structural_passes > best_attempt.get("structural_passes", -1):
+                    best_attempt = {
+                        **result,
+                        "hook_score": hook_score,
+                        "structural_passes": structural_passes,
+                    }
                     logger.info(f"New best attempt: {structural_passes}/3 structural gates passed")
 
                 # Return if quality is good AND hook is strong AND French is clean.
@@ -390,12 +402,13 @@ class SKILLORPipeline:
                     if hook_score < MIN_HOOK_SCORE:
                         logger.info(
                             f"TRUTH GATE advisory: hook self-grade {hook_score}/{MIN_HOOK_SCORE} "
-                            f"— not blocking (score uncalibrated on real outcomes)")
-                if result['quality_approved'] and result['spam_ok'] and result.get('gate_ok') and hook_ok:
+                            f"— not blocking (score uncalibrated on real outcomes)"
+                        )
+                if result["quality_approved"] and result["spam_ok"] and result.get("gate_ok") and hook_ok:
                     logger.info(f"Quality approved! Score: {result['quality_score']}, Hook: {hook_score}")
                     return script_data
 
-                if not result.get('gate_ok'):
+                if not result.get("gate_ok"):
                     logger.warning(f"Retrying: French quality gate issues: {result.get('gate_issues')}")
 
             except Exception as e:
@@ -412,24 +425,27 @@ class SKILLORPipeline:
         # Short reaching the public feed.
         if best_attempt:
             failures = []
-            if not best_attempt.get('quality_approved'):
-                failures.append('quality')
-            if not best_attempt.get('spam_ok'):
+            if not best_attempt.get("quality_approved"):
+                failures.append("quality")
+            if not best_attempt.get("spam_ok"):
                 failures.append(f"spam={best_attempt.get('spam_level')}")
-            if not best_attempt.get('gate_ok'):
+            if not best_attempt.get("gate_ok"):
                 # French quality gate issues (dangling connectors, minor grammar)
                 # are WARNINGS, not blockers. Only critical medical/safety issues
                 # should block. The gate_report is logged; we proceed anyway.
-                logger.warning(f"French quality gate had issues but not fatal: {best_attempt.get('gate_issues')}")
-            if hook_gate_enforced and best_attempt.get('hook_score', 0) < MIN_HOOK_SCORE:
+                logger.warning(
+                    f"French quality gate had issues but not fatal: {best_attempt.get('gate_issues')}"
+                )
+            if hook_gate_enforced and best_attempt.get("hook_score", 0) < MIN_HOOK_SCORE:
                 failures.append(f"hook={best_attempt.get('hook_score', 0)}/{MIN_HOOK_SCORE}")
-            elif best_attempt.get('hook_score', 0) < MIN_HOOK_SCORE:
+            elif best_attempt.get("hook_score", 0) < MIN_HOOK_SCORE:
                 logger.info(
                     f"TRUTH GATE advisory: best candidate hook "
                     f"{best_attempt.get('hook_score', 0)}/{MIN_HOOK_SCORE} below "
-                    f"threshold — accepted anyway (score uncalibrated)")
+                    f"threshold — accepted anyway (score uncalibrated)"
+                )
             if not failures:
-                return best_attempt['script_data']
+                return best_attempt["script_data"]
             # 2026-08-17 LLM-outage fallback: when every attempt failed because
             # all LLM providers were unreachable (Groq 429 storm + OpenRouter
             # exhaustion), the best candidate came from the free-model backup.
@@ -440,15 +456,15 @@ class SKILLORPipeline:
             fallback_ok = (
                 os.environ.get("FALLBACK_LENIENT_MODE", "1") == "1"
                 and primary_exhausted
-                and best_attempt.get('spam_ok')
-                and best_attempt.get('quality_approved')
+                and best_attempt.get("spam_ok")
+                and best_attempt.get("quality_approved")
             )
-            if fallback_ok and best_attempt.get('gate_ok'):
+            if fallback_ok and best_attempt.get("gate_ok"):
                 logger.warning(
                     "LLM-outage fallback accept: quality + spam + French gate clean — "
                     "publishing (premium providers were down; script from free-model backup)."
                 )
-                return best_attempt['script_data']
+                return best_attempt["script_data"]
             last_error = "best candidate rejected: " + ", ".join(failures)
 
         raise RuntimeError(
@@ -465,37 +481,39 @@ class SKILLORPipeline:
         # fallback URL that already appeared in ANY earlier video, not just
         # earlier scenes in this same video.
         used_hashes = set(self.media_hash_history)
-        used_fallbacks = {h for h in self.media_hash_history if isinstance(h, str) and h.startswith(("http://", "https://"))}
+        used_fallbacks = {
+            h for h in self.media_hash_history if isinstance(h, str) and h.startswith(("http://", "https://"))
+        }
 
-        total_scenes = len(script_data['scenes'])
+        total_scenes = len(script_data["scenes"])
         logger.info(f"Generating images for {total_scenes} scenes...")
         # 2026-08-15: carry the video topic with each scene so the visual
         # signature module can lock one cohesive style per video (a unique
         # channel world instead of the stock look shared by others).
-        video_topic = script_data.get('topic', '') or ''
-        for _s in script_data['scenes']:
+        video_topic = script_data.get("topic", "") or ""
+        for _s in script_data["scenes"]:
             if isinstance(_s, dict):
-                _s.setdefault('topic', video_topic)
+                _s.setdefault("topic", video_topic)
 
-        for i, scene in enumerate(script_data['scenes']):
+        for i, scene in enumerate(script_data["scenes"]):
             success = False
             for retry in range(MAX_IMAGE_RETRIES):
                 try:
-                    logger.info(f"Scene {i+1}/{total_scenes} - Attempt {retry+1}")
+                    logger.info(f"Scene {i + 1}/{total_scenes} - Attempt {retry + 1}")
                     res = generate_images(i, scene, used_hashes, used_fallbacks)
-                    if res and res.get('path') and os.path.exists(res['path']):
-                        image_paths.append(res['path'])
-                        image_sources.append(res.get('source', 'unknown'))
-                        media_types.append(res.get('media_type', 'image'))
+                    if res and res.get("path") and os.path.exists(res["path"]):
+                        image_paths.append(res["path"])
+                        image_sources.append(res.get("source", "unknown"))
+                        media_types.append(res.get("media_type", "image"))
                         success = True
                         break
                 except Exception as e:
-                    logger.warning(f"Image generation failed (attempt {retry+1}): {e}")
+                    logger.warning(f"Image generation failed (attempt {retry + 1}): {e}")
                     time.sleep(2)
 
             if not success:
-                logger.error(f"All {MAX_IMAGE_RETRIES} attempts failed for scene {i+1}")
-                raise RuntimeError(f"Failed to generate image for scene {i+1}")
+                logger.error(f"All {MAX_IMAGE_RETRIES} attempts failed for scene {i + 1}")
+                raise RuntimeError(f"Failed to generate image for scene {i + 1}")
 
         if len(image_paths) != total_scenes:
             raise RuntimeError(f"Generated {len(image_paths)} images for {total_scenes} scenes")
@@ -509,7 +527,7 @@ class SKILLORPipeline:
 
         return image_paths, image_sources, media_types
 
-    def run_pipeline(self, topic: str = None) -> dict:
+    def run_pipeline(self, topic: str | None = None) -> dict:
         """Main pipeline execution"""
         start_time = time.time()
         logger.info("=" * 60)
@@ -522,10 +540,11 @@ class SKILLORPipeline:
             # failure reason + last traceback tail into data/ so the next
             # diagnostic pass can read it straight from the repo.
             import traceback as _tb
+
             data_log = os.path.join("data", "pipeline_last_failure.json")
             try:
                 payload = {
-                    "failed_at": datetime.utcnow().isoformat() + "Z",
+                    "failed_at": datetime.now(UTC).isoformat(),
                     "reason": reason,
                     "traceback": "".join(_tb.format_exception(*sys.exc_info()))[-3000:],
                 }
@@ -533,6 +552,7 @@ class SKILLORPipeline:
                     json.dump(payload, _f, indent=2, default=str)
             except Exception:
                 pass
+
         try:
             # Phase 0: Check posting interval. With scheduled publishing ON,
             # the one-video-per-slot lock already spaces publishes across the
@@ -541,7 +561,7 @@ class SKILLORPipeline:
             # stays active for instant-publish mode only.
             _scheduling_on = os.environ.get("YT_SCHEDULE_PUBLISH", "true").lower() == "true"
             if self.video_history and not _scheduling_on:
-                last_posted_at = self.video_history[-1].get('posted_at')
+                last_posted_at = self.video_history[-1].get("posted_at")
                 if last_posted_at:
                     try:
                         last_dt = datetime.fromisoformat(last_posted_at)
@@ -567,23 +587,23 @@ class SKILLORPipeline:
             # Phase 1b: SEO Generation
             logger.info("\n🔍 PHASE 1b: SEO GENERATION")
             try:
-                seo_topic = script_data.get('topic', topic)
-                script_data['summary'] = script_data.get('description', '')
+                seo_topic = script_data.get("topic", topic)
+                script_data["summary"] = script_data.get("description", "")
                 seo_package = generate_seo_package(seo_topic, script_data)
 
-                script_data['title'] = seo_package.get('chosen_title', script_data.get('title', 'Untitled'))
-                script_data['title_options'] = seo_package.get('title_options', [])
-                script_data['description'] = seo_package.get('description', '')
-                script_data['tags'] = seo_package.get('tags', [])
-                script_data['hashtags'] = seo_package.get('hashtags', [])
-                script_data['thumbnail_text'] = seo_package.get(
-                    'thumbnail_text', script_data.get('thumbnail_text', '')
+                script_data["title"] = seo_package.get("chosen_title", script_data.get("title", "Untitled"))
+                script_data["title_options"] = seo_package.get("title_options", [])
+                script_data["description"] = seo_package.get("description", "")
+                script_data["tags"] = seo_package.get("tags", [])
+                script_data["hashtags"] = seo_package.get("hashtags", [])
+                script_data["thumbnail_text"] = seo_package.get(
+                    "thumbnail_text", script_data.get("thumbnail_text", "")
                 )
-                script_data['pinned_comment'] = seo_package.get('pinned_comment', '')
-                script_data['playlist_suggestion'] = seo_package.get('playlist_suggestion', '')
-                script_data['seo_score'] = seo_package.get('seo_score', {})
+                script_data["pinned_comment"] = seo_package.get("pinned_comment", "")
+                script_data["playlist_suggestion"] = seo_package.get("playlist_suggestion", "")
+                script_data["seo_score"] = seo_package.get("seo_score", {})
 
-                seo_overall = script_data['seo_score'].get('scores', {}).get('overall_seo_score', 0)
+                seo_overall = script_data["seo_score"].get("scores", {}).get("overall_seo_score", 0)
                 logger.info(f"✅ SEO score: {seo_overall}/100")
             except Exception as e:
                 logger.warning(f"SEO generation failed, continuing: {e}")
@@ -591,13 +611,13 @@ class SKILLORPipeline:
             # CTR Prediction — truth-gated (2026-08-12)
             try:
                 ctr_result = predict_ctr(script_data)
-                script_data['ctr_prediction'] = ctr_result
-                ranked_hashtags = rank_hashtags(script_data.get('hashtags', []))
-                script_data['hashtags_ranked'] = ranked_hashtags
-                title_options = script_data.get('title_options', [])
+                script_data["ctr_prediction"] = ctr_result
+                ranked_hashtags = rank_hashtags(script_data.get("hashtags", []))
+                script_data["hashtags_ranked"] = ranked_hashtags
+                title_options = script_data.get("title_options", [])
                 if title_options:
                     ab_variants = generate_ab_variants(script_data, title_options)
-                    script_data['ab_variants'] = ab_variants
+                    script_data["ab_variants"] = ab_variants
                     # TRUTH GATE: generate_ab_variants ranks titles by the
                     # predict_ctr HEURISTIC, which calibrates as NOISE vs real
                     # outcomes on this channel (and CTR isn't even served by
@@ -609,40 +629,51 @@ class SKILLORPipeline:
                     # MEASURED bandit title-pattern is confident and an option
                     # matches it. Otherwise the QA-passed LLM title stands.
                     applied = False
-                    recommended = ab_variants.get('recommended')
-                    if _score_decision_usable('predicted_ctr') and recommended and recommended.get('title'):
-                        logger.info("🏆 Applying CTR-winner title (calibrated): %s", recommended['title'])
-                        script_data['title'] = recommended['title']
+                    recommended = ab_variants.get("recommended")
+                    if _score_decision_usable("predicted_ctr") and recommended and recommended.get("title"):
+                        logger.info("🏆 Applying CTR-winner title (calibrated): %s", recommended["title"])
+                        script_data["title"] = recommended["title"]
                         applied = True
                     else:
                         try:
-                            from intelligence.bandit import bandit_report
                             import json as _json
+
+                            from intelligence.bandit import bandit_report
                             from seo_analytics import _title_pattern as _tp
-                            with open(os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"), encoding="utf-8") as _fh:
+
+                            with open(
+                                os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json"),
+                                encoding="utf-8",
+                            ) as _fh:
                                 _hist = _json.load(_fh) or []
                             rec = (bandit_report(_hist) or {}).get("recommended_pattern")
                             if rec and rec.get("confident"):
                                 for opt in title_options:
                                     if _tp(str(opt)) == rec.get("pattern"):
-                                        logger.info("🏆 Applying MEASURED bandit-pattern title: %s (pattern %s)", opt, rec["pattern"])
-                                        script_data['title'] = opt
+                                        logger.info(
+                                            "🏆 Applying MEASURED bandit-pattern title: %s (pattern %s)",
+                                            opt,
+                                            rec["pattern"],
+                                        )
+                                        script_data["title"] = opt
                                         applied = True
                                         break
                         except Exception as _be:
                             logger.info("Bandit title check skipped: %s", _be)
                     if not applied:
-                        logger.info("Title kept from script generation (CTR heuristic uncalibrated, no confident measured pattern) — Truth Gate standing rule")
+                        logger.info(
+                            "Title kept from script generation (CTR heuristic uncalibrated, no confident measured pattern) — Truth Gate standing rule"
+                        )
                 insights = get_historical_insights()
-                if insights.get('insights'):
-                    script_data['historical_insights'] = insights
+                if insights.get("insights"):
+                    script_data["historical_insights"] = insights
                 # Phase 1b-bis: Duplicate-title guard (2026-08-17). Never spend
                 # ~20 min of image/video builds on a title that already exists
                 # on this channel (published or scheduled) — a duplicate Short
                 # tanks retention AND is an inauthentic-content risk. Fail the
                 # run here so the next slot retries with a fresh topic.
                 try:
-                    _final_title = script_data.get('title', '') or ''
+                    _final_title = script_data.get("title", "") or ""
                     if self._is_duplicate_title(_final_title):
                         raise RuntimeError(
                             f"DUPLICATE TITLE BLOCKED: '{_final_title}' already exists "
@@ -671,8 +702,8 @@ class SKILLORPipeline:
             # first-choice layer for genuine motion, not a degradation.
             source_counts = Counter(image_sources)
             unsafe_sources = {
-                "Local-fallback-pool",    # recycled images already shipped before
-                "Pexels-image",           # generic static stock
+                "Local-fallback-pool",  # recycled images already shipped before
+                "Pexels-image",  # generic static stock
                 "Pixabay-image",
                 "Playwright-screenshot",  # raw webpage grab, off-brand
             }
@@ -689,7 +720,7 @@ class SKILLORPipeline:
             logger.info("\n🔊 PHASE 3: VOICE GENERATION")
             try:
                 audio_segments = generate_voice_segments(
-                    script_data['scenes'],
+                    script_data["scenes"],
                     voice=os.environ.get("KOKORO_VOICE", "ff_siwis"),
                     speed=1.0,
                     topic=script_data.get("topic", "") or topic,
@@ -718,24 +749,25 @@ class SKILLORPipeline:
                         f"(maximum before regeneration: {target_max_seconds * 1.12:.1f}s)"
                     )
 
-                silence_count = sum(1 for s in audio_segments if s.get('tts_engine') == 'silence')
+                silence_count = sum(1 for s in audio_segments if s.get("tts_engine") == "silence")
                 if silence_count > 0:
                     raise RuntimeError(f"Silent segments: {silence_count}")
 
-                engines = {s.get('tts_engine') for s in audio_segments}
+                engines = {s.get("tts_engine") for s in audio_segments}
                 if len(engines) != 1:
                     raise RuntimeError(f"Mixed TTS voices: {sorted(engines)}")
-                if os.environ.get("REQUIRE_CLONED_VOICE", "false").lower() == "true":
-                    if engines != {"chatterbox_clone"}:
-                        raise RuntimeError(f"Cloned voice required, got: {sorted(engines)}")
-                if audio_segments and audio_segments[0].get('duration', 99) > MAX_HOOK_SECONDS:
-                    raise RuntimeError(
-                        f"First scene exceeds {MAX_HOOK_SECONDS:.1f} seconds"
-                    )
-                if audio_segments and audio_segments[0].get('duration', 0) > 4.0:
+                if (
+                    os.environ.get("REQUIRE_CLONED_VOICE", "false").lower() == "true"
+                    and engines != {"chatterbox_clone"}
+                ):
+                    raise RuntimeError(f"Cloned voice required, got: {sorted(engines)}")
+                if audio_segments and audio_segments[0].get("duration", 99) > MAX_HOOK_SECONDS:
+                    raise RuntimeError(f"First scene exceeds {MAX_HOOK_SECONDS:.1f} seconds")
+                if audio_segments and audio_segments[0].get("duration", 0) > 4.0:
                     logger.info(
                         "Hook is %.2fs; accepted within the natural cloned-voice limit of %.1fs.",
-                        audio_segments[0]['duration'], MAX_HOOK_SECONDS,
+                        audio_segments[0]["duration"],
+                        MAX_HOOK_SECONDS,
                     )
             except Exception as e:
                 logger.error(f"Voice generation failed: {e}")
@@ -744,30 +776,23 @@ class SKILLORPipeline:
             # Phase 3b: Shorts Enhancements
             logger.info("\n📝 PHASE 3b: SHORTS ENHANCEMENTS")
             try:
-                shorts_report = build_shorts_report(
-                    script_data,
-                    audio_segments,
-                    script_data.get('tags', [])
-                )
+                shorts_report = build_shorts_report(script_data, audio_segments, script_data.get("tags", []))
                 # Persist the report onto script_data so the final history entry
                 # (and the completion log) can read hook_score /
                 # predicted_retention. Previously shorts_report stayed a local
                 # var and both fields were silently saved as None.
-                script_data['shorts_report'] = shorts_report
+                script_data["shorts_report"] = shorts_report
 
-                pacing = shorts_report.get('caption_pacing', {})
+                pacing = shorts_report.get("caption_pacing", {})
                 # Never silently shorten captions after TTS: doing so creates
                 # subtitles that no longer match the spoken narration. A pacing
                 # failure must regenerate the script/audio as one consistent unit.
-                too_fast = [item for item in pacing.get('per_scene', []) if item.get('status') == 'too_fast']
+                too_fast = [item for item in pacing.get("per_scene", []) if item.get("status") == "too_fast"]
                 if too_fast:
                     # French ff_siwis TTS speaks faster than English — warn, skip
-                    logger.warning(
-                        "Caption pacing fast: "
-                        + "; ".join(pacing.get("issues", [])[:3])
-                    )
-                    issues = shorts_report.get('caption_pacing', {}).get('issues', [])
-                    logger.warning("Caption pacing failed: " + "; ".join(issues[:3])  )
+                    logger.warning("Caption pacing fast: " + "; ".join(pacing.get("issues", [])[:3]))
+                    issues = shorts_report.get("caption_pacing", {}).get("issues", [])
+                    logger.warning("Caption pacing failed: " + "; ".join(issues[:3]))
 
                 # The 4-9s cliff: measured from YouTube's own retention
                 # curves, EVERY video's steepest drop lands in this window,
@@ -776,39 +801,40 @@ class SKILLORPipeline:
                 # so this window — not the opening line — is what decides the
                 # video. Warn rather than abort: it is one signal, and killing
                 # an otherwise good render costs more than a weak scene 2.
-                cliff = shorts_report.get('five_second_cliff', {})
-                if not cliff.get('ok', True):
-                    for issue in cliff.get('issues', []):
+                cliff = shorts_report.get("five_second_cliff", {})
+                if not cliff.get("ok", True):
+                    for issue in cliff.get("issues", []):
                         logger.warning("⚠️ 5s cliff: %s", issue)
                 else:
-                    logger.info("✅ 4-9s cliff window carries %.0f words",
-                                cliff.get('words_in_window', 0))
+                    logger.info("✅ 4-9s cliff window carries %.0f words", cliff.get("words_in_window", 0))
 
-                hook_score = shorts_report.get('hook_detail', {}).get('score', 0)
+                hook_score = shorts_report.get("hook_detail", {}).get("score", 0)
                 # TRUTH GATE (2026-08-12): hook_score calibrates as NOISE vs
                 # real views on this channel (r≈-0.08; 100-scored hooks
                 # average FEWER views than 70-scored ones). A proven-noise
                 # self-grade must never VETO a render. Structural render
                 # checks above (durations, silence, pacing) stay hard — they
                 # verify facts, not vibes.
-                if _score_decision_usable('hook_score'):
+                if _score_decision_usable("hook_score"):
                     if hook_score < MIN_HOOK_SCORE:
                         raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")
                 elif hook_score < MIN_HOOK_SCORE:
                     logger.info(
                         "TRUTH advisory: hook self-grade %s/%s below bar — not "
                         "blocking (score uncalibrated on real outcomes)",
-                        hook_score, MIN_HOOK_SCORE)
+                        hook_score,
+                        MIN_HOOK_SCORE,
+                    )
 
                 # Same doctrine for the retention heuristic: its mean (0.70)
                 # is ~2x the channel's measured reality (0.39), so it cannot
                 # distinguish ship from don't-ship. Advisory until calibrated.
-                ret = shorts_report.get('retention_prediction', {})
-                pred_retention = float(ret.get('predicted_avg_retention', 0.5) or 0.5)
+                ret = shorts_report.get("retention_prediction", {})
+                pred_retention = float(ret.get("predicted_avg_retention", 0.5) or 0.5)
                 min_retention = float(os.environ.get("MIN_RETENTION", "0.50"))
                 logger.info(f"Predicted retention: {pred_retention:.0%} (min {min_retention:.0%})")
                 if pred_retention < min_retention:
-                    if _score_decision_usable('predicted_retention'):
+                    if _score_decision_usable("predicted_retention"):
                         raise RuntimeError(
                             f"Retention gate: predicted {pred_retention:.0%} < {min_retention:.0%} "
                             f"- would not go viral. Regenerating."
@@ -816,10 +842,13 @@ class SKILLORPipeline:
                     logger.info(
                         "TRUTH advisory: predicted retention %.0f%% < %.0f%% — "
                         "not blocking (heuristic is uncalibrated vs real %.0f%% channel mean)",
-                        pred_retention * 100, min_retention * 100, 39.0)
+                        pred_retention * 100,
+                        min_retention * 100,
+                        39.0,
+                    )
 
                 logger.info(f"Hook score: {hook_score}/100")
-                
+
             except Exception as e:
                 logger.error(f"Shorts publishing checks failed: {e}")
                 raise
@@ -828,8 +857,8 @@ class SKILLORPipeline:
             try:
                 os.makedirs("output", exist_ok=True)
                 srt_path = "output/captions.srt"
-                generate_srt(script_data['scenes'], audio_segments, output_path=srt_path)
-                script_data['srt_path'] = srt_path
+                generate_srt(script_data["scenes"], audio_segments, output_path=srt_path)
+                script_data["srt_path"] = srt_path
                 logger.info(f"✅ SRT generated: {srt_path}")
             except Exception as e:
                 logger.warning(f"SRT generation failed: {e}")
@@ -838,14 +867,13 @@ class SKILLORPipeline:
             logger.info("\n🎬 PHASE 4: BUILD VIDEO (WITH EFFECTS)")
             try:
                 final_video = build_video(
-                    image_paths, audio_segments, script_data['scenes'], media_types=media_types
+                    image_paths, audio_segments, script_data["scenes"], media_types=media_types
                 )
-                thumb_text = script_data.get('thumbnail_text') or script_data['title']
+                thumb_text = script_data.get("thumbnail_text") or script_data["title"]
                 thumb_path = generate_thumbnail(
-                    image_paths[0], thumb_text,
-                    category=script_data.get('category', 'Body')
+                    image_paths[0], thumb_text, category=script_data.get("category", "Body")
                 )
-                
+
                 # Pad video if slightly too short
                 # FIXED 2026-08-02: default 20 (short format). The old 40s
                 # fallback conflicted with the 20-26s retention format and
@@ -853,12 +881,12 @@ class SKILLORPipeline:
                 target_min = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
                 min_seconds = max(0.0, target_min - 3.0)
                 logger.info(f"Checking video duration against minimum {min_seconds:.2f}s...")
-                
+
                 try:
                     final_video = pad_video_to_minimum(final_video, min_seconds)
                 except Exception as pad_err:
                     logger.warning(f"Video padding skipped: {pad_err}")
-                
+
                 technical = probe_video(final_video)
                 logger.info(f"✅ Video built and validated: {final_video} ({technical})")
                 logger.info(f"✅ Thumbnail built: {thumb_path}")
@@ -868,9 +896,9 @@ class SKILLORPipeline:
 
             # Thumbnail SEO Score
             try:
-                thumbnail_score = score_thumbnail(thumb_path, script_data['title'])
-                script_data['thumbnail_score'] = thumbnail_score
-                thumb_overall = thumbnail_score.get('overall_thumbnail_score', 0)
+                thumbnail_score = score_thumbnail(thumb_path, script_data["title"])
+                script_data["thumbnail_score"] = thumbnail_score
+                thumb_overall = thumbnail_score.get("overall_thumbnail_score", 0)
                 logger.info(f"✅ Thumbnail score: {thumb_overall}/100")
             except Exception as e:
                 logger.warning(f"Thumbnail scoring failed: {e}")
@@ -881,16 +909,12 @@ class SKILLORPipeline:
                 final_audit_ok, final_audit_report = run_final_publication_audit(
                     final_video, thumb_path, script_data, audio_segments
                 )
-                script_data['final_audit'] = final_audit_report
-                if not final_audit_ok:
-                        logger.warning(
-                            "Final audit issues (non-fatal): "
-                            + "; ".join(final_audit_report.get("issues", [])[:5])
-                        )
+                script_data["final_audit"] = final_audit_report
+                require_strict_gate(final_audit_ok, final_audit_report, "final rendered asset audit")
                 logger.info("✅ Final publication audit passed")
             except Exception as e:
                 logger.error(f"Final publication audit failed: {e}")
-                # non-fatal
+                raise
 
             # Phase 5: Upload
             logger.info("\n📤 PHASE 5: UPLOAD")
@@ -900,11 +924,7 @@ class SKILLORPipeline:
             # the upload, never reach the channel (the "...battre la" incident).
             try:
                 final_gate_ok, final_gate_report = validate_publication_quality(script_data)
-                if not final_gate_ok:
-                    logger.warning(  # NON-FATAL
-                        "French quality gate issues at upload (non-fatal): "
-                        + "; ".join(final_gate_report.get('issues', []))
-                    )
+                require_strict_gate(final_gate_ok, final_gate_report, "final metadata")
 
                 # FINAL duplicate-title block. The anti-spam check runs at the
                 # SCRIPT stage, but Phase 1b (SEO) and the A/B variant picker
@@ -913,10 +933,13 @@ class SKILLORPipeline:
                 # how the channel ended up with two videos titled
                 # "Pourquoi le ventre se serre lors d'une peur ?" (flagged in
                 # data/video_audit_2026-07-25.json).
-                final_title = (script_data.get('title') or '').strip().lower()
+                final_title = (script_data.get("title") or "").strip().lower()
                 clash = next(
-                    (v for v in self.video_history
-                     if (v.get('title') or '').strip().lower() == final_title and final_title),
+                    (
+                        v
+                        for v in self.video_history
+                        if (v.get("title") or "").strip().lower() == final_title and final_title
+                    ),
                     None,
                 )
                 if clash:
@@ -936,51 +959,59 @@ class SKILLORPipeline:
             content_fingerprint = hashlib.sha256(
                 "|".join(
                     str(script_data.get(key, "")).strip().lower()
-                    for key in ('topic', 'title', 'voiceover', 'hook')
-                ).encode('utf-8')
+                    for key in ("topic", "title", "voiceover", "hook")
+                ).encode("utf-8")
             ).hexdigest()
-            self._save_video_history({
-                'content_fingerprint': content_fingerprint,
-                'title': script_data.get('title', 'Untitled'),
-                'topic': script_data.get('topic'),
-                'series_title': script_data.get('series_title'),
-                'base_phenomenon': script_data.get('base_phenomenon'),
-                'nominal_phrase': script_data.get('nominal_phrase'),
-                'question_phrase': script_data.get('question_phrase'),
-                'trend_source': script_data.get('trend_source'),
-                'trend_url': script_data.get('trend_url'),
-                'voiceover': script_data.get('voiceover', '')[:500],
-                'posted_at': datetime.now(UTC).isoformat() if (upload_result.get('youtube_success') or upload_result.get('facebook_success')) else None,
-                'facebook_success': upload_result.get('facebook_success', False),
-                'youtube_video_id': upload_result.get('youtube_video_id'),
-                # Scheduled-slot ledger: future runs skip this Paris slot when
-                # picking publishAt (the "2 videos at once" guard).
-                'publish_at': upload_result.get('publish_at'),
-                'seo_score': script_data.get('seo_score', {}).get('scores', {}).get('overall_seo_score'),
-                'predicted_ctr': script_data.get('ctr_prediction', {}).get('ctr_prediction'),
-                'hook_score': script_data.get('shorts_report', {}).get('hook_detail', {}).get('score'),
-                'predicted_retention': script_data.get('shorts_report', {}).get('retention_prediction', {}).get('predicted_avg_retention'),
-                # 2026-08-12 viral engineering: hook arm + rubric + loop bridge
-                # feed the intelligence layer's arm comparison (permutation test)
-                'hook_arm': script_data.get('hook_arm'),
-                'hook_score_v2': (script_data.get('viral_audit') or {}).get('hook_score_v2'),
-                'loop_bridge_present': (script_data.get('viral_audit') or {}).get('loop_bridge_present'),
-            })
+            self._save_video_history(
+                {
+                    "content_fingerprint": content_fingerprint,
+                    "title": script_data.get("title", "Untitled"),
+                    "topic": script_data.get("topic"),
+                    "series_title": script_data.get("series_title"),
+                    "base_phenomenon": script_data.get("base_phenomenon"),
+                    "nominal_phrase": script_data.get("nominal_phrase"),
+                    "question_phrase": script_data.get("question_phrase"),
+                    "trend_source": script_data.get("trend_source"),
+                    "trend_url": script_data.get("trend_url"),
+                    "voiceover": script_data.get("voiceover", "")[:500],
+                    "posted_at": datetime.now(UTC).isoformat()
+                    if (upload_result.get("youtube_success") or upload_result.get("facebook_success"))
+                    else None,
+                    "facebook_success": upload_result.get("facebook_success", False),
+                    "youtube_video_id": upload_result.get("youtube_video_id"),
+                    # Scheduled-slot ledger: future runs skip this Paris slot when
+                    # picking publishAt (the "2 videos at once" guard).
+                    "publish_at": upload_result.get("publish_at"),
+                    "seo_score": script_data.get("seo_score", {}).get("scores", {}).get("overall_seo_score"),
+                    "predicted_ctr": script_data.get("ctr_prediction", {}).get("ctr_prediction"),
+                    "hook_score": script_data.get("shorts_report", {}).get("hook_detail", {}).get("score"),
+                    "predicted_retention": script_data.get("shorts_report", {})
+                    .get("retention_prediction", {})
+                    .get("predicted_avg_retention"),
+                    # 2026-08-12 viral engineering: hook arm + rubric + loop bridge
+                    # feed the intelligence layer's arm comparison (permutation test)
+                    "hook_arm": script_data.get("hook_arm"),
+                    "hook_score_v2": (script_data.get("viral_audit") or {}).get("hook_score_v2"),
+                    "loop_bridge_present": (script_data.get("viral_audit") or {}).get("loop_bridge_present"),
+                }
+            )
 
             elapsed = time.time() - start_time
             logger.info("=" * 60)
             logger.info(f"✅ PIPELINE COMPLETE in {elapsed:.1f}s")
             logger.info(f"📹 Video: {script_data.get('title')}")
-            logger.info(f"🎯 Hook Score: {script_data.get('shorts_report', {}).get('hook_detail', {}).get('score', 'N/A')}")
+            logger.info(
+                f"🎯 Hook Score: {script_data.get('shorts_report', {}).get('hook_detail', {}).get('score', 'N/A')}"
+            )
             logger.info("=" * 60)
 
             return {
-                'success': True,
-                'title': script_data.get('title'),
-                'video_path': final_video,
-                'thumbnail_path': thumb_path,
-                'upload_result': upload_result,
-                'elapsed_time': elapsed
+                "success": True,
+                "title": script_data.get("title"),
+                "video_path": final_video,
+                "thumbnail_path": thumb_path,
+                "upload_result": upload_result,
+                "elapsed_time": elapsed,
             }
 
         except Exception as e:
@@ -1026,7 +1057,7 @@ class SKILLORPipeline:
     # Retries with a fresh topic (bounded by MAX_GUARD_RETRIES) and tracks
     # every Paris-peak slot attempt so no upload window is silently lost.
     # ------------------------------------------------------------------
-    def run_pipeline_with_continuity(self, topic: str = None, slot_label: str = None) -> dict:
+    def run_pipeline_with_continuity(self, topic: str | None = None, slot_label: str | None = None) -> dict:
         """Run the pipeline with a bounded retry loop on quality-gaurd blocks.
 
         A strict guard (duplicate title, quality gate, silent segments, hook
@@ -1039,13 +1070,22 @@ class SKILLORPipeline:
         crash).
         """
         from continuity import (
-            should_retry_on_guard_failure, register_slot_attempt,
+            register_slot_attempt,
+            should_retry_on_guard_failure,
         )
-        guard_phrases = ("DUPLICATE TITLE BLOCKED",
-                         "Duplicate title blocked before upload", "Quality gate failed",
-                         "Retention gate:", "Silent segments:", "Mixed TTS voices:",
-                         "Hook failed:", "Narration too short:", "Narration too long:",
-                         "Failed to generate image for scene")
+
+        guard_phrases = (
+            "DUPLICATE TITLE BLOCKED",
+            "Duplicate title blocked before upload",
+            "Quality gate failed",
+            "Retention gate:",
+            "Silent segments:",
+            "Mixed TTS voices:",
+            "Hook failed:",
+            "Narration too short:",
+            "Narration too long:",
+            "Failed to generate image for scene",
+        )
         attempt = 0
         last_err = None
         while True:
@@ -1058,9 +1098,7 @@ class SKILLORPipeline:
             try:
                 result = self.run_pipeline(topic=retry_topic)
                 if slot_label:
-                    register_slot_attempt(
-                        slot_label, "published",
-                        (result or {}).get("title", ""))
+                    register_slot_attempt(slot_label, "published", (result or {}).get("title", ""))
                 return result
             except RuntimeError as exc:
                 msg = str(exc)
@@ -1070,7 +1108,9 @@ class SKILLORPipeline:
                 last_err = exc
                 logger.warning(
                     "🔄 Guard blocked attempt %d (%s). Retrying with a new topic "
-                    "to preserve slot consistency...", attempt, msg[:120],
+                    "to preserve slot consistency...",
+                    attempt,
+                    msg[:120],
                 )
                 if not should_retry_on_guard_failure(attempt):
                     break
@@ -1081,8 +1121,7 @@ class SKILLORPipeline:
         # silently breaking the cadence.
         if slot_label:
             register_slot_attempt(slot_label, "guard_fail", str(last_err or "")[:80])
-        logger.error("🔴 Slot could not be filled after %d guard retries: %s",
-                     attempt, last_err)
+        logger.error("🔴 Slot could not be filled after %d guard retries: %s", attempt, last_err)
         return {"success": False, "missed": True, "reason": str(last_err)}
 
 
@@ -1097,8 +1136,10 @@ def main():
         # retry loop picks a new topic up to MAX_GUARD_RETRIES times before a
         # slot is ever marked as missed.
         try:
-            from continuity import is_us_peak_slot
             import pytz as _tz
+
+            from continuity import is_us_peak_slot
+
             _now = datetime.now(_tz.timezone("Europe/Paris"))
             slot_label = f"PAR{_now.hour:02d}:{_now.minute:02d}" if is_us_peak_slot(_now.hour) else "offpeak"
         except Exception:
@@ -1115,18 +1156,20 @@ def main():
             num_videos = int(os.environ.get("BATCH_COUNT", "3"))
             try:
                 from autonomous_controller import get_controls
+
                 controls = get_controls()
                 ml_cadence = int(controls.get("recommended_cadence", num_videos))
                 throttle = bool(controls.get("throttle"))
                 if throttle:
                     logger.warning(
                         "Autonomous ML: recent videos flopped -> throttling batch to 1 "
-                        "(recommended cadence was %d)", ml_cadence)
+                        "(recommended cadence was %d)",
+                        ml_cadence,
+                    )
                     num_videos = 1
                 else:
                     num_videos = max(1, min(ml_cadence, num_videos))
-                logger.info("Autonomous ML cadence: %d video(s) this run (throttle=%s)",
-                            num_videos, throttle)
+                logger.info("Autonomous ML cadence: %d video(s) this run (throttle=%s)", num_videos, throttle)
             except Exception as exc:
                 logger.warning("Autonomous cadence control unavailable, using default: %s", exc)
 

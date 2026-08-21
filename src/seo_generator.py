@@ -1,4 +1,5 @@
 """SEO français, pensé pour la découverte sur YouTube France et la francophonie."""
+
 import hashlib
 import json
 import logging
@@ -10,8 +11,8 @@ from french_quality_gate import has_french_verb
 
 logger = logging.getLogger(__name__)
 
-TITLE_MAX_LEN = 60          # Shorts feed truncates ~60-70 chars; keep it fully visible
-TITLE_MAX_WORDS = 11        # room for a real curiosity/keyword phrase, not just a label
+TITLE_MAX_LEN = 60  # Shorts feed truncates ~60-70 chars; keep it fully visible
+TITLE_MAX_WORDS = 11  # room for a real curiosity/keyword phrase, not just a label
 DESCRIPTION_MAX_LEN = 5000
 PINNED_COMMENT_MAX_LEN = 200
 
@@ -23,11 +24,57 @@ PLAYLISTS_BY_CATEGORY = {
 }
 
 STOP = {
-    "le", "la", "les", "un", "une", "de", "du", "des", "et", "ou", "pourquoi",
-    "comment", "dans", "sur", "à", "au", "aux", "ce", "cette", "ces", "votre",
-    "vous", "quand", "sans", "cela", "arrive", "peut", "être", "est", "sont",
-    "avec", "pour", "que", "qui", "se", "sa", "son", "ses", "on", "il", "elle",
-    "ne", "pas", "plus", "quoi", "leur", "leurs", "en", "y", "d", "l",
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "de",
+    "du",
+    "des",
+    "et",
+    "ou",
+    "pourquoi",
+    "comment",
+    "dans",
+    "sur",
+    "à",
+    "au",
+    "aux",
+    "ce",
+    "cette",
+    "ces",
+    "votre",
+    "vous",
+    "quand",
+    "sans",
+    "cela",
+    "arrive",
+    "peut",
+    "être",
+    "est",
+    "sont",
+    "avec",
+    "pour",
+    "que",
+    "qui",
+    "se",
+    "sa",
+    "son",
+    "ses",
+    "on",
+    "il",
+    "elle",
+    "ne",
+    "pas",
+    "plus",
+    "quoi",
+    "leur",
+    "leurs",
+    "en",
+    "y",
+    "d",
+    "l",
     # --- Template scaffolding, NOT searchable keywords. ---------------
     # _keywords() turns every long-ish title word into a tag, so the
     # boilerplate of the title templates ("Ce qu'il FAUT COMPRENDRE sur…",
@@ -35,14 +82,67 @@ STOP = {
     # Live examples on the channel: tags "faut", "qu'il", "comprendre",
     # "explique", "semble", "avant", "moment". Nobody searches those, and
     # they dilute the handful of tags that actually describe the video.
-    "faut", "qu'il", "quil", "qu", "comprendre", "explique", "expliquer",
-    "science", "derrière", "derriere", "passe", "semble", "sembler",
-    "avant", "après", "apres", "moment", "important", "vraiment", "toujours",
-    "jamais", "chaque", "aussi", "très", "tres", "bien", "faire", "fait",
-    "dit", "dire", "savoir", "voici", "vraie", "vrai", "raison", "chose",
-    "choses", "tout", "tous", "toute", "toutes", "autre", "autres", "ainsi",
-    "alors", "donc", "mais", "lors", "lorsque", "parfois", "souvent",
-    "notre", "nos", "mon", "ma", "mes", "ton", "ta", "tes", "tu", "te",
+    "faut",
+    "qu'il",
+    "quil",
+    "qu",
+    "comprendre",
+    "explique",
+    "expliquer",
+    "science",
+    "derrière",
+    "derriere",
+    "passe",
+    "semble",
+    "sembler",
+    "avant",
+    "après",
+    "apres",
+    "moment",
+    "important",
+    "vraiment",
+    "toujours",
+    "jamais",
+    "chaque",
+    "aussi",
+    "très",
+    "tres",
+    "bien",
+    "faire",
+    "fait",
+    "dit",
+    "dire",
+    "savoir",
+    "voici",
+    "vraie",
+    "vrai",
+    "raison",
+    "chose",
+    "choses",
+    "tout",
+    "tous",
+    "toute",
+    "toutes",
+    "autre",
+    "autres",
+    "ainsi",
+    "alors",
+    "donc",
+    "mais",
+    "lors",
+    "lorsque",
+    "parfois",
+    "souvent",
+    "notre",
+    "nos",
+    "mon",
+    "ma",
+    "mes",
+    "ton",
+    "ta",
+    "tes",
+    "tu",
+    "te",
 }
 
 # Words that are legitimate TAGS but useless as HASHTAGS. "science" is a fine
@@ -50,8 +150,20 @@ STOP = {
 # nothing to a Short and pushes out a specific one. Kept separate from STOP so
 # the tag list is unaffected.
 HASHTAG_STOPLIST = {
-    "science", "sciences", "corps", "chose", "choses", "facon", "façon",
-    "maniere", "manière", "effet", "cause", "raison", "phenomene", "phénomène",
+    "science",
+    "sciences",
+    "corps",
+    "chose",
+    "choses",
+    "facon",
+    "façon",
+    "maniere",
+    "manière",
+    "effet",
+    "cause",
+    "raison",
+    "phenomene",
+    "phénomène",
 }
 
 # Hard block: this is a France-first channel. English tags were shipped on 11
@@ -60,11 +172,32 @@ HASHTAG_STOPLIST = {
 # the video targets an English-speaking audience while the audio, captions and
 # metadata are French, splitting the very signal the channel depends on.
 ENGLISH_TAG_BLOCKLIST = {
-    "anatomy", "physiology", "humanbody", "human body", "yourbody", "your body",
-    "bodyfacts", "body facts", "bodyparts", "body parts", "bodymystery",
-    "bodyawareness", "humanfacts", "humananatomy", "human anatomy",
-    "brainfacts", "brain facts", "sciencefacts", "science facts", "didyouknow",
-    "facts", "body", "brain", "health", "mindblown", "amazingfacts",
+    "anatomy",
+    "physiology",
+    "humanbody",
+    "human body",
+    "yourbody",
+    "your body",
+    "bodyfacts",
+    "body facts",
+    "bodyparts",
+    "body parts",
+    "bodymystery",
+    "bodyawareness",
+    "humanfacts",
+    "humananatomy",
+    "human anatomy",
+    "brainfacts",
+    "brain facts",
+    "sciencefacts",
+    "science facts",
+    "didyouknow",
+    "facts",
+    "body",
+    "brain",
+    "health",
+    "mindblown",
+    "amazingfacts",
 }
 
 CATEGORY_HASHTAGS = {
@@ -98,11 +231,30 @@ USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lo
 USE_TITLE_BANDIT = os.environ.get("USE_TITLE_BANDIT", "true").strip().lower() != "false"
 
 SAFE_COMPETITOR_TAG_ALLOWLIST = {
-    "vulgarisation", "vulgarisation scientifique", "science", "sciences",
-    "corps humain", "cerveau", "neurosciences", "psychologie", "anatomie",
-    "biologie", "physiologie", "sante", "santé", "sommeil", "memoire",
-    "mémoire", "curiosité", "curiosite", "culture generale", "culture générale",
-    "faits scientifiques", "france", "français", "francais",
+    "vulgarisation",
+    "vulgarisation scientifique",
+    "science",
+    "sciences",
+    "corps humain",
+    "cerveau",
+    "neurosciences",
+    "psychologie",
+    "anatomie",
+    "biologie",
+    "physiologie",
+    "sante",
+    "santé",
+    "sommeil",
+    "memoire",
+    "mémoire",
+    "curiosité",
+    "curiosite",
+    "culture generale",
+    "culture générale",
+    "faits scientifiques",
+    "france",
+    "français",
+    "francais",
 }
 LOCALE_TAGS = ["france", "francophonie"]
 
@@ -179,13 +331,13 @@ def _title_pattern_id(title: str) -> str:
         return "pourquoi-question"
     if t.startswith("pourquoi"):
         return "pourquoi-declarative"
-    if t.startswith("ce qui se passe") or t.startswith("ce qui arrive") or t.startswith("ce qui change"):
+    if t.startswith(("ce qui se passe", "ce qui arrive", "ce qui change")):
         return "ce-qui-se-passe"
-    if t.startswith("ce que ton corps") or t.startswith("ce que votre corps") or t.startswith("ce que le corps"):
+    if t.startswith(("ce que ton corps", "ce que votre corps", "ce que le corps")):
         return "ce-que-corps-revele"
-    if t.startswith("ce qu'il faut") or t.startswith("ce qu’il faut"):
+    if t.startswith(("ce qu'il faut", "ce qu’il faut")):
         return "ce-quil-faut"
-    if t.startswith("la science") or t.startswith("ce que la science"):
+    if t.startswith(("la science", "ce que la science")):
         return "la-science"
     if t.startswith("comment"):
         return "comment"
@@ -220,10 +372,7 @@ def _load_ml_word_impact() -> dict[str, float]:
         with open(path, encoding="utf-8") as handle:
             data = json.load(handle)
         impacts = data.get("word_impact") or {}
-        return {
-            str(k): float(v) for k, v in impacts.items()
-            if isinstance(v, (int, float))
-        }
+        return {str(k): float(v) for k, v in impacts.items() if isinstance(v, (int, float))}
     except (OSError, json.JSONDecodeError, ValueError, TypeError):
         return {}
 
@@ -287,8 +436,15 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
 # So variety here comes from re-phrasing/reformatting the angle itself, not
 # from stacking a second template on top of it.
 _LEADING_STARTERS = (
-    "pourquoi", "la science", "ce qui", "ce qu'il", "ce que", "les déclencheurs",
-    "le signal", "comprendre", "voici",
+    "pourquoi",
+    "la science",
+    "ce qui",
+    "ce qu'il",
+    "ce que",
+    "les déclencheurs",
+    "le signal",
+    "comprendre",
+    "voici",
 )
 
 # 2026-08-19: expanded from 3 to 10 pinned-comment formulas. The channel
@@ -322,7 +478,14 @@ PINNED_QUESTION_TEMPLATES = [
 # per topic, always AFTER the niche/category hashtags so the algorithm still
 # sees a France-first body-science channel, not a generic Shorts farm.
 FR_GROWTH_HASHTAGS = [
-    "#decouverte", "#apprendre", "#faitssurprenants", "#curiosites", "#savoir", "#cultivetoicerveau", "#expliquesimple", "#shortsfrancais",
+    "#decouverte",
+    "#apprendre",
+    "#faitssurprenants",
+    "#curiosites",
+    "#savoir",
+    "#cultivetoicerveau",
+    "#expliquesimple",
+    "#shortsfrancais",
 ]
 
 
@@ -341,10 +504,15 @@ def _clean_topic(topic: str) -> str:
 
 # Kept in sync with the templates in scripts/generate_body_glitch_topics.py.
 _ANGLE_PREFIXES = (
-    "pourquoi ", "la science derrière ", "ce qui se passe quand ",
-    "ce qu'il faut comprendre sur ", "ce qui change lorsque ",
-    "ce que votre corps vous dit quand ", "ce que la science explique sur ",
-    "comprendre pourquoi ", "voici pourquoi ",
+    "pourquoi ",
+    "la science derrière ",
+    "ce qui se passe quand ",
+    "ce qu'il faut comprendre sur ",
+    "ce qui change lorsque ",
+    "ce que votre corps vous dit quand ",
+    "ce que la science explique sur ",
+    "comprendre pourquoi ",
+    "voici pourquoi ",
 )
 
 
@@ -356,7 +524,7 @@ def _bare_phenomenon(topic: str) -> str:
     low = t.lower()
     for prefix in _ANGLE_PREFIXES:
         if low.startswith(prefix):
-            t = t[len(prefix):]
+            t = t[len(prefix) :]
             break
     for suffix in (" arrive", " peut sembler étrange", " semble soudain"):
         if t.lower().endswith(suffix):
@@ -368,30 +536,127 @@ def _bare_phenomenon(topic: str) -> str:
 # Words that must never END a title: cutting here produces visibly broken
 # French like "...entendre son cœur battre la" - a real title that shipped.
 _DANGLING_ENDINGS = {
-    "le", "la", "les", "l", "de", "du", "des", "d", "un", "une",
-    "mon", "ma", "mes", "ton", "ta", "tes", "son", "sa", "ses",
-    "au", "aux", "à", "en", "dans", "sur", "sous", "chez", "avec", "sans",
-    "pour", "par", "et", "ou", "ni", "mais", "donc", "car", "que", "qui",
-    "quand", "lorsque", "avant", "après", "apres", "si", "ce", "cette", "leur", "leurs", "y",
+    "le",
+    "la",
+    "les",
+    "l",
+    "de",
+    "du",
+    "des",
+    "d",
+    "un",
+    "une",
+    "mon",
+    "ma",
+    "mes",
+    "ton",
+    "ta",
+    "tes",
+    "son",
+    "sa",
+    "ses",
+    "au",
+    "aux",
+    "à",
+    "en",
+    "dans",
+    "sur",
+    "sous",
+    "chez",
+    "avec",
+    "sans",
+    "pour",
+    "par",
+    "et",
+    "ou",
+    "ni",
+    "mais",
+    "donc",
+    "car",
+    "que",
+    "qui",
+    "quand",
+    "lorsque",
+    "avant",
+    "après",
+    "apres",
+    "si",
+    "ce",
+    "cette",
+    "leur",
+    "leurs",
+    "y",
     # Truncation-safe verbs/adverbs: a title must NEVER end on these — they
     # scream "clipped mid-sentence" in the feed (analytics: dangling verb
     # titles were published live).
-    "sembler", "semble", "semblera", "devenir", "devient", "vient", "va",
-    "vont", "fait", "faire", "dit", "passe", "se", "est", "sont", "peut",
-    "peuvent", "votre", "notre", "vous", "on", "toujours", "souvent",
-    "parfois", "soudain", "tout", "tous", "toute", "très", "plus",
-    "aussi", "encore", "comment", "pourquoi", "vraiment",
-    "arrive", "arrivent", "paraît", "commence", "revient", "reste",
-    "deviennent", "semble-t", "donne", "montre", "voit", "entend",
+    "sembler",
+    "semble",
+    "semblera",
+    "devenir",
+    "devient",
+    "vient",
+    "va",
+    "vont",
+    "fait",
+    "faire",
+    "dit",
+    "passe",
+    "se",
+    "est",
+    "sont",
+    "peut",
+    "peuvent",
+    "votre",
+    "notre",
+    "vous",
+    "on",
+    "toujours",
+    "souvent",
+    "parfois",
+    "soudain",
+    "tout",
+    "tous",
+    "toute",
+    "très",
+    "plus",
+    "aussi",
+    "encore",
+    "comment",
+    "pourquoi",
+    "vraiment",
+    "arrive",
+    "arrivent",
+    "paraît",
+    "commence",
+    "revient",
+    "reste",
+    "deviennent",
+    "semble-t",
+    "donne",
+    "montre",
+    "voit",
+    "entend",
 }
 
 
 # Subordinate-clause openers: cutting BEFORE one of these leaves a head that
 # is a complete French phrase, not a mid-sentence chop.
 _CLAUSE_BREAKS = (
-    " parce que ", " lorsque ", " pendant que ", " pendant ", " quand ",
-    " avant ", " après ", " apres ", " sous ", " face à ", " face a ",
-    " lors de ", " lors d'", " dans ", " que ",
+    " parce que ",
+    " lorsque ",
+    " pendant que ",
+    " pendant ",
+    " quand ",
+    " avant ",
+    " après ",
+    " apres ",
+    " sous ",
+    " face à ",
+    " face a ",
+    " lors de ",
+    " lors d'",
+    " dans ",
+    " que ",
 )
 
 _QUESTION_STARTERS = ("pourquoi", "comment", "combien", "ce qui", "ce qu'")
@@ -458,8 +723,7 @@ def _truncate_title(text: str, fallback="La science du quotidien") -> str:
     bare = _bare_phenomenon(full)
     if bare and bare.lower() != full.lower():
         bwords = bare.split()
-        while bwords and (len(" ".join(bwords)) > budget - 9
-                          or len(bwords) > TITLE_MAX_WORDS - 2):
+        while bwords and (len(" ".join(bwords)) > budget - 9 or len(bwords) > TITLE_MAX_WORDS - 2):
             bwords.pop()
         while len(bwords) > 2 and bwords[-1].lower().rstrip("?!.") in _DANGLING_ENDINGS:
             bwords.pop()
@@ -531,11 +795,11 @@ def _question_title_from_phrase(phrase: str) -> str:
     # that shipped to the bandit ranking as the #1 candidate.
     for starter in _ANGLE_PREFIXES:
         if lowered.startswith(starter):
-            p = p[len(starter):].strip()
+            p = p[len(starter) :].strip()
             lowered = p.lower()
 
     lowered = p.lower()
-    core = p[len("pourquoi "):].strip() if lowered.startswith("pourquoi ") else p
+    core = p[len("pourquoi ") :].strip() if lowered.startswith("pourquoi ") else p
 
     # Remove catalogue/fluent-angle padding from fallback phrases. The stored
     # `question_phrase` normally has none of this, but user-supplied topics and
@@ -620,9 +884,7 @@ def _competitor_title_options(topic: str, script_data: dict, intel: dict) -> lis
         return []
     question_phrase = script_data.get("question_phrase") or script_data.get("base_question") or ""
     nominal_phrase = (
-        script_data.get("nominal_phrase")
-        or script_data.get("base_phenomenon")
-        or _bare_phenomenon(topic)
+        script_data.get("nominal_phrase") or script_data.get("base_phenomenon") or _bare_phenomenon(topic)
     )
     out: list[str] = []
     for item in intel.get("safe_title_templates", []) or []:
@@ -645,8 +907,11 @@ def _competitor_title_options(topic: str, script_data: dict, intel: dict) -> lis
         # "Ce que la science explique sur …" is NOT wrapped in a second
         # "Pourquoi" (that produced the broken "Pourquoi ce que la science…"
         # title) — _question_title_from_phrase handles its own starters.
-        if not title and template_id == "pourquoi-question" \
-                and topic.lower().startswith(("pourquoi", "comment", "combien")):
+        if (
+            not title
+            and template_id == "pourquoi-question"
+            and topic.lower().startswith(("pourquoi", "comment", "combien"))
+        ):
             title = _question_title_from_phrase(topic)
 
         if title and _not_exact_competitor_title(title, intel):
@@ -659,15 +924,39 @@ _LEAK_TOKENS = (
     # NOTE: " on e " from the 1XVYcxQqDqo incident is NOT a standalone token —
     # it matched "on entend"/"on est" and false-rejected good titles. The real
     # leak was "Dans ce Short on e ?", which "dans ce short" already catches.
-    "dans ce short", "ce short", "abonne", "abonnez", "hashtags",
-    "description", "```", "http", "www.",
+    "dans ce short",
+    "ce short",
+    "abonne",
+    "abonnez",
+    "hashtags",
+    "description",
+    "```",
+    "http",
+    "www.",
     # LLM template fragments that reached live titles (2026-07 audits)
-    "remarque entendre", "remarque ", "peut sembler ", "peut s",
-    "semble soudain", "il faut savoir que", "on va voir",
+    "remarque entendre",
+    "remarque ",
+    "peut sembler ",
+    "peut s",
+    "semble soudain",
+    "il faut savoir que",
+    "on va voir",
 )
 # subordinate-clause openers: a title ending on one is incomplete
-_SUBORDINATE_ENDINGS = {"quand", "lorsque", "lorsqu", "si", "que", "qui",
-                        "qu'", "parce", "car", "dès", "avant", "après"}
+_SUBORDINATE_ENDINGS = {
+    "quand",
+    "lorsque",
+    "lorsqu",
+    "si",
+    "que",
+    "qui",
+    "qu'",
+    "parce",
+    "car",
+    "dès",
+    "avant",
+    "après",
+}
 
 
 def _title_is_clean(title: str) -> tuple[bool, str]:
@@ -683,7 +972,7 @@ def _title_is_clean(title: str) -> tuple[bool, str]:
     for token in _LEAK_TOKENS:
         if token in low:
             return False, f"leaked fragment '{token.strip()}'"
-    words = [w for w in low.split()]
+    words = list(low.split())
     if len(words) < 3:
         return False, f"bare label ({len(words)} words)"
     # the '?' may be its own token ("...tout seul ?"); resolve to the last real word
@@ -695,8 +984,7 @@ def _title_is_clean(title: str) -> tuple[bool, str]:
     # fragment). The dangling-word check exists for truncated STATEMENTS, so it
     # only applies to titles that do NOT end with a question mark.
     is_question = low.rstrip().endswith("?")
-    if not is_question and (last in _DANGLING_ENDINGS
-                            or last in _SUBORDINATE_ENDINGS or last == ""):
+    if not is_question and (last in _DANGLING_ENDINGS or last in _SUBORDINATE_ENDINGS or last == ""):
         return False, f"ends on dangling word '{last}'"
     # a question title must end with '?' — an LLM 'pourquoi...' sentence that
     # got cut before the question mark is a leak signal
@@ -709,8 +997,7 @@ def _scrub_leaks(text: str) -> str:
     """Remove known LLM leak fragments from a topic/title so a fallback title
     can never ship the same defect the leak-gate is meant to block."""
     out = text or ""
-    for token in ("remarque entendre", "peut sembler", "semble soudain",
-                  "remarque", "peut s"):
+    for token in ("remarque entendre", "peut sembler", "semble soudain", "remarque", "peut s"):
         out = re.sub(re.escape(token), " ", out, flags=re.IGNORECASE)
     return re.sub(r"\s+", " ", out).strip(" .?")
 
@@ -749,14 +1036,50 @@ def _question_hook_from_title(title: str, max_len: int = 35) -> str:
     Returns "" when no verb-ful hook can be derived.
     """
     from french_quality_gate import _TITLE_DANGLER_WORDS
-    _AUX_DANGLERS = {"est", "sont", "était", "etaient", "sera", "seront",
-                     "a", "ont", "avait", "avaient", "aura", "auront"}
+
+    _AUX_DANGLERS = {
+        "est",
+        "sont",
+        "était",
+        "etaient",
+        "sera",
+        "seront",
+        "a",
+        "ont",
+        "avait",
+        "avaient",
+        "aura",
+        "auront",
+    }
     # Copular/temporal words that need a complement — a hook must never END on
     # them (screen reads "…plus vite avant ?" / "…latéral devient ?" = broken).
-    _COMPLEMENT_VERBS = {"devient", "deviennent", "semble", "semblent", "parait",
-                         "paraissent", "reste", "restent", "demeure", "deviens"}
-    _TAIL_DANGLERS = {"avant", "après", "apres", "pendant", "dès", "depuis",
-                      "lors", "vers", "entre", "contre", "malgré", "sauf", "chez"}
+    _COMPLEMENT_VERBS = {
+        "devient",
+        "deviennent",
+        "semble",
+        "semblent",
+        "parait",
+        "paraissent",
+        "reste",
+        "restent",
+        "demeure",
+        "deviens",
+    }
+    _TAIL_DANGLERS = {
+        "avant",
+        "après",
+        "apres",
+        "pendant",
+        "dès",
+        "depuis",
+        "lors",
+        "vers",
+        "entre",
+        "contre",
+        "malgré",
+        "sauf",
+        "chez",
+    }
     danglers = _TITLE_DANGLER_WORDS | _AUX_DANGLERS | _COMPLEMENT_VERBS | _TAIL_DANGLERS
 
     full = " ".join((title or "").split())
@@ -764,7 +1087,9 @@ def _question_hook_from_title(title: str, max_len: int = 35) -> str:
         return ""
     body = re.sub(
         r"^(pourquoi|comment|est-ce que|quand|combien de|combien d'|que se passe-t-il quand)\s+",
-        "", full, flags=re.IGNORECASE,
+        "",
+        full,
+        flags=re.IGNORECASE,
     ).rstrip(" ?!.")
     words = body.split()
 
@@ -822,17 +1147,17 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     # swallowed on failure - the existing French layers still ship.
     try:
         from ctr_titles import get_ctr_title_options
+
         ctr_options = get_ctr_title_options(topic, series_title or topic)
         ctr_options = [t for t in ctr_options if _title_is_clean(t)[0]]
-    except Exception as exc:  # noqa: BLE001 - advisory layer
+    except Exception as exc:
         logger.warning("CTR title layer skipped (%s)", exc)
         ctr_options = []
     combined_title_options = list(dict.fromkeys(ctr_options + competitor_title_options + base_title_options))
     combined_title_options = [title for title in combined_title_options if _candidate_title_ok(title)]
     if competitor_intel:
         combined_title_options = [
-            title for title in combined_title_options
-            if _not_exact_competitor_title(title, competitor_intel)
+            title for title in combined_title_options if _not_exact_competitor_title(title, competitor_intel)
         ]
     title_options = _rank_title_options(combined_title_options, title_bandit)[:5]
     # FIXED 2026-08-02: leak-gate every candidate BEFORE it can be chosen.
@@ -845,7 +1170,11 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         chosen_title = title_options[0]
     else:
         fallback_title = _truncate_title(series_title or topic)
-        chosen_title = fallback_title if _not_exact_competitor_title(fallback_title, competitor_intel) else "Science du quotidien"
+        chosen_title = (
+            fallback_title
+            if _not_exact_competitor_title(fallback_title, competitor_intel)
+            else "Science du quotidien"
+        )
     if not _title_is_clean(chosen_title)[0]:
         chosen_title = _clean_title_fallback(topic, series_title, question_phrase)
         logger.warning("SEO title failed leak-gate -> deterministic fallback: %r", chosen_title)
@@ -869,6 +1198,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     cta = cta.strip()
 
     cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Science"])
+
     # Only turn a keyword into a hashtag if it is a real search term.
     # `keys` comes from _keywords(), which strips STOP words from the topic —
     # but the *hashtag* line was built straight from keys[:3] with no second
@@ -892,13 +1222,16 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     # last (broad tag carries the least discovery value).
     growth_pool = FR_GROWTH_HASHTAGS
     topic_hash = sum(ord(c) for c in (topic or "x").lower())
-    growth_picks = [growth_pool[topic_hash % len(growth_pool)],
-                    growth_pool[(topic_hash // 7) % len(growth_pool)]]
+    growth_picks = [
+        growth_pool[topic_hash % len(growth_pool)],
+        growth_pool[(topic_hash // 7) % len(growth_pool)],
+    ]
     hashtags = cat_hashtags[:2] + keyword_hashtags + growth_picks + ["#shorts"]
     hashtags = list(dict.fromkeys(hashtags))[:9]
 
     keyword_intro = _clean_topic(topic)
     keyword_intro = keyword_intro[0].upper() + keyword_intro[1:] if keyword_intro else ""
+
     # De-duplicate the opening line. `desc` (the LLM summary) very often
     # already restates the topic verbatim, which published descriptions like:
     #   "Ce que votre corps vous dit quand la mâchoire craque en mâchant.
@@ -918,10 +1251,8 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     # hashtag block.
     if hook and _norm(hook) and _norm(hook) not in _norm(desc):
         opening = hook.strip()
-    elif intro_norm and desc_norm and (
-        desc_norm.startswith(intro_norm) or intro_norm in desc_norm
-    ):
-        opening = desc.strip()                      # summary already says it
+    elif intro_norm and desc_norm and (desc_norm.startswith(intro_norm) or intro_norm in desc_norm):
+        opening = desc.strip()  # summary already says it
     elif desc.strip():
         # Avoid "…craque en mâchant ?." when the topic already ends in
         # punctuation.
@@ -947,14 +1278,15 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     # list, a topic string or competitor intel, and keep only tags that read as
     # real search terms. Competitor tags are blended, never copied wholesale.
     tags = [
-        t for t in dict.fromkeys(keys + competitor_tags + cat_tags + locale_tags + ["français"])
+        t
+        for t in dict.fromkeys(keys + competitor_tags + cat_tags + locale_tags + ["français"])
         if t.lower().strip() not in ENGLISH_TAG_BLOCKLIST and len(t.strip()) > 2
     ][:15]
 
     topic_short = _truncate_title(_bare_phenomenon(topic), fallback=series_title or "ce phénomène")
-    pinned_comment = random.choice(PINNED_QUESTION_TEMPLATES).format(
-        topic_short=topic_short.lower()
-    )[:PINNED_COMMENT_MAX_LEN]
+    pinned_comment = random.choice(PINNED_QUESTION_TEMPLATES).format(topic_short=topic_short.lower())[
+        :PINNED_COMMENT_MAX_LEN
+    ]
 
     return {
         "title_options": title_options,
@@ -977,7 +1309,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
                     round(
                         0.5 * (100 if 30 <= len(chosen_title) <= 60 else 70)
                         + 0.5 * min(100, 50 + 5 * len(tags))
-                    )
+                    ),
                 )
             },
             "category": category,
@@ -987,7 +1319,9 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
 
 def generate_description(script_data: dict, tags: list[str] | None = None) -> str:
     """Description unique, en français, utilisée par l'upload YouTube."""
-    package = generate_seo_package(script_data.get("topic") or script_data.get("title", "science"), script_data)
+    package = generate_seo_package(
+        script_data.get("topic") or script_data.get("title", "science"), script_data
+    )
     description = package["description"]
 
     # Only append hashtags that are genuinely NEW and genuinely searchable.
@@ -997,7 +1331,7 @@ def generate_description(script_data: dict, tags: list[str] | None = None) -> st
     # hashtag line.
     existing = {h.lower() for h in re.findall(r"#\w+", description)}
     extra = []
-    for tag in (tags or []):
+    for tag in tags or []:
         slug = re.sub(r"[^\w]", "", str(tag)).lower()
         if (
             len(slug) > 3
@@ -1013,4 +1347,3 @@ def generate_description(script_data: dict, tags: list[str] | None = None) -> st
     if extra:
         description = f"{description} {' '.join(extra)}"
     return description.strip()[:DESCRIPTION_MAX_LEN]
-    

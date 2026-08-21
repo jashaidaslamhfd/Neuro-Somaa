@@ -8,6 +8,7 @@
 
 Everything reports its own uncertainty; callers decide what to trust.
 """
+
 from __future__ import annotations
 
 import math
@@ -15,6 +16,7 @@ import math
 
 def _to_matrix(rows: list[dict], names: list[str]):
     import numpy as np
+
     X = np.array([[r.get(n, 0.0) for n in names] for r in rows], dtype=float)
     return X
 
@@ -28,6 +30,7 @@ class RidgeRegression:
 
     def fit(self, rows: list[dict], y: list[float], names: list[str]):
         import numpy as np
+
         X = _to_matrix(rows, names)
         Y = np.array(y, dtype=float)
         self.x_mean, self.x_std = X.mean(axis=0), X.std(axis=0)
@@ -44,6 +47,7 @@ class RidgeRegression:
 
     def predict_log(self, row: dict) -> float:
         import numpy as np
+
         x = np.array([row.get(n, 0.0) for n in self.names_], dtype=float)
         xs = (x - self.x_mean) / self.x_std
         return float(xs @ self.coef_ * self.y_std + self.y_mean)
@@ -53,14 +57,22 @@ class RidgeRegression:
 
     def top_features(self, k: int = 8) -> list[dict]:
         import numpy as np
+
         order = np.argsort(-np.abs(self.coef_))[:k]
-        return [{"feature": self.names_[i], "coef": round(float(self.coef_[i]), 4),
-                 "direction": "+" if self.coef_[i] >= 0 else "-"} for i in order]
+        return [
+            {
+                "feature": self.names_[i],
+                "coef": round(float(self.coef_[i]), 4),
+                "direction": "+" if self.coef_[i] >= 0 else "-",
+            }
+            for i in order
+        ]
 
 
 def kfold_r2(rows: list[dict], y: list[float], names: list[str], k: int = 5, lam: float = 10.0) -> dict:
     """K-fold cross-validated R² + MAE(in views) for the ridge model."""
     import numpy as np
+
     n = len(rows)
     if n < max(12, k * 3):
         return {"reliable": False, "reason": f"insufficient data (n={n})", "n": n}
@@ -81,13 +93,16 @@ def kfold_r2(rows: list[dict], y: list[float], names: list[str], k: int = 5, lam
         ss_res = float(np.sum((y_true - y_pred) ** 2))
         ss_tot = float(np.sum((y_true - y_true.mean()) ** 2))
         r2s.append(1 - ss_res / ss_tot if ss_tot > 1e-9 else 0.0)
-        maes.append(float(np.mean([abs(math.expm1(a) - math.expm1(b)) for a, b in zip(y_true, y_pred)])))
+        maes.append(
+            float(np.mean([abs(math.expm1(a) - math.expm1(b)) for a, b in zip(y_true, y_pred, strict=False)]))
+        )
     return {
         "reliable": bool(np.mean(r2s) > 0.10),
         "cv_r2_mean": round(float(np.mean(r2s)), 4),
         "cv_r2_std": round(float(np.std(r2s)), 4),
         "cv_mae_views": round(float(np.mean(maes)), 1),
-        "n": n, "folds": k,
+        "n": n,
+        "folds": k,
         "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
     }
 
@@ -103,6 +118,7 @@ class TinyMLP:
 
     def fit(self, rows: list[dict], y: list[float], names: list[str]):
         import numpy as np
+
         X = _to_matrix(rows, names)
         Y = np.array(y, dtype=float).reshape(-1, 1)
         self.names_ = names
@@ -126,7 +142,7 @@ class TinyMLP:
             err = (out - Ys) / n
             dW2 = H.T @ err
             db2 = err.sum(axis=0, keepdims=True)
-            dH = (err @ self.W2.T) * (1 - H ** 2)
+            dH = (err @ self.W2.T) * (1 - H**2)
             dW1 = Xs.T @ dH
             db1 = dH.sum(axis=0, keepdims=True)
             self.W2 -= self.lr * dW2
@@ -137,6 +153,7 @@ class TinyMLP:
 
     def predict_views(self, row: dict) -> float:
         import numpy as np
+
         x = np.array([[row.get(n, 0.0) for n in self.names_]], dtype=float)
         xs = (x - self.x_mean) / self.x_std
         out = np.tanh(xs @ self.W1 + self.b1) @ self.W2 + self.b2
@@ -146,8 +163,10 @@ class TinyMLP:
 def compare_models(rows: list[dict], y: list[float], names: list[str]) -> dict:
     """Train ridge + MLP, report honest comparison. MLP requires n>=40."""
     if not rows:
-        return {"ridge": {"reliable": False, "reason": "no real-analytics rows yet", "n": 0},
-                "mlp": {"reliable": False, "reason": "no real-analytics rows yet"}}
+        return {
+            "ridge": {"reliable": False, "reason": "no real-analytics rows yet", "n": 0},
+            "mlp": {"reliable": False, "reason": "no real-analytics rows yet"},
+        }
     out = {"ridge": kfold_r2(rows, y, names)}
     ridge = RidgeRegression().fit(rows, y, names)
     out["ridge"]["top_features"] = ridge.top_features()
@@ -157,15 +176,18 @@ def compare_models(rows: list[dict], y: list[float], names: list[str]) -> dict:
             mlp = TinyMLP().fit(rows, y, names)
             preds = [mlp.predict_views(r) for r in rows]
             import math as _m
+
             import numpy as np
+
             true_v = [_m.expm1(t) for t in y]
-            mae = float(np.mean([abs(a - b) for a, b in zip(true_v, preds)]))
+            mae = float(np.mean([abs(a - b) for a, b in zip(true_v, preds, strict=False)]))
             out["mlp"] = {
                 "reliable": False,  # in-sample only; used as a signal, never a gate
-                "note": "in-sample fit on n=%d; advisory only" % len(rows),
+                "note": f"in-sample fit on n={len(rows)}; advisory only",
                 "in_sample_mae_views": round(mae, 1),
-                "hidden_units": mlp.hidden, "epochs": mlp.epochs,
+                "hidden_units": mlp.hidden,
+                "epochs": mlp.epochs,
             }
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             out["mlp"] = {"reliable": False, "reason": str(exc)[:120]}
     return out

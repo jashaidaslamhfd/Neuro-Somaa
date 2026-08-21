@@ -14,6 +14,7 @@ Actions (all idempotent, oldest legacy only):
 Run dry by default (prints the plan); pass --apply to write changes.
 Needs GOOGLE_CLIENT_ID / GOOGLE_CLIENT_SECRET / REFRESH_TOKEN env.
 """
+
 import argparse
 import json
 import logging
@@ -41,14 +42,17 @@ RETITLE = {
 
 
 def _token() -> str:
-    data = urllib.parse.urlencode({
-        "client_id": os.environ["GOOGLE_CLIENT_ID"],
-        "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
-        "refresh_token": os.environ["REFRESH_TOKEN"],
-        "grant_type": "refresh_token"}).encode()
+    data = urllib.parse.urlencode(
+        {
+            "client_id": os.environ["GOOGLE_CLIENT_ID"],
+            "client_secret": os.environ["GOOGLE_CLIENT_SECRET"],
+            "refresh_token": os.environ["REFRESH_TOKEN"],
+            "grant_type": "refresh_token",
+        }
+    ).encode()
     with urllib.request.urlopen(
-            urllib.request.Request("https://oauth2.googleapis.com/token", data=data),
-            timeout=30) as r:
+        urllib.request.Request("https://oauth2.googleapis.com/token", data=data), timeout=30
+    ) as r:
         return json.load(r)["access_token"]
 
 
@@ -72,9 +76,7 @@ def delete_video(token: str, vid: str, apply: bool) -> None:
 
 
 def retitle_video(token: str, vid: str, new_title: str, apply: bool) -> None:
-    cur = _req("GET",
-               f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}",
-               token)
+    cur = _req("GET", f"https://www.googleapis.com/youtube/v3/videos?part=snippet&id={vid}", token)
     items = cur.get("items") or []
     if not items:
         log.warning("video %s not found — skipping", vid)
@@ -89,17 +91,20 @@ def retitle_video(token: str, vid: str, new_title: str, apply: bool) -> None:
         return
     # YouTube clears snippet fields that are omitted from the update payload,
     # so resend every field we want to keep.
-    payload = {"id": vid, "snippet": {
-        "title": new_title,
-        "description": sn.get("description", ""),
-        "categoryId": sn.get("categoryId", "27"),
-        "tags": sn.get("tags", []),
-        "defaultLanguage": "fr",
-        **({"defaultAudioLanguage": sn["defaultAudioLanguage"]}
-           if sn.get("defaultAudioLanguage") else {}),
-    }}
-    _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet",
-         token, payload)
+    payload = {
+        "id": vid,
+        "snippet": {
+            "title": new_title,
+            "description": sn.get("description", ""),
+            "categoryId": sn.get("categoryId", "27"),
+            "tags": sn.get("tags", []),
+            "defaultLanguage": "fr",
+            **(
+                {"defaultAudioLanguage": sn["defaultAudioLanguage"]} if sn.get("defaultAudioLanguage") else {}
+            ),
+        },
+    }
+    _req("PUT", "https://www.googleapis.com/youtube/v3/videos?part=snippet", token, payload)
     log.info("updated %s", vid)
 
 
@@ -107,26 +112,27 @@ def check_scheduled(token: str) -> None:
     """List every still-scheduled upload (private + publishAt) and flag any
     two videos set to go live at the same minute — verifies the
     one-video-per-slot lock against whatever was scheduled BEFORE it shipped."""
-    channels = _req("GET",
-                    "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true",
-                    token)
+    channels = _req(
+        "GET", "https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true", token
+    )
     items = channels.get("items") or []
     if not items:
         log.warning("check_scheduled: no channel visible with this token — skipping")
         return
     uploads = items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
-    playlist = _req("GET",
-                    "https://www.googleapis.com/youtube/v3/playlistItems"
-                    f"?part=contentDetails&playlistId={uploads}&maxResults=25",
-                    token)
+    playlist = _req(
+        "GET",
+        "https://www.googleapis.com/youtube/v3/playlistItems"
+        f"?part=contentDetails&playlistId={uploads}&maxResults=25",
+        token,
+    )
     ids = [i["contentDetails"]["videoId"] for i in playlist.get("items", [])]
     if not ids:
         log.info("check_scheduled: uploads playlist empty")
         return
-    videos = _req("GET",
-                  "https://www.googleapis.com/youtube/v3/videos"
-                  f"?part=status,snippet&id={','.join(ids)}",
-                  token)
+    videos = _req(
+        "GET", f"https://www.googleapis.com/youtube/v3/videos?part=status,snippet&id={','.join(ids)}", token
+    )
     pending = []
     for v in videos.get("items", []):
         publish_at = v.get("status", {}).get("publishAt")

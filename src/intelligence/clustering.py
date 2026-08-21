@@ -6,14 +6,63 @@ performance so the content team sees WHICH micro-themes pay off, not just
 single lucky videos. k adapts to data size and results below the sample bar
 are clearly marked exploratory.
 """
+
 from __future__ import annotations
 
 import math
 import re
 
-_STOP = set("""le la les un une des du de ce cet cette et ou est sont dans pour
-avec sans mais donc car quand que qui quoi pourquoi comment votre vos ton ta tes
-au aux on se ne pas plus très the a an of to in on and or""".split())
+_STOP = {
+    "le",
+    "la",
+    "les",
+    "un",
+    "une",
+    "des",
+    "du",
+    "de",
+    "ce",
+    "cet",
+    "cette",
+    "et",
+    "ou",
+    "est",
+    "sont",
+    "dans",
+    "pour",
+    "avec",
+    "sans",
+    "mais",
+    "donc",
+    "car",
+    "quand",
+    "que",
+    "qui",
+    "quoi",
+    "pourquoi",
+    "comment",
+    "votre",
+    "vos",
+    "ton",
+    "ta",
+    "tes",
+    "au",
+    "aux",
+    "on",
+    "se",
+    "ne",
+    "pas",
+    "plus",
+    "très",
+    "the",
+    "a",
+    "an",
+    "of",
+    "to",
+    "in",
+    "and",
+    "or",
+}
 
 
 def _tokens(text: str) -> list[str]:
@@ -24,8 +73,11 @@ def _tokens(text: str) -> list[str]:
 def cluster_topics(history: list[dict], max_k: int = 6, seed: int = 5) -> dict:
     import numpy as np
 
-    docs = [(f"{e.get('topic','')} {e.get('title','')}", e) for e in (history or [])
-            if e.get("views") is not None]
+    docs = [
+        (f"{e.get('topic', '')} {e.get('title', '')}", e)
+        for e in (history or [])
+        if e.get("views") is not None
+    ]
     n = len(docs)
     if n < 12:
         return {"reliable": False, "reason": f"n={n} too small for clustering", "clusters": []}
@@ -88,19 +140,22 @@ def cluster_topics(history: list[dict], max_k: int = 6, seed: int = 5) -> dict:
         # top terms by summed tf-idf inside cluster
         colsum = X[[i for i in range(n) if labels[i] == j]].sum(axis=0)
         top_idx = colsum.argsort()[::-1][:5]
-        clusters.append({
-            "cluster_id": j,
-            "name": " / ".join(vocab[i] for i in top_idx if colsum[i] > 0) or f"cluster {j}",
-            "size": len(members),
-            "avg_views": round(sum(views) / len(views), 1),
-            "max_views": max(views),
-            "examples": [m[1].get("title", "")[:60] for m in members[:3]],
-        })
+        clusters.append(
+            {
+                "cluster_id": j,
+                "name": " / ".join(vocab[i] for i in top_idx if colsum[i] > 0) or f"cluster {j}",
+                "size": len(members),
+                "avg_views": round(sum(views) / len(views), 1),
+                "max_views": max(views),
+                "examples": [m[1].get("title", "")[:60] for m in members[:3]],
+            }
+        )
     clusters.sort(key=lambda c: -c["avg_views"])
     return {
         "reliable": True,
         "method": "TF-IDF + spherical k-means++",
-        "k": k, "n": n,
+        "k": k,
+        "n": n,
         "clusters": clusters,
         "winner_cluster": clusters[0]["name"] if clusters else None,
         "honesty": "clusters are exploratory at this n; re-run monthly as data grows.",

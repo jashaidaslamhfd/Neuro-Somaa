@@ -17,12 +17,13 @@ Responsibilities (all auto, no human):
 It writes data/autonomous_state.json so a human can audit every decision,
 and exposes a single `get_controls()` the pipeline calls at runtime.
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 logger = logging.getLogger("autonomous_controller")
@@ -30,9 +31,7 @@ logger = logging.getLogger("autonomous_controller")
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = Path(os.environ.get("SKILLOR_DATA_DIR", str(ROOT / "data")))
 
-AUTONOMOUS_STATE_PATH = os.environ.get(
-    "AUTONOMOUS_STATE_PATH", str(DATA_DIR / "autonomous_state.json")
-)
+AUTONOMOUS_STATE_PATH = os.environ.get("AUTONOMOUS_STATE_PATH", str(DATA_DIR / "autonomous_state.json"))
 VIDEO_HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", str(DATA_DIR / "video_history.json"))
 GROWTH_STATE_PATH = os.environ.get("GROWTH_STATE_PATH", str(DATA_DIR / "growth_state.json"))
 
@@ -96,8 +95,8 @@ def _hours_since(iso_str: str) -> float | None:
     try:
         dt = datetime.fromisoformat(str(iso_str))
         if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return (datetime.now(timezone.utc) - dt).total_seconds() / 3600.0
+            dt = dt.replace(tzinfo=UTC)
+        return (datetime.now(UTC) - dt).total_seconds() / 3600.0
     except Exception:
         return None
 
@@ -129,6 +128,7 @@ def analyse() -> dict:
             topic_views.setdefault(topic, []).append(views)
         try:
             from growth_engine import hook_frame, topic_pillar
+
             pillar = topic_pillar(topic or entry.get("title") or "")
             pillar_views.setdefault(pillar, []).append(views)
             hf = hook_frame(entry.get("title") or "")
@@ -156,13 +156,9 @@ def analyse() -> dict:
         avg = sum(views) / n if n else 0
         pillar_stats[pillar] = {"n": n, "avg_views": round(avg, 1)}
     blocklist_pillars = [
-        p for p, s in pillar_stats.items()
-        if s["n"] >= 2 and s["avg_views"] < FLOP_VIEW_THRESHOLD
+        p for p, s in pillar_stats.items() if s["n"] >= 2 and s["avg_views"] < FLOP_VIEW_THRESHOLD
     ]
-    winner_pillars = [
-        p for p, s in pillar_stats.items()
-        if s["n"] >= 2 and s["avg_views"] >= 500
-    ]
+    winner_pillars = [p for p, s in pillar_stats.items() if s["n"] >= 2 and s["avg_views"] >= 500]
     winner_pillars.sort(key=lambda p: -pillar_stats[p]["avg_views"])
 
     # Hook-level preference (which opening frame performs best).
@@ -196,17 +192,25 @@ def analyse() -> dict:
         vid = entry.get("youtube_video_id")
         views = _entry_views(entry)
         age = _hours_since(entry.get("posted_at"))
-        if vid and views is not None and views < REPAIR_LOW_VIEWS and age is not None and age >= REPAIR_MIN_AGE_HOURS:
-            repair_list.append({
-                "video_id": vid,
-                "title": entry.get("title"),
-                "views": views,
-                "age_hours": round(age, 1),
-            })
+        if (
+            vid
+            and views is not None
+            and views < REPAIR_LOW_VIEWS
+            and age is not None
+            and age >= REPAIR_MIN_AGE_HOURS
+        ):
+            repair_list.append(
+                {
+                    "video_id": vid,
+                    "title": entry.get("title"),
+                    "views": views,
+                    "age_hours": round(age, 1),
+                }
+            )
     repair_list.sort(key=lambda r: r["views"])
 
     controls = {
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "generated_at": datetime.now(UTC).isoformat(),
         "recommended_cadence": cadence,
         "cadence_reason": growth.get("cadence_reason"),
         "throttle": throttled,
@@ -224,7 +228,11 @@ def analyse() -> dict:
     _save_json(AUTONOMOUS_STATE_PATH, controls)
     logger.info(
         "Autonomous controls: cadence=%d throttle=%s block=%d winners=%d repairs=%d",
-        cadence, throttled, len(blocklist), len(winner_topics), len(repair_list),
+        cadence,
+        throttled,
+        len(blocklist),
+        len(winner_topics),
+        len(repair_list),
     )
     return controls
 

@@ -4,20 +4,22 @@ These cover the two failure modes that silently cost the channel reach:
 a single lucky upload capturing a daily slot, and a broken/collapsed schedule
 going unnoticed because nothing checks it.
 """
+
 import json
 import sys
 import unittest
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "scripts"))
 
-import self_maintenance  # noqa: E402
-from premium_growth_loop import build_upload_slot_intel  # noqa: E402
+from premium_growth_loop import build_upload_slot_intel
 
-UTC = timezone.utc
+import self_maintenance
+
+UTC = UTC
 
 
 def _video(video_id, published, views, title="Pourquoi le corps réagit"):
@@ -45,8 +47,7 @@ class SlotLearningTests(unittest.TestCase):
         intel = build_upload_slot_intel(history)
         slots = [s["slot"] for s in intel["recommended_slots"]]
 
-        self.assertIn("19:30", slots,
-                      "the proven French prime slot must survive a one-off outlier")
+        self.assertIn("19:30", slots, "the proven French prime slot must survive a one-off outlier")
 
     def test_repeated_evidence_does_promote_a_slot(self):
         # Learning must still work: five consistent strong videos at 18:00
@@ -59,25 +60,31 @@ class SlotLearningTests(unittest.TestCase):
         intel = build_upload_slot_intel(history)
         slots = [s["slot"] for s in intel["recommended_slots"]]
 
-        self.assertIn("18:00", slots,
-                      "a slot with repeated strong results must be adopted")
+        self.assertIn("18:00", slots, "a slot with repeated strong results must be adopted")
 
     def test_three_distinct_slots_are_always_returned(self):
         intel = build_upload_slot_intel([])
-        self.assertEqual(len(intel["recommended_slots"]), 3,
-                         "the channel must always have three daily peaks to fill")
+        self.assertEqual(
+            len(intel["recommended_slots"]), 3, "the channel must always have three daily peaks to fill"
+        )
 
 
 class ScheduleHealthTests(unittest.TestCase):
-
     def test_slots_too_close_together_are_flagged(self):
         original = self_maintenance.SLOT_INTEL_PATH
         temp = ROOT / "data" / "_test_slot_intel.json"
-        temp.write_text(json.dumps({"recommended_slots": [
-            {"slot": "19:00", "hour": 19, "minute": 0, "samples": 5},
-            {"slot": "19:30", "hour": 19, "minute": 30, "samples": 5},
-            {"slot": "21:00", "hour": 21, "minute": 0, "samples": 5},
-        ]}), encoding="utf-8")
+        temp.write_text(
+            json.dumps(
+                {
+                    "recommended_slots": [
+                        {"slot": "19:00", "hour": 19, "minute": 0, "samples": 5},
+                        {"slot": "19:30", "hour": 19, "minute": 30, "samples": 5},
+                        {"slot": "21:00", "hour": 21, "minute": 0, "samples": 5},
+                    ]
+                }
+            ),
+            encoding="utf-8",
+        )
         self_maintenance.SLOT_INTEL_PATH = temp
         try:
             result = self_maintenance.check_schedule_health()
@@ -100,7 +107,6 @@ class ScheduleHealthTests(unittest.TestCase):
 
 
 class CadenceTests(unittest.TestCase):
-
     def test_incomplete_past_day_is_flagged(self):
         yesterday = datetime.now(UTC) - timedelta(days=1)
         history = [_video("a", yesterday, 100)]  # 1 of 3
@@ -122,7 +128,6 @@ class CadenceTests(unittest.TestCase):
 
 
 class UploadedVideoRepairTests(unittest.TestCase):
-
     def test_overlong_title_is_detected(self):
         now = datetime.now(UTC)
         history = [_video("long1", now, 10, "T" * 95)]
@@ -143,10 +148,8 @@ class UploadedVideoRepairTests(unittest.TestCase):
         # Both shipped to YouTube and neither was detected before this fix.
         now = datetime.now(UTC)
         history = [
-            _video("FteL-0nbHWk", now, 10,
-                   "Pourquoi le cerveau remarque entendre son cœur battre la"),
-            _video("TaXxSn0YoMc", now, 10,
-                   "Ce que votre corps vous dit quand le silence devient"),
+            _video("FteL-0nbHWk", now, 10, "Pourquoi le cerveau remarque entendre son cœur battre la"),
+            _video("TaXxSn0YoMc", now, 10, "Ce que votre corps vous dit quand le silence devient"),
         ]
         defects = self_maintenance.find_uploaded_video_defects(history)
         self.assertEqual(len(defects), 2)
@@ -155,17 +158,14 @@ class UploadedVideoRepairTests(unittest.TestCase):
 
     def test_malformed_question_titles_are_caught(self):
         now = datetime.now(UTC)
-        history = [_video("KMXIpcpoDX4", now, 10,
-                          "Pourquoi le muscle qui tressaille tout seul ?")]
+        history = [_video("KMXIpcpoDX4", now, 10, "Pourquoi le muscle qui tressaille tout seul ?")]
         defects = self_maintenance.find_uploaded_video_defects(history)
-        self.assertTrue(any("conjugated verb" in i
-                            for d in defects for i in d["issues"]))
+        self.assertTrue(any("conjugated verb" in i for d in defects for i in d["issues"]))
 
     def test_well_formed_question_is_not_flagged(self):
         # This one is correct French and must survive the check.
         now = datetime.now(UTC)
-        history = [_video("mGJQX82e9IY", now, 10,
-                          "Pourquoi le hoquet commence brusquement ?")]
+        history = [_video("mGJQX82e9IY", now, 10, "Pourquoi le hoquet commence brusquement ?")]
         self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
 
     def test_too_short_title_is_caught(self):
@@ -180,18 +180,15 @@ class UploadedVideoRepairTests(unittest.TestCase):
         # see the defect.
         now = datetime.now(UTC)
         history = [
-            _video("TaXxSn0YoMc", now, 10,
-                   "Ce que votre corps vous dit quand le silence"),
-            _video("1XVYcxQqDqo", now, 10,
-                   "Pourquoi se réveiller avant son réveil Dans ce Short on e ?"),
+            _video("TaXxSn0YoMc", now, 10, "Ce que votre corps vous dit quand le silence"),
+            _video("1XVYcxQqDqo", now, 10, "Pourquoi se réveiller avant son réveil Dans ce Short on e ?"),
         ]
         defects = self_maintenance.find_uploaded_video_defects(history)
         self.assertEqual(len(defects), 2)
 
     def test_unresolved_quand_clause_is_flagged(self):
         now = datetime.now(UTC)
-        history = [_video("x", now, 10,
-                          "Ce que votre corps vous dit quand le silence")]
+        history = [_video("x", now, 10, "Ce que votre corps vous dit quand le silence")]
         defects = self_maintenance.find_uploaded_video_defects(history)
         self.assertTrue(any("mid-phrase" in i for d in defects for i in d["issues"]))
 
@@ -200,8 +197,7 @@ class UploadedVideoRepairTests(unittest.TestCase):
         # " on e" but is a correct, repaired title. A naive substring match
         # flagged it and would have sent a healthy video back for rewriting.
         now = datetime.now(UTC)
-        history = [_video("FteL-0nbHWk", now, 10,
-                          "Pourquoi on entend son cœur battre ?")]
+        history = [_video("FteL-0nbHWk", now, 10, "Pourquoi on entend son cœur battre ?")]
         self.assertEqual(self_maintenance.find_uploaded_video_defects(history), [])
 
     def test_repaired_titles_now_live_are_all_clean(self):
@@ -237,10 +233,12 @@ class UploadedVideoRepairTests(unittest.TestCase):
 
     def test_repair_is_dry_run_unless_explicitly_enabled(self):
         import os
+
         old = os.environ.pop("SELF_MAINTENANCE_APPLY", None)
         try:
-            self.assertFalse(self_maintenance._apply_enabled(),
-                             "repair must never write to YouTube by default")
+            self.assertFalse(
+                self_maintenance._apply_enabled(), "repair must never write to YouTube by default"
+            )
             os.environ["SELF_MAINTENANCE_APPLY"] = "true"
             self.assertTrue(self_maintenance._apply_enabled())
         finally:
@@ -250,17 +248,20 @@ class UploadedVideoRepairTests(unittest.TestCase):
 
 
 class WiringTests(unittest.TestCase):
-
     def test_maintenance_runs_after_analytics_sync(self):
         source = (ROOT / "src" / "analytics_updater.py").read_text(encoding="utf-8")
-        self.assertIn("self_maintenance", source,
-                      "the healing pass must be wired into the daily analytics job")
+        self.assertIn(
+            "self_maintenance", source, "the healing pass must be wired into the daily analytics job"
+        )
 
     def test_maintenance_never_fails_the_analytics_job(self):
         source = (ROOT / "src" / "analytics_updater.py").read_text(encoding="utf-8")
         index = source.index("self_maintenance")
-        self.assertIn("except Exception", source[index - 400:index + 400],
-                      "a monitoring pass must not take down analytics sync")
+        self.assertIn(
+            "except Exception",
+            source[index - 400 : index + 400],
+            "a monitoring pass must not take down analytics sync",
+        )
 
 
 if __name__ == "__main__":

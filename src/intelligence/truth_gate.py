@@ -51,18 +51,60 @@ METRICS = (
 )
 
 _FR_STOP = {
-    "le", "la", "les", "de", "du", "des", "un", "une", "et", "ou", "en",
-    "dans", "sur", "pour", "par", "avec", "sans", "que", "qui", "quand",
-    "pourquoi", "comment", "ce", "se", "sa", "son", "ses", "au", "aux",
-    "on", "il", "elle", "est", "a", "au", "plus", "tout", "toute", "pas",
-    "ne", "à", "the", "ton", "ta", "tes", "mon", "ma", "mes", "notre",
+    "le",
+    "la",
+    "les",
+    "de",
+    "du",
+    "des",
+    "un",
+    "une",
+    "et",
+    "ou",
+    "en",
+    "dans",
+    "sur",
+    "pour",
+    "par",
+    "avec",
+    "sans",
+    "que",
+    "qui",
+    "quand",
+    "pourquoi",
+    "comment",
+    "ce",
+    "se",
+    "sa",
+    "son",
+    "ses",
+    "au",
+    "aux",
+    "on",
+    "il",
+    "elle",
+    "est",
+    "a",
+    "plus",
+    "tout",
+    "toute",
+    "pas",
+    "ne",
+    "à",
+    "the",
+    "ton",
+    "ta",
+    "tes",
+    "mon",
+    "ma",
+    "mes",
+    "notre",
 }
 
 
 def _tokens(text: str) -> set[str]:
     words = re.findall(r"[a-zàâäæçéèêëîïôöœùûüÿ']+", (text or "").lower())
-    return {w.strip("'") for w in words
-            if len(w.strip("'")) >= 4 and w.strip("'") not in _FR_STOP}
+    return {w.strip("'") for w in words if len(w.strip("'")) >= 4 and w.strip("'") not in _FR_STOP}
 
 
 def _rank(values: list[float]) -> list[float]:
@@ -86,7 +128,7 @@ def spearman(xs: list[float], ys: list[float]) -> float | None:
         return None
     rx, ry = _rank(xs), _rank(ys)
     mx, my = sum(rx) / n, sum(ry) / n
-    cov = sum((a - mx) * (b - my) for a, b in zip(rx, ry))
+    cov = sum((a - mx) * (b - my) for a, b in zip(rx, ry, strict=False))
     vx = sum((a - mx) ** 2 for a in rx) ** 0.5
     vy = sum((b - my) ** 2 for b in ry) ** 0.5
     if not vx or not vy:
@@ -111,8 +153,11 @@ def calibrate_scores(history: list[dict]) -> dict:
     usable = [v for v in history if v.get("views") is not None]
     out: dict[str, dict] = {}
     for field, claim in METRICS:
-        rows = [(v.get(field), v.get("views"), v.get("average_view_percentage"))
-                for v in usable if isinstance(v.get(field), (int, float))]
+        rows = [
+            (v.get(field), v.get("views"), v.get("average_view_percentage"))
+            for v in usable
+            if isinstance(v.get(field), (int, float))
+        ]
         preds = [r[0] for r in rows]
         views = [r[1] for r in rows]
         rets = [r[2] for r in rows if r[2] is not None]
@@ -129,8 +174,7 @@ def calibrate_scores(history: list[dict]) -> dict:
         }
         # systematic bias for probabilistic predictions (0..1 vs 0..100 scale)
         if field == "predicted_retention" and preds and rets:
-            both = [(p, a) for p, a in
-                    ((r[0], r[2] / 100) for r in rows) if a is not None]
+            both = [(p, a) for p, a in ((r[0], r[2] / 100) for r in rows) if a is not None]
             if both:
                 mp = sum(b[0] for b in both) / len(both)
                 ma = sum(b[1] for b in both) / len(both)
@@ -154,12 +198,18 @@ def empirical_prediction(topic: str, history: list[dict], *, min_similar: int = 
     No model magic — median views/retention of videos sharing a content word
     with the topic, falling back (loudly labelled) to the global median.
     """
-    usable = [(v, v.get("views"), v.get("average_view_percentage"))
-              for v in history if v.get("views") is not None]
+    usable = [
+        (v, v.get("views"), v.get("average_view_percentage")) for v in history if v.get("views") is not None
+    ]
     if not usable:
-        return {"confidence": "UNKNOWN", "basis": "no measured history yet",
-                "views_median": None, "retention_p50": None, "n": 0,
-                "similar": []}
+        return {
+            "confidence": "UNKNOWN",
+            "basis": "no measured history yet",
+            "views_median": None,
+            "retention_p50": None,
+            "n": 0,
+            "similar": [],
+        }
     tk = _tokens(topic)
     sims = []
     for v, views, ret in usable:
@@ -212,18 +262,17 @@ def truth_status(calibration: dict) -> dict:
 
 
 def render_truth_markdown(calibration: dict) -> list[str]:
-    badge = {"CALIBRATED": "✅", "WEAK": "🟡", "NOISE": "🔴",
-             "INVERTED": "⛔", "INSUFFICIENT_DATA": "⚪"}
+    badge = {"CALIBRATED": "✅", "WEAK": "🟡", "NOISE": "🔴", "INVERTED": "⛔", "INSUFFICIENT_DATA": "⚪"}
     lines = ["", "## 🧪 Truth Gate (scores internes vs réalité)"]
     for field, _ in METRICS:
         c = calibration[field]
         r = c["spearman_vs_views"]
         r_s = f"r={r:+.2f}" if r is not None else "r=n/a"
-        line = (f"- {badge[c['verdict']]} `{field}` ({c['claims']}): "
-                f"**{c['verdict']}** ({r_s}, n={c['n']})")
+        line = f"- {badge[c['verdict']]} `{field}` ({c['claims']}): **{c['verdict']}** ({r_s}, n={c['n']})"
         if c.get("bias") is not None:
-            line += (f" — biais {c['bias']:+.2f} "
-                     f"(prédit {c['mean_predicted']:.2f} vs réel {c['mean_actual']:.2f})")
+            line += (
+                f" — biais {c['bias']:+.2f} (prédit {c['mean_predicted']:.2f} vs réel {c['mean_actual']:.2f})"
+            )
         if c["decision_usable"]:
             line += " — peut guider des décisions"
         else:
@@ -239,11 +288,13 @@ def run(history: list[dict], status_path: Path = STATUS_PATH) -> dict:
     status["_meta"] = {"min_n": MIN_N, "noise_band": NOISE_BAND, "weak_band": WEAK_BAND}
     try:
         status_path.parent.mkdir(exist_ok=True)
-        status_path.write_text(json.dumps(status, indent=2, ensure_ascii=False),
-                               encoding="utf-8")
-        logger.info("truth gate: hook_score=%s seo_score=%s (status -> %s)",
-                    status["hook_score"]["verdict"], status["seo_score"]["verdict"],
-                    status_path)
+        status_path.write_text(json.dumps(status, indent=2, ensure_ascii=False), encoding="utf-8")
+        logger.info(
+            "truth gate: hook_score=%s seo_score=%s (status -> %s)",
+            status["hook_score"]["verdict"],
+            status["seo_score"]["verdict"],
+            status_path,
+        )
     except OSError as exc:
         logger.warning("truth status write failed: %s", exc)
     return {"calibration": calibration, "status": status}
@@ -254,10 +305,10 @@ def load_status(status_path: Path = STATUS_PATH, *, max_age_hours: int = 72) -> 
     score as advisory-only (never trust a self-grade of unknown validity)."""
     try:
         import datetime as _dt
+
         data = json.loads(status_path.read_text(encoding="utf-8"))
-        mtime = _dt.datetime.fromtimestamp(status_path.stat().st_mtime,
-                                           tz=_dt.timezone.utc)
-        if (_dt.datetime.now(_dt.timezone.utc) - mtime).total_seconds() > max_age_hours * 3600:
+        mtime = _dt.datetime.fromtimestamp(status_path.stat().st_mtime, tz=_dt.UTC)
+        if (_dt.datetime.now(_dt.UTC) - mtime).total_seconds() > max_age_hours * 3600:
             return None
         return data
     except (OSError, json.JSONDecodeError):

@@ -1,4 +1,5 @@
 """Strict media checks used before rendering and uploading."""
+
 from __future__ import annotations
 
 import json
@@ -24,6 +25,7 @@ def _ffprobe_exe() -> str:
         return system
     try:
         import imageio_ffmpeg
+
         ffmpeg = imageio_ffmpeg.get_ffmpeg_exe()
         candidate = ffmpeg.replace("ffmpeg", "ffprobe")
         if os.path.isfile(candidate):
@@ -37,8 +39,7 @@ class MediaValidationError(RuntimeError):
     pass
 
 
-def validate_scene_image(path: str, min_side: int = 512,
-                         strict: bool | None = None) -> dict:
+def validate_scene_image(path: str, min_side: int = 512, strict: bool | None = None) -> dict:
     """Decode an image and reject error pages, corrupt, tiny, black,
     OUT-OF-FOCUS or graphically violent assets.
 
@@ -75,8 +76,7 @@ def validate_scene_image(path: str, min_side: int = 512,
             if min(width, height) < min_side:
                 label = "below Shorts-tier" if strict else "too small"
                 raise MediaValidationError(
-                    f"Image {label}: {width}x{height} "
-                    f"(minimum {min_side}px shortest side)"
+                    f"Image {label}: {width}x{height} (minimum {min_side}px shortest side)"
                 )
             sample = np.asarray(image.resize((64, 64)), dtype=np.float32)
             brightness = float(sample.mean())
@@ -89,12 +89,13 @@ def validate_scene_image(path: str, min_side: int = 512,
             # --- Focus check ------------------------------------------------
             # Mean absolute gradient on a 512px-wide greyscale copy. A crisp
             # render lands ~7-12; the published blurry frame measured 1.09.
-            work = image.resize((512, int(512 * height / width))) if width >= height \
+            work = (
+                image.resize((512, int(512 * height / width)))
+                if width >= height
                 else image.resize((int(512 * width / height), 512))
-            grey = np.asarray(work.convert("L"), dtype=np.float32)
-            sharpness = float(
-                np.abs(np.diff(grey, axis=0)).mean() + np.abs(np.diff(grey, axis=1)).mean()
             )
+            grey = np.asarray(work.convert("L"), dtype=np.float32)
+            sharpness = float(np.abs(np.diff(grey, axis=0)).mean() + np.abs(np.diff(grey, axis=1)).mean())
             min_sharpness = float(os.environ.get("MIN_IMAGE_SHARPNESS", "3.0"))
             if sharpness < min_sharpness:
                 raise MediaValidationError(
@@ -113,8 +114,10 @@ def validate_scene_image(path: str, min_side: int = 512,
             # the negative prompt in image_generator._build_prompt().
 
             return {
-                "width": width, "height": height,
-                "brightness": brightness, "variation": variation,
+                "width": width,
+                "height": height,
+                "brightness": brightness,
+                "variation": variation,
                 "sharpness": sharpness,
             }
     except MediaValidationError:
@@ -136,9 +139,11 @@ def pad_video_to_minimum(path: str, min_seconds: float) -> str:
         return path
     try:
         probe = subprocess.run(
-            [_ffprobe_exe(), "-v", "error", "-show_entries", "format=duration",
-             "-of", "json", path],
-            capture_output=True, text=True, timeout=30, check=True,
+            [_ffprobe_exe(), "-v", "error", "-show_entries", "format=duration", "-of", "json", path],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            check=True,
         )
         duration = float(json.loads(probe.stdout).get("format", {}).get("duration") or 0)
     except Exception as exc:
@@ -157,12 +162,27 @@ def pad_video_to_minimum(path: str, min_seconds: float) -> str:
         f"[0:a]apad=pad_dur={padding_seconds:.3f}[a]"
     )
     command = [
-        "ffmpeg", "-y", "-i", path,
-        "-filter_complex", filter_graph,
-        "-map", "[v]", "-map", "[a]",
-        "-t", f"{target_seconds:.3f}",
-        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-c:a", "aac",
-        "-movflags", "+faststart", output_path,
+        "ffmpeg",
+        "-y",
+        "-i",
+        path,
+        "-filter_complex",
+        filter_graph,
+        "-map",
+        "[v]",
+        "-map",
+        "[a]",
+        "-t",
+        f"{target_seconds:.3f}",
+        "-c:v",
+        "libx264",
+        "-pix_fmt",
+        "yuv420p",
+        "-c:a",
+        "aac",
+        "-movflags",
+        "+faststart",
+        output_path,
     ]
     try:
         completed = subprocess.run(command, capture_output=True, text=True, timeout=120)
@@ -185,8 +205,14 @@ def probe_video(path: str) -> dict:
     if not os.path.isfile(path) or os.path.getsize(path) < 100_000:
         raise MediaValidationError(f"Video missing or too small: {path}")
     command = [
-        _ffprobe_exe(), "-v", "error", "-show_streams", "-show_format",
-        "-of", "json", path,
+        _ffprobe_exe(),
+        "-v",
+        "error",
+        "-show_streams",
+        "-show_format",
+        "-of",
+        "json",
+        path,
     ]
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=30, check=True)
@@ -213,4 +239,3 @@ def probe_video(path: str) -> dict:
     if duration < min_seconds:
         raise MediaValidationError(f"Video too short {duration:.2f}s; minimum {min_seconds:.2f}s")
     return {"width": width, "height": height, "duration": duration}
-    

@@ -22,9 +22,9 @@ from __future__ import annotations
 import json
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -44,31 +44,33 @@ def _state_path() -> Path:
     return DATA / "slot_consistency.json"
 
 
-def _load_state() -> Dict[str, Any]:
+def _load_state() -> dict[str, Any]:
     p = _state_path()
     if not p.exists():
         return {"slots": []}
     try:
-        return json.load(open(p, encoding="utf-8"))
+        with open(p, encoding="utf-8") as handle:
+            return json.load(handle)
     except Exception:
         return {"slots": []}
 
 
-def _save_state(state: Dict[str, Any]) -> None:
+def _save_state(state: dict[str, Any]) -> None:
     try:
         DATA.mkdir(parents=True, exist_ok=True)
-        json.dump(state, open(_state_path(), "w", encoding="utf-8"),
-                  indent=2, default=str)
-    except Exception as exc:  # noqa: BLE001
+        with open(_state_path(), "w", encoding="utf-8") as handle:
+            json.dump(state, handle, indent=2, default=str)
+    except Exception as exc:
         logger.warning("Could not persist slot consistency state: %s", exc)
 
 
 def _paris_now():
     try:
         import pytz
+
         return datetime.now(pytz.timezone("Europe/Paris"))
     except Exception:
-        return datetime.now(timezone.utc)
+        return datetime.now(UTC)
 
 
 def is_us_peak_slot(paris_hour: int) -> bool:
@@ -76,7 +78,7 @@ def is_us_peak_slot(paris_hour: int) -> bool:
     return paris_hour in US_PEAK_HOURS
 
 
-def should_retry_on_guard_failure(attempt: int, max_attempts: int = None) -> bool:
+def should_retry_on_guard_failure(attempt: int, max_attempts: int | None = None) -> bool:
     """Guard failure -> retry with a new topic, up to MAX_GUARD_RETRIES.
 
     This is the key continuity rule: a blocked video never has to become a
@@ -90,24 +92,26 @@ def register_slot_attempt(slot_label: str, outcome: str, topic: str = "") -> Non
     """Record that a slot attempt happened (outcome: 'published', 'guard_fail',
     'empty', 'error'). Used to verify consistency and to surface gaps."""
     state = _load_state()
-    now = datetime.now(timezone.utc).isoformat()
-    state["slots"].append({
-        "slot": slot_label,
-        "outcome": outcome,
-        "topic": topic[:80],
-        "at": now,
-    })
+    now = datetime.now(UTC).isoformat()
+    state["slots"].append(
+        {
+            "slot": slot_label,
+            "outcome": outcome,
+            "topic": topic[:80],
+            "at": now,
+        }
+    )
     # keep only recent history (last 30 entries)
     state["slots"] = state["slots"][-30:]
     _save_state(state)
 
 
-def slot_consistency_status() -> Dict[str, Any]:
+def slot_consistency_status() -> dict[str, Any]:
     """Report how consistent the last 7 days of slots were, by Paris peak hour."""
     state = _load_state()
     slots = state.get("slots", [])
     # count per slot label over the last entries
-    per_slot: Dict[str, Dict[str, int]] = {}
+    per_slot: dict[str, dict[str, int]] = {}
     for s in slots:
         label = s.get("slot", "?")
         per_slot.setdefault(label, {"published": 0, "missed": 0, "total": 0})
@@ -134,7 +138,7 @@ def slot_consistency_status() -> Dict[str, Any]:
 PRODUCTION_CADENCE = 2
 
 
-def _load_growth_health() -> Dict[str, Any]:
+def _load_growth_health() -> dict[str, Any]:
     """Measured per-platform health written by growth_engine.analyse()."""
     path = os.environ.get("GROWTH_STATE_PATH") or str(DATA / "growth_state.json")
     try:
@@ -143,12 +147,12 @@ def _load_growth_health() -> Dict[str, Any]:
                 state = json.load(fh)
             health = state.get("platform_health")
             return health if isinstance(health, dict) else {}
-    except Exception as exc:  # noqa: BLE001 - never block a run on state I/O
+    except Exception as exc:
         logger.warning("Could not read growth health for cadence cap: %s", exc)
     return {}
 
 
-def retention_cadence_ceiling(platform_health: Dict[str, Any] = None) -> tuple:
+def retention_cadence_ceiling(platform_health: dict[str, Any] | None = None) -> tuple:
     """Highest uploads/day that MEASURED retention currently justifies.
 
     Why this exists
@@ -210,7 +214,7 @@ def retention_cadence_ceiling(platform_health: Dict[str, Any] = None) -> tuple:
     )
 
 
-def clamp_cadence_3(cadence: int, platform_health: Dict[str, Any] = None) -> int:
+def clamp_cadence_3(cadence: int, platform_health: dict[str, Any] | None = None) -> int:
     """Aim for the 3/day production cadence, but never above measured retention.
 
     `DISABLE_CADENCE_3=true` keeps the old escape hatch: the caller's own
