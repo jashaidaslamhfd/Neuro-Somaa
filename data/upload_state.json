@@ -760,5 +760,18 @@
     },
     "publish_at": "2026-08-20T15:30:00+00:00",
     "completed_at": 1787226558.831128
+  },
+  "6882c849ec860913478373cd5ee149e602f6ba5abb6e923da7385d0961f59185": {
+    "status": "completed",
+    "title": "Pourquoi le hoquet ne s'arr\u00eate pas ?",
+    "youtube_video_id": "QgL7aibqI4k",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-21T15:30:00+00:00",
+    "completed_at": 1787305114.285482
   }
 }
