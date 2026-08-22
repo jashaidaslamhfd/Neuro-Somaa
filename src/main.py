@@ -56,7 +56,7 @@ try:
     from trend_fetcher import get_trending_topic
     from trend_spiker import get_trend_spike
     from uploader import upload_all
-    from video_editor import build_video, generate_thumbnail
+    from video_editor import build_video, generate_thumbnail_variants
     from voice_generator import generate_voice_segments
 except ImportError as e:
     logger.error(f"Failed to import modules: {e}")
@@ -1039,9 +1039,38 @@ class SKILLORPipeline:
                     image_paths, audio_segments, script_data["scenes"], media_types=media_types
                 )
                 thumb_text = script_data.get("thumbnail_text") or script_data["title"]
-                thumb_path = generate_thumbnail(
-                    image_paths[0], thumb_text, category=script_data.get("category", "Body")
+                thumb_variants = generate_thumbnail_variants(
+                    image_paths[0],
+                    thumb_text,
+                    category=script_data.get("category", "Body"),
+                    count=int(os.environ.get("THUMBNAIL_VARIANT_COUNT", "4")),
                 )
+                scored_variants = []
+                for candidate_path in thumb_variants:
+                    candidate_score = score_thumbnail(candidate_path, thumb_text)
+                    scored_variants.append((candidate_path, candidate_score))
+                thumb_path, thumbnail_score = max(
+                    scored_variants,
+                    key=lambda item: item[1].get("overall_thumbnail_score", 0),
+                )
+                script_data["thumbnail_variants"] = [
+                    {"path": path, "score": score}
+                    for path, score in scored_variants
+                ]
+                thumb_overall = int(thumbnail_score.get("overall_thumbnail_score", 0))
+                min_thumbnail_score = int(os.environ.get("MIN_THUMBNAIL_SCORE", "80"))
+                logger.info(
+                    "✅ Selected thumbnail variant %s with score %s/100 (minimum %s)",
+                    thumb_path,
+                    thumb_overall,
+                    min_thumbnail_score,
+                )
+                if thumb_overall < min_thumbnail_score:
+                    raise RuntimeError(
+                        "Thumbnail quality gate failed: "
+                        f"best variant scored {thumb_overall}/100, "
+                        f"minimum is {min_thumbnail_score}/100"
+                    )
 
                 # Pad video if slightly too short
                 # FIXED 2026-08-02: default 20 (short format). The old 40s
@@ -1063,9 +1092,9 @@ class SKILLORPipeline:
                 logger.error(f"Video build failed: {e}")
                 raise
 
-            # Thumbnail SEO Score
+            # Thumbnail SEO score is computed during variant selection. Keep a
+            # single canonical record for history and final-audit reporting.
             try:
-                thumbnail_score = score_thumbnail(thumb_path, script_data["title"])
                 script_data["thumbnail_score"] = thumbnail_score
                 thumb_overall = thumbnail_score.get("overall_thumbnail_score", 0)
                 logger.info(f"✅ Thumbnail score: {thumb_overall}/100")
@@ -1119,6 +1148,12 @@ class SKILLORPipeline:
                     )
 
                 upload_result = upload_all(final_video, thumb_path, script_data)
+                youtube_video_id = (upload_result or {}).get("youtube_video_id")
+                if not youtube_video_id:
+                    raise RuntimeError(
+                        "Publication failed: uploader returned no youtube_video_id; "
+                        "history must not record this run as published"
+                    )
                 logger.info(f"✅ Upload result: {upload_result}")
             except Exception as e:
                 logger.error(f"Upload failed: {e}")
@@ -1157,6 +1192,8 @@ class SKILLORPipeline:
                     "predicted_retention": script_data.get("shorts_report", {})
                     .get("retention_prediction", {})
                     .get("predicted_avg_retention"),
+                    "thumbnail_score": script_data.get("thumbnail_score"),
+                    "thumbnail_variants": script_data.get("thumbnail_variants", []),
                     # 2026-08-12 viral engineering: hook arm + rubric + loop bridge
                     # feed the intelligence layer's arm comparison (permutation test)
                     "hook_arm": script_data.get("hook_arm"),
@@ -1364,9 +1401,10 @@ def main():
                 result = pipeline.run_pipeline_with_continuity(slot_label=slot_label)
                 if result.get("missed"):
                     logger.warning("Slot missed after guard retries — see continuity log.")
-                    # exit 0 so a guard block never hard-crashes the workflow;
-                    # the slot-consistency state shows the gap instead.
-                    sys.exit(0)
+                    # A missed production slot is an operational failure.  The
+                    # continuity state records the gap, but CI/CD must still turn
+                    # red so the operator can investigate or re-dispatch safely.
+                    sys.exit(2)
 
     except KeyboardInterrupt:
         logger.info("Pipeline interrupted by user")

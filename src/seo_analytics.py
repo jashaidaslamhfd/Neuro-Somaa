@@ -105,17 +105,16 @@ def predict_ctr(script_data: dict) -> dict:
 
 
 def score_thumbnail(thumb_path: str, title: str) -> dict:
-    """Analyzes the actual generated thumbnail file. Only measures what's
-    computable without an ML model: contrast in the text-overlay strip,
-    text length/line-wrap readability, and dominant-color warmth (a cheap
-    proxy for 'color psychology' - warm/high-saturation colors are the
-    well-documented CTR-correlated end of that scale, not literally
-    modeling emotion)."""
+    """Score the rendered thumbnail using the same geometry as the renderer.
+
+    This remains a deterministic heuristic, not a promise of YouTube CTR. It
+    deliberately checks the real headline band, a mobile preview, safe-zone
+    compliance, and subject/background separation instead of rewarding pixels
+    in an unrelated bottom strip.
+    """
     if not thumb_path or not os.path.exists(thumb_path):
         return {"error": f"Thumbnail not found at {thumb_path}"}
 
-    # Lazy import: keeps the analytics-only entrypoint runnable on a runner
-    # that never installed numpy/Pillow (see module header note).
     try:
         import numpy as np
         from PIL import Image
@@ -124,47 +123,77 @@ def score_thumbnail(thumb_path: str, title: str) -> dict:
 
     img = Image.open(thumb_path).convert("RGB")
     arr = np.array(img)
-    h = arr.shape[0]
+    height, width = arr.shape[:2]
 
-    # video_editor.generate_thumbnail() draws the title in the bottom
-    # ~220px strip over a dark gradient - check contrast there specifically,
-    # since that's where readability actually matters.
-    strip_top = max(h - 220, 0)
-    strip = arr[strip_top:h, :, :]
-    grayscale_strip = strip.mean(axis=2)
-    contrast_std = float(grayscale_strip.std())
-    # Dark gradient + white/bold text should produce a high std (bimodal
-    # dark background / light text). Below ~35 usually means low contrast.
-    contrast_score = min(100, round((contrast_std / 70) * 100))
+    try:
+        from safe_zones import thumbnail_action_safe
 
-    # Text length / mobile readability - shorter titles read faster at
-    # thumbnail size, especially on phone screens.
+        safe_left, band_top, safe_right, band_bottom = thumbnail_action_safe(width, height)
+    except Exception:
+        safe_left, band_top, safe_right, band_bottom = (
+            int(width * 0.05), int(height * 0.53), int(width * 0.86), int(height * 0.76)
+        )
+
+    # The renderer places copy in this band. Compare it with the adjacent
+    # background bands; global contrast is not a useful proxy for text contrast.
+    band = arr[band_top:band_bottom, safe_left:safe_right]
+    gray_band = band.mean(axis=2)
+    band_contrast = float(gray_band.std())
+    contrast_score = min(100, round((band_contrast / 62) * 100))
+
+    # Mobile preview: a Shorts feed makes the artwork tiny. Preserve the
+    # original aspect ratio and measure contrast after downsampling.
+    preview = img.resize((120, max(1, round(height * 120 / width))))
+    preview_arr = np.asarray(preview, dtype=np.float32)
+    p_top = round(band_top * preview_arr.shape[0] / height)
+    p_bottom = round(band_bottom * preview_arr.shape[0] / height)
+    p_left = round(safe_left * preview_arr.shape[1] / width)
+    p_right = round(safe_right * preview_arr.shape[1] / width)
+    mobile_band = preview_arr[p_top:p_bottom, p_left:p_right]
+    mobile_contrast = float(mobile_band.mean(axis=2).std()) if mobile_band.size else 0.0
+    mobile_score = min(100, round((mobile_contrast / 48) * 100))
+
     char_count = len(title)
     word_count = len(title.split())
     if char_count <= 35 and word_count <= 6:
-        readability_score = 100
+        copy_score = 100
     elif char_count <= 50 and word_count <= 8:
-        readability_score = 75
+        copy_score = 78
     else:
-        readability_score = 50
+        copy_score = 52
 
-    # Dominant color warmth as a color-psychology proxy: warm/saturated
-    # thumbnails (red/orange/yellow dominant) are the well-known
-    # CTR-correlated end for shock/curiosity-style content like this niche.
-    r_mean, g_mean, b_mean = arr[:, :, 0].mean(), arr[:, :, 1].mean(), arr[:, :, 2].mean()
-    warm_bias = (r_mean + g_mean) - 2 * b_mean  # positive = warmer image
-    color_score = max(0, min(100, round(50 + warm_bias / 2)))
+    # Penalise copy that is likely hidden by the action rail or chrome. The
+    # current renderer should always pass this, but the check protects future
+    # variants and external thumbnail regeneration scripts.
+    safe_zone_score = 100 if safe_right <= int(width * 0.88) and band_bottom <= int(height * 0.80) else 45
 
-    overall = round((contrast_score * 0.45) + (readability_score * 0.35) + (color_score * 0.20))
+    # Colour is a secondary signal only; blue medical visuals must not be
+    # penalised merely for lacking warm colours.
+    saturation = arr.max(axis=2).astype(np.float32) - arr.min(axis=2).astype(np.float32)
+    color_score = max(0, min(100, round(55 + float(saturation.mean()) / 2.5)))
+
+    overall = round(
+        (contrast_score * 0.30)
+        + (mobile_score * 0.25)
+        + (copy_score * 0.20)
+        + (safe_zone_score * 0.15)
+        + (color_score * 0.10)
+    )
 
     return {
         "contrast_score": contrast_score,
-        "readability_score": readability_score,
+        "mobile_readability_score": mobile_score,
+        "readability_score": copy_score,
+        "safe_zone_score": safe_zone_score,
         "color_score": color_score,
         "face_emotion_score": "not_available (no face/emotion model configured)",
         "overall_thumbnail_score": overall,
         "title_char_count": char_count,
         "title_word_count": word_count,
+        "score_geometry": {
+            "text_band": [band_top, band_bottom],
+            "safe_box": [safe_left, safe_right],
+        },
     }
 
 

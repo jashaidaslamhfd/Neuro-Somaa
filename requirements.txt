@@ -51,6 +51,7 @@ pytz>=2024.1
 
 # ---- Utilities ----
 python-dotenv>=1.0.0
+pytest>=8.0.0
 
 # NOTE: `google-genai` supprimé — rien dans le code ne l'importe (les images
 # Gemini passent par l'endpoint REST dans image_providers.py).

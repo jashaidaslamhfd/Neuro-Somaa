@@ -59,7 +59,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m compileall -q src scripts tests
-          python -m unittest discover -s tests -v
+          python -m pytest tests/ -q
 
       - name: Refresh live French search-demand queue
         continue-on-error: true
@@ -141,6 +141,9 @@ jobs:
           # blurs when stretched to 1080x1920 and now forces a retry on a
           # better provider instead of publishing mush.
           MIN_IMAGE_STRICT: "true"
+          # Render multiple candidates and publish only the best mobile-readable variant.
+          THUMBNAIL_VARIANT_COUNT: "4"
+          MIN_THUMBNAIL_SCORE: "80"
           # 2026-08-21: stock clip quality floor — Pexels/Pixabay clips must
           # be portrait (w<h) AND at least 720px wide, or they blur/squash on
           # the 1080x1920 canvas. Below-floor clips are skipped and the next

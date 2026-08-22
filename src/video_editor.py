@@ -1173,7 +1173,11 @@ def build_video(image_paths, audio_segments, scenes, output_path="output/final_v
 
 
 def generate_thumbnail(
-    image_path: str, title: str, output_path: str = "output/thumbnail.jpg", category: str = "Body"
+    image_path: str,
+    title: str,
+    output_path: str = "output/thumbnail.jpg",
+    category: str = "Body",
+    variant: int = 0,
 ) -> str:
     """
     Creates RETENTION-OPTIMIZED YouTube thumbnail:
@@ -1213,6 +1217,15 @@ def generate_thumbnail(
     }
 
     bg_color = CATEGORY_BG_COLORS.get(category, (0, 0, 0))
+    # Four deterministic compositions let the scorer choose the strongest
+    # mobile result instead of trusting one arbitrary frame/color treatment.
+    variant_themes = [
+        (bg_color, CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))),
+        ((8, 24, 48), (255, 218, 70)),
+        ((42, 12, 18), (255, 116, 92)),
+        ((16, 42, 38), (120, 255, 196)),
+    ]
+    bg_color, variant_text_color = variant_themes[int(variant) % len(variant_themes)]
     # Shorts thumbnails must match the video's 9:16 canvas (1080x1920).
     # This used to render on a 1280x720 (16:9) canvas, which meant the
     # source image - already vertical, framed for 9:16 - got aggressively
@@ -1281,7 +1294,9 @@ def generate_thumbnail(
     # Keep only 3-4 meaningful words. Taking the first five words produced
     # vague phrases such as "SECRET RHYTHMS OF YOUR BODY" on mobile.
     # Use accent-safe regex (preserves French characters)
-    all_words = [re.sub(r"[^A-Za-z0-9']", "", w) for w in title.upper().split()]
+    # Keep French accents and ligatures; stripping them changes meaning and
+    # produces visibly broken copy such as CŒUR -> CUR.
+    all_words = [re.sub(r"[^\wÀ-ÿŒœÆæŸ'’-]", "", w, flags=re.UNICODE) for w in title.upper().split()]
     stop = {"THE", "A", "AN", "OF", "TO", "IS", "ARE", "THIS", "THAT", "ABOUT", "BEHIND"}
     meaningful = [w for w in all_words if w and w not in stop]
     words = (meaningful or all_words)[:4]
@@ -1328,7 +1343,7 @@ def generate_thumbnail(
         lines.append(current)
 
     # ✅ Priority: Text color
-    text_color = CATEGORY_TEXT_COLORS.get(category, (255, 255, 255))
+    text_color = variant_text_color
 
     # Place the text inside the platform-safe band instead of hard against the
     # bottom edge.
@@ -1378,6 +1393,23 @@ def generate_thumbnail(
     canvas.save(output_path, quality=95)
     logger.info(f"Thumbnail saved: {output_path}")
     return output_path
+
+
+def generate_thumbnail_variants(
+    image_path: str,
+    title: str,
+    output_dir: str = "output/thumbnail_variants",
+    category: str = "Body",
+    count: int = 4,
+) -> list[str]:
+    """Render bounded visual variants for deterministic quality selection."""
+    os.makedirs(output_dir, exist_ok=True)
+    paths = []
+    for variant in range(max(1, min(int(count), 4))):
+        path = os.path.join(output_dir, f"thumbnail_v{variant + 1}.jpg")
+        generate_thumbnail(image_path, title, path, category=category, variant=variant)
+        paths.append(path)
+    return paths
 
 
 # ============================================
