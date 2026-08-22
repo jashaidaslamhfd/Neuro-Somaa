@@ -2,9 +2,11 @@ import hashlib
 import json
 import logging
 import os
+import re
 import sys
 import time
 import traceback
+import unicodedata
 from collections import Counter
 from datetime import UTC, datetime
 
@@ -64,6 +66,7 @@ except ImportError as e:
 # Constants
 MAX_SCRIPT_ATTEMPTS = 3
 MAX_IMAGE_RETRIES = 3
+TITLE_CANDIDATE_POOL_SIZE = int(os.environ.get("TITLE_CANDIDATE_POOL_SIZE", "12"))
 FALLBACK_ABORT_RATIO = float(os.environ.get("FALLBACK_ABORT_RATIO", "0.5"))
 # 70 accepts a clear, specific natural hook while still rejecting vague or
 # manipulative openings. The scorer and generator use the same 6–9 word policy.
@@ -82,6 +85,44 @@ VIDEO_HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.js
 MEDIA_HASH_HISTORY_PATH = os.environ.get("MEDIA_HASH_HISTORY_PATH", "data/media_hash_history.json")
 # Cap on how many hashes/URLs we remember, so the ledger doesn't grow forever.
 MAX_MEDIA_HASH_HISTORY = int(os.environ.get("MAX_MEDIA_HASH_HISTORY", "20000"))
+
+
+def _normalize_title_key(text: str) -> str:
+    """Return a stable French title identity for exact and near-duplicate checks."""
+    normalized = unicodedata.normalize("NFKD", str(text or ""))
+    normalized = "".join(char for char in normalized if not unicodedata.combining(char))
+    normalized = re.sub(r"[\U0001F000-\U0001FAFF\u2600-\u27BF]", " ", normalized)
+    normalized = re.sub(r"#[A-Za-z0-9_]+", " ", normalized.lower())
+    normalized = re.sub(
+        r"^(ce qui se passe quand |ce que (la )?science explique sur |comprendre pourquoi |comprendre |voici pourquoi |pourquoi |que se passe-t-il (quand|si) )",
+        "",
+        normalized,
+        flags=re.IGNORECASE,
+    )
+    normalized = re.sub(r"[^a-z0-9 ]+", " ", normalized)
+    return re.sub(r"\s+", " ", normalized).strip()
+
+
+def _topic_key(value: str | dict | None) -> str:
+    """Normalize the phenomenon identity used to prevent same-topic retries."""
+    if isinstance(value, dict):
+        parts = (
+            value.get("base_phenomenon"),
+            value.get("nominal_phrase"),
+            value.get("topic"),
+            value.get("question_phrase"),
+        )
+        value = " ".join(str(part or "") for part in parts)
+    return _normalize_title_key(str(value or ""))
+
+
+def _near_duplicate_title(left: str, right: str, threshold: float = 0.85) -> bool:
+    """Compare title word sets after removing reusable French title framing."""
+    left_words = set(_normalize_title_key(left).split())
+    right_words = set(_normalize_title_key(right).split())
+    if len(left_words) < 2 or len(right_words) < 2:
+        return False
+    return len(left_words & right_words) / min(len(left_words), len(right_words)) >= threshold
 
 
 class SKILLORPipeline:
@@ -208,11 +249,115 @@ class SKILLORPipeline:
                     return True
         return False
 
+    def _known_title_values(self) -> list[str]:
+        """Return all historical title/topic values used for title collision checks."""
+        values = []
+        for video in self.video_history:
+            if not isinstance(video, dict):
+                continue
+            for field in ("title", "youtube_title", "topic"):
+                value = video.get(field)
+                if value:
+                    values.append(str(value))
+        return values
+
+    def _select_unique_title(
+        self,
+        script_data: dict,
+        blocked_title_keys: set[str] | None = None,
+        blocked_topic_keys: set[str] | None = None,
+    ) -> str:
+        """Choose the first clean title not used by history or this run.
+
+        `generate_seo_package` already produces ranked title options. This method
+        turns those options into a publication-time candidate pool and prevents a
+        failed retry from selecting the same title or semantic topic again.
+        """
+        blocked_title_keys = blocked_title_keys if blocked_title_keys is not None else set()
+        blocked_topic_keys = blocked_topic_keys if blocked_topic_keys is not None else set()
+        current_topic_key = _topic_key(script_data)
+        if current_topic_key and current_topic_key in blocked_topic_keys:
+            raise RuntimeError(
+                "DUPLICATE TITLE BLOCKED: current topic is already excluded in this run"
+            )
+
+        known_values = self._known_title_values()
+        known_keys = {_normalize_title_key(value) for value in known_values}
+        disallowed_keys = known_keys | set(blocked_title_keys)
+
+        raw_candidates = []
+        raw_candidates.extend(script_data.get("title_options") or [])
+        raw_candidates.extend(
+            value
+            for value in (
+                script_data.get("title"),
+                script_data.get("question_phrase"),
+                script_data.get("base_question"),
+                script_data.get("series_title"),
+            )
+            if value
+        )
+
+        candidates = []
+        seen_keys = set()
+        for raw in raw_candidates:
+            title = " ".join(str(raw or "").split()).strip()
+            title_key = _normalize_title_key(title)
+            if not title_key or title_key in seen_keys or len(title_key) < 10:
+                continue
+            seen_keys.add(title_key)
+            if title_key in disallowed_keys:
+                logger.info("Title candidate excluded as duplicate: %r", title)
+                continue
+            if any(_near_duplicate_title(title, value) for value in known_values):
+                logger.info("Title candidate excluded as near-duplicate: %r", title)
+                continue
+            candidates.append(title)
+            if len(candidates) >= TITLE_CANDIDATE_POOL_SIZE:
+                break
+
+        if not candidates:
+            current_title = script_data.get("title") or ""
+            if current_title:
+                blocked_title_keys.add(_normalize_title_key(current_title))
+            raise RuntimeError(
+                "DUPLICATE TITLE BLOCKED: no unique French title candidate remains "
+                f"for {current_title!r}"
+            )
+
+        selected = candidates[0]
+        blocked_title_keys.add(_normalize_title_key(selected))
+        if current_topic_key:
+            blocked_topic_keys.add(current_topic_key)
+        previous_title = script_data.get("title") or ""
+        script_data["title"] = selected
+        if previous_title != selected:
+            # A thumbnail generated for the rejected title would be stale.
+            # Clearing it makes the renderer fall back to the selected title.
+            script_data["thumbnail_text"] = ""
+        script_data["title_options"] = candidates
+        script_data["title_identity"] = {
+            "normalized_title": _normalize_title_key(selected),
+            "topic_key": current_topic_key,
+        }
+        logger.info(
+            "✅ Unique French title selected: %r (pool=%d, excluded=%d)",
+            selected,
+            len(candidates),
+            len(raw_candidates) - len(candidates),
+        )
+        return selected
+
     def _get_recent_topics(self, n: int = 90) -> list:
         """Get recent topics to avoid repetition"""
         return [v.get("topic") for v in self.video_history[-n:] if v.get("topic")]
 
-    def _generate_and_check_once(self, topic: str) -> dict:
+    def _generate_and_check_once(
+        self,
+        topic: str,
+        blocked_title_keys: set[str] | None = None,
+        blocked_topic_keys: set[str] | None = None,
+    ) -> dict:
         """Generate script once and check quality"""
         try:
             # Get category and prompt
@@ -277,10 +422,17 @@ class SKILLORPipeline:
             logger.error(f"Error in _generate_and_check_once: {e}")
             raise
 
-    def generate_with_niche_strategy(self, topic: str | None = None) -> dict:
-        """Generate script with retry logic - uses trending topics if no topic provided"""
+    def generate_with_niche_strategy(
+        self,
+        topic: str | None = None,
+        blocked_title_keys: set[str] | None = None,
+        blocked_topic_keys: set[str] | None = None,
+    ) -> dict:
+        """Generate a unique French script with bounded candidate retries."""
         fixed_topic = topic
-        recent_topics = self._get_recent_topics()
+        blocked_title_keys = blocked_title_keys if blocked_title_keys is not None else set()
+        blocked_topic_keys = blocked_topic_keys if blocked_topic_keys is not None else set()
+        recent_topics = self._get_recent_topics() + list(blocked_topic_keys)
         best_attempt = None
         last_error = None
         # 2026-08-17 LLM-outage fallback: track whether every premium provider
@@ -344,7 +496,11 @@ class SKILLORPipeline:
 
                 logger.info(f"Attempt {attempt}/{MAX_SCRIPT_ATTEMPTS} for topic: {current_topic}")
 
-                result = self._generate_and_check_once(current_topic)
+                result = self._generate_and_check_once(
+                    current_topic,
+                    blocked_title_keys=blocked_title_keys,
+                    blocked_topic_keys=blocked_topic_keys,
+                )
                 if not fixed_topic:
                     generated = result["script_data"]
                     generated["trend_source"] = trend_record.get("source")
@@ -363,6 +519,8 @@ class SKILLORPipeline:
                 script_data = result["script_data"]
                 # Preserve the actual French episode angle for SEO, history and analytics.
                 script_data["topic"] = current_topic
+
+                blocked_title_keys.add(_normalize_title_key(script_data.get("title", "")))
 
                 # Hook quality check
                 hook_result = score_hook(script_data)
@@ -410,6 +568,8 @@ class SKILLORPipeline:
 
                 if not result.get("gate_ok"):
                     logger.warning(f"Retrying: French quality gate issues: {result.get('gate_issues')}")
+                if not fixed_topic:
+                    blocked_topic_keys.add(_topic_key(current_topic))
 
             except Exception as e:
                 last_error = e
@@ -418,6 +578,10 @@ class SKILLORPipeline:
                 # were unreachable flips the outage flag for the fallback below.
                 if any(k in str(e) for k in ("OpenRouter", "HTTP 429", "providers failed")):
                     _primary_exhausted = True
+                if "DUPLICATE TITLE BLOCKED" in str(e):
+                    blocked_title_keys.add(_normalize_title_key(str(e)))
+                    if not fixed_topic:
+                        blocked_topic_keys.add(_topic_key(current_topic))
                 continue
 
         # Never publish a "best" script that failed a mandatory gate. A missed
@@ -527,8 +691,15 @@ class SKILLORPipeline:
 
         return image_paths, image_sources, media_types
 
-    def run_pipeline(self, topic: str | None = None) -> dict:
-        """Main pipeline execution"""
+    def run_pipeline(
+        self,
+        topic: str | None = None,
+        blocked_title_keys: set[str] | None = None,
+        blocked_topic_keys: set[str] | None = None,
+    ) -> dict:
+        """Run one candidate pipeline with shared retry exclusion sets."""
+        blocked_title_keys = blocked_title_keys if blocked_title_keys is not None else set()
+        blocked_topic_keys = blocked_topic_keys if blocked_topic_keys is not None else set()
         start_time = time.time()
         logger.info("=" * 60)
         logger.info("🚀 STARTING SKILLOR - TRENDING VIRAL PIPELINE")
@@ -581,7 +752,11 @@ class SKILLORPipeline:
 
             # Phase 1: Script Generation (with trending topics)
             logger.info("\n📝 PHASE 1: SCRIPT GENERATION (TRENDING)")
-            script_data = self.generate_with_niche_strategy(topic)
+            script_data = self.generate_with_niche_strategy(
+                topic,
+                blocked_title_keys=blocked_title_keys,
+                blocked_topic_keys=blocked_topic_keys,
+            )
             logger.info(f"✅ Script generated: {script_data.get('title', 'Untitled')}")
 
             # Phase 1b: SEO Generation
@@ -667,26 +842,20 @@ class SKILLORPipeline:
                 insights = get_historical_insights()
                 if insights.get("insights"):
                     script_data["historical_insights"] = insights
-                # Phase 1b-bis: Duplicate-title guard (2026-08-17). Never spend
-                # ~20 min of image/video builds on a title that already exists
-                # on this channel (published or scheduled) — a duplicate Short
-                # tanks retention AND is an inauthentic-content risk. Fail the
-                # run here so the next slot retries with a fresh topic.
-                try:
-                    _final_title = script_data.get("title", "") or ""
-                    if self._is_duplicate_title(_final_title):
-                        raise RuntimeError(
-                            f"DUPLICATE TITLE BLOCKED: '{_final_title}' already exists "
-                            "on this channel (published or scheduled). Refusing to "
-                            "publish a duplicate. Pick a new topic and re-run."
-                        )
-                    logger.info("✅ Title passes duplicate guard: %r", _final_title)
-                except RuntimeError:
-                    raise
-                except Exception as _dge:  # guard must never break the run silently
-                    logger.warning(f"Duplicate guard skipped: {_dge}")
+                # Duplicate-title selection runs after CTR/bandit decisions so
+                # those layers cannot reintroduce a blocked title.
             except Exception as e:
                 logger.warning(f"CTR prediction failed: {e}")
+
+            # Select from the complete ranked SEO pool only after every title
+            # transformation has finished. This prevents a CTR/bandit layer from
+            # putting a duplicate back into the final metadata.
+            self._select_unique_title(
+                script_data,
+                blocked_title_keys=blocked_title_keys,
+                blocked_topic_keys=blocked_topic_keys,
+            )
+
             # Phase 2: Image Generation
             logger.info("\n🎨 PHASE 2: IMAGE GENERATION")
             image_paths, image_sources, media_types = self._generate_images_with_retry(script_data)
@@ -1057,8 +1226,14 @@ class SKILLORPipeline:
     # Retries with a fresh topic (bounded by MAX_GUARD_RETRIES) and tracks
     # every Paris-peak slot attempt so no upload window is silently lost.
     # ------------------------------------------------------------------
-    def run_pipeline_with_continuity(self, topic: str | None = None, slot_label: str | None = None) -> dict:
-        """Run the pipeline with a bounded retry loop on quality-gaurd blocks.
+    def run_pipeline_with_continuity(
+        self,
+        topic: str | None = None,
+        slot_label: str | None = None,
+        blocked_title_keys: set[str] | None = None,
+        blocked_topic_keys: set[str] | None = None,
+    ) -> dict:
+        """Run the pipeline with a bounded retry loop on quality-guard blocks.
 
         A strict guard (duplicate title, quality gate, silent segments, hook
         score ...) is the pipeline doing its job — but a blocked video must not
@@ -1073,6 +1248,9 @@ class SKILLORPipeline:
             register_slot_attempt,
             should_retry_on_guard_failure,
         )
+
+        blocked_title_keys = blocked_title_keys if blocked_title_keys is not None else set()
+        blocked_topic_keys = blocked_topic_keys if blocked_topic_keys is not None else set()
 
         guard_phrases = (
             "DUPLICATE TITLE BLOCKED",
@@ -1096,7 +1274,11 @@ class SKILLORPipeline:
             if attempt > 1 and not topic:
                 retry_topic = None  # let the topic engine pick something new
             try:
-                result = self.run_pipeline(topic=retry_topic)
+                result = self.run_pipeline(
+                    topic=retry_topic,
+                    blocked_title_keys=blocked_title_keys,
+                    blocked_topic_keys=blocked_topic_keys,
+                )
                 if slot_label:
                     register_slot_attempt(slot_label, "published", (result or {}).get("title", ""))
                 return result
