@@ -786,5 +786,18 @@
     },
     "publish_at": "2026-08-22T15:30:00+00:00",
     "completed_at": 1787393297.462514
+  },
+  "c7be7f8b2ddf83ef2bcbd2ba0b0549e4dff303d8b4e2a8ce75837aa0789671ae": {
+    "status": "completed",
+    "title": "Pourquoi mon corps tremble ?",
+    "youtube_video_id": "yrf_yjNLx58",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-23T15:30:00+00:00",
+    "completed_at": 1787431242.043608
   }
 }
