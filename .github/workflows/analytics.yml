@@ -1,6 +1,12 @@
 name: "Neuro-Somaa - YouTube Analytics Sync"
 on:
   workflow_dispatch:
+    inputs:
+      force_refresh:
+        description: "Refetch all mature videos now, including fresh analytics records"
+        required: false
+        default: false
+        type: boolean
   schedule:
     - cron: "30 5 * * *"
 permissions:
@@ -57,8 +63,8 @@ jobs:
           ANALYTICS_SCOPE_REQUIRED: "true"
           # Refetch real views more often (every 12h) so the ML brain learns
           # from the freshest numbers instead of 24-48h stale readings.
-          METRICS_MIN_HOURS: "24"
-          METRICS_REFRESH_HOURS: "12"
+          METRICS_MIN_HOURS: ${{ github.event.inputs.force_refresh == 'true' && '0' || '24' }}
+          METRICS_REFRESH_HOURS: ${{ github.event.inputs.force_refresh == 'true' && '0' || '12' }}
           PYTHONUNBUFFERED: "1"
         run: |
           set -euo pipefail

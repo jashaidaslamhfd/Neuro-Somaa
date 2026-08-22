@@ -665,8 +665,11 @@ def update_history_with_real_metrics(min_hours_old: int = 24, refresh_after_hour
         updated += 1
         logger.info(
             f"Updated real metrics for {vid} (via {metrics.get('via', 'analytics')}): "
-            f"views={metrics.get('views')}, "
-            f"CTR={metrics.get('actual_ctr')}, avg_view_pct={metrics.get('average_view_percentage')}"
+            f"views={metrics.get('views')}, engaged_views={metrics.get('engaged_views')}, "
+            f"stayed_to_watch={metrics.get('stayed_to_watch')}, "
+            f"feed_shown={metrics.get('shorts_feed_shown')}, "
+            f"CTR={metrics.get('actual_ctr')}, avg_view_pct={metrics.get('average_view_percentage')}, "
+            f"unavailable={metrics.get('unavailable_metrics', [])}"
         )
 
     if updated:

@@ -44,7 +44,10 @@ if __name__ == "__main__":
     # only matters when re-running the sync more than once a day.
     metrics_min_hours = int(os.environ.get("METRICS_MIN_HOURS", "24"))
     metrics_refresh_hours = int(os.environ.get("METRICS_REFRESH_HOURS", "12"))
-    result = update_history_with_real_metrics(min_hours_old=metrics_min_hours)
+    result = update_history_with_real_metrics(
+        min_hours_old=metrics_min_hours,
+        refresh_after_hours=metrics_refresh_hours,
+    )
     logger.info(f"Analytics update complete: {result}")
 
     # After real metrics land in video_history.json, refresh every learned
