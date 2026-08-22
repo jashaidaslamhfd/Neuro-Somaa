@@ -47,7 +47,7 @@ jobs:
       POLLINATIONS_KEY: ${{ secrets.POLLINATIONS_KEY }}
       AI_HORDE_API_KEY: ${{ secrets.AI_HORDE_API_KEY }}
       TTS_ENGINE: "edge"
-      EDGE_FR_VOICE_POOL: "fr-FR-MauriceNeural,fr-FR-GerardNeural,fr-FR-LucienNeural,fr-FR-AlainNeural,fr-FR-HenriNeural"
+      EDGE_FR_VOICE_POOL: "fr-FR-HenriNeural"
       BREATH_PAUSE_SECONDS: "0.45"
       DELIVERY_VARIATION: "true"
       MUSIC_VOLUME: "0.18"
