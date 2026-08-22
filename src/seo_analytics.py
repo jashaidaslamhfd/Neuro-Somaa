@@ -441,37 +441,12 @@ def get_historical_insights(min_sample: int = 3) -> dict:
 
 
 def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
-    """Data API v3 fallback: views/likes/comments via videos.list(statistics).
-
-    The youtubeAnalytics v2 API needs the `yt-analytics.readonly` scope on the
-    REFRESH_TOKEN. If that scope was never granted (a very common cause of
-    silently-dead analytics — the upload token only needs youtube.upload +
-    youtube.force-ssl), we fall back here: `videos.list(part=statistics)` works
-    with the SAME upload token and returns lifetime views/likes/comments.
-    Retention/CTR are unavailable on this path, but VIEWS coming back alone
-    un-blinds the growth loop (bandit, repair thresholds, dashboards).
-
-    Returns {'views': int, 'likes': int, 'comments': int, 'via': 'statistics'}
-    or {'error': ...}.
-    """
+    """Fetch lifetime views/likes/comments through YouTube Data API v3."""
     try:
-        import google.oauth2.credentials
-        from googleapiclient.discovery import build as _build
+        from youtube_oauth import data_video_statistics, refresh_session
 
-        client_id = os.environ.get("GOOGLE_CLIENT_ID")
-        client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
-        refresh_token = os.environ.get("REFRESH_TOKEN")
-        if not (client_id and client_secret and refresh_token):
-            return {"error": "Missing Google credentials for statistics fallback"}
-        creds = google.oauth2.credentials.Credentials(
-            token=None,
-            refresh_token=refresh_token,
-            token_uri="https://oauth2.googleapis.com/token",
-            client_id=client_id,
-            client_secret=client_secret,
-        )
-        yt = _build("youtube", "v3", credentials=creds)
-        resp = yt.videos().list(part="statistics", id=youtube_video_id).execute()
+        session = refresh_session()
+        resp = data_video_statistics(session, youtube_video_id)
         items = resp.get("items") or []
         if not items:
             return {"error": f"video {youtube_video_id} not found via Data API"}
@@ -487,73 +462,28 @@ def _fetch_statistics_fallback(youtube_video_id: str) -> dict:
 
 
 def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict:
-    """Pulls real lifetime-to-date performance for one video: views,
-    averageViewDuration (seconds), averageViewPercentage (retention %),
-    impressions, and impressionClickThroughRate (real CTR — the actual
-    metric predict_ctr() above can only estimate).
+    """Fetch real Shorts performance with OAuth scope validation and retries.
 
-    If the Analytics API is unreachable (missing yt-analytics.readonly scope,
-    expired creds, quota), falls back to videos.list(statistics) so at least
-    views/likes/comments keep flowing — a channel must never go blind just
-    because one optional scope is missing."""
+    Analytics uses ``yt-analytics.readonly``. If that scope is missing or the
+    channel does not expose an optional metric, the function returns a safe,
+    structured result and falls back to Data API lifetime statistics.
+    """
     import datetime as _dt
+    import re as _re
 
-    import google.oauth2.credentials
-    from googleapiclient.discovery import build as _build
-    from googleapiclient.errors import HttpError
+    from youtube_oauth import YouTubeAPIError, YouTubeOAuthError, analytics_query, refresh_session
 
-    client_id = os.environ.get("GOOGLE_CLIENT_ID")
-    client_secret = os.environ.get("GOOGLE_CLIENT_SECRET")
-    refresh_token = os.environ.get("REFRESH_TOKEN")
-    missing = [
-        n
-        for n, v in {
-            "GOOGLE_CLIENT_ID": client_id,
-            "GOOGLE_CLIENT_SECRET": client_secret,
-            "REFRESH_TOKEN": refresh_token,
-        }.items()
-        if not v
-    ]
-    if missing:
-        return {"error": f"Missing credentials: {missing}"}
-
-    # Do NOT pass `scopes=` here. google-auth then sends a `scope` parameter
-    # on the refresh call, and Google rejects any refresh that tries to
-    # narrow/alter the scope set the refresh token was minted with —
-    # returning `invalid_scope: Bad Request`. That failed all 14 videos on
-    # 2026-07-26 even though the token is perfectly valid: scripts/seo_diag.py
-    # pulls the same Analytics data with the same token precisely because it
-    # posts a bare refresh_token grant with no scope field.
-    # The token already carries yt-analytics.readonly; the access token
-    # inherits it automatically.
-    creds = google.oauth2.credentials.Credentials(
-        token=None,
-        refresh_token=refresh_token,
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=client_id,
-        client_secret=client_secret,
-    )
-    yta = _build("youtubeAnalytics", "v2", credentials=creds)
+    try:
+        session = refresh_session()
+    except YouTubeOAuthError as exc:
+        fallback = _fetch_statistics_fallback(youtube_video_id)
+        if "error" not in fallback:
+            fallback["analytics_error"] = str(exc)[:300]
+            return fallback
+        return {"error": str(exc)[:300], "fallback_error": fallback.get("error")}
 
     end = _dt.datetime.now(_dt.UTC).date()
     start = end - _dt.timedelta(days=max(days_back, 1))
-
-    # Self-healing metric list. `impressions` / `impressionClickThroughRate`
-    # may legitimately be unavailable on some channels; requesting an
-    # unsupported metric fails the whole query with 400 "Unknown identifier",
-    # so a channel that merely cannot report CTR would record no views or
-    # retention either. scripts/seo_diag.py solved this first; the same
-    # drop-and-retry loop is mirrored here so a missing OPTIONAL metric
-    # degrades gracefully instead of killing the sync.
-    # missing OPTIONAL metric degrades gracefully instead of killing the sync.
-    import re as _re
-
-    # NOTE: the CTR metric's real identifier is `impressionClickThroughRate`
-    # (singular "impression"). The misspelled `impressionsClickThroughRate`
-    # was rejected as "Unknown identifier", the self-healing loop silently
-    # dropped it, and every video recorded actual_ctr=null — the title bandit
-    # and SEO loop trained blind on views only. Keep the exact API names:
-    #   views, impressions, impressionClickThroughRate.
     requested = [
         "views",
         "averageViewDuration",
@@ -561,50 +491,43 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
         "impressions",
         "impressionClickThroughRate",
     ]
-    resp, dropped = None, []
+    dropped = []
+    resp = None
     for _ in range(len(requested)):
         try:
-            resp = (
-                yta.reports()
-                .query(
-                    ids="channel==MINE",
-                    startDate=start.isoformat(),
-                    endDate=end.isoformat(),
-                    metrics=",".join(requested),
-                    dimensions="video",
-                    filters=f"video=={youtube_video_id}",
-                )
-                .execute()
+            resp = analytics_query(
+                session,
+                ids="channel==MINE",
+                startDate=start.isoformat(),
+                endDate=end.isoformat(),
+                metrics=",".join(requested),
+                dimensions="video",
+                filters=f"video=={youtube_video_id}",
             )
             break
-        except HttpError as e:
-            status = getattr(e.resp, "status", None)
-            raw = (
-                e.content.decode("utf-8", "replace") if isinstance(e.content, bytes) else str(e.content or e)
-            )
-            unknown = _re.search(r"Unknown identifier \((\w+)\)", raw)
-            if status == 400 and unknown and unknown.group(1) in requested and len(requested) > 1:
+        except YouTubeAPIError as exc:
+            unknown = _re.search(r"Unknown identifier \(([\w]+)\)", exc.detail)
+            if exc.status == 400 and unknown and unknown.group(1) in requested and len(requested) > 1:
                 bad = unknown.group(1)
                 requested.remove(bad)
                 dropped.append(bad)
                 logger.info("Metric '%s' unavailable on this channel -> retrying without it.", bad)
                 continue
-            logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
-            if status in (401, 403):
-                # scope missing/expired -> fall back to Data API statistics
-                fb = _fetch_statistics_fallback(youtube_video_id)
-                if "error" not in fb:
-                    return fb
+            if exc.status in (401, 403):
+                fallback = _fetch_statistics_fallback(youtube_video_id)
+                if "error" not in fallback:
+                    fallback["analytics_error"] = str(exc)[:300]
+                    return fallback
                 return {
-                    "error": f"HttpError {status}: needs yt-analytics.readonly scope on REFRESH_TOKEN (fallback also failed: {fb['error']})"
+                    "error": (
+                        "YouTube Analytics authorization failed; refresh token needs "
+                        "yt-analytics.readonly (fallback also failed: "
+                        f"{fallback['error']})"
+                    )
                 }
-            return {"error": f"HttpError {status}: {raw[:200]}"}
-        except Exception as e:
-            logger.warning(f"YouTube Analytics fetch failed for {youtube_video_id}: {e}")
-            fb = _fetch_statistics_fallback(youtube_video_id)
-            if "error" not in fb:
-                return fb
-            return {"error": str(e)}
+            return {"error": str(exc)[:300]}
+        except YouTubeOAuthError as exc:
+            return {"error": str(exc)[:300]}
 
     if resp is None:
         return {"error": "No supported metric combination was accepted by the Analytics API."}
@@ -615,7 +538,6 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
 
     headers = [h["name"] for h in resp.get("columnHeaders", [])]
     values = dict(zip(headers, rows[0], strict=False))
-
     return {
         "video_id": youtube_video_id,
         "views": values.get("views"),

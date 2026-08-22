@@ -35,6 +35,17 @@ jobs:
           # Regression guard: a module-level `import numpy` in seo_analytics.py
           # silently broke every analytics sync for weeks. Fail loudly here.
           python -c "import sys; sys.path.insert(0, 'src'); import analytics_updater; print('import OK')"
+      - name: Validate YouTube OAuth grant and Analytics scope
+        shell: bash
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          set -euo pipefail
+          python scripts/check_youtube_analytics_auth.py --require-analytics
+
       - name: Sync real analytics into video history
         shell: bash
         env:
@@ -43,6 +54,7 @@ jobs:
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
           # FB/IG metrics envs removed (dead config — no FB data ever flowed).
           VIDEO_HISTORY_PATH: "data/video_history.json"
+          ANALYTICS_SCOPE_REQUIRED: "true"
           # Refetch real views more often (every 12h) so the ML brain learns
           # from the freshest numbers instead of 24-48h stale readings.
           METRICS_MIN_HOURS: "24"

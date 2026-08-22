@@ -923,16 +923,16 @@ class AnalyticsScopeTests(unittest.TestCase):
     refresh_token grant."""
 
     def test_credentials_do_not_pin_scopes_on_refresh(self):
-        import re
-
-        source = (SRC_DIR / "seo_analytics.py").read_text()
-        block = re.search(r"google\.oauth2\.credentials\.Credentials\((.*?)\)", source, re.DOTALL)
-        self.assertIsNotNone(block, "Credentials(...) call not found")
+        source = (ROOT / "src" / "youtube_oauth.py").read_text()
+        refresh_start = source.index("response = requests.post(")
+        refresh_end = source.index("if not response.ok", refresh_start)
+        refresh_block = source[refresh_start:refresh_end]
         self.assertNotIn(
-            "scopes=",
-            block.group(1),
-            "scopes= on refresh triggers invalid_scope; the token already carries yt-analytics.readonly",
+            '"scope"',
+            refresh_block,
+            "scope on refresh triggers invalid_scope; the token already carries its granted scopes",
         )
+        self.assertIn('"grant_type": "refresh_token"', refresh_block)
 
 
 class RetentionTopicSelectionTests(unittest.TestCase):
