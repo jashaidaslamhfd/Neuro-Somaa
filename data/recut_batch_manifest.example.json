@@ -4,7 +4,7 @@
       "id": "hunger-clock-v2",
       "source_video_id": "30NhLXgz-jo",
       "experiment_id": "recut_hunger_clock_direct_a",
-      "voice_speed": 0.70,
+      "voice_speed": 0.50,
       "topic": "La faim et les habitudes quotidiennes",
       "script": {
         "topic": "La faim et les habitudes quotidiennes",
@@ -27,7 +27,7 @@
       "id": "pain-stress-v2",
       "source_video_id": "JIId_zuREG8",
       "experiment_id": "recut_pain_stress_direct_a",
-      "voice_speed": 0.70,
+      "voice_speed": 0.50,
       "topic": "La perception de la douleur sous stress",
       "script": {
         "topic": "La perception de la douleur sous stress",
@@ -50,7 +50,7 @@
       "id": "appetite-rhythm-v2",
       "source_video_id": "1Y3DfG_Opg4",
       "experiment_id": "recut_appetite_rhythm_question_b",
-      "voice_speed": 0.70,
+      "voice_speed": 0.50,
       "topic": "L'horloge interne et l'appétit",
       "script": {
         "topic": "L'horloge interne et l'appétit",
@@ -73,7 +73,7 @@
       "id": "sleep-breathing-v2",
       "source_video_id": "CdbNz9T2sbA",
       "experiment_id": "recut_sleep_breathing_direct_a",
-      "voice_speed": 0.70,
+      "voice_speed": 0.50,
       "topic": "La respiration pendant le sommeil",
       "script": {
         "topic": "La respiration pendant le sommeil",
@@ -96,7 +96,7 @@
       "id": "stress-memory-v2",
       "source_video_id": "jHvt1X6XDuY",
       "experiment_id": "recut_stress_memory_direct_a",
-      "voice_speed": 0.70,
+      "voice_speed": 0.50,
       "topic": "Le stress et le rappel des souvenirs",
       "script": {
         "topic": "Le stress et le rappel des souvenirs",
