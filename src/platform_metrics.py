@@ -170,10 +170,16 @@ def fetch_youtube(video_id: str) -> dict:
     percentage = raw.get("average_view_percentage")
     return {
         "views": raw.get("views"),
+        "engaged_views": raw.get("engaged_views"),
         "completion": round(percentage / 100.0, 4) if percentage is not None else None,
         "avg_view_seconds": raw.get("average_view_duration_sec"),
         "impressions": raw.get("impressions"),
         "ctr": raw.get("actual_ctr"),
+        "shorts_feed_shown": raw.get("shorts_feed_shown"),
+        "stayed_to_watch": raw.get("stayed_to_watch"),
+        "viewed_vs_swiped_away": raw.get("viewed_vs_swiped_away"),
+        "analytics_available_metrics": raw.get("available_metrics", []),
+        "analytics_unavailable_metrics": raw.get("unavailable_metrics", []),
         "fetched_at": raw.get("fetched_at"),
     }
 

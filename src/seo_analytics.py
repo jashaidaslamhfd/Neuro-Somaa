@@ -486,11 +486,19 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
     start = end - _dt.timedelta(days=max(days_back, 1))
     requested = [
         "views",
+        "engagedViews",
         "averageViewDuration",
         "averageViewPercentage",
+        # Reach/Shorts-feed identifiers are probed when the API exposes them
+        # for this channel/report. Unsupported identifiers are removed one at
+        # a time and persisted as unavailable rather than represented as zero.
+        "shortsFeedShown",
+        "stayedToWatch",
+        "viewedVsSwipedAway",
         "impressions",
         "impressionClickThroughRate",
     ]
+    requested_initial = tuple(requested)
     dropped = []
     resp = None
     for _ in range(len(requested)):
@@ -538,14 +546,28 @@ def fetch_actual_performance(youtube_video_id: str, days_back: int = 30) -> dict
 
     headers = [h["name"] for h in resp.get("columnHeaders", [])]
     values = dict(zip(headers, rows[0], strict=False))
+    unavailable = sorted(set(dropped) | (set(requested_initial) - set(headers)))
+    stayed_to_watch = values.get("stayedToWatch")
+    viewed_vs_swiped = values.get("viewedVsSwipedAway")
+    # YouTube Studio labels this viewer-choice signal "Stayed to watch";
+    # expose both normalized names when one supported API field supplies it.
+    if stayed_to_watch is None:
+        stayed_to_watch = viewed_vs_swiped
+    if viewed_vs_swiped is None:
+        viewed_vs_swiped = stayed_to_watch
     return {
         "video_id": youtube_video_id,
         "views": values.get("views"),
+        "engaged_views": values.get("engagedViews"),
         "average_view_duration_sec": values.get("averageViewDuration"),
         "average_view_percentage": values.get("averageViewPercentage"),
+        "shorts_feed_shown": values.get("shortsFeedShown"),
+        "stayed_to_watch": stayed_to_watch,
+        "viewed_vs_swiped_away": viewed_vs_swiped,
         "impressions": values.get("impressions"),
         "actual_ctr": values.get("impressionClickThroughRate"),
-        "unavailable_metrics": dropped,
+        "available_metrics": headers,
+        "unavailable_metrics": unavailable,
         "fetched_at": _dt.datetime.now(_dt.UTC).isoformat(),
     }
 
@@ -625,9 +647,15 @@ def update_history_with_real_metrics(min_hours_old: int = 24, refresh_after_hour
         entry["growth_state"] = growth["growth_state"]
 
         entry["views"] = metrics.get("views")
+        entry["engaged_views"] = metrics.get("engaged_views")
         entry["actual_ctr"] = metrics.get("actual_ctr")
         entry["average_view_duration_sec"] = metrics.get("average_view_duration_sec")
         entry["average_view_percentage"] = metrics.get("average_view_percentage")
+        entry["shorts_feed_shown"] = metrics.get("shorts_feed_shown")
+        entry["stayed_to_watch"] = metrics.get("stayed_to_watch")
+        entry["viewed_vs_swiped_away"] = metrics.get("viewed_vs_swiped_away")
+        entry["analytics_available_metrics"] = metrics.get("available_metrics", [])
+        entry["analytics_unavailable_metrics"] = metrics.get("unavailable_metrics", [])
         if metrics.get("likes") is not None:
             entry["likes"] = metrics["likes"]
         if metrics.get("comments") is not None:

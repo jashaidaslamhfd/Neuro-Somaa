@@ -68,3 +68,60 @@ def test_refresh_failure_does_not_echo_refresh_token():
     ), patch("src.youtube_oauth.requests.post", return_value=token), pytest.raises(YouTubeOAuthError) as exc:
         refresh_session()
     assert "do-not-print" not in str(exc.value)
+
+
+
+def test_analytics_query_returns_shorts_feed_metrics_and_aliases(monkeypatch):
+    from src import seo_analytics
+
+    session = type("Session", (), {"granted_scopes": frozenset({ANALYTICS_SCOPE}), "access_token": "access"})()
+    payload = {
+        "columnHeaders": [
+            {"name": "views"},
+            {"name": "engagedViews"},
+            {"name": "averageViewDuration"},
+            {"name": "averageViewPercentage"},
+            {"name": "stayedToWatch"},
+        ],
+        "rows": [[120, 95, 12, 48.5, 62.0]],
+    }
+    monkeypatch.setattr("youtube_oauth.refresh_session", lambda: session)
+    monkeypatch.setattr("youtube_oauth.analytics_query", lambda *_args, **_kwargs: payload)
+
+    result = seo_analytics.fetch_actual_performance("video-1")
+
+    assert result["views"] == 120
+    assert result["engaged_views"] == 95
+    assert result["stayed_to_watch"] == 62.0
+    assert result["viewed_vs_swiped_away"] == 62.0
+    assert "stayedToWatch" in result["available_metrics"]
+    assert "shortsFeedShown" in result["unavailable_metrics"]
+
+
+def test_analytics_metric_probe_drops_unsupported_shorts_fields(monkeypatch):
+    from src import seo_analytics
+    from youtube_oauth import YouTubeAPIError as RuntimeYouTubeAPIError
+
+    session = type("Session", (), {"granted_scopes": frozenset({ANALYTICS_SCOPE}), "access_token": "access"})()
+    calls = []
+
+    def query(*_args, **kwargs):
+        calls.append(kwargs["metrics"])
+        metrics = kwargs["metrics"].split(",")
+        unsupported = next((metric for metric in metrics if metric == "shortsFeedShown"), None)
+        if unsupported:
+            raise RuntimeYouTubeAPIError(400, f"Unknown identifier ({unsupported})")
+        return {
+            "columnHeaders": [{"name": "views"}, {"name": "engagedViews"}],
+            "rows": [[8, 7]],
+        }
+
+    monkeypatch.setattr("youtube_oauth.refresh_session", lambda: session)
+    monkeypatch.setattr("youtube_oauth.analytics_query", query)
+
+    result = seo_analytics.fetch_actual_performance("video-2")
+
+    assert result["views"] == 8
+    assert result["engaged_views"] == 7
+    assert "shortsFeedShown" in result["unavailable_metrics"]
+    assert len(calls) >= 2
