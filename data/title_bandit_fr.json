@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-21T05:57:16.164551+00:00",
+  "generated_at_utc": "2026-08-22T05:52:27.776385+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {

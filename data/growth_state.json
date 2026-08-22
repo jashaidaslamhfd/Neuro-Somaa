@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-08-21T05:57:15.980556+00:00",
-  "sample_size": 75,
-  "scored_videos": 67,
-  "channel_gate_ratio": 0.638,
+  "generated_at": "2026-08-22T05:52:27.629125+00:00",
+  "sample_size": 77,
+  "scored_videos": 68,
+  "channel_gate_ratio": 0.834,
   "slot_weights": {
-    "12:30": 0.669,
+    "12:30": 0.616,
     "14:30": 1.0,
     "02:00": 1.0,
     "14:00": 1.0,
@@ -12,27 +12,27 @@
     "11:00": 1.0,
     "00:00": 1.0,
     "08:30": 1.0,
-    "13:30": 1.004,
-    "15:00": 0.748,
+    "13:30": 1.006,
+    "15:00": 0.788,
     "06:30": 0.721,
-    "15:30": 1.02,
-    "11:30": 1.123
+    "15:30": 1.026,
+    "11:30": 1.119
   },
   "topic_weights": {
-    "ear": 0.929,
-    "other": 1.006,
+    "ear": 0.903,
+    "other": 1.02,
     "nerve": 1.0,
-    "brain": 0.956,
-    "muscle": 1.15,
-    "gut": 0.899,
-    "breath": 0.942,
-    "eye": 1.022,
-    "skin": 1.041,
-    "heart": 1.045
+    "brain": 0.936,
+    "muscle": 1.21,
+    "gut": 0.884,
+    "breath": 0.933,
+    "eye": 1.009,
+    "skin": 1.039,
+    "heart": 1.034
   },
   "hook_weights": {
-    "statement": 0.861,
-    "question": 1.04
+    "statement": 0.884,
+    "question": 1.032
   },
   "slot_samples": {
     "12:30": 3,
@@ -44,7 +44,7 @@
     "00:00": 2,
     "08:30": 1,
     "13:30": 13,
-    "15:00": 4,
+    "15:00": 5,
     "06:30": 3,
     "15:30": 14,
     "11:30": 21
@@ -54,7 +54,7 @@
     "other": 17,
     "nerve": 2,
     "brain": 11,
-    "muscle": 5,
+    "muscle": 6,
     "gut": 7,
     "breath": 3,
     "eye": 9,
@@ -63,19 +63,19 @@
   },
   "hook_samples": {
     "statement": 12,
-    "question": 55
+    "question": 56
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 67,
-      "gate": 0.65,
-      "avg_completion": 0.4149,
-      "gate_ratio": 0.638,
-      "avg_views": 622.7,
-      "action": "Averaging 41% against a 65% bar. Shorten the cut toward 21s and tighten the first 3 seconds — the gap is retention, not reach."
+      "samples": 68,
+      "gate": 0.5,
+      "avg_completion": 0.4169,
+      "gate_ratio": 0.834,
+      "avg_views": 601.3,
+      "action": "Averaging 42% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
@@ -98,7 +98,7 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 64% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 83% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
     {
       "level": "warn",
@@ -106,23 +106,7 @@
     },
     {
       "level": "warn",
-      "message": "Slot 13:30 NY is under-performing across 13 videos — its weight has been reduced automatically."
-    },
-    {
-      "level": "warn",
-      "message": "Slot 15:00 NY is under-performing across 4 videos — its weight has been reduced automatically."
-    },
-    {
-      "level": "warn",
       "message": "Slot 06:30 NY is under-performing across 3 videos — its weight has been reduced automatically."
-    },
-    {
-      "level": "warn",
-      "message": "Slot 15:30 NY is under-performing across 14 videos — its weight has been reduced automatically."
-    },
-    {
-      "level": "warn",
-      "message": "Slot 11:30 NY is under-performing across 21 videos — its weight has been reduced automatically."
     }
   ],
   "best_slot": "11:30",

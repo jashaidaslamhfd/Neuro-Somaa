@@ -1,14 +1,15 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-14T21:12:28.767258+00:00_
+_Généré 2026-08-22T05:52:36.039118+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
-✅ Trois pics quotidiens distincts sont couverts.
+✅ Les deux pics quotidiens distincts sont couverts.
 
-## 2. Cadence réelle (3 vidéos/jour attendues)
-✅ 2026-08-14 : 3/3
-✅ 2026-08-13 : 3/3
-✅ 2026-08-12 : 3/3
+## 2. Cadence réelle (2 vidéos/jour attendues)
+⚠️ 2026-08-22 : 0/2
+⚠️ 2026-08-21 : 1/2
+⚠️ 2026-08-20 : 1/2
+⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
 
 ## 3. Vidéos déjà publiées à réparer
 9 vidéo(s) présentent des défauts :
@@ -24,9 +25,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi les souvenirs gênants reviennent ?
-      new: Pourquoi les souvenirs gênants reviennent ?
-    FIX   iSh6RR4oxME
-      old: Pourquoi le corps résiste à la perte de poids ?
-      new: Pourquoi le corps résiste à la perte de poids ?
+      old: Pourquoi l'estomac gargouille quand on a faim ?
+      new: Pourquoi l'estomac gargouille quand on a faim ?
+    FIX   QgL7aibqI4k
+      old: Pourquoi le hoquet ne s'arrête pas ?
+      new: Pourquoi le hoquet ne s'arrête pas ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.

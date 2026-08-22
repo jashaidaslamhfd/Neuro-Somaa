@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-08-21T05:57:15.985820+00:00",
+  "generated_at": "2026-08-22T05:52:27.634173+00:00",
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 64% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 83% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": false,
-  "throttle_reason": "last 2 videos avg 108 views",
+  "throttle_reason": "last 2 videos avg 94 views",
   "topic_blocklist": [],
   "winner_topics": [],
   "blocklist_pillars": [],
   "winner_pillars": [
-    "muscle",
     "heart",
     "gut",
+    "muscle",
     "eye",
     "skin",
     "breath",
@@ -39,8 +39,8 @@
       "avg_views": 420.0
     },
     "muscle": {
-      "n": 5,
-      "avg_views": 862.6
+      "n": 6,
+      "avg_views": 740.0
     },
     "gut": {
       "n": 7,
@@ -65,8 +65,8 @@
       "avg_views": 353.1
     },
     "question": {
-      "n": 55,
-      "avg_views": 662.7
+      "n": 56,
+      "avg_views": 653.1
     }
   },
   "preferred_hook_frame": "question",
@@ -75,140 +75,146 @@
       "video_id": "FX6vqwymE0Y",
       "title": "Pourquoi votre corps refuse de maigrir ?",
       "views": 3,
-      "age_hours": 467.7
+      "age_hours": 491.6
     },
     {
       "video_id": "rR7yLwzBakA",
       "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
       "views": 6,
-      "age_hours": 759.9
+      "age_hours": 783.8
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 7,
-      "age_hours": 773.4
+      "age_hours": 797.3
     },
     {
       "video_id": "68B-7lTf8nU",
       "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
       "views": 12,
-      "age_hours": 731.5
+      "age_hours": 755.4
     },
     {
       "video_id": "r7URDUokZh0",
       "title": "Corps lourd",
       "views": 14,
-      "age_hours": 778.2
+      "age_hours": 802.2
     },
     {
       "video_id": "0V5ZhO3qviQ",
       "title": "Ce que votre corps vous dit quand le corps se fige",
       "views": 25,
-      "age_hours": 743.6
+      "age_hours": 767.5
     },
     {
       "video_id": "K8JSUbL13Oc",
       "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
       "views": 33,
-      "age_hours": 341.2
+      "age_hours": 365.1
     },
     {
       "video_id": "vst_IwqiKpU",
       "title": "Pourquoi la musique change l'humeur ?",
       "views": 36,
-      "age_hours": 177.9
+      "age_hours": 201.8
     },
     {
       "video_id": "30NhLXgz-jo",
       "title": "Pourquoi la faim revient à la même heure ?",
       "views": 60,
-      "age_hours": 59.2
+      "age_hours": 83.1
     },
     {
       "video_id": "Re4VU9lryhQ",
       "title": "Ce qui se passe quand un déjà-vu semble étrangement familier",
       "views": 68,
-      "age_hours": 733.6
+      "age_hours": 757.5
     },
     {
       "video_id": "x15ltzEHaB8",
       "title": "Pourquoi le temps semble passer plus vite en vieillissant",
       "views": 76,
-      "age_hours": 755.0
+      "age_hours": 778.9
     },
     {
       "video_id": "PRXb_17G84s",
       "title": "Pourquoi le cerveau crée des souvenirs faux ?",
       "views": 83,
-      "age_hours": 179.3
+      "age_hours": 203.3
     },
     {
       "video_id": "jHvt1X6XDuY",
       "title": "Pourquoi le stress brouille la mémoire ?",
       "views": 105,
-      "age_hours": 249.9
+      "age_hours": 273.9
     },
     {
       "video_id": "TaXxSn0YoMc",
       "title": "Ce que votre corps vous dit quand le silence devient",
       "views": 116,
-      "age_hours": 717.6
+      "age_hours": 741.6
     },
     {
       "video_id": "FteL-0nbHWk",
       "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
       "views": 117,
-      "age_hours": 757.5
+      "age_hours": 781.4
+    },
+    {
+      "video_id": "trfitEKS1ik",
+      "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
+      "views": 127,
+      "age_hours": 60.1
     },
     {
       "video_id": "1Y3DfG_Opg4",
       "title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "views": 152,
-      "age_hours": 322.6
+      "age_hours": 346.5
     },
     {
       "video_id": "JIId_zuREG8",
       "title": "Pourquoi le cerveau atténue la douleur en danger ?",
       "views": 156,
-      "age_hours": 66.3
+      "age_hours": 90.2
     },
     {
       "video_id": "Ubg7rTtym84",
       "title": "Pourquoi un vertige apparaît après s'être levé ?",
       "views": 168,
-      "age_hours": 345.5
+      "age_hours": 369.4
     },
     {
       "video_id": "CdbNz9T2sbA",
       "title": "Pourquoi la respiration ralentit en dormant ?",
       "views": 190,
-      "age_hours": 274.4
+      "age_hours": 298.3
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 469.3
+      "age_hours": 493.3
     },
     {
       "video_id": "28JErGGWIs0",
       "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
       "views": 225,
-      "age_hours": 251.7
+      "age_hours": 275.6
     },
     {
       "video_id": "fmi157e4H0o",
       "title": "Pourquoi le corps révèle le mensonge ?",
       "views": 278,
-      "age_hours": 162.5
+      "age_hours": 186.4
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 294,
-      "age_hours": 689.2
+      "age_hours": 713.1
     }
   ],
-  "auto_repair_count": 23
+  "auto_repair_count": 24
 }

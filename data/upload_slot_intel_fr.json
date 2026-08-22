@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-21T05:57:16.165122+00:00",
+  "generated_at_utc": "2026-08-22T05:52:27.776947+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.325,
+      "score": 3.3242,
       "samples": 13,
       "confident": true,
-      "prior": 3.3495
+      "prior": 3.3463
     },
     {
       "rank": 3,
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.325,
+      "score": 3.3242,
       "observed_samples": 13,
       "observed_avg": 3.3175,
-      "prior": 3.3495,
+      "prior": 3.3463,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -133,7 +133,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.1653,
+      "score": 3.1627,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0332,
+      "score": 3.0307,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -164,13 +164,36 @@
       ]
     },
     {
+      "slot": "06:00",
+      "hour": 6,
+      "minute": 0,
+      "score": 3.0025,
+      "observed_samples": 2,
+      "observed_avg": 2.8869,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "RV4LGjp89-U",
+          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
+          "views": 579,
+          "published_paris": "2026-07-23 06:07"
+        },
+        {
+          "video_id": "jHvt1X6XDuY",
+          "title": "Pourquoi le stress brouille la mémoire ?",
+          "views": 105,
+          "published_paris": "2026-08-11 06:00"
+        }
+      ]
+    },
+    {
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.018,
-      "observed_samples": 5,
-      "observed_avg": 2.9128,
-      "prior": 3.1495,
+      "score": 3.0004,
+      "observed_samples": 6,
+      "observed_avg": 2.9032,
+      "prior": 3.1463,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -193,33 +216,10 @@
       ]
     },
     {
-      "slot": "06:00",
-      "hour": 6,
-      "minute": 0,
-      "score": 3.0044,
-      "observed_samples": 2,
-      "observed_avg": 2.8869,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "RV4LGjp89-U",
-          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
-          "views": 579,
-          "published_paris": "2026-07-23 06:07"
-        },
-        {
-          "video_id": "jHvt1X6XDuY",
-          "title": "Pourquoi le stress brouille la mémoire ?",
-          "views": 105,
-          "published_paris": "2026-08-11 06:00"
-        }
-      ]
-    },
-    {
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 2.9974,
+      "score": 2.9948,
       "observed_samples": 1,
       "observed_avg": 2.6557,
       "prior": 0.0,
@@ -236,7 +236,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.9834,
+      "score": 2.9808,
       "observed_samples": 1,
       "observed_avg": 2.5855,
       "prior": 0.0,
@@ -253,7 +253,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.8828,
+      "score": 2.8809,
       "observed_samples": 2,
       "observed_avg": 2.5829,
       "prior": 0.0,
@@ -276,10 +276,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.8445,
+      "score": 2.8422,
       "observed_samples": 3,
       "observed_avg": 3.1192,
-      "prior": 2.7495,
+      "prior": 2.7463,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -305,7 +305,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.8342,
+      "score": 2.8317,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
