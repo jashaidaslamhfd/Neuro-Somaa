@@ -90,3 +90,53 @@ def test_thumbnail_diagnostics_are_persisted():
     source = (ROOT / "src" / "main.py").read_text(encoding="utf-8")
     assert '"thumbnail_score": script_data.get("thumbnail_score")' in source
     assert '"thumbnail_variants": script_data.get("thumbnail_variants", [])' in source
+
+
+
+def test_first_three_seconds_gate_accepts_immediate_french_opening():
+    from retention_gate import validate_first_three_seconds
+
+    script = {
+        "hook": "Ton cerveau ralentit le temps en danger ?",
+        "scenes": [
+            {
+                "visual": "Gros plan sur un visage, les yeux s'ouvrent brusquement",
+                "caption": "Ton cerveau ralentit le temps en danger ?",
+            },
+            {"visual": "Neurones en flash, le signal accélère", "caption": "C'est une réponse de survie."},
+        ],
+    }
+    segments = [
+        {"text": script["hook"], "duration": 2.0, "tts_engine": "edge_tts"},
+        {"text": "C'est une réponse de survie.", "duration": 2.0, "tts_engine": "edge_tts"},
+    ]
+
+    report = validate_first_three_seconds(script, segments)
+
+    assert report["ok"]
+    assert report["failed_checks"] == []
+    assert report["decision_words"] >= 4
+    assert report["opening_words"] >= 7
+
+
+def test_first_three_seconds_gate_rejects_silent_generic_opening():
+    from retention_gate import validate_first_three_seconds
+
+    script = {
+        "hook": "Vous avez déjà ressenti cela ?",
+        "scenes": [
+            {"visual": "Fond abstrait bleu", "caption": "Vous avez déjà ressenti cela ?"},
+            {"visual": "Image fixe", "caption": "La réponse arrive ensuite."},
+        ],
+    }
+    segments = [
+        {"text": script["hook"], "duration": 4.5, "tts_engine": "silence"},
+        {"text": "La réponse arrive ensuite.", "duration": 2.0, "tts_engine": "edge_tts"},
+    ]
+
+    report = validate_first_three_seconds(script, segments)
+
+    assert not report["ok"]
+    assert "no_silent_opening" in report["failed_checks"]
+    assert "visual_action" in report["failed_checks"]
+    assert "decision_words" in report["failed_checks"]

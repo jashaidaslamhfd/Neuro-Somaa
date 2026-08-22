@@ -704,6 +704,14 @@ RÉCOMPENSE IMMÉDIATE EN 3 S : la scène 1 ne promet PAS seulement — elle mon
 le phénomène en action dès la première seconde (visuel + mot du hook prononcé
 instantanément), jamais une introduction ou une attente de valeur au-delà de 3 s.
 
+GATE AUTOMATIQUE DES 3 PREMIÈRES SECONDES :
+- La voix commence immédiatement, sans silence, jingle, logo, salutation ou montée musicale.
+- La scène 1 doit durer au maximum 5 secondes et contenir 5–9 mots ; la valeur doit néanmoins être compréhensible dès les 2,2 premières secondes.
+- Au moins quatre mots compréhensibles doivent être prononcés avant 2,2 secondes et au moins sept avant 3 secondes.
+- Le visuel de la scène 1 doit montrer un gros plan, un mouvement, une réaction ou un changement visible ; jamais un fond abstrait, un écran vide ou une image fixe générique.
+- La scène 2 doit apporter la réponse flash ou le mécanisme central, pas reformuler la question.
+- Le `hook` doit être identique à la légende de la scène 1 et contenir une question ou un signal clair d'explication.
+
 RÈGLES DE FORMAT :
 - Total des légendes parlées : {MIN_WORDS}–{MAX_WORDS} mots français.
 - Scène 1 : {HOOK_MIN_WORDS}–{HOOK_MAX_WORDS} mots. Scènes 2–{MAX_SCENES} : {MIN_SCENE_WORDS}–{MAX_SCENE_WORDS} mots chacune.

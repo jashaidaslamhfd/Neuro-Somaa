@@ -447,19 +447,21 @@ def check_five_second_cliff(audio_segments: list[dict]) -> dict:
 
 
 def build_shorts_report(script_data: dict, audio_segments: list[dict], topic_tags: list[str]) -> dict:
-    """Single entry point main.py can call alongside quality_checker /
-    anti_spam. Doesn't gate publishing on its own (quality_checker already
-    owns the approve/reject decision) - this is diagnostic + asset output."""
+    """Build Shorts diagnostics, including the hard opening structure report."""
+    from retention_gate import validate_first_three_seconds
+
     hook_detail = score_hook_detailed(script_data.get("hook", ""))
     pacing = check_caption_pacing(script_data.get("scenes", []), audio_segments)
     hashtags = generate_shorts_hashtags(topic_tags)
     retention_prediction = predict_retention(script_data, audio_segments)
     cliff = check_five_second_cliff(audio_segments)
+    first_three_seconds = validate_first_three_seconds(script_data, audio_segments)
 
     return {
         "hook_detail": hook_detail,
         "caption_pacing": pacing,
         "five_second_cliff": cliff,
+        "first_three_seconds": first_three_seconds,
         "shorts_hashtags": hashtags,
         "retention_prediction": retention_prediction,
     }

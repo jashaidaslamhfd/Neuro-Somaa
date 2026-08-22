@@ -952,6 +952,22 @@ class SKILLORPipeline:
                 # var and both fields were silently saved as None.
                 script_data["shorts_report"] = shorts_report
 
+                # HARD RETENTION GATE: validate the actual first three seconds
+                # before spending time on video rendering or upload. This is a
+                # structural production check, not an uncalibrated prediction.
+                opening = shorts_report.get("first_three_seconds", {})
+                require_strict_gate(
+                    opening.get("ok", False),
+                    opening,
+                    "first-three-second opening",
+                )
+                logger.info(
+                    "✅ First-three-second gate passed: score=%s/100, decision_words=%s, opening_words=%s",
+                    opening.get("score"),
+                    opening.get("decision_words"),
+                    opening.get("opening_words"),
+                )
+
                 pacing = shorts_report.get("caption_pacing", {})
                 # Never silently shorten captions after TTS: doing so creates
                 # subtitles that no longer match the spoken narration. A pacing
