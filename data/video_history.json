@@ -92,12 +92,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 22.26,
-    "analytics_fetched_at": "2026-08-22T19:22:06.483261+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:31.862044+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 117,
-    "views_per_day": -73.1,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 3,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 2,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "4ed746bb4b2a2885530474396659974206f091ceabdfc00c318794bcf0e63f0a",
@@ -117,12 +135,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 23,
     "average_view_percentage": 59.89,
-    "analytics_fetched_at": "2026-08-22T19:22:07.059890+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:33.188408+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 76,
-    "views_per_day": -46.2,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 4,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 2,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "b9980f417d50db90c500a0150b01c322c54bf223ca44270e06b261afe511a250",
@@ -142,12 +178,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 5,
     "average_view_percentage": 14.529999999999998,
-    "analytics_fetched_at": "2026-08-22T19:22:07.739200+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:34.299250+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 25,
-    "views_per_day": -15.4,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 1,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 1,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "0147e48d3de772c6a47c76ac39a7ccea5531c22ea3b5c455c4ec123adaa5c47a",
@@ -167,12 +221,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 4,
     "average_view_percentage": 11.03,
-    "analytics_fetched_at": "2026-08-22T19:22:08.390527+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:35.742088+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 68,
-    "views_per_day": -41.0,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 4,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 1,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "61c29bb0890c66ad102ae379266b45b67a3292f9493e38cf3b4607639793dd0f",
@@ -192,12 +264,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 37,
     "average_view_percentage": 100.81,
-    "analytics_fetched_at": "2026-08-22T19:22:08.957204+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:36.703426+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 12,
-    "views_per_day": -5.8,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 3,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 1,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "2cbce7a2ac313a4780b2afb6367fac3df28982edb3579c2065f388095b1ca5d2",
@@ -217,12 +307,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 26.669999999999998,
-    "analytics_fetched_at": "2026-08-22T19:22:09.652386+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:37.580764+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 671,
-    "views_per_day": -300.1,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 203,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 59,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "9cf8a04f0b4c614d77dd9f6c283fa71d40002888ceb30adb66169c67992b4f02",
@@ -242,12 +350,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 28,
     "average_view_percentage": 67.13,
-    "analytics_fetched_at": "2026-08-22T19:22:10.179326+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:38.570346+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 116,
-    "views_per_day": -48.7,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 40,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 10,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "596699060f044de2d1e4ae41b6be5f9d6b7a02a56563bb48934ff4c3126ea4b7",
@@ -267,12 +393,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 38.73,
-    "analytics_fetched_at": "2026-08-22T19:22:10.822902+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:39.446112+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 1087,
-    "views_per_day": -87.8,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 950,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 468,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "ebe3038da6496d4b3f534033b139156029b5fd524708b5eff48f08815443e5a5",
@@ -292,12 +436,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 37.61,
-    "analytics_fetched_at": "2026-08-22T19:22:11.371164+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:40.432787+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
-    "views_prev": 579,
-    "views_per_day": -1.9,
-    "growth_state": "stalled"
+    "stall_streak": 8,
+    "views_prev": 576,
+    "views_per_day": 0.0,
+    "growth_state": "stalled",
+    "engaged_views": 228,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "b76c6fa4abfb0a05f2968df53676ec2f395b4201758d8bf60f98d93c29765483",
@@ -317,12 +479,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 29.34,
-    "analytics_fetched_at": "2026-08-22T19:22:11.866660+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:41.502390+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 294,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 52,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "ef9ce3f640408ca51892a80e2b0de9aa45c970813553f30dfd78ac7a4c9bcff2",
@@ -342,12 +522,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 27.41,
-    "analytics_fetched_at": "2026-08-22T19:22:12.338274+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:42.688144+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1456,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 559,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "9e6291fa502aff8fb61eedf8230206b018e6514cdfe27918f2811a8079be7f3b",
@@ -368,12 +566,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 28.9,
-    "analytics_fetched_at": "2026-08-22T19:22:12.955324+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:43.717407+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1031,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 380,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "4029b1bdbb36b3590c8d16e26257414cc22ac8803f97c70fd33ee350a9812d0b",
@@ -394,12 +610,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 30.98,
-    "analytics_fetched_at": "2026-08-22T19:22:13.366961+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:44.664421+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 762,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled",
+    "engaged_views": 197,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "3e210ca28a1532d8bf3f11da4e6ca61e278513e071c1af5f37a4b2962470de85",
@@ -420,12 +654,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 30.760000000000005,
-    "analytics_fetched_at": "2026-08-22T19:22:13.951957+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:45.605515+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 2,
+    "stall_streak": 3,
     "views_prev": 352,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 122,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "8955bb7e285be624ce4d80d40c9bf4a22722a271bde42127e93c9f32e8b5a100",
@@ -446,12 +698,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 34.56,
-    "analytics_fetched_at": "2026-08-22T19:22:14.561979+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:46.483576+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 4,
+    "stall_streak": 5,
     "views_prev": 769,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 306,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "a65552fc3738663cfe7c643fdd395d75699004edf60d4fdbf1cbda76587aa419",
@@ -472,12 +742,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 29.31,
-    "analytics_fetched_at": "2026-08-22T19:22:15.049874+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:47.528384+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 985,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 331,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "3d1bf86e220f04778663024f9711d637800cf77de4ea5d4a06e7dc9a902120e0",
@@ -498,12 +786,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 28.9,
-    "analytics_fetched_at": "2026-08-22T19:22:15.514713+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:48.462438+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0,
-    "views_prev": 523,
-    "views_per_day": 0.6,
-    "growth_state": "growing"
+    "stall_streak": 1,
+    "views_prev": 524,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
+    "engaged_views": 120,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "eb810fa78ce0a8a4c942e925a583ef9e6f1365ecc418b57a291afb33ba67894e",
@@ -524,12 +830,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 34.66,
-    "analytics_fetched_at": "2026-08-22T19:22:15.928452+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:49.500228+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0,
-    "views_prev": 1208,
-    "views_per_day": 0.6,
-    "growth_state": "growing"
+    "stall_streak": 1,
+    "views_prev": 1209,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
+    "engaged_views": 340,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "01b7f27f599366365ed5efb6a37f1fc62e8f65759b9bb93e8be3492b09904c03",
@@ -550,12 +874,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 32.84,
-    "analytics_fetched_at": "2026-08-22T19:22:16.451363+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:50.472598+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1168,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 333,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "5b792fd399062aadbbd5e6061730ff3dbc5204c4ea88a716090fc14fbec8657f",
@@ -576,12 +918,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 29.07,
-    "analytics_fetched_at": "2026-08-22T19:22:16.965670+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:51.328160+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1007,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 310,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "d52b2ba0f6244ed4fdc587b48f5d6a397109165b764fe895ca5206d1a92556d0",
@@ -602,12 +962,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 36.65,
-    "analytics_fetched_at": "2026-08-22T19:22:17.529954+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:52.431964+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 4,
+    "stall_streak": 5,
     "views_prev": 777,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 179,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "9bfc549a172116f5d10f89c05e957600efeb9f40f7ed435e8bbbf56d32ed862d",
@@ -648,12 +1026,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 38.83,
-    "analytics_fetched_at": "2026-08-22T19:22:18.489278+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:54.236104+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 3,
+    "stall_streak": 4,
     "views_prev": 915,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 330,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "c1c1104b7ff92652e56d7f76b5c12016adfb125e43257cc261e68a92afd744fc",
@@ -678,12 +1074,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 47.08,
-    "analytics_fetched_at": "2026-08-22T19:22:19.057444+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:55.083601+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 731,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 386,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "d9675f41a6217d41597524875e635cfa9b9ef491918b5cd4241e4cc383290775",
@@ -708,12 +1122,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 47.55,
-    "analytics_fetched_at": "2026-08-22T19:22:19.676933+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:55.912746+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 637,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 126,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "d1d312f3e64be40cd8725feb648931ffd7fcd1c5ddddee8e09819d06c9b2bb07",
@@ -738,12 +1170,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 39.99,
-    "analytics_fetched_at": "2026-08-22T19:22:20.202509+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:56.850354+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1241,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 320,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "aa92055e153b273cf89a16a187aaa2eba253347bac9f167e64ddde27460992bd",
@@ -768,12 +1218,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 41.15,
-    "analytics_fetched_at": "2026-08-22T19:22:20.682249+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:57.724557+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 827,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 272,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630",
@@ -798,12 +1266,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 65.56,
-    "analytics_fetched_at": "2026-08-22T19:22:21.410157+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:58.679834+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0,
-    "views_prev": 957,
-    "views_per_day": 0.6,
-    "growth_state": "growing"
+    "stall_streak": 1,
+    "views_prev": 958,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
+    "engaged_views": 307,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "340b2f96fb0a82158c4f50647c9430350f5fddab92faa45de862dc03e2d013e8",
@@ -828,12 +1314,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 35.38,
-    "analytics_fetched_at": "2026-08-22T19:22:21.839884+00:00",
+    "analytics_fetched_at": "2026-08-22T20:06:59.767657+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 327,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 135,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b",
@@ -858,12 +1362,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 44.61,
-    "analytics_fetched_at": "2026-08-22T19:22:22.421878+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:00.625632+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 192,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 64,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "b58437818eb2533d8d71853647a421d63a36bdd6694c907194517acb1cec11a3",
@@ -888,12 +1410,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 0,
     "average_view_percentage": 0,
-    "analytics_fetched_at": "2026-08-22T19:22:23.126140+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:01.627618+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 3,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 0,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "c7e8c562e2da103a14017fa10eb7c205e8d22675964f2aa2fb02a4d4547d789d",
@@ -918,12 +1458,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 34.29,
-    "analytics_fetched_at": "2026-08-22T19:22:23.663654+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:02.505756+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 768,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 240,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "e762eb1a73bf2502a92a23fa5bb3594aec0bf989780c7f25b8dba4ab40ded431",
@@ -948,12 +1506,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 46.62,
-    "analytics_fetched_at": "2026-08-22T19:22:24.270847+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:03.399241+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 822,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 335,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "50cda7b1847ae4041160f77397da563a2acf83ab035609257d2f002d039a2d5e",
@@ -1038,12 +1614,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 43.3,
-    "analytics_fetched_at": "2026-08-22T19:22:26.342591+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:07.082002+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 738,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 376,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "e4ac7722c888b995ec6e8107905c0ac24850cfed2c9bec5cfbc1c66e73f466fc",
@@ -1068,12 +1662,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 46.11,
-    "analytics_fetched_at": "2026-08-22T19:22:26.857396+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:08.037352+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 720,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 341,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "2331113a6fefa9d909e5d727baed2f3deb5d147fb2ac7b581db9d7ed3a8a52e4",
@@ -1098,12 +1710,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 40.51,
-    "analytics_fetched_at": "2026-08-22T19:22:27.392610+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:08.875279+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 651,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 300,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "beea1a54e1c41352deedf92d1cdbafaf8b65bd1ca2f6b877f9d49e0cf8cb17db",
@@ -1128,12 +1758,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 36.53,
-    "analytics_fetched_at": "2026-08-22T19:22:27.914962+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:09.732991+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 1029,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 217,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "6ed58f6d2de488446ff471f1e6a6e3c77fd3e38bb4abc29dde5b0701740461d8",
@@ -1158,12 +1806,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 15,
     "average_view_percentage": 69.31,
-    "analytics_fetched_at": "2026-08-22T19:22:28.414298+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:10.619865+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 1054,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled",
+    "engaged_views": 280,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "19d2be3e3627cdcf5c1175ff058e1852f5deeadcf8e290048ff7d752e8c29e6f",
@@ -1188,12 +1854,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 54.85,
-    "analytics_fetched_at": "2026-08-22T19:22:28.786457+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:11.474735+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 4,
+    "stall_streak": 5,
     "views_prev": 168,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 56,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "1db25dceb17a3ef22af174317490f5acb46c612d0380ea0c7e2275e0964f519c",
@@ -1218,12 +1902,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 46.87,
-    "analytics_fetched_at": "2026-08-22T19:22:29.187817+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:12.490762+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 5,
+    "stall_streak": 6,
     "views_prev": 33,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 14,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "a04fc26adb6267a3ddd47cd01de54d5b381306aeabf7bfcfe60080bdbc3efbbf",
@@ -1248,12 +1950,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 59.25,
-    "analytics_fetched_at": "2026-08-22T19:22:29.715903+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:13.376690+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 7,
+    "stall_streak": 8,
     "views_prev": 390,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 99,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "11a988a6817b301a453ff03216a5b810e77dcac080eddf73b384133155c19fb6",
@@ -1278,12 +1998,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 39.77,
-    "analytics_fetched_at": "2026-08-22T19:22:30.232559+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:14.313623+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6,
+    "stall_streak": 7,
     "views_prev": 806,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 309,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "fe661f9902e86c80d6c2533d900f2a50a0a3fb7fc01526a454a7d01e09c3e7c1",
@@ -1308,12 +2046,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 36.88,
-    "analytics_fetched_at": "2026-08-22T19:22:30.658551+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:15.455160+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6,
+    "stall_streak": 7,
     "views_prev": 152,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 25,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "3b0296b84784b72194c7141462a231963c3b251c496ad7209c63f10210a512f6",
@@ -1338,12 +2094,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 44.6,
-    "analytics_fetched_at": "2026-08-22T19:22:31.131306+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:16.332057+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6,
+    "stall_streak": 7,
     "views_prev": 841,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 322,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "52d133ee835d4ad2f73189d350c529493e29779f28d058625402da4332762748",
@@ -1368,12 +2142,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 7,
     "average_view_percentage": 36.26,
-    "analytics_fetched_at": "2026-08-22T19:22:31.573044+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:17.272807+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 8,
+    "stall_streak": 9,
     "views_prev": 334,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 56,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "d724f90de3696a88e03e29d05f043011ee3ece42f8ea511e048bcfb13955dc14",
@@ -1398,12 +2190,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 39.16,
-    "analytics_fetched_at": "2026-08-22T19:22:31.967318+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:18.241013+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1,
+    "stall_streak": 2,
     "views_prev": 923,
     "views_per_day": 0.0,
-    "growth_state": "flat"
+    "growth_state": "stalled",
+    "engaged_views": 345,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "3e4b23cd0a207594e56d465d596ccce7ec16d91ac96c07713fb6f778f68efee4",
@@ -1428,12 +2238,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 14,
     "average_view_percentage": 62.77,
-    "analytics_fetched_at": "2026-08-22T19:22:32.466774+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:19.103955+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 5,
+    "stall_streak": 6,
     "views_prev": 922,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 343,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "5f7e78d3e7fef1db0b8b066b03ee08ad2899408e9122b81aa869583f1617bd7e",
@@ -1458,12 +2286,30 @@
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 47.91,
-    "analytics_fetched_at": "2026-08-22T19:22:32.989376+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:19.985172+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6,
+    "stall_streak": 7,
     "views_prev": 976,
     "views_per_day": 0.0,
-    "growth_state": "stalled"
+    "growth_state": "stalled",
+    "engaged_views": 334,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "1036a76299e3cb5a1dfe07be3b68506c76a1ea168cd903552f0979fbc18f637f",
@@ -1491,9 +2337,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 44.8,
-    "analytics_fetched_at": "2026-08-22T19:22:33.495677+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:20.910110+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6
+    "stall_streak": 7,
+    "engaged_views": 41,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "787643cc80723f69e8dd22a0457ba85b564e858fa3bc3725ba4cd9751fa772b6",
@@ -1521,9 +2385,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 43.95,
-    "analytics_fetched_at": "2026-08-22T19:22:33.986518+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:21.807394+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6
+    "stall_streak": 7,
+    "engaged_views": 331,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "820ed29f2fa285253d7438888f5e4c6f9b2384e9f20583a6ac6814a26d8acd79",
@@ -1551,9 +2433,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 37.92,
-    "analytics_fetched_at": "2026-08-22T19:22:34.394523+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:22.705085+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6
+    "stall_streak": 7,
+    "engaged_views": 43,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "cc4a37c861c57f425aefc6d76261f305fe6cb021f8340ab2e0a417892bc4ed07",
@@ -1581,9 +2481,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 41.14,
-    "analytics_fetched_at": "2026-08-22T19:22:34.987500+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:23.609042+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 6
+    "stall_streak": 7,
+    "engaged_views": 30,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "83646b01951369697545c917a266caf87ede6e0d2c20748e4794d4d2ca0b11b3",
@@ -1607,16 +2525,34 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 54,
     "loop_bridge_present": false,
-    "views_prev": 836,
-    "views_per_day": 0.6,
-    "growth_state": "growing",
+    "views_prev": 837,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
     "views": 837,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 44.35,
-    "analytics_fetched_at": "2026-08-22T19:22:35.425366+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:24.469985+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0
+    "stall_streak": 1,
+    "engaged_views": 331,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "ea28729706d5c585a06fe68ea71fc8a1ffb15b9482316f9eb8c067e3e5d73a56",
@@ -1647,9 +2583,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 52.89,
-    "analytics_fetched_at": "2026-08-22T19:22:35.978495+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:25.308220+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 5
+    "stall_streak": 6,
+    "engaged_views": 145,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "f949858f5bef5525e4482efb743bc0a4dda6739ca477f38d73428ad1ac465cb1",
@@ -1675,14 +2629,32 @@
     "loop_bridge_present": false,
     "views_prev": 771,
     "views_per_day": 0.0,
-    "growth_state": "flat",
+    "growth_state": "stalled",
     "views": 771,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 52.27,
-    "analytics_fetched_at": "2026-08-22T19:22:36.489440+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:26.327679+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1
+    "stall_streak": 2,
+    "engaged_views": 242,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "cb5da7ba689abc511253ddf4e72e3c2a2857933bcda00b5e8f955be6ec03e2fc",
@@ -1713,9 +2685,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 44.26,
-    "analytics_fetched_at": "2026-08-22T19:22:36.948877+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:27.190869+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 5
+    "stall_streak": 6,
+    "engaged_views": 313,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "c16eeb638198c170b8906d10f22ff40757fdbc1ac4cc34e8acfb601102605189",
@@ -1746,9 +2736,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 52.14,
-    "analytics_fetched_at": "2026-08-22T19:22:37.448600+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:28.071553+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 3
+    "stall_streak": 4,
+    "engaged_views": 378,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "42c079ec50ac77700be895cbb56b5568f83707cd9e78e9910793c2c0dafff9fe",
@@ -1772,16 +2780,34 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 78,
     "loop_bridge_present": true,
-    "views_prev": 928,
-    "views_per_day": 1.3,
-    "growth_state": "growing",
+    "views_prev": 930,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
     "views": 930,
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 47.81,
-    "analytics_fetched_at": "2026-08-22T19:22:37.909580+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:28.968411+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0
+    "stall_streak": 1,
+    "engaged_views": 309,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "9b822ce6d8d9b5d2bfe174038d5e36485856dc041bb49dc9a434a556ea26c7f0",
@@ -1812,9 +2838,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 42.91,
-    "analytics_fetched_at": "2026-08-22T19:22:38.344159+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:29.920266+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 3
+    "stall_streak": 4,
+    "engaged_views": 189,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "f1b7952d8c31541929c7f2a96979578ce91eb6c5072016061bbe98bf6160ce62",
@@ -1845,9 +2889,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 50.84000000000001,
-    "analytics_fetched_at": "2026-08-22T19:22:38.790502+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:30.777543+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 2
+    "stall_streak": 3,
+    "engaged_views": 31,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "0e29c981bff5ac76cb1f98f175cb9f828623cf741794c12b958a20cff677d770",
@@ -1878,9 +2940,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 10,
     "average_view_percentage": 39.32,
-    "analytics_fetched_at": "2026-08-22T19:22:39.189572+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:31.646472+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 2
+    "stall_streak": 3,
+    "engaged_views": 12,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "88a576c9a53a3b5d1aa13bc665e668329345ac9541636543efa5447f90a7c12e",
@@ -1904,16 +2984,34 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 42,
     "loop_bridge_present": false,
-    "views_prev": 278,
-    "views_per_day": -0.6,
+    "views_prev": 277,
+    "views_per_day": 0.0,
     "growth_state": "stalled",
     "views": 277,
     "actual_ctr": null,
     "average_view_duration_sec": 11,
     "average_view_percentage": 52.67000000000001,
-    "analytics_fetched_at": "2026-08-22T19:22:39.569902+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:32.697950+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 3
+    "stall_streak": 4,
+    "engaged_views": 47,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "189644d1f93ad037cc86e9d42f85d897a173206bcb3c0cc518cfd2a74645473e",
@@ -1944,9 +3042,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 12,
     "average_view_percentage": 50.28,
-    "analytics_fetched_at": "2026-08-22T19:22:40.015077+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:33.583270+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 2
+    "stall_streak": 3,
+    "engaged_views": 300,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "31de668d0b7d29449677ebdb0335534f98c41763b25e880ec4cd4cde74d19824",
@@ -1977,9 +3093,27 @@
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 44.74,
-    "analytics_fetched_at": "2026-08-22T19:22:40.424206+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:34.548434+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 2
+    "stall_streak": 3,
+    "engaged_views": 296,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "f2f00ab24c610a0170a47fa640a8a8937951f682699f0a9098efa18d591c77d9",
@@ -2028,14 +3162,32 @@
     "loop_bridge_present": false,
     "views_prev": 1050,
     "views_per_day": 0.0,
-    "growth_state": "flat",
+    "growth_state": "stalled",
     "views": 1050,
     "actual_ctr": null,
     "average_view_duration_sec": 13,
     "average_view_percentage": 43.43,
-    "analytics_fetched_at": "2026-08-22T19:22:41.317378+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:36.341925+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1
+    "stall_streak": 2,
+    "engaged_views": 293,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "1408c1aa2b3ae74d466aa18e2ea79b45ae9c5a02160bdd42d41523012d0769ef",
@@ -2061,14 +3213,32 @@
     "loop_bridge_present": false,
     "views_prev": 777,
     "views_per_day": 0.0,
-    "growth_state": "flat",
+    "growth_state": "stalled",
     "views": 777,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 31.44,
-    "analytics_fetched_at": "2026-08-22T19:22:41.768395+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:37.170225+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 1
+    "stall_streak": 2,
+    "engaged_views": 329,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "d2097c3796ec44454a4151d5f3f84c17d30d448a645a197117e921763fccbe13",
@@ -2092,16 +3262,34 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 54,
     "loop_bridge_present": false,
-    "views_prev": 156,
-    "views_per_day": 6.4,
-    "growth_state": "growing",
+    "views_prev": 166,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
     "views": 166,
     "actual_ctr": null,
     "average_view_duration_sec": 9,
     "average_view_percentage": 33.14,
-    "analytics_fetched_at": "2026-08-22T19:22:42.236649+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:38.000362+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0
+    "stall_streak": 1,
+    "engaged_views": 50,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "1c58e98c7812b5fcb5b0d1aa30284346923ae45a97f47ca6c4cd77f063da764b",
@@ -2125,16 +3313,34 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 66,
     "loop_bridge_present": false,
-    "views_prev": 60,
-    "views_per_day": 0.6,
-    "growth_state": "growing",
+    "views_prev": 61,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
     "views": 61,
     "actual_ctr": null,
     "average_view_duration_sec": 8,
     "average_view_percentage": 27.62,
-    "analytics_fetched_at": "2026-08-22T19:22:42.641554+00:00",
+    "analytics_fetched_at": "2026-08-22T20:07:38.885126+00:00",
     "analytics_via": "analytics",
-    "stall_streak": 0
+    "stall_streak": 1,
+    "engaged_views": 8,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "f7c190219b86f26edbf33fe6021475b113f4c2efa2122e0fd093c4873f04bd4f",
@@ -2181,15 +3387,34 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 42,
     "loop_bridge_present": false,
-    "views_prev": null,
-    "views_per_day": null,
-    "growth_state": "first_read",
-    "views": 127,
+    "views_prev": 127,
+    "views_per_day": 23.6,
+    "growth_state": "growing",
+    "views": 141,
     "actual_ctr": null,
     "average_view_duration_sec": 11,
-    "average_view_percentage": 59.88,
-    "analytics_fetched_at": "2026-08-22T05:51:37.984963+00:00",
-    "analytics_via": "analytics"
+    "average_view_percentage": 62.49,
+    "analytics_fetched_at": "2026-08-22T20:07:39.982586+00:00",
+    "analytics_via": "analytics",
+    "stall_streak": 0,
+    "engaged_views": 18,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "4d7bc7636ebe9f03ac69933b6e4682dbff709f2983366d3cf0db0ee64c50409c",
@@ -2213,15 +3438,34 @@
     "hook_arm": "question",
     "hook_score_v2": 68,
     "loop_bridge_present": true,
-    "views_prev": null,
-    "views_per_day": null,
-    "growth_state": "first_read",
+    "views_prev": 1,
+    "views_per_day": 0.0,
+    "growth_state": "flat",
     "views": 1,
     "actual_ctr": null,
     "average_view_duration_sec": 16,
     "average_view_percentage": 84.5,
-    "analytics_fetched_at": "2026-08-22T19:22:43.106190+00:00",
-    "analytics_via": "analytics"
+    "analytics_fetched_at": "2026-08-22T20:07:40.843613+00:00",
+    "analytics_via": "analytics",
+    "stall_streak": 1,
+    "engaged_views": 1,
+    "shorts_feed_shown": null,
+    "stayed_to_watch": null,
+    "viewed_vs_swiped_away": null,
+    "analytics_available_metrics": [
+      "video",
+      "views",
+      "engagedViews",
+      "averageViewDuration",
+      "averageViewPercentage"
+    ],
+    "analytics_unavailable_metrics": [
+      "impressionClickThroughRate",
+      "impressions",
+      "shortsFeedShown",
+      "stayedToWatch",
+      "viewedVsSwipedAway"
+    ]
   },
   {
     "content_fingerprint": "6882c849ec860913478373cd5ee149e602f6ba5abb6e923da7385d0961f59185",

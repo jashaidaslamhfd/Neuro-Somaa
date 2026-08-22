@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-08-22T19:59:26.392300+00:00",
+  "generated_at": "2026-08-22T20:09:15.992586+00:00",
   "n_videos_analyzed": 72,
   "truth_gate": {
     "hook_score": {
       "claims": "hook quality",
       "n": 72,
       "spearman_vs_views": 0.086,
-      "spearman_vs_retention": -0.086,
+      "spearman_vs_retention": -0.087,
       "verdict": "NOISE",
       "decision_usable": false
     },
@@ -14,7 +14,7 @@
       "claims": "SEO quality",
       "n": 72,
       "spearman_vs_views": 0.12,
-      "spearman_vs_retention": 0.467,
+      "spearman_vs_retention": 0.469,
       "verdict": "NOISE",
       "decision_usable": false
     },
@@ -22,7 +22,7 @@
       "claims": "retention",
       "n": 72,
       "spearman_vs_views": 0.031,
-      "spearman_vs_retention": -0.081,
+      "spearman_vs_retention": -0.082,
       "verdict": "NOISE",
       "decision_usable": false,
       "bias": 0.272,
@@ -33,7 +33,7 @@
       "claims": "CTR",
       "n": 72,
       "spearman_vs_views": 0.077,
-      "spearman_vs_retention": 0.456,
+      "spearman_vs_retention": 0.457,
       "verdict": "NOISE",
       "decision_usable": false
     },
@@ -51,16 +51,16 @@
   "models": {
     "ridge": {
       "reliable": false,
-      "cv_r2_mean": -0.1688,
-      "cv_r2_std": 0.3688,
-      "cv_mae_views": 428.9,
+      "cv_r2_mean": -0.1672,
+      "cv_r2_std": 0.3675,
+      "cv_mae_views": 428.6,
       "n": 72,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
           "feature": "is_question",
-          "coef": 0.3715,
+          "coef": 0.3719,
           "direction": "+"
         },
         {
@@ -75,27 +75,27 @@
         },
         {
           "feature": "seo_score",
-          "coef": 0.1688,
+          "coef": 0.1694,
           "direction": "+"
         },
         {
           "feature": "has_second_person",
-          "coef": -0.1619,
+          "coef": -0.162,
           "direction": "-"
         },
         {
           "feature": "topic_bucket_1",
-          "coef": 0.1469,
+          "coef": 0.1465,
           "direction": "+"
         },
         {
           "feature": "hook_score",
-          "coef": 0.1013,
+          "coef": 0.1005,
           "direction": "+"
         },
         {
           "feature": "caps_ratio",
-          "coef": -0.0978,
+          "coef": -0.0972,
           "direction": "-"
         }
       ]
@@ -103,7 +103,7 @@
     "mlp": {
       "reliable": false,
       "note": "in-sample fit on n=72; advisory only",
-      "in_sample_mae_views": 270.7,
+      "in_sample_mae_views": 269.9,
       "hidden_units": 12,
       "epochs": 600
     }
@@ -160,8 +160,8 @@
         "wins_ge_1000_views": 10,
         "winner_rate": 0.1695,
         "thompson_score": 0.1802,
-        "posterior_mean_logviews": 5.8904,
-        "avg_views": 624.9,
+        "posterior_mean_logviews": 5.8921,
+        "avg_views": 625.1,
         "confident": true
       },
       "SERIE_COURTE": {
@@ -178,7 +178,7 @@
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
       "thompson_score": 0.1802,
-      "avg_views": 624.9
+      "avg_views": 625.1
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -234,12 +234,12 @@
   "forecast": {
     "reliable": true,
     "method": "Holt double exponential smoothing (α=0.4, β=0.1)",
-    "last_level": 281.8,
-    "daily_trend": -120.13,
-    "sigma_daily": 557.4,
+    "last_level": 285.5,
+    "daily_trend": -119.82,
+    "sigma_daily": 557.2,
     "forecast_daily_views": [
-      161.7,
-      41.5,
+      165.7,
+      45.8,
       0.0,
       0.0,
       0.0,
@@ -269,9 +269,9 @@
       0.0,
       0.0
     ],
-    "total_30d_expected": 203.0,
+    "total_30d_expected": 212.0,
     "band_30d_low": 0.0,
-    "band_30d_high": 564.2,
+    "band_30d_high": 564.3,
     "honesty": "trend extrapolation assumes current strategy/format holds; a single viral outlier reshapes everything — re-read weekly.",
     "series_days": 28,
     "first_day": "2026-07-19",
@@ -297,7 +297,7 @@
       },
       {
         "cluster_id": 3,
-        "name": "réveil / peut / sembler / seul / tout",
+        "name": "réveil / sembler / peut / seul / tout",
         "size": 7,
         "avg_views": 768.0,
         "max_views": 1456,
@@ -335,7 +335,7 @@
         "cluster_id": 0,
         "name": "corps / dit / change / vous / comprendre",
         "size": 36,
-        "avg_views": 469.6,
+        "avg_views": 470.0,
         "max_views": 1134,
         "examples": [
           "Corps lourd",

@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-22T19:59:26.372444+00:00_
+_Generated 2026-08-22T20:09:15.970467+00:00_
 ## Executive summary
 - Videos in history: **79**
 - 48h repair candidates: **33**
@@ -10,7 +10,7 @@ _Generated 2026-08-22T19:59:26.372444+00:00_
 | Paris slot | Score | Samples | Prior |
 |---|---:|---:|---:|
 | `17:30` | 3.1352 | 23 | 0.0 |
-| `19:30` | 3.3069 | 13 | 3.2731 |
+| `19:30` | 3.3071 | 13 | 3.2741 |
 | `21:30` | 3.212 | 15 | 0.0 |
 
 ## Title-pattern bandit
@@ -24,7 +24,7 @@ _Generated 2026-08-22T19:59:26.372444+00:00_
 
 ## 48h auto-repair plan
 - [Corps lourd](https://youtu.be/r7URDUokZh0) → **Pourquoi le corps lourd quand on est fatigué arrive ?** (`very short (11 chars) — gives viewers no specific hook; low views after 816h: 14 < 200`)
-- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 811h: 7 < 200`)
+- [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 812h: 7 < 200`)
 - [Ce qu'il faut comprendre sur le visage qui rougit par gêne](https://youtu.be/rR7yLwzBakA) → **Pourquoi le visage qui rougit par gêne ?** (`low views after 798h: 6 < 200; low retention: 17.7%`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Cœur battre la nuit** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
 - [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low views after 793h: 4 < 200`)
@@ -38,7 +38,7 @@ _Generated 2026-08-22T19:59:26.372444+00:00_
 - 2026-08-22T10:08:17.463781+00:00: Cerveau qui ralentit le temps (n/a views)
 - 2026-08-21T09:38:34.286706+00:00: Pourquoi le hoquet ne s'arrête pas ? (n/a views)
 - 2026-08-20T11:49:18.832354+00:00: Pourquoi l'estomac gargouille quand on a faim ? (1 views)
-- 2026-08-19T17:48:45.472477+00:00: Pourquoi la main s'engourdit quand on dort dessus ? (127 views)
+- 2026-08-19T17:48:45.472477+00:00: Pourquoi la main s'engourdit quand on dort dessus ? (141 views)
 - 2026-08-18T18:46:56.132641+00:00: Pourquoi la faim revient à la même heure ? (61 views)
 - 2026-08-18T11:40:14.932251+00:00: Pourquoi le cerveau atténue la douleur en danger ? (166 views)
 - 2026-08-16T11:12:08.095456+00:00: Pourquoi une lumière vive fait éternuer ? (777 views)

@@ -1,5 +1,5 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-22T19:59:37.619698+00:00_
+_Généré 2026-08-22T20:09:25.466123+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30

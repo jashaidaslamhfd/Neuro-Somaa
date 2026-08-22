@@ -1,15 +1,15 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-22T19:59:26.392300+00:00_ — n=72 vidéos réelles
+_2026-08-22T20:09:15.992586+00:00_ — n=72 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **72** · couverture CTR: **0%** · rétention: **100%**
 - ⚠️ 0 coverage → YouTube Analytics scope/ metric must be fixed (see 2026-08-11 audit fix; token needs yt-analytics.readonly)
 
 ## 📈 Croissance mesurée (vérité, pas impression)
-- 🟢 en croissance: **7** · 🔴 figées (2 lectures sans hausse): **57**
-  · ⚡ +6.4 vues/j — Pourquoi le cerveau atténue la douleur en danger ?
-  · ⚡ +1.3 vues/j — Pourquoi on pleure quand on bâille ?
-  · ⚡ +0.6 vues/j — Pourquoi on sent une vibration de téléphone imagin
+- 🟢 en croissance: **1** · 🔴 figées (2 lectures sans hausse): **63**
+  · ⚡ +23.6 vues/j — Pourquoi la main s'engourdit quand on dort dessus 
+  · ⚡ +-32.0 vues/j — Réveil avant l'alarme
+  · ⚡ +-496.8 vues/j — Corps lourd
 
 ## 🧪 Truth Gate (scores internes vs réalité)
 - 🔴 `hook_score` (hook quality): **NOISE** (r=+0.09, n=72) — **consultatif seulement, jamais un gate**
@@ -18,12 +18,12 @@ _2026-08-22T19:59:26.392300+00:00_ — n=72 vidéos réelles
 - 🔴 `predicted_ctr` (CTR): **NOISE** (r=+0.08, n=72) — **consultatif seulement, jamais un gate**
 
 ## 🤖 Modèles (ridge + MLP, validation croisée)
-- ridge log-vues: **R²_cv = -0.1688 ± 0.3688** (MAE ≈ 428.9 vues) — ⚠️ bruit, conseils seulement
+- ridge log-vues: **R²_cv = -0.1672 ± 0.3675** (MAE ≈ 428.6 vues) — ⚠️ bruit, conseils seulement
 - facteurs dominants: `is_question` (+), `predicted_ctr` (-), `dow_cos` (-), `seo_score` (+), `has_second_person` (-)
-- MLP: MAE ≈ 270.7 vues (advisory)
+- MLP: MAE ≈ 269.9 vues (advisory)
 
 ## 🎰 Bandit de titres (Thompson sampling)
-- ✅ pattern recommandé: **POURQUOI** (winner-rate 0.1802, avg 624.9 vues)
+- ✅ pattern recommandé: **POURQUOI** (winner-rate 0.1802, avg 625.1 vues)
   🔬 `CE_QUE_VOTRE_CORPS` n= 3 · winner-rate 0% · avg 330.3
   🔬 `CE_QUIL_FAUT_COMPRENDRE` n= 2 · winner-rate 0% · avg 4.5
   🔬 `CE_QUI_SE_PASSE` n= 2 · winner-rate 0% · avg 390.5
@@ -37,14 +37,14 @@ _2026-08-22T19:59:26.392300+00:00_ — n=72 vidéos réelles
 - 🔻 **Pourquoi le cerveau crée des souvenirs faux ?** — 83 vues (z=-3.75): _queue metadata+thumbnail repair (hooks, CTR signals)_
 
 ## 📈 Prévision 30 jours (Holt)
-- tendance: **-120.1 vues/jour^²** · attendu 30j: **203 vues** (bande 0.0–564.2/j)
+- tendance: **-119.8 vues/jour^²** · attendu 30j: **212 vues** (bande 0.0–564.3/j)
 
 ## 🗂️ Clusters de sujets (k=6) — gagnant: **raison / mains / paupière / deviennent / tressaille**
 - `raison / mains / paupière / deviennent / tressaille` — 4 vidéos · avg 859.0 vues · max 1050
-- `réveil / peut / sembler / seul / tout` — 7 vidéos · avg 768.0 vues · max 1456
+- `réveil / sembler / peut / seul / tout` — 7 vidéos · avg 768.0 vues · max 1456
 - `science / explique / sur / yeux / deviennent` — 12 vidéos · avg 705.7 vues · max 1209
 - `froid / peau / soudain / frissonne / semble` — 8 vidéos · avg 570.9 vues · max 1241
-- `corps / dit / change / vous / comprendre` — 36 vidéos · avg 469.6 vues · max 1134
+- `corps / dit / change / vous / comprendre` — 36 vidéos · avg 470.0 vues · max 1134
 
 ## ⏱️ Rétention
 - P10/P50/P90 = 27.6% / 41.1% / 59.9% · **76%** des vidéos perdent le spectateur avant la moitié
