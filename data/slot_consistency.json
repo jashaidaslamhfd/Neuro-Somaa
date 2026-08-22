@@ -77,6 +77,12 @@
       "outcome": "guard_fail",
       "topic": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le t",
       "at": "2026-08-21T21:01:12.578316+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "published",
+      "topic": "Cerveau qui ralentit le temps",
+      "at": "2026-08-22T10:08:17.466783+00:00"
     }
   ]
 }
