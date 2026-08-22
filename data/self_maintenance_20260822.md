@@ -1,12 +1,12 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-22T05:52:36.039118+00:00_
+_Généré 2026-08-22T19:23:50.633460+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
 ✅ Les deux pics quotidiens distincts sont couverts.
 
 ## 2. Cadence réelle (2 vidéos/jour attendues)
-⚠️ 2026-08-22 : 0/2
+⚠️ 2026-08-22 : 1/2
 ⚠️ 2026-08-21 : 1/2
 ⚠️ 2026-08-20 : 1/2
 ⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
@@ -25,9 +25,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi l'estomac gargouille quand on a faim ?
-      new: Pourquoi l'estomac gargouille quand on a faim ?
-    FIX   QgL7aibqI4k
       old: Pourquoi le hoquet ne s'arrête pas ?
       new: Pourquoi le hoquet ne s'arrête pas ?
+    FIX   b1VuQkrT2ms
+      old: Cerveau qui ralentit le temps
+      new: Cerveau qui ralentit le temps
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.

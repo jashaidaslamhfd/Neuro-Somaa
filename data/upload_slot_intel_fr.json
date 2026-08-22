@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-22T05:52:27.776947+00:00",
+  "generated_at_utc": "2026-08-22T19:23:42.409774+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,8 +11,8 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.1859,
-      "samples": 22,
+      "score": 3.1352,
+      "samples": 23,
       "confident": true,
       "prior": 0.0
     },
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3242,
+      "score": 3.3069,
       "samples": 13,
       "confident": true,
-      "prior": 3.3463
+      "prior": 3.2731
     },
     {
       "rank": 3,
@@ -46,15 +46,15 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.3242,
+      "score": 3.3069,
       "observed_samples": 13,
-      "observed_avg": 3.3175,
-      "prior": 3.3463,
+      "observed_avg": 3.3173,
+      "prior": 3.2731,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
           "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1208,
+          "views": 1209,
           "published_paris": "2026-07-29 19:30"
         },
         {
@@ -66,7 +66,7 @@
         {
           "video_id": "HJb7xCMIYWQ",
           "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 957,
+          "views": 958,
           "published_paris": "2026-08-01 19:30"
         }
       ]
@@ -104,17 +104,11 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.1859,
-      "observed_samples": 22,
-      "observed_avg": 3.1859,
+      "score": 3.1352,
+      "observed_samples": 23,
+      "observed_avg": 3.1352,
       "prior": 0.0,
       "examples": [
-        {
-          "video_id": "DocJNQZiwQQ",
-          "title": "Ce que votre corps vous dit quand le ventre se serre",
-          "views": 1087,
-          "published_paris": "2026-07-22 17:29"
-        },
         {
           "video_id": "JIg1-eBYols",
           "title": "Pourquoi un pied s'endort tout seul ?",
@@ -126,6 +120,12 @@
           "title": "Pourquoi le corps résiste à la perte de poids ?",
           "views": 986,
           "published_paris": "2026-08-15 17:30"
+        },
+        {
+          "video_id": "DocJNQZiwQQ",
+          "title": "Ce que votre corps vous dit quand le ventre se serre",
+          "views": 950,
+          "published_paris": "2026-07-22 17:29"
         }
       ]
     },
@@ -133,7 +133,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 3.1627,
+      "score": 3.1041,
       "observed_samples": 1,
       "observed_avg": 3.4951,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 3.0307,
+      "score": 2.9721,
       "observed_samples": 1,
       "observed_avg": 2.835,
       "prior": 0.0,
@@ -167,15 +167,15 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 3.0025,
+      "score": 2.9586,
       "observed_samples": 2,
-      "observed_avg": 2.8869,
+      "observed_avg": 2.8868,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "RV4LGjp89-U",
           "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
-          "views": 579,
+          "views": 576,
           "published_paris": "2026-07-23 06:07"
         },
         {
@@ -190,10 +190,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.0004,
+      "score": 2.9269,
       "observed_samples": 6,
-      "observed_avg": 2.9032,
-      "prior": 3.1463,
+      "observed_avg": 2.8295,
+      "prior": 3.0731,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -219,15 +219,15 @@
       "slot": "10:30",
       "hour": 10,
       "minute": 30,
-      "score": 2.9948,
+      "score": 2.906,
       "observed_samples": 1,
-      "observed_avg": 2.6557,
+      "observed_avg": 2.5045,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "TaXxSn0YoMc",
           "title": "Ce que votre corps vous dit quand le silence devient",
-          "views": 116,
+          "views": 40,
           "published_paris": "2026-07-22 10:18"
         }
       ]
@@ -236,39 +236,16 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.9808,
+      "score": 2.8699,
       "observed_samples": 1,
-      "observed_avg": 2.5855,
+      "observed_avg": 2.3237,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "68B-7lTf8nU",
           "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 12,
+          "views": 3,
           "published_paris": "2026-07-21 20:27"
-        }
-      ]
-    },
-    {
-      "slot": "08:30",
-      "hour": 8,
-      "minute": 30,
-      "score": 2.8809,
-      "observed_samples": 2,
-      "observed_avg": 2.5829,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "diImyvMyKig",
-          "title": "La science derrière le temps qui semble accélérer",
-          "views": 671,
-          "published_paris": "2026-07-22 08:15"
-        },
-        {
-          "video_id": "0V5ZhO3qviQ",
-          "title": "Ce que votre corps vous dit quand le corps se fige",
-          "views": 25,
-          "published_paris": "2026-07-21 08:22"
         }
       ]
     },
@@ -276,10 +253,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.8422,
+      "score": 2.7879,
       "observed_samples": 3,
-      "observed_avg": 3.1192,
-      "prior": 2.7463,
+      "observed_avg": 3.1194,
+      "prior": 2.6731,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -290,7 +267,7 @@
         {
           "video_id": "VRWySzxXsyE",
           "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-          "views": 523,
+          "views": 524,
           "published_paris": "2026-07-29 12:30"
         },
         {
@@ -305,7 +282,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.8317,
+      "score": 2.7731,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -315,6 +292,23 @@
           "title": "Réveil avant l'alarme",
           "views": 7,
           "published_paris": "2026-07-20 02:32"
+        }
+      ]
+    },
+    {
+      "slot": "16:00",
+      "hour": 16,
+      "minute": 0,
+      "score": 2.6885,
+      "observed_samples": 1,
+      "observed_avg": 1.4166,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "rR7yLwzBakA",
+          "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
+          "views": 6,
+          "published_paris": "2026-07-20 16:03"
         }
       ]
     }
