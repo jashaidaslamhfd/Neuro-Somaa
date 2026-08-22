@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-21T21:01:12.576974Z",
-  "reason": "Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le temps en danger ?' already published as FeerNnWZkYg on 2026-08-09T05:54:51.712079+00:00",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 923, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Duplicate title blocked before upload: 'Pourquoi le cerveau semble ralentir le temps en danger ?' already published as FeerNnWZkYg on 2026-08-09T05:54:51.712079+00:00\n"
+  "failed_at": "2026-08-22T18:18:16.316917+00:00",
+  "reason": "Strict French quality gate blocked final rendered asset audit: French/publication gate: Title is a French question without a conjugated verb; finish the sentence (ex. 'Pourquoi voit-on des corps flottants dans l'\u0153il ?')",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 1111, in run_pipeline\n    require_strict_gate(final_audit_ok, final_audit_report, \"final rendered asset audit\")\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/strict_quality_gate.py\", line 27, in require_strict_gate\n    raise RuntimeError(f\"Strict French quality gate blocked {stage}: {detail}\")\nRuntimeError: Strict French quality gate blocked final rendered asset audit: French/publication gate: Title is a French question without a conjugated verb; finish the sentence (ex. 'Pourquoi voit-on des corps flottants dans l'\u0153il ?')\n"
 }
