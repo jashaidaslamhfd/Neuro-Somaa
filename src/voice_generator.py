@@ -774,7 +774,7 @@ def _synthesize(
 
     def _try_edge():
         try:
-            seg_rate = _edge_rate_for(_delivery_multiplier(text, seg_index, seg_total))
+            seg_rate = _edge_rate_for(speed * _delivery_multiplier(text, seg_index, seg_total))
             audio, sr = _synthesize_edge_french(narration_text, voice=_edge_voice, rate=seg_rate)
             _validate_generated_audio(audio, sr, min_duration=0.3)
             return audio, sr
@@ -836,7 +836,7 @@ def _synthesize(
 
         async def _collect():
             chunks = []
-            c = _edge.Communicate(narration_text, "fr-FR-HenriNeural", rate="-5%")
+            c = _edge.Communicate(narration_text, "fr-FR-HenriNeural", rate=_edge_rate_for(speed))
             async for chunk in c.stream():
                 if chunk["type"] == "audio":
                     chunks.append(chunk["data"])

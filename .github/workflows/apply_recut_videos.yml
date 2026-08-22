@@ -49,7 +49,7 @@ jobs:
       TTS_ENGINE: "edge"
       EDGE_FR_VOICE_POOL: "fr-FR-HenriNeural"
       BREATH_PAUSE_SECONDS: "0.45"
-      DELIVERY_VARIATION: "true"
+      DELIVERY_VARIATION: "false"
       MUSIC_VOLUME: "0.18"
       MIN_THUMBNAIL_SCORE: "80"
       MIN_HOOK_SCORE: "70"
