@@ -58,7 +58,7 @@
         "thumbnail_text": "TON APPÉTIT S'EN SOUVIENT",
         "hook": "Ton appétit suit un rythme ? Ton cerveau le règle.",
         "scenes": [
-          {"visual": "Trois horloges de repas apparaissent rapidement", "caption": "Ton appétit suit un rythme ? Ton cerveau le règle."},
+          {"visual": "Gros plan sur trois horloges de repas qui apparaissent et changent rapidement", "caption": "Ton appétit suit un rythme ? Ton cerveau le règle."},
           {"visual": "Horloges fusionnant en une horloge interne", "caption": "Les horaires répétés deviennent des signaux."},
           {"visual": "Cerveau recevant trois signaux quotidiens", "caption": "Ton corps apprend certains moments de la journée."},
           {"visual": "Estomac répondant à un signal lumineux", "caption": "L'habitude peut influencer la sensation de faim."},
