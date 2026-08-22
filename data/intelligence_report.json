@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-22T19:23:42.533520+00:00",
+  "generated_at": "2026-08-22T19:59:26.392300+00:00",
   "n_videos_analyzed": 72,
   "truth_gate": {
     "hook_score": {
@@ -297,7 +297,7 @@
       },
       {
         "cluster_id": 3,
-        "name": "réveil / peut / sembler / tout / seul",
+        "name": "réveil / peut / sembler / seul / tout",
         "size": 7,
         "avg_views": 768.0,
         "max_views": 1456,

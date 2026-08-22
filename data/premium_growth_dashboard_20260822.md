@@ -1,5 +1,5 @@
 # SKILLOR — Premium Growth Dashboard
-_Generated 2026-08-22T19:23:42.510583+00:00_
+_Generated 2026-08-22T19:59:26.372444+00:00_
 ## Executive summary
 - Videos in history: **79**
 - 48h repair candidates: **33**
@@ -25,14 +25,14 @@ _Generated 2026-08-22T19:23:42.510583+00:00_
 ## 48h auto-repair plan
 - [Corps lourd](https://youtu.be/r7URDUokZh0) → **Pourquoi le corps lourd quand on est fatigué arrive ?** (`very short (11 chars) — gives viewers no specific hook; low views after 816h: 14 < 200`)
 - [Réveil avant l'alarme](https://youtu.be/1XVYcxQqDqo) → **Pourquoi se réveiller avant son réveil ?** (`low views after 811h: 7 < 200`)
-- [Ce qu'il faut comprendre sur le visage qui rougit par gêne](https://youtu.be/rR7yLwzBakA) → **Pourquoi le visage qui rougit par gêne ?** (`low views after 797h: 6 < 200; low retention: 17.7%`)
+- [Ce qu'il faut comprendre sur le visage qui rougit par gêne](https://youtu.be/rR7yLwzBakA) → **Pourquoi le visage qui rougit par gêne ?** (`low views after 798h: 6 < 200; low retention: 17.7%`)
 - [Pourquoi le cerveau remarque entendre son cœur battre la](https://youtu.be/FteL-0nbHWk) → **Cœur battre la nuit** (`leaked template fragment « remarque entendre » — looks unfinished; ends on a connector/article — likely truncated`)
-- [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low views after 792h: 4 < 200`)
-- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 781h: 1 < 200; low retention: 14.5%`)
-- [Ce qui se passe quand un déjà-vu semble étrangement familier](https://youtu.be/Re4VU9lryhQ) → **Pourquoi un déjà-vu semble étrangement familier ?** (`low views after 771h: 4 < 200; low retention: 11.0%`)
-- [Ce qu'il faut comprendre sur les genoux qui craquent](https://youtu.be/68B-7lTf8nU) → **Pourquoi les genoux craquent en bougeant ?** (`low views after 769h: 3 < 200`)
+- [Pourquoi le temps semble passer plus vite en vieillissant](https://youtu.be/x15ltzEHaB8) → **Pourquoi le temps semble passer plus vite en vieillissant ?** (`low views after 793h: 4 < 200`)
+- [Ce que votre corps vous dit quand le corps se fige](https://youtu.be/0V5ZhO3qviQ) → **Pourquoi le corps se fige quand on a peur ?** (`low views after 782h: 1 < 200; low retention: 14.5%`)
+- [Ce qui se passe quand un déjà-vu semble étrangement familier](https://youtu.be/Re4VU9lryhQ) → **Pourquoi un déjà-vu semble étrangement familier ?** (`low views after 772h: 4 < 200; low retention: 11.0%`)
+- [Ce qu'il faut comprendre sur les genoux qui craquent](https://youtu.be/68B-7lTf8nU) → **Pourquoi les genoux craquent en bougeant ?** (`low views after 770h: 3 < 200`)
 - [La science derrière le temps qui semble accélérer](https://youtu.be/diImyvMyKig) → **Pourquoi le temps qui semble accélérer en vieillissant ?** (`low retention: 26.7%`)
-- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 755h: 40 < 200`)
+- [Ce que votre corps vous dit quand le silence devient](https://youtu.be/TaXxSn0YoMc) → **Pourquoi le silence devient inconfortable ?** (`low views after 756h: 40 < 200`)
 
 ## Latest uploads
 - 2026-08-22T10:08:17.463781+00:00: Cerveau qui ralentit le temps (n/a views)

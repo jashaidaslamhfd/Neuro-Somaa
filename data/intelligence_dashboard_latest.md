@@ -1,5 +1,5 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-22T19:23:42.533520+00:00_ — n=72 vidéos réelles
+_2026-08-22T19:59:26.392300+00:00_ — n=72 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **72** · couverture CTR: **0%** · rétention: **100%**
@@ -41,7 +41,7 @@ _2026-08-22T19:23:42.533520+00:00_ — n=72 vidéos réelles
 
 ## 🗂️ Clusters de sujets (k=6) — gagnant: **raison / mains / paupière / deviennent / tressaille**
 - `raison / mains / paupière / deviennent / tressaille` — 4 vidéos · avg 859.0 vues · max 1050
-- `réveil / peut / sembler / tout / seul` — 7 vidéos · avg 768.0 vues · max 1456
+- `réveil / peut / sembler / seul / tout` — 7 vidéos · avg 768.0 vues · max 1456
 - `science / explique / sur / yeux / deviennent` — 12 vidéos · avg 705.7 vues · max 1209
 - `froid / peau / soudain / frissonne / semble` — 8 vidéos · avg 570.9 vues · max 1241
 - `corps / dit / change / vous / comprendre` — 36 vidéos · avg 469.6 vues · max 1134
