@@ -113,7 +113,7 @@ def _resolve_assets(item: dict, output_dir: Path, generate_assets: bool) -> tupl
 
 def _render_one(item: dict, batch_dir: Path, generate_assets: bool) -> dict:
     item_id = str(item["id"])
-    item_dir = batch_dir / item_id
+    item_dir = (batch_dir / item_id).resolve()
     script = dict(item["script"])
     script["topic"] = script.get("topic", item.get("topic", ""))
     script["experiment_id"] = item["experiment_id"]
