@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-23T08:12:58.450051+00:00",
-  "reason": "Strict French quality gate blocked first-three-second opening: Approximately 6 spoken words arrive by 3.0s; minimum is 7.",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 962, in run_pipeline\n    require_strict_gate(\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/strict_quality_gate.py\", line 27, in require_strict_gate\n    raise RuntimeError(f\"Strict French quality gate blocked {stage}: {detail}\")\nRuntimeError: Strict French quality gate blocked first-three-second opening: Approximately 6 spoken words arrive by 3.0s; minimum is 7.\n"
+  "failed_at": "2026-08-23T08:43:31.165853+00:00",
+  "reason": "Publication failed: uploader returned no youtube_video_id; history must not record this run as published",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 1172, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Publication failed: uploader returned no youtube_video_id; history must not record this run as published\n"
 }
