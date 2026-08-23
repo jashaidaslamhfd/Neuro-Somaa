@@ -108,10 +108,10 @@ def _api(path: str, token: str, *, method: str = "GET", body: dict | None = None
         raise RuntimeError(f"YouTube API {method} {path} -> {e.code}: {payload}") from e
 
 
-def _get_video(token: str, video_id: str) -> dict:
+def _get_video(token: str, video_id: str) -> dict | None:
     res = _api(f"videos?part=snippet&id={video_id}", token)
     items = res.get("items") or []
-    return items[0]
+    return items[0] if items else None
 
 
 # --------------------------------------------------------------------------- #
@@ -357,6 +357,10 @@ def main() -> int:
             continue
         try:
             current = _get_video(token, vid)
+            if not current:
+                skipped += 1
+                plan_rows.append(f"SKIP  {vid} | video unavailable or deleted")
+                continue
             live_title = current["snippet"].get("title", "")
             changes = build_new_metadata(e, current, winner_pattern=args.winner_pattern)
             if not changes:
