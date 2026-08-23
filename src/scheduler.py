@@ -17,7 +17,6 @@ import pytz
 
 class FrancePeakTimeScheduler:
     DEFAULT_PEAK_TIMES = (
-        {"hour": 17, "minute": 30, "name": "Dynamique 17:30"},
         {"hour": 19, "minute": 30, "name": "Dynamique 19:30"},
         {"hour": 21, "minute": 30, "name": "Dynamique 21:30"},
     )
@@ -54,7 +53,7 @@ class FrancePeakTimeScheduler:
 
         slots: list[dict] = []
         seen: set[tuple[int, int]] = set()
-        max_slots = int(os.environ.get("DYNAMIC_SCHEDULE_SLOT_COUNT", "3"))
+        max_slots = int(os.environ.get("DYNAMIC_SCHEDULE_SLOT_COUNT", "2"))
         for item in raw_slots:
             try:
                 hour = int(item.get("hour"))
@@ -81,8 +80,8 @@ class FrancePeakTimeScheduler:
             )
             if len(slots) >= max_slots:
                 break
-        # Schedule should be chronological within the day so three daily runs
-        # fill all learned slots instead of the morning run grabbing prime time.
+        # Schedule should be chronological within the day so two daily runs
+        # fill the learned slots without reintroducing the removed third slot.
         return sorted(slots, key=lambda slot: (slot["hour"], slot["minute"]))
 
     @property

@@ -105,7 +105,7 @@ class DynamicScheduleTests(unittest.TestCase):
                     os.environ.pop("USE_DYNAMIC_SCHEDULE", None)
                 else:
                     os.environ["USE_DYNAMIC_SCHEDULE"] = old_enabled
-        self.assertEqual([(s["hour"], s["minute"]) for s in slots], [(12, 30), (19, 30), (21, 0)])
+        self.assertEqual([(s["hour"], s["minute"]) for s in slots], [(12, 30), (21, 0)])
         self.assertTrue(all(s.get("dynamic") for s in slots))
 
     def test_growth_loop_builds_dynamic_upload_slots(self):

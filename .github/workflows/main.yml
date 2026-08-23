@@ -13,14 +13,14 @@ on:
         type: boolean
         default: false
   schedule:
-    # 3 daily French Shorts slots aligned to the France-first audience
+    # 2 daily French Shorts slots aligned to the France-first audience
     # (France is 41.5% of views; Francophone markets are secondary).
     # Source: data/upload_slot_intel_fr.json, timezone Europe/Paris.
-    # Selected local slots: 17:30, 19:30, and 21:30 Paris time.
+    # Selected local slots: 19:30 and 21:30 Paris time — the two highest
+    # scoring confident windows in the current heatmap.
     # GitHub Actions cron is UTC. Current CEST (UTC+2) conversion:
-    #   17:30 Paris = 15:30 UTC; 19:30 = 17:30 UTC; 21:30 = 19:30 UTC.
+    #   19:30 Paris = 17:30 UTC; 21:30 Paris = 19:30 UTC.
     # Re-check these UTC values when Europe/Paris changes to CET.
-    - cron: "30 15 * * *"
     - cron: "30 17 * * *"
     - cron: "30 19 * * *"
 
