@@ -3938,5 +3938,147 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 56,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "2d6ab90cb4bc520106f23dd61fedf26444dc643ec26b4dec99c417ae2f9ef4d8",
+    "title": "La science derri\u00e8re le retour des souvenirs g\u00eanants",
+    "topic": "La science derri\u00e8re le retour des souvenirs g\u00eanants",
+    "series_title": "Souvenirs g\u00eanants",
+    "base_phenomenon": "le retour des souvenirs g\u00eanants",
+    "nominal_phrase": "le retour des souvenirs g\u00eanants",
+    "question_phrase": "les souvenirs g\u00eanants reviennent",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Pourquoi ton cerveau ram\u00e8ne tes souvenirs g\u00eanants ? C'est la reconsolidation, le cerveau r\u00e9actualise. Quand tu y penses, il renforce le trac\u00e9. Le stress lib\u00e8re du cortisol, rendant le souvenir vif. Le plus \u00e9trange, ton cerveau garde le d\u00e9tail. C\u2019est ce cercle qui revit tes souvenirs g\u00eanants.",
+    "posted_at": "2026-08-23T20:00:33.979886+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "K1zIGXqUbgI",
+    "publish_at": "2026-08-24T17:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 100,
+    "predicted_retention": 0.75,
+    "thumbnail_score": {
+      "contrast_score": 100,
+      "mobile_readability_score": 100,
+      "readability_score": 52,
+      "safe_zone_score": 100,
+      "color_score": 69,
+      "face_emotion_score": "not_available (no face/emotion model configured)",
+      "overall_thumbnail_score": 87,
+      "title_char_count": 51,
+      "title_word_count": 8,
+      "score_geometry": {
+        "text_band": [
+          1017,
+          1459
+        ],
+        "safe_box": [
+          54,
+          928
+        ]
+      }
+    },
+    "thumbnail_variants": [
+      {
+        "path": "output/thumbnail_variants/thumbnail_v1.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 69,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 87,
+          "title_char_count": 51,
+          "title_word_count": 8,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v2.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 69,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 87,
+          "title_char_count": 51,
+          "title_word_count": 8,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v3.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 69,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 87,
+          "title_char_count": 51,
+          "title_word_count": 8,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v4.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 69,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 87,
+          "title_char_count": 51,
+          "title_word_count": 8,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      }
+    ],
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 66,
+    "loop_bridge_present": false
   }
 ]

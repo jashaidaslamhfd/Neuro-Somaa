@@ -851,5 +851,18 @@
     },
     "publish_at": "2026-08-23T19:30:00+00:00",
     "completed_at": 1787512173.421747
+  },
+  "2d6ab90cb4bc520106f23dd61fedf26444dc643ec26b4dec99c417ae2f9ef4d8": {
+    "status": "completed",
+    "title": "La science derri\u00e8re le retour des souvenirs g\u00eanants",
+    "youtube_video_id": "K1zIGXqUbgI",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-24T17:30:00+00:00",
+    "completed_at": 1787515233.978642
   }
 }
