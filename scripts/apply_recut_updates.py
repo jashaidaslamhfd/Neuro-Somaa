@@ -12,7 +12,7 @@ import json
 import logging
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -110,7 +110,7 @@ def upload_recut(yt, item: dict, video: Path, thumb: Path, mode: str) -> dict:
         "snippet": {
             "title": item["script"]["title"][:100] + " | Recut",
             "description": _description(item),
-            "tags": _tags(item) + [item["experiment_id"]],
+            "tags": [*_tags(item), item["experiment_id"]],
             "categoryId": "27",
             "defaultLanguage": "fr",
             "defaultAudioLanguage": "fr",
@@ -141,7 +141,7 @@ def main() -> int:
     mode = os.environ.get("RECUT_UPLOAD_MODE", "private").strip().lower()
     if mode not in {"private", "scheduled"}:
         raise SystemExit("RECUT_UPLOAD_MODE must be private or scheduled")
-    report = {"started_at": datetime.now(timezone.utc).isoformat(), "mode": mode, "executed": args.execute, "items": []}
+    report = {"started_at": datetime.now(UTC).isoformat(), "mode": mode, "executed": args.execute, "items": []}
     yt = _yt() if args.execute else None
     for item in items:
         item_dir = args.output_dir / item["id"]
@@ -160,7 +160,7 @@ def main() -> int:
             result["recut_upload"] = upload_recut(yt, item, video, thumb, mode)
         report["items"].append(result)
         LOG.info("%s ready%s", item["id"], " and applied" if args.execute else "")
-    report["completed_at"] = datetime.now(timezone.utc).isoformat()
+    report["completed_at"] = datetime.now(UTC).isoformat()
     report_path = args.output_dir / "apply_recut_report.json"
     report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     LOG.info("Report written to %s", report_path)
