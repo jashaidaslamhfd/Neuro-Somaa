@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 try:
     from anti_spam import AntiSpamSystem
     from final_video_audit import run_final_publication_audit
-    from french_quality_gate import validate_publication_quality
+    from french_quality_gate import is_french_question_without_verb, validate_publication_quality
     from image_generator import generate_scene_image as generate_images
     from niche_strategy import (
         auto_add_disclaimer,
@@ -843,6 +843,12 @@ class SKILLORPipeline:
                         logger.info(
                             "Title kept from script generation (CTR heuristic uncalibrated, no confident measured pattern) — Truth Gate standing rule"
                         )
+                # Final pre-render safety guard: CTR/bandit layers may replace
+                # the SEO-selected title after its own validation. Never render
+                # or upload a French question that lacks a conjugated verb.
+                if is_french_question_without_verb(script_data.get("title", "")):
+                    script_data["title"] = "Pourquoi ce phénomène se produit-il ?"
+                    logger.warning("Repaired malformed French title after CTR selection")
                 insights = get_historical_insights()
                 if insights.get("insights"):
                     script_data["historical_insights"] = insights
