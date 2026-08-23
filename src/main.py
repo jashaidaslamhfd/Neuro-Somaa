@@ -51,7 +51,7 @@ try:
         rank_hashtags,
         score_thumbnail,
     )
-    from seo_generator import generate_seo_package
+    from seo_generator import _clean_title_fallback, generate_seo_package
     from shorts_enhancer import build_shorts_report, generate_srt, score_hook
     from strict_quality_gate import require_strict_gate
     from trend_fetcher import get_trending_topic
@@ -847,8 +847,15 @@ class SKILLORPipeline:
                 # the SEO-selected title after its own validation. Never render
                 # or upload a French question that lacks a conjugated verb.
                 if is_french_question_without_verb(script_data.get("title", "")):
-                    script_data["title"] = "Pourquoi ce phénomène se produit-il ?"
-                    logger.warning("Repaired malformed French title after CTR selection")
+                    script_data["title"] = _clean_title_fallback(
+                        script_data.get("topic", ""),
+                        script_data.get("series_title", ""),
+                        script_data.get("question_phrase", ""),
+                    )
+                    logger.warning(
+                        "Repaired malformed French title after CTR selection with topic-derived fallback: %s",
+                        script_data["title"],
+                    )
                 insights = get_historical_insights()
                 if insights.get("insights"):
                     script_data["historical_insights"] = insights

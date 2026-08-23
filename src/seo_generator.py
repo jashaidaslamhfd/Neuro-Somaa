@@ -422,6 +422,9 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
             1 if title.endswith("?") else 0,
             pattern_scores.get(_title_pattern_id(title), 0.0),
             _word_lift(title),
+            # Winner-shape prior is deliberately below measured bandit and ML
+            # evidence: it breaks ties in favor of short concrete questions.
+            _winner_shape_score(title),
             -original_index.get(title, 0),
         ),
         reverse=True,
@@ -993,6 +996,38 @@ def _title_is_clean(title: str) -> tuple[bool, str]:
     return True, "ok"
 
 
+_WINNER_BODY_TERMS = {
+    "froid", "tête", "mal", "chair", "poule", "muscle", "tressaille",
+    "fourmillement", "fourmillements", "pied", "endort", "mâchoire",
+    "craque", "ventre", "nœud", "cœur", "coeur", "peau", "frissonne",
+    "hoquet", "respiration", "sursaute", "sursaut", "vibre", "vibration",
+    "sommeil", "réveille", "douleur", "tremble", "transpire",
+}
+
+
+def _winner_shape_score(title: str) -> int:
+    """Score the observable title shape shared by this channel's winners.
+
+    This is a packaging prior, not a fake CTR prediction: winners were short,
+    complete French questions about a familiar, visible body sensation.
+    """
+    text = " ".join(str(title or "").split())
+    lower = text.lower()
+    words = re.findall(r"[a-zà-ÿœæ'-]+", lower)
+    score = 0
+    if lower.startswith("pourquoi "):
+        score += 3
+    if lower.rstrip().endswith("?"):
+        score += 2
+    if 6 <= len(words) <= 10:
+        score += 2
+    if any(term in set(words) for term in _WINNER_BODY_TERMS):
+        score += 2
+    if _title_is_clean(text)[0]:
+        score += 1
+    return score
+
+
 def _scrub_leaks(text: str) -> str:
     """Remove known LLM leak fragments from a topic/title so a fallback title
     can never ship the same defect the leak-gate is meant to block."""
@@ -1181,6 +1216,8 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         # grammatical question, then use a safe verb-containing fallback.
         repaired_title = _question_title_from_phrase(question_phrase)
         if not repaired_title or is_french_question_without_verb(repaired_title):
+            repaired_title = _clean_title_fallback(topic, series_title, question_phrase)
+        if is_french_question_without_verb(repaired_title):
             repaired_title = "Pourquoi ce phénomène se produit-il ?"
         chosen_title = repaired_title
         logger.warning("SEO title failed French verb gate -> deterministic repair: %r", chosen_title)
