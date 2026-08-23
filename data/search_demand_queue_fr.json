@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-23",
-  "mined_at": "2026-08-23T20:57:54.274448+00:00",
+  "mined_at": "2026-08-23T21:07:33.347031+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -10,9 +10,9 @@
       "question_phrase": "pourquoi un aliment froid provoque un mal de tête",
       "angle": "Pourquoi un aliment froid provoque un mal de tête ?",
       "thumbnail_text": "Pourquoi un aliment froid provoque un mal de tête ?",
-      "demand_note": "autocomplete: 'comment se débarrasser d'un mal de tête'",
+      "demand_note": "autocomplete: 'pourquoi ma tête me gratte'; autocomplete: 'comment se débarrasser d'un mal de tête'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T20:56:39.183483+00:00"
+      "mined_at": "2026-08-23T21:06:08.497917+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,22 +24,10 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T20:56:55.505848+00:00"
+      "mined_at": "2026-08-23T21:06:23.933159+00:00"
     },
     {
       "series_number": "DEM-3",
-      "series_title": "Un pied s'endort tout seul",
-      "topic": "un pied s'endort tout seul",
-      "nominal_phrase": "un pied s'endort tout seul",
-      "question_phrase": "pourquoi un pied s'endort tout seul",
-      "angle": "Pourquoi un pied s'endort tout seul ?",
-      "thumbnail_text": "Pourquoi un pied s'endort tout seul ?",
-      "demand_note": "autocomplete: 'pied froid tout le temps'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T20:57:20.407737+00:00"
-    },
-    {
-      "series_number": "DEM-4",
       "series_title": "Le cerveau est immature à 20 ans",
       "topic": "le cerveau est immature à 20 ans",
       "nominal_phrase": "le cerveau est immature à 20 ans",
@@ -48,19 +36,19 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau d'un adolescent'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T20:57:28.335395+00:00"
+      "mined_at": "2026-08-23T21:07:03.438583+00:00"
     },
     {
-      "series_number": "DEM-5",
+      "series_number": "DEM-4",
       "series_title": "Les yeux bougent pendant le sommeil paradoxal",
       "topic": "les yeux bougent pendant le sommeil paradoxal",
       "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
       "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
       "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
       "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'sommeil paradoxal c'est quoi'",
+      "demand_note": "autocomplete: 'pourquoi le sommeil est important'; autocomplete: 'pourquoi on sursaute en dormant'; autocomplete: 'qu'est-ce qu'une paralysie du sommeil'; autocomplete: 'sommeil paradoxal c'est quoi'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T20:57:45.328670+00:00"
+      "mined_at": "2026-08-23T21:07:24.712586+00:00"
     }
   ]
 }
