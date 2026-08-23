@@ -865,7 +865,12 @@ class SKILLORPipeline:
                 blocked_title_keys=blocked_title_keys,
                 blocked_topic_keys=blocked_topic_keys,
             )
-
+            # Unique-title selection is the final title mutation point. Recheck
+            # after it so a malformed candidate cannot reach rendering/audit.
+            if is_french_question_without_verb(script_data.get("title", "")):
+                script_data["title"] = "Pourquoi ce phénomène se produit-il ?"
+                script_data["title_identity"]["normalized_title"] = _normalize_title_key(script_data["title"])
+                logger.warning("Repaired malformed French title after unique-title selection")
             # Phase 2: Image Generation
             logger.info("\n🎨 PHASE 2: IMAGE GENERATION")
             image_paths, image_sources, media_types = self._generate_images_with_retry(script_data)
