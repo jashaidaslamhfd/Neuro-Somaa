@@ -205,11 +205,35 @@ jobs:
           # upload failed with invalid_scope.
           set -euo pipefail
           rc=1
+          cleanup_pipeline_group() {
+            if [ -n "${pipeline_pid:-}" ] && kill -0 "$pipeline_pid" 2>/dev/null; then
+              echo "Stopping pipeline process group $pipeline_pid"
+              kill -TERM -- "-$pipeline_pid" 2>/dev/null || true
+              sleep 5
+              kill -KILL -- "-$pipeline_pid" 2>/dev/null || true
+            fi
+          }
+          trap cleanup_pipeline_group EXIT INT TERM
           for attempt in 1 2 3; do
             echo "===== Pipeline attempt $attempt/3 ====="
             set +e
-            python src/main.py
+            # A bounded attempt prevents one silent model/provider stall from
+            # consuming the entire 200-minute job. setsid lets cancellation
+            # terminate Python, MoviePy, and every FFmpeg child together.
+            setsid timeout --signal=TERM --kill-after=120s 55m python src/main.py &
+            pipeline_pid=$!
+            (
+              while kill -0 "$pipeline_pid" 2>/dev/null; do
+                echo "[heartbeat] pipeline attempt $attempt still running at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+                sleep 60
+              done
+            ) &
+            heartbeat_pid=$!
+            wait "$pipeline_pid"
             rc=$?
+            kill "$heartbeat_pid" 2>/dev/null || true
+            wait "$heartbeat_pid" 2>/dev/null || true
+            pipeline_pid=""
             set -e
             echo "Pipeline attempt $attempt finished (exit $rc)"
             if [ "$rc" -eq 0 ]; then

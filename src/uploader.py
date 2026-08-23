@@ -176,8 +176,6 @@ def _yt_client():
 
 def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
     """Upload a Short to YouTube with optional scheduled publishing."""
-    yt = _yt_client()
-
     scheduled = _next_publish_time()
     privacy = os.environ.get("YT_PRIVACY_STATUS", "private").strip().lower()
 
@@ -217,6 +215,9 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
             "publish_at": scheduled and scheduled["publishAt"],
         }
 
+    # Do not even construct an authenticated client until all local safeguards
+    # have passed and this is a real upload.
+    yt = _yt_client()
     media = MediaFileUpload(video_path, chunksize=1024 * 1024, resumable=True)
     request = yt.videos().insert(part="snippet,status", body=body, media_body=media)
     response = request.execute()
@@ -337,6 +338,28 @@ def upload_all(video_path, thumb_path, script_data, meta_video_path=None) -> dic
     """
     logger.info("Publishing French Short: %s", script_data.get("title"))
     tags = script_data.get("tags") or DEFAULT_TAGS
+    state = _load_upload_state()
+    fp = _content_fingerprint(script_data)
+
+    # Crash-safe idempotency: check the durable fingerprint before touching any
+    # external API. A runner retry must not create a second YouTube/Reel upload.
+    existing = state.get(fp)
+    if existing and existing.get("status") == "completed" and not DRY_RUN:
+        logger.warning(
+            "Duplicate content fingerprint blocked before upload: %s (title=%r)",
+            fp[:12],
+            script_data.get("title"),
+        )
+        return {
+            "youtube_success": bool(existing.get("youtube_video_id")),
+            "youtube_video_id": existing.get("youtube_video_id"),
+            "facebook_success": bool((existing.get("facebook") or {}).get("video_id")),
+            "instagram_success": bool((existing.get("instagram") or {}).get("media_id")),
+            "publish_at": existing.get("publish_at"),
+            "dry_run": False,
+            "idempotent_replay": True,
+            "content_fingerprint": fp,
+        }
 
     yt = _upload_youtube(video_path, thumb_path, script_data, tags)
 
@@ -356,8 +379,22 @@ def upload_all(video_path, thumb_path, script_data, meta_video_path=None) -> dic
         else {"ok": False, "reason": "disabled"}
     )
 
-    state = _load_upload_state()
-    fp = _content_fingerprint(script_data)
+    # Dry-runs are intentionally side-effect free: they must not mark content
+    # as completed and block a later real upload of the same candidate.
+    if DRY_RUN:
+        return {
+            "youtube_success": bool(yt.get("ok")),
+            "youtube_video_id": yt.get("video_id"),
+            "facebook_success": bool(fb.get("ok")),
+            "instagram_success": bool(ig.get("ok")),
+            "publish_at": yt.get("publish_at"),
+            "dry_run": True,
+            "youtube": yt,
+            "facebook": fb,
+            "instagram": ig,
+            "content_fingerprint": fp,
+        }
+
     # Nested facebook/instagram objects match what platform_metrics.collect()
     # reads to pull per-platform analytics (fb.video_id / ig.media_id).
     state[fp] = {

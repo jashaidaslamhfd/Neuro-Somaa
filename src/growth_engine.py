@@ -66,7 +66,9 @@ logger = logging.getLogger(__name__)
 GROWTH_STATE_PATH = os.environ.get("GROWTH_STATE_PATH", "data/growth_state.json")
 VIDEO_HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
 
-NY = pytz.timezone("America/New_York")
+# Keep analytics attribution aligned with the scheduler and workflow source of truth.
+PUBLISH_TIMEZONE = os.environ.get("PUBLISH_TIMEZONE", "Europe/Paris").strip() or "Europe/Paris"
+PUBLISH_TZ = pytz.timezone(PUBLISH_TIMEZONE)
 
 # Weight bounds. 0.35 keeps an under-performing option alive with a real (if
 # small) chance to recover; 2.0 stops one lucky video from monopolising the
@@ -130,7 +132,7 @@ _SLOT_MATCH_MINUTES = 45
 
 
 def _slot_key(record: dict) -> str | None:
-    """Which publish slot a video belongs to, in New York local time.
+    """Which publish slot a video belongs to, in the configured publish timezone (Europe/Paris in production).
 
     Two details that were quietly corrupting the data:
 
@@ -153,7 +155,7 @@ def _slot_key(record: dict) -> str | None:
     except ValueError:
         return None
 
-    local = parsed.astimezone(NY)
+    local = parsed.astimezone(PUBLISH_TZ)
     minutes = local.hour * 60 + local.minute
 
     best, best_gap = None, None
@@ -817,7 +819,7 @@ def _build_alerts(health: dict, slot_buckets: dict, scores: list[float]) -> list
         alerts.append(
             {
                 "level": "warn",
-                "message": f"Slot {slot} NY is under-performing across {len(slot_buckets[slot])} videos "
+                "message": f"Slot {slot} is under-performing across {len(slot_buckets[slot])} videos "
                 "— its weight has been reduced automatically.",
             }
         )
