@@ -1,0 +1,68 @@
+name: Apply winner-pattern metadata to old low-view Shorts
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry = preview only; apply = update YouTube metadata"
+        required: true
+        type: choice
+        options: [dry, apply]
+        default: dry
+      max_views:
+        description: "Only process videos below this view count"
+        required: true
+        type: number
+        default: 500
+      min_age_days:
+        description: "Only process videos at least this old"
+        required: true
+        type: number
+        default: 7
+
+permissions:
+  contents: write
+
+concurrency:
+  group: winner-pattern-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python3 -m pip install -q --user python-dotenv
+      - name: Apply scoped winner-pattern repair
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: |
+          set -euo pipefail
+          args="--winner-pattern --max-views ${{ inputs.max_views }} --min-age-days ${{ inputs.min_age_days }}"
+          if [ "${{ inputs.mode }}" = "apply" ]; then args="$args --apply"; fi
+          python3 scripts/metadata_repair.py $args
+      - name: Persist repair ledger and report
+        if: always()
+        run: |
+          if [ -n "$(git status --porcelain -- data/metadata_repair_ledger.json output/metadata_repair_report.txt)" ]; then
+            git config user.name "neurosomaa-bot"
+            git config user.email "neurosomaa-bot@users.noreply.github.com"
+            git add data/metadata_repair_ledger.json output/metadata_repair_report.txt
+            git commit -m "chore: record winner-pattern metadata repair" || true
+            git pull --rebase origin main || true
+            git push origin HEAD:main || true
+          fi
+      - name: Upload repair report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: winner-pattern-repair-report
+          if-no-files-found: ignore
+          path: output/metadata_repair_report.txt

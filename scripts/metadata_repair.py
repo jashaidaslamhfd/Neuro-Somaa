@@ -64,7 +64,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger("metadata_repair")
 
 from niche_strategy import generate_seo_tags
-from seo_generator import _truncate_title
+from seo_generator import _question_title_from_phrase, _title_is_clean, _truncate_title
 
 
 # --------------------------------------------------------------------------- #
@@ -178,7 +178,7 @@ def _is_label_title(title: str) -> bool:
     return False
 
 
-def build_new_metadata(entry: dict, current: dict) -> dict | None:
+def build_new_metadata(entry: dict, current: dict, *, winner_pattern: bool = False) -> dict | None:
     """Return dict of changed fields, or None if nothing worth changing."""
     snip = current["snippet"]
     topic_full = (entry.get("topic") or "").strip()  # full angle from catalogue
@@ -194,9 +194,11 @@ def build_new_metadata(entry: dict, current: dict) -> dict | None:
     title_broken = (
         _looks_truncated(old_title) or _is_label_title(old_title) or _carries_description_text(old_title)
     )
-    if topic_full and title_broken:
+    if topic_full and (title_broken or winner_pattern):
         cap = topic_full[0].upper() + topic_full[1:]
-        new_title = _truncate_title(cap)
+        new_title = _question_title_from_phrase(topic_full) if winner_pattern else _truncate_title(cap)
+        if not new_title or not _title_is_clean(new_title)[0]:
+            new_title = _truncate_title(cap)
         if (
             new_title
             and new_title != old_title
@@ -303,11 +305,33 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="write changes (default = dry run)")
     ap.add_argument("--limit", type=int, default=0, help="max videos to process (oldest first)")
     ap.add_argument("--history", default="data/video_history.json")
+    ap.add_argument("--max-views", type=int, default=None, help="only process videos below this view count")
+    ap.add_argument("--min-age-days", type=float, default=0, help="only process videos at least this old")
+    ap.add_argument("--winner-pattern", action="store_true", help="force eligible titles into the proven concrete-question shape")
     args = ap.parse_args()
 
     history = json.loads(Path(args.history).read_text(encoding="utf-8"))
     entries = history if isinstance(history, list) else history.get("videos", [])
     entries = [e for e in entries if e.get("youtube_video_id")]
+    now = datetime.now(UTC)
+    filtered = []
+    for e in entries:
+        if args.max_views is not None:
+            try:
+                if int(e.get("views", 0)) >= args.max_views:
+                    continue
+            except (TypeError, ValueError):
+                continue
+        if args.min_age_days:
+            try:
+                stamp = e.get("posted_at") or e.get("publish_at")
+                age_days = (now - datetime.fromisoformat(stamp.replace("Z", "+00:00"))).total_seconds() / 86400
+                if age_days < args.min_age_days:
+                    continue
+            except (AttributeError, TypeError, ValueError):
+                continue
+        filtered.append(e)
+    entries = filtered
     entries.sort(key=lambda e: e.get("posted_at", ""))  # oldest first
     if args.limit:
         entries = entries[: args.limit]
@@ -334,7 +358,7 @@ def main() -> int:
         try:
             current = _get_video(token, vid)
             live_title = current["snippet"].get("title", "")
-            changes = build_new_metadata(e, current)
+            changes = build_new_metadata(e, current, winner_pattern=args.winner_pattern)
             if not changes:
                 skipped += 1
                 plan_rows.append(f"SKIP  {vid} | already good | {live_title[:60]}")
