@@ -109,7 +109,7 @@ class TinyMLPTests(unittest.TestCase):
             rows.append({"x1": x1, "x2": x2})
             y.append(2 * x1 - x2 + rng.gauss(0, 0.05))
         mlp = TinyMLP(epochs=400).fit(rows, y, ["x1", "x2"])
-        preds = [mlp.predict_views_again if False else mlp.predict_views(r) for r in rows]
+        preds = [mlp.predict_views(r) for r in rows]
         avg_pred = sum(preds) / len(preds)
         true = [math.expm1(t) for t in y]
         mae_model = sum(abs(p - t) for p, t in zip(preds, true, strict=False)) / len(true)

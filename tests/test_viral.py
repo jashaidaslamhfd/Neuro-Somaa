@@ -48,7 +48,6 @@ class HookArmTests(unittest.TestCase):
         for arm in HOOK_ARMS:
             text = hook_style_instruction(arm)
             self.assertTrue(text, arm)
-            self.assertIn("<", text.upper()) if False else None
             self.assertRegex(text.lower(), r"(arme expérience|hook)")
 
 
