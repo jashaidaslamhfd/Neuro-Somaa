@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-23",
-  "mined_at": "2026-08-23T07:30:02.056443+00:00",
+  "mined_at": "2026-08-23T07:57:15.107369+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T07:29:45.567179+00:00"
+      "mined_at": "2026-08-23T07:56:58.363231+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,7 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T07:29:47.800029+00:00"
+      "mined_at": "2026-08-23T07:57:00.682593+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -36,7 +36,7 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T07:29:54.558234+00:00"
+      "mined_at": "2026-08-23T07:57:07.539246+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,19 +48,19 @@
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T07:29:56.830774+00:00"
+      "mined_at": "2026-08-23T07:57:09.821341+00:00"
     },
     {
       "series_number": "DEM-5",
-      "series_title": "La voix tremble par nervosité",
-      "topic": "la voix tremble par nervosité",
-      "nominal_phrase": "la voix tremble par nervosité",
-      "question_phrase": "pourquoi la voix tremble par nervosité",
-      "angle": "Pourquoi la voix tremble par nervosité ?",
-      "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
-      "demand_note": "autocomplete: 'voix qui tremble stress'",
+      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
+      "topic": "les yeux bougent pendant le sommeil paradoxal",
+      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
+      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
+      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "demand_note": "autocomplete: 'le sommeil paradoxal'; autocomplete: 'les paralysies du sommeil'; autocomplete: 'sommeil paradoxal c'est quoi'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T07:30:01.705792+00:00"
+      "mined_at": "2026-08-23T07:57:12.102754+00:00"
     }
   ]
 }
