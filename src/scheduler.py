@@ -17,12 +17,12 @@ import pytz
 
 class FrancePeakTimeScheduler:
     DEFAULT_PEAK_TIMES = (
-        {"hour": 12, "minute": 30, "name": "Déjeuner"},
-        {"hour": 19, "minute": 30, "name": "Prime"},
-        {"hour": 21, "minute": 0, "name": "Soirée"},
+        {"hour": 17, "minute": 30, "name": "Dynamique 17:30"},
+        {"hour": 19, "minute": 30, "name": "Dynamique 19:30"},
+        {"hour": 21, "minute": 30, "name": "Dynamique 21:30"},
     )
-    # DATA-DRIVEN fallback (2026-07-26 per-video time/views analysis, 23 videos):
-    # 19:00-22:00 Paris = 66% of ALL views; 12:30 lunch produced a top winner.
+    # France-first fallback: evening Paris slots match the learned
+    # Europe/Paris performance file when dynamic analytics are unavailable.
 
     def __init__(self):
         # 2026-08-12 truth sweep: honour PUBLISH_TIMEZONE from the workflow

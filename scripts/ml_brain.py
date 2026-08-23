@@ -782,7 +782,7 @@ class MLBrain:
                 "ideal_duration": "33-36 seconds",
                 "hook_seconds": 2.8,
                 "hashtags": ["#shorts", "#science", "#body", "#howitworks"],
-                "publish_window": "12:30 / 18:30 / 20:00 NY",
+                "publish_window": "17:30 / 19:30 / 21:30 Europe/Paris",
                 "cta_style": "loop ending (no spoken CTA)",
                 "description": "Keyword-rich, searchable",
             },

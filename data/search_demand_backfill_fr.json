@@ -37,6 +37,18 @@
       "demand_note": "Google autocomplete FR exact suggestion: pourquoi le cerveau a besoin de sucre",
       "pillar": "cerveau_et_memoire",
       "mined_at": "2026-08-21T19:25:53.237497+00:00"
+    },
+    {
+      "series_number": "BACKFILL-4",
+      "series_title": "Les yeux qui piquent",
+      "topic": "les yeux piquent",
+      "nominal_phrase": "les yeux piquent",
+      "question_phrase": "pourquoi les yeux piquent",
+      "angle": "Pourquoi les yeux piquent ?",
+      "thumbnail_text": "TES YEUX PIQUENT ?",
+      "demand_note": "Google autocomplete FR exact suggestion: pourquoi les yeux piquent",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-21T19:25:53.237497+00:00"
     }
   ]
 }

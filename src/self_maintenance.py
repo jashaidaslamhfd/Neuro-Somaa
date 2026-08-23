@@ -10,8 +10,8 @@ problem and dispatch a one-shot workflow by hand.
 
 Three jobs, in order:
 
-1. SCHEDULE HEALTH — verify the learned publish slots still cover the two
-   daily Paris peaks (18:30 + 21:00 CET per 2026-08-21 schedule change) and
+1. SCHEDULE HEALTH — verify the learned publish slots still cover the three
+   daily Paris peaks (17:30, 19:30, and 21:30 Europe/Paris) and
    are spaced far enough apart. A broken or collapsed schedule means videos
    pile onto one slot, which is exactly how a day silently drops to zero
    uploads.
@@ -56,10 +56,10 @@ UTC = UTC
 HISTORY_PATH = ROOT_DIR / "data" / "video_history.json"
 SLOT_INTEL_PATH = ROOT_DIR / "data" / "upload_slot_intel_fr.json"
 
-# 2026-08-21: owner moved the channel to 2 quality videos/day at French peak
-# slots (18:30 + 21:00 Paris). A day is healthy when two videos were
-# published; below this the channel is losing reach it paid the compute for.
-EXPECTED_VIDEOS_PER_DAY = 2
+# France-first policy: the channel publishes three quality videos/day at
+# the learned Paris peaks (17:30, 19:30, and 21:30 Europe/Paris). A day is
+# healthy when all three scheduled opportunities are covered.
+EXPECTED_VIDEOS_PER_DAY = 3
 # Two videos landing within this many minutes compete with each other in the
 # same Shorts feed refresh instead of covering separate audience peaks.
 MIN_SLOT_GAP_MINUTES = 90

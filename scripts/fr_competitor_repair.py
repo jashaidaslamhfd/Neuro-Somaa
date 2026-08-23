@@ -312,7 +312,7 @@ def _reschedule_video(token: str, vid: str, publish_at_iso: str, dry: bool = Tru
 def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     """Re-align scheduled (private) videos to the ML-learned best publish slots.
 
-    Reads data/upload_slot_intel_fr.json (ML-learned best PKT slots) and
+    Reads data/upload_slot_intel_fr.json (ML-learned best Europe/Paris slots) and
     data/video_history.json (scheduled videos), and assigns each still-private
     video the next best free slot.
     """
@@ -320,7 +320,7 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     from zoneinfo import ZoneInfo as _ZoneInfo
 
     paris = _ZoneInfo("Europe/Paris")
-    # ML best slots (PKT) from upload_slot_intel_fr.json
+    # ML best slots in the Europe/Paris timezone from upload_slot_intel_fr.json
     slots = []
     try:
         with open(
@@ -332,7 +332,7 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
     except Exception:
         pass
     if not slots:
-        slots = [(17, 30), (19, 30), (21, 30)]  # ML default best PKT slots
+        slots = [(17, 30), (19, 30), (21, 30)]  # France-first Europe/Paris defaults
 
     # Scheduled videos from video_history
     scheduled = []
@@ -371,7 +371,7 @@ def reschedule_ml_slots(apply: bool = False, limit: int = 0) -> dict:
             if candidate in used:
                 continue
             used.add(candidate)
-            # schedule tomorrow or next at this PKT slot in UTC
+            # schedule tomorrow or next at this Europe/Paris slot, then convert to UTC
             slot_dt = _dt.datetime.now(paris).replace(hour=hh, minute=mm, second=0, microsecond=0)
             if slot_dt < _dt.datetime.now(paris):
                 slot_dt += _dt.timedelta(days=1)
