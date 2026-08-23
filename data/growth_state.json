@@ -1,83 +1,77 @@
 {
-  "generated_at": "2026-08-23T05:53:07.128587+00:00",
-  "sample_size": 78,
-  "scored_videos": 69,
-  "channel_gate_ratio": 0.847,
+  "generated_at": "2026-08-23T20:43:05.865211+00:00",
+  "sample_size": 79,
+  "scored_videos": 70,
+  "channel_gate_ratio": 0.854,
   "slot_weights": {
-    "12:00": 1.0,
+    "21:30": 0.994,
+    "18:00": 1.0,
+    "08:00": 1.0,
+    "20:00": 1.0,
+    "10:00": 1.0,
+    "17:00": 1.0,
+    "06:00": 1.0,
     "14:30": 1.0,
-    "02:00": 1.0,
-    "14:00": 1.0,
-    "04:00": 1.0,
-    "11:00": 1.0,
-    "00:00": 1.0,
-    "08:30": 1.0,
-    "13:00": 1.0,
-    "13:30": 0.988,
-    "15:00": 0.849,
-    "06:30": 0.705,
-    "15:30": 1.013,
-    "11:30": 1.118
+    "19:30": 0.986,
+    "12:30": 0.905,
+    "17:30": 1.026
   },
   "topic_weights": {
-    "ear": 0.846,
-    "other": 1.031,
+    "other": 1.017,
+    "ear": 0.839,
     "nerve": 1.0,
-    "brain": 0.889,
-    "muscle": 1.308,
-    "gut": 0.954,
-    "breath": 0.905,
-    "eye": 0.973,
-    "skin": 1.023,
-    "heart": 1.004
+    "muscle": 1.318,
+    "gut": 0.968,
+    "brain": 0.904,
+    "breath": 0.914,
+    "eye": 0.967,
+    "skin": 1.019,
+    "heart": 0.999
   },
   "hook_weights": {
-    "statement": 0.915,
-    "question": 1.02
+    "statement": 0.926,
+    "question": 1.017
   },
   "slot_samples": {
-    "12:00": 2,
+    "21:30": 21,
+    "18:00": 1,
+    "08:00": 2,
+    "20:00": 1,
+    "10:00": 1,
+    "17:00": 1,
+    "06:00": 2,
     "14:30": 1,
-    "02:00": 2,
-    "14:00": 1,
-    "04:00": 1,
-    "11:00": 1,
-    "00:00": 2,
-    "08:30": 1,
-    "13:00": 1,
-    "13:30": 13,
-    "15:00": 5,
-    "06:30": 3,
-    "15:30": 14,
-    "11:30": 22
+    "19:30": 14,
+    "12:30": 3,
+    "17:30": 23
   },
   "topic_samples": {
+    "other": 18,
     "ear": 3,
-    "other": 17,
     "nerve": 2,
-    "brain": 11,
     "muscle": 6,
     "gut": 8,
-    "breath": 3,
+    "brain": 10,
+    "breath": 4,
     "eye": 9,
     "skin": 7,
     "heart": 3
   },
   "hook_samples": {
     "statement": 12,
-    "question": 57
+    "question": 58
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 69,
+      "samples": 70,
       "gate": 0.5,
-      "avg_completion": 0.4235,
-      "gate_ratio": 0.847,
-      "avg_views": 592.9,
-      "action": "Averaging 42% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
+      "avg_completion": 0.4271,
+      "gate_ratio": 0.854,
+      "avg_views": 552.1,
+      "action": "Averaging 43% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
@@ -104,10 +98,10 @@
   "alerts": [
     {
       "level": "warn",
-      "message": "Slot 06:30 NY is under-performing across 3 videos — its weight has been reduced automatically."
+      "message": "Slot 12:30 is under-performing across 3 videos — its weight has been reduced automatically."
     }
   ],
-  "best_slot": "11:30",
+  "best_slot": null,
   "best_topics": [
     "muscle"
   ],

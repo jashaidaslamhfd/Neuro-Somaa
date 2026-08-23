@@ -1,12 +1,12 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-23T05:53:17.837913+00:00_
+_Généré 2026-08-23T20:43:15.066862+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
 ✅ Les deux pics quotidiens distincts sont couverts.
 
 ## 2. Cadence réelle (2 vidéos/jour attendues)
-⚠️ 2026-08-23 : 1/3
+⚠️ 2026-08-23 : 2/3
 ⚠️ 2026-08-22 : 1/3
 ⚠️ 2026-08-21 : 1/3
 ⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
@@ -25,9 +25,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Cerveau qui ralentit le temps
-      new: Cerveau qui ralentit le temps
-    FIX   yrf_yjNLx58
-      old: Pourquoi mon corps tremble ?
-      new: Pourquoi mon corps tremble ?
+      old: Pourquoi ton téléphone semble vibrer sans sonner ?
+      new: Pourquoi ton téléphone semble vibrer sans sonner ?
+    FIX   K1zIGXqUbgI
+      old: La science derrière le retour des souvenirs gênants
+      new: La science derrière le retour des souvenirs gênants
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.
