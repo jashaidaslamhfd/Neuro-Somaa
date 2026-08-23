@@ -825,5 +825,18 @@
     },
     "publish_at": "2026-08-23T19:30:00+00:00",
     "completed_at": 1787474611.163618
+  },
+  "3bc606d930977ea88ed693730cf764a40c8463388875bfd599b7a1eadad93f33": {
+    "status": "completed",
+    "title": "Pourquoi la r\u00e9sistance du corps \u00e0 la perte de poids ?",
+    "youtube_video_id": "T5SdvsGmcMs",
+    "facebook": {
+      "video_id": null
+    },
+    "instagram": {
+      "media_id": null
+    },
+    "publish_at": "2026-08-24T15:30:00+00:00",
+    "completed_at": 1787491260.03151
   }
 }

@@ -3654,5 +3654,147 @@
     "hook_arm": "shock_fact",
     "hook_score_v2": 68,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "3bc606d930977ea88ed693730cf764a40c8463388875bfd599b7a1eadad93f33",
+    "title": "Pourquoi la r\u00e9sistance du corps \u00e0 la perte de poids ?",
+    "topic": "Ce qu'il faut comprendre sur la r\u00e9sistance du corps \u00e0 la perte de poids",
+    "series_title": "Corps qui refuse de maigrir",
+    "base_phenomenon": "la r\u00e9sistance du corps \u00e0 la perte de poids",
+    "nominal_phrase": "la r\u00e9sistance du corps \u00e0 la perte de poids",
+    "question_phrase": "le corps r\u00e9siste \u00e0 la perte de poids",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Pourquoi ton corps s'arr\u00eate \u00e0 4 kg ? C'est ton cerveau qui calcule un seuil de s\u00e9curit\u00e9. Chaque gramme perdu d\u00e9clenche un signal hormonal. La leptine s'accumule et freine la perte. Le plus \u00e9trange ? Le corps garde le m\u00eame poids. C'est ce seuil qui s'arr\u00eate \u00e0 4 kg.",
+    "posted_at": "2026-08-23T13:21:00.032988+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "T5SdvsGmcMs",
+    "publish_at": "2026-08-24T15:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 85,
+    "predicted_retention": 0.682,
+    "thumbnail_score": {
+      "contrast_score": 100,
+      "mobile_readability_score": 100,
+      "readability_score": 52,
+      "safe_zone_score": 100,
+      "color_score": 73,
+      "face_emotion_score": "not_available (no face/emotion model configured)",
+      "overall_thumbnail_score": 88,
+      "title_char_count": 53,
+      "title_word_count": 11,
+      "score_geometry": {
+        "text_band": [
+          1017,
+          1459
+        ],
+        "safe_box": [
+          54,
+          928
+        ]
+      }
+    },
+    "thumbnail_variants": [
+      {
+        "path": "output/thumbnail_variants/thumbnail_v1.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 73,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 88,
+          "title_char_count": 53,
+          "title_word_count": 11,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v2.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 73,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 88,
+          "title_char_count": 53,
+          "title_word_count": 11,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v3.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 73,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 88,
+          "title_char_count": 53,
+          "title_word_count": 11,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v4.jpg",
+        "score": {
+          "contrast_score": 100,
+          "mobile_readability_score": 100,
+          "readability_score": 52,
+          "safe_zone_score": 100,
+          "color_score": 73,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 88,
+          "title_char_count": 53,
+          "title_word_count": 11,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      }
+    ],
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 90,
+    "loop_bridge_present": false
   }
 ]

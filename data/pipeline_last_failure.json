@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-23T10:08:39.304880+00:00",
-  "reason": "DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ton cerveau ralentit le temps en danger ?'",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 856, in run_pipeline\n    self._select_unique_title(\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 323, in _select_unique_title\n    raise RuntimeError(\nRuntimeError: DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ton cerveau ralentit le temps en danger ?'\n"
+  "failed_at": "2026-08-23T13:09:50.389402+00:00",
+  "reason": "All 3 script-generation attempts failed mandatory gates. Last error: \u274c Script generation failed after 3 attempts. Last error: Final scene (LOOP-BACK) must echo the opening idea \u2014 share at least one concept word with the hook so the Short loops cleanly (replay = ranking signal).",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 758, in run_pipeline\n    script_data = self.generate_with_niche_strategy(\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 637, in generate_with_niche_strategy\n    raise RuntimeError(\nRuntimeError: All 3 script-generation attempts failed mandatory gates. Last error: \u274c Script generation failed after 3 attempts. Last error: Final scene (LOOP-BACK) must echo the opening idea \u2014 share at least one concept word with the hook so the Short loops cleanly (replay = ranking signal).\n"
 }

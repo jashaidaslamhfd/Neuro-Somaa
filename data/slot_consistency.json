@@ -95,6 +95,12 @@
       "outcome": "guard_fail",
       "topic": "DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ",
       "at": "2026-08-23T10:08:39.305824+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "published",
+      "topic": "Pourquoi la r\u00e9sistance du corps \u00e0 la perte de poids ?",
+      "at": "2026-08-23T13:21:00.037006+00:00"
     }
   ]
 }
