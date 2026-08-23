@@ -872,6 +872,40 @@ def _trim_to_word_limit(caption: str, max_words: int) -> str:
     return truncated
 
 
+def _repair_broken_scene_continuations(scenes: list[dict]) -> list[str]:
+    """Repair safe French sentence-boundary artifacts before the strict gate.
+
+    Smaller LLMs sometimes split one spoken sentence across scenes and start the
+    next caption with ``Et``, ``Ou`` or ``Ni`` after a full stop.  The result is
+    especially audible in TTS and is intentionally rejected by the publication
+    gate.  Removing only that leading connector preserves the factual content
+    while restoring a complete spoken sentence.  Other grammar failures remain
+    gate-blocking and still trigger regeneration.
+    """
+    changes: list[str] = []
+    boundary = re.compile(r"([.!?…])\s+(et|ou|ni)\b\s*", re.IGNORECASE)
+    for index, scene in enumerate(scenes):
+        caption = str(scene.get("caption", "")).strip()
+        if not caption:
+            continue
+        fixed = boundary.sub(r"\1 ", caption)
+        if index > 0 and re.match(r"^(et|ou|ni)\b", fixed, re.IGNORECASE):
+            previous = str(scenes[index - 1].get("caption", "")).rstrip()
+            if previous.endswith((".", "!", "?", "…")):
+                fixed = re.sub(r"^(et|ou|ni)\b\s*", "", fixed, count=1, flags=re.IGNORECASE).lstrip()
+        fixed = re.sub(
+            r"([.!?…]\s+)([a-zàâäæçéèêëîïôöœùûüÿ])",
+            lambda match: match.group(1) + match.group(2).upper(),
+            fixed,
+        )
+        if fixed and fixed[0].islower():
+            fixed = fixed[0].upper() + fixed[1:]
+        if fixed != caption:
+            scene["caption"] = fixed
+            changes.append(f"scene_boundary:{index + 1}")
+    return changes
+
+
 def _normalize_scenes(script_data: dict) -> dict:
     """
     Normalizes scene data from various formats.
@@ -924,6 +958,14 @@ def _normalize_scenes(script_data: dict) -> dict:
         if script_data.get("description"):
             script_data["description"], _dh = humanize_spoken_fr(script_data["description"])
             all_changes.extend(_dh)
+        boundary_changes = _repair_broken_scene_continuations(normalized)
+        if boundary_changes:
+            all_changes.extend(boundary_changes)
+            import logging as _log
+
+            _log.getLogger(__name__).warning(
+                "French scene-boundary repair applied: %s", ", ".join(boundary_changes)
+            )
         if all_changes:
             import logging as _log
 
