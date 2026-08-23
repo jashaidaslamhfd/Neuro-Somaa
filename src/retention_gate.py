@@ -65,6 +65,24 @@ def _opening_text_and_words(audio_segments: list[dict], seconds: float) -> tuple
     return " ".join(collected), words
 
 
+def ensure_opening_visual_action(script_data: dict) -> dict:
+    """Repair a missing/generic first visual before rendering and validation.
+
+    The first frame must communicate visible motion or change. LLM output can
+    occasionally return a static noun phrase, so replace only that unsafe
+    opening with a deterministic production-safe close-up description.
+    """
+    scenes = script_data.get("scenes") or []
+    if not scenes or not isinstance(scenes[0], dict):
+        return script_data
+    visual = str(scenes[0].get("visual") or "").strip()
+    if not visual or not _MOTION_TERMS.search(visual) or _GENERIC_VISUAL_TERMS.search(visual):
+        scenes[0]["visual"] = (
+            "Gros plan en mouvement : le phénomène apparaît et change visiblement à l'écran."
+        )
+    return script_data
+
+
 def validate_first_three_seconds(script_data: dict, audio_segments: list[dict]) -> dict:
     """Validate the opening that a viewer actually receives before upload."""
     scenes = script_data.get("scenes") or []

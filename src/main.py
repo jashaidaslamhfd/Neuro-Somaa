@@ -41,6 +41,7 @@ try:
         validate_script_for_medical_accuracy,
     )
     from quality_checker import QualityChecker
+    from retention_gate import ensure_opening_visual_action
     from scheduler import FrancePeakTimeScheduler
     from script_generator import _score_decision_usable, generate_script
     from seo_analytics import (
@@ -948,6 +949,7 @@ class SKILLORPipeline:
             # Phase 3b: Shorts Enhancements
             logger.info("\n📝 PHASE 3b: SHORTS ENHANCEMENTS")
             try:
+                ensure_opening_visual_action(script_data)
                 shorts_report = build_shorts_report(script_data, audio_segments, script_data.get("tags", []))
                 # Persist the report onto script_data so the final history entry
                 # (and the completion log) can read hook_score /
