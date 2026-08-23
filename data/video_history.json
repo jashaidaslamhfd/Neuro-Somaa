@@ -3796,5 +3796,147 @@
     "hook_arm": "pov_reveal",
     "hook_score_v2": 90,
     "loop_bridge_present": false
+  },
+  {
+    "content_fingerprint": "aa34b3ea9479a9323f68eabc40bf6b1d3fe160cfc82f92fa03a7a3dcce3eb0cd",
+    "title": "Pourquoi ce ph\u00e9nom\u00e8ne se produit-il ?",
+    "topic": "Ce qu'il faut comprendre sur la vibration de t\u00e9l\u00e9phone fant\u00f4me",
+    "series_title": "Vibration imaginaire",
+    "base_phenomenon": "la vibration de t\u00e9l\u00e9phone fant\u00f4me",
+    "nominal_phrase": "la vibration de t\u00e9l\u00e9phone fant\u00f4me",
+    "question_phrase": "on sent une vibration de t\u00e9l\u00e9phone imaginaire",
+    "trend_source": "body_glitch_series_fr",
+    "trend_url": null,
+    "voiceover": "Vibration t\u00e9l\u00e9phone fant\u00f4me te fait frissonner en ce moment. C'est la vibration qui d\u00e9clenche un r\u00e9flexe nerveux. Ton cerveau interpr\u00e8te la vibration comme un signal d'alerte. Environ 70 % des utilisateurs per\u00e7oivent la vibration. Le plus \u00e9trange ? C'est la vibration qui fait frissonner ton corps.",
+    "posted_at": "2026-08-23T19:09:33.423107+00:00",
+    "facebook_success": false,
+    "youtube_video_id": "ghHGjKI8uk4",
+    "publish_at": "2026-08-23T19:30:00+00:00",
+    "seo_score": 100,
+    "predicted_ctr": 10.0,
+    "hook_score": 70,
+    "predicted_retention": 0.615,
+    "thumbnail_score": {
+      "contrast_score": 85,
+      "mobile_readability_score": 88,
+      "readability_score": 78,
+      "safe_zone_score": 100,
+      "color_score": 72,
+      "face_emotion_score": "not_available (no face/emotion model configured)",
+      "overall_thumbnail_score": 85,
+      "title_char_count": 37,
+      "title_word_count": 6,
+      "score_geometry": {
+        "text_band": [
+          1017,
+          1459
+        ],
+        "safe_box": [
+          54,
+          928
+        ]
+      }
+    },
+    "thumbnail_variants": [
+      {
+        "path": "output/thumbnail_variants/thumbnail_v1.jpg",
+        "score": {
+          "contrast_score": 68,
+          "mobile_readability_score": 70,
+          "readability_score": 78,
+          "safe_zone_score": 100,
+          "color_score": 72,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 76,
+          "title_char_count": 37,
+          "title_word_count": 6,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v2.jpg",
+        "score": {
+          "contrast_score": 81,
+          "mobile_readability_score": 84,
+          "readability_score": 78,
+          "safe_zone_score": 100,
+          "color_score": 72,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 83,
+          "title_char_count": 37,
+          "title_word_count": 6,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v3.jpg",
+        "score": {
+          "contrast_score": 69,
+          "mobile_readability_score": 71,
+          "readability_score": 78,
+          "safe_zone_score": 100,
+          "color_score": 72,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 76,
+          "title_char_count": 37,
+          "title_word_count": 6,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      },
+      {
+        "path": "output/thumbnail_variants/thumbnail_v4.jpg",
+        "score": {
+          "contrast_score": 85,
+          "mobile_readability_score": 88,
+          "readability_score": 78,
+          "safe_zone_score": 100,
+          "color_score": 72,
+          "face_emotion_score": "not_available (no face/emotion model configured)",
+          "overall_thumbnail_score": 85,
+          "title_char_count": 37,
+          "title_word_count": 6,
+          "score_geometry": {
+            "text_band": [
+              1017,
+              1459
+            ],
+            "safe_box": [
+              54,
+              928
+            ]
+          }
+        }
+      }
+    ],
+    "hook_arm": "pov_reveal",
+    "hook_score_v2": 56,
+    "loop_bridge_present": false
   }
 ]
