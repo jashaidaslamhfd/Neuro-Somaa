@@ -87,6 +87,26 @@ class TestBoundaries(unittest.TestCase):
 
 
 class TestPipelineWiring(unittest.TestCase):
+    def test_normalize_scenes_repairs_short_hook_for_opening_density(self):
+        import script_generator
+
+        data = {
+            "title": "Pourquoi un muscle tressaille tout seul ?",
+            "hook": "placeholder",
+            "description": "Explication éducative du phénomène.",
+            "scenes": [
+                {"visual": "muscle", "caption": "Pourquoi ton muscle tressaille tout seul ?"},
+                {"visual": "nerf", "caption": "C'est un réflexe du système nerveux."},
+            ],
+        }
+        out = script_generator._normalize_scenes(data)
+        self.assertEqual(
+            out["scenes"][0]["caption"],
+            "Pourquoi ton muscle tressaille tout seul en ce moment?",
+        )
+        self.assertEqual(out["hook"], out["scenes"][0]["caption"])
+        self.assertEqual(len(out["hook"].split()), 9)
+
     def test_normalize_scenes_repairs_scene_boundary_conjunction(self):
         import script_generator
 
@@ -117,7 +137,7 @@ class TestPipelineWiring(unittest.TestCase):
             ],
         }
         out = script_generator._normalize_scenes(data)
-        self.assertEqual(out["scenes"][0]["caption"], "Le signal arrive. Le muscle repart.")
+        self.assertEqual(out["scenes"][0]["caption"], "Le signal arrive. Le muscle repart en ce moment.")
 
     def test_normalize_scenes_humanizes(self):
         import script_generator

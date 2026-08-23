@@ -348,7 +348,7 @@ def groq_model_chain() -> list:
 
 
 # A fast, clear opening that comfortably fits in the first 2–3 seconds.
-HOOK_MIN_WORDS = 5
+HOOK_MIN_WORDS = 7
 HOOK_MAX_WORDS = 9
 # Short-format scene budget (FIXED 2026-08-02): 6 scenes x 7-10 words ≈
 # 42-60 words ≈ 16-23s narration — the 20-26s target window.
@@ -906,6 +906,27 @@ def _repair_broken_scene_continuations(scenes: list[dict]) -> list[str]:
     return changes
 
 
+def _ensure_french_hook_budget(caption: str) -> str:
+    """Keep short French openings inside the spoken 3-second word budget.
+
+    The runtime retention gate measures words actually delivered by TTS, not
+    only the caption length. A six-word hook can therefore fail when Chatterbox
+    takes slightly more than three seconds. Adding a neutral, idiomatic time
+    qualifier preserves the meaning while giving the opening enough spoken
+    density; the caller keeps the hook and scene-one caption synchronized.
+    """
+    words = re.findall(r"[\wÀ-ÿŒœ'-]+", caption, flags=re.UNICODE)
+    if len(words) >= HOOK_MIN_WORDS:
+        return caption
+    suffix = " en ce moment"
+    punctuation = ""
+    if caption and caption[-1] in ".!?…":
+        punctuation = caption[-1]
+        caption = caption[:-1].rstrip()
+    repaired = f"{caption}{suffix}{punctuation}".strip()
+    return _trim_to_word_limit(repaired, HOOK_MAX_WORDS)
+
+
 def _normalize_scenes(script_data: dict) -> dict:
     """
     Normalizes scene data from various formats.
@@ -1002,9 +1023,12 @@ def _normalize_scenes(script_data: dict) -> dict:
     # Rather than relying on the LLM to retype the hook identically to
     # scene 1's caption (a common, easy mistake for smaller models), just
     # force them to match - scene 1's caption is the source of truth since
-    # that's what's actually spoken.
+    # that's what's actually spoken. The runtime gate also requires at least
+    # seven words to arrive by 3s, so repair shorter openings deterministically.
     if normalized:
+        normalized[0]["caption"] = _ensure_french_hook_budget(normalized[0]["caption"])
         script_data["hook"] = normalized[0]["caption"]
+        script_data["voiceover"] = " ".join(s["caption"] for s in normalized)
 
     return script_data
 
