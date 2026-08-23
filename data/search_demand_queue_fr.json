@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-23",
-  "mined_at": "2026-08-23T13:11:13.443413+00:00",
+  "mined_at": "2026-08-23T14:33:48.214688+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T13:10:58.736266+00:00"
+      "mined_at": "2026-08-23T14:33:32.863608+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,7 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T13:11:00.767257+00:00"
+      "mined_at": "2026-08-23T14:33:34.992060+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -36,7 +36,7 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'; autocomplete: 'le cerveau des adolescents'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T13:11:06.768820+00:00"
+      "mined_at": "2026-08-23T14:33:41.230373+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,7 @@
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T13:11:08.763923+00:00"
+      "mined_at": "2026-08-23T14:33:43.289413+00:00"
     }
   ]
 }
