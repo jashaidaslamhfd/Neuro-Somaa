@@ -388,6 +388,9 @@ class SKILLORPipeline:
 
             # Generate SEO tags
             tags = generate_seo_tags(topic, category, script_data.get("title", ""))
+            market_experiment_id = os.environ.get("MARKET_EXPERIMENT_ID", "").strip()
+            if market_experiment_id:
+                tags = list(dict.fromkeys([*tags, market_experiment_id]))
 
             # Add metadata
             script_data["topic"] = topic
