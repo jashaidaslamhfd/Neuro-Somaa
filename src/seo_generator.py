@@ -7,7 +7,7 @@ import os
 import random
 import re
 
-from french_quality_gate import has_french_verb
+from french_quality_gate import has_french_verb, is_french_question_without_verb
 
 logger = logging.getLogger(__name__)
 
@@ -1175,8 +1175,19 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
             if _not_exact_competitor_title(fallback_title, competitor_intel)
             else "Science du quotidien"
         )
+    if is_french_question_without_verb(chosen_title):
+        # Final publication audit is stricter than the leak gate: a question
+        # mark cannot rescue a French noun phrase. Prefer the catalogue's
+        # grammatical question, then use a safe verb-containing fallback.
+        repaired_title = _question_title_from_phrase(question_phrase)
+        if not repaired_title or is_french_question_without_verb(repaired_title):
+            repaired_title = "Pourquoi ce phénomène se produit-il ?"
+        chosen_title = repaired_title
+        logger.warning("SEO title failed French verb gate -> deterministic repair: %r", chosen_title)
     if not _title_is_clean(chosen_title)[0]:
         chosen_title = _clean_title_fallback(topic, series_title, question_phrase)
+        if is_french_question_without_verb(chosen_title):
+            chosen_title = "Pourquoi ce phénomène se produit-il ?"
         logger.warning("SEO title failed leak-gate -> deterministic fallback: %r", chosen_title)
 
     hook = script_data.get("hook", "").strip()

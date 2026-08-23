@@ -584,6 +584,8 @@ _COMMON_FRENCH_VERBS = frozenset(
         "desynchronise",
         "recommence",
         "recommencent",
+        "commence",
+        "commencent",
         "repart",
         "repartent",
         "refera",
