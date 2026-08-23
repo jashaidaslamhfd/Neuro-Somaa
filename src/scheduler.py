@@ -54,6 +54,16 @@ class FrancePeakTimeScheduler:
         slots: list[dict] = []
         seen: set[tuple[int, int]] = set()
         max_slots = int(os.environ.get("DYNAMIC_SCHEDULE_SLOT_COUNT", "2"))
+        # The generated file keeps recommended_slots in discovery order, not
+        # score order. Rank by the learned score before applying the two-slot
+        # cap, otherwise a lower-scoring 17:30 slot can displace 21:30.
+        raw_slots = sorted(
+            raw_slots,
+            key=lambda item: float(item.get("score", float("-inf")))
+            if isinstance(item, dict)
+            else float("-inf"),
+            reverse=True,
+        )
         for item in raw_slots:
             try:
                 hour = int(item.get("hour"))

@@ -97,8 +97,17 @@ def _next_publish_time() -> dict | None:
         # Collect already-taken publish timestamps (UTC ISO).
         taken = set()
         for record in list(_load_upload_state().values()):
-            pa = (record.get("publish_at") or "") if isinstance(record, dict) else ""
-            if pa:
+            if not isinstance(record, dict):
+                continue
+            pa = record.get("publish_at") or ""
+            has_platform_id = bool(
+                record.get("youtube_video_id")
+                or (record.get("facebook") or {}).get("video_id")
+                or (record.get("instagram") or {}).get("media_id")
+            )
+            # Failed/placeholder records may retain a publish_at but have no
+            # platform ID; they must not reserve a slot forever.
+            if pa and has_platform_id:
                 taken.add(pa)
         # Also honor video_history published entries.
         try:
@@ -108,8 +117,15 @@ def _next_publish_time() -> dict | None:
             with open(history_path, encoding="utf-8") as history_file:
                 vh = _json.load(history_file)
             for rec in vh if isinstance(vh, list) else []:
-                pa = rec.get("publish_at") if isinstance(rec, dict) else None
-                if pa:
+                if not isinstance(rec, dict):
+                    continue
+                pa = rec.get("publish_at")
+                has_platform_id = bool(
+                    rec.get("youtube_video_id")
+                    or (rec.get("facebook") or {}).get("video_id")
+                    or (rec.get("instagram") or {}).get("media_id")
+                )
+                if pa and has_platform_id:
                     taken.add(pa)
         except Exception:
             pass
