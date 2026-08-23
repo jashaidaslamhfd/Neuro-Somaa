@@ -1,14 +1,15 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-15T07:45:56.206961+00:00_
+_Généré 2026-08-23T05:53:17.837913+00:00_
 
 ## 1. Créneaux de publication
 Créneaux appris : 17:30, 19:30, 21:30
-✅ Trois pics quotidiens distincts sont couverts.
+✅ Les deux pics quotidiens distincts sont couverts.
 
-## 2. Cadence réelle (3 vidéos/jour attendues)
-⚠️ 2026-08-15 : 1/3
-✅ 2026-08-14 : 3/3
-✅ 2026-08-13 : 3/3
+## 2. Cadence réelle (2 vidéos/jour attendues)
+⚠️ 2026-08-23 : 1/3
+⚠️ 2026-08-22 : 1/3
+⚠️ 2026-08-21 : 1/3
+⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
 
 ## 3. Vidéos déjà publiées à réparer
 9 vidéo(s) présentent des défauts :
@@ -24,9 +25,9 @@ Créneaux appris : 17:30, 19:30, 21:30
 
 ## 4. Réparation exécutée
 Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi les souvenirs gênants reviennent ?
-      new: Pourquoi les souvenirs gênants reviennent ?
-    FIX   iSh6RR4oxME
-      old: Pourquoi le corps résiste à la perte de poids ?
-      new: Pourquoi le corps résiste à la perte de poids ?
+      old: Cerveau qui ralentit le temps
+      new: Cerveau qui ralentit le temps
+    FIX   yrf_yjNLx58
+      old: Pourquoi mon corps tremble ?
+      new: Pourquoi mon corps tremble ?
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.
