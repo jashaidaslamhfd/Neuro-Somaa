@@ -13,14 +13,15 @@ on:
         type: boolean
         default: false
   schedule:
-    # 2 videos per day at French (CET/Paris) peak audience times:
-    #   - 18:30 Paris Time (evening commute + dinner scroll window, GMT+1/+2)
-    #   - 21:00 Paris Time (prime-time scroll window, highest Shorts activity)
-    # Crons are in UTC: 18:30 CET = 17:30 UTC; 21:00 CET = 20:00 UTC.
-    # (Previously 3/day; reduced 2026-08-21 per owner: 2 quality videos at
-    # peak slots beats 3 spread thin - better retention, same daily reach.)
+    # 3 daily French Shorts slots learned from real channel performance
+    # in data/upload_slot_intel_fr.json (timezone: Europe/Paris):
+    #   17:30, 19:30, and 21:30 Paris local time.
+    # GitHub Actions cron is UTC. Current CEST (UTC+2) conversion:
+    #   17:30 Paris = 15:30 UTC; 19:30 = 17:30 UTC; 21:30 = 19:30 UTC.
+    # Re-check these UTC values when Europe/Paris changes between CEST/CET.
+    - cron: "30 15 * * *"
     - cron: "30 17 * * *"
-    - cron: "0 20 * * *"
+    - cron: "30 19 * * *"
 
 permissions:
   contents: write
