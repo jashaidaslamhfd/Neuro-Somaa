@@ -161,6 +161,15 @@ class EngineSelectionTests(unittest.TestCase):
             vg._synthesize("test", topic="t")
         mat.assert_called()
 
+    def test_hook_delivery_profile_is_faster_than_neutral(self):
+        import voice_generator as vg
+
+        hook = vg._delivery_multiplier("Pourquoi ton muscle se tressaille sans raison ?", 0, 6)
+        body = vg._delivery_multiplier("C'est ton système nerveux qui envoie un signal.", 1, 6)
+        self.assertGreater(hook, body)
+        self.assertGreaterEqual(hook, 1.11)
+        self.assertLessEqual(hook, 1.19)
+
     # --- Tuning defaults ---
     def test_doc_tone_tuning_defaults(self):
         import voice_generator as vg

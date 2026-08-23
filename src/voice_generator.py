@@ -198,7 +198,10 @@ LIGHT_FR_VOICES = {
 # are applied PER SEGMENT around the base tempo/rate; the jitter is symmetric
 # so the overall video length stays unchanged.
 _DELIVERY_PROFILES = {
-    "hook": 1.07,  # energetic opening — the first 2-3s win the scroll
+    # Chatterbox has no native speed argument, so this multiplier is applied
+    # post-synthesis below. 1.15x keeps a seven-word hook inside the 3.0s
+    # information-density window without rushing the body narration.
+    "hook": 1.15,  # energetic opening — the first 2-3s win the scroll
     "question": 0.94,  # a human leans in and slows before/inside a "?"
     "emphasis": 0.92,  # reveals/punchlines drawn out for weight
     "neutral": 1.00,
@@ -801,6 +804,10 @@ def _synthesize(
     for attempt in range(1, CHATTERBOX_MAX_RETRIES + 1):
         try:
             audio, sr = _synthesize_chatterbox(narration_text, attempt=attempt)
+            # Chatterbox does not expose a playback-speed control. Apply the
+            # same deterministic delivery profile used by Edge/Kokoro so the
+            # opening is actually delivered inside the retention gate window.
+            audio = _apply_tempo(audio, sr, _delivery_multiplier(text, seg_index, seg_total))
             engine = "chatterbox_clone" if _voice_reference_ok() else "chatterbox_default"
             logger.info(f"Chatterbox SUCCESS on attempt {attempt}/{CHATTERBOX_MAX_RETRIES} ({engine})")
             return audio, sr, engine
