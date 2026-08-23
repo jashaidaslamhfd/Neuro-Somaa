@@ -89,6 +89,12 @@
       "outcome": "published",
       "topic": "Pourquoi mon corps tremble ?",
       "at": "2026-08-22T20:40:42.047555+00:00"
+    },
+    {
+      "slot": "offpeak",
+      "outcome": "guard_fail",
+      "topic": "DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ",
+      "at": "2026-08-23T10:08:39.305824+00:00"
     }
   ]
 }

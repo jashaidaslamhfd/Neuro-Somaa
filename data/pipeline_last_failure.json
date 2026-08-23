@@ -1,5 +1,5 @@
 {
-  "failed_at": "2026-08-23T08:43:31.165853+00:00",
-  "reason": "Publication failed: uploader returned no youtube_video_id; history must not record this run as published",
-  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 1172, in run_pipeline\n    raise RuntimeError(\nRuntimeError: Publication failed: uploader returned no youtube_video_id; history must not record this run as published\n"
+  "failed_at": "2026-08-23T10:08:39.304880+00:00",
+  "reason": "DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ton cerveau ralentit le temps en danger ?'",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 856, in run_pipeline\n    self._select_unique_title(\n  File \"/home/runner/work/Neuro-Somaa/Neuro-Somaa/src/main.py\", line 323, in _select_unique_title\n    raise RuntimeError(\nRuntimeError: DUPLICATE TITLE BLOCKED: no unique French title candidate remains for 'Pourquoi ton cerveau ralentit le temps en danger ?'\n"
 }
