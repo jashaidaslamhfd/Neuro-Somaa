@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-23",
-  "mined_at": "2026-08-23T15:29:52.648975+00:00",
+  "mined_at": "2026-08-23T16:05:52.436140+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T15:29:38.254191+00:00"
+      "mined_at": "2026-08-23T16:05:37.701387+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,7 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T15:29:40.261824+00:00"
+      "mined_at": "2026-08-23T16:05:39.693655+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -34,9 +34,9 @@
       "question_phrase": "pourquoi le cerveau est immature à 20 ans",
       "angle": "Pourquoi le cerveau est immature à 20 ans ?",
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
-      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'; autocomplete: 'le cerveau des adolescents'",
+      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T15:29:46.092524+00:00"
+      "mined_at": "2026-08-23T16:05:45.739014+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,19 @@
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-23T15:29:48.041259+00:00"
+      "mined_at": "2026-08-23T16:05:47.737364+00:00"
+    },
+    {
+      "series_number": "DEM-5",
+      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
+      "topic": "les yeux bougent pendant le sommeil paradoxal",
+      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
+      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
+      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "demand_note": "autocomplete: 'qu'est-ce qu'une paralysie du sommeil'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-23T16:05:49.751712+00:00"
     }
   ]
 }
