@@ -1,5 +1,5 @@
 # 🧠 Neuro-Somaa — Intelligence Dashboard
-_2026-08-24T18:00:14.108481+00:00_ — n=25 vidéos réelles
+_2026-08-24T19:58:02.799995+00:00_ — n=25 vidéos réelles
 
 ## 📊 Data quality
 - vues réelles: **25** · couverture CTR: **0%** · rétention: **100%**
@@ -25,8 +25,8 @@ _2026-08-24T18:00:14.108481+00:00_ — n=25 vidéos réelles
 ## 📈 Prévision 30 jours (Holt)
 - tendance: **+40.0 vues/jour^²** · attendu 30j: **62400 vues** (bande 2080.0–2080.0/j)
 
-## 🗂️ Clusters de sujets (k=3) — gagnant: **sujet / surprend**
-- `sujet / surprend` — 25 vidéos · avg 980.0 vues · max 1460
+## 🗂️ Clusters de sujets (k=3) — gagnant: **surprend / sujet**
+- `surprend / sujet` — 25 vidéos · avg 980.0 vues · max 1460
 
 ## ⏱️ Rétention
 - P10/P50/P90 = 40.0% / 40.0% / 40.0% · **100%** des vidéos perdent le spectateur avant la moitié
