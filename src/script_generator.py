@@ -1205,7 +1205,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # Hooks without body-feel words underperform. Reject if no sensory word.
     SENSORY_WORDS = {
         "sens", "ressens", "sensations", "sensación",
-        "tressaille", "frisson", "fourmille", "fourmillements",
+        "tressaille", "frisson", "frissonne", "fourmille", "fourmillements",
         "brûle", "brûlure", "picote", "picotements", "douleur",
         "fatigue", "fatigué", "lourdeur", "lourd", "pesanteur",
         "serré", "serrer", "serrage", "battement", "battre",
@@ -1234,25 +1234,25 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         # moved the answer to scene 2; this check previously demanded a
         # QUESTION there, directly contradicting the prompt and rewarding the
         # exact "setup drags on" pattern that loses viewers at scene 2.2.
-        answer = scenes[1].get("caption", "").strip()
-        answer_norm = answer.lower()
-        starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
-        if not starts_with_answer:
-            issues.append(
-                "Scene 2 (RÉPONSE FLASH) must deliver the mechanism immediately, "
-                "starting with « C'est… », « Ton cerveau… », « Ton corps… » or "
-                "« En fait… ». Viewers leave at ~scene 2 — the payoff must land there."
-            )
-        if answer.endswith("?"):
-            issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
-        hook_concepts = _content_concepts(scenes[0].get("caption", ""))
-        tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
-        if hook_concepts and not (hook_concepts & tail_concepts):
-            issues.append(
-                "Final scene (LOOP-BACK) must echo the opening idea — share at "
-                "least one concept word with the hook so the Short loops "
-                "cleanly (replay = ranking signal)."
-            )
+    answer = scenes[1].get("caption", "").strip()
+    answer_norm = answer.lower()
+    starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
+    if not starts_with_answer:
+        issues.append(
+            "Scene 2 (RÉPONSE FLASH) must deliver the mechanism immediately, "
+            "starting with « C'est… », « Ton cerveau… », « Ton corps… » or "
+            "« En fait… ». Viewers leave at ~scene 2 — the payoff must land there."
+        )
+    if answer.endswith("?"):
+        issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
+    hook_concepts = _content_concepts(scenes[0].get("caption", ""))
+    tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
+    if hook_concepts and not (hook_concepts & tail_concepts):
+        issues.append(
+            "Final scene (LOOP-BACK) must echo the opening idea — share at "
+            "least one concept word with the hook so the Short loops "
+            "cleanly (replay = ranking signal)."
+        )
 
     # ------------------------------------------------------------------
     # HUMAN-AUTHENTICITY GATE — reject AI-telltale / templated phrasing.

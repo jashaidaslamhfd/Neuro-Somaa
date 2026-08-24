@@ -330,7 +330,7 @@ class WorkflowRegressionTests(unittest.TestCase):
 
 
 def _arc_fixture():
-    """Valid French 6-scene script (FIXED 2026-08-02: short format 20-26s),
+    """Valid French 6-scene script (FIXED 2026-08-24: short format 15-18s),
     V4 ANSWER-FIRST arc:
     Accroche (scene 1) → Réponse flash (scene 2) → mécanisme → Boucle.
 
@@ -341,29 +341,29 @@ def _arc_fixture():
     the fixture (and production) now targets 6 fast scenes."""
     return {
         "title": "Sommeil Et Mémoire Cerveau",
-        "hook": "Votre cerveau trie vos souvenirs la nuit.",
-        "cta": "Abonnez-vous pour la science du corps, simplement.",
+        "hook": "Ton cerveau trie tes souvenirs la nuit.",
+        "cta": "Dis-moi si ton cerveau fait pareil ?",
         "scenes": [
             {
                 "visual": "cerveau lumineux pendant le sommeil",
-                "caption": "Votre cerveau trie vos souvenirs la nuit.",
+                "caption": "Ton cerveau frissonne et trie tes souvenirs.",
             },
             {
                 "visual": "signaux de mémoire entre neurones",
-                "caption": "Ton cerveau rejoue et fixe chaque souvenir utile pendant le sommeil profond.",
+                "caption": "Ton cerveau rejoue chaque souvenir utile.",
             },
             {
                 "visual": "étudiant dans une chambre calme",
-                "caption": "Sans sommeil, une info claire disparaît plus vite.",
+                "caption": "Sans sommeil, une info disparaît.",
             },
             {
                 "visual": "connexions cérébrales renforcées",
-                "caption": "La nuit, il renforce les connexions utiles.",
+                "caption": "La nuit, il renforce les connexions.",
             },
-            {"visual": "chemin de mémoire lumineux", "caption": "Ce processus garde l'apprentissage stable."},
+            {"visual": "chemin de mémoire lumineux", "caption": "Ce processus garde l'apprentissage."},
             {
                 "visual": "lumière du matin, personne concentrée",
-                "caption": "Le sommeil sauvegarde les souvenirs que demain tu perdrais.",
+                "caption": "Le sommeil sauvegarde tous tes souvenirs.",
             },
         ],
     }
@@ -384,8 +384,8 @@ class StoryArcTests(unittest.TestCase):
             # mutates those env vars + reloads the module. Without pinning
             # the short-format env here, this test depends on test ORDER
             # (58 words fails against the old 88-word floor).
-            os.environ["TARGET_MIN_SECONDS"] = "20"
-            os.environ["TARGET_MAX_SECONDS"] = "26"
+            os.environ["TARGET_MIN_SECONDS"] = "15"
+            os.environ["TARGET_MAX_SECONDS"] = "18"
             self.sg = importlib.import_module("script_generator")
             importlib.reload(self.sg)
         except ModuleNotFoundError as exc:
@@ -396,8 +396,8 @@ class StoryArcTests(unittest.TestCase):
             import importlib
             import os
 
-            os.environ["TARGET_MIN_SECONDS"] = "20"
-            os.environ["TARGET_MAX_SECONDS"] = "26"
+            os.environ["TARGET_MIN_SECONDS"] = "15"
+            os.environ["TARGET_MAX_SECONDS"] = "18"
             importlib.reload(self.sg)
         except Exception:
             pass
@@ -438,7 +438,7 @@ class StoryArcTests(unittest.TestCase):
 
     def test_final_scene_without_loopback_is_rejected(self):
         data = _arc_fixture()
-        data["scenes"][-1]["caption"] = "Les citrouilles décorent les marchés pendant l'automne doré."
+        data["scenes"][-1]["caption"] = "Les citrouilles décoreraient les marchés."
         valid, issues = self._validated(data)
         self.assertFalse(valid)
         self.assertTrue(any("LOOP-BACK" in issue for issue in issues), issues)

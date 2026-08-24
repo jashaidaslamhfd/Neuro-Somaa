@@ -40,3 +40,4 @@ data/next_video_10k.json
 data/*.json
 data/*.md
 !data/video_history.json
+!data/body_glitch_topics.json
