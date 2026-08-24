@@ -1,14 +1,15 @@
 # SKILLOR — rapport de maintenance automatique
-_Généré 2026-08-16T05:52:49.084956+00:00_
+_Généré 2026-08-24T06:01:55.892058+00:00_
 
 ## 1. Créneaux de publication
-Créneaux appris : 17:30, 19:30, 21:00
-✅ Trois pics quotidiens distincts sont couverts.
+Créneaux appris : 17:30, 19:30, 21:30
+✅ Les deux pics quotidiens distincts sont couverts.
 
-## 2. Cadence réelle (3 vidéos/jour attendues)
-⚠️ 2026-08-16 : 0/3
-✅ 2026-08-15 : 3/3
-✅ 2026-08-14 : 3/3
+## 2. Cadence réelle (2 vidéos/jour attendues)
+⚠️ 2026-08-24 : 2/3
+⚠️ 2026-08-23 : 2/3
+⚠️ 2026-08-22 : 1/3
+⚠️ Journées incomplètes — vérifier les échecs du workflow de génération.
 
 ## 3. Vidéos déjà publiées à réparer
 9 vidéo(s) présentent des défauts :
@@ -23,10 +24,10 @@ Créneaux appris : 17:30, 19:30, 21:00
 - `P6N8mJAbU5M` — title ends mid-phrase — the payload is missing
 
 ## 4. Réparation exécutée
-Mode : SIMULATION (dry-run) — code de sortie 1
-      old: Pourquoi les yeux bougent pendant le sommeil paradoxal ?
-      new: Pourquoi les yeux bougent pendant le sommeil paradoxal ?
-    FIX   JH0ybNiIIP4
-      old: Pourquoi des fourmillements apparaissent sans raison ?
-      new: Pourquoi des fourmillements apparaissent sans raison ?
+Mode : SIMULATION (dry-run) — code de sortie 0
+      old: Pourquoi ton téléphone semble vibrer sans sonner ?
+      new: Pourquoi ton téléphone semble vibrer sans sonner ?
+    FIX   K1zIGXqUbgI
+      old: La science derrière le retour des souvenirs gênants
+      new: La science derrière le retour des souvenirs gênants
 ℹ️ Définir SELF_MAINTENANCE_APPLY=true pour écrire réellement sur YouTube.
