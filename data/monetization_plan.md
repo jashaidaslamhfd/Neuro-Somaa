@@ -1,0 +1,44 @@
+# 🎯 Neuro-Somaa — Monetization Readiness (30 août 2026)
+_Generated 2026-08-25T08:27:45.255782+00:00 — 4 jours restants_
+
+## 📊 Channel actuel
+- Abonnés: **122** | Vues totales: 56,136 | Vidéos: 87
+- Watch hours (12 mois): 77.7
+
+## 🎯 Cibles (2026 YPP)
+- **Full YPP (ad revenue)**: +878 subs (219.5/jour) · +9,943,864 vues Shorts (2,485,966.0/jour)
+- **Tier-1 (fan funding, memberships, Super Thanks)**: +378 subs (94.5/jour) · +2,943,864 vues Shorts (735,966.0/jour)
+
+## 🚫 Obstacles (koi rukawat na aye)
+- 👤 **AdSense account linked** — YouTube Studio → Earn → AdSense. NOT automatable via API.
+- 👤 **2-step verification ON** — Google account security — required for YPP application.
+- 👤 **No active Community Guidelines strikes** — Check YouTube Studio → Channel health.
+- 👤 **Country eligible for YPP** — Pakistan accounts CAN monetize (YT supports PK); verify in Studio.
+- ✅ **Music licensing safe** — own_* original beds only — zero Content ID risk.
+- ✅ **No duplicate titles** — title sweep applied 2026-08-02
+- ✅ **Synthetic-media disclosure ON** — YT_DECLARE_SYNTHETIC_MEDIA=true in workflow → honest, no reuse flags.
+- ✅ **Made-for-kids correctly false** — science content, not kids-targeted
+- ✅ **Channel country = FR** — matches French-audience targeting
+- ✅ **Educational disclaimer in descriptions** — Every optimized description carries the medical disclaimer.
+
+## 🎵 Musique
+- ✅ `own_dark_drone.ogg` — original (generated in-repo)
+- ✅ `own_dark_drone.wav` — original (generated in-repo)
+- ✅ `own_melancholy_dusk.ogg` — original (generated in-repo)
+- ✅ `own_melancholy_dusk.wav` — original (generated in-repo)
+- ✅ `own_mystery_voices.ogg` — original (generated in-repo)
+- ✅ `own_mystery_voices.wav` — original (generated in-repo)
+- ✅ `own_serene_eerie.ogg` — original (generated in-repo)
+- ✅ `own_serene_eerie.wav` — original (generated in-repo)
+- ✅ `own_suspense_thrum.ogg` — original (generated in-repo)
+- ✅ `own_suspense_thrum.wav` — original (generated in-repo)
+- ✅ `own_tension_rise.ogg` — original (generated in-repo)
+- ✅ `own_tension_rise.wav` — original (generated in-repo)
+
+## 🗓️ Plan quotidien (honnête)
+- **3 Shorts/jour** à 12:30, 19:30 & 21:00 Paris (déjà automatisé, ajusté par les créneaux dynamiques).
+- 1 long-form 8-12 min / semaine (watch-hours path).
+- Quand subs ≥ 500 → appliquer YPP Tier-1 dans YouTube Studio (fan funding).
+- Quand subs ≥ 1 000 → appliquer Full YPP. L'application est MANUELLE (Studio → Earn) — ce repo ne peut pas l'automatiser.
+
+⚠️ **Réalité:** passer de ~48 → 1 000 subs en 28 jours est très ambitieux; l'objectif atteignable au 30 août est le **Tier-1 (500 subs)** avec une cadence parfaite + un format court (20-26s) qui améliore la rétention. Le repo est prêt pour que RIEN ne bloque l'application le jour où le seuil est franchi.

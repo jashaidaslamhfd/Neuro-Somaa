@@ -1,0 +1,160 @@
+{
+  "generated_at": "2026-08-25T08:27:45.255782+00:00",
+  "target_date": "2026-08-30T00:00:00+00:00",
+  "days_left": 4,
+  "channel": {
+    "subs": 122,
+    "total_views": 56136,
+    "videos": 87,
+    "watch_hours_12mo": 77.7,
+    "made_for_kids_status": null,
+    "privacy_status": "public",
+    "long_uploads_status": "allowed",
+    "country": "FR",
+    "default_language": "fr"
+  },
+  "tiers": [
+    {
+      "tier": "ypp_full",
+      "label": "Full YPP (ad revenue)",
+      "subs_needed": 878,
+      "subs_per_day": 219.5,
+      "views_needed_90d": 9943864,
+      "views_per_day": 2485966.0,
+      "reachable_by_aug30_subs": false,
+      "reachable_by_aug30_views": false
+    },
+    {
+      "tier": "ypp_tier1",
+      "label": "Tier-1 (fan funding, memberships, Super Thanks)",
+      "subs_needed": 378,
+      "subs_per_day": 94.5,
+      "views_needed_90d": 2943864,
+      "views_per_day": 735966.0,
+      "reachable_by_aug30_subs": false,
+      "reachable_by_aug30_views": false
+    }
+  ],
+  "obstacles": [
+    {
+      "status": "manual",
+      "item": "AdSense account linked",
+      "detail": "YouTube Studio → Earn → AdSense. NOT automatable via API."
+    },
+    {
+      "status": "manual",
+      "item": "2-step verification ON",
+      "detail": "Google account security — required for YPP application."
+    },
+    {
+      "status": "manual",
+      "item": "No active Community Guidelines strikes",
+      "detail": "Check YouTube Studio → Channel health."
+    },
+    {
+      "status": "manual",
+      "item": "Country eligible for YPP",
+      "detail": "Pakistan accounts CAN monetize (YT supports PK); verify in Studio."
+    },
+    {
+      "status": "ok",
+      "item": "Music licensing safe",
+      "detail": "own_* original beds only — zero Content ID risk."
+    },
+    {
+      "status": "ok",
+      "item": "No duplicate titles",
+      "detail": "title sweep applied 2026-08-02"
+    },
+    {
+      "status": "ok",
+      "item": "Synthetic-media disclosure ON",
+      "detail": "YT_DECLARE_SYNTHETIC_MEDIA=true in workflow → honest, no reuse flags."
+    },
+    {
+      "status": "ok",
+      "item": "Made-for-kids correctly false",
+      "detail": "science content, not kids-targeted"
+    },
+    {
+      "status": "ok",
+      "item": "Channel country = FR",
+      "detail": "matches French-audience targeting"
+    },
+    {
+      "status": "ok",
+      "item": "Educational disclaimer in descriptions",
+      "detail": "Every optimized description carries the medical disclaimer."
+    }
+  ],
+  "music": {
+    "ok": true,
+    "risks": 0,
+    "items": [
+      {
+        "file": "own_dark_drone.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_dark_drone.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_melancholy_dusk.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_melancholy_dusk.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_mystery_voices.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_mystery_voices.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_serene_eerie.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_serene_eerie.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_suspense_thrum.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_suspense_thrum.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_tension_rise.ogg",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      },
+      {
+        "file": "own_tension_rise.wav",
+        "ok": true,
+        "why": "original (generated in-repo)"
+      }
+    ]
+  },
+  "titles": {
+    "ok": true,
+    "duplicates": {}
+  }
+}

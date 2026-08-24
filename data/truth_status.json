@@ -1,0 +1,27 @@
+{
+  "hook_score": {
+    "verdict": "NOISE",
+    "decision_usable": false,
+    "spearman_vs_views": -0.052
+  },
+  "seo_score": {
+    "verdict": "WEAK",
+    "decision_usable": true,
+    "spearman_vs_views": 0.189
+  },
+  "predicted_retention": {
+    "verdict": "NOISE",
+    "decision_usable": false,
+    "spearman_vs_views": -0.108
+  },
+  "predicted_ctr": {
+    "verdict": "WEAK",
+    "decision_usable": true,
+    "spearman_vs_views": 0.18
+  },
+  "_meta": {
+    "min_n": 12,
+    "noise_band": 0.15,
+    "weak_band": 0.35
+  }
+}
