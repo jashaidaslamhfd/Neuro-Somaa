@@ -533,6 +533,10 @@ RÈGLES DE RÉTENTION (4 temps + boucle) :
   texte) pour casser la monotonie.
 - Le paiement (la réponse-choc) se situe À LA FIN, pas dans les 5 premières
   secondes — sinon le spectateur a sa récompense et part.
+- LOOP-BACK OBLIGATOIRE : La DERNIÈRE scène doit reprendre un mot-clé du hook
+  (la scène 1). Ex: si le hook parle de "cerveau", la dernière scène doit
+  mentionner "cerveau" ou un synonyme. Sans ça, le spectateur ne re-regarde pas
+  et l'algorithme ne boucle pas la vidéo.
 """
 
 
