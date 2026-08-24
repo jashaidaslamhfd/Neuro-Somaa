@@ -632,8 +632,8 @@ PRIORITÉ DES SUJETS (2026-08-24, données de la chaîne) :
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
-    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "15")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "18")))
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "28")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "32")))
     viral_hint = _viral_inspiration()
     # 2026-08-12 viral-engineering: deterministic hook arm per topic
     # (question / shock_fact / pov_reveal), logged into script_data so the
@@ -1178,7 +1178,37 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
                 f"Rewrite with 'tu/ton/ta/tes' — the data is unambiguous."
             )
 
-        # SCENE 2 — must DELIVER, not stall. V4 (BODY_GLITCH_V4_ANSWER_FIRST)
+        # 2026-08-24: SENSORY WORD GATE — data shows hooks with physical
+    # sensations in first 5 words get 2x views (sens=966, nerveux=935 avg).
+    # Hooks without body-feel words underperform. Reject if no sensory word.
+    SENSORY_WORDS = {
+        "sens", "ressens", "sensations", "sensación",
+        "tressaille", "frisson", "fourmille", "fourmillements",
+        "brûle", "brûlure", "picote", "picotements", "douleur",
+        "fatigue", "fatigué", "lourdeur", "lourd", "pesanteur",
+        "serré", "serrer", "serrage", "battement", "battre",
+        "tremble", "tremblement", "engourdi", "engourdissement",
+        "détend", "tendu", "tension", "relâche", "relâchement",
+        "gargouille", "gronde", "grondement",
+        "réagit", "réaction", "réponse", "active", "active",
+        "transpire", "sueur", "sue", "gèle", "gel",
+        "fige", "figé", "paralysé", "paralysie",
+        "entends", "écoute", "entend",
+    }
+    hook_words_raw = scenes[0].get("caption", "").strip().lower().split()
+    hook_first_5 = hook_words_raw[:5] if hook_words_raw else []
+    has_sensory = any(
+        w.rstrip(".,!?;:") in SENSORY_WORDS for w in hook_first_5
+    )
+    if not has_sensory and hook_first_5:
+        issues.append(
+            f"Hook missing physical sensation word in first 5 words "
+            f"({hook_first_5}). Data: sensory hooks get 2x views "
+            f"(sens=966, nerveux=935 avg). Add a body-feel word: "
+            f"sens, frisson, tressaille, battement, fourmille..."
+        )
+
+    # SCENE 2 — must DELIVER, not stall. V4 (BODY_GLITCH_V4_ANSWER_FIRST)
         # moved the answer to scene 2; this check previously demanded a
         # QUESTION there, directly contradicting the prompt and rewarding the
         # exact "setup drags on" pattern that loses viewers at scene 2.2.

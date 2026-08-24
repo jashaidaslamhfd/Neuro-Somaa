@@ -7,9 +7,6 @@ venv/
 env/
 
 # ---- Secrets (CRITICAL) ----
-# UPDATE_ONLY_MANIFEST.md tells the operator to run `git add .`; without this
-# rule that single command publishes GROQ_API_KEY + the Google OAuth refresh
-# token to a PUBLIC repo. env.example stays tracked as the documented template.
 .env
 .env.*
 !env.example
@@ -36,3 +33,10 @@ assets/voice_reference.wav
 data/script_history.json
 src/script_generator.py.bak
 data/next_video_10k.json
+
+# ---- Operational data (CRITICAL — never commit to public repo) ----
+# video_history.json is kept tracked (needed on fresh clones).
+# Everything else is runtime-generated and synced via GitHub Actions artifacts.
+data/*.json
+data/*.md
+!data/video_history.json
