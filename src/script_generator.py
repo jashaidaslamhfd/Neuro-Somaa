@@ -56,8 +56,8 @@ def _duration_word_budget() -> tuple:
     # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
     # when a short arm was requested, silently breaking the whole experiment.
-    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "20"))
-    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "26"))
+    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "15"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "22"))
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
@@ -394,6 +394,13 @@ GENERIC_HOOK_OPENERS = (
     "tu as remarqué",
 )
 
+# 2026-08-24: VOUCHEFORME BAN — "Vous/votre/vos" in HOOK or first scene
+# kills retention by 10x (66 avg views vs 665 for "Tu/Ton" hooks).
+# This regex catches ANY formal-register marker in the critical first 3s.
+_VOUS_FORME_RE = re.compile(
+    r"\b(vous|votre|vos|nous allons|on vous)\b", re.IGNORECASE
+)
+
 # Scene 2 must open with the mechanism itself (V4 answer-first arc).
 ANSWER_FIRST_PREFIXES = (
     "c'est",
@@ -484,6 +491,9 @@ RÈGLES D'AUTHENTICITÉ HUMAINE (anti-IA, exigées par la politique YouTube 2025
 REGISTRE OBLIGATOIRE — FRANÇAIS PARLÉ (jamais de français écrit) :
 - TUTOIE le spectateur partout — « tu/ton/ta/tes », JAMAIS « vous/votre/vos ».
   Le vouvoiement trahit instantanément un texte machine pour un jeune public Shorts.
+  DONNÉES : les hooks avec « Vous » obtiennent 66 vues en moyenne contre 665
+  pour « Tu/Ton » — un facteur 10x. Si tu écris « vous/votre/vos » dans
+  l'accroche, la vidéo échoue. C'est la cause n°1 de la faible rétention.
 - Contractions orales naturelles : « t'as », « t'es », « y a », « c'est »,
   « j'suis ». Négations parlées acceptées : « c'est pas », « y a pas », « je sais pas ».
 - « on » à la place de « nous » (personne ne dit « nous allons voir » à l'oral).
@@ -603,18 +613,27 @@ ANGLE UNIQUE « FAITS QUI SEMBLENT FAUX » (faible concurrence, forte demande) :
 ANGLE UNIQUE « LE CORPS DE NOS ANCÊTRES » (différenciant) :
 - Après avoir expliqué le mécanisme, donne TOUJOURS la raison évolutive : ce
   réflexe servait (ou sert encore) à nos ancêtres / à la survie de l'espèce.
-- Cadre le phénomène comme un héritage : « votre corps a gardé ce réflexe de
+- Cadre le phénomène comme un héritage : « ton corps a gardé ce réflexe de
   l'époque où... ». Cela crée une perspicacité que les chaînes concurrentes
   (qui ne font que « pourquoi ça arrive ? ») n'apportent pas.
 - Reste vérifiable et prudent : aucune invention d'études, de dates ou de
   scénarios médicaux ; reste sur des mécanismes évolutifs reconnus.
+
+PRIORITÉ DES SUJETS (2026-08-24, données de la chaîne) :
+- PHYSIQUE DU CORPS (ventre, muscle, cœur, peau, sang, rein) : avg 640 vues
+  → PRIORITÉ MAX. Les sujets physiques concrets font 25% plus de vues.
+- CERVEAU/NEURO : avg 499 vues, mais SURSATURÉ (52/73 vidéos = 71%).
+  → Réduire à 1 vidéo sur 4 max.
+- NOURRITURE/ENVIRONNEMENT : avg 986 vues (1 seule vidéo test).
+  → AUGMENTER : potentiel viral énorme inexploité.
+- SOMMEIL/RÊVES : avg 7 vues → ÉVITER complètement.
 """
     # Duration comes from the active experiment arm, not a hardcoded range —
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
-    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "20")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "26")))
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "15")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "22")))
     viral_hint = _viral_inspiration()
     # 2026-08-12 viral-engineering: deterministic hook arm per topic
     # (question / shock_fact / pov_reveal), logged into script_data so the
@@ -1008,9 +1027,17 @@ def _normalize_scenes(script_data: dict) -> dict:
 
             _log.getLogger(__name__).warning(
                 "🗣️ %d formal-register marker(s) (vous/votre) survived "
-                "humanization — voiceover may read stiff.",
+                "humanization — HARD REJECT: retrying.",
                 leftovers,
             )
+            # 2026-08-24: "Vous" hooks kill retention by 10x.
+            # Previously this was just a warning; now it triggers retry.
+            if not script_data.get("_formality_retry"):
+                script_data["_formality_retry"] = True
+                raise ValueError(
+                    f"Formal register ({leftovers} markers) survived humanization — "
+                    "retry with explicit tutoiement instruction"
+                )
     except Exception as _hum_exc:  # pragma: no cover - defensive
         import logging as _log
 
@@ -1124,6 +1151,22 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
                     f"instead (viewers swipe at ~2s on openers like this)."
                 )
                 break
+
+        # 2026-08-24: VOUCHEFORME HARD BAN — data shows "Vous" hooks get
+        # 10x fewer views (66 avg vs 665 for "Tu/Ton"). Reject ANY formal-
+        # register marker in the hook or first scene, not just the known
+        # openers list. This is the #1 retention killer on this channel.
+        full_opening = (
+            scenes[0].get("caption", "") + " "
+            + (scenes[1].get("caption", "") if len(scenes) > 1 else "")
+        ).strip()
+        _vous_match = _VOUS_FORME_RE.search(full_opening)
+        if _vous_match:
+            issues.append(
+                f"Formal register '{_vous_match.group()}' detected in opening scenes "
+                f"(retention killer: Vous hooks avg 66 views vs 665 for Tu/Ton). "
+                f"Rewrite with 'tu/ton/ta/tes' — the data is unambiguous."
+            )
 
         # SCENE 2 — must DELIVER, not stall. V4 (BODY_GLITCH_V4_ANSWER_FIRST)
         # moved the answer to scene 2; this check previously demanded a

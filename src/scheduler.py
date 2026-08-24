@@ -19,9 +19,11 @@ class FrancePeakTimeScheduler:
     DEFAULT_PEAK_TIMES = (
         {"hour": 19, "minute": 30, "name": "Dynamique 19:30"},
         {"hour": 21, "minute": 30, "name": "Dynamique 21:30"},
+        {"hour": 17, "minute": 30, "name": "Dynamique 17:30"},
     )
     # France-first fallback: evening Paris slots match the learned
     # Europe/Paris performance file when dynamic analytics are unavailable.
+    # 2026-08-24: added 17:30 as third slot — recovery mode uses top 2.
 
     def __init__(self):
         # 2026-08-12 truth sweep: honour PUBLISH_TIMEZONE from the workflow
