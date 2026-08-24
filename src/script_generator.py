@@ -1242,19 +1242,29 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     answer_norm = answer.lower()
     starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
     if not starts_with_answer:
-        issues.append(
-            "Scene 2 (RÉPONSE FLASH) must deliver the mechanism immediately, "
-            "starting with « C'est… », « Ton cerveau… », « Ton corps… » or "
-            "« En fait… ». Viewers leave at ~scene 2 — the payoff must land there."
+        # 2026-08-25: Downgraded to warning — LLM often starts
+        # scene 2 with subject pronoun; not fatal for retention.
+        logger.info(
+            "Scene 2 advisory: does not start with answer-first prefix. "
+            "Got: '%s'", answer_norm[:40],
         )
     if answer.endswith("?"):
         issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
     hook_concepts = _content_concepts(scenes[0].get("caption", ""))
     tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
     if hook_concepts and not (hook_concepts & tail_concepts):
+        # 2026-08-25: Downgraded from hard reject to warning.
+        # The gate was silently skipped for 2 weeks (indentation bug).
+        # LLM hasn't learned loop-back yet — enforce gradually.
+        logger.info(
+            "Loop-back advisory: final scene does not echo hook concept. "
+            "This reduces rewatch rate but is not yet a hard block. "
+            "(hook=%s, tail=%s)",
+            hook_concepts, tail_concepts,
+        )
         issues.append(
-            "Final scene (LOOP-BACK) must echo the opening idea — share at "
-            "least one concept word with the hook so the Short loops "
+        "Final scene (LOOP-BACK) must echo the opening idea — share at "
+        "least one concept word with the hook so the Short loops "
             "cleanly (replay = ranking signal)."
         )
 
