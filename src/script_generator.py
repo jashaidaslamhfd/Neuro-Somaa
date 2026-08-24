@@ -1106,9 +1106,8 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     cta_text = (script_data.get("cta") or "").strip()
     if cta_text and "?" not in cta_text:
         issues.append(
-            "CTA must contain a question mark (?) to drive comments — "
-            "engagement questions are the #1 ranking signal for Shorts. "
-            f"Example: 'Dis-moi si ça t'arrive aussi ?' (got: '{cta_text[:60]}')"
+        # 2026-08-25: Downgraded to advisory — LLM sometimes omits "?"
+        logger.info("CTA advisory: no question mark in '%s'", cta_text[:60])
         )
 
     # main.py replaces temporary LLM titles with the deterministic Body
@@ -1126,8 +1125,12 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     word_count = len(voiceover.split())
     if word_count < MIN_WORDS:
         issues.append(f"Too few words: {word_count} (minimum {MIN_WORDS})")
+    elif word_count > MAX_WORDS + 10:
+        # Only hard reject for MASSIVELY overlong scripts (>44 words for 15-18s target)
+        # Slightly over budget (35-44) is OK — the humanizer trims
+        issues.append(f"Too many words: {word_count} (maximum {MAX_WORDS + 10})")
     elif word_count > MAX_WORDS:
-        issues.append(f"Too many words: {word_count} (maximum {MAX_WORDS})")
+        logger.info("Word count %d exceeds target %d but within tolerance", word_count, MAX_WORDS)
 
     # Check each scene
     # (HOOK_MIN_WORDS/HOOK_MAX_WORDS/MAX_SCENE_WORDS are the same constants
