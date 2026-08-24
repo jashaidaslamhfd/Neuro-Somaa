@@ -746,10 +746,13 @@ RÈGLES DE FORMAT :
   pourquoi … », « Ton … te cache quelque chose », « Le secret de ton … »,
   « Comment ton … te trahit ». BON : « Pourquoi ton cœur bat la nuit » ·
   « Ce que fait ton cerveau en dormant » · « Ton corps te trahit quand tu
-  mens ». MAUVAIS (rejeté) : étiquettes de 1-3 mots comme « Voix du matin »,
-  « Choc anaphylactique » — zéro clic ; et interdit que « Pourquoi » soit le premier mot de +30% des vidéos — les algorithmes 2026 détectent la surcharge de titres identiques. Pour chaque vidéo « Pourquoi », créer AU MOINS 2 vidéos avec un format différent. INTERDIT : 2 vidéos consécutives commençant par « Pourquoi ». Formats alternatifs : « [Body] fait [X] » · « Ce que [body] cache quand... » · « [Number] signes que ton [body]... » · « Le secret de ton [body] » · « Ton [body] te trahit quand... ». MAUVAIS si « Pourquoi » devient le
-  premier mot de tous les titres — une chaîne dont tous les titres commencent
-  pareil est lue comme du contenu de masse et démarée par l'algorithme 2026.
+  MAUVAIS (rejeté) : étiquettes de 1-3 mots comme « Voix du matin »,
+  « Choc anaphylactique » — zéro clic.
+- « Pourquoi + [sensation physique spécifique] » est le FORMAT N°1 (8/9 meilleures vidéos = 1000+ vues). Utilise-le pour 60-70% des titres.
+  INTERDIT : 2 vidéos consécutives avec la MÊME partie du corps (coeur x2, muscle x2).
+  Formats alternatifs (30-40%) : « Ton [body] fait [X] » · « [Number] signes que ton [body]... » · « Le secret de ton [body] » · « Ton [body] te trahit quand... ».
+  JAMAIS « Ce que [body]... » (kills views — 0 vues sur 6 vidéos).
+  JAMAIS « Vous/votre » dans l'accroche (66 vues vs 665 vues avec « Tu/Ton »).
 - `thumbnail_text` : une mini-question ou promesse de 3 à 6 mots AVEC UN VERBE
   conjugué, qui complète le titre sans le répéter. BON : « ton cœur s'accélère »,
   « ton cerveau te protège ». MAUVAIS (rejeté) : étiquettes nues sans verbe du

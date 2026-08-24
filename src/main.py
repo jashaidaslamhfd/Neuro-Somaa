@@ -75,9 +75,9 @@ MIN_HOOK_SCORE = int(os.environ.get("MIN_HOOK_SCORE", "70"))
 # Natural cloned delivery varies by speaker/reference. Five seconds preserves
 # a concise hook without throwing away an otherwise healthy 30-second Short.
 MAX_HOOK_SECONDS = float(os.environ.get("MAX_HOOK_SECONDS", "5.0"))
-# 2026-08-24: Title diversity — max 30% of recent titles can start with
-# "Pourquoi". Algorithm 2026 detects identical title patterns and demotes.
-# Data: 82% "Pourquoi" = 460 avg views; diversifying expected to boost.
+# 2026-08-24: Title diversity = TOPIC diversity, NOT format diversity.
+# "Pourquoi + body sensation" is the WINNING format (8/9 top performers).
+# Gate ensures no same body part repeats in consecutive titles.
 TITLE_DIVERSITY_MAX_SAME_FORMAT = float(os.environ.get("TITLE_DIVERSITY_MAX_SAME_FORMAT", "0.30"))
 # Tracked repository state is durable across Actions runs; generated media
 # remains in output/ and is intentionally not committed.
@@ -317,30 +317,39 @@ class SKILLORPipeline:
             if any(_near_duplicate_title(title, value) for value in known_values):
                 logger.info("Title candidate excluded as near-duplicate: %r", title)
                 continue
-            # 2026-08-24: TITLE DIVERSITY GATE — reject "Pourquoi" titles when
-            # they exceed 30% of recent history. Data: 82% Pourquoi = 460 avg
-            # views. Algorithm 2026 detects uniform title patterns and demotes.
-            if title.strip().lower().startswith("pourquoi"):
-                try:
-                    hist_path = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
-                    if os.path.exists(hist_path):
-                        with open(hist_path, encoding="utf-8") as _hf:
-                            _hist = json.load(_hf)
-                        _recent = _hist[-20:] if len(_hist) > 20 else _hist
-                        _p_count = sum(
-                            1 for v in _recent
-                            if (v.get("title") or "").strip().lower().startswith("pourquoi")
-                        )
-                        _ratio = _p_count / max(len(_recent), 1)
-                        if _ratio >= TITLE_DIVERSITY_MAX_SAME_FORMAT:
-                            logger.info(
-                                "Title rejected for diversity: 'Pourquoi' ratio %.0f%% "
-                                "(limit %.0f%%) — pick an alternate format",
-                                _ratio * 100, TITLE_DIVERSITY_MAX_SAME_FORMAT * 100,
-                            )
-                            continue
-                except Exception:
-                    pass  # diversity check is best-effort
+            # 2026-08-24: TOPIC DIVERSITY GATE — reject title if same body part
+            # appeared in the last 3 titles. "Pourquoi + body" is the WINNING
+            # format (8/9 top performers use it) — do NOT limit "Pourquoi".
+            # Instead, ensure TOPIC variety: no "coeur" x3, "muscle" x3 etc.
+            try:
+                hist_path = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
+                if os.path.exists(hist_path):
+                    with open(hist_path, encoding="utf-8") as _hf:
+                        _hist = json.load(_hf)
+                    _recent_titles = [
+                        (v.get("title") or "").lower() for v in _hist[-5:]
+                    ] if _hist else []
+                    BODY_PARTS = [
+                        "coeur", "cerveau", "muscle", "os", "sang", "peau",
+                        "rein", "poumon", "foie", "estomac", "langue", "doigt",
+                        "oeil", "oreille", "nez", "dent", "pied", "ventre",
+                        "mâchoire", "nuque", "epaule", "genou", "coude",
+                    ]
+                    _title_lower = title.strip().lower()
+                    for _bp in BODY_PARTS:
+                        if _bp in _title_lower:
+                            _bp_count = sum(1 for t in _recent_titles if _bp in t)
+                            if _bp_count >= 2:
+                                logger.info(
+                                    "Title rejected for topic diversity: '%s' "
+                                    "appeared %d of last 5 times — pick a different body part",
+                                    _bp, _bp_count,
+                                )
+                                raise ValueError("topic diversity")
+            except ValueError:
+                continue
+            except Exception:
+                pass  # diversity check is best-effort
             candidates.append(title)
             if len(candidates) >= TITLE_CANDIDATE_POOL_SIZE:
                 break
