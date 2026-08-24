@@ -1,0 +1,68 @@
+[
+  {
+    "video_id": null,
+    "old_title": "Corps lourd",
+    "old_retention": 77.5,
+    "old_views": 3,
+    "new_title": "Pourquoi ton corps est lourd au réveil ?",
+    "new_hook": "Ton corps devient lourd immédiatement au réveil. Pendant le sommeil profond, ta pression artérielle chute de 20%. Ton cerveau met 30 minutes pour réactiver la circulation. Cette lourdeur prouve que ton corps réparait chaque muscle toute la nuit.",
+    "word_count": 38,
+    "estimated_duration_sec": 57,
+    "status": "READY_FOR_UPLOAD"
+  },
+  {
+    "video_id": null,
+    "old_title": "Réveil avant l'alarme",
+    "old_retention": 50.8,
+    "old_views": 7,
+    "new_title": "Pourquoi tu te réveilles avant ton alarme ?",
+    "new_hook": "Tu te réveilles 5 minutes avant ton alarme sans savoir pourquoi. Ton cerveau calcule le temps restant en écoutant le bruit de fond. Il détecte le silence et anticipe le son. Ton cerveau protège ton sommeil.",
+    "word_count": 36,
+    "estimated_duration_sec": 54,
+    "status": "READY_FOR_UPLOAD"
+  },
+  {
+    "video_id": null,
+    "old_title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+    "old_retention": 100.8,
+    "old_views": 3,
+    "new_title": "Pourquoi tes genoux craquent sans raison ?",
+    "new_hook": "Tes genoux craquent sans douleur. Le cartilage libère des bulles d'azote entre tes os. C'est le même principe que le pop-corn. Ce craquement prouve que ton cartilage se réhydrate bien entre chaque mouvement.",
+    "word_count": 33,
+    "estimated_duration_sec": 50,
+    "status": "READY_FOR_UPLOAD"
+  },
+  {
+    "video_id": null,
+    "old_title": "Ce que votre corps vous dit quand le ventre se serre",
+    "old_retention": 99.5,
+    "old_views": 2,
+    "new_title": "Pourquoi ton ventre se serre de peur ?",
+    "new_hook": "Ton ventre se serre avant même que tu comprennes la peur. Ton intestin possède 100 millions de neurones. Le danger arrive, le signal part directement au ventre. C'est 500 millions d'années d'évolution qui te parlent.",
+    "word_count": 35,
+    "estimated_duration_sec": 52,
+    "status": "READY_FOR_UPLOAD"
+  },
+  {
+    "video_id": null,
+    "old_title": "Ce que la science explique sur l'effet du stress",
+    "old_retention": 120.2,
+    "old_views": 2,
+    "new_title": "Pourquoi le stress te donne mal au ventre ?",
+    "new_hook": "Le stress te donne mal au ventre parce que ton intestin contient 95% de ta sérotonine. Quand le stress monte, la digestion bloque et la douleur arrive. Ton ventre est ton deuxième cerveau, et il crie quand il étouffe.",
+    "word_count": 39,
+    "estimated_duration_sec": 58,
+    "status": "READY_FOR_UPLOAD"
+  },
+  {
+    "video_id": null,
+    "old_title": "Pourquoi l'estomac gargouille quand on a faim ?",
+    "old_retention": 84.5,
+    "old_views": 1,
+    "new_title": "Pourquoi ton estomac gargouille sans faim ?",
+    "new_hook": "Ton estomac gargouille toutes les 90 minutes même sans faim. Quand il se vide, les parois se frottent et produisent un son amplifié par l'air. Tu ne l'entends que quand tout est silencieux autour.",
+    "word_count": 34,
+    "estimated_duration_sec": 51,
+    "status": "READY_FOR_UPLOAD"
+  }
+]
