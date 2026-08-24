@@ -1075,6 +1075,16 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         if not script_data.get(field):
             issues.append(f"Missing required field: {field}")
 
+    # 2026-08-24: CTA MUST contain a question — engagement question in the CTA
+    # is the #1 comment signal for Shorts ranking. CTA without "?" = no comments.
+    cta_text = (script_data.get("cta") or "").strip()
+    if cta_text and "?" not in cta_text:
+        issues.append(
+            "CTA must contain a question mark (?) to drive comments — "
+            "engagement questions are the #1 ranking signal for Shorts. "
+            f"Example: 'Dis-moi si ça t'arrive aussi ?' (got: '{cta_text[:60]}')"
+        )
+
     # main.py replaces temporary LLM titles with the deterministic Body
     # Glitch episode title before SEO/upload. Do not burn API retries over
     # title word counts here; the published title is validated by the series.
