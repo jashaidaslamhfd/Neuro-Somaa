@@ -918,7 +918,7 @@ class SKILLORPipeline:
                 )
                 logger.info(f"✅ Generated {len(audio_segments)} audio segments")
                 narration_seconds = sum(float(seg.get("duration", 0)) for seg in audio_segments)
-                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "22"))
+                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "18"))
                 target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "15"))
                 # Minimum-narration guard: a voiceover far shorter than the
                 # target produces a video that is mostly silent / static (the

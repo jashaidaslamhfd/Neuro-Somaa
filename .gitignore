@@ -34,3 +34,5 @@ assets/voice_reference.wav
 
 # ML feedback-loop runtime state (regenerated every run)
 data/script_history.json
+src/script_generator.py.bak
+data/next_video_10k.json

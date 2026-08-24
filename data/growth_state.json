@@ -105,5 +105,7 @@
   "best_topics": [
     "muscle"
   ],
-  "best_hook_frame": null
+  "best_hook_frame": null,
+  "recommended_daily_uploads": 2,
+  "cadence_note": "2026-08-24: Reduced to 2/day for algorithm recovery. Never exceed 2/day."
 }

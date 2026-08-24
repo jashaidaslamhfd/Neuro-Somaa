@@ -57,7 +57,7 @@ def _duration_word_budget() -> tuple:
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
     # when a short arm was requested, silently breaking the whole experiment.
     target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "15"))
-    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "22"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "18"))
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
@@ -633,7 +633,7 @@ PRIORITÉ DES SUJETS (2026-08-24, données de la chaîne) :
     # targeting 26-32s, and every short-arm run aborts on narration length.
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
     target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "15")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "22")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "18")))
     viral_hint = _viral_inspiration()
     # 2026-08-12 viral-engineering: deterministic hook arm per topic
     # (question / shock_fact / pov_reveal), logged into script_data so the
@@ -746,7 +746,7 @@ RÈGLES DE FORMAT :
   « Comment ton … te trahit ». BON : « Pourquoi ton cœur bat la nuit » ·
   « Ce que fait ton cerveau en dormant » · « Ton corps te trahit quand tu
   mens ». MAUVAIS (rejeté) : étiquettes de 1-3 mots comme « Voix du matin »,
-  « Choc anaphylactique » — zéro clic ; et MAUVAIS si « Pourquoi » devient le
+  « Choc anaphylactique » — zéro clic ; et interdit que « Pourquoi » soit le premier mot de +30% des vidéos — les algorithmes 2026 détectent la surcharge de titres identiques. Pour chaque vidéo « Pourquoi », créer AU MOINS 2 vidéos avec un format différent. INTERDIT : 2 vidéos consécutives commençant par « Pourquoi ». Formats alternatifs : « [Body] fait [X] » · « Ce que [body] cache quand... » · « [Number] signes que ton [body]... » · « Le secret de ton [body] » · « Ton [body] te trahit quand... ». MAUVAIS si « Pourquoi » devient le
   premier mot de tous les titres — une chaîne dont tous les titres commencent
   pareil est lue comme du contenu de masse et démarée par l'algorithme 2026.
 - `thumbnail_text` : une mini-question ou promesse de 3 à 6 mots AVEC UN VERBE
