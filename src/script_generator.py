@@ -632,8 +632,8 @@ PRIORITÉ DES SUJETS (2026-08-24, données de la chaîne) :
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
-    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "28")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "32")))
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "15")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "18")))
     viral_hint = _viral_inspiration()
     # 2026-08-12 viral-engineering: deterministic hook arm per topic
     # (question / shock_fact / pov_reveal), logged into script_data so the
