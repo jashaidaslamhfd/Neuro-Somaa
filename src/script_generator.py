@@ -469,7 +469,8 @@ RÈGLES DE QUALITÉ NON NÉGOCIABLES :
 - N'invente jamais études, chiffres, citations, diagnostics, remèdes, dangers ou conseils médicaux.
 - Évite la peur, l'urgence artificielle, les secrets, et les tournures clickbait.
 - Chaque scène doit apporter une information nouvelle. Écris pour l'oral : phrases courtes et concrètes.
-- Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration. Il se termine TOUJOURS par une question qui invite une réponse en commentaire (ex. « dis-moi si ça t'arrive aussi ») — la réponse en commentaire est le signal d'engagement n°1 du feed Shorts. Interdits dans le CTA : « like », « share », « subscribe » et tout anglicisme ; toujours au « tu ».
+- Le CTA reste naturel et discret ; il ne doit pas être répété dans la narration. Il se termine TOUJOURS par une question qui invite une réponse en commentaire (ex. « dis-moi si ça t'arrive aussi ») — la réponse en commentaire est le signal d'engagement n°1 du feed Shorts. Interdits dans le CTA : « like », « abonne », « subscribe » et tout anglicisme ; toujours au « tu ». Autorisés (encouragés) : « dis-moi », « partage cette vidéo avec quelqu'un qui a besoin de l'entendre », « dis-moi si ça t'arrive aussi ».
+- La description inclut TOUJOURS 3-5 mots-cl\u00e9s de recherche (ex: "corps humain", "science du corps", "sant\u00e9") pour le SEO YouTube. YouTube indexe la description pour le search ranking.
 - Retourne uniquement un JSON valide, sans Markdown ni commentaire.
 
 RÈGLES D'AUTHENTICITÉ HUMAINE (anti-IA, exigées par la politique YouTube 2025-2026) :
@@ -1075,6 +1076,24 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         if not script_data.get(field):
             issues.append(f"Missing required field: {field}")
 
+    # 2026-08-24: TITLE SEO KEYWORD GATE — YouTube search ranking depends on
+    # body/health keywords in the title. Titles without searchable keywords
+    # get zero search traffic. Force at least one body-related keyword.
+    title_text = (script_data.get("title") or "").lower()
+    SEO_BODY_KEYWORDS = [
+        "coeur", "cerveau", "corps", "muscle", "os", "sang", "peau",
+        "rein", "poumon", "foie", "estomac", "langue", "doigt", "oeil",
+        "oreille", "nez", "dent", "moelle", "nerf", "veine", "artere",
+        "systeme", "temperature", "froid", "chaud", "sommeil",
+        "reve", "fatigue", "douleur", "frisson", "sueur",
+    ]
+    if title_text and not any(kw in title_text for kw in SEO_BODY_KEYWORDS):
+        issues.append(
+            f"Title missing body/SEO keyword — YouTube search ranking requires "
+            f"a body-related keyword (coeur, corps, muscle, langue...). "
+            f"Got: '{title_text[:60]}'"
+        )
+
     # 2026-08-24: CTA MUST contain a question — engagement question in the CTA
     # is the #1 comment signal for Shorts ranking. CTA without "?" = no comments.
     cta_text = (script_data.get("cta") or "").strip()
@@ -1512,7 +1531,7 @@ def analyze_retention_potential(script_data: dict) -> dict:
 
     # Check for loopable outro
     cta = script_data.get("cta", "")
-    if any(word in cta.lower() for word in ["abonne", "partage", "commente", "suivez"]):
+    if any(word in cta.lower() for word in ["abonne", "abonner", "subscribe", "suivez"]):
         score += 10
 
     return {

@@ -190,6 +190,19 @@ def _yt_client():
     return build("youtube", "v3", credentials=creds)
 
 
+
+_YT_SHORTS_HASHTAGS = "#Shorts #YouTubeShorts #FaitsCorps #ScienceCorps #TonCorps"
+
+
+def _append_hashtags(script_data: dict) -> str:
+    """Append ranked hashtags + mandatory Shorts hashtags to YouTube description."""
+    base_desc = (script_data.get("description") or "")[:4500]
+    ranked = script_data.get("hashtags_ranked") or script_data.get("hashtags") or []
+    hashtag_strs = [f"#{t}" if not t.startswith("#") else t for t in ranked[:5]]
+    all_hashtags = hashtag_strs + _YT_SHORTS_HASHTAGS.split()
+    unique_hashtags = list(dict.fromkeys(all_hashtags))
+    return f"{base_desc}\n\n" + " ".join(unique_hashtags)
+
 def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
     """Upload a Short to YouTube with optional scheduled publishing."""
     scheduled = _next_publish_time()
@@ -213,7 +226,7 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
     body = {
         "snippet": {
             "title": (script_data.get("title") or "")[:100],
-            "description": script_data.get("description", "")[:5000],
+            "description": _append_hashtags(script_data)[:5000],
             "tags": (tags or DEFAULT_TAGS)[:500],
             "defaultLanguage": script_data.get("channel_language", "fr"),
             "defaultAudioLanguage": "fr",
