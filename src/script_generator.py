@@ -1212,7 +1212,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         "tremble", "tremblement", "engourdi", "engourdissement",
         "détend", "tendu", "tension", "relâche", "relâchement",
         "gargouille", "gronde", "grondement",
-        "réagit", "réaction", "réponse", "active", "active",
+        "réagit", "réaction", "réponse", "active",
         "transpire", "sueur", "sue", "gèle", "gel",
         "fige", "figé", "paralysé", "paralysie",
         "entends", "écoute", "entend",
