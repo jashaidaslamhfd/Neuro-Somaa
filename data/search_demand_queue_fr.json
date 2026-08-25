@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-25",
-  "mined_at": "2026-08-25T17:21:06.881172+00:00",
+  "mined_at": "2026-08-25T17:51:03.036748+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T17:20:49.322640+00:00"
+      "mined_at": "2026-08-25T17:50:43.608007+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -22,21 +22,21 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T17:20:51.444478+00:00"
+      "mined_at": "2026-08-25T17:50:45.961909+00:00"
     },
     {
       "series_number": "DEM-3",
-      "series_title": "Un pied s'endort tout seul",
-      "topic": "un pied s'endort tout seul",
-      "nominal_phrase": "un pied s'endort tout seul",
-      "question_phrase": "pourquoi un pied s'endort tout seul",
-      "angle": "Pourquoi un pied s'endort tout seul ?",
-      "thumbnail_text": "Pourquoi un pied s'endort tout seul ?",
-      "demand_note": "autocomplete: 'pied froid tout le temps'",
+      "series_title": "Des fourmillements apparaissent sans raison",
+      "topic": "des fourmillements apparaissent sans raison",
+      "nominal_phrase": "des fourmillements apparaissent sans raison",
+      "question_phrase": "pourquoi des fourmillements apparaissent sans raison",
+      "angle": "Pourquoi des fourmillements apparaissent sans raison ?",
+      "thumbnail_text": "Pourquoi des fourmillements apparaissent sans raison ?",
+      "demand_note": "autocomplete: 'pourquoi je maigris sans raison'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T17:20:57.738369+00:00"
+      "mined_at": "2026-08-25T17:50:50.598586+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,7 @@
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
       "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T17:20:59.840975+00:00"
+      "mined_at": "2026-08-25T17:50:55.345382+00:00"
     },
     {
       "series_number": "DEM-5",
@@ -60,7 +60,19 @@
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T17:21:01.931757+00:00"
+      "mined_at": "2026-08-25T17:50:57.662579+00:00"
+    },
+    {
+      "series_number": "DEM-6",
+      "series_title": "La voix tremble par nervosité",
+      "topic": "la voix tremble par nervosité",
+      "nominal_phrase": "la voix tremble par nervosité",
+      "question_phrase": "pourquoi la voix tremble par nervosité",
+      "angle": "Pourquoi la voix tremble par nervosité ?",
+      "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
+      "demand_note": "autocomplete: 'voix qui tremble stress'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-25T17:51:02.686337+00:00"
     }
   ]
 }
