@@ -1,55 +1,55 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-24T06:01:46.627797+00:00",
+  "generated_at_utc": "2026-08-25T05:59:25.478988+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.8212,
-      "observed_samples": 59,
-      "observed_avg": 3.883,
+      "score": 3.9416,
+      "observed_samples": 54,
+      "observed_avg": 4.0135,
       "competitor_prior": 2.0
     },
     {
       "pattern": "ce-qui-se-passe",
-      "score": 2.5071,
-      "observed_samples": 3,
-      "observed_avg": 3.3452,
+      "score": 2.6703,
+      "observed_samples": 2,
+      "observed_avg": 4.0905,
       "competitor_prior": 1.25
     },
     {
-      "pattern": "other",
-      "score": 2.1695,
-      "observed_samples": 4,
-      "observed_avg": 3.2543,
-      "competitor_prior": 0.0
-    },
-    {
       "pattern": "ce-que-corps-revele",
-      "score": 2.1197,
-      "observed_samples": 3,
-      "observed_avg": 2.4661,
+      "score": 2.2133,
+      "observed_samples": 1,
+      "observed_avg": 3.44,
       "competitor_prior": 1.6
     },
     {
+      "pattern": "other",
+      "score": 1.9686,
+      "observed_samples": 3,
+      "observed_avg": 3.281,
+      "competitor_prior": 0.0
+    },
+    {
       "pattern": "la-science",
-      "score": 1.9694,
+      "score": 1.7812,
       "observed_samples": 2,
-      "observed_avg": 3.0389,
+      "observed_avg": 2.6624,
       "competitor_prior": 0.9
     },
     {
       "pattern": "ce-quil-faut",
-      "score": 1.7679,
-      "observed_samples": 2,
-      "observed_avg": 2.7357,
+      "score": 1.6795,
+      "observed_samples": 1,
+      "observed_avg": 3.4385,
       "competitor_prior": 0.8
     },
     {
       "pattern": "pourquoi-declarative",
-      "score": 1.6871,
-      "observed_samples": 4,
-      "observed_avg": 2.5306,
+      "score": 1.1035,
+      "observed_samples": 3,
+      "observed_avg": 1.8391,
       "competitor_prior": 0.0
     }
   ]

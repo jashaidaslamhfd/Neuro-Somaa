@@ -1,36 +1,35 @@
 {
-  "generated_at": "2026-08-24T06:01:46.440966+00:00",
+  "generated_at": "2026-08-25T05:59:25.203429+00:00",
   "sample_size": 79,
   "scored_videos": 70,
-  "channel_gate_ratio": 0.854,
+  "channel_gate_ratio": 0.855,
   "slot_weights": {
-    "21:30": 0.99,
+    "21:30": 0.98,
     "18:00": 1.0,
     "08:00": 1.0,
     "20:00": 1.0,
     "10:00": 1.0,
-    "17:00": 1.0,
+    "17:30": 1.07,
     "06:00": 1.0,
     "14:30": 1.0,
-    "19:30": 0.977,
-    "12:30": 0.838,
-    "17:30": 1.044
+    "19:30": 0.955,
+    "12:30": 0.791
   },
   "topic_weights": {
-    "other": 1.008,
-    "ear": 0.834,
+    "other": 0.971,
+    "ear": 0.839,
     "nerve": 1.0,
-    "muscle": 1.325,
-    "gut": 0.978,
-    "brain": 0.914,
-    "breath": 0.92,
-    "eye": 0.963,
-    "skin": 1.016,
-    "heart": 0.995
+    "muscle": 1.332,
+    "gut": 1.012,
+    "brain": 0.955,
+    "breath": 0.916,
+    "eye": 0.96,
+    "skin": 1.013,
+    "heart": 0.992
   },
   "hook_weights": {
-    "statement": 0.934,
-    "question": 1.015
+    "statement": 0.942,
+    "question": 1.013
   },
   "slot_samples": {
     "21:30": 21,
@@ -38,12 +37,11 @@
     "08:00": 2,
     "20:00": 1,
     "10:00": 1,
-    "17:00": 1,
+    "17:30": 24,
     "06:00": 2,
     "14:30": 1,
     "19:30": 14,
-    "12:30": 3,
-    "17:30": 23
+    "12:30": 3
   },
   "topic_samples": {
     "other": 18,
@@ -68,9 +66,9 @@
       "status": "below_gate",
       "samples": 70,
       "gate": 0.5,
-      "avg_completion": 0.4271,
-      "gate_ratio": 0.854,
-      "avg_views": 552.1,
+      "avg_completion": 0.4276,
+      "gate_ratio": 0.855,
+      "avg_views": 537.2,
       "action": "Averaging 43% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
@@ -94,7 +92,7 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 85% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 86% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
     {
       "level": "warn",
@@ -105,7 +103,5 @@
   "best_topics": [
     "muscle"
   ],
-  "best_hook_frame": null,
-  "recommended_daily_uploads": 2,
-  "cadence_note": "2026-08-24: Reduced to 2/day for algorithm recovery. Never exceed 2/day."
+  "best_hook_frame": null
 }

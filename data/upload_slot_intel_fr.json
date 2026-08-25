@@ -1,306 +1,316 @@
 {
-    "schema_version": 1,
-    "generated_at_utc": "2026-08-24T06:01:46.628388+00:00",
-    "timezone": "Europe/Paris",
-    "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
-    "recommended_slots": [
+  "schema_version": 1,
+  "generated_at_utc": "2026-08-25T05:59:25.479419+00:00",
+  "timezone": "Europe/Paris",
+  "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
+  "recommended_slots": [
+    {
+      "rank": 1,
+      "score_rank": 3,
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "name": "Dynamique 17:30",
+      "score": 3.0726,
+      "samples": 24,
+      "confident": true,
+      "prior": 0.0
+    },
+    {
+      "rank": 2,
+      "score_rank": 1,
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "name": "Dynamique 19:30",
+      "score": 3.4011,
+      "samples": 12,
+      "confident": true,
+      "prior": 3.3053
+    },
+    {
+      "rank": 3,
+      "score_rank": 2,
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "name": "Dynamique 21:30",
+      "score": 3.2225,
+      "samples": 15,
+      "confident": true,
+      "prior": 0.0
+    }
+  ],
+  "ranked_slots": [
+    {
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 3.4011,
+      "observed_samples": 12,
+      "observed_avg": 3.4331,
+      "prior": 3.3053,
+      "examples": [
         {
-            "rank": 1,
-            "score_rank": 1,
-            "slot": "19:30",
-            "hour": 19,
-            "minute": 30,
-            "name": "Dynamique 19:30",
-            "score": 3.2934,
-            "samples": 13,
-            "confident": true,
-            "prior": 3.2156
+          "video_id": "XLIFrONS2rc",
+          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+          "views": 1209,
+          "published_paris": "2026-07-29 19:30"
         },
         {
-            "rank": 2,
-            "score_rank": 2,
-            "slot": "21:30",
-            "hour": 21,
-            "minute": 30,
-            "name": "Dynamique 21:30",
-            "score": 3.238,
-            "samples": 15,
-            "confident": true,
-            "prior": 0.0
+          "video_id": "XECgrg709Og",
+          "title": "Pourquoi le sursaut du corps en s'endormant ?",
+          "views": 1031,
+          "published_paris": "2026-07-27 19:30"
+        },
+        {
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 958,
+          "published_paris": "2026-08-01 19:30"
         }
-    ],
-    "ranked_slots": [
+      ]
+    },
+    {
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "score": 3.2225,
+      "observed_samples": 15,
+      "observed_avg": 3.2225,
+      "prior": 0.0,
+      "examples": [
         {
-            "slot": "19:30",
-            "hour": 19,
-            "minute": 30,
-            "score": 3.2934,
-            "observed_samples": 13,
-            "observed_avg": 3.3173,
-            "prior": 3.2156,
-            "examples": [
-                {
-                    "video_id": "XLIFrONS2rc",
-                    "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-                    "views": 1209,
-                    "published_paris": "2026-07-29 19:30"
-                },
-                {
-                    "video_id": "XECgrg709Og",
-                    "title": "Pourquoi le sursaut du corps en s'endormant ?",
-                    "views": 1031,
-                    "published_paris": "2026-07-27 19:30"
-                },
-                {
-                    "video_id": "HJb7xCMIYWQ",
-                    "title": "Pourquoi la chair de poule apparaît soudainement ?",
-                    "views": 958,
-                    "published_paris": "2026-08-01 19:30"
-                }
-            ]
+          "video_id": "8b9CONZ5ntY",
+          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
+          "views": 1241,
+          "published_paris": "2026-07-31 21:30"
         },
         {
-            "slot": "21:30",
-            "hour": 21,
-            "minute": 30,
-            "score": 3.238,
-            "observed_samples": 15,
-            "observed_avg": 3.238,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "8b9CONZ5ntY",
-                    "title": "Pourquoi un aliment froid provoque un mal de tête ?",
-                    "views": 1241,
-                    "published_paris": "2026-07-31 21:30"
-                },
-                {
-                    "video_id": "oZ_AmaU0VE0",
-                    "title": "Pourquoi les souvenirs gênants reviennent ?",
-                    "views": 1134,
-                    "published_paris": "2026-08-14 21:30"
-                },
-                {
-                    "video_id": "JH0ybNiIIP4",
-                    "title": "Pourquoi des fourmillements apparaissent sans raison ?",
-                    "views": 1055,
-                    "published_paris": "2026-08-15 21:30"
-                }
-            ]
+          "video_id": "oZ_AmaU0VE0",
+          "title": "Pourquoi les souvenirs gênants reviennent ?",
+          "views": 1134,
+          "published_paris": "2026-08-14 21:30"
         },
         {
-            "slot": "17:30",
-            "hour": 17,
-            "minute": 30,
-            "score": 3.1099,
-            "observed_samples": 24,
-            "observed_avg": 3.1099,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "JIg1-eBYols",
-                    "title": "Pourquoi un pied s'endort tout seul ?",
-                    "views": 1054,
-                    "published_paris": "2026-08-06 17:30"
-                },
-                {
-                    "video_id": "iSh6RR4oxME",
-                    "title": "Pourquoi le corps résiste à la perte de poids ?",
-                    "views": 986,
-                    "published_paris": "2026-08-15 17:30"
-                },
-                {
-                    "video_id": "P6N8mJAbU5M",
-                    "title": "Pourquoi on pleure quand on bâille ?",
-                    "views": 930,
-                    "published_paris": "2026-08-13 17:30"
-                }
-            ]
-        },
-        {
-            "slot": "15:00",
-            "hour": 15,
-            "minute": 0,
-            "score": 2.9095,
-            "observed_samples": 1,
-            "observed_avg": 2.7517,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "yxoI9-KWXzI",
-                    "title": "Ce que la science explique sur l'effet du stress",
-                    "views": 217,
-                    "published_paris": "2026-07-23 14:47"
-                }
-            ]
-        },
-        {
-            "slot": "06:00",
-            "hour": 6,
-            "minute": 0,
-            "score": 2.8679,
-            "observed_samples": 2,
-            "observed_avg": 2.7463,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "RV4LGjp89-U",
-                    "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
-                    "views": 289,
-                    "published_paris": "2026-07-23 06:07"
-                },
-                {
-                    "video_id": "jHvt1X6XDuY",
-                    "title": "Pourquoi le stress brouille la mémoire ?",
-                    "views": 105,
-                    "published_paris": "2026-08-11 06:00"
-                }
-            ]
-        },
-        {
-            "slot": "21:00",
-            "hour": 21,
-            "minute": 0,
-            "score": 2.8462,
-            "observed_samples": 6,
-            "observed_avg": 2.7332,
-            "prior": 3.0156,
-            "examples": [
-                {
-                    "video_id": "KMXIpcpoDX4",
-                    "title": "Pourquoi le muscle qui tressaille tout seul ?",
-                    "views": 1168,
-                    "published_paris": "2026-07-29 21:00"
-                },
-                {
-                    "video_id": "TbbiAMubfu8",
-                    "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
-                    "views": 985,
-                    "published_paris": "2026-07-28 21:00"
-                },
-                {
-                    "video_id": "mGJQX82e9IY",
-                    "title": "Pourquoi le hoquet commence brusquement ?",
-                    "views": 762,
-                    "published_paris": "2026-07-27 21:00"
-                }
-            ]
-        },
-        {
-            "slot": "20:30",
-            "hour": 20,
-            "minute": 30,
-            "score": 2.8239,
-            "observed_samples": 1,
-            "observed_avg": 2.3237,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "68B-7lTf8nU",
-                    "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-                    "views": 3,
-                    "published_paris": "2026-07-21 20:27"
-                }
-            ]
-        },
-        {
-            "slot": "10:30",
-            "hour": 10,
-            "minute": 30,
-            "score": 2.7507,
-            "observed_samples": 1,
-            "observed_avg": 1.9576,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "TaXxSn0YoMc",
-                    "title": "Ce que votre corps vous dit quand le silence devient",
-                    "views": 2,
-                    "published_paris": "2026-07-22 10:18"
-                }
-            ]
-        },
-        {
-            "slot": "12:30",
-            "hour": 12,
-            "minute": 30,
-            "score": 2.7452,
-            "observed_samples": 3,
-            "observed_avg": 3.1194,
-            "prior": 2.6156,
-            "examples": [
-                {
-                    "video_id": "n1TgqGp2PQ0",
-                    "title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
-                    "views": 1007,
-                    "published_paris": "2026-07-30 12:30"
-                },
-                {
-                    "video_id": "VRWySzxXsyE",
-                    "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-                    "views": 524,
-                    "published_paris": "2026-07-29 12:30"
-                },
-                {
-                    "video_id": "YluUMs7fPtQ",
-                    "title": "Pourquoi les corps flottants visibles dans la lumière ?",
-                    "views": 352,
-                    "published_paris": "2026-07-28 12:30"
-                }
-            ]
-        },
-        {
-            "slot": "02:30",
-            "hour": 2,
-            "minute": 30,
-            "score": 2.7271,
-            "observed_samples": 1,
-            "observed_avg": 1.8398,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "1XVYcxQqDqo",
-                    "title": "Réveil avant l'alarme",
-                    "views": 7,
-                    "published_paris": "2026-07-20 02:32"
-                }
-            ]
-        },
-        {
-            "slot": "19:00",
-            "hour": 19,
-            "minute": 0,
-            "score": 2.7142,
-            "observed_samples": 1,
-            "observed_avg": 1.7751,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "WxOEXbepJ40",
-                    "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-                    "views": 9,
-                    "published_paris": "2026-07-23 19:10"
-                }
-            ]
-        },
-        {
-            "slot": "16:00",
-            "hour": 16,
-            "minute": 0,
-            "score": 2.6425,
-            "observed_samples": 1,
-            "observed_avg": 1.4166,
-            "prior": 0.0,
-            "examples": [
-                {
-                    "video_id": "rR7yLwzBakA",
-                    "title": "Ce qu'il faut comprendre sur le visage qui rougit par gêne",
-                    "views": 6,
-                    "published_paris": "2026-07-20 16:03"
-                }
-            ]
+          "video_id": "JH0ybNiIIP4",
+          "title": "Pourquoi des fourmillements apparaissent sans raison ?",
+          "views": 1055,
+          "published_paris": "2026-08-15 21:30"
         }
-    ],
-    "recovery_mode": true,
-    "recovery_reason": "2026-08-24: Reduced to 2 slots/day during W34 throttle recovery. 3/day triggered mass-production detection."
+      ]
+    },
+    {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 3.0758,
+      "observed_samples": 5,
+      "observed_avg": 3.0522,
+      "prior": 3.1053,
+      "examples": [
+        {
+          "video_id": "KMXIpcpoDX4",
+          "title": "Pourquoi le muscle qui tressaille tout seul ?",
+          "views": 1168,
+          "published_paris": "2026-07-29 21:00"
+        },
+        {
+          "video_id": "TbbiAMubfu8",
+          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
+          "views": 985,
+          "published_paris": "2026-07-28 21:00"
+        },
+        {
+          "video_id": "mGJQX82e9IY",
+          "title": "Pourquoi le hoquet commence brusquement ?",
+          "views": 762,
+          "published_paris": "2026-07-27 21:00"
+        }
+      ]
+    },
+    {
+      "slot": "17:30",
+      "hour": 17,
+      "minute": 30,
+      "score": 3.0726,
+      "observed_samples": 24,
+      "observed_avg": 3.0726,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "JIg1-eBYols",
+          "title": "Pourquoi un pied s'endort tout seul ?",
+          "views": 1054,
+          "published_paris": "2026-08-06 17:30"
+        },
+        {
+          "video_id": "iSh6RR4oxME",
+          "title": "Pourquoi le corps résiste à la perte de poids ?",
+          "views": 986,
+          "published_paris": "2026-08-15 17:30"
+        },
+        {
+          "video_id": "P6N8mJAbU5M",
+          "title": "Pourquoi on pleure quand on bâille ?",
+          "views": 930,
+          "published_paris": "2026-08-13 17:30"
+        }
+      ]
+    },
+    {
+      "slot": "15:00",
+      "hour": 15,
+      "minute": 0,
+      "score": 2.9353,
+      "observed_samples": 1,
+      "observed_avg": 2.5221,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "yxoI9-KWXzI",
+          "title": "Ce que la science explique sur l'effet du stress",
+          "views": 2,
+          "published_paris": "2026-07-23 14:47"
+        }
+      ]
+    },
+    {
+      "slot": "20:30",
+      "hour": 20,
+      "minute": 30,
+      "score": 2.8956,
+      "observed_samples": 1,
+      "observed_avg": 2.3237,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "68B-7lTf8nU",
+          "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+          "views": 3,
+          "published_paris": "2026-07-21 20:27"
+        }
+      ]
+    },
+    {
+      "slot": "12:30",
+      "hour": 12,
+      "minute": 30,
+      "score": 2.8118,
+      "observed_samples": 3,
+      "observed_avg": 3.1194,
+      "prior": 2.7053,
+      "examples": [
+        {
+          "video_id": "n1TgqGp2PQ0",
+          "title": "Pourquoi un nœud au ventre apparaît avant un moment ?",
+          "views": 1007,
+          "published_paris": "2026-07-30 12:30"
+        },
+        {
+          "video_id": "VRWySzxXsyE",
+          "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
+          "views": 524,
+          "published_paris": "2026-07-29 12:30"
+        },
+        {
+          "video_id": "YluUMs7fPtQ",
+          "title": "Pourquoi les corps flottants visibles dans la lumière ?",
+          "views": 352,
+          "published_paris": "2026-07-28 12:30"
+        }
+      ]
+    },
+    {
+      "slot": "08:30",
+      "hour": 8,
+      "minute": 30,
+      "score": 2.8029,
+      "observed_samples": 1,
+      "observed_avg": 1.8598,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "diImyvMyKig",
+          "title": "La science derrière le temps qui semble accélérer",
+          "views": 0,
+          "published_paris": "2026-07-22 08:15"
+        }
+      ]
+    },
+    {
+      "slot": "02:30",
+      "hour": 2,
+      "minute": 30,
+      "score": 2.7989,
+      "observed_samples": 1,
+      "observed_avg": 1.8398,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "1XVYcxQqDqo",
+          "title": "Réveil avant l'alarme",
+          "views": 7,
+          "published_paris": "2026-07-20 02:32"
+        }
+      ]
+    },
+    {
+      "slot": "06:00",
+      "hour": 6,
+      "minute": 0,
+      "score": 2.7343,
+      "observed_samples": 2,
+      "observed_avg": 2.2779,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "jHvt1X6XDuY",
+          "title": "Pourquoi le stress brouille la mémoire ?",
+          "views": 105,
+          "published_paris": "2026-08-11 06:00"
+        },
+        {
+          "video_id": "RV4LGjp89-U",
+          "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
+          "views": 0,
+          "published_paris": "2026-07-23 06:07"
+        }
+      ]
+    },
+    {
+      "slot": "18:30",
+      "hour": 18,
+      "minute": 30,
+      "score": 2.7091,
+      "observed_samples": 1,
+      "observed_avg": 1.3909,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "FteL-0nbHWk",
+          "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
+          "views": 2,
+          "published_paris": "2026-07-20 18:29"
+        }
+      ]
+    },
+    {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 2.6707,
+      "observed_samples": 1,
+      "observed_avg": 1.1992,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 2,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    }
+  ]
 }
