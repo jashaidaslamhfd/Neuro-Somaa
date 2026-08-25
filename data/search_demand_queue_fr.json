@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-25",
-  "mined_at": "2026-08-25T16:32:27.739009+00:00",
+  "mined_at": "2026-08-25T17:21:06.881172+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T16:32:19.010772+00:00"
+      "mined_at": "2026-08-25T17:20:49.322640+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,43 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T16:32:21.122971+00:00"
+      "mined_at": "2026-08-25T17:20:51.444478+00:00"
+    },
+    {
+      "series_number": "DEM-3",
+      "series_title": "Un pied s'endort tout seul",
+      "topic": "un pied s'endort tout seul",
+      "nominal_phrase": "un pied s'endort tout seul",
+      "question_phrase": "pourquoi un pied s'endort tout seul",
+      "angle": "Pourquoi un pied s'endort tout seul ?",
+      "thumbnail_text": "Pourquoi un pied s'endort tout seul ?",
+      "demand_note": "autocomplete: 'pied froid tout le temps'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-25T17:20:57.738369+00:00"
+    },
+    {
+      "series_number": "DEM-4",
+      "series_title": "Le cerveau est immature à 20 ans",
+      "topic": "le cerveau est immature à 20 ans",
+      "nominal_phrase": "le cerveau est immature à 20 ans",
+      "question_phrase": "pourquoi le cerveau est immature à 20 ans",
+      "angle": "Pourquoi le cerveau est immature à 20 ans ?",
+      "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
+      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-25T17:20:59.840975+00:00"
+    },
+    {
+      "series_number": "DEM-5",
+      "series_title": "La mémoire invente des détails sans le vouloir",
+      "topic": "la mémoire invente des détails sans le vouloir",
+      "nominal_phrase": "la mémoire invente des détails sans le vouloir",
+      "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
+      "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
+      "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
+      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
+      "pillar": "reflexes_du_corps",
+      "mined_at": "2026-08-25T17:21:01.931757+00:00"
     }
   ]
 }
