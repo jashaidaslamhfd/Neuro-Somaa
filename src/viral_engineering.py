@@ -27,32 +27,41 @@ import zlib
 
 HOOK_ARMS = ("question", "shock_fact", "pov_reveal")
 
-_BODY_WORDS = {
-    "corps",
+_PSYCH_WORDS = {
+    "manipulation",
+    "contrôle",
+    "controle",
     "cerveau",
-    "cœur",
-    "coeur",
-    "peau",
-    "ventre",
-    "yeux",
-    "œil",
-    "oeil",
-    "os",
-    "sang",
+    "pouvoir",
+    "mensonge",
+    "secret",
+    "peur",
+    "peur",
+    "jalousie",
+    "honte",
+    "coupable",
+    "rejet",
+    "comportement",
+    "pensée",
+    "pensee",
+    "attachement",
+    "relation",
+    "amour",
+    "silence",
+    "obéissance",
+    "obeissance",
+    "influence",
+    "bianis",
+    "biais",
+    "émotion",
+    "emotion",
     "sommeil",
-    "paupière",
-    "paupiere",
-    "doigts",
-    "mains",
-    "bouche",
-    "langue",
-    "oreilles",
-    "nez",
-    "pieds",
-    "jambes",
-    "muscles",
-    "voix",
-    "souffle",
+    "téléphone",
+    "phone",
+    "addiction",
+    "habitude",
+    "orgueil",
+    "pardon",
 }
 _NOVELTY_WORDS = {
     "jamais",
@@ -71,12 +80,14 @@ _GAP_MARKERS = ("?", "mais", "sauf", "pourtant", "en fait", "et pourtant", "sauf
 _SECOND_PERSON = re.compile(r"\b(ton|ta|tes|votre|vos|vous|tu|te)\b", re.IGNORECASE)
 
 _LOOP_BRIDGES = (
-    "Et tout ça recommence dès la première seconde.",
-    "La prochaine fois, ton corps recommencera exactement pareil.",
-    "C'est ce cercle qui tourne en boucle dans ton corps.",
+    "Et tout ça recommence dès que tu refermes cette vidéo.",
+    "La prochaine fois, ton cerveau fera exactement pareil.",
+    "C'est ce cercle qui tourne en boucle dans ta tête.",
     "Et ça repart exactement comme au début de cette vidéo.",
-    "Ton corps le refera dès que tu auras fini de regarder.",
+    "Ton cerveau le refera dès que tu auras fini de regarder.",
     "Maintenant tu ne verras plus jamais ce moment pareil.",
+    "La prochaine fois qu'on te manipulera... tu penseras à cette vidéo.",
+    "Et maintenant que tu le sais... tu ne pourras plus l'ignorer.",
 )
 
 
@@ -143,7 +154,7 @@ def score_hook_v2(hook_text: str) -> dict:
         any(m in lower for m in _GAP_MARKERS),
         "pas d'ouverture de boucle (?, mais, sauf…)",
     )
-    add("body_anchor", 12, any(w in lower for w in _BODY_WORDS), "pas d'ancrage corps concret")
+    add("psych_anchor", 12, any(w in lower for w in _PSYCH_WORDS), "pas d'ancrage psychologie concret")
     add("novelty", 10, any(w in lower for w in _NOVELTY_WORDS), "aucun marqueur de surprise")
     add("digit", 10, any(c.isdigit() for c in text), "aucun chiffre")
     add(
