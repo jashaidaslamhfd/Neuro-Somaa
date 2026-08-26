@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-25T05:59:25.479419+00:00",
+  "generated_at_utc": "2026-08-26T06:00:32.225382+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,7 +11,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.0726,
+      "score": 3.0751,
       "samples": 24,
       "confident": true,
       "prior": 0.0
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.4011,
+      "score": 3.4017,
       "samples": 12,
       "confident": true,
-      "prior": 3.3053
+      "prior": 3.3078
     },
     {
       "rank": 3,
@@ -46,10 +46,10 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 3.4011,
+      "score": 3.4017,
       "observed_samples": 12,
       "observed_avg": 3.4331,
-      "prior": 3.3053,
+      "prior": 3.3078,
       "examples": [
         {
           "video_id": "XLIFrONS2rc",
@@ -104,10 +104,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.0758,
+      "score": 3.0769,
       "observed_samples": 5,
       "observed_avg": 3.0522,
-      "prior": 3.1053,
+      "prior": 3.1078,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -133,9 +133,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.0726,
+      "score": 3.0751,
       "observed_samples": 24,
-      "observed_avg": 3.0726,
+      "observed_avg": 3.0751,
       "prior": 0.0,
       "examples": [
         {
@@ -162,7 +162,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.9353,
+      "score": 2.9373,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -179,15 +179,15 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.8956,
+      "score": 2.8907,
       "observed_samples": 1,
-      "observed_avg": 2.3237,
+      "observed_avg": 2.2889,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "68B-7lTf8nU",
           "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
-          "views": 3,
+          "views": 2,
           "published_paris": "2026-07-21 20:27"
         }
       ]
@@ -196,10 +196,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.8118,
+      "score": 2.8136,
       "observed_samples": 3,
       "observed_avg": 3.1194,
-      "prior": 2.7053,
+      "prior": 2.7078,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -225,7 +225,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.8029,
+      "score": 2.8049,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -242,7 +242,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.7989,
+      "score": 2.8009,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -256,10 +256,27 @@
       ]
     },
     {
+      "slot": "18:30",
+      "hour": 18,
+      "minute": 30,
+      "score": 2.7392,
+      "observed_samples": 1,
+      "observed_avg": 1.5318,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "FteL-0nbHWk",
+          "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
+          "views": 3,
+          "published_paris": "2026-07-20 18:29"
+        }
+      ]
+    },
+    {
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.7343,
+      "score": 2.7358,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -279,27 +296,10 @@
       ]
     },
     {
-      "slot": "18:30",
-      "hour": 18,
-      "minute": 30,
-      "score": 2.7091,
-      "observed_samples": 1,
-      "observed_avg": 1.3909,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "FteL-0nbHWk",
-          "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
-          "views": 2,
-          "published_paris": "2026-07-20 18:29"
-        }
-      ]
-    },
-    {
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 2.6707,
+      "score": 2.6727,
       "observed_samples": 1,
       "observed_avg": 1.1992,
       "prior": 0.0,

@@ -1,35 +1,35 @@
 {
-  "generated_at": "2026-08-25T05:59:25.203429+00:00",
+  "generated_at": "2026-08-26T06:00:32.078025+00:00",
   "sample_size": 79,
-  "scored_videos": 70,
-  "channel_gate_ratio": 0.855,
+  "scored_videos": 69,
+  "channel_gate_ratio": 0.87,
   "slot_weights": {
-    "21:30": 0.98,
+    "21:30": 0.973,
     "18:00": 1.0,
     "08:00": 1.0,
     "20:00": 1.0,
     "10:00": 1.0,
-    "17:30": 1.07,
-    "06:00": 1.0,
+    "17:30": 1.089,
     "14:30": 1.0,
-    "19:30": 0.955,
-    "12:30": 0.791
+    "19:30": 0.94,
+    "12:30": 0.758,
+    "06:00": 1.0
   },
   "topic_weights": {
-    "other": 0.971,
-    "ear": 0.839,
+    "other": 0.94,
+    "ear": 0.858,
     "nerve": 1.0,
-    "muscle": 1.332,
-    "gut": 1.012,
-    "brain": 0.955,
-    "breath": 0.916,
-    "eye": 0.96,
-    "skin": 1.013,
-    "heart": 0.992
+    "muscle": 1.33,
+    "gut": 1.03,
+    "brain": 1.012,
+    "breath": 0.908,
+    "eye": 0.953,
+    "skin": 1.006,
+    "heart": 0.984
   },
   "hook_weights": {
-    "statement": 0.942,
-    "question": 1.013
+    "statement": 0.974,
+    "question": 1.006
   },
   "slot_samples": {
     "21:30": 21,
@@ -38,10 +38,10 @@
     "20:00": 1,
     "10:00": 1,
     "17:30": 24,
-    "06:00": 2,
     "14:30": 1,
     "19:30": 14,
-    "12:30": 3
+    "12:30": 3,
+    "06:00": 1
   },
   "topic_samples": {
     "other": 18,
@@ -49,14 +49,14 @@
     "nerve": 2,
     "muscle": 6,
     "gut": 8,
-    "brain": 10,
+    "brain": 9,
     "breath": 4,
     "eye": 9,
     "skin": 7,
     "heart": 3
   },
   "hook_samples": {
-    "statement": 12,
+    "statement": 11,
     "question": 58
   },
   "platform_health": {
@@ -64,12 +64,12 @@
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 70,
+      "samples": 69,
       "gate": 0.5,
-      "avg_completion": 0.4276,
-      "gate_ratio": 0.855,
-      "avg_views": 537.2,
-      "action": "Averaging 43% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
+      "avg_completion": 0.4351,
+      "gate_ratio": 0.87,
+      "avg_views": 545.5,
+      "action": "Averaging 44% against a 50% bar. Shorten the cut toward 25s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
@@ -92,7 +92,7 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 86% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 87% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
     {
       "level": "warn",

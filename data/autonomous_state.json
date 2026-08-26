@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-25T05:59:25.207600+00:00",
+  "generated_at": "2026-08-26T06:00:32.083568+00:00",
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 86% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 87% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "throttle": true,
-  "throttle_reason": "last 5 videos avg 114 views",
+  "throttle_reason": "last 5 videos avg 121 views",
   "topic_blocklist": [],
   "winner_topics": [],
   "blocklist_pillars": [],
@@ -22,11 +22,11 @@
     },
     "ear": {
       "n": 3,
-      "avg_views": 522.7
+      "avg_views": 523.0
     },
     "muscle": {
       "n": 6,
-      "avg_views": 743.8
+      "avg_views": 743.7
     },
     "gut": {
       "n": 8,
@@ -38,7 +38,7 @@
     },
     "breath": {
       "n": 4,
-      "avg_views": 487.0
+      "avg_views": 495.2
     },
     "eye": {
       "n": 9,
@@ -64,7 +64,7 @@
     },
     "question": {
       "n": 57,
-      "avg_views": 645.9
+      "avg_views": 646.5
     }
   },
   "preferred_hook_frame": "question",
@@ -73,145 +73,145 @@
       "video_id": "diImyvMyKig",
       "title": "La science derrière le temps qui semble accélérer",
       "views": 0,
-      "age_hours": 815.7
+      "age_hours": 839.7
     },
     {
       "video_id": "RV4LGjp89-U",
       "title": "Pourquoi le cerveau repère son propre prénom peut sembler",
       "views": 0,
-      "age_hours": 793.9
+      "age_hours": 817.9
     },
     {
       "video_id": "9-oJZ_btRd0",
       "title": "Pourquoi l'estomac gargouille quand on a faim ?",
       "views": 1,
-      "age_hours": 114.2
+      "age_hours": 138.2
     },
     {
-      "video_id": "FteL-0nbHWk",
-      "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
+      "video_id": "68B-7lTf8nU",
+      "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
       "views": 2,
-      "age_hours": 853.5
+      "age_hours": 851.5
     },
     {
       "video_id": "DocJNQZiwQQ",
       "title": "Ce que votre corps vous dit quand le ventre se serre",
       "views": 2,
-      "age_hours": 806.5
+      "age_hours": 830.5
     },
     {
       "video_id": "yxoI9-KWXzI",
       "title": "Ce que la science explique sur l'effet du stress",
       "views": 2,
-      "age_hours": 785.2
+      "age_hours": 809.2
     },
     {
       "video_id": "WxOEXbepJ40",
       "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
       "views": 2,
-      "age_hours": 780.8
+      "age_hours": 804.8
     },
     {
       "video_id": "r7URDUokZh0",
       "title": "Corps lourd",
       "views": 3,
-      "age_hours": 874.3
+      "age_hours": 898.3
     },
     {
-      "video_id": "68B-7lTf8nU",
-      "title": "Ce qu'il faut comprendre sur les genoux qui craquent",
+      "video_id": "FteL-0nbHWk",
+      "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
       "views": 3,
-      "age_hours": 827.5
+      "age_hours": 877.5
     },
     {
       "video_id": "1XVYcxQqDqo",
       "title": "Réveil avant l'alarme",
       "views": 7,
-      "age_hours": 869.4
+      "age_hours": 893.5
     },
     {
       "video_id": "K8JSUbL13Oc",
       "title": "Pourquoi l'œil distingue plus de nuances de vert ?",
       "views": 33,
-      "age_hours": 437.2
+      "age_hours": 461.2
     },
     {
       "video_id": "vst_IwqiKpU",
       "title": "Pourquoi la musique change l'humeur ?",
       "views": 36,
-      "age_hours": 273.9
+      "age_hours": 298.0
     },
     {
       "video_id": "30NhLXgz-jo",
       "title": "Pourquoi la faim revient à la même heure ?",
       "views": 60,
-      "age_hours": 155.2
+      "age_hours": 179.2
     },
     {
       "video_id": "PRXb_17G84s",
       "title": "Pourquoi le cerveau crée des souvenirs faux ?",
       "views": 83,
-      "age_hours": 275.4
+      "age_hours": 299.4
     },
     {
       "video_id": "jHvt1X6XDuY",
       "title": "Pourquoi le stress brouille la mémoire ?",
       "views": 105,
-      "age_hours": 346.0
+      "age_hours": 370.0
     },
     {
       "video_id": "1Y3DfG_Opg4",
       "title": "Pourquoi la faim revient à la même heure chaque jour ?",
       "views": 152,
-      "age_hours": 418.6
+      "age_hours": 442.6
     },
     {
       "video_id": "trfitEKS1ik",
       "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
       "views": 154,
-      "age_hours": 132.2
+      "age_hours": 156.2
     },
     {
       "video_id": "JIId_zuREG8",
       "title": "Pourquoi le cerveau atténue la douleur en danger ?",
       "views": 166,
-      "age_hours": 162.3
+      "age_hours": 186.3
     },
     {
       "video_id": "Ubg7rTtym84",
       "title": "Pourquoi un vertige apparaît après s'être levé ?",
       "views": 168,
-      "age_hours": 441.6
+      "age_hours": 465.6
     },
     {
       "video_id": "CdbNz9T2sbA",
       "title": "Pourquoi la respiration ralentit en dormant ?",
       "views": 190,
-      "age_hours": 370.4
-    },
-    {
-      "video_id": "QgL7aibqI4k",
-      "title": "Pourquoi le hoquet ne s'arrête pas ?",
-      "views": 190,
-      "age_hours": 92.3
+      "age_hours": 394.4
     },
     {
       "video_id": "SFrpDq6c9Dk",
       "title": "Pourquoi votre corps refuse de mentir ?",
       "views": 192,
-      "age_hours": 565.4
+      "age_hours": 589.4
+    },
+    {
+      "video_id": "QgL7aibqI4k",
+      "title": "Pourquoi le hoquet ne s'arrête pas ?",
+      "views": 223,
+      "age_hours": 116.4
     },
     {
       "video_id": "28JErGGWIs0",
       "title": "Pourquoi la peau frissonne quand on a peur ou froid ?",
       "views": 225,
-      "age_hours": 347.7
+      "age_hours": 371.7
     },
     {
       "video_id": "fmi157e4H0o",
       "title": "Pourquoi le corps révèle le mensonge ?",
       "views": 278,
-      "age_hours": 258.5
+      "age_hours": 282.5
     }
   ],
   "auto_repair_count": 24

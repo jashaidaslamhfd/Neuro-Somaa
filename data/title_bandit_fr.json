@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-25T05:59:25.478988+00:00",
+  "generated_at_utc": "2026-08-26T06:00:32.223980+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.9416,
-      "observed_samples": 54,
-      "observed_avg": 4.0135,
+      "score": 3.9355,
+      "observed_samples": 55,
+      "observed_avg": 4.0059,
       "competitor_prior": 2.0
     },
     {
@@ -40,16 +40,16 @@
     },
     {
       "pattern": "ce-quil-faut",
-      "score": 1.6795,
+      "score": 1.6679,
       "observed_samples": 1,
-      "observed_avg": 3.4385,
+      "observed_avg": 3.4038,
       "competitor_prior": 0.8
     },
     {
       "pattern": "pourquoi-declarative",
-      "score": 1.1035,
+      "score": 1.1423,
       "observed_samples": 3,
-      "observed_avg": 1.8391,
+      "observed_avg": 1.9038,
       "competitor_prior": 0.0
     }
   ]

@@ -4,12 +4,12 @@
     "topic": "Pourquoi le corps lourd quand on est fatigué arrive",
     "posted_at": "2026-07-19T19:42:44.705682+00:00",
     "publish_at": null,
-    "age_hours": 874.3,
+    "age_hours": 898.3,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 3,
       "engaged_views": 2,
@@ -34,7 +34,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:57:50.168115+00:00"
+      "fetched_at": "2026-08-26T05:59:20.169897+00:00"
     }
   },
   "ac782bb3f04eeb2b6c7cc5799ea120f98a253ce02d65f55b76dbac68e8bfa9ee": {
@@ -42,12 +42,12 @@
     "topic": "Pourquoi se réveiller avant son réveil peut sembler étrange",
     "posted_at": "2026-07-20T00:32:30.530915+00:00",
     "publish_at": null,
-    "age_hours": 869.4,
+    "age_hours": 893.4,
     "hook_score": 100,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
     }
@@ -72,17 +72,17 @@
     "topic": "Pourquoi le cerveau remarque entendre son cœur battre la nuit",
     "posted_at": "2026-07-20T16:29:59.480445+00:00",
     "publish_at": null,
-    "age_hours": 853.5,
+    "age_hours": 877.5,
     "hook_score": 100,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
-      "views": 2,
-      "engaged_views": 1,
-      "completion": 0.2598,
-      "avg_view_seconds": 10,
+      "views": 3,
+      "engaged_views": 2,
+      "completion": 0.3482,
+      "avg_view_seconds": 14,
       "impressions": null,
       "ctr": null,
       "shorts_feed_shown": null,
@@ -102,7 +102,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:57:53.044732+00:00"
+      "fetched_at": "2026-08-26T05:59:22.255652+00:00"
     }
   },
   "4ed746bb4b2a2885530474396659974206f091ceabdfc00c318794bcf0e63f0a": {
@@ -201,14 +201,14 @@
     "topic": "Ce qu'il faut comprendre sur les genoux qui craquent en bougeant",
     "posted_at": "2026-07-21T18:27:51.400574+00:00",
     "publish_at": null,
-    "age_hours": 827.5,
+    "age_hours": 851.5,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
-      "views": 3,
+      "views": 2,
       "engaged_views": 1,
       "completion": 1.0081,
       "avg_view_seconds": 37,
@@ -231,7 +231,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:57:54.459841+00:00"
+      "fetched_at": "2026-08-26T05:59:23.340635+00:00"
     }
   },
   "2cbce7a2ac313a4780b2afb6367fac3df28982edb3579c2065f388095b1ca5d2": {
@@ -239,12 +239,12 @@
     "topic": "La science derrière le temps qui semble accélérer en vieillissant",
     "posted_at": "2026-07-22T06:15:36.057658+00:00",
     "publish_at": null,
-    "age_hours": 815.7,
+    "age_hours": 839.7,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 0,
       "engaged_views": 0,
@@ -269,7 +269,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:57:55.959466+00:00"
+      "fetched_at": "2026-08-26T05:59:24.415922+00:00"
     }
   },
   "9cf8a04f0b4c614d77dd9f6c283fa71d40002888ceb30adb66169c67992b4f02": {
@@ -315,12 +315,12 @@
     "topic": "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
     "posted_at": "2026-07-22T15:29:57.707450+00:00",
     "publish_at": null,
-    "age_hours": 806.5,
+    "age_hours": 830.5,
     "hook_score": 100,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 2,
       "engaged_views": 1,
@@ -345,7 +345,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:57:57.259538+00:00"
+      "fetched_at": "2026-08-26T05:59:25.456687+00:00"
     }
   },
   "ebe3038da6496d4b3f534033b139156029b5fd524708b5eff48f08815443e5a5": {
@@ -353,37 +353,14 @@
     "topic": "Pourquoi le cerveau repère son propre prénom peut sembler étrange",
     "posted_at": "2026-07-23T04:07:48.183726+00:00",
     "publish_at": null,
-    "age_hours": 793.8,
+    "age_hours": 817.9,
     "hook_score": 100,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
-      "views": 0,
-      "engaged_views": 0,
-      "completion": 0.0,
-      "avg_view_seconds": 0,
-      "impressions": null,
-      "ctr": null,
-      "shorts_feed_shown": null,
-      "stayed_to_watch": null,
-      "viewed_vs_swiped_away": null,
-      "analytics_available_metrics": [
-        "video",
-        "views",
-        "engagedViews",
-        "averageViewDuration",
-        "averageViewPercentage"
-      ],
-      "analytics_unavailable_metrics": [
-        "impressionClickThroughRate",
-        "impressions",
-        "shortsFeedShown",
-        "stayedToWatch",
-        "viewedVsSwipedAway"
-      ],
-      "fetched_at": "2026-08-25T05:57:58.627628+00:00"
+      "pending": "No analytics rows yet - data can take 24-48h to populate after upload."
     }
   },
   "b76c6fa4abfb0a05f2968df53676ec2f395b4201758d8bf60f98d93c29765483": {
@@ -391,12 +368,12 @@
     "topic": "Ce que la science explique sur l'effet du stress sur la mémoire",
     "posted_at": "2026-07-23T12:47:42.329404+00:00",
     "publish_at": null,
-    "age_hours": 785.2,
+    "age_hours": 809.2,
     "hook_score": 90,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 2,
       "engaged_views": 1,
@@ -421,7 +398,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:00.174093+00:00"
+      "fetched_at": "2026-08-26T05:59:27.572891+00:00"
     }
   },
   "ef9ce3f640408ca51892a80e2b0de9aa45c970813553f30dfd78ac7a4c9bcff2": {
@@ -429,12 +406,12 @@
     "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
     "posted_at": "2026-07-23T17:10:16.892479+00:00",
     "publish_at": null,
-    "age_hours": 780.8,
+    "age_hours": 804.8,
     "hook_score": 90,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 2,
       "engaged_views": 2,
@@ -459,7 +436,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:01.693519+00:00"
+      "fetched_at": "2026-08-26T05:59:28.726512+00:00"
     }
   },
   "9e6291fa502aff8fb61eedf8230206b018e6514cdfe27918f2811a8079be7f3b": {
@@ -467,12 +444,12 @@
     "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
     "posted_at": "2026-07-26T16:26:44.678239+00:00",
     "publish_at": "2026-07-27T17:30:00+00:00",
-    "age_hours": 709.5,
+    "age_hours": 733.5,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1031,
       "engaged_views": 380,
@@ -497,7 +474,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:03.162104+00:00"
+      "fetched_at": "2026-08-26T05:59:29.809533+00:00"
     }
   },
   "4029b1bdbb36b3590c8d16e26257414cc22ac8803f97c70fd33ee350a9812d0b": {
@@ -505,12 +482,12 @@
     "topic": "Ce que votre corps vous dit quand le hoquet commence brusquement",
     "posted_at": "2026-07-26T16:38:42.197674+00:00",
     "publish_at": "2026-07-27T19:00:00+00:00",
-    "age_hours": 709.3,
+    "age_hours": 733.3,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 762,
       "engaged_views": 197,
@@ -535,7 +512,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:04.684112+00:00"
+      "fetched_at": "2026-08-26T05:59:30.869995+00:00"
     }
   },
   "3e210ca28a1532d8bf3f11da4e6ca61e278513e071c1af5f37a4b2962470de85": {
@@ -543,12 +520,12 @@
     "topic": "Ce qu'il faut comprendre sur les corps flottants visibles dans la lumière",
     "posted_at": "2026-07-26T18:11:38.323167+00:00",
     "publish_at": "2026-07-28T10:30:00+00:00",
-    "age_hours": 707.8,
+    "age_hours": 731.8,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 352,
       "engaged_views": 122,
@@ -573,7 +550,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:06.065268+00:00"
+      "fetched_at": "2026-08-26T05:59:31.905205+00:00"
     }
   },
   "8955bb7e285be624ce4d80d40c9bf4a22722a271bde42127e93c9f32e8b5a100": {
@@ -581,12 +558,12 @@
     "topic": "Comprendre pourquoi le cerveau réclame du sommeil profond",
     "posted_at": "2026-07-27T07:09:09.033173+00:00",
     "publish_at": "2026-07-28T17:30:00+00:00",
-    "age_hours": 694.8,
+    "age_hours": 718.8,
     "hook_score": 100,
     "seo_score": 98,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 769,
       "engaged_views": 306,
@@ -611,7 +588,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:07.410991+00:00"
+      "fetched_at": "2026-08-26T05:59:32.940182+00:00"
     }
   },
   "a65552fc3738663cfe7c643fdd395d75699004edf60d4fdbf1cbda76587aa419": {
@@ -619,12 +596,12 @@
     "topic": "Ce qui change lorsque une lumière vive fait éternuer",
     "posted_at": "2026-07-27T12:05:42.582878+00:00",
     "publish_at": "2026-07-28T19:00:00+00:00",
-    "age_hours": 689.9,
+    "age_hours": 713.9,
     "hook_score": 90,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 985,
       "engaged_views": 331,
@@ -649,7 +626,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:08.715864+00:00"
+      "fetched_at": "2026-08-26T05:59:34.070151+00:00"
     }
   },
   "3d1bf86e220f04778663024f9711d637800cf77de4ea5d4a06e7dc9a902120e0": {
@@ -657,12 +634,12 @@
     "topic": "Pourquoi on sent une vibration de téléphone imaginaire peut sembler étrange",
     "posted_at": "2026-07-27T17:25:18.601024+00:00",
     "publish_at": "2026-07-29T10:30:00+00:00",
-    "age_hours": 684.5,
+    "age_hours": 708.6,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 524,
       "engaged_views": 120,
@@ -687,7 +664,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:10.353395+00:00"
+      "fetched_at": "2026-08-26T05:59:35.045989+00:00"
     }
   },
   "eb810fa78ce0a8a4c942e925a583ef9e6f1365ecc418b57a291afb33ba67894e": {
@@ -695,12 +672,12 @@
     "topic": "Ce que la science explique sur l'apparition soudaine de la chair de poule",
     "posted_at": "2026-07-27T18:33:37.590797+00:00",
     "publish_at": "2026-07-29T17:30:00+00:00",
-    "age_hours": 683.4,
+    "age_hours": 707.4,
     "hook_score": 85,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1209,
       "engaged_views": 340,
@@ -725,7 +702,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:11.808448+00:00"
+      "fetched_at": "2026-08-26T05:59:36.072789+00:00"
     }
   },
   "01b7f27f599366365ed5efb6a37f1fc62e8f65759b9bb93e8be3492b09904c03": {
@@ -733,12 +710,12 @@
     "topic": "Ce que la science explique sur le muscle qui tressaille tout seul",
     "posted_at": "2026-07-28T11:08:56.755039+00:00",
     "publish_at": "2026-07-29T19:00:00+00:00",
-    "age_hours": 666.8,
+    "age_hours": 690.8,
     "hook_score": 90,
     "seo_score": 82,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1168,
       "engaged_views": 333,
@@ -763,7 +740,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:13.138390+00:00"
+      "fetched_at": "2026-08-26T05:59:37.108865+00:00"
     }
   },
   "5b792fd399062aadbbd5e6061730ff3dbc5204c4ea88a716090fc14fbec8657f": {
@@ -771,12 +748,12 @@
     "topic": "Ce qui change lorsque un nœud au ventre apparaît avant un moment important",
     "posted_at": "2026-07-28T18:25:09.285882+00:00",
     "publish_at": "2026-07-30T10:30:00+00:00",
-    "age_hours": 659.5,
+    "age_hours": 683.6,
     "hook_score": 90,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1007,
       "engaged_views": 310,
@@ -801,7 +778,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:14.596941+00:00"
+      "fetched_at": "2026-08-26T05:59:38.182084+00:00"
     }
   },
   "d52b2ba0f6244ed4fdc587b48f5d6a397109165b764fe895ca5206d1a92556d0": {
@@ -809,12 +786,12 @@
     "topic": "Ce qui se passe quand le cœur s'emballe sous le stress",
     "posted_at": "2026-07-29T11:11:32.970076+00:00",
     "publish_at": "2026-07-30T17:30:00+00:00",
-    "age_hours": 642.8,
+    "age_hours": 666.8,
     "hook_score": 100,
     "seo_score": 85,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 777,
       "engaged_views": 179,
@@ -839,7 +816,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:15.986836+00:00"
+      "fetched_at": "2026-08-26T05:59:39.267258+00:00"
     }
   },
   "9bfc549a172116f5d10f89c05e957600efeb9f40f7ed435e8bbbf56d32ed862d": {
@@ -862,12 +839,12 @@
     "topic": "Pourquoi on frissonne quand on a froid peut sembler étrange",
     "posted_at": "2026-07-30T17:08:43.486064+00:00",
     "publish_at": "2026-07-30T19:30:00+00:00",
-    "age_hours": 612.8,
+    "age_hours": 636.8,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 915,
       "engaged_views": 330,
@@ -892,7 +869,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:17.335711+00:00"
+      "fetched_at": "2026-08-26T05:59:40.296062+00:00"
     }
   },
   "c1c1104b7ff92652e56d7f76b5c12016adfb125e43257cc261e68a92afd744fc": {
@@ -900,12 +877,12 @@
     "topic": "Pourquoi le ventre gargouille sans faim",
     "posted_at": "2026-07-30T18:31:03.596313+00:00",
     "publish_at": "2026-07-31T15:30:00+00:00",
-    "age_hours": 611.4,
+    "age_hours": 635.5,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 731,
       "engaged_views": 386,
@@ -930,7 +907,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:18.859306+00:00"
+      "fetched_at": "2026-08-26T05:59:41.454613+00:00"
     }
   },
   "d9675f41a6217d41597524875e635cfa9b9ef491918b5cd4241e4cc383290775": {
@@ -938,12 +915,12 @@
     "topic": "Pourquoi on entend son cœur battre la nuit semble soudain",
     "posted_at": "2026-07-31T10:17:08.302336+00:00",
     "publish_at": "2026-07-31T17:30:00+00:00",
-    "age_hours": 595.7,
+    "age_hours": 619.7,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 637,
       "engaged_views": 126,
@@ -968,7 +945,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:20.096405+00:00"
+      "fetched_at": "2026-08-26T05:59:42.577700+00:00"
     }
   },
   "d1d312f3e64be40cd8725feb648931ffd7fcd1c5ddddee8e09819d06c9b2bb07": {
@@ -976,12 +953,12 @@
     "topic": "Pourquoi un aliment froid provoque un mal de tête semble soudain",
     "posted_at": "2026-07-31T11:20:21.085369+00:00",
     "publish_at": "2026-07-31T19:30:00+00:00",
-    "age_hours": 594.6,
+    "age_hours": 618.6,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1241,
       "engaged_views": 320,
@@ -1006,7 +983,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:21.583719+00:00"
+      "fetched_at": "2026-08-26T05:59:43.571917+00:00"
     }
   },
   "aa92055e153b273cf89a16a187aaa2eba253347bac9f167e64ddde27460992bd": {
@@ -1014,12 +991,12 @@
     "topic": "Ce qui change lorsque les oreilles sifflent dans le silence",
     "posted_at": "2026-07-31T17:11:13.341639+00:00",
     "publish_at": "2026-08-01T15:30:00+00:00",
-    "age_hours": 588.8,
+    "age_hours": 612.8,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 828,
       "engaged_views": 273,
@@ -1044,7 +1021,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:22.912386+00:00"
+      "fetched_at": "2026-08-26T05:59:44.666644+00:00"
     }
   },
   "4966bb1f8fac73ea216959fd3ea56a7d486f0b2f0765d7c6773c238a470d8630": {
@@ -1052,12 +1029,12 @@
     "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
     "posted_at": "2026-07-31T18:29:19.589245+00:00",
     "publish_at": "2026-08-01T17:30:00+00:00",
-    "age_hours": 587.5,
+    "age_hours": 611.5,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 958,
       "engaged_views": 307,
@@ -1082,7 +1059,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:24.653608+00:00"
+      "fetched_at": "2026-08-26T05:59:45.725943+00:00"
     }
   },
   "340b2f96fb0a82158c4f50647c9430350f5fddab92faa45de862dc03e2d013e8": {
@@ -1090,12 +1067,12 @@
     "topic": "Pourquoi dit on que le cerveau est immature",
     "posted_at": "2026-08-01T10:28:41.907316+00:00",
     "publish_at": "2026-08-01T19:30:00+00:00",
-    "age_hours": 571.5,
+    "age_hours": 595.5,
     "hook_score": 100,
     "seo_score": 98,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 327,
       "engaged_views": 135,
@@ -1120,7 +1097,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:26.089144+00:00"
+      "fetched_at": "2026-08-26T05:59:46.799860+00:00"
     }
   },
   "9cf0d8e2ef2114246624bf0a2c8f3f9b73f43b00b295b68bec96968d7d45793b": {
@@ -1128,12 +1105,12 @@
     "topic": "Pourquoi votre corps refuse de mentir",
     "posted_at": "2026-08-01T16:36:37.998260+00:00",
     "publish_at": "2026-08-02T15:30:00+00:00",
-    "age_hours": 565.4,
+    "age_hours": 589.4,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 192,
       "engaged_views": 64,
@@ -1158,7 +1135,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:27.356029+00:00"
+      "fetched_at": "2026-08-26T05:59:47.816793+00:00"
     }
   },
   "b58437818eb2533d8d71853647a421d63a36bdd6694c907194517acb1cec11a3": {
@@ -1204,12 +1181,12 @@
     "topic": "Pourquoi le cerveau des femmes est divisé en 5",
     "posted_at": "2026-08-02T10:24:56.740826+00:00",
     "publish_at": "2026-08-02T19:30:00+00:00",
-    "age_hours": 547.5,
+    "age_hours": 571.6,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 768,
       "engaged_views": 240,
@@ -1234,7 +1211,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:28.844045+00:00"
+      "fetched_at": "2026-08-26T05:59:49.020850+00:00"
     }
   },
   "e762eb1a73bf2502a92a23fa5bb3594aec0bf989780c7f25b8dba4ab40ded431": {
@@ -1242,12 +1219,12 @@
     "topic": "Pourquoi la peau se fripe dans leau",
     "posted_at": "2026-08-02T19:30:50.582412+00:00",
     "publish_at": "2026-08-03T15:30:00+00:00",
-    "age_hours": 538.4,
+    "age_hours": 562.5,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 822,
       "engaged_views": 335,
@@ -1272,7 +1249,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:30.251861+00:00"
+      "fetched_at": "2026-08-26T05:59:50.109015+00:00"
     }
   },
   "50cda7b1847ae4041160f77397da563a2acf83ab035609257d2f002d039a2d5e": {
@@ -1325,12 +1302,12 @@
     "topic": "La science derrière les oreilles qui deviennent chaudes",
     "posted_at": "2026-08-05T07:52:55.711900+00:00",
     "publish_at": "2026-08-05T15:30:00+00:00",
-    "age_hours": 478.1,
+    "age_hours": 502.1,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 738,
       "engaged_views": 376,
@@ -1355,7 +1332,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:31.585802+00:00"
+      "fetched_at": "2026-08-26T05:59:51.171957+00:00"
     }
   },
   "e4ac7722c888b995ec6e8107905c0ac24850cfed2c9bec5cfbc1c66e73f466fc": {
@@ -1363,12 +1340,12 @@
     "topic": "Ce qui change lorsque les mains se fripent dans l'eau",
     "posted_at": "2026-08-05T08:16:11.417005+00:00",
     "publish_at": "2026-08-05T15:30:00+00:00",
-    "age_hours": 477.7,
+    "age_hours": 501.7,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 720,
       "engaged_views": 341,
@@ -1393,7 +1370,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:32.979220+00:00"
+      "fetched_at": "2026-08-26T05:59:52.291044+00:00"
     }
   },
   "2331113a6fefa9d909e5d727baed2f3deb5d147fb2ac7b581db9d7ed3a8a52e4": {
@@ -1401,12 +1378,12 @@
     "topic": "Pourquoi les yeux pleurent quand on rit",
     "posted_at": "2026-08-05T12:35:00.863577+00:00",
     "publish_at": "2026-08-05T15:30:00+00:00",
-    "age_hours": 473.4,
+    "age_hours": 497.4,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 651,
       "engaged_views": 300,
@@ -1431,7 +1408,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:34.427018+00:00"
+      "fetched_at": "2026-08-26T05:59:53.287715+00:00"
     }
   },
   "beea1a54e1c41352deedf92d1cdbafaf8b65bd1ca2f6b877f9d49e0cf8cb17db": {
@@ -1439,12 +1416,12 @@
     "topic": "Ce que la science explique sur la mâchoire qui craque en mâchant",
     "posted_at": "2026-08-05T19:11:30.657120+00:00",
     "publish_at": "2026-08-05T19:30:00+00:00",
-    "age_hours": 466.8,
+    "age_hours": 490.8,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1029,
       "engaged_views": 217,
@@ -1469,7 +1446,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:35.884445+00:00"
+      "fetched_at": "2026-08-26T05:59:54.640230+00:00"
     }
   },
   "6ed58f6d2de488446ff471f1e6a6e3c77fd3e38bb4abc29dde5b0701740461d8": {
@@ -1477,12 +1454,12 @@
     "topic": "Pourquoi un pied s'endort tout seul peut sembler étrange",
     "posted_at": "2026-08-05T20:30:47.690116+00:00",
     "publish_at": "2026-08-06T15:30:00+00:00",
-    "age_hours": 465.5,
+    "age_hours": 489.5,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1054,
       "engaged_views": 280,
@@ -1507,7 +1484,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:37.362681+00:00"
+      "fetched_at": "2026-08-26T05:59:55.739893+00:00"
     }
   },
   "19d2be3e3627cdcf5c1175ff058e1852f5deeadcf8e290048ff7d752e8c29e6f": {
@@ -1515,12 +1492,12 @@
     "topic": "Ce que votre corps vous dit quand un vertige apparaît après s'être levé",
     "posted_at": "2026-08-06T20:25:33.039987+00:00",
     "publish_at": "2026-08-07T15:30:00+00:00",
-    "age_hours": 441.5,
+    "age_hours": 465.6,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 168,
       "engaged_views": 56,
@@ -1545,7 +1522,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:38.683049+00:00"
+      "fetched_at": "2026-08-26T05:59:56.818193+00:00"
     }
   },
   "1db25dceb17a3ef22af174317490f5acb46c612d0380ea0c7e2275e0964f519c": {
@@ -1553,12 +1530,12 @@
     "topic": "Ce que la science explique sur les nuances de vert que l'œil distingue",
     "posted_at": "2026-08-07T00:46:45.979567+00:00",
     "publish_at": "2026-08-07T15:30:00+00:00",
-    "age_hours": 437.2,
+    "age_hours": 461.2,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 33,
       "engaged_views": 14,
@@ -1583,7 +1560,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:40.165106+00:00"
+      "fetched_at": "2026-08-26T05:59:57.865201+00:00"
     }
   },
   "a04fc26adb6267a3ddd47cd01de54d5b381306aeabf7bfcfe60080bdbc3efbbf": {
@@ -1591,12 +1568,12 @@
     "topic": "Pourquoi le corps sursaute en s'endormant semble soudain",
     "posted_at": "2026-08-07T11:34:13.342015+00:00",
     "publish_at": "2026-08-07T15:30:00+00:00",
-    "age_hours": 426.4,
+    "age_hours": 450.4,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 390,
       "engaged_views": 99,
@@ -1621,7 +1598,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:41.543253+00:00"
+      "fetched_at": "2026-08-26T05:59:58.972926+00:00"
     }
   },
   "11a988a6817b301a453ff03216a5b810e77dcac080eddf73b384133155c19fb6": {
@@ -1629,12 +1606,12 @@
     "topic": "Comprendre pourquoi le bâillement se transmet aux autres",
     "posted_at": "2026-08-07T18:20:11.875305+00:00",
     "publish_at": "2026-08-07T19:30:00+00:00",
-    "age_hours": 419.6,
+    "age_hours": 443.7,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 806,
       "engaged_views": 309,
@@ -1659,7 +1636,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:42.847343+00:00"
+      "fetched_at": "2026-08-26T06:00:00.013806+00:00"
     }
   },
   "fe661f9902e86c80d6c2533d900f2a50a0a3fb7fc01526a454a7d01e09c3e7c1": {
@@ -1667,12 +1644,12 @@
     "topic": "Ce qui change lorsque la faim revient à la même heure chaque jour",
     "posted_at": "2026-08-07T19:22:53.989369+00:00",
     "publish_at": "2026-08-08T15:30:00+00:00",
-    "age_hours": 418.6,
+    "age_hours": 442.6,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 152,
       "engaged_views": 25,
@@ -1697,7 +1674,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:44.198562+00:00"
+      "fetched_at": "2026-08-26T06:00:01.062256+00:00"
     }
   },
   "3b0296b84784b72194c7141462a231963c3b251c496ad7209c63f10210a512f6": {
@@ -1705,12 +1682,12 @@
     "topic": "Ce qui change lorsque une paupière tressaille sans raison",
     "posted_at": "2026-08-07T19:42:56.877252+00:00",
     "publish_at": "2026-08-08T17:30:00+00:00",
-    "age_hours": 418.2,
+    "age_hours": 442.3,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 841,
       "engaged_views": 322,
@@ -1735,7 +1712,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:45.542369+00:00"
+      "fetched_at": "2026-08-26T06:00:02.271994+00:00"
     }
   },
   "52d133ee835d4ad2f73189d350c529493e29779f28d058625402da4332762748": {
@@ -1743,12 +1720,12 @@
     "topic": "Pourquoi les paumes transpirent par nervosité semble soudain",
     "posted_at": "2026-08-07T20:02:42.985525+00:00",
     "publish_at": "2026-08-08T19:30:00+00:00",
-    "age_hours": 417.9,
+    "age_hours": 441.9,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 334,
       "engaged_views": 56,
@@ -1773,7 +1750,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:46.894857+00:00"
+      "fetched_at": "2026-08-26T06:00:03.365283+00:00"
     }
   },
   "d724f90de3696a88e03e29d05f043011ee3ece42f8ea511e048bcfb13955dc14": {
@@ -1781,12 +1758,12 @@
     "topic": "La science derrière l'impression que le temps ralentit en danger",
     "posted_at": "2026-08-09T05:54:51.712079+00:00",
     "publish_at": "2026-08-09T15:30:00+00:00",
-    "age_hours": 384.0,
+    "age_hours": 408.1,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 923,
       "engaged_views": 345,
@@ -1811,7 +1788,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:48.325381+00:00"
+      "fetched_at": "2026-08-26T06:00:04.400440+00:00"
     }
   },
   "3e4b23cd0a207594e56d465d596ccce7ec16d91ac96c07713fb6f778f68efee4": {
@@ -1819,12 +1796,12 @@
     "topic": "Ce qui se passe quand un rêve disparaît au réveil",
     "posted_at": "2026-08-09T11:20:27.313624+00:00",
     "publish_at": "2026-08-09T17:30:00+00:00",
-    "age_hours": 378.6,
+    "age_hours": 402.6,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 922,
       "engaged_views": 343,
@@ -1849,7 +1826,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:49.635806+00:00"
+      "fetched_at": "2026-08-26T06:00:05.451767+00:00"
     }
   },
   "5f7e78d3e7fef1db0b8b066b03ee08ad2899408e9122b81aa869583f1617bd7e": {
@@ -1857,12 +1834,12 @@
     "topic": "Ce qui change lorsque des corps flottants visibles dans l'œil",
     "posted_at": "2026-08-09T18:06:07.724643+00:00",
     "publish_at": "2026-08-09T19:30:00+00:00",
-    "age_hours": 371.9,
+    "age_hours": 395.9,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 977,
       "engaged_views": 334,
@@ -1887,7 +1864,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:50.969379+00:00"
+      "fetched_at": "2026-08-26T06:00:06.489352+00:00"
     }
   },
   "1036a76299e3cb5a1dfe07be3b68506c76a1ea168cd903552f0979fbc18f637f": {
@@ -1895,12 +1872,12 @@
     "topic": "Ce que votre corps vous dit quand la respiration ralentit en dormant",
     "posted_at": "2026-08-09T19:35:30.914595+00:00",
     "publish_at": "2026-08-10T15:30:00+00:00",
-    "age_hours": 370.4,
+    "age_hours": 394.4,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 190,
       "engaged_views": 41,
@@ -1925,7 +1902,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:52.412328+00:00"
+      "fetched_at": "2026-08-26T06:00:07.612899+00:00"
     }
   },
   "787643cc80723f69e8dd22a0457ba85b564e858fa3bc3725ba4cd9751fa772b6": {
@@ -1933,12 +1910,12 @@
     "topic": "Pourquoi le cœur bat plus vite avant de parler en public",
     "posted_at": "2026-08-10T11:40:14.796418+00:00",
     "publish_at": "2026-08-10T17:30:00+00:00",
-    "age_hours": 354.3,
+    "age_hours": 378.3,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 874,
       "engaged_views": 331,
@@ -1963,7 +1940,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:53.905261+00:00"
+      "fetched_at": "2026-08-26T06:00:08.647401+00:00"
     }
   },
   "820ed29f2fa285253d7438888f5e4c6f9b2384e9f20583a6ac6814a26d8acd79": {
@@ -1971,12 +1948,12 @@
     "topic": "La science derrière le frisson de la peau face au froid ou à la peur",
     "posted_at": "2026-08-10T18:17:37.304398+00:00",
     "publish_at": "2026-08-10T19:30:00+00:00",
-    "age_hours": 347.7,
+    "age_hours": 371.7,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 225,
       "engaged_views": 43,
@@ -2001,7 +1978,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:55.311010+00:00"
+      "fetched_at": "2026-08-26T06:00:09.701347+00:00"
     }
   },
   "cc4a37c861c57f425aefc6d76261f305fe6cb021f8340ab2e0a417892bc4ed07": {
@@ -2009,12 +1986,12 @@
     "topic": "Ce qui change lorsque le stress brouille la mémoire",
     "posted_at": "2026-08-10T20:01:16.577580+00:00",
     "publish_at": "2026-08-11T04:00:00+00:00",
-    "age_hours": 345.9,
+    "age_hours": 370.0,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 105,
       "engaged_views": 30,
@@ -2039,7 +2016,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:56.631677+00:00"
+      "fetched_at": "2026-08-26T06:00:10.741260+00:00"
     }
   },
   "83646b01951369697545c917a266caf87ede6e0d2c20748e4794d4d2ca0b11b3": {
@@ -2047,12 +2024,12 @@
     "topic": "Pourquoi le ventre bouge tout seul",
     "posted_at": "2026-08-11T11:34:59.661417+00:00",
     "publish_at": "2026-08-11T15:30:00+00:00",
-    "age_hours": 330.4,
+    "age_hours": 354.4,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 837,
       "engaged_views": 331,
@@ -2077,7 +2054,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:57.936631+00:00"
+      "fetched_at": "2026-08-26T06:00:11.867537+00:00"
     }
   },
   "ea28729706d5c585a06fe68ea71fc8a1ffb15b9482316f9eb8c067e3e5d73a56": {
@@ -2085,12 +2062,12 @@
     "topic": "Pourquoi les yeux deviennent rouges",
     "posted_at": "2026-08-11T18:32:48.537714+00:00",
     "publish_at": "2026-08-11T19:30:00+00:00",
-    "age_hours": 323.4,
+    "age_hours": 347.4,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 710,
       "engaged_views": 145,
@@ -2115,7 +2092,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:58:59.338620+00:00"
+      "fetched_at": "2026-08-26T06:00:12.865279+00:00"
     }
   },
   "f949858f5bef5525e4482efb743bc0a4dda6739ca477f38d73428ad1ac465cb1": {
@@ -2123,12 +2100,12 @@
     "topic": "Pourquoi les mains deviennent froides sans raison",
     "posted_at": "2026-08-11T20:07:24.882144+00:00",
     "publish_at": "2026-08-12T15:30:00+00:00",
-    "age_hours": 321.8,
+    "age_hours": 345.9,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 771,
       "engaged_views": 242,
@@ -2153,7 +2130,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:00.775267+00:00"
+      "fetched_at": "2026-08-26T06:00:14.104035+00:00"
     }
   },
   "cb5da7ba689abc511253ddf4e72e3c2a2857933bcda00b5e8f955be6ec03e2fc": {
@@ -2161,12 +2138,12 @@
     "topic": "Pourquoi le corps gratte après la douche",
     "posted_at": "2026-08-12T11:33:57.697272+00:00",
     "publish_at": "2026-08-12T17:30:00+00:00",
-    "age_hours": 306.4,
+    "age_hours": 330.4,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 958,
       "engaged_views": 314,
@@ -2191,7 +2168,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:02.148291+00:00"
+      "fetched_at": "2026-08-26T06:00:15.263428+00:00"
     }
   },
   "c16eeb638198c170b8906d10f22ff40757fdbc1ac4cc34e8acfb601102605189": {
@@ -2199,12 +2176,12 @@
     "topic": "Pourquoi on se réveille à 3h du matin sans raison",
     "posted_at": "2026-08-12T18:35:50.607193+00:00",
     "publish_at": "2026-08-12T19:30:00+00:00",
-    "age_hours": 299.4,
+    "age_hours": 323.4,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 774,
       "engaged_views": 378,
@@ -2229,7 +2206,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:03.516292+00:00"
+      "fetched_at": "2026-08-26T06:00:16.392029+00:00"
     }
   },
   "42c079ec50ac77700be895cbb56b5568f83707cd9e78e9910793c2c0dafff9fe": {
@@ -2237,12 +2214,12 @@
     "topic": "Pourquoi on pleure quand on bâille",
     "posted_at": "2026-08-12T20:07:44.226357+00:00",
     "publish_at": "2026-08-13T15:30:00+00:00",
-    "age_hours": 297.8,
+    "age_hours": 321.9,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 930,
       "engaged_views": 309,
@@ -2267,7 +2244,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:04.904073+00:00"
+      "fetched_at": "2026-08-26T06:00:17.431541+00:00"
     }
   },
   "9b822ce6d8d9b5d2bfe174038d5e36485856dc041bb49dc9a434a556ea26c7f0": {
@@ -2275,12 +2252,12 @@
     "topic": "Ce que votre corps vous dit quand la mémoire invente des détails sans le vouloir",
     "posted_at": "2026-08-13T11:32:40.194119+00:00",
     "publish_at": "2026-08-13T17:30:00+00:00",
-    "age_hours": 282.4,
+    "age_hours": 306.4,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 549,
       "engaged_views": 189,
@@ -2305,7 +2282,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:06.376833+00:00"
+      "fetched_at": "2026-08-26T06:00:18.688513+00:00"
     }
   },
   "f1b7952d8c31541929c7f2a96979578ce91eb6c5072016061bbe98bf6160ce62": {
@@ -2313,12 +2290,12 @@
     "topic": "Ce qui change lorsque le cerveau crée des souvenirs faux",
     "posted_at": "2026-08-13T18:36:28.499376+00:00",
     "publish_at": "2026-08-13T19:30:00+00:00",
-    "age_hours": 275.4,
+    "age_hours": 299.4,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 83,
       "engaged_views": 31,
@@ -2343,7 +2320,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:07.809959+00:00"
+      "fetched_at": "2026-08-26T06:00:19.711660+00:00"
     }
   },
   "0e29c981bff5ac76cb1f98f175cb9f828623cf741794c12b958a20cff677d770": {
@@ -2351,12 +2328,12 @@
     "topic": "Pourquoi la musique change l'humeur",
     "posted_at": "2026-08-13T20:02:30.524889+00:00",
     "publish_at": "2026-08-14T15:30:00+00:00",
-    "age_hours": 273.9,
+    "age_hours": 297.9,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 36,
       "engaged_views": 12,
@@ -2381,7 +2358,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:09.295955+00:00"
+      "fetched_at": "2026-08-26T06:00:20.925973+00:00"
     }
   },
   "88a576c9a53a3b5d1aa13bc665e668329345ac9541636543efa5447f90a7c12e": {
@@ -2389,12 +2366,12 @@
     "topic": "Ce que votre corps vous dit quand le corps révèle le mensonge",
     "posted_at": "2026-08-14T11:28:39.246737+00:00",
     "publish_at": "2026-08-14T17:30:00+00:00",
-    "age_hours": 258.5,
+    "age_hours": 282.5,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 278,
       "engaged_views": 47,
@@ -2419,7 +2396,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:10.697162+00:00"
+      "fetched_at": "2026-08-26T06:00:21.959829+00:00"
     }
   },
   "189644d1f93ad037cc86e9d42f85d897a173206bcb3c0cc518cfd2a74645473e": {
@@ -2427,12 +2404,12 @@
     "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
     "posted_at": "2026-08-14T18:34:49.048427+00:00",
     "publish_at": "2026-08-14T19:30:00+00:00",
-    "age_hours": 251.4,
+    "age_hours": 275.4,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1134,
       "engaged_views": 300,
@@ -2457,7 +2434,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:12.553145+00:00"
+      "fetched_at": "2026-08-26T06:00:23.028033+00:00"
     }
   },
   "31de668d0b7d29449677ebdb0335534f98c41763b25e880ec4cd4cde74d19824": {
@@ -2465,12 +2442,12 @@
     "topic": "Ce qui change lorsque le corps résiste à la perte de poids",
     "posted_at": "2026-08-14T19:52:49.799897+00:00",
     "publish_at": "2026-08-15T15:30:00+00:00",
-    "age_hours": 250.1,
+    "age_hours": 274.1,
     "hook_score": 85,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 986,
       "engaged_views": 296,
@@ -2495,7 +2472,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:13.869080+00:00"
+      "fetched_at": "2026-08-26T06:00:24.040152+00:00"
     }
   },
   "f2f00ab24c610a0170a47fa640a8a8937951f682699f0a9098efa18d591c77d9": {
@@ -2518,12 +2495,12 @@
     "topic": "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
     "posted_at": "2026-08-15T17:03:49.283891+00:00",
     "publish_at": "2026-08-15T19:30:00+00:00",
-    "age_hours": 228.9,
+    "age_hours": 252.9,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1055,
       "engaged_views": 294,
@@ -2548,7 +2525,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:15.344071+00:00"
+      "fetched_at": "2026-08-26T06:00:25.115844+00:00"
     }
   },
   "1408c1aa2b3ae74d466aa18e2ea79b45ae9c5a02160bdd42d41523012d0769ef": {
@@ -2556,12 +2533,12 @@
     "topic": "La science derrière l'éternuement provoqué par une lumière vive",
     "posted_at": "2026-08-16T11:12:08.095456+00:00",
     "publish_at": "2026-08-16T15:30:00+00:00",
-    "age_hours": 210.8,
+    "age_hours": 234.8,
     "hook_score": 90,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 777,
       "engaged_views": 329,
@@ -2586,7 +2563,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:16.678950+00:00"
+      "fetched_at": "2026-08-26T06:00:26.201065+00:00"
     }
   },
   "d2097c3796ec44454a4151d5f3f84c17d30d448a645a197117e921763fccbe13": {
@@ -2594,12 +2571,12 @@
     "topic": "Pourquoi le cerveau atténue la douleur en danger",
     "posted_at": "2026-08-18T11:40:14.932251+00:00",
     "publish_at": "2026-08-18T15:30:00+00:00",
-    "age_hours": 162.3,
+    "age_hours": 186.3,
     "hook_score": 100,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 166,
       "engaged_views": 50,
@@ -2624,7 +2601,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:18.310733+00:00"
+      "fetched_at": "2026-08-26T06:00:27.265989+00:00"
     }
   },
   "1c58e98c7812b5fcb5b0d1aa30284346923ae45a97f47ca6c4cd77f063da764b": {
@@ -2632,12 +2609,12 @@
     "topic": "Ce qu'il faut comprendre sur le retour de la faim à la même heure",
     "posted_at": "2026-08-18T18:46:56.132641+00:00",
     "publish_at": "2026-08-18T19:00:00+00:00",
-    "age_hours": 155.2,
+    "age_hours": 179.2,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 60,
       "engaged_views": 8,
@@ -2662,7 +2639,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:20.053260+00:00"
+      "fetched_at": "2026-08-26T06:00:28.426847+00:00"
     }
   },
   "f7c190219b86f26edbf33fe6021475b113f4c2efa2122e0fd093c4873f04bd4f": {
@@ -2682,12 +2659,12 @@
     "topic": "Ce qu'il faut comprendre sur l'engourdissement de la main quand on dort dessus",
     "posted_at": "2026-08-19T17:48:45.472477+00:00",
     "publish_at": "2026-08-19T19:00:00+00:00",
-    "age_hours": 132.2,
+    "age_hours": 156.2,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 154,
       "engaged_views": 23,
@@ -2712,7 +2689,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:21.618757+00:00"
+      "fetched_at": "2026-08-26T06:00:29.546096+00:00"
     }
   },
   "4d7bc7636ebe9f03ac69933b6e4682dbff709f2983366d3cf0db0ee64c50409c": {
@@ -2720,12 +2697,12 @@
     "topic": "Ce que la science explique sur le gargouillement de l'estomac quand on a faim",
     "posted_at": "2026-08-20T11:49:18.832354+00:00",
     "publish_at": "2026-08-20T15:30:00+00:00",
-    "age_hours": 114.1,
+    "age_hours": 138.2,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
       "views": 1,
       "engaged_views": 1,
@@ -2750,7 +2727,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:23.226233+00:00"
+      "fetched_at": "2026-08-26T06:00:30.629801+00:00"
     }
   },
   "6882c849ec860913478373cd5ee149e602f6ba5abb6e923da7385d0961f59185": {
@@ -2758,16 +2735,16 @@
     "topic": "Pourquoi le hoquet ne s'arrête pas ?",
     "posted_at": "2026-08-21T09:38:34.286706+00:00",
     "publish_at": "2026-08-21T15:30:00+00:00",
-    "age_hours": 92.3,
+    "age_hours": 116.3,
     "hook_score": 70,
     "seo_score": 100,
     "duration_seconds": null,
     "meta_cut_seconds": null,
-    "fetched_at": "2026-08-25T05:57:48.793396+00:00",
+    "fetched_at": "2026-08-26T05:59:19.207200+00:00",
     "youtube_shorts": {
-      "views": 190,
-      "engaged_views": 30,
-      "completion": 0.4196,
+      "views": 223,
+      "engaged_views": 35,
+      "completion": 0.4154,
       "avg_view_seconds": 8,
       "impressions": null,
       "ctr": null,
@@ -2788,7 +2765,7 @@
         "stayedToWatch",
         "viewedVsSwipedAway"
       ],
-      "fetched_at": "2026-08-25T05:59:24.857611+00:00"
+      "fetched_at": "2026-08-26T06:00:31.721090+00:00"
     }
   },
   "7b4b04f54c80d9efb8f297aacca01fb8cb2159689afd6afd0d3676cc493937f7": {
