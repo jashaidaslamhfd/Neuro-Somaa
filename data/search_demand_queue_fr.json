@@ -1,6 +1,6 @@
 {
-  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-25",
-  "mined_at": "2026-08-25T19:58:58.045839+00:00",
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-26",
+  "mined_at": "2026-08-26T19:31:22.407106+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:39.954524+00:00"
+      "mined_at": "2026-08-26T19:31:04.775513+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,34 +24,22 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:42.140585+00:00"
+      "mined_at": "2026-08-26T19:31:06.926407+00:00"
     },
     {
       "series_number": "DEM-3",
-      "series_title": "Des fourmillements apparaissent sans raison",
-      "topic": "des fourmillements apparaissent sans raison",
-      "nominal_phrase": "des fourmillements apparaissent sans raison",
-      "question_phrase": "pourquoi des fourmillements apparaissent sans raison",
-      "angle": "Pourquoi des fourmillements apparaissent sans raison ?",
-      "thumbnail_text": "Pourquoi des fourmillements apparaissent sans raison ?",
-      "demand_note": "autocomplete: 'pourquoi je maigris sans raison'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:46.506069+00:00"
-    },
-    {
-      "series_number": "DEM-4",
       "series_title": "Le cerveau est immature à 20 ans",
       "topic": "le cerveau est immature à 20 ans",
       "nominal_phrase": "le cerveau est immature à 20 ans",
       "question_phrase": "pourquoi le cerveau est immature à 20 ans",
       "angle": "Pourquoi le cerveau est immature à 20 ans ?",
       "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
-      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'les traumas et leurs conséquences sur le cerveau'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'",
+      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'; autocomplete: 'le cerveau des adolescents'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:50.841536+00:00"
+      "mined_at": "2026-08-26T19:31:15.355360+00:00"
     },
     {
-      "series_number": "DEM-5",
+      "series_number": "DEM-4",
       "series_title": "La mémoire invente des détails sans le vouloir",
       "topic": "la mémoire invente des détails sans le vouloir",
       "nominal_phrase": "la mémoire invente des détails sans le vouloir",
@@ -60,19 +48,19 @@
       "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
       "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:53.001798+00:00"
+      "mined_at": "2026-08-26T19:31:17.427683+00:00"
     },
     {
-      "series_number": "DEM-6",
-      "series_title": "La voix tremble par nervosité",
-      "topic": "la voix tremble par nervosité",
-      "nominal_phrase": "la voix tremble par nervosité",
-      "question_phrase": "pourquoi la voix tremble par nervosité",
-      "angle": "Pourquoi la voix tremble par nervosité ?",
-      "thumbnail_text": "Pourquoi la voix tremble par nervosité ?",
-      "demand_note": "autocomplete: 'voix qui tremble stress'",
+      "series_number": "DEM-5",
+      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
+      "topic": "les yeux bougent pendant le sommeil paradoxal",
+      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
+      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
+      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
+      "demand_note": "autocomplete: 'le sommeil paradoxal'; autocomplete: 'les paralysies du sommeil'; autocomplete: 'sommeil paradoxal c'est quoi'",
       "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-25T19:58:57.695183+00:00"
+      "mined_at": "2026-08-26T19:31:19.551359+00:00"
     }
   ]
 }
