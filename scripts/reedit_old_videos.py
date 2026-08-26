@@ -10,7 +10,6 @@ Run: python scripts/reedit_old_videos.py [--apply]
 import json
 import os
 import sys
-from datetime import datetime
 
 HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.json")
 
@@ -131,16 +130,16 @@ def main():
         print("   Original snippet:", c["voiceover"])
 
     print(f"\n{'='*70}")
-    print(f"SUMMARY")
+    print("SUMMARY")
     print(f"{'='*70}")
     print(f"  Total candidates: {len(candidates)}")
     print(f"  Average views: {sum(c['views'] for c in candidates)/max(1,len(candidates)):.0f}")
     print(f"  Average retention: {sum(c['retention'] for c in candidates)/max(1,len(candidates)):.1f}%")
-    print(f"\n  To re-edit manually:")
-    print(f"  1. Go to YouTube Studio → Delete old video")
-    print(f"  2. Create new Short with the suggested hook above")
-    print(f"  3. Duration: 15-20 seconds (45-55 words)")
-    print(f"  4. Upload at 19:30 or 21:30 Paris time")
+    print("\n  To re-edit manually:")
+    print("  1. Go to YouTube Studio → Delete old video")
+    print("  2. Create new Short with the suggested hook above")
+    print("  3. Duration: 15-20 seconds (45-55 words)")
+    print("  4. Upload at 19:30 or 21:30 Paris time")
 
     if apply:
         # Write re-edit queue to file

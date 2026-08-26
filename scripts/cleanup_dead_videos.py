@@ -77,7 +77,7 @@ def main():
     if deletes:
         dead_rets = [d["ret"] for d in deletes]
         all_rets = [v.get("average_view_percentage", 0) for v in data]
-        alive_rets = [r for r in all_rets if r not in dead_rets[:3]]  # approximate
+        _alive_rets = [r for r in all_rets if r not in dead_rets[:3]]  # approximate
         print(f"\nIMPACT: avg retention {sum(all_rets)/len(all_rets):.1f}% -> ~{sum(all_rets)/len(all_rets) + len(deletes)*0.5:.1f}%")
 
     if apply and deletes:

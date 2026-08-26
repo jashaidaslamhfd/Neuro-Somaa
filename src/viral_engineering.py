@@ -36,7 +36,6 @@ _PSYCH_WORDS = {
     "mensonge",
     "secret",
     "peur",
-    "peur",
     "jalousie",
     "honte",
     "coupable",

@@ -22,7 +22,6 @@ from __future__ import annotations
 
 import re
 
-
 # ═══════════════════════════════════════════════════════════════
 # 1. PREMIUM CTR TOPICS — Dark Psychology France (CTR 60%+)
 # ═══════════════════════════════════════════════════════════════

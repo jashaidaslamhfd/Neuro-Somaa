@@ -705,7 +705,7 @@ def _pick_by_retention_class(candidates: list[dict], history: list[dict] | None 
     return chosen
 
 
-def get_body_glitch_topics() -> list[dict]:  # noqa: D401 (legacy name)
+def get_body_glitch_topics() -> list[dict]:
     """Load the Dark Psychology catalogue with series metadata."""
     try:
         with BODY_GLITCH_CATALOGUE_PATH.open(encoding="utf-8") as file_handle:

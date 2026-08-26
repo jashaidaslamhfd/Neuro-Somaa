@@ -325,7 +325,7 @@ def main() -> int:
         if args.min_age_days:
             try:
                 stamp = e.get("posted_at") or e.get("publish_at")
-                age_days = (now - datetime.fromisoformat(stamp.replace("Z", "+00:00"))).total_seconds() / 86400
+                age_days = (now - datetime.fromisoformat(stamp)).total_seconds() / 86400
                 if age_days < args.min_age_days:
                     continue
             except (AttributeError, TypeError, ValueError):
