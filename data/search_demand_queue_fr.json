@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-26",
-  "mined_at": "2026-08-26T19:31:22.407106+00:00",
+  "mined_at": "2026-08-26T22:26:18.782555+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -11,8 +11,8 @@
       "angle": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-26T19:31:04.775513+00:00"
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-26T22:26:00.789886+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -23,44 +23,32 @@
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-26T19:31:06.926407+00:00"
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-26T22:26:02.951107+00:00"
     },
     {
       "series_number": "DEM-3",
-      "series_title": "Le cerveau est immature à 20 ans",
-      "topic": "le cerveau est immature à 20 ans",
-      "nominal_phrase": "le cerveau est immature à 20 ans",
-      "question_phrase": "pourquoi le cerveau est immature à 20 ans",
-      "angle": "Pourquoi le cerveau est immature à 20 ans ?",
-      "thumbnail_text": "Pourquoi le cerveau est immature à 20 ans ?",
-      "demand_note": "autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'consequence des ecrans sur le cerveau'; autocomplete: 'le cerveau des ados'; autocomplete: 'le cerveau des adolescents'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-26T19:31:15.355360+00:00"
+      "series_title": "L'illusion d'objectivité qui te contrô",
+      "topic": "l'illusion d'objectivité qui te contrô",
+      "nominal_phrase": "l'illusion d'objectivité qui te contrô",
+      "question_phrase": "pourquoi l'illusion d'objectivité qui te contrô",
+      "angle": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+      "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+      "demand_note": "autocomplete: 'fabien olicard illusion d'optique'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-26T22:26:11.658699+00:00"
     },
     {
       "series_number": "DEM-4",
-      "series_title": "La mémoire invente des détails sans le vouloir",
-      "topic": "la mémoire invente des détails sans le vouloir",
-      "nominal_phrase": "la mémoire invente des détails sans le vouloir",
-      "question_phrase": "pourquoi la mémoire invente des détails sans le vouloir",
-      "angle": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "thumbnail_text": "Pourquoi la mémoire invente des détails sans le vouloir ?",
-      "demand_note": "autocomplete: 'comment retrouver sa memoire'; autocomplete: 'la mémoire de nos jours'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-26T19:31:17.427683+00:00"
-    },
-    {
-      "series_number": "DEM-5",
-      "series_title": "Les yeux bougent pendant le sommeil paradoxal",
-      "topic": "les yeux bougent pendant le sommeil paradoxal",
-      "nominal_phrase": "les yeux bougent pendant le sommeil paradoxal",
-      "question_phrase": "pourquoi les yeux bougent pendant le sommeil paradoxal",
-      "angle": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "thumbnail_text": "Pourquoi les yeux bougent pendant le sommeil paradoxal ?",
-      "demand_note": "autocomplete: 'le sommeil paradoxal'; autocomplete: 'les paralysies du sommeil'; autocomplete: 'sommeil paradoxal c'est quoi'",
-      "pillar": "reflexes_du_corps",
-      "mined_at": "2026-08-26T19:31:19.551359+00:00"
+      "series_title": "Pourquoi ton cerveau te cache ta propre colère",
+      "topic": "pourquoi ton cerveau te cache ta propre colère",
+      "nominal_phrase": "pourquoi ton cerveau te cache ta propre colère",
+      "question_phrase": "pourquoi ton cerveau te cache ta propre colère",
+      "angle": "Pourquoi ton cerveau te cache ta propre colère ?",
+      "thumbnail_text": "Pourquoi ton cerveau te cache ta propre colère ?",
+      "demand_note": "autocomplete: 'comment contrôler la colère et rester calme'; autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'pourquoi mon cerveau pense tout le temps'; autocomplete: 'impulsivité comment gérer ses excès de colère'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-26T22:26:17.645680+00:00"
     }
   ]
 }
