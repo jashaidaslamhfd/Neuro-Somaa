@@ -91,25 +91,25 @@ class TestSearchDemandQueue(unittest.TestCase):
                 "load_search_demand_queue",
                 return_value=[
                     trend_fetcher._topic_record(
-                        fake[0]["angle"], "fr_search_demand", pillar="reflexes_du_corps"
+                        fake[0]["angle"], "fr_search_demand", pillar="dark_psychology"
                     )
                     | {"demand_note": "test", "question_phrase": fake[0]["question_phrase"]}
                 ],
             ),
             mock.patch("intelligence.viral_miner.load_fresh_fastlane", return_value=[]),
-            mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "body_glitch_series"}),
+            mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "dark_psychology_series"}),
         ):
             chosen = trend_fetcher.get_trending_topic(exclude=[], return_metadata=True)
         self.assertEqual(chosen["source"], "fr_search_demand")
 
     def test_queue_respects_exclude_history(self):
         rec = trend_fetcher._topic_record(
-            "Pourquoi le ventre gargouille sans faim", "fr_search_demand", pillar="reflexes_du_corps"
+            "Pourquoi le ventre gargouille sans faim", "fr_search_demand", pillar="dark_psychology"
         ) | {"question_phrase": "le ventre gargouille sans faim"}
         with (
             mock.patch.object(trend_fetcher, "load_search_demand_queue", return_value=[rec]),
             mock.patch("intelligence.viral_miner.load_fresh_fastlane", return_value=[]),
-            mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "body_glitch_series"}),
+            mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "dark_psychology_series"}),
         ):
             # The only queue entry is excluded -> must fall back to catalogue
             chosen = trend_fetcher.get_trending_topic(

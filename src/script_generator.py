@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # ============================================
 # CONSTANTS
 # ============================================
-# One unified policy for a 20–26 second Body Glitch Short (FIXED 2026-08-02:
+# One unified policy for a 20–26 second Dark Psychology Short
 # the 40-55s format measured 27-38% average-view-percentage on this channel —
 # viewers leave around ~10s, so the long format guarantees sub-50% retention
 # and the feed demotes it. Six fast scenes give a complete explanation with a
@@ -67,7 +67,7 @@ def _duration_word_budget() -> tuple:
 
 MIN_WORDS, MAX_WORDS = _duration_word_budget()
 MAX_RETRIES = 3
-SCRIPT_POLICY_VERSION = "BODY_GLITCH_V4_ANSWER_FIRST"
+SCRIPT_POLICY_VERSION = "DARK_PSYCH_V1_VERY_FIRST"
 TEMPERATURE = 0.65
 MAX_TOKENS = 1400
 
@@ -460,7 +460,8 @@ TITLE_TOPIC_ANCHORS = {
 def _get_system_prompt() -> str:
     """French editorial standard for a France-first science Shorts channel."""
     return """Tu écris des YouTube Shorts en français naturel, fluide et idiomatique,
-sur la science, le corps humain et le cerveau, pour des adultes francophones.
+sur la psychologie sombre, la manipulation, les biais cognitifs et les secrets
+du comportement humain, pour des adultes francophones.
 
 RÈGLES DE QUALITÉ NON NÉGOCIABLES :
 - Réponds intégralement en français de France, sans anglicismes ni traduction littérale.
@@ -1088,7 +1089,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # get zero search traffic. Force at least one body-related keyword.
     title_text = (script_data.get("title") or "").lower()
     SEO_BODY_KEYWORDS = [
-        "coeur", "cerveau", "corps", "muscle", "os", "sang", "peau",
+        "psychologie", "manipulation", "cerveau", "comportement", "peur", "controle", "secret", "mensonge", "relation", "emotion",
         "rein", "poumon", "foie", "estomac", "langue", "doigt", "oeil",
         "oreille", "nez", "dent", "moelle", "nerf", "veine", "artere",
         "systeme", "temperature", "froid", "chaud", "sommeil",
@@ -1097,7 +1098,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     if title_text and not any(kw in title_text for kw in SEO_BODY_KEYWORDS):
         issues.append(
             f"Title missing body/SEO keyword — YouTube search ranking requires "
-            f"a body-related keyword (coeur, corps, muscle, langue...). "
+            f"a dark psychology keyword (psychologie, manipulation, cerveau, comportement, peur...). "
             f"Got: '{title_text[:60]}'"
         )
 

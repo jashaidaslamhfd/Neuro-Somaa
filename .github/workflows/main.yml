@@ -116,11 +116,10 @@ jobs:
           YT_SCHEDULE_PUBLISH: "true"
           CHANNEL_LANGUAGE: "fr"
           PUBLISH_TIMEZONE: "Europe/Paris"
-          # UNIQUE ANGLE: evolutionary-biology framing on the 500 topics
-          # ("why did our ancestors keep this reflex?") — differentiates the
-          # channel from the crowded body-glitch niche.
-          CONTENT_SERIES: "faits_surprenants_fr"
-          TOPIC_STRATEGY: "body_glitch_series_fr"
+          # NICHE: Dark Psychology — manipulation, biais cognitifs,
+          # secrets du comportement humain. France-first audience.
+          CONTENT_SERIES: "dark_psychology_fr"
+          TOPIC_STRATEGY: "dark_psychology_series_fr"
           
           AI_HORDE_API_KEY: ${{ secrets.AI_HORDE_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

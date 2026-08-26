@@ -17,10 +17,10 @@ DESCRIPTION_MAX_LEN = 5000
 PINNED_COMMENT_MAX_LEN = 200
 
 PLAYLISTS_BY_CATEGORY = {
-    "Cerveau": "Cerveau & mémoire",
-    "Corps": "Réflexes du corps",
-    "Sommeil": "Sommeil expliqué",
-    "Science": "Science du quotidien",
+    "Psychology": "Psychologie Sombre",
+    "Relations": "Relations & Manipulation",
+    "Mystery": "Secrets Cachés",
+    "Social": "Société & Contrôle",
 }
 
 STOP = {
@@ -201,21 +201,17 @@ ENGLISH_TAG_BLOCKLIST = {
 }
 
 CATEGORY_HASHTAGS = {
-    "Cerveau": ["#cerveau", "#neurosciences", "#psychologie", "#memoire"],
-    "Corps": ["#corpshumain", "#anatomie", "#biologie", "#sante"],
-    "Sommeil": ["#sommeil", "#reves", "#insomnie", "#biologie"],
-    # "#science" was the lead hashtag here and it is far too broad to help a
-    # Short — it competes with every science video on the platform while
-    # saying nothing about this channel's niche. Replaced with terms a French
-    # viewer of everyday-body-science content actually browses.
-    "Science": ["#culturegenerale", "#saviezvous", "#faitsscientifiques", "#corpshumain"],
+    "Psychology": ["#psychologiesombre", "#manipulation", "#biaiscognitifs", "#comportement"],
+    "Relations": ["#relations", "#amour", "#manipulationaffective", "#psychologieamoureuse"],
+    "Mystery": ["#secrets", "#veritecachee", "#mystere", "#cequonneditspas"],
+    "Social": ["#societe", "#propagande", "#reseauxsociaux", "#controle"],
 }
 
 CATEGORY_TAGS = {
-    "Cerveau": ["cerveau", "neurosciences", "psychologie", "memoire", "mental"],
-    "Corps": ["corps humain", "anatomie", "biologie", "physiologie", "sante"],
-    "Sommeil": ["sommeil", "reves", "insomnie", "cycle du sommeil", "repos"],
-    "Science": ["science", "culture generale", "faits scientifiques", "curiosites", "phenomenes"],
+    "Psychology": ["psychologie", "psychologie sombre", "biais cognitifs", "manipulation", "comportement humain"],
+    "Relations": ["relations", "amour", "couple", "attachement", "toxicite"],
+    "Mystery": ["mystere", "secrets", "verite cachee", "comportement cache", "realite"],
+    "Social": ["societe", "propagande", "reseaux sociaux", "controle", "obeyissance"],
 }
 
 # ---------------------------------------------------------------------------

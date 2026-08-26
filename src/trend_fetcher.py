@@ -33,44 +33,65 @@ MAX_SOURCE_RETRIES = 2
 TARGET_REGION = os.environ.get("TREND_REGION", "FR").upper()
 YOUTUBE_REGION = os.environ.get("YOUTUBE_REGION_CODE", TARGET_REGION).upper()
 
-# The channel is science/body/brain-oriented. Restricting external headlines
+# The channel is dark psychology/manipulation/comportement-oriented. Restricting external headlines
 # prevents unrelated politics, celebrity stories and sports results from being
 # turned into off-brand Shorts merely because they are trending.
 # Deliberately narrow science anchors. Broad words such as "animal", "human",
 # "history" and "nature" admitted entertainment headlines like "Why Got Fired
 # Matters" that did not give this channel a real explainable science topic.
 RELEVANCE_TERMS = (
-    "cerveau",
-    "corps",
-    "santé",
-    "médecine",
-    "médecin",
-    "science",
-    "espace",
-    "nasa",
-    "technologie",
-    "intelligence artificielle",
-    "robot",
-    "climat",
-    "océan",
-    "planète",
-    "physique",
     "psychologie",
-    "sommeil",
-    "coeur",
-    "cœur",
+    "manipulation",
+    "manipuler",
+    "menteur",
+    "mensonge",
+    "menteurs",
+    "biais",
+    "cérebral",
+    "cerveau",
+    "comportement",
+    "émotion",
+    "émotions",
+    "sentiment",
+    "sentiments",
+    "relation",
+    "relations",
+    "couple",
+    "amour",
+    "amoureux",
+    "attachement",
+    "pouvoir",
+    "contrôle",
+    "contrôler",
+    "influence",
+    "influencer",
+    "confiance",
+    "rejet",
+    "jalousie",
+    "peur",
+    "anxiété",
+    "stress",
+    "addiction",
+    "accro",
+    "téléphone",
+    "réseaux",
+    "social",
+    "société",
+    "école",
+    "éducation",
+    "enfance",
+    "parent",
+    "parents",
+    "mental",
     "mémoire",
-    "nerf",
-    "hormone",
-    "cellule",
-    "génétique",
-    "recherche",
-    "étude",
-    "virus",
-    "nutrition",
-    "immunité",
-    "anatomie",
-    "biologie",
+    "souvenir",
+    "cérebrale",
+    "inconscient",
+    "obéissance",
+    "propagande",
+    "médiatique",
+    "médias",
+    "publicité",
 )
 # These are UI/navigation strings sometimes accidentally extracted by fragile
 # HTML scrapers. The project no longer scrapes YouTube HTML, but retaining the
@@ -91,38 +112,36 @@ INVALID_TOPIC_PATTERNS = (
 # goosebumps)—not broad news headlines or generic "dark" claims. These are
 # proven-pillar prompts, never labelled as daily trends.
 PROVEN_TOPIC_POOL = [
-    "Pourquoi une chanson reste dans la tête",
-    "Pourquoi on oublie un prénom tout de suite",
-    "Pourquoi le bâillement est contagieux",
-    "Pourquoi une paupière tressaille",
-    "Pourquoi la chair de poule apparaît",
-    "Pourquoi les rêves s'effacent au réveil",
-    "Pourquoi le déjà-vu semble familier",
-    "Pourquoi le cœur s'emballe avec le stress",
-    "Pourquoi le corps se fige face à la peur",
-    "Pourquoi le ventre gargouille",
-    "Pourquoi on se réveille avant le réveil",
-    "Pourquoi les mains se fripent dans l'eau",
-    "Pourquoi les souvenirs gênants reviennent le soir",
-    "Pourquoi on oublie une pièce",
-    "Pourquoi le silence peut gêner",
-    "Pourquoi le cerveau entend son prénom",
-    "Pourquoi le temps semble accélérer",
-    "Pourquoi le stress brouille la mémoire",
-    "Pourquoi on a la tête qui tourne en se levant",
-    "Pourquoi le cerveau rejoue les conversations",
-    "Pourquoi on entend son coeur la nuit",
-    "Pourquoi la lumière fait éternuer",
-    "Pourquoi le cerveau a besoin de sommeil profond",
-    "Pourquoi la musique change l'humeur",
-    "Pourquoi on rougit",
-    "Pourquoi on frissonne",
-    "Pourquoi le corps est lourd quand on est fatigué",
+    "Pourquoi tu dis oui alors que tu veux dire non",
+    "Pourquoi tu tombes toujours amoureux du mauvais type",
+    "Pourquoi ton cerveau te ment chaque jour",
+    "Pourquoi le silence fait plus de dégâts que les mots",
+    "Pourquoi tu obéis à l'autorité sans réfléchir",
+    "Pourquoi les gens te manipulent sans que tu le voies",
+    "Pourquoi tu repenses toujours à cette humiliation",
+    "Pourquoi ton cerveau invente des souvenirs faux",
+    "Pourquoi tu te sens coupable sans raison",
+    "Pourquoi tu fais semblant d'aller bien",
+    "Pourquoi le pouvoir change ta personnalité",
+    "Pourquoi tu attires ce que tu fuis",
+    "Pourquoi tu n'oses pas dire non",
+    "Pourquoi tu procrastines par peur de réussir",
+    "Pourquoi le regard des autres t'influence",
+    "Pourquoi tu ne vois pas quand quelqu'un t'aime vraiment",
+    "Pourquoi la jalousie révèle ta peur pas ton amour",
+    "Pourquoi tu fais confiance aux menteurs",
+    "Pourquoi les algorithmes contrôlent ce que tu penses",
+    "Pourquoi tu es accro à ton téléphone sans le savoir",
+    "Pourquoi l'enfance détermine tes choix d'adulte",
+    "Pourquoi tu te compares aux autres en permanence",
+    "Pourquoi tu utilises l'humour pour cacher ta douleur",
+    "Pourquoi les manipulateurs utilisent ton prénom",
+    "Pourquoi tu restes dans des situations toxiques",
 ]
 
 REDDIT_SUBREDDITS = ("france", "science", "technology", "space")
 USER_AGENT = "SKILLOR/1.1 (automated topic research; contact: channel-owner)"
-BODY_GLITCH_CATALOGUE_PATH = Path("data/body_glitch_topics.json")
+BODY_GLITCH_CATALOGUE_PATH = Path("data/dark_psych_topics.json")
 
 
 def _normalise_topic(value: str) -> str:
@@ -686,20 +705,20 @@ def _pick_by_retention_class(candidates: list[dict], history: list[dict] | None 
     return chosen
 
 
-def get_body_glitch_topics() -> list[dict]:
-    """Load the fixed 500-topic Body Glitch catalogue with series metadata."""
+def get_body_glitch_topics() -> list[dict]:  # noqa: D401 (legacy name)
+    """Load the Dark Psychology catalogue with series metadata."""
     try:
         with BODY_GLITCH_CATALOGUE_PATH.open(encoding="utf-8") as file_handle:
             records = json.load(file_handle)
     except (OSError, json.JSONDecodeError) as exc:
-        raise RuntimeError(f"Body Glitch catalogue unavailable: {exc}") from exc
+        raise RuntimeError(f"Dark Psychology catalogue unavailable: {exc}") from exc
 
     result = []
     for item in records:
         topic = _clean_topic(item.get("angle") or item.get("topic", ""))
         if not topic:
             continue
-        record = _topic_record(topic, "body_glitch_series_fr", pillar="reflexes_du_corps")
+        record = _topic_record(topic, "body_glitch_series_fr", pillar="dark_psychology")
         record.update(
             {
                 "series_number": item.get("series_number"),
@@ -714,7 +733,7 @@ def get_body_glitch_topics() -> list[dict]:
         result.append(record)
     if len(result) < 500:
         raise RuntimeError(
-            f"Body Glitch catalogue must contain at least 500 valid topics; found {len(result)}"
+            f"Dark Psychology catalogue must contain at least 500 valid topics; found {len(result)}"
         )
     return result
 
