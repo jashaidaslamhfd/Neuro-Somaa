@@ -430,7 +430,7 @@ def _rank_title_options(options: list[str], bandit: dict) -> list[str]:
 # The `topic` fed into this module is already a fully-formed French angle
 # sentence produced upstream (e.g. "Pourquoi une paupière qui tressaille sans
 # raison arrive" or "La science derrière le déjà-vu") - see
-# scripts/generate_body_glitch_topics.py's ANGLES templates. Re-wrapping it in
+# scripts/generate_dark_psych_topics.py's ANGLES templates. Re-wrapping it in
 # another "Pourquoi {topic}" template would double up ("Pourquoi pourquoi...").
 # So variety here comes from re-phrasing/reformatting the angle itself, not
 # from stacking a second template on top of it.
@@ -501,7 +501,7 @@ def _clean_topic(topic: str) -> str:
     return t
 
 
-# Kept in sync with the templates in scripts/generate_body_glitch_topics.py.
+# Kept in sync with the templates in scripts/generate_dark_psych_topics.py.
 _ANGLE_PREFIXES = (
     "pourquoi ",
     "la science derrière ",
@@ -772,7 +772,7 @@ def _keywords(topic, n=8):
 
 def _question_title_from_phrase(phrase: str) -> str:
     """Build a natural curiosity title from the catalogue's subject+verb
-    phrase (`q` in scripts/generate_body_glitch_topics.py).
+    phrase (`q` in scripts/generate_dark_psych_topics.py).
 
     The live channel exposed an end-to-end bug: `_build_title_options()` placed
     a short safe series label first when an angle was long, but the later A/B
@@ -818,7 +818,7 @@ def _build_title_options(topic: str, series_title: str, question_phrase: str = "
     (topic), not from the already-short branded series title.
 
     `topic` starts with a phrase like "Pourquoi ...", "La science derrière ...",
-    "Ce qui se passe quand ...", etc. When the Body Glitch catalogue supplies
+    "Ce qui se passe quand ...", etc. When the Dark Psychology catalogue supplies
     its grammatical subject+verb form (`question_phrase`), it becomes the first
     candidate so the A/B scorer cannot accidentally promote a clumsy truncated
     noun phrase over a natural French title.

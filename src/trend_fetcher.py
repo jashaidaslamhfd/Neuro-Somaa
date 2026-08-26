@@ -718,7 +718,7 @@ def get_body_glitch_topics() -> list[dict]:  # noqa: D401 (legacy name)
         topic = _clean_topic(item.get("angle") or item.get("topic", ""))
         if not topic:
             continue
-        record = _topic_record(topic, "body_glitch_series_fr", pillar="dark_psychology")
+        record = _topic_record(topic, "dark_psychology_series_fr", pillar="dark_psychology")
         record.update(
             {
                 "series_number": item.get("series_number"),
@@ -768,7 +768,7 @@ def load_search_demand_queue() -> list[dict]:
         topic = _clean_topic(item.get("angle") or item.get("topic", ""))
         if not topic:
             return None
-        record = _topic_record(topic, "fr_search_demand", pillar=item.get("pillar") or "reflexes_du_corps")
+        record = _topic_record(topic, "fr_search_demand", pillar=item.get("pillar") or "dark_psychology")
         record.update(
             {
                 "series_number": item.get("series_number", "DEM"),
@@ -833,7 +833,7 @@ def get_trending_topic(
     never force unrelated news or workplace drama into a science channel.
     Set ``REQUIRE_DAILY_TREND=true`` only for a deliberate live-trend campaign.
     """
-    strategy = os.environ.get("TOPIC_STRATEGY", "body_glitch_series").strip().lower()
+    strategy = os.environ.get("TOPIC_STRATEGY", "dark_psychology_series").strip().lower()
     require_daily_trend = os.environ.get("REQUIRE_DAILY_TREND", "false").lower() == "true"
 
     # Dynamic competitor viral hijacker & real-time search trends strategy for France
@@ -843,9 +843,9 @@ def get_trending_topic(
         chosen = get_hijacked_viral_topic_fr(exclude)
         return chosen if return_metadata else str(chosen["topic"])
 
-    # The Body Glitch launch is deliberately isolated from noisy general
+    # The Dark Psychology launch is deliberately isolated from noisy general
     # trend feeds. This gives YouTube 500 tightly consistent audience signals.
-    if strategy in {"body_glitch_series", "body_glitch_series_fr"}:
+    if strategy in {"dark_psychology_series", "dark_psychology_series_fr"}:
         # 🚀 WINNER-CLONING FASTLANE (2026-08 audit+): when the daily
         # intelligence sync finds an over-performer, 1 adjacent derived topic
         # per winner waits in data/winner_fastlane.json (TTL 4 days). Cloning
@@ -1067,8 +1067,8 @@ def get_trending_topic(
             chosen = _pick_by_retention_class(series_topics, history=cached_history)
         else:
             chosen = random.choice(get_body_glitch_topics())
-            logger.warning("All Body Glitch topics were excluded; restarting the 500-topic series.")
-        logger.info("Selected Body Glitch #%s: %s", chosen.get("series_number"), chosen["topic"])
+            logger.warning("All Dark Psychology topics were excluded; restarting the 500-topic series.")
+        logger.info("Selected Dark Psychology #%s: %s", chosen.get("series_number"), chosen["topic"])
         return chosen if return_metadata else str(chosen["topic"])
 
     records: list[dict] = []

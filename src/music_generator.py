@@ -1,4 +1,4 @@
-"""AI-generated viral dark-science background music (Neuro-Somaa, FR).
+"""AI-generated dark psychology mystery background music (Neuro-Somaa, FR).
 
 2026-08-20: ported from the Khateb-Ishq sad-poetry music engine and
 retuned for Neuro-Somaa's brand: mystery/medical documentary BGM rather
@@ -31,12 +31,13 @@ POLL_INTERVAL = 8
 # Prompt crafting — viral dark-science bed template + theme words
 # ---------------------------------------------------------------------------
 _BASE_PROMPT = (
-    "Cinematic dark-science documentary instrumental, haunting emotional "
-    "minor-key piano melody with soft atmospheric strings, subtle deep "
-    "ambient pulse and delicate clockwork texture in the background, slow "
-    "{bpm} BPM, mysterious and thoughtful, French science-YouTube viral "
-    "aesthetic, instrumental only, no vocals, no loud drums, no "
-    "percussion, smooth and seamless loop-friendly, studio quality"
+    "Cinematic dark psychology documentary instrumental, deep emotional "
+    "minor-key piano melody with haunting atmospheric strings, subtle "
+    "tension pulse and delicate mysterious texture in the background, slow "
+    "{bpm} BPM, psychological thriller atmosphere, contemplative and revealing, "
+    "French psychology-YouTube viral aesthetic, instrumental only, no vocals, "
+    "no loud drums, no percussion, smooth and seamless loop-friendly, "
+    "studio quality, enigmatic and thought-provoking"
 )
 
 _MUSIC_GEN_URL = "https://modelslab.com/api/v6/voice/music_gen"

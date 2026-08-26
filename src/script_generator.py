@@ -586,7 +586,7 @@ def _viral_inspiration() -> str:
 def _default_prompt(topic: str) -> str:
     """Build a French-France short-form script brief."""
     _series = os.environ.get("CONTENT_SERIES", "").lower()
-    body_glitch_mode = _series == "body_glitches_fr"
+    body_glitch_mode = _series in ("body_glitches_fr", "dark_psychology_fr")
     evolution_mode = _series == "body_evolution_fr"
     surprise_mode = _series == "faits_surprenants_fr"
     series_rules = (
@@ -1238,7 +1238,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
             f"sens, frisson, tressaille, battement, fourmille..."
         )
 
-    # SCENE 2 — must DELIVER, not stall. V4 (BODY_GLITCH_V4_ANSWER_FIRST)
+    # SCENE 2 — must DELIVER, not stall. V1 (DARK_PSYCH_V1_VERY_FIRST)
         # moved the answer to scene 2; this check previously demanded a
         # QUESTION there, directly contradicting the prompt and rewarding the
         # exact "setup drags on" pattern that loses viewers at scene 2.2.

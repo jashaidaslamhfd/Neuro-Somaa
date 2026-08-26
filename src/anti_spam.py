@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 # Words that are expected to repeat across EVERY video in this niche (brand
 # hooks, body/science vocabulary, filler). Counting these toward similarity
 # would flag two genuinely different topics as "near-duplicate" just because
-# they're both Body Glitch explainers — the opposite of what we want. Only
+# they're both Dark Psychology explainers — the opposite of what we want. Only
 # the topic-specific vocabulary should drive the similarity score.
 _NICHE_STOPWORDS = {
     "le",

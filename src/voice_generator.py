@@ -82,14 +82,14 @@ def _env_float(name: str, default: float, minimum: float, maximum: float) -> flo
     return value
 
 
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.30, 0.0, 1.0)
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.35, 0.0, 1.0)
 CHATTERBOX_CFG_WEIGHT = _env_float("CHATTERBOX_CFG_WEIGHT", 0.45, 0.0, 1.0)
 CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.55, 0.05, 1.5)
 
 # Chatterbox has no native speed control. atempo changes tempo while keeping
 # pitch, so 0.96 is slightly calmer than normal without sounding slow or
 # artificial. FFmpeg accepts 0.5–2.0 for one atempo filter.
-CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
+CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.93, 0.5, 2.0)
 
 # ── 2026-08-17: MATURE VOICE PROFILE (fix "child-like voice" report) ──
 # The built-in Chatterbox default voice is young/light-sounding. Until the
@@ -99,8 +99,8 @@ CHATTERBOX_TEMPO = _env_float("CHATTERBOX_TEMPO", 0.96, 0.5, 2.0)
 #   VOICE_MATURE_TEMPO           = slightly calmer delivery (authority)
 # When VOICE_REFERENCE_PATH is a usable clone, maturing is SKIPPED so the
 # creator's own voice is never altered.
-VOICE_MATURE_PITCH_SEMITONES = _env_float("VOICE_MATURE_PITCH_SEMITONES", -4.0, -6.0, 0.0)
-VOICE_MATURE_TEMPO = _env_float("VOICE_MATURE_TEMPO", 0.92, 0.75, 1.05)
+VOICE_MATURE_PITCH_SEMITONES = _env_float("VOICE_MATURE_PITCH_SEMITONES", -5.0, -6.0, 0.0)
+VOICE_MATURE_TEMPO = _env_float("VOICE_MATURE_TEMPO", 0.90, 0.75, 1.05)
 VOICE_MATURE_ENABLED = os.environ.get("VOICE_MATURE_ENABLED", "true").lower() in ("1", "true", "yes", "on")
 
 
@@ -201,10 +201,10 @@ _DELIVERY_PROFILES = {
     # Chatterbox has no native speed argument, so this multiplier is applied
     # post-synthesis below. 1.15x keeps a seven-word hook inside the 3.0s
     # information-density window without rushing the body narration.
-    "hook": 1.15,  # energetic opening — the first 2-3s win the scroll
-    "question": 0.94,  # a human leans in and slows before/inside a "?"
-    "emphasis": 0.92,  # reveals/punchlines drawn out for weight
-    "neutral": 1.00,
+    "hook": 1.10,  # mysterious opening — curiosity pull, not rush
+    "question": 0.88,  # dark psych questions are slower — the weight of revelation
+    "emphasis": 0.85,  # reveals/punchlines drawn out with gravitas
+    "neutral": 0.97,  # slightly calmer overall — mystery demands patience
 }
 _DELIVERY_JITTER = (-0.04, 0.04)  # tiny symmetric per-segment drift
 ENABLE_DELIVERY_VARIATION = os.environ.get("DELIVERY_VARIATION", "true").lower() in ("1", "true", "yes", "on")
@@ -220,7 +220,7 @@ def _delivery_multiplier(caption: str, index: int, total: int) -> float:
         profile = _DELIVERY_PROFILES["question"]
     elif any(
         k in caption.lower()
-        for k in ("imagine", "voilà pourquoi", "c'est pour ça", "pourtant", "tu vois", "et devine quoi")
+        for k in ("imagine", "voilà pourquoi", "c'est pour ça", "pourtant", "tu vois", "et devine quoi", "le secret", "ce qu'on ne te dit pas", "personne ne sait", "la vérité", "c'est ça qui est dingue", "sauf que", "mais voici le piège")
     ):
         profile = _DELIVERY_PROFILES["emphasis"]
     else:

@@ -106,11 +106,10 @@ TARGET_MAX_SEC = _env_float("TARGET_MAX_SECONDS", _POLICY_MAX)
 # RETENTION OPTIMIZATIONS
 CAPTION_Y_FRACTION = 0.52
 WORD_MIN_DURATION = 0.12
-# 2026-08-15: 7% made the music effectively inaudible on most playback
-# devices (users reported 'no background music at all'). 18% lands in the
-# professional Shorts band (15-20% of full scale after ducking): clearly
-# present, never competes with the narration. Override via MUSIC_VOLUME env.
-MUSIC_VOLUME = float(os.environ.get("MUSIC_VOLUME", "0.18"))
+# 2026-08-26: 18% is the sweet spot — dark psychology needs slightly
+# MORE atmospheric music than body science to set the mood, but still
+# never competes with narration. Override via MUSIC_VOLUME env.
+MUSIC_VOLUME = float(os.environ.get("MUSIC_VOLUME", "0.22"))
 MUSIC_SAMPLE_RATE = 24000
 MUSIC_DIR = "assets/music"
 USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lower() != "false"
@@ -119,7 +118,7 @@ USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lo
 CAPTION_FONT_PATH = os.environ.get(
     "CAPTION_FONT_PATH", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 )
-CAPTION_FONT_SIZE = 72
+CAPTION_FONT_SIZE = 68
 CAPTION_STROKE_W = 4
 CAPTION_MAX_WORDS_PER_LINE = 2
 CAPTION_MIN_FONT_SIZE = 40

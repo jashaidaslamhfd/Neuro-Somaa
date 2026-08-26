@@ -34,7 +34,7 @@ CTR_TITLE_MAX_CHARS = 55
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 CTR_TIMEOUT = 45
 
-# Common phenomenon phrases per Body Glitch topic, normalised into a clean
+# Common phenomenon phrases per Dark Psychology topic, normalised into a clean
 # French noun phrase. "pourquoi vos genoux craquent" -> "vos genoux craquent".
 _STARTER_RE = re.compile(
     r"^(pourquoi|voici pourquoi|comprendre pourquoi|la science derrière|"

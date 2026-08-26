@@ -37,18 +37,14 @@ REQUEST_TIMEOUT = 30
 _fallback_lock = threading.Lock()
 
 DARK_STYLE_SUFFIX = (
-    "clean cinematic documentary lighting, realistic human detail, sharp focus, "
-    "crisp high-resolution detail, natural color, professional camera quality, "
+    "clean cinematic documentary lighting, dramatic psychological mood, sharp focus, "
+    "crisp high-resolution detail, deep purple-amber tones, professional camera quality, "
     "vertical composition, no text, no watermark, not blurry, not dull, "
-    # Anti-gore / anti-horror. Added 2026-07-27 after a published Short
-    # ("Pourquoi le sursaut du corps en s'endormant ?") shipped a
-    # blood-spattered horror face as its opening visual. The prompt asked for
-    # "dark/moody", which several providers happily read as horror. A calm
-    # French science channel must never look like a shock channel: it is
-    # off-brand and it puts advertiser suitability at risk.
+    # Anti-gore / anti-horror / anti-cheesy. Dark Psychology channel must
+    # look sophisticated and mysterious, never cheap or scary.
     "no blood, no gore, no wounds, no injury, no horror, no scary face, "
-    "no zombie, no monster, no body paint, no distorted anatomy, "
-    "safe for all audiences, medically respectful, educational tone"
+    "no zombie, no monster, no distorted anatomy, no cliched silhouettes, "
+    "safe for all audiences, psychological documentary tone, intellectual mood"
 )
 
 # Words that must never reach a stock-footage/image search on this channel.
@@ -81,6 +77,20 @@ UNSAFE_QUERY_TERMS = {
     "creepy",
     "violence",
     "violent",
+    # Dark psych additions — prevent shock/mystery from pulling creepy results
+    "kidnapping",
+    "enlèvement",
+    "torture",
+    "abus",
+    "psycho",
+    "serial killer",
+    "tueur",
+    "meurtre",
+    "murder",
+    "menace",
+    "threat",
+    "weapon",
+    "arme",
 }
 
 FALLBACK_POOL_DIR = "assets/fallback_images"
@@ -261,53 +271,71 @@ def _scene_theme(scene_text: str) -> str:
     """Pick a visual theme from scene keywords so the procedural fallback
     produces scene-aware visuals instead of the same generic pattern every
     scene. Cheap keyword -> theme mapping; returns 'generic' if nothing
-    matches. This is what fixes the 'one same pattern image' complaint."""
+    matches. Updated for Dark Psychology niche (2026-08-26)."""
     t = (scene_text or "").lower()
-    body = [
-        "corps",
-        "muscle",
-        "cerveau",
-        "nerf",
-        "sang",
-        "cœur",
-        "cœur",
-        "cellule",
-        "nerf",
-        "poitrine",
-        "ventre",
-        "bras",
-        "doigt",
-        "visage",
-        "peau",
-        "os",
-        "articul",
-        "genou",
-        "cou",
-        "epaule",
+    manipulation = [
+        "manipul",
+        "contrôle",
+        "controle",
+        "pouvoir",
+        "obéissance",
+        "obeissance",
+        "influence",
+        "influencer",
+        "séduction",
+        "suggestion",
+        "charme",
     ]
-    brain = [
+    cognition = [
         "cerveau",
-        "neurone",
-        "esprit",
+        "biais",
+        "cognitif",
         "pensée",
         "pense",
-        "memoire",
-        "réflexe",
-        "reflexe",
-        "sommeil",
-        "reve",
-        "déjà",
+        "mémoire",
+        "souvenir",
+        "illusion",
+        "perception",
+        "décision",
+        "raisonnement",
     ]
-    night = ["nuit", "sommeil", "reve", "lune", "obscur"]
-    warning = ["danger", "alerte", "réagit", "reagit", "signal", "stress", "peur", "douleur", "blessure"]
-    if any(w in t for w in brain):
-        return "brain"
-    if any(w in t for w in night):
-        return "night"
-    if any(w in t for w in warning):
-        return "alert"
-    if any(w in t for w in body):
-        return "body"
+    emotion = [
+        "peur",
+        "peur",
+        "amour",
+        "jalousie",
+        "honte",
+        "coupable",
+        "colère",
+        "colere",
+        "tristesse",
+        "joie",
+        "émotion",
+        "sentiment",
+        "rejet",
+    ]
+    shadow = [
+        "secret",
+        "caché",
+        "cache",
+        "invisible",
+        "mensonge",
+        "menteur",
+        "tromper",
+        "illusion",
+        "masque",
+        "ombre",
+        "noir",
+        "sombre",
+    ]
+    if any(w in t for w in manipulation):
+        return "manipulation"
+    if any(w in t for w in cognition):
+        return "cognition"
+    if any(w in t for w in shadow):
+        return "shadow"
+    if any(w in t for w in emotion):
+        return "emotion"
     return "generic"
 
 
@@ -343,15 +371,15 @@ def _layer_procedural(index, scene_text):
     # get a different colour mood, not the same pattern every time.
     palettes_by_theme = {
         # dark, mysterious
-        "generic": [((5, 5, 12), (15, 20, 40)), ((3, 3, 3), (8, 8, 12))],
-        # neural / brain — deep indigo -> violet
-        "brain": [((12, 6, 30), (40, 15, 90)), ((8, 4, 28), (30, 10, 70))],
-        # night — deep blue -> near-black
-        "night": [((2, 4, 18), (10, 20, 60)), ((1, 3, 14), (6, 14, 45))],
-        # alert / pain / stress — dark red -> ember
-        "alert": [((22, 3, 3), (70, 12, 6)), ((30, 4, 2), (90, 18, 8))],
-        # body / anatomy — dark teal -> deep green
-        "body": [((3, 14, 12), (8, 40, 30)), ((4, 12, 16), (10, 30, 45))],
+        "generic": [((8, 4, 16), (20, 12, 40)), ((5, 3, 10), (12, 8, 25))],
+        # manipulation — deep purple -> crimson
+        "manipulation": [((18, 4, 20), (55, 10, 50)), ((12, 3, 18), (40, 8, 40))],
+        # cognition / brain — indigo -> violet
+        "cognition": [((10, 6, 28), (35, 14, 85)), ((7, 4, 24), (28, 10, 65))],
+        # shadow / secrets — near-black -> deep grey
+        "shadow": [((4, 3, 8), (14, 10, 28)), ((2, 2, 6), (10, 8, 22))],
+        # emotion — dark warm -> amber shadows
+        "emotion": [((16, 8, 4), (50, 25, 10)), ((12, 6, 3), (38, 18, 8))],
     }
     _palettes = palettes_by_theme.get(theme, palettes_by_theme["generic"])
     top, bottom = _palettes[seed % len(_palettes)]
@@ -380,7 +408,22 @@ def _layer_procedural(index, scene_text):
     bokeh = [(60, 90, 170), (120, 60, 60), (50, 50, 90), (110, 60, 160), (160, 50, 40), (40, 70, 140)]
     accent = (200, 220, 255)
 
-    if theme == "brain":
+    if theme == "manipulation":
+        # invisible puppet strings / control threads radiating from center
+        cx, cy = W // 2, H // 3
+        for _ in range(22):
+            angle = rng.uniform(0, 6.28)
+            length = rng.randint(200, 600)
+            ex = int(cx + length * __import__("math").cos(angle))
+            ey = int(cy + length * __import__("math").sin(angle))
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.line([cx, cy, ex, ey], fill=tuple(int(v * 0.45) for v in col), width=rng.randint(2, 6))
+        for _ in range(18):
+            x, y = rng.randint(0, W), rng.randint(0, H)
+            r = rng.randint(8, 35)
+            col = bokeh[rng.randint(0, len(bokeh) - 1)]
+            dr.ellipse([x - r, y - r, x + r, y + r], fill=tuple(int(v * 0.3) for v in col))
+    elif theme == "cognition":
         # neural network: branching arcs + node clusters
         for _ in range(26):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
@@ -392,42 +435,32 @@ def _layer_procedural(index, scene_text):
             r = rng.randint(10, 60)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
             dr.ellipse([x - r, y - r, x + r, y + r], fill=tuple(int(v * 0.55) for v in col))
-    elif theme == "alert":
-        # concentric warning pulses radiating from center
+    elif theme == "shadow":
+        # concentric mystery rings — secrets radiating outward
         cx, cy = W // 2, H // 2
-        for k in range(7):
-            r = (k + 1) * (H // 8)
-            dr.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(220, 60, 40), width=rng.randint(4, 10))
-        for _ in range(24):
+        for k in range(6):
+            r = (k + 1) * (H // 9)
+            dr.ellipse([cx - r, cy - r, cx + r, cy + r], outline=(40, 30, 60), width=rng.randint(3, 8))
+        for _ in range(20):
             x1, y1 = rng.randint(0, W), rng.randint(0, H)
-            x2, y2 = x1 + rng.randint(-120, 120), y1 + rng.randint(-120, 120)
-            dr.line([x1, y1, x2, y2], fill=(230, 90, 60), width=3)
-    elif theme == "night":
-        # moon + horizon silhouette
-        mx, my, mr = rng.randint(200, W - 200), rng.randint(200, 600), rng.randint(120, 220)
-        dr.ellipse([mx - mr, my - mr, mx + mr, my + mr], fill=tuple(int(v * 0.4) for v in accent))
-        for _ in range(40):
-            sx = rng.randint(0, W)
-            sy = rng.randint(H // 2, H)
-            sh = rng.randint(80, 300)
-            col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.polygon([(sx, sy), (sx + 90, sy), (sx + 45, sy - sh)], fill=tuple(int(v * 0.45) for v in col))
-    elif theme == "body":
-        # flowing bloodstream / cellular filaments
-        for _ in range(18):
+            x2, y2 = x1 + rng.randint(-200, 200), y1 + rng.randint(-200, 200)
+            dr.line([x1, y1, x2, y2], fill=(60, 40, 80), width=2)
+    elif theme == "emotion":
+        # flowing emotional waves — warm/cool contrast
+        for _ in range(14):
             pts = []
             cx, cy = rng.randint(0, W), rng.randint(0, H)
-            for _j in range(6):
-                cx += rng.randint(-120, 120)
-                cy += rng.randint(60, 160)
+            for _j in range(5):
+                cx += rng.randint(-150, 150)
+                cy += rng.randint(80, 180)
                 pts.append((cx, cy))
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.line(pts, fill=tuple(int(v * 0.5) for v in col), width=rng.randint(6, 16), joint="curve")
-        for _ in range(16):
+            dr.line(pts, fill=tuple(int(v * 0.55) for v in col), width=rng.randint(5, 14), joint="curve")
+        for _ in range(12):
             x, y = rng.randint(0, W), rng.randint(0, H)
-            r = rng.randint(20, 70)
+            r = rng.randint(15, 55)
             col = bokeh[rng.randint(0, len(bokeh) - 1)]
-            dr.ellipse([x - r, y - r, x + r, y + r], outline=tuple(int(v * 0.6) for v in col), width=4)
+            dr.ellipse([x - r, y - r, x + r, y + r], outline=tuple(int(v * 0.5) for v in col), width=3)
     else:
         # generic: bokeh lights
         for _ in range(18):
@@ -526,7 +559,7 @@ def _layer1_playwright_screenshot(index, scene_text):
     above; a raw webpage screenshot doesn't match the channel's visual style."""
     from playwright.sync_api import sync_playwright
 
-    query = _safe_query(scene_text, "mystery science")[:100]
+    query = _safe_query(scene_text, "dark psychology mystery")[:100]
     screenshot_bytes = None
 
     with sync_playwright() as p:
@@ -648,7 +681,7 @@ def _validate_clip_first_frame(clip_path: str, source_name: str) -> None:
 
 
 def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
-    query = _safe_query(scene_text, "mystery science")[:80]
+    query = _safe_query(scene_text, "dark psychology mystery")[:80]
     if source == "pexels":
         key = os.environ.get("PEXELS_API_KEY")
         if not key:
@@ -713,7 +746,7 @@ def _stock_photo_request(index, scene_text, source: str, used_fallbacks: set):
 
 def _stock_video_request(index, scene_text, source: str, used_fallbacks: set):
     """Download a licensed stock B-roll clip for a scene when available."""
-    query = _safe_query(scene_text, "human body science")[:80]
+    query = _safe_query(scene_text, "psychology behavior mind")[:80]
     # 2026-08-21: orientation + quality matching. The canvas is 1080x1920
     # (9:16 vertical). A landscape clip would lose ~60% of its width to the
     # center-crop in _cover_video_clip and read as a blurry strip; a

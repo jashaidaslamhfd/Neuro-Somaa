@@ -52,24 +52,24 @@ SIGNATURE_IDENTITY = (
 # treatments. Picked deterministically from the video topic so one video is
 # cohesive and the channel stays varied.
 SIGNATURE_STYLES = [
-    # 1: cold lab specimen — the clinical discovery shot
-    "cold clinical specimen lighting, sterile glass-slide depth, "
-    "crisp white key light on teal darkness, forensic clarity",
-    # 2: living tissue glow — the inside-the-body shot
-    "soft bioluminescent inner glow, translucent tissue translucency, "
-    "warm ember core under cold teal surface, living texture",
-    # 3: microscope world — the infinite-magnification shot
-    "electron-microscope cinematic rendering, fibre and cell-wall detail, "
-    "silver rim light, scientific instrument precision",
-    # 4: neural night — the brain/mind shot
-    "midnight neural network luminescence, synapse spark trails, "
-    "deep indigo-teal gradient, quiet electrical energy",
-    # 5: noir anatomy — the dramatic discovery shot
-    "chiaroscuro noir anatomy, single dramatic beam through darkness, "
-    "heavy shadow weight, museum-of-nature stillness",
-    # 6: dawn biology — the calm revelation shot
-    "soft dawn-grey natural window light meeting teal shadow, "
-    "gentle morning atmosphere, calm scientific revelation, serene clarity",
+    # 1: noir psychology — the dramatic reveal shot
+    "dark noir psychology lighting, single dramatic amber beam through ink darkness, "
+    "heavy chiaroscuro shadow weight, intimate psychological revelation",
+    # 2: neural night — the mind/brain shot
+    "midnight neural network luminescence, synapse spark trails on deep purple, "
+    "dark amethyst gradient, quiet electrical energy in shadows",
+    # 3: shadow mirror — the self-reflection shot
+    "dark mirror reflection aesthetic, subtle face silhouette in purple haze, "
+    "introspective shadow play, psychological depth of field",
+    # 4: invisible threads — the manipulation shot
+    "invisible threads of influence, translucent puppet-string light rays, "
+    "deep crimson-purple tones, subtle tension in composition",
+    # 5: cognitive void — the thought-pattern shot
+    "cognitive void landscape, abstract thought patterns dissolving into darkness, "
+    "dark indigo atmosphere, minimalist psychological tension",
+    # 6: truth lantern — the revelation shot
+    "warm amber lantern glow cutting through obsidian darkness, "
+    "single truth revelation light, intimate documentary revelation",
 ]
 
 _IDENTITY_TAIL = (

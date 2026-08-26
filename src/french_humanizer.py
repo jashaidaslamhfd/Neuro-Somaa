@@ -40,6 +40,10 @@ _CLICHE_DROPS = (
     r"[ÀA] noter que\s+",
     r"[Ee]n conclusion\s*,?\s*",
     r"[Ee]n définitive\s*,?\s*",
+    # Dark psychology clichés
+    r"[Cc]ela fait partie de la nature humaine\s+",
+    r"[Ll]a vérité est que\s+",
+    r"[Cc]e que les psychologues savent\s+",
 )
 
 # ── 2/3/4. Register rewrite tables (longest match first) ─────────────────
@@ -157,6 +161,21 @@ _FEM_NOUNS = {
     "minute",
     "heure",
     "seconde",
+    # Dark psychology additions
+    "manipulation",
+    "jalousie",
+    "honte",
+    "coupable",
+    "colère",
+    "tristesse",
+    "confiance",
+    "relation",
+    "dépendance",
+    "peur",
+    "angoisse",
+    "anxiété",
+    "illusion",
+    "approbation",
 }
 _MASC_NOUNS = {
     "corps",
@@ -203,6 +222,21 @@ _MASC_NOUNS = {
     "écran",
     "lit",
     "bureau",
+    # Dark psychology additions
+    "pouvoir",
+    "contrôle",
+    "mensonge",
+    "secret",
+    "masque",
+    "silence",
+    "biais",
+    "réflexe",
+    "instinct",
+    "comportement",
+    "attachement",
+    "rejet",
+    "orgueil",
+    "pardon",
 }
 
 # ── 5. sentence-boundary repair ───────────────────────────────────────────

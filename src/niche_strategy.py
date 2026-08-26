@@ -559,7 +559,7 @@ BASE_TAGS = [
 TARGET_WORD_RANGE = (90, 120)
 MAX_TAGS = 15
 MAX_TITLE_LENGTH = 55
-SCENES_PER_SCRIPT = 8  # Body Glitch 40-55 second series policy
+SCENES_PER_SCRIPT = 8  # Dark Psychology 20-30 second series policy
 
 # ============================================
 # 9. MEDICAL RED FLAGS

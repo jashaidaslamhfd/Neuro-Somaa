@@ -388,7 +388,7 @@ def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
         "angle": angle,
         "thumbnail_text": thumbnail_text,
         "demand_note": notes,
-        "pillar": "reflexes_du_corps",
+        "pillar": "dark_psychology",
         "mined_at": datetime.now(UTC).isoformat(),
     }
 

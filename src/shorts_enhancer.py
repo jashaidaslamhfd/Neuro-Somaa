@@ -64,17 +64,17 @@ def score_hook_detailed(hook: str) -> dict:
         score += 25
 
     direct = any(
-        re.search(rf"\b{w}\b", hook.lower()) for w in ("vous", "votre", "corps", "cerveau", "coeur", "cœur")
+        re.search(rf"\b{w}\b", hook.lower()) for w in ("tu", "ton", "ta", "tes", "cerveau", "psychologie", "manipulation", "secret")
     )
     checks.append(
-        {"name": "viewer_or_subject", "passed": direct, "note": "Names the viewer or a clear body subject."}
+        {"name": "viewer_or_subject", "passed": direct, "note": "Names the viewer or a clear psychology subject."}
     )
     if direct:
         score += 15
 
     specific = bool(
         re.search(
-            r"\b(sommeil|lumière|mémoire|coeur|cœur|cerveau|sang|nerf|hormone|cellule|muscle|peau|ventre|énergie|souffle)\w*\b",
+            r"\b(manipulation|cerveau|biais|pouvoir|secret|peur|mensonge|contrôle|obéissance|relation|amour|jalousie|rejet|émotion|comportement|pensée|mémoire|influence)\w*\b",
             hook.lower(),
         )
     )
@@ -89,7 +89,7 @@ def score_hook_detailed(hook: str) -> dict:
         score += 20
 
     clickbait = any(
-        x in hook.lower() for x in ("les médecins cachent", "secret choquant", "incroyable", "100 % vrai")
+        x in hook.lower() for x in ("les médecins cachent", "secret choquant", "incroyable", "100 % vrai", "ce qu'on ne te dit pas", "interdit de montrer")
     )
     checks.append(
         {"name": "no_fake_hype", "passed": not clickbait, "note": "Avoids manipulative or unsupported hype."}
