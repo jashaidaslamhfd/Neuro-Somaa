@@ -1108,10 +1108,8 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # is the #1 comment signal for Shorts ranking. CTA without "?" = no comments.
     cta_text = (script_data.get("cta") or "").strip()
     if cta_text and "?" not in cta_text:
-        issues.append(
         # 2026-08-25: Downgraded to advisory — LLM sometimes omits "?"
         logger.info("CTA advisory: no question mark in '%s'", cta_text[:60])
-        )
 
     # main.py replaces temporary LLM titles with the deterministic Body
     # Glitch episode title before SEO/upload. Do not burn API retries over
