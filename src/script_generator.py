@@ -967,9 +967,9 @@ def _normalize_scenes(script_data: dict) -> dict:
         visual = s.get("visual") or s.get("description") or s.get("image") or ""
         caption = s.get("caption") or s.get("text") or s.get("speech") or ""
 
-        # Clean and validate
-        visual = visual.strip()
-        caption = caption.strip()
+        # Clean and validate — None-safe
+        visual = (visual or "").strip()
+        caption = (caption or "").strip()
 
         if visual and caption:
             normalized.append({"visual": visual, "caption": caption})
@@ -980,6 +980,8 @@ def _normalize_scenes(script_data: dict) -> dict:
     # Auto-fix: trim any scene that's over its word limit instead of
     # spending a full LLM retry on something a simple trim already solves.
     # Scene 1 (the hook) has a tighter cap - see _validate_script for why.
+    # Drop any scenes with empty/None caption after normalization
+    normalized = [s for s in normalized if (s.get("caption") or "").strip()]
     for i, scene in enumerate(normalized):
         limit = HOOK_MAX_WORDS if i == 0 else MAX_SCENE_WORDS
         scene["caption"] = _trim_to_word_limit(scene["caption"], limit)
@@ -1029,7 +1031,7 @@ def _normalize_scenes(script_data: dict) -> dict:
         # gates are trying to enforce), so this is worth knowing per-video,
         # not just silently swallowed.
         leftovers = formality_leftovers(
-            script_data.get("voiceover", "") or " ".join(s["caption"] for s in normalized)
+            script_data.get("voiceover", "") or " ".join(s.get("caption", "") or "" for s in normalized)
         )
         if leftovers > 0:
             import logging as _log
@@ -1053,7 +1055,7 @@ def _normalize_scenes(script_data: dict) -> dict:
         _log.getLogger(__name__).warning("Humanizer skipped: %s", _hum_exc)
 
     script_data["scenes"] = normalized
-    script_data["voiceover"] = " ".join(s["caption"] for s in normalized)
+    script_data["voiceover"] = " ".join(s.get("caption", "") or "" for s in normalized)
 
     # Auto-fix: the scored hook must be the exact line viewers hear first.
     # Rather than relying on the LLM to retype the hook identically to
@@ -1064,7 +1066,7 @@ def _normalize_scenes(script_data: dict) -> dict:
     if normalized:
         normalized[0]["caption"] = _ensure_french_hook_budget(normalized[0]["caption"])
         script_data["hook"] = normalized[0]["caption"]
-        script_data["voiceover"] = " ".join(s["caption"] for s in normalized)
+        script_data["voiceover"] = " ".join(s.get("caption", "") or "" for s in normalized)
 
     return script_data
 
@@ -1297,7 +1299,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         + " "
         + (script_data.get("voiceover") or "")
         + " "
-        + " ".join(s.get("caption", "") for s in scenes)
+        + " ".join((s.get("caption", "") or "") for s in scenes)
     ).lower()
     for phrase in ai_telltales:
         if phrase in full_text:
