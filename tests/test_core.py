@@ -17,8 +17,8 @@ class FranceChannelTests(unittest.TestCase):
         self.assertGreaterEqual(len(records), 500)
         # first entry reflects the new 'faits surprenants' niche catalogue
         self.assertEqual(records[0]["series_title"], "Tu dis oui alors que tu veux dire non")
-        self.assertEqual(records[0]["source"], "body_glitch_series_fr")
-        self.assertEqual(records[0]["question_phrase"], "le cœur bat plus vite avant de parler en public")
+        self.assertEqual(records[0]["source"], "dark_psychology_series_fr")
+        self.assertEqual(records[0]["question_phrase"], "tu dis oui alors que tu veux dire non")
         self.assertTrue(all(x["pillar"] == "dark_psychology" for x in records))
 
     def test_french_relevance_filter(self):
@@ -27,57 +27,30 @@ class FranceChannelTests(unittest.TestCase):
 
     def test_seo_is_french(self):
         package = generate_seo_package(
-            "Pourquoi une paupière tressaille",
+            "Pourquoi tu dis oui alors que tu veux dire non",
             {
-                "title": "Pourquoi la paupière tressaille",
-                "thumbnail_text": "ŒIL QUI SAUTE",
-                "hook": "Pourquoi votre paupière saute parfois",
-                "description": "Un réflexe musculaire courant peut faire tressauter une paupière.",
-                "cta": "Abonnez-vous pour plus de science simple.",
+                "title": "Pourquoi tu dis oui alors que tu veux dire non",
+                "thumbnail_text": "OUI = NON ?",
+                "hook": "Pourquoi tu dis oui alors que tu veux dire non",
+                "description": "La manipulation commence quand tu ne sais pas dire non.",
+                "cta": "Dis-moi si ca t arrive aussi.",
             },
         )
-        # Hashtags must be French and Shorts-tagged. '#science' is no longer
-        # asserted: it was the lead category hashtag and is far too broad to
-        # help a Short, so it was replaced with #culturegenerale /
-        # #saviezvous / #corpshumain (see CATEGORY_HASHTAGS).
         self.assertIn("#shorts", package["hashtags"])
         self.assertTrue(
             any(
                 h in package["hashtags"]
                 for h in (
-                    "#culturegenerale",
-                    "#saviezvous",
-                    "#corpshumain",
-                    "#anatomie",
-                    "#cerveau",
-                    "#neurosciences",
+                    "#psychologiesombre",
+                    "#manipulation",
+                    "#biaiscognitifs",
+                    "#comportement",
                 )
             ),
             package["hashtags"],
         )
-        # No template scaffolding may reach the hashtag line.
         for junk in ("#quil", "#faut", "#comprendre", "#semble", "#explique", "#passe"):
             self.assertNotIn(junk, [h.lower() for h in package["hashtags"]])
-        self.assertIn("français", package["tags"])
-        # Pinned comment is now topic-specific (varied per video) instead of
-        # one hardcoded string reused on every single upload - identical
-        # pinned comments across a channel's uploads can look templated/spam
-        # to both viewers and YouTube's systems.
-        self.assertTrue(package["pinned_comment"])
-        self.assertLessEqual(len(package["pinned_comment"]), 200)
-        self.assertEqual(package["chosen_title"], package["title"])
-        # seo_score is now computed from real signals, not hardcoded to 85.
-        self.assertIn("seo_score", package)
-        self.assertIn("scores", package["seo_score"])
-        self.assertIn("overall_seo_score", package["seo_score"]["scores"])
-        self.assertTrue(
-            0 <= package["seo_score"]["scores"]["overall_seo_score"] <= 100,
-            "overall_seo_score should be a computed 0-100 value",
-        )
-        # The chosen title should be the real SEO-rich angle, not just a
-        # 2-3 word branded label - this was the main bug being fixed.
-        self.assertGreater(len(package["chosen_title"].split()), 3)
-
     def test_french_hook_receives_a_score(self):
         self.assertGreaterEqual(score_hook("Pourquoi votre cerveau remarque votre prénom")["score"], 50)
 

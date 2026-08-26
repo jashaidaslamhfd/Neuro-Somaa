@@ -1241,7 +1241,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     cta = script_data.get("cta") or default_cta
     cta = cta.strip()
 
-    cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Science"])
+    cat_hashtags = CATEGORY_HASHTAGS.get(category, CATEGORY_HASHTAGS["Psychology"])
 
     # Only turn a keyword into a hashtag if it is a real search term.
     # `keys` comes from _keywords(), which strips STOP words from the topic —
@@ -1315,7 +1315,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
     blocks.append(" ".join(hashtags))
     description = "\n\n".join(b for b in blocks if b).strip()
 
-    cat_tags = CATEGORY_TAGS.get(category, CATEGORY_TAGS["Science"])
+    cat_tags = CATEGORY_TAGS.get(category, CATEGORY_TAGS["Psychology"])
     competitor_tags = _safe_competitor_tags(topic, category, competitor_intel)
     locale_tags = LOCALE_TAGS if os.environ.get("FRANCOPHONE_LOCALE_TAGS", "true").lower() == "true" else []
     # French-only guarantee: drop any English tag that slips in from a category
@@ -1342,7 +1342,7 @@ def generate_seo_package(topic: str, script_data: dict) -> dict:
         "hashtags": hashtags,
         "thumbnail_text": _fr_thumbnail_hook(script_data, series_title, chosen_title),
         "pinned_comment": pinned_comment,
-        "playlist_suggestion": PLAYLISTS_BY_CATEGORY[category],
+        "playlist_suggestion": PLAYLISTS_BY_CATEGORY.get(category, "Psychologie Sombre"),
         # Previously hardcoded to 85 (misleading in logs). Now derived from
         # real signals: title length (30-60 chars reads best on mobile) and
         # tag breadth. Still a heuristic, not a guarantee.

@@ -82,7 +82,7 @@ def _env_float(name: str, default: float, minimum: float, maximum: float) -> flo
     return value
 
 
-CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.35, 0.0, 1.0)
+CHATTERBOX_EXAGGERATION = _env_float("CHATTERBOX_EXAGGERATION", 0.30, 0.0, 1.0)
 CHATTERBOX_CFG_WEIGHT = _env_float("CHATTERBOX_CFG_WEIGHT", 0.45, 0.0, 1.0)
 CHATTERBOX_TEMPERATURE = _env_float("CHATTERBOX_TEMPERATURE", 0.55, 0.05, 1.5)
 
@@ -201,7 +201,7 @@ _DELIVERY_PROFILES = {
     # Chatterbox has no native speed argument, so this multiplier is applied
     # post-synthesis below. 1.15x keeps a seven-word hook inside the 3.0s
     # information-density window without rushing the body narration.
-    "hook": 1.10,  # mysterious opening — curiosity pull, not rush
+    "hook": 1.15,  # energetic opening — curiosity pull
     "question": 0.88,  # dark psych questions are slower — the weight of revelation
     "emphasis": 0.85,  # reveals/punchlines drawn out with gravitas
     "neutral": 0.97,  # slightly calmer overall — mystery demands patience

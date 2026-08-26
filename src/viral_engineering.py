@@ -87,7 +87,7 @@ _LOOP_BRIDGES = (
     "Ton cerveau le refera dès que tu auras fini de regarder.",
     "Maintenant tu ne verras plus jamais ce moment pareil.",
     "La prochaine fois qu'on te manipulera... tu penseras à cette vidéo.",
-    "Et maintenant que tu le sais... tu ne pourras plus l'ignorer.",
+    "Et maintenant que tu le sais... ça change tout.",
 )
 
 

@@ -118,7 +118,7 @@ USE_COMPETITOR_INTEL = os.environ.get("USE_COMPETITOR_INTEL", "true").strip().lo
 CAPTION_FONT_PATH = os.environ.get(
     "CAPTION_FONT_PATH", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 )
-CAPTION_FONT_SIZE = 68
+CAPTION_FONT_SIZE = 72
 CAPTION_STROKE_W = 4
 CAPTION_MAX_WORDS_PER_LINE = 2
 CAPTION_MIN_FONT_SIZE = 40
