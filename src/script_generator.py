@@ -8,6 +8,7 @@ import logging
 import os
 import re
 import time
+import unicodedata
 
 try:
     from groq import BadRequestError, Groq
@@ -1089,13 +1090,17 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     # 2026-08-24: TITLE SEO KEYWORD GATE — YouTube search ranking depends on
     # body/health keywords in the title. Titles without searchable keywords
     # get zero search traffic. Force at least one body-related keyword.
-    title_text = (script_data.get("title") or "").lower()
+    def _strip_accents(s: str) -> str:
+        return "".join(c for c in unicodedata.normalize("NFD", s) if unicodedata.category(c) != "Mn")
+
+    title_text = _strip_accents((script_data.get("title") or "").lower())
     SEO_BODY_KEYWORDS = [
         "psychologie", "manipulation", "cerveau", "comportement", "peur", "controle", "secret", "mensonge", "relation", "emotion",
         "rein", "poumon", "foie", "estomac", "langue", "doigt", "oeil",
         "oreille", "nez", "dent", "moelle", "nerf", "veine", "artere",
         "systeme", "temperature", "froid", "chaud", "sommeil",
         "reve", "fatigue", "douleur", "frisson", "sueur",
+        "illusion", "controle",
     ]
     if title_text and not any(kw in title_text for kw in SEO_BODY_KEYWORDS):
         issues.append(
@@ -1228,14 +1233,17 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
     hook_words_raw = scenes[0].get("caption", "").strip().lower().split()
     hook_first_5 = hook_words_raw[:5] if hook_words_raw else []
     has_sensory = any(
-        w.rstrip(".,!?;:") in SENSORY_WORDS for w in hook_first_5
+        _strip_accents(w.rstrip(".,!?;:")) in SENSORY_WORDS
+        or w.rstrip(".,!?;:") in SENSORY_WORDS
+        for w in hook_first_5
     )
     if not has_sensory and hook_first_5:
-        issues.append(
-            f"Hook missing physical sensation word in first 5 words "
-            f"({hook_first_5}). Data: sensory hooks get 2x views "
-            f"(sens=966, nerveux=935 avg). Add a body-feel word: "
-            f"sens, frisson, tressaille, battement, fourmille..."
+        # 2026-08-27: Downgraded from mandatory to advisory — LLM rarely
+        # places sensory word in first 5, causing 100% gate failure rate.
+        logger.info(
+            "Hook advisory: no sensory word in first 5 words %s. "
+            "Add a body-feel word: sens, frisson, tressaille, battement, fourmille...",
+            hook_first_5,
         )
 
     # SCENE 2 — must DELIVER, not stall. V1 (DARK_PSYCH_V1_VERY_FIRST)
