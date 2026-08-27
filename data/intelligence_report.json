@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-26T21:14:35.717224+00:00",
+  "generated_at": "2026-08-27T14:26:16.674741+00:00",
   "n_videos_analyzed": 25,
   "truth_gate": {
     "hook_score": {
@@ -94,7 +94,7 @@
           "direction": "-"
         },
         {
-          "feature": "hour_sin",
+          "feature": "hour_cos",
           "coef": -0.0,
           "direction": "-"
         }
@@ -226,7 +226,7 @@
     "entries": 0,
     "ttl_hours": 96,
     "items": [],
-    "fastlane_path": "/tmp/Neuro-Somaa/data/winner_fastlane.json"
+    "fastlane_path": "/home/runner/work/Neuro-Somaa/Neuro-Somaa/data/winner_fastlane.json"
   },
   "schema_version": 1
 }
