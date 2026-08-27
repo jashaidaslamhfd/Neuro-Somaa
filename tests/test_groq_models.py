@@ -48,6 +48,22 @@ class GroqModelChainTests(unittest.TestCase):
         )
         self.assertEqual(chain, ["openai/gpt-oss-120b"])
 
+    def test_gemini_contents_normalize_openai_roles(self):
+        contents = script_generator._gemini_contents(
+            [
+                {"role": "system", "content": "Return JSON only."},
+                {"role": "user", "content": "Create a script."},
+                {"role": "assistant", "content": "Previous draft."},
+            ]
+        )
+        self.assertEqual([item["role"] for item in contents], ["user", "model"])
+        self.assertIn("SYSTEM INSTRUCTIONS", contents[0]["parts"][0]["text"])
+
+    def test_lenient_validator_call_is_supported(self):
+        valid, issues = script_generator._validate_script({}, lenient=True)
+        self.assertFalse(valid)
+        self.assertTrue(any(issue.startswith("Missing required field:") for issue in issues))
+
 
 if __name__ == "__main__":
     unittest.main()

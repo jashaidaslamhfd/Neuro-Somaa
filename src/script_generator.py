@@ -265,6 +265,32 @@ GEMINI_TEXT_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemin
 GEMINI_TIMEOUT = 60
 
 
+def _gemini_contents(messages):
+    """Convert OpenAI-style messages into Gemini's supported content roles.
+
+    Gemini accepts only ``user`` and ``model`` roles in ``contents``; system
+    messages must be folded into the user prompt when using this lightweight
+    REST endpoint. Keeping the conversion here makes the provider fallback
+    usable for the same prompts sent to Groq/OpenRouter.
+    """
+    system_text = []
+    contents = []
+    for message in messages:
+        role = message.get("role", "user")
+        text = str(message.get("content", ""))
+        if role == "system":
+            system_text.append(text)
+            continue
+        contents.append({"role": "model" if role == "assistant" else "user", "parts": [{"text": text}]})
+    if system_text:
+        instruction = "\n\nSYSTEM INSTRUCTIONS:\n" + "\n\n".join(system_text)
+        if contents:
+            contents[0]["parts"][0]["text"] = instruction + "\n\n" + contents[0]["parts"][0]["text"]
+        else:
+            contents.append({"role": "user", "parts": [{"text": instruction.strip()}]})
+    return contents
+
+
 def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
     """Call Google Gemini 2.5 Flash (free) when Groq + OpenRouter both fail.
 
@@ -278,12 +304,13 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
     try:
         import requests as _req
 
-        parts = []
-        for m in messages:
-            parts.append({"role": m["role"], "parts": [{"text": m["content"]}]})
+        parts = _gemini_contents(messages)
         payload = {"contents": parts}
         if temperature is not None:
-            payload["generationConfig"] = {"temperature": temperature}
+            payload["generationConfig"] = {
+                "temperature": temperature,
+                "responseMimeType": "application/json",
+            }
             if max_tokens is not None:
                 payload["generationConfig"]["maxOutputTokens"] = max_tokens
         resp = _req.post(
@@ -304,9 +331,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
             if "{" in text:
                 return text
             # Plain-text echo: re-ask with an explicit JSON-only instruction
-            parts2 = []
-            for m in messages:
-                parts2.append({"role": m["role"], "parts": [{"text": m["content"]}]})
+            parts2 = _gemini_contents(messages)
             parts2[-1]["parts"][0]["text"] += (
                 "\n\nCRITICAL: Respond with ONLY a raw JSON object "
                 "starting with '{' — no thinking, no markdown, "
@@ -1072,7 +1097,7 @@ def _normalize_scenes(script_data: dict) -> dict:
     return script_data
 
 
-def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
+def _validate_script(script_data: dict, *, lenient: bool = False) -> tuple[bool, list[str]]:
     """
     Validates script for quality and completeness.
 
@@ -1230,7 +1255,7 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
         "fige", "figé", "paralysé", "paralysie",
         "entends", "écoute", "entend",
     }
-    hook_words_raw = scenes[0].get("caption", "").strip().lower().split()
+    hook_words_raw = scenes[0].get("caption", "").strip().lower().split() if scenes else []
     hook_first_5 = hook_words_raw[:5] if hook_words_raw else []
     has_sensory = any(
         _strip_accents(w.rstrip(".,!?;:")) in SENSORY_WORDS
@@ -1246,24 +1271,29 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
             hook_first_5,
         )
 
-    # SCENE 2 — must DELIVER, not stall. V1 (DARK_PSYCH_V1_VERY_FIRST)
-        # moved the answer to scene 2; this check previously demanded a
-        # QUESTION there, directly contradicting the prompt and rewarding the
-        # exact "setup drags on" pattern that loses viewers at scene 2.2.
-    answer = scenes[1].get("caption", "").strip()
-    answer_norm = answer.lower()
-    starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
-    if not starts_with_answer:
-        # 2026-08-25: Downgraded to warning — LLM often starts
-        # scene 2 with subject pronoun; not fatal for retention.
-        logger.info(
-            "Scene 2 advisory: does not start with answer-first prefix. "
-            "Got: '%s'", answer_norm[:40],
-        )
-    if answer.endswith("?"):
-        issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
-    hook_concepts = _content_concepts(scenes[0].get("caption", ""))
-    tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
+        # SCENE 2 — must DELIVER, not stall. V1 (DARK_PSYCH_V1_VERY_FIRST)
+            # moved the answer to scene 2; this check previously demanded a
+            # QUESTION there, directly contradicting the prompt and rewarding
+            # the exact "setup drags on" pattern that loses viewers at scene 2.2.
+    if len(scenes) >= 2:
+        answer = scenes[1].get("caption", "").strip()
+        answer_norm = answer.lower()
+        starts_with_answer = any(answer_norm.startswith(p) for p in ANSWER_FIRST_PREFIXES)
+        if not starts_with_answer:
+            # 2026-08-25: Downgraded to warning — LLM often starts
+            # scene 2 with subject pronoun; not fatal for retention.
+            logger.info(
+                "Scene 2 advisory: does not start with answer-first prefix. "
+                "Got: '%s'", answer_norm[:40],
+            )
+        if answer.endswith("?"):
+            issues.append("Scene 2 must ANSWER, not ask another question — the open loop belongs in scene 1.")
+    if scenes:
+        hook_concepts = _content_concepts(scenes[0].get("caption", ""))
+        tail_concepts = _content_concepts(scenes[-1].get("caption", ""))
+    else:
+        hook_concepts = set()
+        tail_concepts = set()
     if hook_concepts and not (hook_concepts & tail_concepts):
         # 2026-08-25: Downgraded from hard reject to warning.
         # The gate was silently skipped for 2 weeks (indentation bug).
@@ -1312,6 +1342,21 @@ def _validate_script(script_data: dict) -> tuple[bool, list[str]]:
             issues.append(f"AI-telltale phrase detected: '{phrase}' — rewrite in authentic human voice")
             break
 
+    if lenient and issues:
+        # Backup providers are used during outages and may miss optimization
+        # heuristics, but must still return a structurally renderable script.
+        # Keep only issues that can crash rendering or produce unusable output;
+        # SEO/retention/style gates remain advisory for the fallback path.
+        hard_prefixes = (
+            "Missing required field:",
+            "Too few scenes:",
+            "Too many scenes:",
+            "Scene ",
+            "Too few words:",
+            "Too many words:",
+            "Hook must exactly match",
+        )
+        issues = [issue for issue in issues if issue.startswith(hard_prefixes)]
     return len(issues) == 0, issues
 
 

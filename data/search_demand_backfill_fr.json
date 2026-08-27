@@ -1,0 +1,90 @@
+{
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-27",
+  "mined_at": "2026-08-27T15:14:26.189561+00:00",
+  "topics": [
+    {
+      "series_number": "DEM-1",
+      "series_title": "L'apparition soudaine de la chair de pou",
+      "topic": "l'apparition soudaine de la chair de pou",
+      "nominal_phrase": "l'apparition soudaine de la chair de pou",
+      "question_phrase": "pourquoi l'apparition soudaine de la chair de pou",
+      "angle": "Pourquoi l'apparition soudaine de la chair de pou ?",
+      "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
+      "demand_note": "autocomplete: 'la chair de poule'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:08.485916+00:00"
+    },
+    {
+      "series_number": "DEM-2",
+      "series_title": "Le muscle qui tressaille tout seul",
+      "topic": "le muscle qui tressaille tout seul",
+      "nominal_phrase": "le muscle qui tressaille tout seul",
+      "question_phrase": "pourquoi le muscle qui tressaille tout seul",
+      "angle": "Pourquoi le muscle qui tressaille tout seul ?",
+      "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:10.637855+00:00"
+    },
+    {
+      "series_number": "DEM-3",
+      "series_title": "Des fourmillements apparaissent sans raison",
+      "topic": "des fourmillements apparaissent sans raison",
+      "nominal_phrase": "des fourmillements apparaissent sans raison",
+      "question_phrase": "pourquoi des fourmillements apparaissent sans raison",
+      "angle": "Pourquoi des fourmillements apparaissent sans raison ?",
+      "thumbnail_text": "Pourquoi des fourmillements apparaissent sans raison ?",
+      "demand_note": "autocomplete: 'pourquoi je maigris sans raison'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:14.845903+00:00"
+    },
+    {
+      "series_number": "DEM-4",
+      "series_title": "Un pied s'endort tout seul",
+      "topic": "un pied s'endort tout seul",
+      "nominal_phrase": "un pied s'endort tout seul",
+      "question_phrase": "pourquoi un pied s'endort tout seul",
+      "angle": "Pourquoi un pied s'endort tout seul ?",
+      "thumbnail_text": "Pourquoi un pied s'endort tout seul ?",
+      "demand_note": "autocomplete: 'pied froid tout le temps'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:16.955123+00:00"
+    },
+    {
+      "series_number": "DEM-5",
+      "series_title": "L'illusion d'objectivité qui te contrô",
+      "topic": "l'illusion d'objectivité qui te contrô",
+      "nominal_phrase": "l'illusion d'objectivité qui te contrô",
+      "question_phrase": "pourquoi l'illusion d'objectivité qui te contrô",
+      "angle": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+      "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+      "demand_note": "autocomplete: 'fabien olicard illusion d'optique'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:19.080621+00:00"
+    },
+    {
+      "series_number": "DEM-6",
+      "series_title": "Ton besoin d'approbation te rend émotionnellement fragi",
+      "topic": "ton besoin d'approbation te rend émotionnellement fragi",
+      "nominal_phrase": "ton besoin d'approbation te rend émotionnellement fragi",
+      "question_phrase": "pourquoi ton besoin d'approbation te rend émotionnellement fragi",
+      "angle": "Pourquoi ton besoin d'approbation te rend émotionnellement fragi ?",
+      "thumbnail_text": "Pourquoi ton besoin d'approbation te rend ?",
+      "demand_note": "autocomplete: 'besoin de reconnaissance psychologie'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:21.197781+00:00"
+    },
+    {
+      "series_number": "DEM-7",
+      "series_title": "Pourquoi ton cerveau te cache ta propre colère",
+      "topic": "pourquoi ton cerveau te cache ta propre colère",
+      "nominal_phrase": "pourquoi ton cerveau te cache ta propre colère",
+      "question_phrase": "pourquoi ton cerveau te cache ta propre colère",
+      "angle": "Pourquoi ton cerveau te cache ta propre colère ?",
+      "thumbnail_text": "Pourquoi ton cerveau te cache ta propre colère ?",
+      "demand_note": "autocomplete: 'comment contrôler la colère et rester calme'; autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'impulsivité comment gérer ses excès de colère'; autocomplete: 'pourquoi mon cerveau pense tout le temps'",
+      "pillar": "dark_psychology",
+      "mined_at": "2026-08-27T15:14:24.966431+00:00"
+    }
+  ]
+}
