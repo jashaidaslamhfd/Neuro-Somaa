@@ -68,6 +68,7 @@ class GroqModelChainTests(unittest.TestCase):
         response = mock.Mock(status_code=200)
         response.json.return_value = {
             "models": [
+                {"name": "models/gemini-3.6-flash", "supportedGenerationMethods": ["generateContent"]},
                 {"name": "models/gemini-2.5-flash", "supportedGenerationMethods": ["generateContent"]},
                 {"name": "models/text-embedding-004", "supportedGenerationMethods": ["embedContent"]},
             ]
@@ -77,7 +78,7 @@ class GroqModelChainTests(unittest.TestCase):
         with mock.patch.object(script_generator, "GEMINI_MODEL", "retired-model"):
             self.assertEqual(
                 script_generator._resolve_gemini_model(requests_module, "test-key"),
-                "gemini-2.5-flash",
+                "gemini-3.6-flash",
             )
 
     def test_backup_provider_works_without_groq_key(self):

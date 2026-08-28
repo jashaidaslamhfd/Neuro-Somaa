@@ -291,7 +291,7 @@ def _resolve_gemini_model(requests_module, key: str) -> str | None:
                 available.append(name)
         if configured in available:
             return configured
-        preferred = ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash")
+        preferred = ("gemini-3.6-flash", "gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash")
         for candidate in preferred:
             if candidate in available:
                 logger.warning("Configured Gemini model %s unavailable; using %s", configured, candidate)
