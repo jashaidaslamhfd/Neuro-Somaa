@@ -251,6 +251,16 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
     request = yt.videos().insert(part="snippet,status", body=body, media_body=media)
     response = request.execute()
     video_id = response.get("id")
+    if not video_id:
+        raise RuntimeError(f"YouTube upload returned no video id: {response}")
+
+    # Confirm the resource exists before reporting upload success. This avoids
+    # treating a partial/ambiguous API response as a publish receipt.
+    verified = yt.videos().list(part="id,status,snippet", id=video_id).execute()
+    verified_items = verified.get("items", [])
+    if not verified_items or verified_items[0].get("id") != video_id:
+        raise RuntimeError(f"YouTube upload receipt verification failed for video id {video_id}")
+    logger.info("✅ YouTube upload receipt verified: %s", video_id)
 
     # Attach the generated thumbnail after the video exists.
     if video_id and thumb_path and os.path.exists(thumb_path):
@@ -391,6 +401,8 @@ def upload_all(video_path, thumb_path, script_data, meta_video_path=None) -> dic
         }
 
     yt = _upload_youtube(video_path, thumb_path, script_data, tags)
+    if not yt.get("ok") or not yt.get("video_id"):
+        raise RuntimeError("YouTube upload did not return a verified video id; refusing to persist completed state")
 
     # Facebook/Instagram publishing is opt-in (FB_UPLOAD_ENABLED=true) and only
     # runs when the matching credentials are present. This mirrors the privacy

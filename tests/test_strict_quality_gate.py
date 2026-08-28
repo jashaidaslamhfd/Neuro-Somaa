@@ -33,6 +33,12 @@ class StrictQualityGateTests(unittest.TestCase):
         self.assertNotIn("French quality gate issues at upload (non-fatal)", source)
         self.assertNotIn("Final audit issues (non-fatal)", source)
 
+    def test_uploader_requires_and_verifies_youtube_receipt(self):
+        source = (ROOT / "src" / "uploader.py").read_text(encoding="utf-8")
+        self.assertIn("YouTube upload returned no video id", source)
+        self.assertIn("YouTube upload receipt verification failed", source)
+        self.assertIn("refusing to persist completed state", source)
+
 
 if __name__ == "__main__":
     unittest.main()
