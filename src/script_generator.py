@@ -1392,11 +1392,13 @@ def _validate_script(script_data: dict, *, lenient: bool = False) -> tuple[bool,
             issues.append(f"AI-telltale phrase detected: '{phrase}' — rewrite in authentic human voice")
             break
 
-    if lenient and issues:
-        # Backup providers are used during outages and may miss optimization
-        # heuristics, but must still return a structurally renderable script.
-        # Keep only issues that can crash rendering or produce unusable output;
-        # SEO/retention/style gates remain advisory for the fallback path.
+    if issues:
+        # The generator must reject only scripts that cannot render safely or
+        # do not have the required Shorts structure. SEO, hook style, formal
+        # register, loop-back, and AI-telltale checks are optimization signals;
+        # making them mandatory caused valid provider output to burn all retries.
+        # Keep the advisory messages in logs while removing them from the
+        # pass/fail result for both Groq and backup-provider paths.
         hard_prefixes = (
             "Missing required field:",
             "Too few scenes:",
@@ -1406,7 +1408,18 @@ def _validate_script(script_data: dict, *, lenient: bool = False) -> tuple[bool,
             "Too many words:",
             "Hook must exactly match",
         )
-        issues = [issue for issue in issues if issue.startswith(hard_prefixes)]
+        hard_issues = [
+            issue for issue in issues
+            if (
+                issue.startswith(hard_prefixes)
+                and not issue.startswith("Scene ")
+            )
+            or re.match(r"^Scene \\d+ (missing|\\(hook\\) has|has \\d+ words)", issue)
+        ]
+        advisory_issues = [issue for issue in issues if issue not in hard_issues]
+        if advisory_issues:
+            logger.info("Script quality advisories (non-blocking): %s", "; ".join(advisory_issues[:4]))
+        issues = hard_issues
     return len(issues) == 0, issues
 
 
