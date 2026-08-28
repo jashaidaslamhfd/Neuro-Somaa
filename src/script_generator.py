@@ -125,6 +125,50 @@ OPENROUTER_API_URL = "https://openrouter.ai/api/v1/chat/completions"
 OPENROUTER_MODEL = os.environ.get("OPENROUTER_MODEL", "nvidia/nemotron-3-ultra-550b-a55b:free")
 OPENROUTER_TIMEOUT = 60
 
+# Optional fourth provider. Configure through GitHub Actions secrets only.
+ALT_LLM_API_KEY = os.environ.get("ALT_LLM_API_KEY", "").strip()
+ALT_LLM_BASE_URL = os.environ.get("ALT_LLM_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
+ALT_LLM_MODEL = os.environ.get("ALT_LLM_MODEL", "gpt-4o-mini").strip() or "gpt-4o-mini"
+ALT_LLM_TIMEOUT = 60
+
+
+def _alt_llm_generate(messages, temperature=None, max_tokens=None) -> str | None:
+    """Call an alternate OpenAI-compatible provider as the first backup."""
+    key = ALT_LLM_API_KEY or os.environ.get("ALT_LLM_API_KEY", "").strip()
+    if not key:
+        return None
+    try:
+        import requests as _req
+        endpoint = ALT_LLM_BASE_URL
+        if not endpoint.endswith("/chat/completions"):
+            endpoint += "/chat/completions"
+        payload = {
+            "model": ALT_LLM_MODEL,
+            "messages": messages,
+            "response_format": {"type": "json_object"},
+        }
+        if temperature is not None:
+            payload["temperature"] = temperature
+        if max_tokens is not None:
+            payload["max_tokens"] = max_tokens
+        response = _req.post(
+            endpoint,
+            headers={"Authorization": f"Bearer {key}", "Content-Type": "application/json"},
+            json=payload,
+            timeout=ALT_LLM_TIMEOUT,
+        )
+        if response.status_code != 200:
+            logger.warning("Alternate LLM failed: HTTP %s; response=%s", response.status_code, response.text[:500])
+            return None
+        text = response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
+        if text and "{" in text:
+            logger.info("Alternate LLM produced JSON via %s", ALT_LLM_MODEL)
+            return text
+        logger.warning("Alternate LLM returned no JSON content")
+    except Exception as exc:
+        logger.warning("Alternate LLM error: %s", exc)
+    return None
+
 
 def _openrouter_generate(messages, temperature=None, max_tokens=None) -> str | None:
     """Call OpenRouter as a fallback LLM when Groq is rate-limited/down.
@@ -1738,10 +1782,15 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
     client = None
     if api_key and Groq is not None:
         client = Groq(api_key=api_key)
-    elif not os.environ.get("OPENROUTER_API_KEY") and not os.environ.get("GEMINI_API_KEY"):
+    elif not (
+        os.environ.get("ALT_LLM_API_KEY")
+        or os.environ.get("OPENROUTER_API_KEY")
+        or os.environ.get("GEMINI_API_KEY")
+    ):
         if not api_key:
             raise ValueError(
-                "No LLM provider configured. Set GROQ_API_KEY, OPENROUTER_API_KEY, or GEMINI_API_KEY."
+                "No LLM provider configured. Set GROQ_API_KEY, ALT_LLM_API_KEY, "
+                "OPENROUTER_API_KEY, or GEMINI_API_KEY."
             )
         raise RuntimeError("groq package is not installed and no backup LLM provider is configured")
 
@@ -1782,7 +1831,9 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
                 # No Groq client is available: use the configured backup
                 # providers directly instead of failing at Groq initialization.
                 logger.info("🔄 Generating script (Attempt %d/%d) via backup providers", attempt, max_retries)
-                raw_reply = _openrouter_generate(
+                raw_reply = _alt_llm_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                ) or _openrouter_generate(
                     messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
                 ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
                 if raw_reply:
@@ -1930,7 +1981,9 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
                 # 2026-08-17: Groq chain exhausted — final attempt via the
                 # OpenRouter fallback (mirrors Mr-Nextep). Never end a run
                 # without trying the backup LLM.
-                raw_reply = _openrouter_generate(
+                raw_reply = _alt_llm_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                ) or _openrouter_generate(
                     messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
                 ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
                 if raw_reply:
@@ -1953,7 +2006,9 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
                 # 2026-08-17: Groq 429 — try the OpenRouter fallback
                 # IMMEDIATELY instead of waiting up to 40+ minutes for Groq's
                 # daily token-cap reset.
-                raw_reply = _openrouter_generate(
+                raw_reply = _alt_llm_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                ) or _openrouter_generate(
                     messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
                 ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
                 if raw_reply:

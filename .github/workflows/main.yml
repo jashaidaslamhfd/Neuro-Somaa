@@ -110,6 +110,11 @@ jobs:
           # access to every Groq model at once (same failure mode as the
           # Aug-14 Groq 404 outage). No cost unless Groq fully fails.
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          # Optional OpenAI-compatible fallback. Add ALT_LLM_API_KEY as a
+          # repository secret to bypass Groq/OpenRouter/Gemini quota outages.
+          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY || secrets.OPENAI_API_KEY }}
+          ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
+          ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose

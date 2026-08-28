@@ -81,6 +81,21 @@ class GroqModelChainTests(unittest.TestCase):
                 "gemini-3.6-flash",
             )
 
+    def test_alternate_provider_is_preferred_over_openrouter_and_gemini(self):
+        script = {"title": "Un phénomène du cerveau", "hook": "Ton cerveau fait ça", "voiceover": "Une explication simple.", "scenes": [{"visual": "a", "caption": "b"}] * 6, "cta": "Dis-moi si ça t'arrive."}
+        with mock.patch.dict(os.environ, {"ALT_LLM_API_KEY": "test-key"}, clear=True), \
+             mock.patch.object(script_generator, "Groq", None), \
+             mock.patch.object(script_generator, "_alt_llm_generate", return_value="{}") as alternate, \
+             mock.patch.object(script_generator, "_openrouter_generate", side_effect=AssertionError("OpenRouter should not run")), \
+             mock.patch.object(script_generator, "_gemini_generate", side_effect=AssertionError("Gemini should not run")), \
+             mock.patch.object(script_generator, "_clean_json_response", return_value=script), \
+             mock.patch.object(script_generator, "_normalize_scenes", side_effect=lambda value: value), \
+             mock.patch.object(script_generator, "_validate_script", return_value=(True, [])), \
+             mock.patch.object(script_generator, "analyze_retention_potential", return_value={"retention_score": 90, "suggestions": []}):
+            result = script_generator.generate_script("alternate topic", max_retries=1)
+        alternate.assert_called_once()
+        self.assertEqual(result["topic"], "alternate topic")
+
     def test_backup_provider_works_without_groq_key(self):
         script = {"title": "Un phénomène du cerveau", "hook": "Ton cerveau fait ça", "voiceover": "Une explication simple.", "scenes": [{"visual": "a", "caption": "b"}] * 6, "cta": "Dis-moi si ça t'arrive."}
         with mock.patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-key"}, clear=True), \
