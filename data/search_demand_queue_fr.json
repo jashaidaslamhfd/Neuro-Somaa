@@ -1,6 +1,6 @@
 {
   "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-28",
-  "mined_at": "2026-08-28T03:41:36.238488+00:00",
+  "mined_at": "2026-08-28T05:33:53.865823+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T03:41:18.956911+00:00"
+      "mined_at": "2026-08-28T05:33:36.058137+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -24,7 +24,7 @@
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
       "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T03:41:21.040986+00:00"
+      "mined_at": "2026-08-28T05:33:38.208600+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -36,7 +36,7 @@
       "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrô ?",
       "demand_note": "autocomplete: 'fabien olicard illusion d'optique'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T03:41:29.377756+00:00"
+      "mined_at": "2026-08-28T05:33:46.774853+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,7 @@
       "thumbnail_text": "Pourquoi ton besoin d'approbation te rend ?",
       "demand_note": "autocomplete: 'besoin de reconnaissance psychologie'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T03:41:31.455411+00:00"
+      "mined_at": "2026-08-28T05:33:48.935087+00:00"
     },
     {
       "series_number": "DEM-5",
@@ -60,7 +60,7 @@
       "thumbnail_text": "Pourquoi ton cerveau te cache ta propre colère ?",
       "demand_note": "autocomplete: 'comment contrôler la colère et rester calme'; autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'impulsivité comment gérer ses excès de colère'; autocomplete: 'pourquoi mon cerveau pense tout le temps'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T03:41:35.119432+00:00"
+      "mined_at": "2026-08-28T05:33:52.727675+00:00"
     }
   ]
 }
