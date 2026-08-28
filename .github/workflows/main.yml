@@ -13,16 +13,21 @@ on:
         type: boolean
         default: false
   schedule:
-    # 2 daily French Shorts slots aligned to the France-first audience
-    # (France is 41.5% of views; Francophone markets are secondary).
-    # Source: data/upload_slot_intel_fr.json, timezone Europe/Paris.
-    # Selected local slots: 19:30 and 21:30 Paris time — the two highest
-    # scoring confident windows in the current heatmap.
-    # GitHub Actions cron is UTC. Current CEST (UTC+2) conversion:
-    #   19:30 Paris = 17:30 UTC; 21:30 Paris = 19:30 UTC.
-    # Re-check these UTC values when Europe/Paris changes to CET.
-    - cron: "30 17 * * *"
-    - cron: "30 19 * * *"
+    # Three daily French Shorts triggers derived from the user's YouTube
+    # heatmap in Pakistan local time (GMT+05:00), converted to France CEST
+    # (UTC+02:00) by subtracting 3 hours. GitHub cron is UTC, so these are
+    # the CEST triggers; the Python scheduler still computes publishAt with
+    # Europe/Paris and handles DST for the actual YouTube scheduled time.
+    # Weekday mapping: 0 Sun, 1 Mon, 2 Tue, 3 Wed, 4 Thu, 5 Fri, 6 Sat.
+    # France-local slots: Sun 16/18/20, Mon 16/18/21, Tue 16/19/21,
+    # Wed 16/18/21, Thu 16/19/21, Fri 17/19/21, Sat 17/19/22.
+    - cron: "0 14,16,18 * * 0"  # Sun: 16:00, 18:00, 20:00 Paris CEST
+    - cron: "0 14,16,19 * * 1"  # Mon: 16:00, 18:00, 21:00 Paris CEST
+    - cron: "0 14,17,19 * * 2"  # Tue: 16:00, 19:00, 21:00 Paris CEST
+    - cron: "0 14,16,19 * * 3"  # Wed: 16:00, 18:00, 21:00 Paris CEST
+    - cron: "0 14,17,19 * * 4"  # Thu: 16:00, 19:00, 21:00 Paris CEST
+    - cron: "0 15,17,19 * * 5"  # Fri: 17:00, 19:00, 21:00 Paris CEST
+    - cron: "0 15,17,20 * * 6"  # Sat: 17:00, 19:00, 22:00 Paris CEST
 
 permissions:
   contents: write
@@ -119,6 +124,10 @@ jobs:
           YT_SCHEDULE_PUBLISH: "true"
           CHANNEL_LANGUAGE: "fr"
           PUBLISH_TIMEZONE: "Europe/Paris"
+          # Use the heatmap-derived weekday defaults rather than the legacy
+          # globally learned three-slot file until it has weekday samples.
+          USE_DYNAMIC_SCHEDULE: "false"
+          DYNAMIC_SCHEDULE_SLOT_COUNT: "3"
           # NICHE: Dark Psychology — manipulation, biais cognitifs,
           # secrets du comportement humain. France-first audience.
           CONTENT_SERIES: "dark_psychology_fr"

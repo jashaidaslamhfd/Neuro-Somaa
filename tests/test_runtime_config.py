@@ -108,6 +108,30 @@ class DynamicScheduleTests(unittest.TestCase):
         self.assertEqual([(s["hour"], s["minute"]) for s in slots], [(19, 30), (21, 0)])
         self.assertTrue(all(s.get("dynamic") for s in slots))
 
+    def test_heatmap_has_three_slots_for_each_weekday(self):
+        from scheduler import FrancePeakTimeScheduler
+
+        scheduler = FrancePeakTimeScheduler()
+        for weekday in range(7):
+            slots = scheduler.DEFAULT_WEEKDAY_PEAK_TIMES[weekday]
+            self.assertEqual(len(slots), 3)
+            self.assertEqual(
+                [(slot["hour"], slot["minute"]) for slot in slots],
+                sorted((slot["hour"], slot["minute"]) for slot in slots),
+            )
+
+    def test_publish_at_uses_paris_dst_offset(self):
+        from datetime import datetime
+        import pytz
+        from scheduler import FrancePeakTimeScheduler
+
+        scheduler = FrancePeakTimeScheduler()
+        summer = pytz.timezone("Europe/Paris").localize(datetime(2026, 7, 6, 16, 0))
+        winter = pytz.timezone("Europe/Paris").localize(datetime(2026, 1, 5, 16, 0))
+        self.assertEqual(summer.astimezone(pytz.UTC).strftime("%H:%M"), "14:00")
+        self.assertEqual(winter.astimezone(pytz.UTC).strftime("%H:%M"), "15:00")
+        self.assertEqual(scheduler.get_scheduled_publish_settings(summer)["timezone"], "Europe/Paris")
+
     def test_growth_loop_builds_dynamic_upload_slots(self):
         from premium_growth_loop import build_upload_slot_intel
 

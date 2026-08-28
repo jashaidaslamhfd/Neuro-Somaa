@@ -16,14 +16,50 @@ import pytz
 
 
 class FrancePeakTimeScheduler:
-    DEFAULT_PEAK_TIMES = (
-        {"hour": 19, "minute": 30, "name": "Dynamique 19:30"},
-        {"hour": 21, "minute": 30, "name": "Dynamique 21:30"},
-        {"hour": 17, "minute": 30, "name": "Dynamique 17:30"},
-    )
-    # France-first fallback: evening Paris slots match the learned
-    # Europe/Paris performance file when dynamic analytics are unavailable.
-    # 2026-08-24: added 17:30 as third slot — recovery mode uses top 2.
+    # Three slots per France weekday, converted from the user's YouTube
+    # heatmap shown in Pakistan local time (GMT+05:00). During CEST,
+    # France is three hours behind Pakistan; Europe/Paris below handles the
+    # CET/CEST transition automatically. Slots are intentionally explicit by
+    # weekday because the heatmap is not identical across all seven columns.
+    DEFAULT_WEEKDAY_PEAK_TIMES = {
+        # Monday: PKT Mon 19:00, 21:00 and Tue 00:00 -> France Mon 16:00, 18:00, 21:00
+        0: (
+            {"hour": 16, "minute": 0, "name": "Heatmap lundi 16:00"},
+            {"hour": 18, "minute": 0, "name": "Heatmap lundi 18:00"},
+            {"hour": 21, "minute": 0, "name": "Heatmap lundi 21:00"},
+        ),
+        1: (
+            {"hour": 16, "minute": 0, "name": "Heatmap mardi 16:00"},
+            {"hour": 19, "minute": 0, "name": "Heatmap mardi 19:00"},
+            {"hour": 21, "minute": 0, "name": "Heatmap mardi 21:00"},
+        ),
+        2: (
+            {"hour": 16, "minute": 0, "name": "Heatmap mercredi 16:00"},
+            {"hour": 18, "minute": 0, "name": "Heatmap mercredi 18:00"},
+            {"hour": 21, "minute": 0, "name": "Heatmap mercredi 21:00"},
+        ),
+        3: (
+            {"hour": 16, "minute": 0, "name": "Heatmap jeudi 16:00"},
+            {"hour": 19, "minute": 0, "name": "Heatmap jeudi 19:00"},
+            {"hour": 21, "minute": 0, "name": "Heatmap jeudi 21:00"},
+        ),
+        4: (
+            {"hour": 17, "minute": 0, "name": "Heatmap vendredi 17:00"},
+            {"hour": 19, "minute": 0, "name": "Heatmap vendredi 19:00"},
+            {"hour": 21, "minute": 0, "name": "Heatmap vendredi 21:00"},
+        ),
+        5: (
+            {"hour": 17, "minute": 0, "name": "Heatmap samedi 17:00"},
+            {"hour": 19, "minute": 0, "name": "Heatmap samedi 19:00"},
+            {"hour": 22, "minute": 0, "name": "Heatmap samedi 22:00"},
+        ),
+        6: (
+            {"hour": 16, "minute": 0, "name": "Heatmap dimanche 16:00"},
+            {"hour": 18, "minute": 0, "name": "Heatmap dimanche 18:00"},
+            {"hour": 20, "minute": 0, "name": "Heatmap dimanche 20:00"},
+        ),
+    }
+    DEFAULT_PEAK_TIMES = DEFAULT_WEEKDAY_PEAK_TIMES[0]
 
     def __init__(self):
         # 2026-08-12 truth sweep: honour PUBLISH_TIMEZONE from the workflow
@@ -96,10 +132,14 @@ class FrancePeakTimeScheduler:
         # fill the learned slots without reintroducing the removed third slot.
         return sorted(slots, key=lambda slot: (slot["hour"], slot["minute"]))
 
+    def _slots_for_weekday(self, weekday: int) -> tuple[dict, ...]:
+        dynamic = self._dynamic_peak_times()
+        return tuple(dynamic) if dynamic else self.DEFAULT_WEEKDAY_PEAK_TIMES[weekday]
+
     @property
     def peak_times(self) -> tuple[dict, ...]:
-        dynamic = self._dynamic_peak_times()
-        return tuple(dynamic) if dynamic else self.DEFAULT_PEAK_TIMES
+        # Backwards-compatible view for callers that do not provide a date.
+        return self._slots_for_weekday(0)
 
     # Backwards compatibility for tests/imports that read PEAK_TIMES directly.
     PEAK_TIMES = DEFAULT_PEAK_TIMES
@@ -111,7 +151,7 @@ class FrancePeakTimeScheduler:
         # next learned slot tomorrow. Existing uploader lookahead asks for 12.
         for day in range(7):
             base_date = (now + timedelta(days=day)).date()
-            for slot in self.peak_times:
+            for slot in self._slots_for_weekday(base_date.weekday()):
                 when = self.paris_tz.localize(
                     datetime.combine(base_date, datetime.min.time()).replace(
                         hour=slot["hour"], minute=slot["minute"]
