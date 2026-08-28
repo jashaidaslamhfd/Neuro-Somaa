@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-27T16:40:02.156957+00:00",
+  "generated_at": "2026-08-28T17:35:02.486433+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
     {
@@ -57,10 +57,10 @@
       "avg_retention": 44.7
     },
     {
-      "topic": "Ce qui change lorsque une lumière vive fait éternuer",
+      "topic": "Ce qui change lorsque des corps flottants visibles dans l'œil",
       "n": 1,
-      "avg_views": 985.0,
-      "avg_retention": 29.3
+      "avg_views": 977.0,
+      "avg_retention": 47.9
     }
   ],
   "top_hook_word_counts": [],

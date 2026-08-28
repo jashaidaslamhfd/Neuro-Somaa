@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-27T16:40:02.307343+00:00",
+  "generated_at_utc": "2026-08-28T17:35:02.676341+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,31 +11,31 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.0753,
+      "score": 3.0749,
       "samples": 24,
       "confident": true,
       "prior": 0.0
     },
     {
       "rank": 2,
-      "score_rank": 1,
+      "score_rank": 2,
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.3797,
+      "score": 3.2024,
       "samples": 12,
       "confident": true,
-      "prior": 3.2846
+      "prior": 3.2306
     },
     {
       "rank": 3,
-      "score_rank": 2,
+      "score_rank": 1,
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.2226,
+      "score": 3.2364,
       "samples": 15,
       "confident": true,
       "prior": 0.0
@@ -43,41 +43,12 @@
   ],
   "ranked_slots": [
     {
-      "slot": "19:30",
-      "hour": 19,
-      "minute": 30,
-      "score": 3.3797,
-      "observed_samples": 12,
-      "observed_avg": 3.4115,
-      "prior": 3.2846,
-      "examples": [
-        {
-          "video_id": "XLIFrONS2rc",
-          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1209,
-          "published_paris": "2026-07-29 19:30"
-        },
-        {
-          "video_id": "HJb7xCMIYWQ",
-          "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 958,
-          "published_paris": "2026-08-01 19:30"
-        },
-        {
-          "video_id": "ixDDjtbojKs",
-          "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 958,
-          "published_paris": "2026-08-12 19:30"
-        }
-      ]
-    },
-    {
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.2226,
+      "score": 3.2364,
       "observed_samples": 15,
-      "observed_avg": 3.2226,
+      "observed_avg": 3.2364,
       "prior": 0.0,
       "examples": [
         {
@@ -101,12 +72,41 @@
       ]
     },
     {
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 3.2024,
+      "observed_samples": 12,
+      "observed_avg": 3.193,
+      "prior": 3.2306,
+      "examples": [
+        {
+          "video_id": "XLIFrONS2rc",
+          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
+          "views": 1209,
+          "published_paris": "2026-07-29 19:30"
+        },
+        {
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 958,
+          "published_paris": "2026-08-01 19:30"
+        },
+        {
+          "video_id": "ixDDjtbojKs",
+          "title": "Pourquoi le corps gratte après la douche ?",
+          "views": 958,
+          "published_paris": "2026-08-12 19:30"
+        }
+      ]
+    },
+    {
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.0753,
+      "score": 3.0749,
       "observed_samples": 24,
-      "observed_avg": 3.0753,
+      "observed_avg": 3.0749,
       "prior": 0.0,
       "examples": [
         {
@@ -133,10 +133,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 3.0257,
+      "score": 2.9041,
       "observed_samples": 5,
-      "observed_avg": 2.9786,
-      "prior": 3.0846,
+      "observed_avg": 2.8029,
+      "prior": 3.0306,
       "examples": [
         {
           "video_id": "KMXIpcpoDX4",
@@ -147,14 +147,14 @@
         {
           "video_id": "TbbiAMubfu8",
           "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
-          "views": 985,
+          "views": 781,
           "published_paris": "2026-07-28 21:00"
         },
         {
-          "video_id": "mGJQX82e9IY",
-          "title": "Pourquoi le hoquet commence brusquement ?",
-          "views": 368,
-          "published_paris": "2026-07-27 21:00"
+          "video_id": "trfitEKS1ik",
+          "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
+          "views": 154,
+          "published_paris": "2026-08-19 21:00"
         }
       ]
     },
@@ -162,7 +162,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.9187,
+      "score": 2.8755,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -179,7 +179,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.8721,
+      "score": 2.8289,
       "observed_samples": 1,
       "observed_avg": 2.2889,
       "prior": 0.0,
@@ -196,7 +196,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.7863,
+      "score": 2.7431,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -213,7 +213,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.7823,
+      "score": 2.7391,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -230,7 +230,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.7219,
+      "score": 2.6895,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -253,7 +253,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 2.7207,
+      "score": 2.6775,
       "observed_samples": 1,
       "observed_avg": 1.5318,
       "prior": 0.0,
@@ -270,10 +270,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.7165,
+      "score": 2.6493,
       "observed_samples": 3,
-      "observed_avg": 2.8086,
-      "prior": 2.6846,
+      "observed_avg": 2.7035,
+      "prior": 2.6306,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -290,7 +290,7 @@
         {
           "video_id": "YluUMs7fPtQ",
           "title": "Pourquoi les corps flottants visibles dans la lumière ?",
-          "views": 36,
+          "views": 9,
           "published_paris": "2026-07-28 12:30"
         }
       ]
@@ -299,7 +299,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 2.6542,
+      "score": 2.611,
       "observed_samples": 1,
       "observed_avg": 1.1992,
       "prior": 0.0,
