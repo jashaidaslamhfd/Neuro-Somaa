@@ -64,6 +64,20 @@ class GroqModelChainTests(unittest.TestCase):
         self.assertFalse(valid)
         self.assertTrue(any(issue.startswith("Missing required field:") for issue in issues))
 
+    def test_backup_provider_works_without_groq_key(self):
+        script = {"title": "Un phénomène du cerveau", "hook": "Ton cerveau fait ça", "voiceover": "Une explication simple.", "scenes": [{"visual": "a", "caption": "b"}] * 6, "cta": "Dis-moi si ça t'arrive."}
+        with mock.patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-key"}, clear=True), \
+             mock.patch.object(script_generator, "Groq", None), \
+             mock.patch.object(script_generator, "_openrouter_generate", return_value="{}"), \
+             mock.patch.object(script_generator, "_gemini_generate", return_value=None), \
+             mock.patch.object(script_generator, "_clean_json_response", return_value=script), \
+             mock.patch.object(script_generator, "_normalize_scenes", side_effect=lambda value: value), \
+             mock.patch.object(script_generator, "_validate_script", return_value=(True, [])), \
+             mock.patch.object(script_generator, "analyze_retention_potential", return_value={"retention_score": 90, "suggestions": []}):
+            result = script_generator.generate_script("test topic", max_retries=1)
+        self.assertEqual(result["topic"], "test topic")
+        self.assertEqual(getattr(script_generator.generate_script, "_or_fallback_reply", None), "{}")
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
         with:
           python-version: "3.11"
           cache: "pip"
@@ -64,18 +64,21 @@ jobs:
           python -m pytest tests/ -q
 
       - name: Refresh live French search-demand queue
-        continue-on-error: true
         shell: bash
         env:
           PYTHONUNBUFFERED: "1"
         run: |
           set -euo pipefail
-          # Fill/refresh the demand queue from live YouTube France
-          # autocomplete BEFORE topic selection (main.py reads
-          # data/search_demand_queue_fr.json when picking the next topic).
-          # Runs at most ~40 free HTTP calls; never fails the pipeline — a
-          # mining hiccup must never stop a video from being made.
-          python src/demand_refresh.py || true
+          # Refresh the queue before topic selection. A transient API failure
+          # may use an existing non-empty queue, but an empty/missing queue is
+          # a hard stop rather than silently generating from stale state.
+          if ! python src/demand_refresh.py; then
+            echo "::warning::Demand refresh failed; checking existing queue before continuing."
+            test -s data/search_demand_queue_fr.json || {
+              echo "::error::Demand refresh failed and no usable queue exists."
+              exit 1
+            }
+          fi
 
       - name: Generate and upload Short (French)
         shell: bash
@@ -251,7 +254,7 @@ jobs:
           fi
 
       - name: Persist durable channel state
-        if: always()
+        if: success()
         shell: bash
         run: |
           set -euo pipefail
@@ -272,7 +275,7 @@ jobs:
 
       - name: Upload artifacts
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: neurosomaa-run-${{ github.run_id }}
           path: |

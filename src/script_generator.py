@@ -1671,16 +1671,20 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
         MAX_WORDS,
     )
 
-    # Check API key
+    # Provider-neutral initialization: Groq is preferred when available, but
+    # backup providers must remain usable when Groq is unset, rate-limited, or
+    # temporarily unavailable. Never require a provider that is not selected.
+    generate_script._or_fallback_reply = None
     api_key = os.environ.get("GROQ_API_KEY")
-    if not api_key:
-        raise ValueError("GROQ_API_KEY is missing. Please set it in environment variables.")
-
-    # Initialize client only for an actual generation call. Structural checks
-    # and offline tests do not require the optional runtime dependency.
-    if Groq is None:
-        raise RuntimeError("groq package is not installed; run pip install -r requirements.txt")
-    client = Groq(api_key=api_key)
+    client = None
+    if api_key and Groq is not None:
+        client = Groq(api_key=api_key)
+    elif not os.environ.get("OPENROUTER_API_KEY") and not os.environ.get("GEMINI_API_KEY"):
+        if not api_key:
+            raise ValueError(
+                "No LLM provider configured. Set GROQ_API_KEY, OPENROUTER_API_KEY, or GEMINI_API_KEY."
+            )
+        raise RuntimeError("groq package is not installed and no backup LLM provider is configured")
 
     # Prepare prompt
     prompt = custom_prompt or _default_prompt(topic)
@@ -1715,6 +1719,20 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
 
     for attempt in range(1, max_retries + 1):
         try:
+            if client is None:
+                # No Groq client is available: use the configured backup
+                # providers directly instead of failing at Groq initialization.
+                logger.info("🔄 Generating script (Attempt %d/%d) via backup providers", attempt, max_retries)
+                raw_reply = _openrouter_generate(
+                    messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+                ) or _gemini_generate(messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS)
+                if raw_reply:
+                    generate_script._or_fallback_reply = raw_reply
+                    logger.info("✅ Backup provider produced a script without Groq.")
+                    break
+                last_error = RuntimeError("All configured backup LLM providers failed")
+                break
+
             logger.info(f"🔄 Generating script (Attempt {attempt}/{max_retries}) via {_current_model()}")
 
             # Call Groq API — advanced 120B model by default (stronger French
