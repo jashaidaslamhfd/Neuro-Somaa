@@ -133,6 +133,9 @@ jobs:
           # globally learned three-slot file until it has weekday samples.
           USE_DYNAMIC_SCHEDULE: "false"
           DYNAMIC_SCHEDULE_SLOT_COUNT: "3"
+          # Retention experiment: keep generated Shorts below 25 seconds.
+          TARGET_MIN_SECONDS: "20"
+          TARGET_MAX_SECONDS: "24"
           # NICHE: Dark Psychology — manipulation, biais cognitifs,
           # secrets du comportement humain. France-first audience.
           CONTENT_SERIES: "dark_psychology_fr"

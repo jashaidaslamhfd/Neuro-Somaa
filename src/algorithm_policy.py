@@ -199,7 +199,8 @@ PLATFORM_POLICY: dict[str, dict] = {
         # gate — a 3% miss. Master cut moves fully UNDER 27s so the same 10-14s
         # watch time clears 48-54% completion; the script prompt now also
         # demands visual payoff IN the first frame (3s rule).
-        "duration": (25.0, 35.0, 45.0),
+        # Retention experiment: keep the YouTube master below 25 seconds.
+        "duration": (20.0, 22.0, 24.0),
         "hard_max": 60.0,
         "retention_gate": {"under_30s": 0.65, "over_30s": 0.50},
         "decision_seconds": 2.2,

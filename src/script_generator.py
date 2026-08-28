@@ -57,8 +57,8 @@ def _duration_word_budget() -> tuple:
     # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
     # when a short arm was requested, silently breaking the whole experiment.
-    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "15"))
-    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "18"))
+    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "20"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "24"))
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
@@ -758,8 +758,8 @@ PRIORITÉ DES SUJETS (2026-08-24, données de la chaîne) :
     # otherwise the LLM keeps writing 32-42s scripts while the pipeline is
     # targeting 26-32s, and every short-arm run aborts on narration length.
     # FIXED 2026-08-02: default is the SHORT format (20-26s, 6 scenes).
-    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "15")))
-    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "18")))
+    target_min = int(float(os.environ.get("TARGET_MIN_SECONDS", "20")))
+    target_max = int(float(os.environ.get("TARGET_MAX_SECONDS", "24")))
     viral_hint = _viral_inspiration()
     # 2026-08-12 viral-engineering: deterministic hook arm per topic
     # (question / shock_fact / pov_reveal), logged into script_data so the

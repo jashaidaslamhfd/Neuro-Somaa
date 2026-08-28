@@ -278,6 +278,10 @@ class WorkflowRegressionTests(unittest.TestCase):
         # publish times (a real video went live at 02:32 Paris and flopped).
         self.assertIn('YT_SCHEDULE_PUBLISH: "true"', self.workflow)
 
+    def test_shorts_duration_target_stays_below_25_seconds(self):
+        self.assertIn('TARGET_MIN_SECONDS: "20"', self.workflow)
+        self.assertIn('TARGET_MAX_SECONDS: "24"', self.workflow)
+
     def test_decommissioned_groq_model_is_not_used(self):
         # Groq retires BOTH legacy Llama chat models on 2026-08-16
         # (llama-3.1-8b-instant, llama-3.3-70b-versatile); llama-3.1-70b was

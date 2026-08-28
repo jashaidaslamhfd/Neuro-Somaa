@@ -955,8 +955,8 @@ class SKILLORPipeline:
                 )
                 logger.info(f"✅ Generated {len(audio_segments)} audio segments")
                 narration_seconds = sum(float(seg.get("duration", 0)) for seg in audio_segments)
-                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "18"))
-                target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "15"))
+                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "24"))
+                target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
                 # Minimum-narration guard: a voiceover far shorter than the
                 # target produces a video that is mostly silent / static (the
                 # "no voice, stuck visuals" bug, caused by Kokoro emitting
@@ -971,10 +971,10 @@ class SKILLORPipeline:
                 # video_editor may make a small (<=12%) transparent speed
                 # correction. Anything beyond that must be regenerated instead
                 # of producing rushed, low-retention narration.
-                if narration_seconds > target_max_seconds * 1.12:
+                if narration_seconds > target_max_seconds:
                     raise RuntimeError(
                         f"Narration too long: {narration_seconds:.1f}s "
-                        f"(maximum before regeneration: {target_max_seconds * 1.12:.1f}s)"
+                        f"(maximum before regeneration: {target_max_seconds:.1f}s)"
                     )
 
                 silence_count = sum(1 for s in audio_segments if s.get("tts_engine") == "silence")

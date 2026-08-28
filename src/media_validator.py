@@ -229,11 +229,11 @@ def probe_video(path: str) -> dict:
     duration = float(data.get("format", {}).get("duration") or video.get("duration") or 0)
     if (width, height) != (1080, 1920):
         raise MediaValidationError(f"Wrong canvas {width}x{height}; expected 1080x1920")
-    max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "18")) + 0.25
+    max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "24")) + 0.25
     # Minimum too: a Short that's far too short (e.g. a truncated render)
     # would otherwise pass this gate and get published. Give a small 5s
     # grace below the configured target so normal short intros don't trip it.
-    min_seconds = max(0.0, float(os.environ.get("TARGET_MIN_SECONDS", "15")) - 5.0)  # French=15s
+    min_seconds = max(0.0, float(os.environ.get("TARGET_MIN_SECONDS", "20")) - 5.0)  # French=20s
     if duration <= 0 or duration > max_seconds:
         raise MediaValidationError(f"Wrong duration {duration:.2f}s; maximum {max_seconds:.2f}s")
     if duration < min_seconds:
