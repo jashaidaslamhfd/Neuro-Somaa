@@ -64,6 +64,22 @@ class GroqModelChainTests(unittest.TestCase):
         self.assertFalse(valid)
         self.assertTrue(any(issue.startswith("Missing required field:") for issue in issues))
 
+    def test_gemini_model_discovery_falls_back_from_retired_alias(self):
+        response = mock.Mock(status_code=200)
+        response.json.return_value = {
+            "models": [
+                {"name": "models/gemini-2.5-flash", "supportedGenerationMethods": ["generateContent"]},
+                {"name": "models/text-embedding-004", "supportedGenerationMethods": ["embedContent"]},
+            ]
+        }
+        requests_module = mock.Mock()
+        requests_module.get.return_value = response
+        with mock.patch.object(script_generator, "GEMINI_MODEL", "retired-model"):
+            self.assertEqual(
+                script_generator._resolve_gemini_model(requests_module, "test-key"),
+                "gemini-2.5-flash",
+            )
+
     def test_backup_provider_works_without_groq_key(self):
         script = {"title": "Un phénomène du cerveau", "hook": "Ton cerveau fait ça", "voiceover": "Une explication simple.", "scenes": [{"visual": "a", "caption": "b"}] * 6, "cta": "Dis-moi si ça t'arrive."}
         with mock.patch.dict(os.environ, {"OPENROUTER_API_KEY": "test-key"}, clear=True), \

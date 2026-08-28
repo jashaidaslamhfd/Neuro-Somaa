@@ -266,7 +266,42 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> str | N
 # repository/workflow can override it with GEMINI_MODEL without a code change.
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash").strip() or "gemini-2.0-flash"
 GEMINI_TEXT_URL_TEMPLATE = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+GEMINI_MODELS_URL = "https://generativelanguage.googleapis.com/v1beta/models"
 GEMINI_TIMEOUT = 60
+
+
+def _resolve_gemini_model(requests_module, key: str) -> str | None:
+    """Return a model that the configured Gemini key can actually call.
+
+    Google retires/renames model aliases without keeping old REST paths alive.
+    Discovering models at runtime prevents a valid key from being treated as a
+    broken provider merely because GEMINI_MODEL became stale.
+    """
+    configured = GEMINI_MODEL
+    try:
+        response = requests_module.get(f"{GEMINI_MODELS_URL}?key={key}", timeout=15)
+        if response.status_code != 200:
+            logger.warning("Gemini model discovery failed: HTTP %s", response.status_code)
+            return configured
+        available = []
+        for item in response.json().get("models", []) or []:
+            name = str(item.get("name", "")).removeprefix("models/")
+            methods = item.get("supportedGenerationMethods", []) or []
+            if name and "generateContent" in methods:
+                available.append(name)
+        if configured in available:
+            return configured
+        preferred = ("gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash")
+        for candidate in preferred:
+            if candidate in available:
+                logger.warning("Configured Gemini model %s unavailable; using %s", configured, candidate)
+                return candidate
+        if available:
+            logger.warning("Configured Gemini model %s unavailable; using discovered %s", configured, available[0])
+            return available[0]
+    except Exception as exc:
+        logger.warning("Gemini model discovery error: %s", exc)
+    return configured
 
 
 def _gemini_contents(messages):
@@ -308,6 +343,10 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
     try:
         import requests as _req
 
+        model = _resolve_gemini_model(_req, key)
+        if not model:
+            logger.warning("Gemini fallback found no callable generateContent model")
+            return None
         parts = _gemini_contents(messages)
         payload = {"contents": parts}
         if temperature is not None:
@@ -318,7 +357,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
             if max_tokens is not None:
                 payload["generationConfig"]["maxOutputTokens"] = max_tokens
         resp = _req.post(
-            f"{GEMINI_TEXT_URL_TEMPLATE.format(model=GEMINI_MODEL)}?key={key}",
+            f"{GEMINI_TEXT_URL_TEMPLATE.format(model=model)}?key={key}",
             json=payload,
             timeout=GEMINI_TIMEOUT,
         )
@@ -342,7 +381,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
                 "no explanation."
             )
             r2 = _req.post(
-                f"{GEMINI_TEXT_URL_TEMPLATE.format(model=GEMINI_MODEL)}?key={key}",
+                f"{GEMINI_TEXT_URL_TEMPLATE.format(model=model)}?key={key}",
                 json={"contents": parts2},
                 timeout=GEMINI_TIMEOUT,
             )
