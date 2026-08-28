@@ -1802,6 +1802,20 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
     best_script = None
     best_score = 0
 
+    # When an alternate provider key is explicitly configured, prefer it over
+    # the exhausted Groq chain. This makes the fallback a real bypass rather
+    # than a last-resort call after multiple quota-consuming Groq attempts.
+    if os.environ.get("ALT_LLM_API_KEY", "").strip():
+        logger.info("🔄 ALT_LLM_API_KEY configured; trying alternate provider before Groq")
+        preferred_reply = _alt_llm_generate(
+            messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
+        )
+        if preferred_reply:
+            generate_script._or_fallback_reply = preferred_reply
+            logger.info("✅ Alternate provider produced a script before Groq.")
+        else:
+            logger.warning("Alternate provider unavailable; continuing with Groq/fallback chain.")
+
     # Model fallback chain (2026-08-12): primary advanced model first; on
     # rate-limit/API error we switch down the chain instead of only retrying
     # the identical call. Legacy `os.environ.get("GROQ_MODEL", ...)` inline
@@ -1825,7 +1839,10 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
             return True
         return False
 
-    for attempt in range(1, max_retries + 1):
+    # Skip the Groq loop when the alternate provider already returned JSON;
+    # the post-loop validator below handles it using the same script contract.
+    attempts = 0 if getattr(generate_script, "_or_fallback_reply", None) else max_retries
+    for attempt in range(1, attempts + 1):
         try:
             if client is None:
                 # No Groq client is available: use the configured backup
