@@ -1,6 +1,6 @@
 {
-  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-27",
-  "mined_at": "2026-08-27T20:14:19.255815+00:00",
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-28",
+  "mined_at": "2026-08-28T00:37:22.928204+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
@@ -12,7 +12,7 @@
       "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de pou ?",
       "demand_note": "autocomplete: 'la chair de poule'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-27T20:14:00.042589+00:00"
+      "mined_at": "2026-08-28T00:37:05.016813+00:00"
     },
     {
       "series_number": "DEM-2",
@@ -22,9 +22,9 @@
       "question_phrase": "pourquoi le muscle qui tressaille tout seul",
       "angle": "Pourquoi le muscle qui tressaille tout seul ?",
       "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
+      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-27T20:14:02.391937+00:00"
+      "mined_at": "2026-08-28T00:37:07.174083+00:00"
     },
     {
       "series_number": "DEM-3",
@@ -36,7 +36,7 @@
       "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrô ?",
       "demand_note": "autocomplete: 'fabien olicard illusion d'optique'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-27T20:14:11.691009+00:00"
+      "mined_at": "2026-08-28T00:37:15.798906+00:00"
     },
     {
       "series_number": "DEM-4",
@@ -48,7 +48,7 @@
       "thumbnail_text": "Pourquoi ton besoin d'approbation te rend ?",
       "demand_note": "autocomplete: 'besoin de reconnaissance psychologie'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-27T20:14:13.998778+00:00"
+      "mined_at": "2026-08-28T00:37:17.997775+00:00"
     },
     {
       "series_number": "DEM-5",
@@ -60,7 +60,7 @@
       "thumbnail_text": "Pourquoi ton cerveau te cache ta propre colère ?",
       "demand_note": "autocomplete: 'comment contrôler la colère et rester calme'; autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'impulsivité comment gérer ses excès de colère'; autocomplete: 'pourquoi mon cerveau pense tout le temps'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-27T20:14:18.068759+00:00"
+      "mined_at": "2026-08-28T00:37:21.785864+00:00"
     }
   ]
 }
