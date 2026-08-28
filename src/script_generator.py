@@ -261,7 +261,11 @@ def _openrouter_generate(messages, temperature=None, max_tokens=None) -> str | N
 # 2026-08-17: Gemini 2.5 Flash (free tier) as the THIRD LLM fallback — when
 # both the Groq chain and OpenRouter are exhausted (global free-tier outage
 # window), the pipeline still tries Gemini before giving up.
-GEMINI_TEXT_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent"
+# Keep the model configurable because Google retires/renames model aliases.
+# gemini-2.0-flash is the compatibility default for this REST endpoint; a
+# repository/workflow can override it with GEMINI_MODEL without a code change.
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.0-flash").strip() or "gemini-2.0-flash"
+GEMINI_TEXT_URL_TEMPLATE = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 GEMINI_TIMEOUT = 60
 
 
@@ -314,7 +318,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
             if max_tokens is not None:
                 payload["generationConfig"]["maxOutputTokens"] = max_tokens
         resp = _req.post(
-            f"{GEMINI_TEXT_URL}?key={key}",
+            f"{GEMINI_TEXT_URL_TEMPLATE.format(model=GEMINI_MODEL)}?key={key}",
             json=payload,
             timeout=GEMINI_TIMEOUT,
         )
@@ -338,7 +342,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
                 "no explanation."
             )
             r2 = _req.post(
-                f"{GEMINI_TEXT_URL}?key={key}",
+                f"{GEMINI_TEXT_URL_TEMPLATE.format(model=GEMINI_MODEL)}?key={key}",
                 json={"contents": parts2},
                 timeout=GEMINI_TIMEOUT,
             )
