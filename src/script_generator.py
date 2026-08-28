@@ -356,11 +356,18 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
             }
             if max_tokens is not None:
                 payload["generationConfig"]["maxOutputTokens"] = max_tokens
-        resp = _req.post(
-            f"{GEMINI_TEXT_URL_TEMPLATE.format(model=model)}?key={key}",
-            json=payload,
-            timeout=GEMINI_TIMEOUT,
-        )
+        resp = None
+        endpoint = None
+        for api_version in ("v1beta", "v1"):
+            candidate_endpoint = f"https://generativelanguage.googleapis.com/{api_version}/models/{model}:generateContent?key={key}"
+            candidate = _req.post(candidate_endpoint, json=payload, timeout=GEMINI_TIMEOUT)
+            if candidate.status_code != 404 or api_version == "v1":
+                resp = candidate
+                endpoint = candidate_endpoint
+                break
+            logger.warning("Gemini %s endpoint returned HTTP 404; retrying v1", api_version)
+        if resp is None:
+            return None
         if resp.status_code == 200:
             text = ""
             try:
@@ -381,7 +388,7 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
                 "no explanation."
             )
             r2 = _req.post(
-                f"{GEMINI_TEXT_URL_TEMPLATE.format(model=model)}?key={key}",
+                endpoint,
                 json={"contents": parts2},
                 timeout=GEMINI_TIMEOUT,
             )
@@ -392,9 +399,9 @@ def _gemini_generate(messages, temperature=None, max_tokens=None) -> str | None:
                         if t and "{" in t:
                             logger.warning("Gemini re-ask recovered a JSON reply.")
                             return t
-            logger.warning("Gemini fallback failed: HTTP %s", resp.status_code)
+            logger.warning("Gemini fallback failed: HTTP %s; response=%s", r2.status_code, getattr(r2, "text", "")[:300])
             return None
-        logger.warning("Gemini fallback failed: HTTP %s", resp.status_code)
+        logger.warning("Gemini fallback failed: HTTP %s; response=%s", resp.status_code, getattr(resp, "text", "")[:300])
         return None
     except Exception as exc:
         logger.warning("Gemini fallback error: %s", exc)
