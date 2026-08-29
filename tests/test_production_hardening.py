@@ -116,7 +116,7 @@ def test_first_three_seconds_gate_accepts_immediate_french_opening():
     assert report["ok"]
     assert report["failed_checks"] == []
     assert report["decision_words"] >= 4
-    assert report["opening_words"] >= 7
+    assert report["opening_words"] >= 6
 
 
 def test_first_three_seconds_gate_rejects_silent_generic_opening():

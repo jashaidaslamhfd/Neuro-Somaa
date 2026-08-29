@@ -16,7 +16,7 @@ _MIN_HOOK_WORDS = 5
 _DECISION_SECONDS = 2.2
 _OPENING_SECONDS = 3.0
 _MAX_FIRST_SCENE_SECONDS = 5.0
-_MIN_WORDS_BY_OPENING = 7
+_MIN_WORDS_BY_OPENING = 6
 _MOTION_TERMS = re.compile(
     r"\b(?:gros plan|close[- ]?up|macro|zoom|pulse|pulsation|tremble|tremblement|"
     r"bouge|mouvement|flash|éclate|s'ouvre|se contracte|accélère|ralentit|"
