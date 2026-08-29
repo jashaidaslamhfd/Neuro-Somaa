@@ -102,6 +102,9 @@ jobs:
         shell: bash
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          # Temporary verification mode: exercise the newly rotated Groq key
+          # first; alternate provider remains available after Groq failure.
+          PREFER_GROQ: "true"
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}

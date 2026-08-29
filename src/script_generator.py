@@ -131,6 +131,7 @@ ALT_LLM_BASE_URL = os.environ.get("ALT_LLM_BASE_URL", "https://api.openai.com/v1
 ALT_LLM_MODEL = os.environ.get("ALT_LLM_MODEL", "gpt-4o-mini").strip() or "gpt-4o-mini"
 ALT_LLM_TIMEOUT = 60
 ALT_LLM_STRICT = os.environ.get("ALT_LLM_STRICT", "false").strip().lower() == "true"
+PREFER_GROQ = os.environ.get("PREFER_GROQ", "false").strip().lower() == "true"
 
 
 def _alt_llm_generate(messages, temperature=None, max_tokens=None) -> str | None:
@@ -1819,7 +1820,7 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
     # When an alternate provider key is explicitly configured, prefer it over
     # the exhausted Groq chain. This makes the fallback a real bypass rather
     # than a last-resort call after multiple quota-consuming Groq attempts.
-    if os.environ.get("ALT_LLM_API_KEY", "").strip():
+    if os.environ.get("ALT_LLM_API_KEY", "").strip() and not PREFER_GROQ:
         logger.info("🔄 ALT_LLM_API_KEY configured; trying alternate provider before Groq")
         preferred_reply = _alt_llm_generate(
             messages, temperature=TEMPERATURE, max_tokens=MAX_TOKENS
@@ -1833,6 +1834,9 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
                 raise RuntimeError(
                     "Configured alternate LLM failed; strict mode refuses Groq fallback to protect quota"
                 )
+
+    if PREFER_GROQ and os.environ.get("ALT_LLM_API_KEY", "").strip():
+        logger.info("🔄 PREFER_GROQ=true; testing Groq before alternate fallback")
 
     # Model fallback chain (2026-08-12): primary advanced model first; on
     # rate-limit/API error we switch down the chain instead of only retrying
