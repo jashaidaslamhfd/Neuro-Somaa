@@ -122,7 +122,9 @@ class DynamicScheduleTests(unittest.TestCase):
 
     def test_publish_at_uses_paris_dst_offset(self):
         from datetime import datetime
+
         import pytz
+
         from scheduler import FrancePeakTimeScheduler
 
         scheduler = FrancePeakTimeScheduler()
@@ -284,7 +286,8 @@ class WorkflowRegressionTests(unittest.TestCase):
 
     def test_production_limits_full_pipeline_retries_to_protect_quota(self):
         self.assertIn('MAX_SCRIPT_ATTEMPTS: "1"', self.workflow)
-        self.assertIn('for attempt in 1; do', self.workflow)
+        self.assertIn('for attempt in 1 2 3; do', self.workflow)
+        self.assertIn('if [ "$attempt" -lt 3 ]; then', self.workflow)
 
     def test_uploader_normalizes_ranked_hashtag_metadata(self):
         src = (SRC_DIR / "uploader.py").read_text()

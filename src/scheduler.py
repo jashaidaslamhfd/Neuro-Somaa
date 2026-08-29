@@ -11,6 +11,7 @@ from __future__ import annotations
 import json
 import os
 from datetime import datetime, timedelta
+from typing import ClassVar
 
 import pytz
 
@@ -21,7 +22,7 @@ class FrancePeakTimeScheduler:
     # France is three hours behind Pakistan; Europe/Paris below handles the
     # CET/CEST transition automatically. Slots are intentionally explicit by
     # weekday because the heatmap is not identical across all seven columns.
-    DEFAULT_WEEKDAY_PEAK_TIMES = {
+    DEFAULT_WEEKDAY_PEAK_TIMES: ClassVar[dict] = {
         # Monday: PKT Mon 19:00, 21:00 and Tue 00:00 -> France Mon 16:00, 18:00, 21:00
         0: (
             {"hour": 16, "minute": 0, "name": "Heatmap lundi 16:00"},

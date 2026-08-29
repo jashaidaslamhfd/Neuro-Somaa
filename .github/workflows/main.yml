@@ -104,7 +104,7 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
           # Temporary verification mode: exercise the newly rotated Groq key
           # first; alternate provider remains available after Groq failure.
-          PREFER_GROQ: "true"
+          PREFER_GROQ: "false"
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
@@ -202,7 +202,7 @@ jobs:
           # beats ElevenLabs in blind evals). edge-tts Henri pool is the
           # built-in runner-safe safety net if Chatterbox can't load —
           # no slot is ever missed.
-          TTS_ENGINE: "chatterbox"
+          TTS_ENGINE: "edge"
           EDGE_FR_VOICE: "fr-FR-MauriceNeural"
           EDGE_FR_VOICE_ALT1: "fr-FR-HenriNeural"
           EDGE_FR_VOICE_ALT2: "fr-FR-DeniseNeural"
@@ -253,7 +253,7 @@ jobs:
             fi
           }
           trap cleanup_pipeline_group EXIT INT TERM
-          for attempt in 1; do
+          for attempt in 1 2 3; do
             echo "===== Pipeline attempt $attempt/3 ====="
             set +e
             # A bounded attempt prevents one silent model/provider stall from
@@ -279,7 +279,7 @@ jobs:
               echo "Pipeline succeeded on attempt $attempt"
               break
             fi
-            if [ "$attempt" -lt 1 ]; then
+            if [ "$attempt" -lt 3 ]; then
               echo "Cleaning temp render state and retrying in 20s..."
               rm -rf output/frames output/tmp_* output/*.mp4.tmp
               sleep 20
