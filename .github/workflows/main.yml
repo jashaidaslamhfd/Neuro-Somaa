@@ -85,6 +85,19 @@ jobs:
             }
           fi
 
+      - name: Verify alternate LLM configuration
+        shell: bash
+        env:
+          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
+          ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
+          ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
+        run: |
+          if [[ -z "${ALT_LLM_API_KEY:-}" ]]; then
+            echo "::error::ALT_LLM_API_KEY is not available to this workflow job. Add it under Neuro-Somaa Settings > Secrets and variables > Actions > Repository secrets with this exact name."
+            exit 1
+          fi
+          echo "Alternate LLM key is present (value hidden); endpoint=${ALT_LLM_BASE_URL}; model=${ALT_LLM_MODEL}"
+
       - name: Generate and upload Short (French)
         shell: bash
         env:
@@ -112,7 +125,7 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           # Optional OpenAI-compatible fallback. Add ALT_LLM_API_KEY as a
           # repository secret to bypass Groq/OpenRouter/Gemini quota outages.
-          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY || secrets.OPENAI_API_KEY }}
+          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
           ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
           ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
           MIN_HOOK_SCORE: "70"
