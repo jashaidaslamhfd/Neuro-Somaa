@@ -1,21 +1,14 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-28T17:35:02.674617+00:00",
+  "generated_at_utc": "2026-08-29T11:46:48.830870+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.8791,
+      "score": 3.788,
       "observed_samples": 55,
-      "observed_avg": 3.9474,
+      "observed_avg": 3.853,
       "competitor_prior": 2.0
-    },
-    {
-      "pattern": "ce-qui-se-passe",
-      "score": 2.6412,
-      "observed_samples": 2,
-      "observed_avg": 4.0324,
-      "competitor_prior": 1.25
     },
     {
       "pattern": "ce-que-corps-revele",
@@ -23,6 +16,13 @@
       "observed_samples": 1,
       "observed_avg": 3.44,
       "competitor_prior": 1.6
+    },
+    {
+      "pattern": "ce-qui-se-passe",
+      "score": 2.1873,
+      "observed_samples": 2,
+      "observed_avg": 3.1246,
+      "competitor_prior": 1.25
     },
     {
       "pattern": "la-science",
@@ -40,9 +40,9 @@
     },
     {
       "pattern": "other",
-      "score": 1.6144,
+      "score": 1.602,
       "observed_samples": 3,
-      "observed_avg": 2.6907,
+      "observed_avg": 2.6701,
       "competitor_prior": 0.0
     },
     {

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-28T17:35:02.486433+00:00",
+  "generated_at": "2026-08-29T11:46:48.545595+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
     {
@@ -7,18 +7,6 @@
       "n": 1,
       "avg_views": 1241.0,
       "avg_retention": 40.0
-    },
-    {
-      "topic": "Ce que la science explique sur l'apparition soudaine de la chair de poule",
-      "n": 1,
-      "avg_views": 1209.0,
-      "avg_retention": 34.7
-    },
-    {
-      "topic": "Ce que la science explique sur le muscle qui tressaille tout seul",
-      "n": 1,
-      "avg_views": 1168.0,
-      "avg_retention": 32.8
     },
     {
       "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
@@ -61,6 +49,18 @@
       "n": 1,
       "avg_views": 977.0,
       "avg_retention": 47.9
+    },
+    {
+      "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
+      "n": 1,
+      "avg_views": 958.0,
+      "avg_retention": 65.6
+    },
+    {
+      "topic": "Pourquoi le corps gratte après la douche",
+      "n": 1,
+      "avg_views": 958.0,
+      "avg_retention": 44.4
     }
   ],
   "top_hook_word_counts": [],

@@ -1,39 +1,39 @@
 {
-  "generated_at": "2026-08-28T17:35:02.797386+00:00",
+  "generated_at": "2026-08-29T11:46:48.924643+00:00",
   "n_videos_analyzed": 67,
   "truth_gate": {
     "hook_score": {
       "claims": "hook quality",
       "n": 67,
-      "spearman_vs_views": -0.059,
-      "spearman_vs_retention": -0.117,
+      "spearman_vs_views": -0.056,
+      "spearman_vs_retention": -0.127,
       "verdict": "NOISE",
       "decision_usable": false
     },
     "seo_score": {
       "claims": "SEO quality",
       "n": 67,
-      "spearman_vs_views": 0.369,
-      "spearman_vs_retention": 0.3,
+      "spearman_vs_views": 0.622,
+      "spearman_vs_retention": 0.119,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
     "predicted_retention": {
       "claims": "retention",
       "n": 67,
-      "spearman_vs_views": -0.114,
-      "spearman_vs_retention": -0.095,
+      "spearman_vs_views": -0.112,
+      "spearman_vs_retention": -0.105,
       "verdict": "NOISE",
       "decision_usable": false,
-      "bias": 0.239,
+      "bias": 0.232,
       "mean_predicted": 0.692,
-      "mean_actual": 0.454
+      "mean_actual": 0.46
     },
     "predicted_ctr": {
       "claims": "CTR",
       "n": 67,
-      "spearman_vs_views": 0.363,
-      "spearman_vs_retention": 0.295,
+      "spearman_vs_views": 0.619,
+      "spearman_vs_retention": 0.111,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
@@ -51,59 +51,59 @@
   "models": {
     "ridge": {
       "reliable": true,
-      "cv_r2_mean": 0.4441,
-      "cv_r2_std": 0.1674,
-      "cv_mae_views": 378.5,
+      "cv_r2_mean": 0.2528,
+      "cv_r2_std": 0.6374,
+      "cv_mae_views": 328.4,
       "n": 67,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
           "feature": "is_question",
-          "coef": 0.6379,
+          "coef": 0.3477,
           "direction": "+"
-        },
-        {
-          "feature": "hour_cos",
-          "coef": 0.1021,
-          "direction": "+"
-        },
-        {
-          "feature": "hour_sin",
-          "coef": -0.1011,
-          "direction": "-"
-        },
-        {
-          "feature": "title_chars",
-          "coef": -0.0899,
-          "direction": "-"
-        },
-        {
-          "feature": "has_second_person",
-          "coef": -0.0749,
-          "direction": "-"
         },
         {
           "feature": "seo_score",
-          "coef": 0.0658,
+          "coef": 0.2296,
+          "direction": "+"
+        },
+        {
+          "feature": "predicted_ctr",
+          "coef": 0.1957,
+          "direction": "+"
+        },
+        {
+          "feature": "title_chars",
+          "coef": -0.1103,
+          "direction": "-"
+        },
+        {
+          "feature": "phrase_words",
+          "coef": 0.0818,
           "direction": "+"
         },
         {
           "feature": "title_words",
-          "coef": 0.0579,
+          "coef": 0.0759,
           "direction": "+"
         },
         {
-          "feature": "topic_bucket_0",
-          "coef": 0.0548,
-          "direction": "+"
+          "feature": "dow_cos",
+          "coef": -0.0716,
+          "direction": "-"
+        },
+        {
+          "feature": "dow_sin",
+          "coef": -0.0623,
+          "direction": "-"
         }
       ]
     },
     "mlp": {
       "reliable": false,
       "note": "in-sample fit on n=67; advisory only",
-      "in_sample_mae_views": 242.0,
+      "in_sample_mae_views": 233.7,
       "hidden_units": 12,
       "epochs": 600
     }
@@ -151,24 +151,24 @@
         "wins_ge_1000_views": 0,
         "winner_rate": 0.0,
         "thompson_score": 0.2485,
-        "posterior_mean_logviews": 4.3706,
-        "avg_views": 394.0,
+        "posterior_mean_logviews": 1.4452,
+        "avg_views": 3.5,
         "confident": false
       },
       "POURQUOI": {
         "n": 58,
-        "wins_ge_1000_views": 8,
-        "winner_rate": 0.1379,
-        "thompson_score": 0.1501,
-        "posterior_mean_logviews": 5.6587,
-        "avg_views": 570.2,
+        "wins_ge_1000_views": 6,
+        "winner_rate": 0.1034,
+        "thompson_score": 0.117,
+        "posterior_mean_logviews": 5.3573,
+        "avg_views": 519.7,
         "confident": true
       },
       "SERIE_COURTE": {
         "n": 2,
         "wins_ge_1000_views": 0,
         "winner_rate": 0.0,
-        "thompson_score": 0.2444,
+        "thompson_score": 0.2443,
         "posterior_mean_logviews": 2.0127,
         "avg_views": 6.5,
         "confident": false
@@ -177,8 +177,8 @@
     "recommended_pattern": {
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
-      "thompson_score": 0.1501,
-      "avg_views": 570.2
+      "thompson_score": 0.117,
+      "avg_views": 519.7
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -188,31 +188,20 @@
     "reliable": true,
     "n_scored": 67,
     "window": 20,
-    "baseline_median_views": 637.0,
+    "baseline_median_views": 334.0,
     "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
-    "anomalies": [
-      {
-        "video_id": "9-oJZ_btRd0",
-        "title": "Pourquoi l'estomac gargouille quand on a faim ?",
-        "views": 1,
-        "modified_z": -6.75,
-        "direction": "under",
-        "action": "queue metadata+thumbnail repair (hooks, CTR signals)"
-      }
-    ],
-    "underperformers": [
-      "9-oJZ_btRd0"
-    ]
+    "anomalies": [],
+    "underperformers": []
   },
   "forecast": {
     "reliable": true,
     "method": "Holt double exponential smoothing (α=0.4, β=0.1)",
-    "last_level": 208.4,
-    "daily_trend": -109.8,
-    "sigma_daily": 567.5,
+    "last_level": 220.6,
+    "daily_trend": -104.23,
+    "sigma_daily": 560.0,
     "forecast_daily_views": [
-      98.6,
-      0.0,
+      116.3,
+      12.1,
       0.0,
       0.0,
       0.0,
@@ -242,9 +231,9 @@
       0.0,
       0.0
     ],
-    "total_30d_expected": 99.0,
+    "total_30d_expected": 128.0,
     "band_30d_low": 0.0,
-    "band_30d_high": 570.8,
+    "band_30d_high": 564.3,
     "honesty": "trend extrapolation assumes current strategy/format holds; a single viral outlier reshapes everything — re-read weekly.",
     "series_days": 29,
     "first_day": "2026-07-19",
@@ -258,10 +247,10 @@
     "clusters": [
       {
         "cluster_id": 2,
-        "name": "tout / seul / ventre / muscle / s'endort",
+        "name": "seul / tout / ventre / muscle / s'endort",
         "size": 3,
-        "avg_views": 1019.7,
-        "max_views": 1168,
+        "avg_views": 632.7,
+        "max_views": 1054,
         "examples": [
           "Pourquoi le muscle qui tressaille tout seul ?",
           "Pourquoi un pied s'endort tout seul ?",
@@ -270,7 +259,7 @@
       },
       {
         "cluster_id": 1,
-        "name": "cœur / battre / son / nuit / s'emballe",
+        "name": "cœur / battre / son / nuit / sous",
         "size": 4,
         "avg_views": 572.8,
         "max_views": 874,
@@ -284,7 +273,7 @@
         "cluster_id": 0,
         "name": "raison / change / dit / cerveau / vous",
         "size": 32,
-        "avg_views": 572.5,
+        "avg_views": 547.7,
         "max_views": 1134,
         "examples": [
           "La science derrière le temps qui semble accélérer",
@@ -296,7 +285,7 @@
         "cluster_id": 5,
         "name": "corps / s'endormant / après / lourd / mentir",
         "size": 8,
-        "avg_views": 484.8,
+        "avg_views": 473.6,
         "max_views": 986,
         "examples": [
           "Corps lourd",
@@ -306,9 +295,9 @@
       },
       {
         "cluster_id": 3,
-        "name": "froid / peut / sembler / étrange / frissonne",
+        "name": "froid / sembler / peut / étrange / frissonne",
         "size": 7,
-        "avg_views": 416.3,
+        "avg_views": 350.7,
         "max_views": 1241,
         "examples": [
           "Réveil avant l'alarme",
@@ -320,8 +309,8 @@
         "cluster_id": 4,
         "name": "sur / faim / comprendre / qu'il / faut",
         "size": 13,
-        "avg_views": 322.8,
-        "max_views": 1209,
+        "avg_views": 229.5,
+        "max_views": 1029,
         "examples": [
           "Ce qu'il faut comprendre sur les genoux qui craquent",
           "Ce que la science explique sur l'effet du stress",
@@ -329,16 +318,16 @@
         ]
       }
     ],
-    "winner_cluster": "tout / seul / ventre / muscle / s'endort",
+    "winner_cluster": "seul / tout / ventre / muscle / s'endort",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
     "reliable": true,
     "n": 67,
-    "p10": 29.1,
-    "p50": 44.0,
-    "p90": 65.6,
-    "share_below_50pct": 0.716,
+    "p10": 28.6,
+    "p50": 44.6,
+    "p90": 66.3,
+    "share_below_50pct": 0.701,
     "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
   },
   "experiment": {
@@ -357,10 +346,10 @@
         "a": "pov_reveal",
         "b": "question",
         "significant": false,
-        "p_value": 0.2484,
+        "p_value": 0.2488,
         "mean_a": 635.64,
-        "mean_b": 369.0,
-        "diff": 266.64,
+        "mean_b": 369.2,
+        "diff": 266.44,
         "n_a": 11,
         "n_b": 5,
         "method": "two-sided permutation test (5000 shuffles)",
@@ -374,7 +363,7 @@
     "honesty": "3 arms = 3 pairwise tests; treat p<0.05 as 'promising', re-confirm on the next batch before rewriting the prompt bank."
   },
   "viral_fastlane": {
-    "entries": 7,
+    "entries": 6,
     "ttl_hours": 96,
     "items": [
       {
@@ -387,17 +376,8 @@
         }
       },
       {
-        "topic": "Pourquoi le muscle qui tressaille tout seul au réveil ?",
-        "series_number": "W02",
-        "cloned_from": {
-          "video_id": "KMXIpcpoDX4",
-          "views": 1168,
-          "title": "Pourquoi le muscle qui tressaille tout seul ?"
-        }
-      },
-      {
         "topic": "Pourquoi les souvenirs gênants reviennent plus souvent en hiver ?",
-        "series_number": "W03",
+        "series_number": "W02",
         "cloned_from": {
           "video_id": "oZ_AmaU0VE0",
           "views": 1134,
@@ -406,7 +386,7 @@
       },
       {
         "topic": "Pourquoi des fourmillements apparaissent au moment où tu t'y attends le moins ?",
-        "series_number": "W04",
+        "series_number": "W03",
         "cloned_from": {
           "video_id": "JH0ybNiIIP4",
           "views": 1055,
@@ -415,7 +395,7 @@
       },
       {
         "topic": "Pourquoi un pied s'endort tout seul plus chez certaines personnes ?",
-        "series_number": "W05",
+        "series_number": "W04",
         "cloned_from": {
           "video_id": "JIg1-eBYols",
           "views": 1054,
@@ -424,7 +404,7 @@
       },
       {
         "topic": "Pourquoi la mâchoire craque quand tu es amoureux ?",
-        "series_number": "W06",
+        "series_number": "W05",
         "cloned_from": {
           "video_id": "0giDXoVx72E",
           "views": 1029,
@@ -433,7 +413,7 @@
       },
       {
         "topic": "Pourquoi un nœud au ventre apparaît au réveil ?",
-        "series_number": "W07",
+        "series_number": "W06",
         "cloned_from": {
           "video_id": "n1TgqGp2PQ0",
           "views": 1007,

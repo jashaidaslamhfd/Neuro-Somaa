@@ -1,32 +1,32 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-28T17:35:02.676341+00:00",
+  "generated_at_utc": "2026-08-29T11:46:48.832127+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
     {
       "rank": 1,
-      "score_rank": 3,
+      "score_rank": 2,
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.0749,
+      "score": 3.075,
       "samples": 24,
       "confident": true,
       "prior": 0.0
     },
     {
       "rank": 2,
-      "score_rank": 2,
+      "score_rank": 3,
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 3.2024,
+      "score": 2.9973,
       "samples": 12,
       "confident": true,
-      "prior": 3.2306
+      "prior": 3.1214
     },
     {
       "rank": 3,
@@ -72,41 +72,12 @@
       ]
     },
     {
-      "slot": "19:30",
-      "hour": 19,
-      "minute": 30,
-      "score": 3.2024,
-      "observed_samples": 12,
-      "observed_avg": 3.193,
-      "prior": 3.2306,
-      "examples": [
-        {
-          "video_id": "XLIFrONS2rc",
-          "title": "Pourquoi l'apparition soudaine de la chair de poule ?",
-          "views": 1209,
-          "published_paris": "2026-07-29 19:30"
-        },
-        {
-          "video_id": "HJb7xCMIYWQ",
-          "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 958,
-          "published_paris": "2026-08-01 19:30"
-        },
-        {
-          "video_id": "ixDDjtbojKs",
-          "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 958,
-          "published_paris": "2026-08-12 19:30"
-        }
-      ]
-    },
-    {
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.0749,
+      "score": 3.075,
       "observed_samples": 24,
-      "observed_avg": 3.0749,
+      "observed_avg": 3.075,
       "prior": 0.0,
       "examples": [
         {
@@ -130,31 +101,31 @@
       ]
     },
     {
-      "slot": "21:00",
-      "hour": 21,
-      "minute": 0,
-      "score": 2.9041,
-      "observed_samples": 5,
-      "observed_avg": 2.8029,
-      "prior": 3.0306,
+      "slot": "19:30",
+      "hour": 19,
+      "minute": 30,
+      "score": 2.9973,
+      "observed_samples": 12,
+      "observed_avg": 2.956,
+      "prior": 3.1214,
       "examples": [
         {
-          "video_id": "KMXIpcpoDX4",
-          "title": "Pourquoi le muscle qui tressaille tout seul ?",
-          "views": 1168,
-          "published_paris": "2026-07-29 21:00"
+          "video_id": "HJb7xCMIYWQ",
+          "title": "Pourquoi la chair de poule apparaît soudainement ?",
+          "views": 958,
+          "published_paris": "2026-08-01 19:30"
         },
         {
-          "video_id": "TbbiAMubfu8",
-          "title": "Ce qui change lorsque une lumière vive fait éternuer ?",
-          "views": 781,
-          "published_paris": "2026-07-28 21:00"
+          "video_id": "ixDDjtbojKs",
+          "title": "Pourquoi le corps gratte après la douche ?",
+          "views": 958,
+          "published_paris": "2026-08-12 19:30"
         },
         {
-          "video_id": "trfitEKS1ik",
-          "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
-          "views": 154,
-          "published_paris": "2026-08-19 21:00"
+          "video_id": "QuwjzCbMH0M",
+          "title": "Pourquoi un rêve disparaît au réveil ?",
+          "views": 922,
+          "published_paris": "2026-08-09 19:30"
         }
       ]
     },
@@ -162,7 +133,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.8755,
+      "score": 2.7882,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -179,7 +150,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.8289,
+      "score": 2.7416,
       "observed_samples": 1,
       "observed_avg": 2.2889,
       "prior": 0.0,
@@ -196,7 +167,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.7431,
+      "score": 2.6557,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -213,7 +184,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.7391,
+      "score": 2.6517,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -230,7 +201,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.6895,
+      "score": 2.624,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -253,7 +224,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 2.6775,
+      "score": 2.5901,
       "observed_samples": 1,
       "observed_avg": 1.5318,
       "prior": 0.0,
@@ -267,13 +238,59 @@
       ]
     },
     {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 2.5236,
+      "observed_samples": 1,
+      "observed_avg": 1.1992,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 2,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
+      "slot": "21:00",
+      "hour": 21,
+      "minute": 0,
+      "score": 2.4876,
+      "observed_samples": 5,
+      "observed_avg": 2.1406,
+      "prior": 2.9214,
+      "examples": [
+        {
+          "video_id": "trfitEKS1ik",
+          "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
+          "views": 154,
+          "published_paris": "2026-08-19 21:00"
+        },
+        {
+          "video_id": "30NhLXgz-jo",
+          "title": "Pourquoi la faim revient à la même heure ?",
+          "views": 60,
+          "published_paris": "2026-08-18 21:00"
+        },
+        {
+          "video_id": "mGJQX82e9IY",
+          "title": "Pourquoi le hoquet commence brusquement ?",
+          "views": 9,
+          "published_paris": "2026-07-27 21:00"
+        }
+      ]
+    },
+    {
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.6493,
+      "score": 2.4687,
       "observed_samples": 3,
-      "observed_avg": 2.7035,
-      "prior": 2.6306,
+      "observed_avg": 2.3163,
+      "prior": 2.5214,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -284,31 +301,14 @@
         {
           "video_id": "VRWySzxXsyE",
           "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-          "views": 524,
+          "views": 65,
           "published_paris": "2026-07-29 12:30"
         },
         {
           "video_id": "YluUMs7fPtQ",
           "title": "Pourquoi les corps flottants visibles dans la lumière ?",
-          "views": 9,
+          "views": 3,
           "published_paris": "2026-07-28 12:30"
-        }
-      ]
-    },
-    {
-      "slot": "19:00",
-      "hour": 19,
-      "minute": 0,
-      "score": 2.611,
-      "observed_samples": 1,
-      "observed_avg": 1.1992,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "WxOEXbepJ40",
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "views": 2,
-          "published_paris": "2026-07-23 19:10"
         }
       ]
     }
