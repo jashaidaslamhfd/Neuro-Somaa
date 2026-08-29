@@ -1035,6 +1035,32 @@ def _trim_to_word_limit(caption: str, max_words: int) -> str:
     return truncated
 
 
+def _repair_obvious_french_caption_artifacts(scenes: list[dict]) -> list[str]:
+    """Repair common small-model French terminal-pronoun artifacts.
+
+    Compact models occasionally emit phrases such as ``ajuste ton ton`` or
+    ``prévoie ton ton``. The strict gate correctly rejects the resulting
+    dangling ``ton``; replacing it with a neutral noun keeps the meaning
+    educational and avoids burning all production retries on a typo.
+    """
+    changes: list[str] = []
+    replacements = (
+        (r"\bton(?:\s+ton)+([.!?…]?)$", r"ton comportement\1"),
+        (r"\bta(?:\s+ta)+([.!?…]?)$", r"ta réaction\1"),
+        (r"\btes(?:\s+tes)+([.!?…]?)$", r"tes réactions\1"),
+        (r"\bton([.!?…])$", r"ton comportement\1"),
+    )
+    for index, scene in enumerate(scenes, start=1):
+        caption = str(scene.get("caption", "")).strip()
+        fixed = caption
+        for pattern, replacement in replacements:
+            fixed = re.sub(pattern, replacement, fixed, flags=re.IGNORECASE)
+        if fixed != caption:
+            scene["caption"] = fixed
+            changes.append(f"caption_artifact:{index}")
+    return changes
+
+
 def _repair_broken_scene_continuations(scenes: list[dict]) -> list[str]:
     """Repair safe French sentence-boundary artifacts before the strict gate.
 
@@ -1144,6 +1170,14 @@ def _normalize_scenes(script_data: dict) -> dict:
         if script_data.get("description"):
             script_data["description"], _dh = humanize_spoken_fr(script_data["description"])
             all_changes.extend(_dh)
+        artifact_changes = _repair_obvious_french_caption_artifacts(normalized)
+        if artifact_changes:
+            all_changes.extend(artifact_changes)
+            import logging as _log
+
+            _log.getLogger(__name__).warning(
+                "French caption artifact repair applied: %s", ", ".join(artifact_changes)
+            )
         boundary_changes = _repair_broken_scene_continuations(normalized)
         if boundary_changes:
             all_changes.extend(boundary_changes)
