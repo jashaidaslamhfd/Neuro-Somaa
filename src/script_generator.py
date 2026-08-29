@@ -46,14 +46,14 @@ def _duration_word_budget() -> tuple:
     roughly 70% of the allowed range, and all 3 retries with it. The whole
     experiment arm would have produced nothing but failed runs.
 
-    FIXED 2026-08-19: edge-tts (the primary engine since 2026-08-17) speaks
-    French at ~1.9-2.1 words/sec including pauses. The old 2.6 w/s (Kokoro
-    pace) made narration consistently overshoot the 29s gate, so roughly
-    half of short runs died on "refusing destructive speed-up".
+    FIXED 2026-08-29: edge-tts speaks French at roughly 1.5 words/sec in
+    this pipeline after the configured -8% rate and scene pauses. The previous
+    2.1 w/s assumption produced 31–33s narration for a 20–24s target, so
+    candidates were rejected before rendering/upload.
     """
     import os as _os
 
-    words_per_second = 2.1
+    words_per_second = 1.5
     # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
     # The old floor of max(40, ...) forced >=40 words (~15s narration) even
     # when a short arm was requested, silently breaking the whole experiment.
