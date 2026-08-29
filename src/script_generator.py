@@ -1116,6 +1116,30 @@ def _ensure_french_hook_budget(caption: str) -> str:
     return _trim_to_word_limit(repaired, HOOK_MAX_WORDS)
 
 
+def _cap_total_narration_words(scenes: list[dict], max_words: int) -> bool:
+    """Trim only excess tail words so narration cannot exceed the TTS budget."""
+    changed = False
+    total = sum(len(str(scene.get("caption", "")).split()) for scene in scenes)
+    if total <= max_words:
+        return changed
+    for scene in reversed(scenes[1:]):
+        if total <= max_words:
+            break
+        words = str(scene.get("caption", "")).split()
+        removable = min(len(words), total - max_words)
+        keep = max(2, len(words) - removable)
+        if keep < len(words):
+            scene["caption"] = _trim_to_word_limit(" ".join(words), keep)
+            total = sum(len(str(item.get("caption", "")).split()) for item in scenes)
+            changed = True
+    if total > max_words and scenes:
+        words = str(scenes[-1].get("caption", "")).split()
+        keep = max(1, len(words) - (total - max_words))
+        scenes[-1]["caption"] = " ".join(words[:keep]).rstrip(",;:") + "."
+        changed = True
+    return changed
+
+
 def _normalize_scenes(script_data: dict) -> dict:
     """
     Normalizes scene data from various formats.
@@ -1225,6 +1249,10 @@ def _normalize_scenes(script_data: dict) -> dict:
 
     script_data["scenes"] = normalized
     script_data["voiceover"] = " ".join(s.get("caption", "") or "" for s in normalized)
+
+    if _cap_total_narration_words(normalized, MAX_WORDS):
+        logger.warning("Narration word-budget repair applied: capped at %d words", MAX_WORDS)
+        script_data["voiceover"] = " ".join(s.get("caption", "") or "" for s in normalized)
 
     # Auto-fix: the scored hook must be the exact line viewers hear first.
     # Rather than relying on the LLM to retype the hook identically to
