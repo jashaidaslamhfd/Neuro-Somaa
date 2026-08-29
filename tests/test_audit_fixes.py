@@ -5,7 +5,7 @@ Covers:
      (`impressionClickThroughRate`), never the silently-dropped misspelling.
   2. Learned publish slots: a 1-4 sample slot must NEVER capture a daily
      publish slot while prior-backed defaults are available.
-  3. French quality gate: a verb-less French question title is hard-blocked.
+  3. French quality gate: a verb-less French question title is repairable and advisory.
   4. Thumbnail hooks: bare labels are downgraded to a verb-ful question hook.
 """
 
@@ -84,12 +84,24 @@ class SlotConfidenceTests(unittest.TestCase):
 
 
 class FrenchVerbGateTests(unittest.TestCase):
-    def test_verbless_question_title_is_blocked(self):
-        from french_quality_gate import is_french_question_without_verb
+    def test_verbless_question_title_is_detected_for_repair(self):
+        from french_quality_gate import is_french_question_without_verb, validate_publication_quality
 
-        self.assertTrue(is_french_question_without_verb("Pourquoi des corps flottants visibles dans l'œil ?"))
+        title = "Pourquoi des corps flottants visibles dans l'œil ?"
+        self.assertTrue(is_french_question_without_verb(title))
         self.assertFalse(is_french_question_without_verb("Pourquoi le corps sursaute en s'endormant ?"))
         self.assertFalse(is_french_question_without_verb("Le cœur bat plus vite la nuit"))  # not a question
+
+        script = {
+            "title": title,
+            "scenes": [
+                {"caption": "Ton corps réagit avant que tu comprennes.", "visual": "Gros plan, le corps bouge."}
+                for _ in range(4)
+            ],
+        }
+        approved, report = validate_publication_quality(script)
+        self.assertTrue(approved)
+        self.assertTrue(any("auto-repair" in warning for warning in report["warnings"]))
 
     def test_verb_detector_handles_accents_and_apostrophes(self):
         from french_quality_gate import has_french_verb

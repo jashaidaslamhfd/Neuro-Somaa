@@ -355,10 +355,9 @@ _TITLE_DANGLER_WORDS = frozenset(
 
 # ---------------------------------------------------------------------------
 # French-verb presence check (2026-08-11 audit)
-# A French QUESTION with no conjugated verb reads as machine-generated to a
-# native speaker — e.g. the live title "Pourquoi des corps flottants visibles
-# dans l'œil ?" (published) and the thumbnail label "CŒUR NUIT". The gate now
-# hard-blocks verbless question titles and warns on verbless thumbnail copy.
+# A French QUESTION with no conjugated verb can read as machine-generated, but
+# generated title fragments are repairable and must not consume an LLM retry.
+# The detector remains available for downstream title auto-repair and audits.
 # Accents are stripped before matching so "accélère" matches "accelere".
 # ---------------------------------------------------------------------------
 _COMMON_FRENCH_VERBS = frozenset(
@@ -732,13 +731,13 @@ def validate_publication_quality(script_data: dict) -> tuple[bool, dict]:
             "finish the sentence or shorten earlier words"
         )
 
-    # A French question without a verb reads as machine-generated to natives —
-    # this exact defect went live ("Pourquoi des corps flottants visibles dans
-    # l'œil ?"). Hard-block it at the gate.
+    # A verbless question is repairable by the final title-normalization guard
+    # in main.py. Keep it advisory here so one imperfect title does not spend a
+    # provider retry or block an otherwise valid script.
     if is_french_question_without_verb(title):
-        issues.append(
-            "Title is a French question without a conjugated verb; "
-            "finish the sentence (ex. 'Pourquoi voit-on des corps flottants dans l'œil ?')"
+        warnings.append(
+            "Title is a French question fragment without a conjugated verb; "
+            "auto-repair before rendering/upload (ex. 'Pourquoi voit-on des corps flottants dans l'œil ?')"
         )
 
     # Thumbnail copy gets the same guarantee: never a bare verbless label
