@@ -158,7 +158,9 @@ def _alt_llm_generate(messages, temperature=None, max_tokens=None) -> str | None
             timeout=ALT_LLM_TIMEOUT,
         )
         if response.status_code != 200:
-            logger.warning("Alternate LLM failed: HTTP %s; response=%s", response.status_code, response.text[:500])
+            # Never log provider response bodies: auth errors may echo a
+            # partially masked credential or other sensitive metadata.
+            logger.warning("Alternate LLM failed: HTTP %s", response.status_code)
             return None
         text = response.json().get("choices", [{}])[0].get("message", {}).get("content", "")
         if text and "{" in text:
@@ -907,7 +909,18 @@ def _clean_json_response(raw_reply: str) -> dict:
     raw_reply = re.sub(r"```json\s*", "", raw_reply)
     raw_reply = re.sub(r"```\s*", "", raw_reply)
 
-    # Try to find JSON object
+    # Providers sometimes prepend a conversational sentence despite asking
+    # for JSON mode. Decode the first complete JSON object instead of using a
+    # greedy regex that can include prose or multiple brace blocks.
+    for start in (m.start() for m in re.finditer(r"\{", raw_reply)):
+        try:
+            candidate, _ = json.JSONDecoder().raw_decode(raw_reply[start:])
+            if isinstance(candidate, dict):
+                return candidate
+        except json.JSONDecodeError:
+            continue
+
+    # Try to find JSON object for the existing cleanup/regex fallback path.
     json_match = re.search(r"\{.*\}", raw_reply, re.DOTALL)
     json_str = json_match.group(0) if json_match else raw_reply
 
