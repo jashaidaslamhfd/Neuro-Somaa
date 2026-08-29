@@ -292,6 +292,33 @@ jobs:
             exit "$rc"
           fi
 
+      - name: Persist failure diagnostics
+        # 2026-08-30 production-readiness fix: "Persist durable channel
+        # state" below only runs `if: success()`, so on every failed run
+        # data/pipeline_last_failure.json (written by main.py specifically
+        # to diagnose what went wrong) was NEVER committed — the only way
+        # to see it was downloading the ~140MB run artifact, which requires
+        # repo-admin credentials and (for external tooling) is served from
+        # Azure Blob Storage rather than the GitHub API domain, making it
+        # unreachable from network-restricted environments. This commits
+        # ONLY the diagnostic file itself on failure — never the rest of
+        # data/, since a failed run's other state may be partial/inconsistent
+        # and shouldn't be persisted as if it were a clean success.
+        if: failure()
+        shell: bash
+        run: |
+          set -euo pipefail
+          [ -f data/pipeline_last_failure.json ] || exit 0
+          if [ -z "$(git status --porcelain -- data/pipeline_last_failure.json)" ]; then exit 0; fi
+          git config user.name "neurosomaa-bot"
+          git config user.email "bot@neuro-somaa.fr"
+          git add data/pipeline_last_failure.json
+          git commit -m "chore: persist failure diagnostics [skip ci]"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then break
+            else sleep $((i * 5)); fi
+          done
+
       - name: Persist durable channel state
         if: success()
         shell: bash
