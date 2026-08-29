@@ -1117,8 +1117,19 @@ def _ensure_french_hook_budget(caption: str) -> str:
 
 
 def _cap_total_narration_words(scenes: list[dict], max_words: int) -> bool:
-    """Trim only excess tail words so narration cannot exceed the TTS budget."""
+    """Trim excess tail words without leaving a French fragment at the end."""
     changed = False
+    dangling_tail = {
+        "à", "au", "aux", "avec", "ce", "cette", "de", "des", "dans",
+        "du", "en", "et", "la", "le", "les", "ni", "ou", "par", "pour",
+        "qui", "que", "sans", "son", "sur", "ta", "tes", "ton", "vers",
+    }
+
+    def finish_caption(caption: str) -> str:
+        words = caption.rstrip(".!?…").split()
+        while words and re.sub(r"[^a-zà-ÿœ]", "", words[-1].lower()) in dangling_tail:
+            words.pop()
+        return (" ".join(words).rstrip(",;:") + ".") if words else caption
     total = sum(len(str(scene.get("caption", "")).split()) for scene in scenes)
     if total <= max_words:
         return changed
@@ -1129,13 +1140,13 @@ def _cap_total_narration_words(scenes: list[dict], max_words: int) -> bool:
         removable = min(len(words), total - max_words)
         keep = max(2, len(words) - removable)
         if keep < len(words):
-            scene["caption"] = _trim_to_word_limit(" ".join(words), keep)
+            scene["caption"] = finish_caption(_trim_to_word_limit(" ".join(words), keep))
             total = sum(len(str(item.get("caption", "")).split()) for item in scenes)
             changed = True
     if total > max_words and scenes:
         words = str(scenes[-1].get("caption", "")).split()
         keep = max(1, len(words) - (total - max_words))
-        scenes[-1]["caption"] = " ".join(words[:keep]).rstrip(",;:") + "."
+        scenes[-1]["caption"] = finish_caption(" ".join(words[:keep]))
         changed = True
     return changed
 
