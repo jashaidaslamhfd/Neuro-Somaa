@@ -282,6 +282,15 @@ class WorkflowRegressionTests(unittest.TestCase):
         self.assertIn('TARGET_MIN_SECONDS: "20"', self.workflow)
         self.assertIn('TARGET_MAX_SECONDS: "24"', self.workflow)
 
+    def test_production_limits_full_pipeline_retries_to_protect_quota(self):
+        self.assertIn('MAX_SCRIPT_ATTEMPTS: "1"', self.workflow)
+        self.assertIn('for attempt in 1; do', self.workflow)
+
+    def test_uploader_normalizes_ranked_hashtag_metadata(self):
+        src = (SRC_DIR / "uploader.py").read_text()
+        self.assertIn("def _normalise_hashtag", src)
+        self.assertIn('value.get("tag")', src)
+
     def test_decommissioned_groq_model_is_not_used(self):
         # Groq retires BOTH legacy Llama chat models on 2026-08-16
         # (llama-3.1-8b-instant, llama-3.3-70b-versatile); llama-3.1-70b was

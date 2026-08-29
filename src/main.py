@@ -65,7 +65,7 @@ except ImportError as e:
     sys.exit(1)
 
 # Constants
-MAX_SCRIPT_ATTEMPTS = 3
+MAX_SCRIPT_ATTEMPTS = max(1, int(os.environ.get("MAX_SCRIPT_ATTEMPTS", "3")))
 MAX_IMAGE_RETRIES = 3
 TITLE_CANDIDATE_POOL_SIZE = int(os.environ.get("TITLE_CANDIDATE_POOL_SIZE", "12"))
 FALLBACK_ABORT_RATIO = float(os.environ.get("FALLBACK_ABORT_RATIO", "0.5"))

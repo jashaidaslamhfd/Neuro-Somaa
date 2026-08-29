@@ -194,11 +194,29 @@ def _yt_client():
 _YT_SHORTS_HASHTAGS = "#Shorts #YouTubeShorts #FaitsCorps #ScienceCorps #TonCorps"
 
 
+def _normalise_hashtag(value) -> str:
+    """Convert SEO/ranking metadata into one safe publishable hashtag.
+
+    ``rank_hashtags`` intentionally returns dictionaries, while the original
+    SEO package returns strings. The uploader accepts both contracts so a
+    metadata-shape change cannot abort an otherwise rendered upload.
+    """
+    if isinstance(value, dict):
+        value = value.get("tag") or value.get("hashtag") or value.get("text") or value.get("name") or ""
+    if not isinstance(value, str):
+        return ""
+    value = value.strip()
+    if not value:
+        return ""
+    return value if value.startswith("#") else f"#{value}"
+
+
 def _append_hashtags(script_data: dict) -> str:
     """Append ranked hashtags + mandatory Shorts hashtags to YouTube description."""
     base_desc = (script_data.get("description") or "")[:4500]
     ranked = script_data.get("hashtags_ranked") or script_data.get("hashtags") or []
-    hashtag_strs = [f"#{t}" if not t.startswith("#") else t for t in ranked[:5]]
+    hashtag_strs = [_normalise_hashtag(value) for value in ranked[:5]]
+    hashtag_strs = [value for value in hashtag_strs if value]
     all_hashtags = hashtag_strs + _YT_SHORTS_HASHTAGS.split()
     unique_hashtags = list(dict.fromkeys(all_hashtags))
     return f"{base_desc}\n\n" + " ".join(unique_hashtags)

@@ -128,6 +128,7 @@ jobs:
           ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
           ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
           ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
+          ALT_LLM_STRICT: "true"
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose
@@ -149,6 +150,9 @@ jobs:
           # Retention experiment: keep generated Shorts below 25 seconds.
           TARGET_MIN_SECONDS: "20"
           TARGET_MAX_SECONDS: "24"
+          # One full pipeline attempt per dispatch: avoids regenerating scripts
+          # after deterministic render/upload failures and protects LLM quota.
+          MAX_SCRIPT_ATTEMPTS: "1"
           # NICHE: Dark Psychology — manipulation, biais cognitifs,
           # secrets du comportement humain. France-first audience.
           CONTENT_SERIES: "dark_psychology_fr"
@@ -246,7 +250,7 @@ jobs:
             fi
           }
           trap cleanup_pipeline_group EXIT INT TERM
-          for attempt in 1 2 3; do
+          for attempt in 1; do
             echo "===== Pipeline attempt $attempt/3 ====="
             set +e
             # A bounded attempt prevents one silent model/provider stall from
@@ -272,7 +276,7 @@ jobs:
               echo "Pipeline succeeded on attempt $attempt"
               break
             fi
-            if [ "$attempt" -lt 3 ]; then
+            if [ "$attempt" -lt 1 ]; then
               echo "Cleaning temp render state and retrying in 20s..."
               rm -rf output/frames output/tmp_* output/*.mp4.tmp
               sleep 20
