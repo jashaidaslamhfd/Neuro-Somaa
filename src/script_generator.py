@@ -130,6 +130,7 @@ ALT_LLM_API_KEY = os.environ.get("ALT_LLM_API_KEY", "").strip()
 ALT_LLM_BASE_URL = os.environ.get("ALT_LLM_BASE_URL", "https://api.openai.com/v1").strip().rstrip("/")
 ALT_LLM_MODEL = os.environ.get("ALT_LLM_MODEL", "gpt-4o-mini").strip() or "gpt-4o-mini"
 ALT_LLM_TIMEOUT = 60
+ALT_LLM_STRICT = os.environ.get("ALT_LLM_STRICT", "false").strip().lower() == "true"
 
 
 def _alt_llm_generate(messages, temperature=None, max_tokens=None) -> str | None:
@@ -1827,7 +1828,11 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
             generate_script._or_fallback_reply = preferred_reply
             logger.info("✅ Alternate provider produced a script before Groq.")
         else:
-            logger.warning("Alternate provider unavailable; continuing with Groq/fallback chain.")
+            logger.warning("Alternate provider unavailable.")
+            if ALT_LLM_STRICT:
+                raise RuntimeError(
+                    "Configured alternate LLM failed; strict mode refuses Groq fallback to protect quota"
+                )
 
     # Model fallback chain (2026-08-12): primary advanced model first; on
     # rate-limit/API error we switch down the chain instead of only retrying
