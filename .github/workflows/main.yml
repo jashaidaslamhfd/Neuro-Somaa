@@ -131,7 +131,9 @@ jobs:
           ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
           ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
           ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
-          ALT_LLM_STRICT: "true"
+          # Do not abort the entire production run when the optional alternate
+          # provider is unauthorized; fall back to Groq/OpenRouter instead.
+          ALT_LLM_STRICT: "false"
           MIN_HOOK_SCORE: "70"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose
