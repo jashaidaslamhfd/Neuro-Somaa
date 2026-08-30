@@ -447,7 +447,6 @@ def _queue_is_stale(*, force: bool = False) -> bool:
         payload = json.loads(QUEUE_PATH.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return True
-    topics = payload.get("topics") if isinstance(payload, dict) else payload
     if not _queue_has_only_complete_topics(payload):
         # Treat malformed records exactly like stale state so the next run
         # cannot repeatedly select an incomplete French phrase for four days.
