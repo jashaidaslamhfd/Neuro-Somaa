@@ -475,7 +475,7 @@ def groq_model_chain() -> list:
 HOOK_MIN_WORDS = 7
 # French edge voices can stretch a nine-word hook beyond the six-second
 # runtime ceiling. Keep the opening dense and deterministic at seven words.
-HOOK_MAX_WORDS = int(os.environ.get("HOOK_MAX_WORDS", "7"))
+HOOK_MAX_WORDS = int(os.environ.get("HOOK_MAX_WORDS", "9"))
 # Short-format scene budget (FIXED 2026-08-02): 6 scenes x 7-10 words ≈
 # 42-60 words ≈ 16-23s narration — the 20-26s target window.
 MIN_SCENE_WORDS = 7
