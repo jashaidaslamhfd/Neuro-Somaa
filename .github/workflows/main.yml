@@ -309,6 +309,15 @@ jobs:
             exit "$rc"
           fi
 
+      - name: Write run manifest
+        if: always()
+        shell: bash
+        env:
+          RUN_MANIFEST_PATH: data/run_manifest.json
+          OUTPUT_DIR: output
+          DATA_DIR: data
+        run: python scripts/run_manifest.py
+
       - name: Persist failure diagnostics
         # 2026-08-30 production-readiness fix: "Persist durable channel
         # state" below only runs `if: success()`, so on every failed run
