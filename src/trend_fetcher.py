@@ -670,6 +670,46 @@ def _measured_topic_boost(candidates: list[dict], history: list[dict]) -> tuple[
     return boosted, rest
 
 
+def _views_growth_boost(candidates: list[dict], history: list[dict]) -> tuple[list, list]:
+    """Prioritize candidate families with real views and healthy retention.
+
+    This is deliberately conservative: at least two measured videos must share
+    two meaningful topic words, average >=800 views, and average retention >=45%.
+    It is a growth signal, not a promise of virality; the remaining catalogue is
+    kept for exploration.
+    """
+    if not history:
+        return [], candidates
+    stop = {"pourquoi", "quand", "ce", "que", "dans", "avec", "sur", "ton", "ta", "les", "des", "une", "un"}
+
+    def words(value: str) -> set[str]:
+        return {w for w in re.findall(r"[a-zà-ÿ]{4,}", str(value or "").lower()) if w not in stop}
+
+    boosted, rest = [], []
+    measured = []
+    for row in history:
+        try:
+            views = float(row.get("views"))
+            retention = float(row.get("average_view_percentage"))
+        except (TypeError, ValueError):
+            continue
+        if views > 0 and retention > 0:
+            measured.append((words(row.get("topic") or row.get("title")), views, retention))
+    for candidate in candidates:
+        candidate_words = words(candidate.get("topic"))
+        matches = [(views, retention) for topic_words, views, retention in measured if len(candidate_words & topic_words) >= 2]
+        if len(matches) >= 2:
+            avg_views = sum(item[0] for item in matches) / len(matches)
+            avg_retention = sum(item[1] for item in matches) / len(matches)
+            if avg_views >= 800 and avg_retention >= 45:
+                boosted.append(candidate)
+                continue
+        rest.append(candidate)
+    if boosted:
+        logger.info("Views-growth boost: %d/%d candidate families cleared real-view gates", len(boosted), len(candidates))
+    return boosted, rest
+
+
 def _pick_by_retention_class(candidates: list[dict], history: list[dict] | None = None) -> dict:
     """Prefer body-sensation + MEASURED-outcome topics, without ever starving
     the catalogue. Selection layers (highest priority first):
@@ -677,7 +717,12 @@ def _pick_by_retention_class(candidates: list[dict], history: list[dict] | None 
       1. topics whose similar past videos retained above channel median
       2. everything else, with the classic physical-sensation bias
     """
-    boosted, rest = _measured_topic_boost(candidates, history or [])
+    views_boosted, remaining = _views_growth_boost(candidates, history or [])
+    if views_boosted:
+        chosen = random.choice(views_boosted)
+        logger.info("Topic pick: REAL-VIEWS growth family -> %s", chosen.get("topic", "")[:60])
+        return chosen
+    boosted, rest = _measured_topic_boost(remaining, history or [])
     if boosted:
         chosen = random.choice(boosted)
         logger.info("Topic pick: MEASURED winner-family -> %s", chosen.get("topic", "")[:60])
