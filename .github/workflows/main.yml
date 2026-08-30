@@ -362,6 +362,35 @@ jobs:
             else sleep $((i * 5)); fi
           done
 
+      - name: Dump failure logs to step summary
+        if: failure()
+        shell: bash
+        run: |
+          {
+            echo "## Pipeline Failure Diagnostics"
+            if [ -f data/pipeline_last_failure.json ]; then
+              echo "### pipeline_last_failure.json"
+              echo '```json'
+              cat data/pipeline_last_failure.json
+              echo '```'
+            else
+              echo "### pipeline_last_failure.json NOT FOUND"
+              echo "The pipeline crashed before _fail() could write diagnostics."
+            fi
+            if [ -f data/slot_skipped.json ]; then
+              echo "### slot_skipped.json"
+              echo '```json'
+              cat data/slot_skipped.json
+              echo '```'
+            fi
+            if [ -f pipeline.log ]; then
+              echo "### pipeline.log (last 80 lines)"
+              echo '```'
+              tail -80 pipeline.log
+              echo '```'
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Persist durable channel state
         if: success()
         shell: bash
