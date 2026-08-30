@@ -109,10 +109,10 @@ jobs:
           ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
         run: |
           if [[ -z "${ALT_LLM_API_KEY:-}" ]]; then
-            echo "::error::ALT_LLM_API_KEY is not available to this workflow job. Add it under Neuro-Somaa Settings > Secrets and variables > Actions > Repository secrets with this exact name."
-            exit 1
+            echo "::warning::ALT_LLM_API_KEY is unavailable; production will use Groq/OpenRouter/local French fallback."
+          else
+            echo "Alternate LLM key is present (value hidden); endpoint=${ALT_LLM_BASE_URL}; model=${ALT_LLM_MODEL}"
           fi
-          echo "Alternate LLM key is present (value hidden); endpoint=${ALT_LLM_BASE_URL}; model=${ALT_LLM_MODEL}"
 
       - name: Generate and upload Short (French)
         shell: bash
