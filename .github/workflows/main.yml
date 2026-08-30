@@ -309,6 +309,11 @@ jobs:
             exit "$rc"
           fi
 
+      - name: Final rendered video QA
+        if: success()
+        shell: bash
+        run: python scripts/visual_qa.py
+
       - name: Write run manifest
         if: always()
         shell: bash
