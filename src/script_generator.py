@@ -2172,11 +2172,15 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
                         wait_sec,
                         MAX_RATE_LIMIT_SLEEP_SEC,
                     )
-                    raise RuntimeError(
-                        f"Groq rate limit needs ~{wait_sec}s to reset "
-                        f"(exceeds {MAX_RATE_LIMIT_SLEEP_SEC}s per-run budget). "
-                        f"Skipping this run; original error: {e}"
-                    ) from e
+                    # Do not raise here: the caller has a deterministic local
+                    # French fallback for exactly this account-level outage.
+                    # Breaking leaves the provider error in last_error and lets
+                    # the fallback validation path create a renderable script.
+                    logger.warning(
+                        "Groq quota reset exceeds this run's budget; switching "
+                        "to the deterministic local French fallback."
+                    )
+                    break
                 logger.warning("Groq rate limited — waiting %ds", wait_sec)
                 time.sleep(wait_sec)
                 continue
