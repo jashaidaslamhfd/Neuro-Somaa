@@ -1395,6 +1395,13 @@ class SKILLORPipeline:
             "Narration too short:",
             "Narration too long:",
             "Failed to generate image for scene",
+            # 2026-08-30: final rendered-asset audit can block on a French
+            # title/metadata issue that a fresh topic would fix. Without these
+            # phrases the retry loop treats the RuntimeError as a real crash
+            # instead of a guard block, so no retry happens and the slot is
+            # lost under FAIL_ON_MISSED_SLOT=true.
+            "Strict French quality gate blocked",
+            "French/publication gate:",
         )
         attempt = 0
         last_err = None
