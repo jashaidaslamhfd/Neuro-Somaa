@@ -1007,34 +1007,39 @@ def _clean_json_response(raw_reply: str) -> dict:
 
 
 def _trim_to_word_limit(caption: str, max_words: int) -> str:
-    """Trim a caption down to at most max_words, preferring to stop at the
-    last complete sentence within the limit; falls back to a hard cut with
-    a trailing period. Used to auto-fix scenes the LLM wrote too long,
-    instead of burning a full retry (and more Groq tokens) over something
-    a simple trim already fixes."""
+    """Trim a caption without leaving a French grammatical fragment.
+
+    Providers sometimes exceed the per-scene budget by one or two words. A
+    raw slice can end in ``de``, ``la`` or ``en`` and pass visual checks while
+    sounding broken in TTS. Prefer complete/clause boundaries, then back up
+    over known French function words before adding terminal punctuation.
+    """
     words = caption.split()
+    dangling = {
+        "à", "au", "aux", "avec", "ce", "cette", "de", "des", "dans",
+        "du", "en", "et", "la", "le", "les", "ni", "ou", "par", "pour",
+        "qui", "que", "sans", "son", "sur", "ta", "tes", "ton", "vers",
+        "un", "une",
+    }
+    def finish(text: str) -> str:
+        terminal = text.rstrip()[-1:] if text.rstrip().endswith((".", "!", "?", "…")) else "."
+        parts = text.rstrip(".!?…").rstrip(",;:").split()
+        while len(parts) > 2 and re.sub(r"[^a-zà-ÿœ]", "", parts[-1].lower()) in dangling:
+            parts.pop()
+        result = " ".join(parts).rstrip(",;:")
+        return result + terminal
     if len(words) <= max_words:
-        return caption
+        return finish(caption)
     truncated = " ".join(words[:max_words])
-    # Prefer cutting at the last sentence-ending punctuation in range.
-    # The old >=50% floor forced the hard-cut fallback, which shipped
-    # MID-SENTENCE voiceovers (see production history). Early-but-complete
-    # beats broken every time; _validate_script retries if it comes out
-    # too short — regeneration is better than broken audio.
     last_stop = max(truncated.rfind("."), truncated.rfind("!"), truncated.rfind("?"))
     if last_stop >= len(truncated) * 0.3:
-        return truncated[: last_stop + 1]
-    # No sentence boundary: cut at the last clause boundary so the spoken
-    # line still sounds like a deliberate end, not a crash.
+        return finish(truncated[: last_stop + 1])
     clause_floor = len(truncated) * 0.4
     for sep in (";", "—", ",", ":"):
         idx = truncated.rfind(sep)
         if idx >= clause_floor:
-            return truncated[:idx].rstrip() + "."
-    truncated = truncated.rstrip(",;:")
-    if not truncated.endswith((".", "!", "?")):
-        truncated += "."
-    return truncated
+            return finish(truncated[:idx])
+    return finish(truncated)
 
 
 def _repair_obvious_french_caption_artifacts(scenes: list[dict]) -> list[str]:
