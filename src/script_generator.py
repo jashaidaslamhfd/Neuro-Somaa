@@ -62,7 +62,10 @@ def _duration_word_budget() -> tuple:
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
-    high = max(low + 8, int(target_max * words_per_second * 0.90))
+    # Six edge-tts segments add boundary/pause overhead. The old +8 cushion
+    # allowed 33-word scripts that measured 26–27s and were then skipped by
+    # the duration guard. Keep a narrow 24–28 word envelope for a 20–24s Short.
+    high = max(low + 3, int(target_max * words_per_second * 0.80))
     return low, high
 
 

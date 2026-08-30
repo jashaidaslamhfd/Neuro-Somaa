@@ -197,3 +197,54 @@ class TestManualTitleOverrides(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FrenchTrimRegressionTests(unittest.TestCase):
+    def test_trim_removes_dangling_function_word(self):
+        from french_quality_gate import _broken_narration_issues
+        from script_generator import _trim_to_word_limit
+
+        caption = _trim_to_word_limit("Une phrase avec une virgule et une suite inutile", 7)
+        self.assertEqual(caption, "Une phrase avec une virgule.")
+        self.assertEqual(_broken_narration_issues([{"caption": caption}]), [])
+
+    def test_existing_question_mark_survives_normalization(self):
+        from script_generator import _trim_to_word_limit
+
+        caption = _trim_to_word_limit("Pourquoi ton muscle tressaille tout seul ?", 7)
+        self.assertTrue(caption.endswith("?"), caption)
+
+    def test_already_trimmed_dangling_caption_is_repaired(self):
+        from french_quality_gate import _broken_narration_issues
+        from script_generator import _trim_to_word_limit
+
+        caption = _trim_to_word_limit("Pourquoi ton cerveau te cache en.", 7)
+        self.assertEqual(_broken_narration_issues([{"caption": caption}]), [])
+
+
+class DurationBudgetRegressionTests(unittest.TestCase):
+    def test_short_arm_budget_is_narrow_enough_for_six_tts_segments(self):
+        import os
+
+        import script_generator
+
+        old_min = os.environ.get("TARGET_MIN_SECONDS")
+        old_max = os.environ.get("TARGET_MAX_SECONDS")
+        try:
+            os.environ["TARGET_MIN_SECONDS"] = "20"
+            os.environ["TARGET_MAX_SECONDS"] = "24"
+            low, high = script_generator._duration_word_budget()
+            self.assertEqual((low, high), (25, 28))
+        finally:
+            if old_min is None:
+                os.environ.pop("TARGET_MIN_SECONDS", None)
+            else:
+                os.environ["TARGET_MIN_SECONDS"] = old_min
+            if old_max is None:
+                os.environ.pop("TARGET_MAX_SECONDS", None)
+            else:
+                os.environ["TARGET_MAX_SECONDS"] = old_max
+
+
+if __name__ == "__main__":
+    unittest.main()
