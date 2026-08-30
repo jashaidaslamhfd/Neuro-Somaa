@@ -151,6 +151,7 @@ jobs:
           # provider is unauthorized; fall back to Groq/OpenRouter instead.
           ALT_LLM_STRICT: "false"
           MIN_HOOK_SCORE: "70"
+          MAX_HOOK_SECONDS: "6.0"
           QUALITY_APPROVAL_THRESHOLD: "60"
           # Viral-engineering gate: reject + regenerate any video whose
           # predicted retention is below this. 0.50 = only publish videos

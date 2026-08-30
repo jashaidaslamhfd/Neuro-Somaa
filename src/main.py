@@ -75,7 +75,7 @@ FALLBACK_ABORT_RATIO = float(os.environ.get("FALLBACK_ABORT_RATIO", "0.5"))
 MIN_HOOK_SCORE = int(os.environ.get("MIN_HOOK_SCORE", "70"))
 # Natural cloned delivery varies by speaker/reference. Five seconds preserves
 # a concise hook without throwing away an otherwise healthy 30-second Short.
-MAX_HOOK_SECONDS = float(os.environ.get("MAX_HOOK_SECONDS", "5.0"))
+MAX_HOOK_SECONDS = float(os.environ.get("MAX_HOOK_SECONDS", "6.0"))
 # 2026-08-24: Title diversity = TOPIC diversity, NOT format diversity.
 # "Pourquoi + body sensation" is the WINNING format (8/9 top performers).
 # Gate ensures no same body part repeats in consecutive titles.
