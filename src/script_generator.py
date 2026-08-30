@@ -473,7 +473,9 @@ def groq_model_chain() -> list:
 
 # A fast, clear opening that comfortably fits in the first 2–3 seconds.
 HOOK_MIN_WORDS = 7
-HOOK_MAX_WORDS = 9
+# French edge voices can stretch a nine-word hook beyond the six-second
+# runtime ceiling. Keep the opening dense and deterministic at seven words.
+HOOK_MAX_WORDS = int(os.environ.get("HOOK_MAX_WORDS", "7"))
 # Short-format scene budget (FIXED 2026-08-02): 6 scenes x 7-10 words ≈
 # 42-60 words ≈ 16-23s narration — the 20-26s target window.
 MIN_SCENE_WORDS = 7
@@ -1105,8 +1107,14 @@ def _ensure_french_hook_budget(caption: str) -> str:
     density; the caller keeps the hook and scene-one caption synchronized.
     """
     words = re.findall(r"[\wÀ-ÿŒœ'-]+", caption, flags=re.UNICODE)
-    if len(words) >= HOOK_MIN_WORDS:
+    if HOOK_MIN_WORDS <= len(words) <= HOOK_MAX_WORDS:
         return caption
+    if len(words) > HOOK_MAX_WORDS:
+        punctuation = ""
+        if caption and caption[-1] in ".!?…":
+            punctuation = caption[-1]
+            caption = caption[:-1].rstrip()
+        return _trim_to_word_limit(caption, HOOK_MAX_WORDS).rstrip(".") + punctuation
     suffix = " en ce moment"
     punctuation = ""
     if caption and caption[-1] in ".!?…":
