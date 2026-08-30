@@ -262,7 +262,10 @@ jobs:
           OPENBLAS_NUM_THREADS: "2"
           MKL_NUM_THREADS: "2"
           FALLBACK_ABORT_RATIO: "0.80"
-          FAIL_ON_MISSED_SLOT: "false"
+          # A green run without a published video is operationally a failure.
+          # Keep slot_skipped.json for diagnostics, but expose the missed slot
+          # to GitHub Actions instead of silently reporting successful delivery.
+          FAIL_ON_MISSED_SLOT: "true"
         run: |
           # set +e around the pipeline call so we control the exit code
           # explicitly. Under `set -e`, an `if`-guard can mask the real code,
@@ -317,7 +320,9 @@ jobs:
           fi
 
       - name: Final rendered video QA
-        if: success() && !hashFiles('data/slot_skipped.json')
+        # A skipped slot now exits non-zero. Therefore a successful job has a
+        # candidate to inspect, and QA must never be silently bypassed.
+        if: success()
         shell: bash
         run: python scripts/visual_qa.py
 
@@ -358,7 +363,7 @@ jobs:
           done
 
       - name: Persist durable channel state
-        if: success() && !hashFiles('data/slot_skipped.json')
+        if: success()
         shell: bash
         run: |
           set -euo pipefail
