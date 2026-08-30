@@ -61,6 +61,48 @@ _LEAK_SUFFIX_PATS = [
     r"\s*le\s*$",
 ]
 
+# A queue record is production input, not display copy. These endings came from
+# a prior character-limit bug (``pou`` / ``contrô`` / ``fragi``) and create
+# grammatically broken French prompts that strict gates correctly reject.
+# Keep these as exact fragments rather than broad prefixes: valid words such
+# as ``pouvoir`` also start with ``pou``.
+_TRUNCATED_WORD_FRAGMENTS = {
+    "appro", "contrô", "fragi", "pou", "révei", "sommei", "émotionnelle",
+}
+_TERMINAL_FUNCTION_WORDS = {
+    "à", "au", "aux", "avec", "ce", "cette", "de", "des", "du", "en",
+    "et", "la", "le", "les", "pour", "que", "qui", "sans", "sur", "un", "une",
+}
+
+
+def _is_complete_topic(text: object) -> bool:
+    """Return whether a queue topic is safe to turn into a French video prompt.
+
+    This deliberately errs on the safe side: a malformed demand record can
+    waste an entire scheduled production slot, whereas rejecting it lets the
+    selector use a valid backfill/catalogue topic.
+    """
+    if not isinstance(text, str):
+        return False
+    value = re.sub(r"\s+", " ", text).strip().rstrip(" .,!?:;")
+    words = re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿŒœ]+(?:['’][A-Za-zÀ-ÖØ-öø-ÿŒœ]+)?", value.lower())
+    if len(words) < 3 or len(value) < 12:
+        return False
+    last = words[-1]
+    if last in _TERMINAL_FUNCTION_WORDS:
+        return False
+    # A short final fragment that is a prefix of a normal French completion is
+    # never a usable subject (e.g. ``chair de pou`` vs ``chair de poule``).
+    return last not in _TRUNCATED_WORD_FRAGMENTS
+
+
+def _queue_has_only_complete_topics(payload: object) -> bool:
+    items = payload.get("topics") if isinstance(payload, dict) else payload
+    return isinstance(items, list) and len(items) >= 2 and all(
+        isinstance(item, dict) and _is_complete_topic(item.get("topic") or item.get("angle"))
+        for item in items
+    )
+
 
 def _clean_subject(text: str) -> str:
     """Strip LLM leak suffixes and any leading 'Ce qu'il faut comprendre sur '
@@ -379,6 +421,9 @@ def _subject_to_record(topic: str, queries: list[str], *, index: int) -> dict:
     if len(thumbnail_text) > 60:
         cut = thumbnail_text[:57].rsplit(" ", 1)[0].rstrip(", ")
         thumbnail_text = cut + " ?"
+    if not _is_complete_topic(topic):
+        logger.warning("Discarding incomplete demand subject: %r", topic)
+        return None
     return {
         "series_number": f"DEM-{index}",
         "series_title": title if len(title) <= 60 else title[:57] + "...",
@@ -403,7 +448,9 @@ def _queue_is_stale(*, force: bool = False) -> bool:
     except (OSError, json.JSONDecodeError):
         return True
     topics = payload.get("topics") if isinstance(payload, dict) else payload
-    if not isinstance(topics, list) or len(topics) < 2:
+    if not _queue_has_only_complete_topics(payload):
+        # Treat malformed records exactly like stale state so the next run
+        # cannot repeatedly select an incomplete French phrase for four days.
         return True
     mined_at = payload.get("mined_at") or ""
     if not mined_at:
@@ -451,7 +498,9 @@ def refresh_demand_queue(*, force: bool = False) -> bool:
             continue
         api_calls += used or 1
         if queries:
-            records.append(_subject_to_record(subj, queries, index=len(records) + 1))
+            record = _subject_to_record(subj, queries, index=len(records) + 1)
+            if record is not None:
+                records.append(record)
         time.sleep(MIN_CALL_SPACING)
 
     if not records:

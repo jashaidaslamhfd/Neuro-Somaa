@@ -68,6 +68,28 @@ class TestSearchDemandQueue(unittest.TestCase):
                 self.assertTrue(rec["thumbnail_text"].endswith("?"))
                 self.assertTrue(rec["demand_note"])
 
+    def test_malformed_truncated_record_is_never_selected(self):
+        malformed = {
+            "topics": [
+                {
+                    "topic": "l'illusion d'objectivité qui te contrô",
+                    "angle": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+                    "question_phrase": "pourquoi l'illusion d'objectivité qui te contrô",
+                    "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrô ?",
+                    "demand_note": "autocomplete: 'illusion d’optique'",
+                }
+            ]
+        }
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "malformed.json"
+            path.write_text(json.dumps(malformed), encoding="utf-8")
+            with mock.patch.object(trend_fetcher, "SEARCH_DEMAND_QUEUE_PATH", path):
+                queue = trend_fetcher.load_search_demand_queue()
+        # The malformed primary record is rejected; valid provenanced backfill
+        # may still be supplied to preserve the queue's five-topic contract.
+        self.assertTrue(all(item["topic"] != "Pourquoi l'illusion d'objectivité qui te contrô ?" for item in queue))
+        self.assertTrue(all(item.get("demand_provenance") == "autocomplete_backfill" for item in queue))
+
     def test_missing_file_yields_empty_queue_not_crash(self):
         with mock.patch.object(
             trend_fetcher, "SEARCH_DEMAND_QUEUE_PATH", Path("data/__definitely_missing__.json")

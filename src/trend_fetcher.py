@@ -810,7 +810,18 @@ def load_search_demand_queue() -> list[dict]:
     if not isinstance(items, list):
         return []
     def to_record(item: dict, *, backfill: bool = False) -> dict | None:
-        topic = _clean_topic(item.get("angle") or item.get("topic", ""))
+        raw_topic = item.get("topic", "")
+        try:
+            from demand_refresh import _is_complete_topic
+
+            if not _is_complete_topic(raw_topic):
+                logger.warning("Skipping malformed French demand record: %r", raw_topic)
+                return None
+        except Exception:
+            # Never let validation availability crash topic selection; the
+            # legacy _clean_topic check below remains a safe fallback.
+            pass
+        topic = _clean_topic(item.get("angle") or raw_topic)
         if not topic:
             return None
         record = _topic_record(topic, "fr_search_demand", pillar=item.get("pillar") or "dark_psychology")

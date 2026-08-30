@@ -1501,12 +1501,27 @@ def main():
                     # workflow steps skip QA/state commits and the next slot can
                     # retry without a misleading red run or duplicate upload.
                     os.makedirs("data", exist_ok=True)
+                    missed_reason = result.get("reason", "guard retries exhausted")
+                    missed_at = datetime.now(UTC).isoformat()
                     write_json_atomic(
                         "data/slot_skipped.json",
                         {
                             "status": "slot_skipped",
-                            "reason": result.get("reason", "guard retries exhausted"),
-                            "timestamp": datetime.now(UTC).isoformat(),
+                            "reason": missed_reason,
+                            "timestamp": missed_at,
+                        },
+                    )
+                    # ``run_pipeline`` writes this file for exceptions, but a
+                    # continuity miss returns normally. Persist it here too so
+                    # the failure-diagnostics workflow step commits the real
+                    # guard reason instead of forcing operators into artifacts.
+                    write_json_atomic(
+                        "data/pipeline_last_failure.json",
+                        {
+                            "failed_at": missed_at,
+                            "failure_kind": "slot_missed_after_guard_retries",
+                            "reason": missed_reason,
+                            "traceback": "",
                         },
                     )
                     if os.environ.get("FAIL_ON_MISSED_SLOT", "false").lower() == "true":

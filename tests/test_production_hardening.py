@@ -75,6 +75,13 @@ def test_main_marks_missed_slots_as_process_failure():
     assert "sys.exit(0)" not in missed_block
 
 
+def test_missed_slots_write_a_durable_failure_diagnostic():
+    source = (ROOT / "src" / "main.py").read_text(encoding="utf-8")
+    missed_block = source[source.index('if result.get("missed")') : source.index("except KeyboardInterrupt")]
+    assert '"data/pipeline_last_failure.json"' in missed_block
+    assert '"failure_kind": "slot_missed_after_guard_retries"' in missed_block
+
+
 def test_thumbnail_variant_count_is_bounded():
     source = inspect.getsource(__import__("video_editor").generate_thumbnail_variants)
     assert "min(int(count), 4)" in source
