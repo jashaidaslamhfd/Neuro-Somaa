@@ -1900,6 +1900,38 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
         MAX_WORDS,
     )
 
+    # 2026-08-30: FORCE_LOCAL_FALLBACK lets the continuity retry loop make one
+    # final guaranteed attempt after all LLM-driven guard retries are exhausted.
+    # The deterministic script below has proper conjugated French verbs in the
+    # title and every scene, so it passes every quality gate without any LLM
+    # call — a slot is never missed because of a bad LLM output.
+    if os.environ.get("FORCE_LOCAL_FALLBACK", "false").strip().lower() == "true":
+        logger.warning("🔄 FORCE_LOCAL_FALLBACK=true — using deterministic script (no LLM call)")
+        topic_text = str(topic or "un mécanisme surprenant du cerveau").strip()
+        subject = topic_text[:90].rstrip(" .?!")
+        local_script = {
+            "title": f"Pourquoi {subject} influence ton cerveau ?",
+            "hook": f"Pourquoi {subject} influence ton cerveau ?",
+            "scenes": [
+                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"Pourquoi {subject} influence ton cerveau ?"},
+                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication avant même que tu la demandes."},
+                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à tes habitudes et à ta mémoire."},
+                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie ce qui semble important sur le moment."},
+                {"visual": "Person noticing a subtle reaction", "caption": "C'est là que ta réaction peut changer sans que tu t'en rendes compte."},
+                {"visual": "Looping return to the opening image", "caption": "La prochaine fois, observe ce mécanisme avant de lui obéir."},
+            ],
+            "cta": "Tu l'avais déjà remarqué ?",
+            "description": f"Une explication courte et claire sur {subject}.",
+            "topic": topic,
+            "generated_at": time.time(),
+            "attempt": 0,
+            "provider": "local_fallback",
+            "fallback_reason": "FORCE_LOCAL_FALLBACK — guard retries exhausted, deterministic fallback to protect the slot",
+        }
+        local_script = _normalize_scenes(local_script)
+        logger.info("✅ Deterministic fallback script ready for topic: %s", subject)
+        return local_script
+
     # Provider-neutral initialization: Groq is preferred when available, but
     # backup providers must remain usable when Groq is unset, rate-limited, or
     # temporarily unavailable. Never require a provider that is not selected.
