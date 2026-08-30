@@ -1178,6 +1178,28 @@ def _normalize_scenes(script_data: dict) -> dict:
     # Scene 1 (the hook) has a tighter cap - see _validate_script for why.
     # Drop any scenes with empty/None caption after normalization
     normalized = [s for s in normalized if (s.get("caption") or "").strip()]
+    # Compact providers occasionally return five scenes although the production
+    # contract requires six. Split the longest explanatory scene at a sentence
+    # or clause boundary; never split the hook and never invent new facts.
+    if len(normalized) == MIN_SCENES - 1:
+        candidates = sorted(range(1, len(normalized)), key=lambda idx: len(normalized[idx]["caption"].split()), reverse=True)
+        for idx in candidates:
+            words = normalized[idx]["caption"].split()
+            if len(words) < 6:
+                continue
+            midpoint = max(3, len(words) // 2)
+            boundary = max(
+                (pos for pos in range(3, min(len(words), midpoint + 3)) if words[pos - 1].endswith((".", "!", "?", ";", ":"))),
+                default=midpoint,
+            )
+            left = " ".join(words[:boundary]).rstrip(",;:") + "."
+            right = " ".join(words[boundary:]).strip()
+            if len(right.split()) >= 3:
+                visual = normalized[idx].get("visual", "")
+                normalized[idx]["caption"] = left
+                normalized.insert(idx + 1, {"visual": f"Continuation: {visual}", "caption": right})
+                logger.warning("Scene-count repair applied: split scene %d into scenes %d-%d", idx + 1, idx + 1, idx + 2)
+                break
     for i, scene in enumerate(normalized):
         limit = HOOK_MAX_WORDS if i == 0 else MAX_SCENE_WORDS
         scene["caption"] = _trim_to_word_limit(scene["caption"], limit)
