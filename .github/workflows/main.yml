@@ -390,6 +390,31 @@ jobs:
               echo '```'
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+          # Also persist the last 100 lines of pipeline.log to a committed file
+          # so it can be read via the GitHub API without downloading artifacts.
+          mkdir -p data
+          {
+            echo "{"
+            echo "  \"dumped_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\","
+            echo "  \"pipeline_last_failure_exists\": $([ -f data/pipeline_last_failure.json ] && echo true || echo false),"
+            if [ -f data/pipeline_last_failure.json ]; then
+              echo "  \"pipeline_last_failure\": $(cat data/pipeline_last_failure.json),"
+            fi
+            echo "  \"pipeline_log_tail\": ["
+            if [ -f pipeline.log ]; then
+              tail -100 pipeline.log | python3 -c "import sys,json; [print('    ' + json.dumps(l.rstrip())) for l in sys.stdin]" | sed '$ s/,$//'
+            fi
+            echo "  ]"
+            echo "}"
+          } > data/last_run_diagnostics.json
+          git config user.name "neurosomaa-bot"
+          git config user.email "bot@neuro-somaa.fr"
+          git add data/last_run_diagnostics.json
+          git commit -m "chore: persist last run diagnostics [skip ci]"
+          for i in 1 2 3; do
+            if git pull --rebase origin main && git push origin HEAD:main; then break
+            else sleep $((i * 5)); fi
+          done
 
       - name: Persist durable channel state
         if: success()
