@@ -8,6 +8,7 @@ caption that does not match the spoken opening.
 
 from __future__ import annotations
 
+import os
 import re
 from typing import Any
 
@@ -15,8 +16,12 @@ _MAX_HOOK_WORDS = 9
 _MIN_HOOK_WORDS = 5
 _DECISION_SECONDS = 2.2
 _OPENING_SECONDS = 3.0
-_MAX_FIRST_SCENE_SECONDS = 5.0
-_MIN_WORDS_BY_OPENING = 6
+_MAX_FIRST_SCENE_SECONDS = float(os.environ.get("RETENTION_MAX_FIRST_SCENE_SECONDS", "5.0"))
+# French edge-tts delivery is slower than the old generic density target.
+# Keep a strict, measured minimum while allowing the calibrated production
+# value to be configured without weakening hook/visual/duration checks.
+_MIN_DECISION_WORDS = int(os.environ.get("RETENTION_MIN_DECISION_WORDS", "4"))
+_MIN_WORDS_BY_OPENING = int(os.environ.get("RETENTION_MIN_OPENING_WORDS", "6"))
 _MOTION_TERMS = re.compile(
     r"\b(?:gros plan|close[- ]?up|macro|zoom|pulse|pulsation|tremble|tremblement|"
     r"bouge|mouvement|flash|éclate|s'ouvre|se contracte|accélère|ralentit|"
@@ -126,8 +131,8 @@ def validate_first_three_seconds(script_data: dict, audio_segments: list[dict]) 
     _decision_text, decision_words = _opening_text_and_words(audio_segments, _DECISION_SECONDS)
     add(
         "decision_words",
-        decision_words >= 4,
-        f"Approximately {decision_words} words arrive by {_DECISION_SECONDS:.1f}s; minimum is 4.",
+        decision_words >= _MIN_DECISION_WORDS,
+        f"Approximately {decision_words} words arrive by {_DECISION_SECONDS:.1f}s; minimum is {_MIN_DECISION_WORDS}.",
     )
     add(
         "opening_information_density",
