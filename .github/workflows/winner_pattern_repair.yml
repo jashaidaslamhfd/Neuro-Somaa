@@ -56,9 +56,9 @@ jobs:
             git config user.email "neurosomaa-bot@users.noreply.github.com"
             git add -f output/metadata_repair_report.txt
             git add data/metadata_repair_ledger.json 2>/dev/null || true
-            git commit -m "chore: record winner-pattern metadata repair" || true
-            git pull --rebase origin main || true
-            git push origin HEAD:main || true
+            git commit -m "chore: record winner-pattern metadata repair"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
       - name: Upload repair report
         if: always()

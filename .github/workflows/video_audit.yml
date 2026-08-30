@@ -1,4 +1,4 @@
-name: Video Metadata Audit (read-only)
+name: Video Metadata Audit (snapshot)
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Audit every video on the channel (read-only)
+      - name: Audit every video on the channel
         env:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}

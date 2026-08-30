@@ -7,6 +7,8 @@ name: CI - guard tests on push
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 permissions:
   contents: read
@@ -24,11 +26,15 @@ jobs:
           python -m pip install --upgrade pip
           # The test suite is fully offline; installing the full production
           # requirements.txt pulled torch + kokoro (~2 GB) on every push just
-          # to run 22 offline tests. requirements-ci.txt is the minimal set.
-          for i in 1 2 3; do python -m pip install -r requirements-ci.txt && break || { echo retry; sleep 10; }; done
+          # to run 22 offline tests. requirements-ci.lock is the reviewed, reproducible CI dependency graph.
+          for i in 1 2 3; do python -m pip install --require-hashes -r requirements-ci.lock && break || { echo retry; sleep 10; }; done
       - name: Compile gate (syntax crash-landed commits die here)
         run: python -m compileall -q src scripts tests
       - name: Ruff lint gate (no unresolved repository violations)
         run: ruff check src scripts tests
       - name: Run test suite
         run: python -m pytest tests/ -q
+      - name: Reject test-induced repository state changes
+        run: |
+          git diff --exit-code -- . ':!output/**'
+          test -z "$(git status --porcelain --untracked-files=no)"

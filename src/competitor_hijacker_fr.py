@@ -44,7 +44,7 @@ def fetch_youtube_autosuggest_fr(seed: str) -> list[str]:
     """
     try:
         encoded_seed = urllib.parse.quote(seed)
-        url = f"http://suggestqueries.google.com/complete/search?client=youtube&hl=fr&ds=yt&q={encoded_seed}"
+        url = f"https://suggestqueries.google.com/complete/search?client=youtube&hl=fr&ds=yt&q={encoded_seed}"
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=10) as response:
             content = response.read().decode("utf-8", "ignore")

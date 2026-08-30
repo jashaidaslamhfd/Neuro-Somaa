@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[2]
 HISTORY_PATH = Path(os.environ.get("VIDEO_HISTORY_PATH", str(ROOT / "data" / "video_history.json")))
 
 
-def run_all(history_path: Path | str | None = None) -> dict:
+def run_all(history_path: Path | str | None = None, output_dir: Path | str | None = None) -> dict:
     from . import (
         anomaly,
         bandit,
@@ -50,6 +50,7 @@ def run_all(history_path: Path | str | None = None) -> dict:
     )
 
     path = Path(history_path) if history_path else HISTORY_PATH
+    data_dir = Path(output_dir) if output_dir is not None else ROOT / "data"
     history = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
     if isinstance(history, dict):
         history = history.get("videos", [])
@@ -58,8 +59,9 @@ def run_all(history_path: Path | str | None = None) -> dict:
     logger.info("intelligence: %d real-analytics videos scored", len(rows))
 
     anomalies = anomaly.detect_anomalies(history)
-    fastlane = viral_miner.mine_winner_fastlane(history, anomalies)
-    truth = truth_gate.run(history)
+    fastlane_path = data_dir / "winner_fastlane.json"
+    fastlane = viral_miner.mine_winner_fastlane(history, anomalies, output_path=fastlane_path)
+    truth = truth_gate.run(history, status_path=data_dir / "truth_status.json")
 
     full = {
         "generated_at": datetime.now(UTC).isoformat(),
@@ -82,10 +84,10 @@ def run_all(history_path: Path | str | None = None) -> dict:
             "entries": len(fastlane["fastlane"]),
             "ttl_hours": fastlane["ttl_hours"],
             "items": fastlane["fastlane"],
-            "fastlane_path": str(viral_miner.FASTLANE_PATH),
+            "fastlane_path": str(fastlane_path),
         },
         "schema_version": 1,
     }
-    out = report.write_reports(full)
+    out = report.write_reports(full, output_dir=data_dir)
     logger.info("intelligence reports written: %s (%d bytes)", out["markdown"], out["bytes"])
     return full

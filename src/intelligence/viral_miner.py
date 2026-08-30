@@ -20,8 +20,11 @@ same french_quality_gate as catalogue topics before ever uploading.
 
 from __future__ import annotations
 
+import contextlib
 import json
+import os
 import re
+import tempfile
 import zlib
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -244,7 +247,11 @@ def _too_similar(candidate: str, recent_norm: list[str], shared_threshold: int =
 
 
 def mine_winner_fastlane(
-    history: list[dict], anomalies: dict, max_entries: int = 9, recent_n: int = 90
+    history: list[dict],
+    anomalies: dict,
+    max_entries: int = 9,
+    recent_n: int = 90,
+    output_path: Path | str | None = None,
 ) -> dict:
     """Build the cloning fastlane.
 
@@ -339,8 +346,17 @@ def mine_winner_fastlane(
         "policy": "ship adjacent clones of over-performers while the algorithm seeks more",
         "fastlane": fastlane,
     }
-    FASTLANE_PATH.parent.mkdir(exist_ok=True)
-    FASTLANE_PATH.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
+    path = Path(output_path) if output_path is not None else FASTLANE_PATH
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temporary = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(payload, handle, indent=2, ensure_ascii=False)
+        os.replace(temporary, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.unlink(temporary)
+        raise
     return payload
 
 

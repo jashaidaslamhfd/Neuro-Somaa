@@ -2,11 +2,16 @@
 from __future__ import annotations
 
 import hashlib
-import json
 import os
 import subprocess
+import sys
 from datetime import UTC, datetime
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from atomic_io import write_json_atomic
 
 
 def _sha256(path: Path) -> str | None:
@@ -48,6 +53,7 @@ def build_manifest() -> dict:
             "GROQ_MODEL", "GROQ_MODEL_FALLBACK", "ALT_LLM_MODEL", "CONTENT_SERIES",
             "THUMBNAIL_VARIANT_COUNT", "MIN_THUMBNAIL_SCORE", "MIN_RETENTION",
             "DRY_RUN", "YT_PRIVACY_STATUS", "YT_SCHEDULE_PUBLISH", "PUBLISH_TIMEZONE",
+            "ALLOW_LOCAL_SCRIPT_FALLBACK", "USE_DYNAMIC_SCHEDULE",
         )
     }
     return {
@@ -65,8 +71,7 @@ def build_manifest() -> dict:
 
 def main() -> int:
     destination = Path(os.environ.get("RUN_MANIFEST_PATH", "data/run_manifest.json"))
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(build_manifest(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_json_atomic(destination, build_manifest())
     print(f"Wrote run manifest: {destination}")
     return 0
 

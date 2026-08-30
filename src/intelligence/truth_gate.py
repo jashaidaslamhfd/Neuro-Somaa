@@ -29,9 +29,12 @@ Verdict bands (Spearman |r| against real views):
 
 from __future__ import annotations
 
+import contextlib
 import json
 import logging
+import os
 import re
+import tempfile
 from pathlib import Path
 
 logger = logging.getLogger(__name__)
@@ -287,8 +290,16 @@ def run(history: list[dict], status_path: Path = STATUS_PATH) -> dict:
     status = truth_status(calibration)
     status["_meta"] = {"min_n": MIN_N, "noise_band": NOISE_BAND, "weak_band": WEAK_BAND}
     try:
-        status_path.parent.mkdir(exist_ok=True)
-        status_path.write_text(json.dumps(status, indent=2, ensure_ascii=False), encoding="utf-8")
+        status_path.parent.mkdir(parents=True, exist_ok=True)
+        fd, temporary = tempfile.mkstemp(prefix=f".{status_path.name}.", suffix=".tmp", dir=status_path.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                json.dump(status, handle, indent=2, ensure_ascii=False)
+            os.replace(temporary, status_path)
+        except BaseException:
+            with contextlib.suppress(OSError):
+                os.unlink(temporary)
+            raise
         logger.info(
             "truth gate: hook_score=%s seo_score=%s (status -> %s)",
             status["hook_score"]["verdict"],

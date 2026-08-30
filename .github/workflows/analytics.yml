@@ -75,16 +75,16 @@ jobs:
           python scripts/cleanup_data_snapshots.py
       - name: Refresh live French search-demand queue
         if: always()
-        continue-on-error: true
         shell: bash
         env:
           PYTHONUNBUFFERED: "1"
         run: |
           set -euo pipefail
-          # Refill search_demand_queue_fr.json from live YouTube France
-          # autocomplete when stale (every 4 days) or empty. Never fails the
-          # workflow — a mining hiccup must never block the analytics sync.
-          python src/demand_refresh.py || true
+          # Demand mining is non-critical for analytics, but failure must be
+          # visible to operators rather than silently converted to success.
+          if ! python src/demand_refresh.py; then
+            echo "::warning::Demand refresh failed; retaining the existing queue."
+          fi
 
       - name: Persist updated analytics state (with retry)
         if: always()
@@ -98,5 +98,5 @@ jobs:
           git commit -m "chore: sync YouTube analytics into history [skip ci]"
           for i in 1 2 3; do
             if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then break
-            else echo "Retry $i"; sleep $((i*5)); if [ $i -eq 3 ]; then exit 0; fi; fi
+            else echo "Retry $i"; sleep $((i*5)); if [ $i -eq 3 ]; then echo "::error::Could not persist analytics state after 3 attempts."; exit 1; fi; fi
           done

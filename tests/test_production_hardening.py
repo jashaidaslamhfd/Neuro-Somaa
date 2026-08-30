@@ -140,3 +140,29 @@ def test_first_three_seconds_gate_rejects_silent_generic_opening():
     assert "no_silent_opening" in report["failed_checks"]
     assert "visual_action" in report["failed_checks"]
     assert "decision_words" in report["failed_checks"]
+
+
+def test_atomic_json_writer_replaces_complete_documents(tmp_path):
+    import json
+
+    from atomic_io import write_json_atomic
+
+    destination = tmp_path / "state" / "run.json"
+    write_json_atomic(destination, {"version": 1, "status": "old"})
+    write_json_atomic(destination, {"version": 2, "status": "new"})
+    assert json.loads(destination.read_text(encoding="utf-8")) == {"version": 2, "status": "new"}
+    assert not list(destination.parent.glob("*.tmp"))
+
+
+def test_pipeline_persists_script_provider_provenance():
+    source = (ROOT / "src" / "main.py").read_text(encoding="utf-8")
+    assert '"script_provider": script_data.get("provider", "unknown")' in source
+    assert '"used_local_script_fallback": script_data.get("provider") == "local_fallback"' in source
+
+
+def test_run_manifest_and_failure_diagnostics_use_atomic_json_writer():
+    manifest = (ROOT / "scripts" / "run_manifest.py").read_text(encoding="utf-8")
+    pipeline = (ROOT / "src" / "main.py").read_text(encoding="utf-8")
+    assert "write_json_atomic(destination, build_manifest())" in manifest
+    assert "write_json_atomic(data_log, payload, default=str)" in pipeline
+    assert '"data/slot_skipped.json"' in pipeline

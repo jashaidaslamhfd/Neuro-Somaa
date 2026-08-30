@@ -221,13 +221,20 @@ class EndToEndReportTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "vh.json"
             path.write_text(json.dumps(history), encoding="utf-8")
-            report = run_all(path)
-        self.assertEqual(report["n_videos_analyzed"], 25)
-        self.assertIn("models", report)
-        self.assertIn("bandit", report)
-        dash = ROOT / "data" / "intelligence_dashboard_latest.md"
-        self.assertTrue(dash.exists())
-        self.assertIn("Intelligence Dashboard", dash.read_text(encoding="utf-8"))
+            output_dir = Path(tmp)
+            report = run_all(path, output_dir=output_dir)
+            dash = output_dir / "intelligence_dashboard_latest.md"
+            report_json = output_dir / "intelligence_report.json"
+            truth = output_dir / "truth_status.json"
+            fastlane = output_dir / "winner_fastlane.json"
+            self.assertEqual(report["n_videos_analyzed"], 25)
+            self.assertIn("models", report)
+            self.assertIn("bandit", report)
+            self.assertTrue(dash.exists())
+            self.assertTrue(report_json.exists())
+            self.assertTrue(truth.exists())
+            self.assertTrue(fastlane.exists())
+            self.assertIn("Intelligence Dashboard", dash.read_text(encoding="utf-8"))
 
 
 if __name__ == "__main__":
