@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 # Import modules with error handling
 try:
     from anti_spam import AntiSpamSystem
+    from experiment_registry import register as register_ctr_experiment
     from final_video_audit import run_final_publication_audit
     from french_quality_gate import is_french_question_without_verb, validate_publication_quality
     from image_generator import generate_scene_image as generate_images
@@ -834,6 +835,13 @@ class SKILLORPipeline:
                 if title_options:
                     ab_variants = generate_ab_variants(script_data, title_options)
                     script_data["ab_variants"] = ab_variants
+                    registry_variants = []
+                    for index, option in enumerate(title_options):
+                        title_value = option.get("title") if isinstance(option, dict) else option
+                        registry_variants.append({"variant_id": f"title_{index + 1}", "title": str(title_value or "")})
+                    script_data["experiment_id"] = register_ctr_experiment(
+                        str(script_data.get("topic") or ""), registry_variants
+                    )
                     # TRUTH GATE: generate_ab_variants ranks titles by the
                     # predict_ctr HEURISTIC, which calibrates as NOISE vs real
                     # outcomes on this channel (and CTR isn't even served by
@@ -1270,6 +1278,7 @@ class SKILLORPipeline:
                     .get("predicted_avg_retention"),
                     "thumbnail_score": script_data.get("thumbnail_score"),
                     "thumbnail_variants": script_data.get("thumbnail_variants", []),
+                    "experiment_id": script_data.get("experiment_id"),
                     # 2026-08-12 viral engineering: hook arm + rubric + loop bridge
                     # feed the intelligence layer's arm comparison (permutation test)
                     "hook_arm": script_data.get("hook_arm"),
