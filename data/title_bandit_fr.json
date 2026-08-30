@@ -1,13 +1,13 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T11:46:48.830870+00:00",
+  "generated_at_utc": "2026-08-30T10:36:36.684283+00:00",
   "policy": "Competitor patterns are only priors; channel analytics re-ranks future titles.",
   "preferred_patterns": [
     {
       "pattern": "pourquoi-question",
-      "score": 3.788,
+      "score": 3.756,
       "observed_samples": 55,
-      "observed_avg": 3.853,
+      "observed_avg": 3.8198,
       "competitor_prior": 2.0
     },
     {
@@ -19,9 +19,9 @@
     },
     {
       "pattern": "ce-qui-se-passe",
-      "score": 2.1873,
+      "score": 1.8867,
       "observed_samples": 2,
-      "observed_avg": 3.1246,
+      "observed_avg": 2.5233,
       "competitor_prior": 1.25
     },
     {

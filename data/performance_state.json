@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-29T11:46:48.545595+00:00",
+  "generated_at": "2026-08-30T10:36:36.483005+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
     {
@@ -51,16 +51,16 @@
       "avg_retention": 47.9
     },
     {
+      "topic": "Pourquoi le corps gratte après la douche",
+      "n": 1,
+      "avg_views": 964.0,
+      "avg_retention": 44.8
+    },
+    {
       "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
       "n": 1,
       "avg_views": 958.0,
       "avg_retention": 65.6
-    },
-    {
-      "topic": "Pourquoi le corps gratte après la douche",
-      "n": 1,
-      "avg_views": 958.0,
-      "avg_retention": 44.4
     }
   ],
   "top_hook_word_counts": [],

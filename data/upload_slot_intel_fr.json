@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-29T11:46:48.832127+00:00",
+  "generated_at_utc": "2026-08-30T10:36:36.685671+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 2.9973,
+      "score": 2.9459,
       "samples": 12,
       "confident": true,
-      "prior": 3.1214
+      "prior": 3.0721
     },
     {
       "rank": 3,
@@ -35,7 +35,7 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.2364,
+      "score": 3.1157,
       "samples": 15,
       "confident": true,
       "prior": 0.0
@@ -46,9 +46,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 3.2364,
+      "score": 3.1157,
       "observed_samples": 15,
-      "observed_avg": 3.2364,
+      "observed_avg": 3.1157,
       "prior": 0.0,
       "examples": [
         {
@@ -104,22 +104,22 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 2.9973,
+      "score": 2.9459,
       "observed_samples": 12,
-      "observed_avg": 2.956,
-      "prior": 3.1214,
+      "observed_avg": 2.9038,
+      "prior": 3.0721,
       "examples": [
+        {
+          "video_id": "ixDDjtbojKs",
+          "title": "Pourquoi le corps gratte après la douche ?",
+          "views": 964,
+          "published_paris": "2026-08-12 19:30"
+        },
         {
           "video_id": "HJb7xCMIYWQ",
           "title": "Pourquoi la chair de poule apparaît soudainement ?",
           "views": 958,
           "published_paris": "2026-08-01 19:30"
-        },
-        {
-          "video_id": "ixDDjtbojKs",
-          "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 958,
-          "published_paris": "2026-08-12 19:30"
         },
         {
           "video_id": "QuwjzCbMH0M",
@@ -133,7 +133,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.7882,
+      "score": 2.7488,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.7416,
+      "score": 2.7022,
       "observed_samples": 1,
       "observed_avg": 2.2889,
       "prior": 0.0,
@@ -167,7 +167,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.6557,
+      "score": 2.6163,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -184,7 +184,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.6517,
+      "score": 2.6123,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -201,7 +201,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.624,
+      "score": 2.5944,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -224,7 +224,7 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 2.5901,
+      "score": 2.5507,
       "observed_samples": 1,
       "observed_avg": 1.5318,
       "prior": 0.0,
@@ -241,7 +241,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 2.5236,
+      "score": 2.4842,
       "observed_samples": 1,
       "observed_avg": 1.1992,
       "prior": 0.0,
@@ -258,15 +258,15 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 2.4876,
+      "score": 2.4663,
       "observed_samples": 5,
-      "observed_avg": 2.1406,
-      "prior": 2.9214,
+      "observed_avg": 2.1417,
+      "prior": 2.8721,
       "examples": [
         {
           "video_id": "trfitEKS1ik",
           "title": "Pourquoi la main s'engourdit quand on dort dessus ?",
-          "views": 154,
+          "views": 157,
           "published_paris": "2026-08-19 21:00"
         },
         {
@@ -287,10 +287,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.4687,
+      "score": 2.3576,
       "observed_samples": 3,
-      "observed_avg": 2.3163,
-      "prior": 2.5214,
+      "observed_avg": 2.0267,
+      "prior": 2.4721,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -301,7 +301,7 @@
         {
           "video_id": "VRWySzxXsyE",
           "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-          "views": 65,
+          "views": 4,
           "published_paris": "2026-07-29 12:30"
         },
         {

@@ -2,22 +2,22 @@
   "hook_score": {
     "verdict": "NOISE",
     "decision_usable": false,
-    "spearman_vs_views": -0.056
+    "spearman_vs_views": -0.069
   },
   "seo_score": {
     "verdict": "CALIBRATED",
     "decision_usable": true,
-    "spearman_vs_views": 0.622
+    "spearman_vs_views": 0.663
   },
   "predicted_retention": {
     "verdict": "NOISE",
     "decision_usable": false,
-    "spearman_vs_views": -0.112
+    "spearman_vs_views": -0.123
   },
   "predicted_ctr": {
     "verdict": "CALIBRATED",
     "decision_usable": true,
-    "spearman_vs_views": 0.619
+    "spearman_vs_views": 0.66
   },
   "_meta": {
     "min_n": 12,
