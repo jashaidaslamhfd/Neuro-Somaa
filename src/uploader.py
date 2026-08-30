@@ -278,8 +278,22 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
     verified_items = verified.get("items", [])
     if not verified_items or verified_items[0].get("id") != video_id:
         raise RuntimeError(f"YouTube upload receipt verification failed for video id {video_id}")
+    verified_item = verified_items[0]
+    verified_status = verified_item.get("status", {})
+    verified_snippet = verified_item.get("snippet", {})
+    expected_privacy = status.get("privacyStatus")
+    if verified_status.get("privacyStatus") != expected_privacy:
+        raise RuntimeError(
+            f"YouTube privacy verification failed: expected {expected_privacy}, "
+            f"got {verified_status.get('privacyStatus')}"
+        )
+    if scheduled and verified_status.get("publishAt") != scheduled.get("publishAt"):
+        raise RuntimeError("YouTube publishAt verification failed")
+    if verified_snippet.get("title") != body["snippet"]["title"]:
+        raise RuntimeError("YouTube title verification failed")
     logger.info("✅ YouTube upload receipt verified: %s", video_id)
 
+    thumbnail_verified = False
     # Attach the generated thumbnail after the video exists.
     if video_id and thumb_path and os.path.exists(thumb_path):
         try:
@@ -287,9 +301,14 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
                 videoId=video_id,
                 media_body=MediaFileUpload(thumb_path),
             ).execute()
+            thumbnail_verified = True
             logger.info("🖼️ Thumbnail attached to %s", video_id)
         except Exception as exc:
+            if os.environ.get("REQUIRE_THUMBNAIL_UPLOAD", "true").lower() == "true":
+                raise RuntimeError(f"Thumbnail upload failed for {video_id}: {exc}") from exc
             logger.warning("Thumbnail upload failed for %s: %s", video_id, exc)
+    elif os.environ.get("REQUIRE_THUMBNAIL_UPLOAD", "true").lower() == "true":
+        raise RuntimeError("Required thumbnail file is missing before YouTube upload")
 
     return {
         "ok": bool(video_id),
@@ -297,6 +316,7 @@ def _upload_youtube(video_path, thumb_path, script_data, tags) -> dict:
         "dry_run": False,
         "publish_at": scheduled and scheduled["publishAt"],
         "privacyStatus": status["privacyStatus"],
+        "thumbnail_verified": thumbnail_verified,
     }
 
 

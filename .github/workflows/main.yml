@@ -68,6 +68,22 @@ jobs:
           python -m compileall -q src scripts tests
           python -m pytest tests/ -q
 
+      - name: Production preflight
+        shell: bash
+        env:
+          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
+          TARGET_MIN_SECONDS: "20"
+          TARGET_MAX_SECONDS: "24"
+          YT_SCHEDULE_PUBLISH: "true"
+          YT_PRIVACY_STATUS: "private"
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: python scripts/preflight.py
+
       - name: Refresh live French search-demand queue
         shell: bash
         env:
@@ -187,6 +203,7 @@ jobs:
           # Render multiple candidates and publish only the best mobile-readable variant.
           THUMBNAIL_VARIANT_COUNT: "4"
           MIN_THUMBNAIL_SCORE: "80"
+          REQUIRE_THUMBNAIL_UPLOAD: "true"
           # 2026-08-21: stock clip quality floor — Pexels/Pixabay clips must
           # be portrait (w<h) AND at least 720px wide, or they blur/squash on
           # the 1080x1920 canvas. Below-floor clips are skipped and the next
