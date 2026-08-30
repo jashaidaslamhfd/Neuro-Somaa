@@ -171,6 +171,7 @@ jobs:
           # Retention experiment: keep generated Shorts below 25 seconds.
           TARGET_MIN_SECONDS: "20"
           TARGET_MAX_SECONDS: "24"
+          TTS_MAX_OVERRUN_RATIO: "1.08"
           # One full pipeline attempt per dispatch: avoids regenerating scripts
           # after deterministic render/upload failures and protects LLM quota.
           MAX_SCRIPT_ATTEMPTS: "1"

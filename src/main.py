@@ -979,10 +979,15 @@ class SKILLORPipeline:
                 # video_editor may make a small (<=12%) transparent speed
                 # correction. Anything beyond that must be regenerated instead
                 # of producing rushed, low-retention narration.
-                if narration_seconds > target_max_seconds:
+                # The renderer already applies a small tempo correction. Allow
+                # only a bounded overrun so 25.0s TTS does not waste a full
+                # production slot, while 30s+ narration still regenerates.
+                max_tts_overrun = float(os.environ.get("TTS_MAX_OVERRUN_RATIO", "1.08"))
+                hard_max_seconds = target_max_seconds * max_tts_overrun
+                if narration_seconds > hard_max_seconds:
                     raise RuntimeError(
                         f"Narration too long: {narration_seconds:.1f}s "
-                        f"(maximum before regeneration: {target_max_seconds:.1f}s)"
+                        f"(maximum before regeneration: {hard_max_seconds:.1f}s)"
                     )
 
                 silence_count = sum(1 for s in audio_segments if s.get("tts_engine") == "silence")
