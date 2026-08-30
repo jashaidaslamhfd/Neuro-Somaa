@@ -1402,6 +1402,10 @@ class SKILLORPipeline:
             # lost under FAIL_ON_MISSED_SLOT=true.
             "Strict French quality gate blocked",
             "French/publication gate:",
+            # 2026-08-30: hook timing guard — first scene TTS can exceed the
+            # 6.0s hook limit when the LLM writes a long opening caption. A
+            # fresh topic produces a different (shorter) hook.
+            "First scene exceeds",
         )
         attempt = 0
         last_err = None
