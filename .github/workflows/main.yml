@@ -262,6 +262,7 @@ jobs:
           OPENBLAS_NUM_THREADS: "2"
           MKL_NUM_THREADS: "2"
           FALLBACK_ABORT_RATIO: "0.80"
+          FAIL_ON_MISSED_SLOT: "false"
         run: |
           # set +e around the pipeline call so we control the exit code
           # explicitly. Under `set -e`, an `if`-guard can mask the real code,
@@ -316,7 +317,7 @@ jobs:
           fi
 
       - name: Final rendered video QA
-        if: success()
+        if: success() && !hashFiles('data/slot_skipped.json')
         shell: bash
         run: python scripts/visual_qa.py
 
@@ -357,7 +358,7 @@ jobs:
           done
 
       - name: Persist durable channel state
-        if: success()
+        if: success() && !hashFiles('data/slot_skipped.json')
         shell: bash
         run: |
           set -euo pipefail

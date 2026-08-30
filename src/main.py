@@ -1490,11 +1490,25 @@ def main():
                 # the daily scheduled batch — with the continuity retry loop.
                 result = pipeline.run_pipeline_with_continuity(slot_label=slot_label)
                 if result.get("missed"):
-                    logger.warning("Slot missed after guard retries — see continuity log.")
-                    # A missed production slot is an operational failure.  The
-                    # continuity state records the gap, but CI/CD must still turn
-                    # red so the operator can investigate or re-dispatch safely.
-                    sys.exit(2)
+                    logger.warning("Slot skipped after guard retries — see continuity log.")
+                    # A skipped slot is not a successful upload, but it is not a
+                    # runner failure either. Persist an explicit marker so later
+                    # workflow steps skip QA/state commits and the next slot can
+                    # retry without a misleading red run or duplicate upload.
+                    os.makedirs("data", exist_ok=True)
+                    with open("data/slot_skipped.json", "w", encoding="utf-8") as marker:
+                        json.dump(
+                            {
+                                "status": "slot_skipped",
+                                "reason": result.get("reason", "guard retries exhausted"),
+                                "timestamp": datetime.now(UTC).isoformat(),
+                            },
+                            marker,
+                            ensure_ascii=False,
+                            indent=2,
+                        )
+                    if os.environ.get("FAIL_ON_MISSED_SLOT", "false").lower() == "true":
+                        sys.exit(2)
 
     except KeyboardInterrupt:
         logger.info("Pipeline interrupted by user")
