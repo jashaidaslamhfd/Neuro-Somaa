@@ -45,8 +45,14 @@ def run() -> int:
         writable = False
     checks.append(_check("output-directory", writable, str(output_dir)))
 
-    if os.environ.get("YT_SCHEDULE_PUBLISH", "true").lower() == "true":
+    schedule_enabled = os.environ.get("YT_SCHEDULE_PUBLISH", "true").lower() == "true"
+    if schedule_enabled:
         checks.append(_check("scheduled-privacy", os.environ.get("YT_PRIVACY_STATUS", "private").lower() == "private", "scheduled uploads require private status"))
+
+    dynamic_schedule = os.environ.get("USE_DYNAMIC_SCHEDULE", "false").lower()
+    checks.append(_check("dynamic-schedule-flag", dynamic_schedule in {"true", "false"}, dynamic_schedule))
+    local_fallback = os.environ.get("ALLOW_LOCAL_SCRIPT_FALLBACK", "true").lower() == "true"
+    checks.append(_check("local-script-fallback", not local_fallback, "enabled: provenance will be recorded" if local_fallback else "disabled", required=False))
 
     failed = [item for item in checks if item["required"] and not item["ok"]]
     report = {"ok": not failed, "dry_run": dry_run, "checks": checks}

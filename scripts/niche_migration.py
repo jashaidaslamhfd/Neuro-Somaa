@@ -24,6 +24,7 @@ import argparse
 import json
 import logging
 import os
+import subprocess
 import sys
 import urllib.parse
 import urllib.request
@@ -128,13 +129,24 @@ def _clean_ledger(vids: list[dict]) -> None:
             log.info("Cleaned %d entries from upload_state", len(vids))
 
 
+def _run_retrain_step(script: str, *, required: bool) -> None:
+    """Run a child step with the active interpreter and visible failure state."""
+    command = [sys.executable, script]
+    try:
+        subprocess.run(command, check=True, timeout=600)
+    except (OSError, subprocess.CalledProcessError, subprocess.TimeoutExpired) as exc:
+        if required:
+            raise RuntimeError(f"Required retraining step failed: {script}: {exc}") from exc
+        log.warning("Optional retraining step failed: %s: %s", script, exc)
+
+
 def _retrain_new_niche() -> None:
-    """Rebuild new-niche catalogue + retrain ML."""
+    """Rebuild the catalogue, then refresh optional niche intelligence and ML."""
     log.info("Rebuilding new-niche topic catalogue...")
-    os.system("python scripts/generate_body_glitch_topics.py")
+    _run_retrain_step("scripts/generate_body_glitch_topics.py", required=True)
     log.info("Running niche intelligence + ML retrain on new niche...")
-    os.system("python scripts/niche_intel.py || true")
-    os.system("python scripts/ml_brain.py || true")
+    _run_retrain_step("scripts/niche_intel.py", required=False)
+    _run_retrain_step("scripts/ml_brain.py", required=False)
 
 
 def main() -> int:

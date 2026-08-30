@@ -26,7 +26,7 @@ Pipeline Python **France-first** pour une chaîne YouTube Shorts de science du q
 | Région YouTube | `FR` |
 | Fuseau de publication | `Europe/Paris` |
 | Créneaux par défaut | 12:30 / 19:30 / 21:00 (Paris), un Short par créneau, **3/jour** |
-| Créneaux dynamiques | appris des vues réelles (`data/upload_slot_intel_fr.json`), minimum 5 observations avant adoption |
+| Créneaux dynamiques | appris dans `data/upload_slot_intel_fr.json` après 5 observations; production reste sur la heatmap hebdomadaire tant que `USE_DYNAMIC_SCHEDULE=false` |
 | Moteur vocal principal | `TTS_ENGINE=edge`, voix `fr-FR-HenriNeural` (repli Remy/Denise puis Kokoro `ff_siwis`) |
 | Série | `faits_surprenants_fr` |
 | Seuils qualité (production) | `MIN_HOOK_SCORE=70`, `QUALITY_APPROVAL_THRESHOLD=60` (alignés `env.example` ↔ `main.yml` via `tests/test_runtime_config.py`) |
@@ -55,7 +55,7 @@ Les garde-fous qui remplacent la relecture en mode automatique : double contrôl
 ## Workflows principaux (noms réels)
 | Workflow | Rôle | Fréquence |
 |---|---|---|
-| `Neuro-Somaa - French Shorts Automation` | génère + programme 3 Shorts/jour | 10:30 / 17:30 / 19:00 UTC |
+| `Neuro-Somaa - French Shorts Automation` | génère + programme 3 Shorts/jour | créneaux Paris variables selon le jour, définis dans `main.yml` |
 | `Neuro-Somaa - YouTube Analytics Sync` | vues/rétention/CTR réels → historique + réapprentissage | quotidien 05:30 UTC |
 | `Auto-Apply Verified Metadata Repairs (daily)` | répare les métadonnées défectueuses (cooldown 7 jours par vidéo) | quotidien 08:00 UTC |
 | `Monetization Readiness (daily plan)` | tableau de bord monétisation | quotidien |
@@ -81,7 +81,7 @@ Pour les vidéos déjà publiées, le workflow **SEO Repair (uploaded videos)** 
 ## Boucle d'apprentissage continue (dans la sync analytique)
 La sync quotidienne (`src/analytics_updater.py`) enchaîne après chaque relevé :
 
-- **Dynamic publish slots** : apprend les heures Paris qui génèrent le plus de vues/rétention et écrit `data/upload_slot_intel_fr.json` (adoption seulement après **5 observations minimum**) ; les prochains `publishAt` utilisent ces créneaux (`USE_DYNAMIC_SCHEDULE=true`).
+- **Dynamic publish slots** : apprend les heures Paris qui génèrent le plus de vues/rétention et écrit `data/upload_slot_intel_fr.json` (adoption seulement après **5 observations minimum**) ; ces créneaux restent consultatifs tant que la production garde `USE_DYNAMIC_SCHEDULE=false`; les activer requiert une décision explicite après revue des données.
 - **Title bandit** : compare les patterns de titres avec les performances réelles et réordonne les futurs titres dans `data/title_bandit_fr.json`.
 - **48h auto-repair plan** : repère les vidéos qui sous-performent après 48 h et génère un plan de réparation sans écrire sur YouTube.
 - **Topic gaps** : compare les mots-clés concurrents + demandes en commentaires avec le catalogue de sujets.
@@ -104,7 +104,7 @@ Sorties : `data/intelligence_report.json` + `data/intelligence_dashboard_latest.
 ## Hygiène du dépôt
 - `data/video_history.json` = historique **cumulatif réel** (source de vérité ML).
 - Les instantanés datés (`seo_diag_*`, `premium_growth_dashboard_*`…) sont élagués automatiquement : **7 derniers jours + le plus récent** (`scripts/cleanup_data_snapshots.py`, lancé par la sync analytique).
-- Dépendances : `requirements.txt` (génération vidéo, lourd) · `requirements-ops.txt` (réparations/audits, léger) · `requirements-ci.txt` (tests hors-ligne).
+- Dépendances : `requirements.txt` (génération vidéo, lourd) · `requirements-ops.txt` (réparations/audits, léger) · `requirements-ci.txt` (intentions CI) + `requirements-ci.lock` (graphe CI verrouillé et audité).
 
 ## Licence
 MIT — voir [LICENSE](LICENSE).

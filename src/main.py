@@ -10,6 +10,7 @@ import unicodedata
 from collections import Counter
 from datetime import UTC, datetime
 
+from atomic_io import write_json_atomic
 from media_validator import pad_video_to_minimum, probe_video
 
 # Add current directory to path
@@ -761,8 +762,7 @@ class SKILLORPipeline:
                     "reason": reason,
                     "traceback": "".join(_tb.format_exception(*sys.exc_info()))[-3000:],
                 }
-                with open(data_log, "w") as _f:
-                    json.dump(payload, _f, indent=2, default=str)
+                write_json_atomic(data_log, payload, default=str)
             except Exception:
                 pass
 
@@ -1266,6 +1266,11 @@ class SKILLORPipeline:
                     "question_phrase": script_data.get("question_phrase"),
                     "trend_source": script_data.get("trend_source"),
                     "trend_url": script_data.get("trend_url"),
+                    # Provenance is essential for post-publish review: a
+                    # deterministic local fallback is an operational mode,
+                    # never an indistinguishable normal provider success.
+                    "script_provider": script_data.get("provider", "unknown"),
+                    "used_local_script_fallback": script_data.get("provider") == "local_fallback",
                     "voiceover": script_data.get("voiceover", "")[:500],
                     "posted_at": datetime.now(UTC).isoformat()
                     if (upload_result.get("youtube_success") or upload_result.get("facebook_success"))
@@ -1496,17 +1501,14 @@ def main():
                     # workflow steps skip QA/state commits and the next slot can
                     # retry without a misleading red run or duplicate upload.
                     os.makedirs("data", exist_ok=True)
-                    with open("data/slot_skipped.json", "w", encoding="utf-8") as marker:
-                        json.dump(
-                            {
-                                "status": "slot_skipped",
-                                "reason": result.get("reason", "guard retries exhausted"),
-                                "timestamp": datetime.now(UTC).isoformat(),
-                            },
-                            marker,
-                            ensure_ascii=False,
-                            indent=2,
-                        )
+                    write_json_atomic(
+                        "data/slot_skipped.json",
+                        {
+                            "status": "slot_skipped",
+                            "reason": result.get("reason", "guard retries exhausted"),
+                            "timestamp": datetime.now(UTC).isoformat(),
+                        },
+                    )
                     if os.environ.get("FAIL_ON_MISSED_SLOT", "false").lower() == "true":
                         sys.exit(2)
 
