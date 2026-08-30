@@ -2206,6 +2206,39 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
         logger.warning(f"⚠️ Using best available script (Score: {best_score}/100)")
         return best_script
 
+    # Last-resort deterministic fallback: provider outages and daily quota
+    # exhaustion must not make the whole production slot impossible. This is
+    # intentionally transparent in metadata and remains subject to the normal
+    # French, duration, thumbnail, retention, and final-video gates.
+    if os.environ.get("ALLOW_LOCAL_SCRIPT_FALLBACK", "true").lower() == "true":
+        topic_text = str(topic or "un mécanisme surprenant du cerveau").strip()
+        subject = topic_text[:90].rstrip(" .?!")
+        local_script = {
+            "title": f"Pourquoi {subject} influence ton cerveau ?",
+            "hook": f"Pourquoi {subject} influence ton cerveau ?",
+            "scenes": [
+                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"Pourquoi {subject} influence ton cerveau ?"},
+                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication avant même que tu la demandes."},
+                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à tes habitudes et à ta mémoire."},
+                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie ce qui semble important sur le moment."},
+                {"visual": "Person noticing a subtle reaction", "caption": "C'est là que ta réaction peut changer sans que tu t'en rendes compte."},
+                {"visual": "Looping return to the opening image", "caption": "La prochaine fois, observe ce mécanisme avant de lui obéir."},
+            ],
+            "cta": "Tu l'avais déjà remarqué ?",
+            "description": f"Une explication courte et claire sur {subject}.",
+            "topic": topic,
+            "generated_at": time.time(),
+            "attempt": max_retries,
+            "provider": "local_fallback",
+            "fallback_reason": str(last_error or "all providers unavailable")[:500],
+        }
+        local_script = _normalize_scenes(local_script)
+        valid, local_issues = _validate_script(local_script, lenient=True)
+        if valid or not any(issue.startswith(("Missing required field:", "Too few scenes:", "Too many scenes:", "Too few words:", "Too many words:")) for issue in local_issues):
+            logger.warning("✅ Using deterministic local French fallback after provider exhaustion: %s", local_script["fallback_reason"])
+            return local_script
+        logger.error("Local fallback failed mandatory validation: %s", "; ".join(local_issues[:4]))
+
     # Complete failure
     raise RuntimeError(f"❌ Script generation failed after {max_retries} attempts. Last error: {last_error}")
 

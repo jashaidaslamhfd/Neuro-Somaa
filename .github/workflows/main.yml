@@ -150,6 +150,7 @@ jobs:
           # Do not abort the entire production run when the optional alternate
           # provider is unauthorized; fall back to Groq/OpenRouter instead.
           ALT_LLM_STRICT: "false"
+          ALLOW_LOCAL_SCRIPT_FALLBACK: "true"
           MIN_HOOK_SCORE: "70"
           MAX_HOOK_SECONDS: "6.0"
           QUALITY_APPROVAL_THRESHOLD: "60"
