@@ -1909,16 +1909,23 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
         logger.warning("🔄 FORCE_LOCAL_FALLBACK=true — using deterministic script (no LLM call)")
         topic_text = str(topic or "un mécanisme surprenant du cerveau").strip()
         subject = topic_text[:90].rstrip(" .?!")
+        # Strip a leading "Pourquoi" from the topic so the title template
+        # below doesn't double it ("Pourquoi Pourquoi des fourmillements...").
+        if subject.lower().startswith("pourquoi "):
+            subject = subject[len("pourquoi "):].strip()
+            prefix = "Pourquoi"
+        else:
+            prefix = "Pourquoi"
         local_script = {
-            "title": f"Pourquoi {subject} influence ton cerveau ?",
-            "hook": f"Pourquoi {subject} influence ton cerveau ?",
+            "title": f"{prefix} {subject} influence ton cerveau ?",
+            "hook": f"{prefix} {subject} influence ton cerveau ?",
             "scenes": [
-                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"Pourquoi {subject} influence ton cerveau ?"},
-                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication avant même que tu la demandes."},
-                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à tes habitudes et à ta mémoire."},
-                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie ce qui semble important sur le moment."},
-                {"visual": "Person noticing a subtle reaction", "caption": "C'est là que ta réaction peut changer sans que tu t'en rendes compte."},
-                {"visual": "Looping return to the opening image", "caption": "La prochaine fois, observe ce mécanisme avant de lui obéir."},
+                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"{prefix} {subject} ?"},
+                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication."},
+                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à ta mémoire."},
+                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie l'important."},
+                {"visual": "Person noticing a subtle reaction", "caption": "Ta réaction change sans prévenir."},
+                {"visual": "Looping return to the opening image", "caption": "Observe ce mécanisme avant d'obéir."},
             ],
             "cta": "Tu l'avais déjà remarqué ?",
             "description": f"Une explication courte et claire sur {subject}.",
@@ -2265,16 +2272,21 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
     if os.environ.get("ALLOW_LOCAL_SCRIPT_FALLBACK", "true").lower() == "true":
         topic_text = str(topic or "un mécanisme surprenant du cerveau").strip()
         subject = topic_text[:90].rstrip(" .?!")
+        if subject.lower().startswith("pourquoi "):
+            subject = subject[len("pourquoi "):].strip()
+            prefix = "Pourquoi"
+        else:
+            prefix = "Pourquoi"
         local_script = {
-            "title": f"Pourquoi {subject} influence ton cerveau ?",
-            "hook": f"Pourquoi {subject} influence ton cerveau ?",
+            "title": f"{prefix} {subject} influence ton cerveau ?",
+            "hook": f"{prefix} {subject} influence ton cerveau ?",
             "scenes": [
-                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"Pourquoi {subject} influence ton cerveau ?"},
-                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication avant même que tu la demandes."},
-                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à tes habitudes et à ta mémoire."},
-                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie ce qui semble important sur le moment."},
-                {"visual": "Person noticing a subtle reaction", "caption": "C'est là que ta réaction peut changer sans que tu t'en rendes compte."},
-                {"visual": "Looping return to the opening image", "caption": "La prochaine fois, observe ce mécanisme avant de lui obéir."},
+                {"visual": f"Dark cinematic portrait about {subject}", "caption": f"{prefix} {subject} ?"},
+                {"visual": "Close-up of a thoughtful face", "caption": "Ton cerveau cherche une explication."},
+                {"visual": "Neural pathways lighting up", "caption": "Il relie ce signal à ta mémoire."},
+                {"visual": "Abstract neural network motion", "caption": "Puis il amplifie l'important."},
+                {"visual": "Person noticing a subtle reaction", "caption": "Ta réaction change sans prévenir."},
+                {"visual": "Looping return to the opening image", "caption": "Observe ce mécanisme avant d'obéir."},
             ],
             "cta": "Tu l'avais déjà remarqué ?",
             "description": f"Une explication courte et claire sur {subject}.",
