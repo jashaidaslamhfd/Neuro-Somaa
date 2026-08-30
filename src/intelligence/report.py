@@ -11,7 +11,10 @@ manage them — the daily sync simply overwrites.
 
 from __future__ import annotations
 
+import contextlib
 import json
+import os
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -211,18 +214,37 @@ def build_markdown(report: dict) -> str:
     return "\n".join(lines) + "\n"
 
 
-def write_reports(report: dict) -> dict:
-    DATA.mkdir(exist_ok=True)
+def _atomic_write(path: Path, content: str) -> None:
+    """Write a complete report or leave the last complete report untouched."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(content)
+        os.replace(temp_name, path)
+    except BaseException:
+        with contextlib.suppress(OSError):
+            os.unlink(temp_name)
+        raise
+
+
+def write_reports(report: dict, output_dir: Path | str | None = None) -> dict:
+    """Write rolling intelligence outputs to ``output_dir`` atomically.
+
+    Production uses the repository's ``data/`` directory by default. Tests and
+    callers that need an isolated run pass a temporary directory explicitly.
+    """
+    data_dir = Path(output_dir) if output_dir is not None else DATA
+    json_path = data_dir / "intelligence_report.json"
+    markdown_path = data_dir / "intelligence_dashboard_latest.md"
     # Underscore-prefixed keys (e.g. _history) are in-memory-only inputs for
     # build_markdown — never serialised (they'd duplicate video_history.json).
     serializable = {k: v for k, v in report.items() if not k.startswith("_")}
-    (DATA / "intelligence_report.json").write_text(
-        json.dumps(serializable, indent=2, ensure_ascii=False), encoding="utf-8"
-    )
+    _atomic_write(json_path, json.dumps(serializable, indent=2, ensure_ascii=False))
     md = build_markdown(report)
-    (DATA / "intelligence_dashboard_latest.md").write_text(md, encoding="utf-8")
+    _atomic_write(markdown_path, md)
     return {
-        "json": str(DATA / "intelligence_report.json"),
-        "markdown": str(DATA / "intelligence_dashboard_latest.md"),
+        "json": str(json_path),
+        "markdown": str(markdown_path),
         "bytes": len(md.encode("utf-8")),
     }

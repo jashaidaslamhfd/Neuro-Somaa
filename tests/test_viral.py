@@ -146,7 +146,10 @@ class WinnerFastlaneTests(unittest.TestCase):
                 }
             ]
         }
-        payload = viral_miner.mine_winner_fastlane(history, anomalies)
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = viral_miner.mine_winner_fastlane(
+                history, anomalies, output_path=Path(tmp) / "winner_fastlane.json"
+            )
         self.assertTrue(payload["fastlane"])
         clone = payload["fastlane"][0]["topic"]
         self.assertTrue(clone.startswith("Pourquoi"))
@@ -177,7 +180,10 @@ class WinnerFastlaneTests(unittest.TestCase):
         history = [
             {"youtube_video_id": f"n{i}", "title": f"Pourquoi sujet {i} ?", "views": 500} for i in range(10)
         ]
-        payload = viral_miner.mine_winner_fastlane(history, {"anomalies": []})
+        with tempfile.TemporaryDirectory() as tmp:
+            payload = viral_miner.mine_winner_fastlane(
+                history, {"anomalies": []}, output_path=Path(tmp) / "winner_fastlane.json"
+            )
         # top-decile backup may nominate the flat leader, but flat 500s produce
         # at most few entries and never crash
         self.assertIsInstance(payload["fastlane"], list)

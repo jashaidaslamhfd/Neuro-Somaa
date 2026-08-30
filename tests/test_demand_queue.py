@@ -109,9 +109,11 @@ class TestSearchDemandQueue(unittest.TestCase):
         with (
             mock.patch.object(trend_fetcher, "load_search_demand_queue", return_value=[rec]),
             mock.patch("intelligence.viral_miner.load_fresh_fastlane", return_value=[]),
+            mock.patch("demand_refresh.refresh_demand_queue", return_value=False),
             mock.patch.dict("os.environ", {"TOPIC_STRATEGY": "dark_psychology_series"}),
         ):
-            # The only queue entry is excluded -> must fall back to catalogue
+            # The only queue entry is excluded. A failed live refresh must
+            # safely fall back to the catalogue without touching network/state.
             chosen = trend_fetcher.get_trending_topic(
                 exclude=["Pourquoi le ventre gargouille sans faim"], return_metadata=True
             )
