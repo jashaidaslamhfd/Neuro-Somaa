@@ -1445,9 +1445,10 @@ class SKILLORPipeline:
         # LLM call. A slot is never missed unless even this fallback fails
         # (which is astronomically unlikely — it's deterministic).
         logger.warning(
-            "🔄 All %d guard retries exhausted — making a final guaranteed "
+            "🔄 All %d guard retries exhausted (last: %s) — making a final guaranteed "
             "attempt with deterministic local fallback to protect the slot...",
             attempt,
+            str(last_err or "unknown")[:120],
         )
         os.environ["FORCE_LOCAL_FALLBACK"] = "true"
         try:
@@ -1463,7 +1464,7 @@ class SKILLORPipeline:
         except Exception as final_exc:
             logger.error("🔴 Even the deterministic fallback failed: %s", final_exc)
             if slot_label:
-                register_slot_attempt(slot_label, "guard_fail", str(final_err or "")[:80])
+                register_slot_attempt(slot_label, "guard_fail", str(final_exc)[:80])
             return {"success": False, "missed": True, "reason": str(final_exc)}
         finally:
             os.environ.pop("FORCE_LOCAL_FALLBACK", None)
