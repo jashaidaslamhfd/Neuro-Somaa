@@ -1407,6 +1407,9 @@ class SKILLORPipeline:
             "DUPLICATE TITLE BLOCKED",
             "Duplicate title blocked before upload",
             "Quality gate failed",
+            "Thumbnail quality gate failed",
+            "French language gate failed",
+            "French quality gate blocked publication",
             "Retention gate:",
             "Silent segments:",
             "Mixed TTS voices:",
@@ -1414,6 +1417,10 @@ class SKILLORPipeline:
             "Narration too short:",
             "Narration too long:",
             "Failed to generate image for scene",
+            "topic diversity",
+            "script generation returned empty",
+            "script has insufficient scenes",
+            "could not parse json",
             # 2026-08-30: final rendered-asset audit can block on a French
             # title/metadata issue that a fresh topic would fix. Without these
             # phrases the retry loop treats the RuntimeError as a real crash
@@ -1444,9 +1451,13 @@ class SKILLORPipeline:
                 if slot_label:
                     register_slot_attempt(slot_label, "published", (result or {}).get("title", ""))
                 return result
-            except RuntimeError as exc:
+            except (RuntimeError, ValueError) as exc:
                 msg = str(exc)
-                is_guard = any(p in msg for p in guard_phrases)
+                # Gate text has historically varied in capitalization and in
+                # whether the wrapper prefixes the stage name. Normalize once
+                # so no content gate falls through as an operational failure.
+                msg_lower = msg.lower()
+                is_guard = any(p.lower() in msg_lower for p in guard_phrases)
                 if not is_guard:
                     raise  # real pipeline error, not a guard block
                 last_err = exc

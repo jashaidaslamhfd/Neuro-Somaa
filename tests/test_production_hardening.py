@@ -82,6 +82,16 @@ def test_missed_slots_write_a_durable_failure_diagnostic():
     assert '"failure_kind": "slot_missed_after_guard_retries"' in missed_block
 
 
+def test_all_content_gate_families_are_retryable_in_continuity():
+    source = (ROOT / "src" / "main.py").read_text(encoding="utf-8")
+    retry_block = source[source.index("guard_phrases =") : source.index("attempt = 0")]
+    assert "Thumbnail quality gate failed" in retry_block
+    assert "French language gate failed" in retry_block
+    assert "French quality gate blocked publication" in retry_block
+    assert "msg_lower = msg.lower()" in source
+    assert "except (RuntimeError, ValueError)" in source
+
+
 def test_thumbnail_variant_count_is_bounded():
     source = inspect.getsource(__import__("video_editor").generate_thumbnail_variants)
     assert "min(int(count), 4)" in source
