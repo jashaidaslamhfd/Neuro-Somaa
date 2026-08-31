@@ -1,39 +1,39 @@
 {
-  "generated_at": "2026-08-30T10:36:36.812783+00:00",
+  "generated_at": "2026-08-31T11:45:33.837841+00:00",
   "n_videos_analyzed": 67,
   "truth_gate": {
     "hook_score": {
       "claims": "hook quality",
       "n": 67,
-      "spearman_vs_views": -0.069,
-      "spearman_vs_retention": -0.137,
+      "spearman_vs_views": -0.083,
+      "spearman_vs_retention": -0.106,
       "verdict": "NOISE",
       "decision_usable": false
     },
     "seo_score": {
       "claims": "SEO quality",
       "n": 67,
-      "spearman_vs_views": 0.663,
-      "spearman_vs_retention": 0.07,
+      "spearman_vs_views": 0.626,
+      "spearman_vs_retention": 0.011,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
     "predicted_retention": {
       "claims": "retention",
       "n": 67,
-      "spearman_vs_views": -0.123,
-      "spearman_vs_retention": -0.114,
+      "spearman_vs_views": -0.133,
+      "spearman_vs_retention": -0.077,
       "verdict": "NOISE",
       "decision_usable": false,
-      "bias": 0.226,
+      "bias": 0.224,
       "mean_predicted": 0.692,
-      "mean_actual": 0.466
+      "mean_actual": 0.468
     },
     "predicted_ctr": {
       "claims": "CTR",
       "n": 67,
-      "spearman_vs_views": 0.66,
-      "spearman_vs_retention": 0.061,
+      "spearman_vs_views": 0.623,
+      "spearman_vs_retention": 0.009,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
@@ -51,59 +51,59 @@
   "models": {
     "ridge": {
       "reliable": true,
-      "cv_r2_mean": 0.3381,
-      "cv_r2_std": 0.5248,
-      "cv_mae_views": 303.7,
+      "cv_r2_mean": 0.3628,
+      "cv_r2_std": 0.3872,
+      "cv_mae_views": 290.0,
       "n": 67,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
           "feature": "seo_score",
-          "coef": 0.2498,
+          "coef": 0.259,
           "direction": "+"
         },
         {
           "feature": "is_question",
-          "coef": 0.2443,
+          "coef": 0.2016,
           "direction": "+"
         },
         {
           "feature": "predicted_ctr",
-          "coef": 0.1968,
+          "coef": 0.1829,
           "direction": "+"
         },
         {
           "feature": "dow_sin",
-          "coef": -0.1138,
+          "coef": -0.0975,
           "direction": "-"
         },
         {
-          "feature": "phrase_words",
-          "coef": 0.1075,
+          "feature": "dow_cos",
+          "coef": 0.0919,
           "direction": "+"
         },
         {
-          "feature": "title_chars",
-          "coef": -0.0967,
+          "feature": "topic_bucket_3",
+          "coef": -0.0907,
           "direction": "-"
         },
         {
           "feature": "has_digits",
-          "coef": 0.0658,
+          "coef": 0.0821,
           "direction": "+"
         },
         {
-          "feature": "starts_pourquoi",
-          "coef": 0.0365,
-          "direction": "+"
+          "feature": "title_chars",
+          "coef": -0.0789,
+          "direction": "-"
         }
       ]
     },
     "mlp": {
       "reliable": false,
       "note": "in-sample fit on n=67; advisory only",
-      "in_sample_mae_views": 212.0,
+      "in_sample_mae_views": 199.6,
       "hidden_units": 12,
       "epochs": 600
     }
@@ -133,8 +133,8 @@
         "wins_ge_1000_views": 0,
         "winner_rate": 0.0,
         "thompson_score": 0.3341,
-        "posterior_mean_logviews": 3.7377,
-        "avg_views": 41.0,
+        "posterior_mean_logviews": 2.4849,
+        "avg_views": 11.0,
         "confident": false
       },
       "LA_SCIENCE": {
@@ -151,34 +151,34 @@
         "wins_ge_1000_views": 0,
         "winner_rate": 0.0,
         "thompson_score": 0.2485,
-        "posterior_mean_logviews": 1.4452,
-        "avg_views": 3.5,
+        "posterior_mean_logviews": 1.354,
+        "avg_views": 3.0,
         "confident": false
       },
       "POURQUOI": {
         "n": 58,
-        "wins_ge_1000_views": 6,
-        "winner_rate": 0.1034,
-        "thompson_score": 0.117,
-        "posterior_mean_logviews": 5.2103,
-        "avg_views": 503.0,
+        "wins_ge_1000_views": 5,
+        "winner_rate": 0.0862,
+        "thompson_score": 0.1001,
+        "posterior_mean_logviews": 4.9623,
+        "avg_views": 459.8,
         "confident": true
       },
       "SERIE_COURTE": {
         "n": 2,
         "wins_ge_1000_views": 0,
         "winner_rate": 0.0,
-        "thompson_score": 0.2443,
-        "posterior_mean_logviews": 2.0127,
-        "avg_views": 6.5,
+        "thompson_score": 0.244,
+        "posterior_mean_logviews": 2.0794,
+        "avg_views": 7.0,
         "confident": false
       }
     },
     "recommended_pattern": {
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
-      "thompson_score": 0.117,
-      "avg_views": 503.0
+      "thompson_score": 0.1001,
+      "avg_views": 459.8
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -188,7 +188,7 @@
     "reliable": true,
     "n_scored": 67,
     "window": 20,
-    "baseline_median_views": 277.0,
+    "baseline_median_views": 192.0,
     "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
     "anomalies": [],
     "underperformers": []
@@ -196,12 +196,12 @@
   "forecast": {
     "reliable": true,
     "method": "Holt double exponential smoothing (α=0.4, β=0.1)",
-    "last_level": 227.4,
-    "daily_trend": -101.24,
-    "sigma_daily": 515.3,
+    "last_level": 237.9,
+    "daily_trend": -96.2,
+    "sigma_daily": 485.1,
     "forecast_daily_views": [
-      126.2,
-      24.9,
+      141.7,
+      45.5,
       0.0,
       0.0,
       0.0,
@@ -231,9 +231,9 @@
       0.0,
       0.0
     ],
-    "total_30d_expected": 151.0,
+    "total_30d_expected": 187.0,
     "band_30d_low": 0.0,
-    "band_30d_high": 520.4,
+    "band_30d_high": 491.3,
     "honesty": "trend extrapolation assumes current strategy/format holds; a single viral outlier reshapes everything — re-read weekly.",
     "series_days": 29,
     "first_day": "2026-07-19",
@@ -247,7 +247,7 @@
     "clusters": [
       {
         "cluster_id": 2,
-        "name": "seul / tout / ventre / muscle / pied",
+        "name": "seul / tout / ventre / muscle / s'endort",
         "size": 3,
         "avg_views": 631.0,
         "max_views": 1054,
@@ -271,9 +271,9 @@
       },
       {
         "cluster_id": 5,
-        "name": "corps / s'endormant / après / lourd / refuse",
+        "name": "corps / s'endormant / après / lourd / mentir",
         "size": 8,
-        "avg_views": 474.5,
+        "avg_views": 475.1,
         "max_views": 986,
         "examples": [
           "Corps lourd",
@@ -285,7 +285,7 @@
         "cluster_id": 1,
         "name": "cœur / battre / son / nuit / s'emballe",
         "size": 4,
-        "avg_views": 388.8,
+        "avg_views": 222.5,
         "max_views": 874,
         "examples": [
           "Pourquoi le cerveau remarque entendre son cœur battre la",
@@ -297,7 +297,7 @@
         "cluster_id": 4,
         "name": "sur / faim / comprendre / qu'il / faut",
         "size": 13,
-        "avg_views": 229.7,
+        "avg_views": 181.2,
         "max_views": 1029,
         "examples": [
           "Ce qu'il faut comprendre sur les genoux qui craquent",
@@ -307,10 +307,10 @@
       },
       {
         "cluster_id": 3,
-        "name": "froid / sembler / peut / étrange / frissonne",
+        "name": "froid / peut / sembler / étrange / frissonne",
         "size": 7,
-        "avg_views": 211.9,
-        "max_views": 1241,
+        "avg_views": 34.6,
+        "max_views": 225,
         "examples": [
           "Réveil avant l'alarme",
           "Pourquoi le cerveau repère son propre prénom peut sembler",
@@ -318,16 +318,16 @@
         ]
       }
     ],
-    "winner_cluster": "seul / tout / ventre / muscle / pied",
+    "winner_cluster": "seul / tout / ventre / muscle / s'endort",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
     "reliable": true,
     "n": 67,
-    "p10": 29.1,
+    "p10": 27.6,
     "p50": 44.6,
-    "p90": 69.3,
-    "share_below_50pct": 0.672,
+    "p90": 70.6,
+    "share_below_50pct": 0.657,
     "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
   },
   "experiment": {
@@ -346,10 +346,10 @@
         "a": "pov_reveal",
         "b": "question",
         "significant": false,
-        "p_value": 0.2478,
-        "mean_a": 636.45,
+        "p_value": 0.2476,
+        "mean_a": 636.91,
         "mean_b": 369.2,
-        "diff": 267.25,
+        "diff": 267.71,
         "n_a": 11,
         "n_b": 5,
         "method": "two-sided permutation test (5000 shuffles)",
@@ -358,26 +358,17 @@
     ],
     "leading_arm": {
       "arm": "pov_reveal",
-      "avg_views": 636.5
+      "avg_views": 636.9
     },
     "honesty": "3 arms = 3 pairwise tests; treat p<0.05 as 'promising', re-confirm on the next batch before rewriting the prompt bank."
   },
   "viral_fastlane": {
-    "entries": 6,
+    "entries": 5,
     "ttl_hours": 96,
     "items": [
       {
-        "topic": "Pourquoi un aliment froid provoque un mal quand tu es stressé ?",
-        "series_number": "W01",
-        "cloned_from": {
-          "video_id": "8b9CONZ5ntY",
-          "views": 1241,
-          "title": "Pourquoi un aliment froid provoque un mal de tête ?"
-        }
-      },
-      {
         "topic": "Pourquoi les souvenirs gênants reviennent plus souvent en hiver ?",
-        "series_number": "W02",
+        "series_number": "W01",
         "cloned_from": {
           "video_id": "oZ_AmaU0VE0",
           "views": 1134,
@@ -386,7 +377,7 @@
       },
       {
         "topic": "Pourquoi des fourmillements apparaissent au moment où tu t'y attends le moins ?",
-        "series_number": "W03",
+        "series_number": "W02",
         "cloned_from": {
           "video_id": "JH0ybNiIIP4",
           "views": 1055,
@@ -395,7 +386,7 @@
       },
       {
         "topic": "Pourquoi un pied s'endort tout seul plus chez certaines personnes ?",
-        "series_number": "W04",
+        "series_number": "W03",
         "cloned_from": {
           "video_id": "JIg1-eBYols",
           "views": 1054,
@@ -404,7 +395,7 @@
       },
       {
         "topic": "Pourquoi la mâchoire craque quand tu es amoureux ?",
-        "series_number": "W05",
+        "series_number": "W04",
         "cloned_from": {
           "video_id": "0giDXoVx72E",
           "views": 1029,
@@ -413,7 +404,7 @@
       },
       {
         "topic": "Pourquoi un nœud au ventre apparaît au réveil ?",
-        "series_number": "W06",
+        "series_number": "W05",
         "cloned_from": {
           "video_id": "n1TgqGp2PQ0",
           "views": 1007,

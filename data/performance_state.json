@@ -1,13 +1,7 @@
 {
-  "generated_at": "2026-08-30T10:36:36.483005+00:00",
+  "generated_at": "2026-08-31T11:45:33.521706+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
-    {
-      "topic": "Pourquoi un aliment froid provoque un mal de tête semble soudain",
-      "n": 1,
-      "avg_views": 1241.0,
-      "avg_retention": 40.0
-    },
     {
       "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
       "n": 1,
@@ -53,22 +47,28 @@
     {
       "topic": "Pourquoi le corps gratte après la douche",
       "n": 1,
-      "avg_views": 964.0,
-      "avg_retention": 44.8
+      "avg_views": 969.0,
+      "avg_retention": 45.3
     },
     {
       "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
       "n": 1,
       "avg_views": 958.0,
       "avg_retention": 65.6
+    },
+    {
+      "topic": "Pourquoi on pleure quand on bâille",
+      "n": 1,
+      "avg_views": 930.0,
+      "avg_retention": 47.8
     }
   ],
   "top_hook_word_counts": [],
   "best_topic": {
-    "topic": "Pourquoi un aliment froid provoque un mal de tête semble soudain",
+    "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
     "n": 1,
-    "avg_views": 1241.0,
-    "avg_retention": 40.0
+    "avg_views": 1134.0,
+    "avg_retention": 50.3
   },
   "best_hook_words": null
 }

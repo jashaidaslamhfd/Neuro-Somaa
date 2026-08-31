@@ -1,37 +1,37 @@
 {
-  "generated_at": "2026-08-30T10:36:36.473669+00:00",
+  "generated_at": "2026-08-31T11:45:33.512624+00:00",
   "sample_size": 79,
-  "scored_videos": 67,
-  "channel_gate_ratio": 0.705,
+  "scored_videos": 66,
+  "channel_gate_ratio": 0.712,
   "slot_weights": {
-    "21:00": 1.019,
-    "18:00": 1.032,
+    "21:00": 1.012,
+    "18:00": 1.04,
     "08:00": 1.0,
     "10:00": 1.0,
     "14:30": 1.0,
     "19:00": 1.0,
-    "19:30": 0.914,
-    "12:30": 0.738,
+    "19:30": 0.907,
+    "12:30": 0.79,
     "06:00": 1.0
   },
   "topic_weights": {
-    "other": 0.918,
-    "ear": 0.868,
+    "other": 0.911,
+    "ear": 0.878,
     "nerve": 1.0,
-    "muscle": 1.332,
-    "gut": 1.053,
-    "brain": 1.051,
-    "breath": 1.035,
-    "eye": 0.881,
-    "skin": 1.008,
-    "heart": 0.945
+    "muscle": 1.33,
+    "gut": 1.111,
+    "brain": 1.04,
+    "breath": 1.039,
+    "eye": 0.866,
+    "skin": 1.004,
+    "heart": 0.913
   },
   "hook_weights": {
-    "statement": 1.066,
+    "statement": 1.065,
     "question": 0.989
   },
   "slot_samples": {
-    "21:00": 22,
+    "21:00": 21,
     "18:00": 25,
     "08:00": 1,
     "10:00": 1,
@@ -49,24 +49,24 @@
     "gut": 7,
     "brain": 9,
     "breath": 4,
-    "eye": 9,
+    "eye": 8,
     "skin": 7,
     "heart": 3
   },
   "hook_samples": {
     "statement": 10,
-    "question": 57
+    "question": 56
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 67,
+      "samples": 66,
       "gate": 0.65,
-      "avg_completion": 0.4583,
-      "gate_ratio": 0.705,
-      "avg_views": 421.4,
+      "avg_completion": 0.4627,
+      "gate_ratio": 0.712,
+      "avg_views": 389.4,
       "action": "Averaging 46% against a 65% bar. Shorten the cut toward 20s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
@@ -99,7 +99,8 @@
   ],
   "best_slot": null,
   "best_topics": [
-    "muscle"
+    "muscle",
+    "gut"
   ],
   "best_hook_frame": null
 }

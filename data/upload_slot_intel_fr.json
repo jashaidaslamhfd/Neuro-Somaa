@@ -1,17 +1,17 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-30T10:36:36.685671+00:00",
+  "generated_at_utc": "2026-08-31T11:45:33.704472+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
     {
       "rank": 1,
-      "score_rank": 2,
+      "score_rank": 1,
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.075,
+      "score": 3.0724,
       "samples": 24,
       "confident": true,
       "prior": 0.0
@@ -23,19 +23,19 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 2.9459,
+      "score": 2.7931,
       "samples": 12,
       "confident": true,
-      "prior": 3.0721
+      "prior": 3.011
     },
     {
       "rank": 3,
-      "score_rank": 1,
+      "score_rank": 2,
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 3.1157,
+      "score": 2.9773,
       "samples": 15,
       "confident": true,
       "prior": 0.0
@@ -43,41 +43,12 @@
   ],
   "ranked_slots": [
     {
-      "slot": "21:30",
-      "hour": 21,
-      "minute": 30,
-      "score": 3.1157,
-      "observed_samples": 15,
-      "observed_avg": 3.1157,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "8b9CONZ5ntY",
-          "title": "Pourquoi un aliment froid provoque un mal de tête ?",
-          "views": 1241,
-          "published_paris": "2026-07-31 21:30"
-        },
-        {
-          "video_id": "oZ_AmaU0VE0",
-          "title": "Pourquoi les souvenirs gênants reviennent ?",
-          "views": 1134,
-          "published_paris": "2026-08-14 21:30"
-        },
-        {
-          "video_id": "JH0ybNiIIP4",
-          "title": "Pourquoi des fourmillements apparaissent sans raison ?",
-          "views": 1055,
-          "published_paris": "2026-08-15 21:30"
-        }
-      ]
-    },
-    {
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.075,
+      "score": 3.0724,
       "observed_samples": 24,
-      "observed_avg": 3.075,
+      "observed_avg": 3.0724,
       "prior": 0.0,
       "examples": [
         {
@@ -101,18 +72,47 @@
       ]
     },
     {
+      "slot": "21:30",
+      "hour": 21,
+      "minute": 30,
+      "score": 2.9773,
+      "observed_samples": 15,
+      "observed_avg": 2.9773,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "oZ_AmaU0VE0",
+          "title": "Pourquoi les souvenirs gênants reviennent ?",
+          "views": 1134,
+          "published_paris": "2026-08-14 21:30"
+        },
+        {
+          "video_id": "JH0ybNiIIP4",
+          "title": "Pourquoi des fourmillements apparaissent sans raison ?",
+          "views": 1055,
+          "published_paris": "2026-08-15 21:30"
+        },
+        {
+          "video_id": "0giDXoVx72E",
+          "title": "Pourquoi la mâchoire craque en mâchant ?",
+          "views": 1029,
+          "published_paris": "2026-08-05 21:30"
+        }
+      ]
+    },
+    {
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 2.9459,
+      "score": 2.7931,
       "observed_samples": 12,
-      "observed_avg": 2.9038,
-      "prior": 3.0721,
+      "observed_avg": 2.7205,
+      "prior": 3.011,
       "examples": [
         {
           "video_id": "ixDDjtbojKs",
           "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 964,
+          "views": 969,
           "published_paris": "2026-08-12 19:30"
         },
         {
@@ -133,7 +133,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.7488,
+      "score": 2.6999,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.7022,
+      "score": 2.6532,
       "observed_samples": 1,
       "observed_avg": 2.2889,
       "prior": 0.0,
@@ -167,7 +167,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.6163,
+      "score": 2.5674,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -184,7 +184,7 @@
       "slot": "02:30",
       "hour": 2,
       "minute": 30,
-      "score": 2.6123,
+      "score": 2.5634,
       "observed_samples": 1,
       "observed_avg": 1.8398,
       "prior": 0.0,
@@ -201,7 +201,7 @@
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.5944,
+      "score": 2.5577,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -224,15 +224,15 @@
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 2.5507,
+      "score": 2.5161,
       "observed_samples": 1,
-      "observed_avg": 1.5318,
+      "observed_avg": 1.6031,
       "prior": 0.0,
       "examples": [
         {
           "video_id": "FteL-0nbHWk",
           "title": "Pourquoi le cerveau remarque entendre son cœur battre la",
-          "views": 3,
+          "views": 2,
           "published_paris": "2026-07-20 18:29"
         }
       ]
@@ -241,7 +241,7 @@
       "slot": "19:00",
       "hour": 19,
       "minute": 0,
-      "score": 2.4842,
+      "score": 2.4353,
       "observed_samples": 1,
       "observed_avg": 1.1992,
       "prior": 0.0,
@@ -258,10 +258,10 @@
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 2.4663,
+      "score": 2.423,
       "observed_samples": 5,
-      "observed_avg": 2.1417,
-      "prior": 2.8721,
+      "observed_avg": 2.1127,
+      "prior": 2.811,
       "examples": [
         {
           "video_id": "trfitEKS1ik",
@@ -287,10 +287,10 @@
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.3576,
+      "score": 2.3389,
       "observed_samples": 3,
-      "observed_avg": 2.0267,
-      "prior": 2.4721,
+      "observed_avg": 2.1306,
+      "prior": 2.411,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",
@@ -299,16 +299,16 @@
           "published_paris": "2026-07-30 12:30"
         },
         {
-          "video_id": "VRWySzxXsyE",
-          "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
-          "views": 4,
-          "published_paris": "2026-07-29 12:30"
-        },
-        {
           "video_id": "YluUMs7fPtQ",
           "title": "Pourquoi les corps flottants visibles dans la lumière ?",
           "views": 3,
           "published_paris": "2026-07-28 12:30"
+        },
+        {
+          "video_id": "VRWySzxXsyE",
+          "title": "Pourquoi on sent une vibration de téléphone imaginaire ?",
+          "views": 1,
+          "published_paris": "2026-07-29 12:30"
         }
       ]
     }
