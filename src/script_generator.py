@@ -1909,13 +1909,12 @@ def generate_script(topic: str, custom_prompt: str | None = None, max_retries: i
         logger.warning("🔄 FORCE_LOCAL_FALLBACK=true — using deterministic script (no LLM call)")
         topic_text = str(topic or "un mécanisme surprenant du cerveau").strip()
         subject = topic_text[:90].rstrip(" .?!")
-        # Strip a leading "Pourquoi" from the topic so the title template
-        # below doesn't double it ("Pourquoi Pourquoi des fourmillements...").
-        if subject.lower().startswith("pourquoi "):
-            subject = subject[len("pourquoi "):].strip()
-            prefix = "Pourquoi"
-        else:
-            prefix = "Pourquoi"
+        # Topics can arrive with punctuation or repeated question prefixes.
+        # Strip every leading variant so the fallback never creates a doubled
+        # hook such as "Pourquoi. Pourquoi ...".
+        subject = re.sub(r"^(?:pourquoi(?:[\s.:!?-]+|$))+", "", subject, flags=re.IGNORECASE).strip()
+        subject = subject or "un mécanisme surprenant du cerveau"
+        prefix = "Pourquoi"
         local_script = {
             "title": f"{prefix} {subject} influence ton cerveau ?",
             "hook": f"{prefix} {subject} influence ton cerveau ?",

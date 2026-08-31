@@ -173,3 +173,22 @@ def test_run_manifest_and_failure_diagnostics_use_atomic_json_writer():
     assert "write_json_atomic(destination, build_manifest())" in manifest
     assert "write_json_atomic(data_log, payload, default=str)" in pipeline
     assert '"data/slot_skipped.json"' in pipeline
+
+
+def test_deterministic_fallback_normalizes_repeated_pourquoi_prefix(monkeypatch):
+    import script_generator
+
+    monkeypatch.setenv("FORCE_LOCAL_FALLBACK", "true")
+    script = script_generator.generate_script("Pourquoi. Pourquoi des fourmillements apparaissent", max_retries=1)
+    assert "Pourquoi. Pourquoi" not in script["hook"]
+    assert script["scenes"][0]["caption"] == script["hook"]
+    assert 7 <= len(script["scenes"][0]["caption"].split()) <= 9
+
+
+def test_deterministic_fallback_handles_prefix_only_topic(monkeypatch):
+    import script_generator
+
+    monkeypatch.setenv("FORCE_LOCAL_FALLBACK", "true")
+    script = script_generator.generate_script("Pourquoi.", max_retries=1)
+    assert script["hook"].startswith("Pourquoi un mécanisme surprenant")
+    assert "Pourquoi. Pourquoi" not in script["hook"]
