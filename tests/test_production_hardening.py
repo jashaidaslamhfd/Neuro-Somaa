@@ -192,3 +192,22 @@ def test_deterministic_fallback_handles_prefix_only_topic(monkeypatch):
     script = script_generator.generate_script("Pourquoi.", max_retries=1)
     assert script["hook"].startswith("Pourquoi un mécanisme surprenant")
     assert "Pourquoi. Pourquoi" not in script["hook"]
+
+
+def test_visual_qa_prefers_assembled_video_over_scene_intermediate(tmp_path, monkeypatch):
+    import importlib.util
+
+    module_path = ROOT / "scripts" / "visual_qa.py"
+    spec = importlib.util.spec_from_file_location("visual_qa", module_path)
+    visual_qa = importlib.util.module_from_spec(spec)
+    assert spec.loader is not None
+    spec.loader.exec_module(visual_qa)
+
+    output = tmp_path / "output"
+    output.mkdir()
+    final_video = output / "final_video.mp4"
+    scene_video = output / "scene_5.mp4"
+    final_video.write_bytes(b"final")
+    scene_video.write_bytes(b"scene")
+    monkeypatch.chdir(tmp_path)
+    assert visual_qa._select_final_video().resolve() == final_video.resolve()

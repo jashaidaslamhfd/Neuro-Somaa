@@ -15,12 +15,29 @@ def probe(path: Path) -> dict:
     return json.loads(raw)
 
 
+def _select_final_video() -> Path | None:
+    output_dir = Path("output")
+    # The renderer leaves per-scene MP4 intermediates beside the assembled
+    # video. Selecting the newest file can therefore probe scene_5.mp4, which
+    # intentionally has no audio stream, and falsely fail final QA. Prefer the
+    # canonical assembled outputs and ignore scene intermediates entirely.
+    for name in ("final_video.mp4", "dryrun_final.mp4"):
+        candidate = output_dir / name
+        if candidate.exists():
+            return candidate
+    candidates = sorted(
+        (p for p in output_dir.glob("*.mp4") if not p.name.startswith("scene_")),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
+    )
+    return candidates[0] if candidates else None
+
+
 def main() -> int:
-    candidates = sorted(Path("output").glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True)
-    if not candidates:
-        print("No rendered MP4 found", file=sys.stderr)
+    path = _select_final_video()
+    if path is None:
+        print("No assembled rendered MP4 found", file=sys.stderr)
         return 1
-    path = candidates[0]
     report = probe(path)
     streams = report.get("streams", [])
     video = next((s for s in streams if s.get("codec_type") == "video"), None)
