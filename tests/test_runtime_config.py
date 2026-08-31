@@ -280,9 +280,10 @@ class WorkflowRegressionTests(unittest.TestCase):
         # publish times (a real video went live at 02:32 Paris and flopped).
         self.assertIn('YT_SCHEDULE_PUBLISH: "true"', self.workflow)
 
-    def test_shorts_duration_target_stays_below_25_seconds(self):
-        self.assertIn('TARGET_MIN_SECONDS: "20"', self.workflow)
-        self.assertIn('TARGET_MAX_SECONDS: "24"', self.workflow)
+    def test_shorts_duration_target_uses_retention_first_arm(self):
+        self.assertIn('TARGET_MIN_SECONDS: "15"', self.workflow)
+        self.assertIn('TARGET_MAX_SECONDS: "18"', self.workflow)
+        self.assertIn('RETENTION_GATE_MODE: "warn"', self.workflow)
 
     def test_production_limits_full_pipeline_retries_to_protect_quota(self):
         self.assertIn('MAX_SCRIPT_ATTEMPTS: "1"', self.workflow)

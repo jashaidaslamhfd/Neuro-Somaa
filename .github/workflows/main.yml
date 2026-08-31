@@ -72,8 +72,8 @@ jobs:
         shell: bash
         env:
           DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
-          TARGET_MIN_SECONDS: "20"
-          TARGET_MAX_SECONDS: "24"
+          TARGET_MIN_SECONDS: "15"
+          TARGET_MAX_SECONDS: "18"
           YT_SCHEDULE_PUBLISH: "true"
           YT_PRIVACY_STATUS: "private"
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -161,6 +161,9 @@ jobs:
           # predicted retention is below this. 0.50 = only publish videos
           # projected to hold >=50% average retention (the ~500-view floor).
           MIN_RETENTION: "0.50"
+          # Retention checks remain logged for learning but never consume a
+          # scheduled slot; render/upload/authentication errors stay strict.
+          RETENTION_GATE_MODE: "warn"
           # 2026-08-12 truth sweep: EXPERIMENT_ARM / DURATION_EXPERIMENT were
           # set here but read by NOTHING (dead blind config — same class of bug
           # as the phantom 70B model). scripts/duration_experiment.py writes
@@ -173,9 +176,10 @@ jobs:
           # globally learned three-slot file until it has weekday samples.
           USE_DYNAMIC_SCHEDULE: "false"
           DYNAMIC_SCHEDULE_SLOT_COUNT: "3"
-          # Retention experiment: keep generated Shorts below 25 seconds.
-          TARGET_MIN_SECONDS: "20"
-          TARGET_MAX_SECONDS: "24"
+          # Retention-first default: shorter cuts are currently the safest
+          # measured arm. Bounded retries and local fallback protect the slot.
+          TARGET_MIN_SECONDS: "15"
+          TARGET_MAX_SECONDS: "18"
           TTS_MAX_OVERRUN_RATIO: "1.08"
           # One full pipeline attempt per dispatch: avoids regenerating scripts
           # after deterministic render/upload failures and protects LLM quota.

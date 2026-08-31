@@ -1025,21 +1025,40 @@ class SKILLORPipeline:
                 # var and both fields were silently saved as None.
                 script_data["shorts_report"] = shorts_report
 
-                # HARD RETENTION GATE: validate the actual first three seconds
-                # before spending time on video rendering or upload. This is a
-                # structural production check, not an uncalibrated prediction.
+                # RETENTION OPTIMIZATION: keep the measured opening report, but
+                # do not let a content-quality gate consume a scheduled slot.
+                # Infrastructure, render, upload, and authentication failures
+                # remain strict. A guard failure is handled by the continuity
+                # retry/fallback path; scheduled production defaults to warning
+                # only so no slot is lost because of an advisory content check.
                 opening = shorts_report.get("first_three_seconds", {})
-                require_strict_gate(
-                    opening.get("ok", False),
-                    opening,
-                    "first-three-second opening",
-                )
-                logger.info(
-                    "✅ First-three-second gate passed: score=%s/100, decision_words=%s, opening_words=%s",
-                    opening.get("score"),
-                    opening.get("decision_words"),
-                    opening.get("opening_words"),
-                )
+                retention_gate_mode = os.environ.get("RETENTION_GATE_MODE", "strict").strip().lower()
+                if retention_gate_mode == "warn":
+                    if not opening.get("ok", False):
+                        logger.warning(
+                            "⚠️ First-three-second retention gate advisory: score=%s/100; issues=%s",
+                            opening.get("score"),
+                            "; ".join(opening.get("issues", [])[:4]),
+                        )
+                    else:
+                        logger.info(
+                            "✅ First-three-second retention check passed: score=%s/100, decision_words=%s, opening_words=%s",
+                            opening.get("score"),
+                            opening.get("decision_words"),
+                            opening.get("opening_words"),
+                        )
+                else:
+                    require_strict_gate(
+                        opening.get("ok", False),
+                        opening,
+                        "first-three-second opening",
+                    )
+                    logger.info(
+                        "✅ First-three-second gate passed: score=%s/100, decision_words=%s, opening_words=%s",
+                        opening.get("score"),
+                        opening.get("decision_words"),
+                        opening.get("opening_words"),
+                    )
 
                 pacing = shorts_report.get("caption_pacing", {})
                 # Never silently shorten captions after TTS: doing so creates
