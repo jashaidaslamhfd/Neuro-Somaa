@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-08-31T11:45:33.704472+00:00",
+  "generated_at_utc": "2026-09-01T10:19:54.816237+00:00",
   "timezone": "Europe/Paris",
   "policy": "PublishAt slots learned from real channel views/retention; defaults are used as priors.",
   "recommended_slots": [
@@ -11,7 +11,7 @@
       "hour": 17,
       "minute": 30,
       "name": "Dynamique 17:30",
-      "score": 3.0724,
+      "score": 3.019,
       "samples": 24,
       "confident": true,
       "prior": 0.0
@@ -23,10 +23,10 @@
       "hour": 19,
       "minute": 30,
       "name": "Dynamique 19:30",
-      "score": 2.7931,
+      "score": 2.7271,
       "samples": 12,
       "confident": true,
-      "prior": 3.011
+      "prior": 2.9797
     },
     {
       "rank": 3,
@@ -35,7 +35,7 @@
       "hour": 21,
       "minute": 30,
       "name": "Dynamique 21:30",
-      "score": 2.9773,
+      "score": 2.9704,
       "samples": 15,
       "confident": true,
       "prior": 0.0
@@ -46,9 +46,9 @@
       "slot": "17:30",
       "hour": 17,
       "minute": 30,
-      "score": 3.0724,
+      "score": 3.019,
       "observed_samples": 24,
-      "observed_avg": 3.0724,
+      "observed_avg": 3.019,
       "prior": 0.0,
       "examples": [
         {
@@ -75,9 +75,9 @@
       "slot": "21:30",
       "hour": 21,
       "minute": 30,
-      "score": 2.9773,
+      "score": 2.9704,
       "observed_samples": 15,
-      "observed_avg": 2.9773,
+      "observed_avg": 2.9704,
       "prior": 0.0,
       "examples": [
         {
@@ -104,28 +104,28 @@
       "slot": "19:30",
       "hour": 19,
       "minute": 30,
-      "score": 2.7931,
+      "score": 2.7271,
       "observed_samples": 12,
-      "observed_avg": 2.7205,
-      "prior": 3.011,
+      "observed_avg": 2.6429,
+      "prior": 2.9797,
       "examples": [
         {
           "video_id": "ixDDjtbojKs",
           "title": "Pourquoi le corps gratte après la douche ?",
-          "views": 969,
+          "views": 976,
           "published_paris": "2026-08-12 19:30"
-        },
-        {
-          "video_id": "HJb7xCMIYWQ",
-          "title": "Pourquoi la chair de poule apparaît soudainement ?",
-          "views": 958,
-          "published_paris": "2026-08-01 19:30"
         },
         {
           "video_id": "QuwjzCbMH0M",
           "title": "Pourquoi un rêve disparaît au réveil ?",
           "views": 922,
           "published_paris": "2026-08-09 19:30"
+        },
+        {
+          "video_id": "E7RmQIkI5cA",
+          "title": "Pourquoi le cœur bat plus vite avant de parler en public ?",
+          "views": 874,
+          "published_paris": "2026-08-10 19:30"
         }
       ]
     },
@@ -133,7 +133,7 @@
       "slot": "15:00",
       "hour": 15,
       "minute": 0,
-      "score": 2.6999,
+      "score": 2.6748,
       "observed_samples": 1,
       "observed_avg": 2.5221,
       "prior": 0.0,
@@ -150,7 +150,7 @@
       "slot": "20:30",
       "hour": 20,
       "minute": 30,
-      "score": 2.6532,
+      "score": 2.6282,
       "observed_samples": 1,
       "observed_avg": 2.2889,
       "prior": 0.0,
@@ -167,7 +167,7 @@
       "slot": "08:30",
       "hour": 8,
       "minute": 30,
-      "score": 2.5674,
+      "score": 2.5424,
       "observed_samples": 1,
       "observed_avg": 1.8598,
       "prior": 0.0,
@@ -181,27 +181,10 @@
       ]
     },
     {
-      "slot": "02:30",
-      "hour": 2,
-      "minute": 30,
-      "score": 2.5634,
-      "observed_samples": 1,
-      "observed_avg": 1.8398,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "1XVYcxQqDqo",
-          "title": "Réveil avant l'alarme",
-          "views": 7,
-          "published_paris": "2026-07-20 02:32"
-        }
-      ]
-    },
-    {
       "slot": "06:00",
       "hour": 6,
       "minute": 0,
-      "score": 2.5577,
+      "score": 2.539,
       "observed_samples": 2,
       "observed_avg": 2.2779,
       "prior": 0.0,
@@ -221,10 +204,27 @@
       ]
     },
     {
+      "slot": "02:30",
+      "hour": 2,
+      "minute": 30,
+      "score": 2.5384,
+      "observed_samples": 1,
+      "observed_avg": 1.8398,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "1XVYcxQqDqo",
+          "title": "Réveil avant l'alarme",
+          "views": 7,
+          "published_paris": "2026-07-20 02:32"
+        }
+      ]
+    },
+    {
       "slot": "18:30",
       "hour": 18,
       "minute": 30,
-      "score": 2.5161,
+      "score": 2.491,
       "observed_samples": 1,
       "observed_avg": 1.6031,
       "prior": 0.0,
@@ -238,30 +238,13 @@
       ]
     },
     {
-      "slot": "19:00",
-      "hour": 19,
-      "minute": 0,
-      "score": 2.4353,
-      "observed_samples": 1,
-      "observed_avg": 1.1992,
-      "prior": 0.0,
-      "examples": [
-        {
-          "video_id": "WxOEXbepJ40",
-          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
-          "views": 2,
-          "published_paris": "2026-07-23 19:10"
-        }
-      ]
-    },
-    {
       "slot": "21:00",
       "hour": 21,
       "minute": 0,
-      "score": 2.423,
+      "score": 2.4337,
       "observed_samples": 5,
-      "observed_avg": 2.1127,
-      "prior": 2.811,
+      "observed_avg": 2.1569,
+      "prior": 2.7797,
       "examples": [
         {
           "video_id": "trfitEKS1ik",
@@ -284,13 +267,30 @@
       ]
     },
     {
+      "slot": "19:00",
+      "hour": 19,
+      "minute": 0,
+      "score": 2.4102,
+      "observed_samples": 1,
+      "observed_avg": 1.1992,
+      "prior": 0.0,
+      "examples": [
+        {
+          "video_id": "WxOEXbepJ40",
+          "title": "Pourquoi le ventre se serre lors d'une peur peut sembler",
+          "views": 2,
+          "published_paris": "2026-07-23 19:10"
+        }
+      ]
+    },
+    {
       "slot": "12:30",
       "hour": 12,
       "minute": 30,
-      "score": 2.3389,
+      "score": 2.3156,
       "observed_samples": 3,
       "observed_avg": 2.1306,
-      "prior": 2.411,
+      "prior": 2.3797,
       "examples": [
         {
           "video_id": "n1TgqGp2PQ0",

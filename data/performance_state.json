@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-31T11:45:33.521706+00:00",
+  "generated_at": "2026-09-01T10:19:54.662397+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
     {
@@ -47,20 +47,20 @@
     {
       "topic": "Pourquoi le corps gratte après la douche",
       "n": 1,
-      "avg_views": 969.0,
-      "avg_retention": 45.3
-    },
-    {
-      "topic": "Ce que votre corps vous dit quand la chair de poule apparaît soudainement",
-      "n": 1,
-      "avg_views": 958.0,
-      "avg_retention": 65.6
+      "avg_views": 976.0,
+      "avg_retention": 46.3
     },
     {
       "topic": "Pourquoi on pleure quand on bâille",
       "n": 1,
       "avg_views": 930.0,
       "avg_retention": 47.8
+    },
+    {
+      "topic": "La science derrière l'impression que le temps ralentit en danger",
+      "n": 1,
+      "avg_views": 923.0,
+      "avg_retention": 39.2
     }
   ],
   "top_hook_word_counts": [],

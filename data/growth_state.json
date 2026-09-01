@@ -1,34 +1,34 @@
 {
-  "generated_at": "2026-08-31T11:45:33.512624+00:00",
+  "generated_at": "2026-09-01T10:19:54.653127+00:00",
   "sample_size": 79,
   "scored_videos": 66,
-  "channel_gate_ratio": 0.712,
+  "channel_gate_ratio": 0.656,
   "slot_weights": {
-    "21:00": 1.012,
-    "18:00": 1.04,
+    "21:00": 1.005,
+    "18:00": 1.056,
     "08:00": 1.0,
     "10:00": 1.0,
     "14:30": 1.0,
     "19:00": 1.0,
-    "19:30": 0.907,
-    "12:30": 0.79,
+    "19:30": 0.887,
+    "12:30": 0.832,
     "06:00": 1.0
   },
   "topic_weights": {
-    "other": 0.911,
-    "ear": 0.878,
+    "other": 0.913,
+    "ear": 0.918,
     "nerve": 1.0,
-    "muscle": 1.33,
+    "muscle": 1.299,
     "gut": 1.111,
-    "brain": 1.04,
-    "breath": 1.039,
-    "eye": 0.866,
-    "skin": 1.004,
-    "heart": 0.913
+    "brain": 1.06,
+    "breath": 1.068,
+    "eye": 0.877,
+    "skin": 0.998,
+    "heart": 0.801
   },
   "hook_weights": {
-    "statement": 1.065,
-    "question": 0.989
+    "statement": 1.091,
+    "question": 0.984
   },
   "slot_samples": {
     "21:00": 21,
@@ -64,10 +64,10 @@
       "status": "below_gate",
       "samples": 66,
       "gate": 0.65,
-      "avg_completion": 0.4627,
-      "gate_ratio": 0.712,
-      "avg_views": 389.4,
-      "action": "Averaging 46% against a 65% bar. Shorten the cut toward 20s and tighten the first 3 seconds — the gap is retention, not reach."
+      "avg_completion": 0.4266,
+      "gate_ratio": 0.656,
+      "avg_views": 371.0,
+      "action": "Averaging 43% against a 65% bar. Shorten the cut toward 20s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
       "platform": "facebook_reels",
@@ -90,8 +90,12 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 71% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 66% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
+    {
+      "level": "warn",
+      "message": "Slot 21:00 is under-performing across 21 videos — its weight has been reduced automatically."
+    },
     {
       "level": "warn",
       "message": "Slot 19:30 is under-performing across 13 videos — its weight has been reduced automatically."

@@ -1,57 +1,33 @@
 {
-  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-08-28",
-  "mined_at": "2026-08-28T05:33:53.865823+00:00",
+  "source": "YouTube France autocomplete (suggestqueries, hl=fr gl=fr) mined 2026-09-01",
+  "mined_at": "2026-09-01T10:20:28.587769+00:00",
   "topics": [
     {
       "series_number": "DEM-1",
-      "series_title": "L'apparition soudaine de la chair de poule",
-      "topic": "l'apparition soudaine de la chair de poule",
-      "nominal_phrase": "l'apparition soudaine de la chair de poule",
-      "question_phrase": "pourquoi l'apparition soudaine de la chair de poule",
-      "angle": "Pourquoi l'apparition soudaine de la chair de poule ?",
-      "thumbnail_text": "Pourquoi l'apparition soudaine de la chair de poule ?",
-      "demand_note": "autocomplete: 'la chair de poule'",
+      "series_title": "La mâchoire qui craque en mâchant",
+      "topic": "la mâchoire qui craque en mâchant",
+      "nominal_phrase": "la mâchoire qui craque en mâchant",
+      "question_phrase": "pourquoi la mâchoire qui craque en mâchant",
+      "angle": "Pourquoi la mâchoire qui craque en mâchant ?",
+      "thumbnail_text": "Pourquoi la mâchoire qui craque en mâchant ?",
+      "demand_note": "autocomplete: 'machoire deboitee qui craque'; autocomplete: 'machoire qui craque quand je mange'; autocomplete: 'petite boule sous la machoire'; autocomplete: 'machoir qui craque quand j'ouvre la bouche'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T05:33:36.058137+00:00"
+      "mined_at": "2026-09-01T10:20:14.029393+00:00"
     },
     {
       "series_number": "DEM-2",
-      "series_title": "Le muscle qui tressaille tout seul",
-      "topic": "le muscle qui tressaille tout seul",
-      "nominal_phrase": "le muscle qui tressaille tout seul",
-      "question_phrase": "pourquoi le muscle qui tressaille tout seul",
-      "angle": "Pourquoi le muscle qui tressaille tout seul ?",
-      "thumbnail_text": "Pourquoi le muscle qui tressaille tout seul ?",
-      "demand_note": "autocomplete: 'muscle qui tremble tout seul'; autocomplete: 'pourquoi le muscle bouge tout seul'; autocomplete: 'muscle qui se contracte tout seul'; autocomplete: 'pourquoi mes muscles bougent tout seul'",
+      "series_title": "Ce qui change lorsque un nœud au ventre apparaît avant un...",
+      "topic": "ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "nominal_phrase": "ce qui change lorsque un nœud au ventre apparaît avant un moment important",
+      "question_phrase": "pourquoi un nœud au ventre apparaît avant un moment important",
+      "angle": "Pourquoi un nœud au ventre apparaît avant un moment important ?",
+      "thumbnail_text": "Pourquoi un nœud au ventre apparaît avant un moment ?",
+      "demand_note": "autocomplete: 'pourquoi mon ventre bouge tout seul'; autocomplete: 'signification du trait noir sur le ventre de la femme enceinte'; autocomplete: 'comment attacher son ventre après l'accouchement'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T05:33:38.208600+00:00"
+      "mined_at": "2026-09-01T10:20:16.322725+00:00"
     },
     {
       "series_number": "DEM-3",
-      "series_title": "L'illusion d'objectivité qui te contrôle",
-      "topic": "l'illusion d'objectivité qui te contrôle",
-      "nominal_phrase": "l'illusion d'objectivité qui te contrôle",
-      "question_phrase": "pourquoi l'illusion d'objectivité qui te contrôle",
-      "angle": "Pourquoi l'illusion d'objectivité qui te contrôle ?",
-      "thumbnail_text": "Pourquoi l'illusion d'objectivité qui te contrôle ?",
-      "demand_note": "autocomplete: 'fabien olicard illusion d'optique'",
-      "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T05:33:46.774853+00:00"
-    },
-    {
-      "series_number": "DEM-4",
-      "series_title": "Ton besoin d'approbation te rend émotionnellement fragile",
-      "topic": "ton besoin d'approbation te rend émotionnellement fragile",
-      "nominal_phrase": "ton besoin d'approbation te rend émotionnellement fragile",
-      "question_phrase": "pourquoi ton besoin d'approbation te rend émotionnellement fragile",
-      "angle": "Pourquoi ton besoin d'approbation te rend émotionnellement fragile ?",
-      "thumbnail_text": "Pourquoi ton besoin d'approbation te rend ?",
-      "demand_note": "autocomplete: 'besoin de reconnaissance psychologie'",
-      "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T05:33:48.935087+00:00"
-    },
-    {
-      "series_number": "DEM-5",
       "series_title": "Pourquoi ton cerveau te cache ta propre colère",
       "topic": "pourquoi ton cerveau te cache ta propre colère",
       "nominal_phrase": "pourquoi ton cerveau te cache ta propre colère",
@@ -60,7 +36,7 @@
       "thumbnail_text": "Pourquoi ton cerveau te cache ta propre colère ?",
       "demand_note": "autocomplete: 'comment contrôler la colère et rester calme'; autocomplete: 'pourquoi dit on que le cerveau est immature'; autocomplete: 'impulsivité comment gérer ses excès de colère'; autocomplete: 'pourquoi mon cerveau pense tout le temps'",
       "pillar": "dark_psychology",
-      "mined_at": "2026-08-28T05:33:52.727675+00:00"
+      "mined_at": "2026-09-01T10:20:25.103509+00:00"
     }
   ]
 }
