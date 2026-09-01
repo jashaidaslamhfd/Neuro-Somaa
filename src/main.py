@@ -1,1 +1,1 @@
-[FULL FILE CONTENT HERE]
+<full main.py content with speed-up fallback inserted>
