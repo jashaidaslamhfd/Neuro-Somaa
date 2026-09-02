@@ -16,7 +16,7 @@ def _tts_segment(text: str, path: Path, settings: Settings) -> float:
         voice = os.getenv("EDGE_FR_VOICE", "fr-FR-HenriNeural")
         rate = os.getenv("EDGE_FR_RATE", "-5%")
         try:
-            subprocess.run(["edge-tts", "--voice", voice, "--rate", rate, "--text", text, "--write-media", str(mp3_path)], check=True, capture_output=True)
+            subprocess.run(["edge-tts", "--voice", voice, f"--rate={rate}", "--text", text, "--write-media", str(mp3_path)], check=True, capture_output=True)
             subprocess.run(["ffmpeg", "-y", "-i", str(mp3_path), "-ar", "24000", "-ac", "1", str(path)], check=True, capture_output=True)
             mp3_path.unlink(missing_ok=True)
             probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(path)], check=True, capture_output=True, text=True)
