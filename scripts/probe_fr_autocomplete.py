@@ -17,22 +17,34 @@ SEEDS = (
     "sommeil paradoxal",
 )
 
-responses: list[dict] = []
-for seed in SEEDS:
-    url = f"https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q={quote(seed)}"
-    request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urlopen(request, timeout=15) as response:
-        payload = json.loads(response.read().decode("utf-8"))
-    suggestions = payload[1] if isinstance(payload, list) and len(payload) > 1 else []
-    responses.append({"seed": seed, "url": url, "suggestions": suggestions})
 
-OUT.write_text(
-    json.dumps(
-        {"fetched_at_utc": datetime.now(UTC).isoformat(), "locale": "fr-FR", "responses": responses},
-        ensure_ascii=False,
-        indent=2,
+def fetch_suggestions() -> list[dict]:
+    responses: list[dict] = []
+    for seed in SEEDS:
+        url = f"https://suggestqueries.google.com/complete/search?client=firefox&hl=fr&gl=fr&q={quote(seed)}"
+        request = Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urlopen(request, timeout=15) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+        suggestions = payload[1] if isinstance(payload, list) and len(payload) > 1 else []
+        responses.append({"seed": seed, "url": url, "suggestions": suggestions})
+    return responses
+
+
+def main() -> int:
+    responses = fetch_suggestions()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(
+        json.dumps(
+            {"fetched_at_utc": datetime.now(UTC).isoformat(), "locale": "fr-FR", "responses": responses},
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n",
+        encoding="utf-8",
     )
-    + "\n",
-    encoding="utf-8",
-)
-print(f"Wrote {OUT} with {sum(len(item['suggestions']) for item in responses)} suggestions")
+    print(f"Wrote {OUT} with {sum(len(item['suggestions']) for item in responses)} suggestions")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
