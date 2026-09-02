@@ -1,455 +1,79 @@
-name: "Neuro-Somaa - French Shorts Automation"
+name: Neuro-Somaa French Shorts
 
 on:
   workflow_dispatch:
     inputs:
+      dry_run:
+        description: "Generate and validate without YouTube upload"
+        required: true
+        type: boolean
+        default: true
       topic:
-        description: "Topic optionnel"
+        description: "Optional French topic; blank selects the durable demand queue"
         required: false
         type: string
-      dry_run:
-        description: "Dry run — build the video but skip all uploads"
-        required: false
-        type: boolean
-        default: false
+        default: ""
   schedule:
-    # Three daily French Shorts triggers derived from the user's YouTube
-    # heatmap in Pakistan local time (GMT+05:00), converted to France CEST
-    # (UTC+02:00) by subtracting 3 hours. GitHub cron is UTC, so these are
-    # the CEST triggers; the Python scheduler still computes publishAt with
-    # Europe/Paris and handles DST for the actual YouTube scheduled time.
-    # Weekday mapping: 0 Sun, 1 Mon, 2 Tue, 3 Wed, 4 Thu, 5 Fri, 6 Sat.
-    # France-local slots: Sun 16/18/20, Mon 16/18/21, Tue 16/19/21,
-    # Wed 16/18/21, Thu 16/19/21, Fri 17/19/21, Sat 17/19/22.
-    - cron: "0 14,16,18 * * 0"  # Sun: 16:00, 18:00, 20:00 Paris CEST
-    - cron: "0 14,16,19 * * 1"  # Mon: 16:00, 18:00, 21:00 Paris CEST
-    - cron: "0 14,17,19 * * 2"  # Tue: 16:00, 19:00, 21:00 Paris CEST
-    - cron: "0 14,16,19 * * 3"  # Wed: 16:00, 18:00, 21:00 Paris CEST
-    - cron: "0 14,17,19 * * 4"  # Thu: 16:00, 19:00, 21:00 Paris CEST
-    - cron: "0 15,17,19 * * 5"  # Fri: 17:00, 19:00, 21:00 Paris CEST
-    - cron: "0 15,17,20 * * 6"  # Sat: 17:00, 19:00, 22:00 Paris CEST
+    - cron: "30 11 * * *"
+    - cron: "30 18 * * *"
 
 permissions:
   contents: write
 
 concurrency:
-  group: neurosomaa-pipeline
+  group: neuro-somaa-production
   cancel-in-progress: false
 
 jobs:
-  generate-and-upload:
+  production:
     runs-on: ubuntu-latest
-    timeout-minutes: 200
-
+    timeout-minutes: 20
+    env:
+      CHANNEL_LANGUAGE: fr
+      PUBLISH_TIMEZONE: Europe/Paris
+      TARGET_MIN_SECONDS: "15"
+      TARGET_MAX_SECONDS: "30"
+      YT_PRIVACY_STATUS: private
+      YT_SCHEDULE_PUBLISH: "true"
+      DRY_RUN: ${{ inputs.dry_run || 'false' }}
+      VIDEO_TOPIC: ${{ inputs.topic || '' }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_MODEL: ${{ secrets.GROQ_MODEL }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
-
-      - name: Set up Python 3.11
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
-          cache-dependency-path: requirements.txt
-
-      - name: Install system dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends ffmpeg fonts-noto
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run offline tests
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m compileall -q src scripts tests
-          python -m pytest tests/ -q
-
-      - name: Production preflight
-        shell: bash
-        env:
-          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
-          TARGET_MIN_SECONDS: "15"
-          TARGET_MAX_SECONDS: "30"
-          YT_SCHEDULE_PUBLISH: "true"
-          YT_PRIVACY_STATUS: "private"
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Preflight
         run: python scripts/preflight.py
-
-      - name: Refresh live French search-demand queue
-        shell: bash
-        env:
-          PYTHONUNBUFFERED: "1"
-        run: |
-          set -euo pipefail
-          # Refresh the queue before topic selection. A transient API failure
-          # may use an existing non-empty queue, but an empty/missing queue is
-          # a hard stop rather than silently generating from stale state.
-          if ! python src/demand_refresh.py; then
-            echo "::warning::Demand refresh failed; checking existing queue before continuing."
-            test -s data/search_demand_queue_fr.json || {
-              echo "::error::Demand refresh failed and no usable queue exists."
-              exit 1
-            }
-          fi
-
-      - name: Verify alternate LLM configuration
-        shell: bash
-        env:
-          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
-          ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
-          ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
-        run: |
-          if [[ -z "${ALT_LLM_API_KEY:-}" ]]; then
-            echo "::warning::ALT_LLM_API_KEY is unavailable; production will use Groq/OpenRouter/local French fallback."
-          else
-            echo "Alternate LLM key is present (value hidden); endpoint=${ALT_LLM_BASE_URL}; model=${ALT_LLM_MODEL}"
-          fi
-
-      - name: Generate and upload Short (French)
-        shell: bash
-        env:
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-          # Temporary verification mode: exercise the newly rotated Groq key
-          # first; alternate provider remains available after Groq failure.
-          PREFER_GROQ: "false"
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-          
-          # FB/IG Reels cross-posting — re-enabled 2026-08-15 (viral plan):
-          # France's discovery surface is mostly FB/IG. Activates automatically
-          # once FB_ACCESS_TOKEN / FB_PAGE_ID / INSTAGRAM_USER_ID secrets are
-          # added; until then FB_UPLOAD_ENABLED evaluates to "false" and the
-          # upload paths skip silently (uploader.py lines 270-340).
-          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
-          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
-          FB_UPLOAD_ENABLED: ${{ secrets.FB_ACCESS_TOKEN != '' }}
-
-          ENFORCE_POSTING_GAP: "true"
-          GROQ_MODEL: "openai/gpt-oss-120b"
-          GROQ_MODEL_FALLBACK: "openai/gpt-oss-20b"
-          # OpenRouter: last-resort LLM fallback if the account's key loses
-          # access to every Groq model at once (same failure mode as the
-          # Aug-14 Groq 404 outage). No cost unless Groq fully fails.
-          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          # Optional OpenAI-compatible fallback. Add ALT_LLM_API_KEY as a
-          # repository secret to bypass Groq/OpenRouter/Gemini quota outages.
-          ALT_LLM_API_KEY: ${{ secrets.ALT_LLM_API_KEY }}
-          ALT_LLM_BASE_URL: ${{ vars.ALT_LLM_BASE_URL || 'https://api.openai.com/v1' }}
-          ALT_LLM_MODEL: ${{ vars.ALT_LLM_MODEL || 'gpt-4o-mini' }}
-          # Do not abort the entire production run when the optional alternate
-          # provider is unauthorized; fall back to Groq/OpenRouter instead.
-          ALT_LLM_STRICT: "false"
-          ALLOW_LOCAL_SCRIPT_FALLBACK: "true"
-          MIN_HOOK_SCORE: "70"
-          MAX_HOOK_SECONDS: "6.0"
-          HOOK_MAX_WORDS: "7"
-          RETENTION_MIN_DECISION_WORDS: "3"
-          RETENTION_MIN_OPENING_WORDS: "4"
-          QUALITY_APPROVAL_THRESHOLD: "60"
-          # Viral-engineering gate: reject + regenerate any video whose
-          # predicted retention is below this. 0.50 = only publish videos
-          # projected to hold >=50% average retention (the ~500-view floor).
-          MIN_RETENTION: "0.50"
-          # Retention checks remain logged for learning but never consume a
-          # scheduled slot; render/upload/authentication errors stay strict.
-          RETENTION_GATE_MODE: "warn"
-          # 2026-08-12 truth sweep: EXPERIMENT_ARM / DURATION_EXPERIMENT were
-          # set here but read by NOTHING (dead blind config — same class of bug
-          # as the phantom 70B model). scripts/duration_experiment.py writes
-          # EXPERIMENT_ARM into GITHUB_ENV itself when deliberately invoked.
-          YT_PRIVACY_STATUS: "private"
-          YT_SCHEDULE_PUBLISH: "true"
-          CHANNEL_LANGUAGE: "fr"
-          PUBLISH_TIMEZONE: "Europe/Paris"
-          # Use the heatmap-derived weekday defaults rather than the legacy
-          # globally learned three-slot file until it has weekday samples.
-          USE_DYNAMIC_SCHEDULE: "false"
-          DYNAMIC_SCHEDULE_SLOT_COUNT: "3"
-          # Balanced duration default: 15–30s cuts allow complete narration while preserving retention
-          # measured arm. Bounded retries and local fallback protect the slot.
-          TARGET_MIN_SECONDS: "15"
-          TARGET_MAX_SECONDS: "30"
-          TTS_MAX_OVERRUN_RATIO: "1.08"
-          # One full pipeline attempt per dispatch: avoids regenerating scripts
-          # after deterministic render/upload failures and protects LLM quota.
-          MAX_SCRIPT_ATTEMPTS: "1"
-          # NICHE: Dark Psychology — manipulation, biais cognitifs,
-          # secrets du comportement humain. France-first audience.
-          CONTENT_SERIES: "dark_psychology_fr"
-          TOPIC_STRATEGY: "dark_psychology_series_fr"
-          
-          AI_HORDE_API_KEY: ${{ secrets.AI_HORDE_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          HF_API_KEY: ${{ secrets.HF_API_KEY }}
-          # Licensed stock B-roll (genuine motion, monetization-safe)
-          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          # 2026-08-17: AI image-to-video (Seedance 2.5 via Pollinations) —
-          # upgrades static scene images into genuine motion clips; needs the
-          # POLLINATIONS_KEY secret (added by user 2026-08-16).
-          POLLINATIONS_KEY: ${{ secrets.POLLINATIONS_KEY }}
-          PIXABAY_API_KEY: ${{ secrets.PIXABAY_API_KEY }}
-          # 2026-08-20: viral BGM fallback. When set to "true", any run that
-          # falls through to the synthetic ambient drone instead tries the
-          # ModelsLab AI-generated unique track (emotional piano/violin
-          # minor-key bed, original per video, no Content ID) BEFORE the
-          # drone. MODELSLAB_API_KEY already exists in repo secrets.
-          VIRAL_BGM_FALLBACK: "true"
-          # 2026-08-20: force SHORTS-TIER image resolution (>=720px shortest
-          # side). Anything smaller (e.g. AI-Horde anonymous 448x768 / 320x512)
-          # blurs when stretched to 1080x1920 and now forces a retry on a
-          # better provider instead of publishing mush.
-          MIN_IMAGE_STRICT: "true"
-          # Render multiple candidates and publish only the best mobile-readable variant.
-          THUMBNAIL_VARIANT_COUNT: "4"
-          MIN_THUMBNAIL_SCORE: "80"
-          REQUIRE_THUMBNAIL_UPLOAD: "true"
-          # 2026-08-21: stock clip quality floor — Pexels/Pixabay clips must
-          # be portrait (w<h) AND at least 720px wide, or they blur/squash on
-          # the 1080x1920 canvas. Below-floor clips are skipped and the next
-          # candidate (or a later layer) is tried instead.
-          MIN_STOCK_CLIP_WIDTH: "720"
-
-          # --- French audience voice ---
-          # fr-FR-HenriNeural is proven reliable on edge-tts (full-length
-          # segments). fr-FR-RemyNeural is a nicer tone BUT intermittently
-          # returns "No audio received" on the CI runner, so it's not default.
-          # Voice auto-fallback in voice_generator tries alternates before
-          # Kokoro, so the pipeline keeps working regardless.
-          # 2026-08-19: CHATTERBOX PRIMARY — its default voice is a REAL
-          # professionally recorded narrator (free, MIT, 23 languages,
-          # beats ElevenLabs in blind evals). edge-tts Henri pool is the
-          # built-in runner-safe safety net if Chatterbox can't load —
-          # no slot is ever missed.
-          TTS_ENGINE: "edge"
-          EDGE_FR_VOICE: "fr-FR-MauriceNeural"
-          EDGE_FR_VOICE_ALT1: "fr-FR-HenriNeural"
-          EDGE_FR_VOICE_ALT2: "fr-FR-DeniseNeural"
-          EDGE_FR_RATE: "-8%"
-          # 2026-08-19: ADULT-MALE-ONLY voice rotation — the young/female
-          # timbres were flagged as "child-like" by the audience. Deep adult
-          # French male voices, hashed per TOPIC for episode consistency.
-          EDGE_FR_VOICE_POOL: "fr-FR-MauriceNeural,fr-FR-GerardNeural,fr-FR-LucienNeural,fr-FR-AlainNeural,fr-FR-HenriNeural"
-          # 2026-08-15: natural breath pause between scenes (human pacing).
-          BREATH_PAUSE_SECONDS: "0.45"
-          # 2026-08-15: natural delivery variation — per-scene pacing drift
-          # (hook faster, questions slower, micro-jitter everywhere) so the
-          # narration never sits at one flat machine tempo.
-          DELIVERY_VARIATION: "true"
-          # --- Background music: original in-repo beds (Content-ID safe) ---
-          MUSIC_VOLUME: "0.18"
-          
-          VIDEO_TOPIC: ${{ inputs.topic || '' }}
-          # 2026-08-19: optional dry-run mode — builds the full video
-          # (script + voice + visuals + metadata) but uploader.py logs
-          # "[DRY_RUN] Would upload" and posts NOTHING. Kept false by
-          # default so scheduled crouns can never become dry runs.
-          DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
-          PYTHONUNBUFFERED: "1"
-          # --- Memory/thread tuning for a 7GB free runner ---
-          # The heavy phase (Kokoro torch TTS + MoviePy render) was getting the
-          # runner killed ~45min in (steps left "in_progress", logs lost). Limit
-          # FFmpeg/MoviePy + torch threads and cap video bitrate via env so the
-          # daily schedule survives. Reduced threads still render a 30-60s Short
-          # well within the 200min job timeout.
-          OMP_NUM_THREADS: "2"
-          OPENBLAS_NUM_THREADS: "2"
-          MKL_NUM_THREADS: "2"
-          FALLBACK_ABORT_RATIO: "0.80"
-          # Non-critical quality heuristics warn instead of consuming a slot.
-          # Audio integrity, render validity, OAuth, and upload checks remain strict.
-          NON_CRITICAL_GATES_MODE: "warn"
-          # A green run without a published video is operationally a failure.
-          # Keep slot_skipped.json for diagnostics, but expose the missed slot
-          # to GitHub Actions instead of silently reporting successful delivery.
-          FAIL_ON_MISSED_SLOT: "true"
-        run: |
-          # set +e around the pipeline call so we control the exit code
-          # explicitly. Under `set -e`, an `if`-guard can mask the real code,
-          # which is exactly what made the last run report "exit 0" after the
-          # upload failed with invalid_scope.
-          set -euo pipefail
-          rc=1
-          cleanup_pipeline_group() {
-            if [ -n "${pipeline_pid:-}" ] && kill -0 "$pipeline_pid" 2>/dev/null; then
-              echo "Stopping pipeline process group $pipeline_pid"
-              kill -TERM -- "-$pipeline_pid" 2>/dev/null || true
-              sleep 5
-              kill -KILL -- "-$pipeline_pid" 2>/dev/null || true
-            fi
-          }
-          trap cleanup_pipeline_group EXIT INT TERM
-          for attempt in 1 2 3; do
-            echo "===== Pipeline attempt $attempt/3 ====="
-            set +e
-            # A bounded attempt prevents one silent model/provider stall from
-            # consuming the entire 200-minute job. setsid lets cancellation
-            # terminate Python, MoviePy, and every FFmpeg child together.
-            setsid timeout --signal=TERM --kill-after=120s 55m python src/main.py &
-            pipeline_pid=$!
-            (
-              while kill -0 "$pipeline_pid" 2>/dev/null; do
-                echo "[heartbeat] pipeline attempt $attempt still running at $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-                sleep 60
-              done
-            ) &
-            heartbeat_pid=$!
-            wait "$pipeline_pid"
-            rc=$?
-            kill "$heartbeat_pid" 2>/dev/null || true
-            wait "$heartbeat_pid" 2>/dev/null || true
-            pipeline_pid=""
-            set -e
-            echo "Pipeline attempt $attempt finished (exit $rc)"
-            if [ "$rc" -eq 0 ]; then
-              echo "Pipeline succeeded on attempt $attempt"
-              break
-            fi
-            if [ "$attempt" -lt 3 ]; then
-              echo "Cleaning temp render state and retrying in 20s..."
-              rm -rf output/frames output/tmp_* output/*.mp4.tmp
-              sleep 20
-            fi
-          done
-          if [ "$rc" -ne 0 ]; then
-            echo "Pipeline failed after $attempt attempt(s) with exit $rc"
-            exit "$rc"
-          fi
-
-      - name: Final rendered video QA
-        # A skipped slot now exits non-zero. Therefore a successful job has a
-        # candidate to inspect, and QA must never be silently bypassed.
-        if: success()
-        shell: bash
-        run: python scripts/visual_qa.py
-
-      - name: Write run manifest
+      - name: Generate and upload French Short
+        run: python src/main.py
+      - name: Upload generated artifact
         if: always()
-        shell: bash
-        env:
-          RUN_MANIFEST_PATH: data/run_manifest.json
-          OUTPUT_DIR: output
-          DATA_DIR: data
-        run: python scripts/run_manifest.py
-
-      - name: Persist failure diagnostics
-        # 2026-08-30 production-readiness fix: "Persist durable channel
-        # state" below only runs `if: success()`, so on every failed run
-        # data/pipeline_last_failure.json (written by main.py specifically
-        # to diagnose what went wrong) was NEVER committed — the only way
-        # to see it was downloading the ~140MB run artifact, which requires
-        # repo-admin credentials and (for external tooling) is served from
-        # Azure Blob Storage rather than the GitHub API domain, making it
-        # unreachable from network-restricted environments. This commits
-        # ONLY the diagnostic file itself on failure — never the rest of
-        # data/, since a failed run's other state may be partial/inconsistent
-        # and shouldn't be persisted as if it were a clean success.
-        if: failure()
-        shell: bash
-        run: |
-          set -euo pipefail
-          [ -f data/pipeline_last_failure.json ] || exit 0
-          if [ -z "$(git status --porcelain -- data/pipeline_last_failure.json)" ]; then exit 0; fi
-          git config user.name "neurosomaa-bot"
-          git config user.email "bot@neuro-somaa.fr"
-          git add data/pipeline_last_failure.json
-          git commit -m "chore: persist failure diagnostics [skip ci]"
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then break
-            else sleep $((i * 5)); fi
-          done
-
-      - name: Dump failure logs to step summary
-        if: failure()
-        shell: bash
-        run: |
-          {
-            echo "## Pipeline Failure Diagnostics"
-            if [ -f data/pipeline_last_failure.json ]; then
-              echo "### pipeline_last_failure.json"
-              echo '```json'
-              cat data/pipeline_last_failure.json
-              echo '```'
-            else
-              echo "### pipeline_last_failure.json NOT FOUND"
-              echo "The pipeline crashed before _fail() could write diagnostics."
-            fi
-            if [ -f data/slot_skipped.json ]; then
-              echo "### slot_skipped.json"
-              echo '```json'
-              cat data/slot_skipped.json
-              echo '```'
-            fi
-            if [ -f pipeline.log ]; then
-              echo "### pipeline.log (last 80 lines)"
-              echo '```'
-              tail -80 pipeline.log
-              echo '```'
-            fi
-          } >> "$GITHUB_STEP_SUMMARY"
-          # Also persist the last 100 lines of pipeline.log to a committed file
-          # so it can be read via the GitHub API without downloading artifacts.
-          mkdir -p data
-          {
-            echo "{"
-            echo "  \"dumped_at\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\","
-            echo "  \"pipeline_last_failure_exists\": $([ -f data/pipeline_last_failure.json ] && echo true || echo false),"
-            if [ -f data/pipeline_last_failure.json ]; then
-              echo "  \"pipeline_last_failure\": $(cat data/pipeline_last_failure.json),"
-            fi
-            echo "  \"pipeline_log_tail\": ["
-            if [ -f pipeline.log ]; then
-              tail -100 pipeline.log | python3 -c "import sys,json; [print('    ' + json.dumps(l.rstrip())) for l in sys.stdin]" | sed '$ s/,$//'
-            fi
-            echo "  ]"
-            echo "}"
-          } > data/last_run_diagnostics.json
-          git config user.name "neurosomaa-bot"
-          git config user.email "bot@neuro-somaa.fr"
-          git add data/last_run_diagnostics.json
-          git commit -m "chore: persist last run diagnostics [skip ci]"
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then break
-            else sleep $((i * 5)); fi
-          done
-
-      - name: Persist durable channel state
-        if: success()
-        shell: bash
-        run: |
-          set -euo pipefail
-          if [ -z "$(git status --porcelain -- data/)" ]; then exit 0; fi
-          git config user.name "neurosomaa-bot"
-          git config user.email "bot@neuro-somaa.fr"
-          git add -A data/
-          git commit -m "chore: persist Neuro-Somaa channel state [skip ci]"
-          # Later steps (or a concurrent run's commit racing this one) can
-          # leave unstaged files; stash them before pulling so 'pull --rebase'
-          # never fails with 'You have unstaged changes'.
-          git stash --quiet --include-untracked || true
-          for i in 1 2 3; do
-            if git pull --rebase origin main && git push origin HEAD:main; then break
-            else sleep $((i * 5)); fi
-          done
-          git stash pop --quiet 2>/dev/null || true
-
-      - name: Upload artifacts
-        if: always()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        uses: actions/upload-artifact@v4
         with:
-          name: neurosomaa-run-${{ github.run_id }}
-          path: |
-            output/
-            data/
-          retention-days: 14
+          name: neuro-somaa-output
           if-no-files-found: ignore
+          path: output/
+
+  ci:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test dependencies
+        run: python -m pip install -r requirements-ci.txt
+      - name: Compile
+        run: python -m compileall -q src scripts tests
+      - name: Tests
+        run: pytest -q

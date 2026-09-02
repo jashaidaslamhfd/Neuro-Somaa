@@ -1,31 +1,3 @@
-# ============================================================
-# Neuro-Somaa — dépendances MINIMALES pour la CI (tests hors-ligne)
-# pip install -r requirements-ci.txt
-#
-# tests/ ne touche ni le réseau, ni YouTube, ni la synthèse vocale : il
-# valide le catalogue FR, le SEO, les garde-fous de configuration et les
-# workflows. Installer requirements.txt complet en CI téléchargeait torch
-# + kokoro (~2 Go) à chaque push pour n'exécuter que 22 tests offline.
-#
-# Toute dépendance réellement importée par src/ pendant les tests doit
-# figurer ici, sinon la CI casse : c'est volontairement le cas de numpy et
-# Pillow, qui restent des imports paresseux dans seo_analytics.py.
-# ============================================================
-
 pytest>=8.0.0
-ruff>=0.9.0
+ruff>=0.6.0
 python-dotenv>=1.0.0
-requests>=2.31.0
-pytz>=2024.1
-# SceneVisualSafetyTests exercises the real sharpness maths in
-# media_validator.validate_scene_image(), so the image stack is needed here
-# even though seo_analytics keeps numpy/Pillow as lazy imports.
-numpy>=1.24.0
-Pillow>=10.0.0
-moviepy>=1.0.3,<2.0.0
-
-# main.py title-pool regression imports uploader; these small Google clients keep CI import-complete without the full ops stack.
-google-api-python-client>=2.100.0
-google-auth>=2.25.0
-google-auth-oauthlib>=1.1.0
-google-auth-httplib2>=0.2.0

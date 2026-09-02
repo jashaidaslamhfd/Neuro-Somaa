@@ -1,80 +1,35 @@
-# Neuro-Somaa
+# Neuro-Somaa — French Shorts Engine
 
-> **Pipeline automatisé de Shorts YouTube en français**, conçu pour produire des vidéos courtes de science du quotidien avec des garde-fous éditoriaux, un contrôle qualité strict et une boucle d’apprentissage fondée sur les données réellement disponibles.
+Neuro-Somaa is a France-first automation system for producing concise, natural French YouTube Shorts about everyday science, the human body, sleep, emotions, and familiar phenomena. It turns a topic into a French script, narration, vertical video, metadata, and an optional YouTube upload through one deterministic entrypoint.
 
-## Promesse
+## Design principles
 
-Neuro-Somaa transforme un sujet français en Short prêt à publier :
+The system is intentionally small and observable. It prefers a French-native fallback script over a failed slot, uses a 15–30 second target window, keeps upload private when scheduling is enabled, and writes a durable record to `data/video_history.json`. It never prints secret values. It also never treats a dry-run as a published upload.
 
-`Sujet → script français → voix française → visuels → sous-titres → SEO → publication planifiée`
+YouTube's own guidance groups performance into appeal, engagement, and satisfaction. Accordingly, this rebuild prioritizes a clear French title, immediate value in the opening seconds, readable narration, and real post-publication analytics rather than fabricated scores.
 
-Le projet vise la **France et la francophonie**. Son positionnement éditorial repose sur des faits surprenants liés au corps, au sommeil, aux émotions et aux phénomènes familiers. Il ne promet ni viralité ni recommandation algorithmique et bloque les formulations médicales trompeuses, le spam et les doublons.
+## Secret-name mapping
 
-## Vue d’ensemble
+The workflow references the existing GitHub Secret names without requiring any renaming. LLM selection checks `GROQ_API_KEY`, then `OPENROUTER_API_KEY`, then `ALT_LLM_API_KEY`. YouTube upload uses `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, and `REFRESH_TOKEN`. Optional visual provider secrets are accepted for future adapters: `GEMINI_API_KEY`, `REPLICATE_API_TOKEN`, `HF_API_KEY`, `PEXELS_API_KEY`, `PIXABAY_API_KEY`, `AI_HORDE_API_KEY`, `DEEPAI_API_KEY`, `MODELSLAB_API_KEY`, and `POLLINATIONS_KEY`. The existing `YOUTUBE_API_KEY`, `FB_ACCESS_TOKEN`, `FB_PAGE_ID`, and `INSTAGRAM_USER_ID` names remain available for later platform adapters.
 
-| Étape | Composant principal | Résultat |
-|---|---|---|
-| Recherche | `src/trend_fetcher.py`, `src/trend_research.py` | Sujets et signaux francophones |
-| Écriture | `src/script_generator.py`, `src/french_humanizer.py` | Script court, naturel et contrôlé |
-| Audio | `src/voice_generator.py` | Voix française avec replis configurables |
-| Média | `src/image_generator.py`, `src/video_editor.py` | Vidéo verticale et sous-titres |
-| Contrôle | `src/french_quality_gate.py`, `src/strict_quality_gate.py` | Validation langue, sécurité, rythme et SEO |
-| Publication | `src/uploader.py`, `src/scheduler.py` | Upload YouTube et créneau Paris |
-| Apprentissage | `src/analytics_updater.py`, `src/intelligence/` | Historique réel, diagnostics et recommandations |
-
-## Démarrage local
+## Local usage
 
 ```bash
 cp env.example .env
-# Renseigner au minimum GROQ_API_KEY.
-# Ajouter les identifiants YouTube uniquement pour publier ou synchroniser les données.
-python scripts/generate_body_glitch_topics.py
-python src/main.py
+python scripts/preflight.py
+DRY_RUN=true python src/main.py
 ```
 
-Pour les contrôles légers et les opérations de maintenance, utiliser `requirements-ops.txt`. Les dépendances de génération vidéo sont regroupées dans `requirements.txt`; les dépendances CI sont décrites par `requirements-ci.txt` et verrouillées dans `requirements-ci.lock`.
+For a live upload, provide at least one LLM secret and the three YouTube OAuth secrets, then set `DRY_RUN=false`. The default YouTube privacy is `private`; scheduled publication must remain private until a publish time is explicitly assigned.
 
-## Publication et sécurité
+## GitHub Actions
 
-Le workflow de production utilise une vidéo privée avec publication planifiée (`YT_PRIVACY_STATUS=private` et `YT_SCHEDULE_PUBLISH=true`). Pour une revue humaine, désactiver la publication planifiée. Une vidéo ne doit être considérée comme prête qu’après le passage des contrôles français, anti-spam, anti-doublon, média, miniature et métadonnées.
+The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and two daily scheduled runs. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
 
-Les créneaux par défaut sont **12:30, 19:30 et 21:00**, dans le fuseau `Europe/Paris`. Le système peut produire des recommandations dynamiques, mais leur adoption doit rester une décision explicite après revue des observations.
+## Preserved state
 
-## Workflows GitHub Actions
+The rebuild preserves the existing `.git` history, `data/` state and video history, `assets/`, and remote GitHub Secret values. Source code, workflows, tests, and documentation were replaced with the clean implementation above.
 
-| Workflow | Fonction |
-|---|---|
-| `Neuro-Somaa - French Shorts Automation` | Génère et programme les Shorts |
-| `Neuro-Somaa - YouTube Analytics Sync` | Synchronise vues, rétention et métriques disponibles |
-| `Auto-Apply Verified Metadata Repairs (daily)` | Applique les réparations validées avec délai de sécurité |
-| `Monetization Readiness (daily plan)` | Prépare le suivi de maturité de la chaîne |
-| `CI - guard tests on push` | Exécute les tests hors ligne |
-| `Ops Console` | Regroupe les opérations manuelles en mode simulation par défaut |
+## License
 
-## Organisation du dépôt
-
-```text
-.github/workflows/   Automatisation CI/CD et opérations YouTube
-src/                 Pipeline de production et intelligence
-scripts/             Commandes opérationnelles et analyses ponctuelles
-assets/              Musique et médias sources
-data/                État durable, historiques et rapports générés
-docs/                Runbooks, spécifications et archives de décisions
-tests/               Tests de régression et garde-fous
-```
-
-Les rapports générés et historiques restent dans `data/`. Les commandes opérationnelles sont regroupées dans `scripts/`; les procédures actives sont dans `docs/operations/`; les audits et migrations historiques sont conservés dans `docs/archive/` afin de ne pas encombrer le parcours principal.
-
-## Documentation utile
-
-Commencer par le [runbook de production](docs/PRODUCTION_RUNBOOK.md), puis consulter l’[expérience de marché francophone](docs/FRANCOPHONE_MARKET_EXPERIMENT.md). Les procédures d’exploitation se trouvent dans [docs/operations](docs/operations/), et les décisions historiques dans [docs/archive](docs/archive/).
-
-## Principes éditoriaux
-
-Le contenu visible et audible est en français naturel. Les titres doivent contenir un verbe conjugué et une question ou une accroche compréhensible. Les affirmations médicales non vérifiables sont bloquées. Les titres, tags et miniatures concurrents servent uniquement à apprendre des formats : ils ne sont pas copiés mot pour mot.
-
-> **Règle centrale :** une métrique indisponible reste indisponible. Le pipeline ne fabrique pas de CTR, de rétention ou de causalité à partir de données manquantes.
-
-## Licence
-
-MIT — voir [LICENSE](LICENSE).
+MIT.
