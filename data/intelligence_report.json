@@ -1,39 +1,39 @@
 {
-  "generated_at": "2026-09-01T10:19:54.956205+00:00",
+  "generated_at": "2026-09-02T09:50:01.631410+00:00",
   "n_videos_analyzed": 67,
   "truth_gate": {
     "hook_score": {
       "claims": "hook quality",
       "n": 67,
-      "spearman_vs_views": -0.134,
-      "spearman_vs_retention": -0.161,
-      "verdict": "NOISE",
+      "spearman_vs_views": -0.219,
+      "spearman_vs_retention": -0.138,
+      "verdict": "INVERTED",
       "decision_usable": false
     },
     "seo_score": {
       "claims": "SEO quality",
       "n": 67,
-      "spearman_vs_views": 0.612,
-      "spearman_vs_retention": 0.122,
+      "spearman_vs_views": 0.591,
+      "spearman_vs_retention": 0.081,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
     "predicted_retention": {
       "claims": "retention",
       "n": 67,
-      "spearman_vs_views": -0.176,
-      "spearman_vs_retention": -0.129,
+      "spearman_vs_views": -0.252,
+      "spearman_vs_retention": -0.108,
       "verdict": "INVERTED",
       "decision_usable": false,
-      "bias": 0.259,
+      "bias": 0.258,
       "mean_predicted": 0.692,
-      "mean_actual": 0.433
+      "mean_actual": 0.434
     },
     "predicted_ctr": {
       "claims": "CTR",
       "n": 67,
-      "spearman_vs_views": 0.609,
-      "spearman_vs_retention": 0.122,
+      "spearman_vs_views": 0.588,
+      "spearman_vs_retention": 0.08,
       "verdict": "CALIBRATED",
       "decision_usable": true
     },
@@ -51,59 +51,59 @@
   "models": {
     "ridge": {
       "reliable": true,
-      "cv_r2_mean": 0.4131,
-      "cv_r2_std": 0.271,
-      "cv_mae_views": 274.0,
+      "cv_r2_mean": 0.2836,
+      "cv_r2_std": 0.2328,
+      "cv_mae_views": 286.4,
       "n": 67,
       "folds": 5,
       "note": "r²<=0.10 = noise-level model; treat coefficients as hints only.",
       "top_features": [
         {
           "feature": "seo_score",
-          "coef": 0.2559,
+          "coef": 0.2046,
+          "direction": "+"
+        },
+        {
+          "feature": "phrase_words",
+          "coef": 0.1921,
           "direction": "+"
         },
         {
           "feature": "predicted_ctr",
-          "coef": 0.1741,
-          "direction": "+"
-        },
-        {
-          "feature": "is_question",
-          "coef": 0.1668,
+          "coef": 0.128,
           "direction": "+"
         },
         {
           "feature": "dow_cos",
-          "coef": 0.1248,
+          "coef": 0.1245,
           "direction": "+"
         },
         {
-          "feature": "has_digits",
-          "coef": 0.0948,
+          "feature": "is_question",
+          "coef": 0.123,
           "direction": "+"
+        },
+        {
+          "feature": "has_second_person",
+          "coef": -0.1182,
+          "direction": "-"
+        },
+        {
+          "feature": "hook_score",
+          "coef": -0.1119,
+          "direction": "-"
         },
         {
           "feature": "hour_cos",
-          "coef": -0.0899,
+          "coef": -0.0876,
           "direction": "-"
-        },
-        {
-          "feature": "topic_bucket_3",
-          "coef": -0.0885,
-          "direction": "-"
-        },
-        {
-          "feature": "starts_pourquoi",
-          "coef": 0.0841,
-          "direction": "+"
         }
       ]
     },
     "mlp": {
       "reliable": false,
       "note": "in-sample fit on n=67; advisory only",
-      "in_sample_mae_views": 192.0,
+      "in_sample_mae_views": 199.2,
       "hidden_units": 12,
       "epochs": 600
     }
@@ -160,8 +160,8 @@
         "wins_ge_1000_views": 5,
         "winner_rate": 0.0862,
         "thompson_score": 0.1001,
-        "posterior_mean_logviews": 4.8838,
-        "avg_views": 439.1,
+        "posterior_mean_logviews": 4.5851,
+        "avg_views": 407.0,
         "confident": true
       },
       "SERIE_COURTE": {
@@ -178,7 +178,7 @@
       "pattern": "POURQUOI",
       "why": "highest winner-rate among patterns with ≥5 samples",
       "thompson_score": 0.1001,
-      "avg_views": 439.1
+      "avg_views": 407.0
     },
     "min_samples_rule": 5,
     "winner_threshold_views": 1000,
@@ -188,7 +188,7 @@
     "reliable": true,
     "n_scored": 67,
     "window": 20,
-    "baseline_median_views": 190.0,
+    "baseline_median_views": 152.0,
     "method": "modified z-score (median/MAD, Iglewicz-Hoaglin >3.5)",
     "anomalies": [],
     "underperformers": []
@@ -196,12 +196,12 @@
   "forecast": {
     "reliable": true,
     "method": "Holt double exponential smoothing (α=0.4, β=0.1)",
-    "last_level": 243.6,
-    "daily_trend": -93.49,
-    "sigma_daily": 457.2,
+    "last_level": 252.8,
+    "daily_trend": -88.98,
+    "sigma_daily": 484.9,
     "forecast_daily_views": [
-      150.1,
-      56.7,
+      163.9,
+      74.9,
       0.0,
       0.0,
       0.0,
@@ -231,9 +231,9 @@
       0.0,
       0.0
     ],
-    "total_30d_expected": 207.0,
+    "total_30d_expected": 239.0,
     "band_30d_low": 0.0,
-    "band_30d_high": 464.1,
+    "band_30d_high": 492.8,
     "honesty": "trend extrapolation assumes current strategy/format holds; a single viral outlier reshapes everything — re-read weekly.",
     "series_days": 29,
     "first_day": "2026-07-19",
@@ -247,7 +247,7 @@
     "clusters": [
       {
         "cluster_id": 2,
-        "name": "tout / seul / ventre / muscle / pied",
+        "name": "seul / tout / ventre / muscle / pied",
         "size": 3,
         "avg_views": 632.3,
         "max_views": 1054,
@@ -261,7 +261,7 @@
         "cluster_id": 0,
         "name": "raison / change / dit / cerveau / vous",
         "size": 32,
-        "avg_views": 511.6,
+        "avg_views": 460.0,
         "max_views": 1134,
         "examples": [
           "La science derrière le temps qui semble accélérer",
@@ -271,9 +271,9 @@
       },
       {
         "cluster_id": 5,
-        "name": "corps / s'endormant / après / lourd / refuse",
+        "name": "corps / s'endormant / après / lourd / mentir",
         "size": 8,
-        "avg_views": 476.0,
+        "avg_views": 453.0,
         "max_views": 986,
         "examples": [
           "Corps lourd",
@@ -283,7 +283,7 @@
       },
       {
         "cluster_id": 1,
-        "name": "cœur / battre / son / nuit / s'emballe",
+        "name": "cœur / battre / son / nuit / sous",
         "size": 4,
         "avg_views": 219.5,
         "max_views": 874,
@@ -297,7 +297,7 @@
         "cluster_id": 4,
         "name": "sur / faim / comprendre / qu'il / faut",
         "size": 13,
-        "avg_views": 177.0,
+        "avg_views": 175.1,
         "max_views": 1029,
         "examples": [
           "Ce qu'il faut comprendre sur les genoux qui craquent",
@@ -318,16 +318,16 @@
         ]
       }
     ],
-    "winner_cluster": "tout / seul / ventre / muscle / pied",
+    "winner_cluster": "seul / tout / ventre / muscle / pied",
     "honesty": "clusters are exploratory at this n; re-run monthly as data grows."
   },
   "retention": {
     "reliable": true,
     "n": 67,
     "p10": 10.0,
-    "p50": 44.0,
+    "p50": 44.5,
     "p90": 69.3,
-    "share_below_50pct": 0.701,
+    "share_below_50pct": 0.687,
     "note": "share_below_50pct = fraction of videos losing the average viewer before half the Short — the 4-9s hook cliff lives here."
   },
   "experiment": {
@@ -346,10 +346,10 @@
         "a": "pov_reveal",
         "b": "question",
         "significant": false,
-        "p_value": 0.247,
-        "mean_a": 637.82,
+        "p_value": 0.246,
+        "mean_a": 638.45,
         "mean_b": 369.2,
-        "diff": 268.62,
+        "diff": 269.25,
         "n_a": 11,
         "n_b": 5,
         "method": "two-sided permutation test (5000 shuffles)",
@@ -358,7 +358,7 @@
     ],
     "leading_arm": {
       "arm": "pov_reveal",
-      "avg_views": 637.8
+      "avg_views": 638.5
     },
     "honesty": "3 arms = 3 pairwise tests; treat p<0.05 as 'promising', re-confirm on the next batch before rewriting the prompt bank."
   },

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-01T10:19:54.662397+00:00",
+  "generated_at": "2026-09-02T09:50:01.333049+00:00",
   "total_with_data": 67,
   "top_topics_by_views": [
     {
@@ -39,16 +39,16 @@
       "avg_retention": 44.7
     },
     {
+      "topic": "Pourquoi le corps gratte après la douche",
+      "n": 1,
+      "avg_views": 983.0,
+      "avg_retention": 46.9
+    },
+    {
       "topic": "Ce qui change lorsque des corps flottants visibles dans l'œil",
       "n": 1,
       "avg_views": 977.0,
       "avg_retention": 47.9
-    },
-    {
-      "topic": "Pourquoi le corps gratte après la douche",
-      "n": 1,
-      "avg_views": 976.0,
-      "avg_retention": 46.3
     },
     {
       "topic": "Pourquoi on pleure quand on bâille",

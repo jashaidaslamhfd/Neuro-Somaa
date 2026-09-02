@@ -1,72 +1,70 @@
 {
-  "generated_at": "2026-09-01T10:19:54.653127+00:00",
+  "generated_at": "2026-09-02T09:50:01.324810+00:00",
   "sample_size": 79,
-  "scored_videos": 66,
-  "channel_gate_ratio": 0.656,
+  "scored_videos": 63,
+  "channel_gate_ratio": 0.654,
   "slot_weights": {
-    "21:00": 1.005,
-    "18:00": 1.056,
+    "21:00": 1.015,
+    "18:00": 1.051,
     "08:00": 1.0,
     "10:00": 1.0,
-    "14:30": 1.0,
     "19:00": 1.0,
-    "19:30": 0.887,
-    "12:30": 0.832,
+    "19:30": 0.877,
+    "12:30": 0.866,
     "06:00": 1.0
   },
   "topic_weights": {
-    "other": 0.913,
-    "ear": 0.918,
+    "other": 0.917,
+    "ear": 0.943,
     "nerve": 1.0,
-    "muscle": 1.299,
-    "gut": 1.111,
-    "brain": 1.06,
-    "breath": 1.068,
-    "eye": 0.877,
+    "muscle": 1.272,
+    "gut": 1.103,
+    "breath": 1.092,
+    "eye": 0.88,
+    "brain": 1.029,
     "skin": 0.998,
-    "heart": 0.801
+    "heart": 0.841
   },
   "hook_weights": {
-    "statement": 1.091,
-    "question": 0.984
+    "statement": 1.055,
+    "question": 0.99
   },
   "slot_samples": {
-    "21:00": 21,
+    "21:00": 20,
     "18:00": 25,
     "08:00": 1,
     "10:00": 1,
-    "14:30": 1,
     "19:00": 1,
-    "19:30": 13,
+    "19:30": 12,
     "12:30": 2,
     "06:00": 1
   },
   "topic_samples": {
-    "other": 17,
+    "other": 16,
     "ear": 3,
     "nerve": 2,
     "muscle": 6,
     "gut": 7,
-    "brain": 9,
     "breath": 4,
     "eye": 8,
+    "brain": 8,
     "skin": 7,
-    "heart": 3
+    "heart": 2
   },
   "hook_samples": {
-    "statement": 10,
-    "question": 56
+    "statement": 9,
+    "question": 54
   },
   "platform_health": {
     "youtube_shorts": {
       "platform": "youtube_shorts",
       "label": "YouTube Shorts",
       "status": "below_gate",
-      "samples": 66,
+      "samples": 63,
       "gate": 0.65,
-      "avg_completion": 0.4266,
-      "gate_ratio": 0.656,
-      "avg_views": 371.0,
+      "avg_completion": 0.4252,
+      "gate_ratio": 0.654,
+      "avg_views": 359.0,
       "action": "Averaging 43% against a 65% bar. Shorten the cut toward 20s and tighten the first 3 seconds — the gap is retention, not reach."
     },
     "facebook_reels": {
@@ -90,15 +88,11 @@
   },
   "instagram_sends": null,
   "recommended_cadence": 2,
-  "cadence_reason": "Retention is 66% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
+  "cadence_reason": "Retention is 65% of the bar — close but under. Two uploads a day at the channel's two best-measured slots concentrates the quality budget where it converts.",
   "alerts": [
     {
       "level": "warn",
-      "message": "Slot 21:00 is under-performing across 21 videos — its weight has been reduced automatically."
-    },
-    {
-      "level": "warn",
-      "message": "Slot 19:30 is under-performing across 13 videos — its weight has been reduced automatically."
+      "message": "Slot 19:30 is under-performing across 12 videos — its weight has been reduced automatically."
     }
   ],
   "best_slot": null,
