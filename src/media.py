@@ -8,9 +8,10 @@ import wave
 from pathlib import Path
 from typing import Any
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from config import Settings
+from visual_providers import fetch_visual
 
 WIDTH, HEIGHT = 1080, 1920
 PALETTES = (("#101827", "#29476b", "#6ee7d8"), ("#180f2e", "#55318a", "#f5a3ff"), ("#102b2d", "#176b73", "#f7d774"), ("#2a1420", "#74324c", "#ffb36b"))
@@ -27,9 +28,15 @@ def _font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default()
 
 
-def _draw_scene_card(caption: str, index: int, title: str, path: Path) -> None:
+def _draw_scene_card(caption: str, index: int, title: str, path: Path, background: Path | None = None) -> None:
     first, second, accent = PALETTES[(index - 1) % len(PALETTES)]
-    image = Image.new("RGB", (WIDTH, HEIGHT), first)
+    if background and background.exists():
+        with Image.open(background) as source:
+            image = ImageOps.fit(source.convert("RGB"), (WIDTH, HEIGHT), method=Image.Resampling.LANCZOS)
+        tint = Image.new("RGBA", image.size, first + "aa")
+        image = Image.alpha_composite(image.convert("RGBA"), tint).convert("RGB")
+    else:
+        image = Image.new("RGB", (WIDTH, HEIGHT), first)
     draw = ImageDraw.Draw(image)
     # Abstract science visual: layered circles, orbit lines, and a focal glow.
     for radius in range(760, 80, -80):
@@ -100,9 +107,10 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         image_path = scene_dir / f"scene_{index:02d}.png"
         segment_path = segment_dir / f"scene_{index:02d}.mp4"
         duration = _tts_segment(narration, audio_path, settings)
-        _draw_scene_card(caption, index, str(script.get("title", "")), image_path)
+        source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
+        _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path)
         subprocess.run(["ffmpeg", "-y", "-loop", "1", "-i", str(image_path), "-i", str(audio_path), "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)], check=True, capture_output=True)
-        segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path)})
+        segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider})
     total = sum(float(item["duration"]) for item in segments)
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
         raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")
