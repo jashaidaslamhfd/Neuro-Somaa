@@ -7,6 +7,7 @@ from datetime import UTC, datetime
 from config import SETTINGS
 from content import generate_script, load_topic
 from media import render_video, validate_video
+from thumbnails import build_thumbnail
 from youtube import upload
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -37,6 +38,7 @@ def run() -> dict:
         raise RuntimeError("Generated script is incomplete")
     video_path, segments = render_video(script, SETTINGS)
     technical = validate_video(video_path, SETTINGS)
+    thumbnail_path = build_thumbnail(script, SETTINGS)
     result = {
         "created_at": datetime.now(UTC).isoformat(),
         "topic": topic,
@@ -44,6 +46,7 @@ def run() -> dict:
         "duration": technical["duration"],
         "video_path": str(video_path),
         "audio_segments": len(segments),
+        "thumbnail_path": str(thumbnail_path),
     }
     upload_result = upload(video_path, script, SETTINGS)
     result.update(upload_result)

@@ -34,4 +34,9 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
         "status": {"privacyStatus": settings.privacy_status, "selfDeclaredMadeForKids": False},
     }
     result = youtube.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(video_path), mimetype="video/mp4", resumable=True)).execute()
-    return {"status": "uploaded", "youtube_video_id": result["id"], "url": f"https://youtu.be/{result['id']}", "title": script["title"]}
+    thumbnail_path = settings.output_dir / "thumbnail.jpg"
+    thumbnail_status = "not_available"
+    if thumbnail_path.exists():
+        youtube.thumbnails().set(videoId=result["id"], media_body=MediaFileUpload(str(thumbnail_path), mimetype="image/jpeg")).execute()
+        thumbnail_status = "uploaded"
+    return {"status": "uploaded", "youtube_video_id": result["id"], "url": f"https://youtu.be/{result['id']}", "title": script["title"], "thumbnail_status": thumbnail_status}
