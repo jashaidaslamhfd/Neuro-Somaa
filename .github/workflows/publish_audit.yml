@@ -1,0 +1,31 @@
+name: Audit and publish YouTube video
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "YouTube video ID to audit and publish"
+        required: true
+        type: string
+      make_public:
+        description: "Publish only after metadata and thumbnail checks"
+        required: true
+        type: boolean
+        default: false
+
+jobs:
+  audit-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Audit metadata and publish
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: python scripts/audit_publish.py --video-id "${{ inputs.video_id }}" ${{ inputs.make_public && '--make-public' || '' }}
