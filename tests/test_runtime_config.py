@@ -282,7 +282,7 @@ class WorkflowRegressionTests(unittest.TestCase):
 
     def test_shorts_duration_target_uses_retention_first_arm(self):
         self.assertIn('TARGET_MIN_SECONDS: "15"', self.workflow)
-        self.assertIn('TARGET_MAX_SECONDS: "18"', self.workflow)
+        self.assertIn('TARGET_MAX_SECONDS: "30"', self.workflow)
         self.assertIn('RETENTION_GATE_MODE: "warn"', self.workflow)
 
     def test_production_limits_full_pipeline_retries_to_protect_quota(self):
@@ -371,7 +371,7 @@ class WorkflowRegressionTests(unittest.TestCase):
 
 
 def _arc_fixture():
-    """Valid French 6-scene script (FIXED 2026-08-24: short format 15-18s),
+    """Valid French 6-scene script (FIXED 2026-09-02: short format 15-30s),
     V4 ANSWER-FIRST arc:
     Accroche (scene 1) → Réponse flash (scene 2) → mécanisme → Boucle.
 

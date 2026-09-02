@@ -23,8 +23,8 @@ def run() -> int:
         path = shutil.which(binary)
         checks.append(_check(binary, bool(path), path or "not found"))
 
-    target_min = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
-    target_max = float(os.environ.get("TARGET_MAX_SECONDS", "24"))
+    target_min = float(os.environ.get("TARGET_MIN_SECONDS", "15"))
+    target_max = float(os.environ.get("TARGET_MAX_SECONDS", "30"))
     checks.append(_check("duration-window", 0 < target_min < target_max <= 60, f"{target_min:g}-{target_max:g}s"))
 
     providers = {
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 
 def testable_report() -> dict:
     """Small importable seam for offline tests and operator diagnostics."""
-    return {"target_max_seconds": os.environ.get("TARGET_MAX_SECONDS", "24")}
+    return {"target_max_seconds": os.environ.get("TARGET_MAX_SECONDS", "30")}
 
 
 def main() -> int:

@@ -54,17 +54,14 @@ def _duration_word_budget() -> tuple:
     import os as _os
 
     words_per_second = 1.5
-    # FIXED 2026-08-02: default target is now the SHORT format (20-26s).
-    # The old floor of max(40, ...) forced >=40 words (~15s narration) even
-    # when a short arm was requested, silently breaking the whole experiment.
-    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "20"))
-    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "24"))
+    # Duration target is configurable from 15–30s for complete French narration.
+    target_min = float(_os.environ.get("TARGET_MIN_SECONDS", "15"))
+    target_max = float(_os.environ.get("TARGET_MAX_SECONDS", "30"))
     # Aim inside the window with headroom: never plan narration longer than
     # the target max, since the pipeline aborts at target_max * 1.12.
     low = max(24, int(target_min * words_per_second * 0.85))
-    # Six edge-tts segments add boundary/pause overhead. The old +8 cushion
-    # allowed 33-word scripts that measured 26–27s and were then skipped by
-    # the duration guard. Keep a narrow 24–28 word envelope for a 20–24s Short.
+    # Six edge-tts segments add boundary/pause overhead. Keep headroom below the
+    # configured maximum so normal speech variation remains inside the 15–30s window.
     high = max(low + 3, int(target_max * words_per_second * 0.80))
     return low, high
 

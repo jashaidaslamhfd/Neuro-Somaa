@@ -963,8 +963,8 @@ class SKILLORPipeline:
                 )
                 logger.info(f"✅ Generated {len(audio_segments)} audio segments")
                 narration_seconds = sum(float(seg.get("duration", 0)) for seg in audio_segments)
-                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "24"))
-                target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "20"))
+                target_max_seconds = float(os.environ.get("TARGET_MAX_SECONDS", "30"))
+                target_min_seconds = float(os.environ.get("TARGET_MIN_SECONDS", "15"))
                 # Minimum-narration guard: a voiceover far shorter than the
                 # target produces a video that is mostly silent / static (the
                 # "no voice, stuck visuals" bug, caused by Kokoro emitting

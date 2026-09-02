@@ -73,7 +73,7 @@ jobs:
         env:
           DRY_RUN: ${{ inputs.dry_run && 'true' || 'false' }}
           TARGET_MIN_SECONDS: "15"
-          TARGET_MAX_SECONDS: "18"
+          TARGET_MAX_SECONDS: "30"
           YT_SCHEDULE_PUBLISH: "true"
           YT_PRIVACY_STATUS: "private"
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -176,10 +176,10 @@ jobs:
           # globally learned three-slot file until it has weekday samples.
           USE_DYNAMIC_SCHEDULE: "false"
           DYNAMIC_SCHEDULE_SLOT_COUNT: "3"
-          # Retention-first default: shorter cuts are currently the safest
+          # Balanced duration default: 15–30s cuts allow complete narration while preserving retention
           # measured arm. Bounded retries and local fallback protect the slot.
           TARGET_MIN_SECONDS: "15"
-          TARGET_MAX_SECONDS: "18"
+          TARGET_MAX_SECONDS: "30"
           TTS_MAX_OVERRUN_RATIO: "1.08"
           # One full pipeline attempt per dispatch: avoids regenerating scripts
           # after deterministic render/upload failures and protects LLM quota.
