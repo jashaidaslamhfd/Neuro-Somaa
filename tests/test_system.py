@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
 from config import Settings
-from content import _fallback_script
+from content import _clean_fr, _fallback_script
 
 
 def test_french_defaults_and_duration_window():
@@ -20,7 +20,13 @@ def test_fallback_script_is_french_and_has_six_scenes():
     script = _fallback_script("Pourquoi le cerveau rêve-t-il ?")
     assert len(script["scenes"]) == 6
     assert script["title"].endswith("?")
+    assert "Tu vas comprendre" in script["description"]
+    assert any("ton cerveau" in scene["narration"] for scene in script["scenes"])
     assert all(scene["narration"] for scene in script["scenes"])
+
+
+def test_french_copy_normalizes_punctuation_spacing():
+    assert _clean_fr("Pourquoi ça arrive  ?") == "Pourquoi ça arrive?"
 
 
 def test_invalid_public_configuration_is_rejected(monkeypatch):

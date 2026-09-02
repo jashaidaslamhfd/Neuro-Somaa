@@ -15,10 +15,23 @@ FALLBACK_TOPICS = [
     "Pourquoi les jambes tremblent-elles sous le stress ?",
 ]
 
+FRANCE_COPY_RULES = (
+    "Écris en français de France métropolitaine, naturel et actuel. Utilise le tutoiement "
+    "(tu, ton, ta, tes) pour parler directement au spectateur. Évite les calques de l’anglais, "
+    "les tournures québécoises ou belges non nécessaires, le jargon administratif et les formulations "
+    "trop littérales. Préfère des phrases courtes, fluides et orales, sans exagération médicale."
+)
+
+
+def _clean_fr(text: str) -> str:
+    text = re.sub(r"\s+([?!:;…])", r"\1", text.strip())
+    text = re.sub(r"\s{2,}", " ", text)
+    return text
+
 
 def load_topic(settings: Settings) -> str:
     if settings.topic:
-        return settings.topic
+        return _clean_fr(settings.topic)
     queue = settings.data_dir / "search_demand_queue_fr.json"
     if queue.exists():
         try:
@@ -27,7 +40,7 @@ def load_topic(settings: Settings) -> str:
             for item in items:
                 title = item.get("title") if isinstance(item, dict) else str(item)
                 if title:
-                    return str(title)
+                    return _clean_fr(str(title))
         except (OSError, json.JSONDecodeError, AttributeError):
             pass
     history = settings.data_dir / "video_history.json"
@@ -35,25 +48,25 @@ def load_topic(settings: Settings) -> str:
     if history.exists():
         try:
             rows = json.loads(history.read_text(encoding="utf-8"))
-            used = {str(row.get("topic", "")).lower() for row in rows if isinstance(row, dict)}
+            used = {_clean_fr(str(row.get("topic", ""))).lower() for row in rows if isinstance(row, dict)}
         except (OSError, json.JSONDecodeError):
             pass
-    return next((topic for topic in FALLBACK_TOPICS if topic.lower() not in used), FALLBACK_TOPICS[0])
+    return next((topic for topic in FALLBACK_TOPICS if _clean_fr(topic).lower() not in used), FALLBACK_TOPICS[0])
 
 
 def _fallback_script(topic: str) -> dict[str, Any]:
-    clean = topic.strip().rstrip("?")
+    clean = _clean_fr(topic).rstrip("?")
     return {
-        "title": clean + " ?",
-        "description": f"Une explication claire et courte sur {clean.lower()}. #shorts #science",
-        "tags": ["science", "cerveau", "corps humain", "curiosité", "shorts"],
+        "title": _clean_fr(clean + " ?"),
+        "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science",
+        "tags": ["science", "cerveau", "corps humain", "curiosité", "shorts français"],
         "scenes": [
             {"caption": clean + " ?", "narration": clean + " ?"},
-            {"caption": "La réponse commence dans votre cerveau.", "narration": "La réponse commence dans votre cerveau."},
-            {"caption": "Il détecte un signal avant même votre conscience.", "narration": "Il détecte un signal avant même votre conscience."},
-            {"caption": "Puis votre corps prépare une réaction rapide.", "narration": "Puis votre corps prépare une réaction rapide."},
-            {"caption": "Ce mécanisme est ancien, mais toujours utile.", "narration": "Ce mécanisme est ancien, mais toujours utile."},
-            {"caption": "Observez-le la prochaine fois que cela arrive.", "narration": "Observez-le la prochaine fois que cela arrive."},
+            {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
+            {"caption": "Il repère un signal avant même que tu t’en rendes compte.", "narration": "Il repère un signal avant même que tu t’en rendes compte."},
+            {"caption": "Puis ton corps prépare une réaction rapide.", "narration": "Puis ton corps prépare une réaction rapide."},
+            {"caption": "Ce mécanisme est ancien, mais il reste utile.", "narration": "Ce mécanisme est ancien, mais il reste utile."},
+            {"caption": "Observe-le la prochaine fois que ça t’arrive.", "narration": "Observe-le la prochaine fois que ça t’arrive."},
         ],
     }
 
@@ -65,6 +78,11 @@ def _extract_json(text: str) -> dict[str, Any]:
     payload = json.loads(match.group(0))
     if not isinstance(payload, dict) or not payload.get("scenes"):
         raise ValueError("LLM JSON has no scenes")
+    payload["title"] = _clean_fr(str(payload.get("title", "")))
+    payload["description"] = _clean_fr(str(payload.get("description", "")))
+    for scene in payload["scenes"]:
+        scene["caption"] = _clean_fr(str(scene.get("caption", "")))
+        scene["narration"] = _clean_fr(str(scene.get("narration", "")))
     return payload
 
 
@@ -81,10 +99,11 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
                 temperature=0.6,
                 response_format={"type": "json_object"},
                 messages=[
-                    {"role": "system", "content": "Tu écris des Shorts scientifiques en français naturel. Réponds uniquement en JSON."},
+                    {"role": "system", "content": f"{FRANCE_COPY_RULES} Réponds uniquement en JSON valide."},
                     {"role": "user", "content": (
                         f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 6 scènes. "
-                        f"Chaque scène doit contenir caption et narration en français. Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s."
+                        "Chaque scène doit contenir caption et narration en français de France. "
+                        f"Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s."
                     )},
                 ],
             )
