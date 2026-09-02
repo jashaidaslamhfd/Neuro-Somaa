@@ -266,6 +266,9 @@ jobs:
           OPENBLAS_NUM_THREADS: "2"
           MKL_NUM_THREADS: "2"
           FALLBACK_ABORT_RATIO: "0.80"
+          # Non-critical quality heuristics warn instead of consuming a slot.
+          # Audio integrity, render validity, OAuth, and upload checks remain strict.
+          NON_CRITICAL_GATES_MODE: "warn"
           # A green run without a published video is operationally a failure.
           # Keep slot_skipped.json for diagnostics, but expose the missed slot
           # to GitHub Actions instead of silently reporting successful delivery.

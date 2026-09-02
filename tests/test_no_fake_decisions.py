@@ -44,13 +44,14 @@ class NoUncalibratedDecisionTests(unittest.TestCase):
     def test_hook_render_veto_is_truth_gated(self):
         # Render-time hook veto may only fire when the truth file measured
         # hook_score as decision-usable.
-        veto_idx = MAIN.find('raise RuntimeError(f"Hook failed')
+        veto_idx = MAIN.find('message = f"Hook failed')
         self.assertNotEqual(veto_idx, -1)
         ctx = MAIN[max(0, veto_idx - 1200) : veto_idx]
         self.assertTrue(
             "_score_decision_usable('hook_score')" in ctx
             or '_score_decision_usable("hook_score")' in ctx
         )
+        self.assertIn("_handle_non_critical_gate(message)", MAIN[veto_idx : veto_idx + 500])
 
     def test_retention_render_veto_is_truth_gated(self):
         veto_idx = MAIN.find("Retention gate: predicted")

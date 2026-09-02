@@ -71,6 +71,9 @@ MAX_SCRIPT_ATTEMPTS = max(1, int(os.environ.get("MAX_SCRIPT_ATTEMPTS", "3")))
 MAX_IMAGE_RETRIES = 3
 TITLE_CANDIDATE_POOL_SIZE = int(os.environ.get("TITLE_CANDIDATE_POOL_SIZE", "12"))
 FALLBACK_ABORT_RATIO = float(os.environ.get("FALLBACK_ABORT_RATIO", "0.5"))
+# Advisory quality gates may warn in production instead of consuming a slot.
+# Critical audio, render, authentication, and upload checks remain strict.
+NON_CRITICAL_GATES_MODE = os.environ.get("NON_CRITICAL_GATES_MODE", "strict").strip().lower()
 # 70 accepts a clear, specific natural hook while still rejecting vague or
 # manipulative openings. The scorer and generator use the same 6–9 word policy.
 MIN_HOOK_SCORE = int(os.environ.get("MIN_HOOK_SCORE", "70"))
@@ -92,6 +95,14 @@ VIDEO_HISTORY_PATH = os.environ.get("VIDEO_HISTORY_PATH", "data/video_history.js
 MEDIA_HASH_HISTORY_PATH = os.environ.get("MEDIA_HASH_HISTORY_PATH", "data/media_hash_history.json")
 # Cap on how many hashes/URLs we remember, so the ledger doesn't grow forever.
 MAX_MEDIA_HASH_HISTORY = int(os.environ.get("MAX_MEDIA_HASH_HISTORY", "20000"))
+
+
+def _handle_non_critical_gate(message: str) -> None:
+    """Warn for advisory failures in production, or raise in strict mode."""
+    if NON_CRITICAL_GATES_MODE == "warn":
+        logger.warning("⚠️ Advisory %s; continuing to protect the upload slot", message)
+        return
+    raise RuntimeError(message)
 
 
 def _normalize_title_key(text: str) -> str:
@@ -950,7 +961,8 @@ class SKILLORPipeline:
             logger.info(f"📊 Fallback ratio: {fallback_ratio:.1%}")
 
             if fallback_ratio > FALLBACK_ABORT_RATIO:
-                raise RuntimeError(f"Quality gate failed: {fallback_ratio:.1%} fallbacks")
+                message = f"Quality gate failed: {fallback_ratio:.1%} fallbacks"
+                _handle_non_critical_gate(message)
 
             # Phase 3: Voice Generation
             logger.info("\n🔊 PHASE 3: VOICE GENERATION")
@@ -1094,7 +1106,8 @@ class SKILLORPipeline:
                 # verify facts, not vibes.
                 if _score_decision_usable("hook_score"):
                     if hook_score < MIN_HOOK_SCORE:
-                        raise RuntimeError(f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}")
+                        message = f"Hook failed: {hook_score}/{MIN_HOOK_SCORE}"
+                        _handle_non_critical_gate(message)
                 elif hook_score < MIN_HOOK_SCORE:
                     logger.info(
                         "TRUTH advisory: hook self-grade %s/%s below bar — not "
@@ -1112,10 +1125,11 @@ class SKILLORPipeline:
                 logger.info(f"Predicted retention: {pred_retention:.0%} (min {min_retention:.0%})")
                 if pred_retention < min_retention:
                     if _score_decision_usable("predicted_retention"):
-                        raise RuntimeError(
+                        message = (
                             f"Retention gate: predicted {pred_retention:.0%} < {min_retention:.0%} "
                             f"- would not go viral. Regenerating."
                         )
+                        _handle_non_critical_gate(message)
                     logger.info(
                         "TRUTH advisory: predicted retention %.0f%% < %.0f%% — "
                         "not blocking (heuristic is uncalibrated vs real %.0f%% channel mean)",
@@ -1174,11 +1188,15 @@ class SKILLORPipeline:
                     min_thumbnail_score,
                 )
                 if thumb_overall < min_thumbnail_score:
-                    raise RuntimeError(
+                    message = (
                         "Thumbnail quality gate failed: "
                         f"best variant scored {thumb_overall}/100, "
                         f"minimum is {min_thumbnail_score}/100"
                     )
+                    if NON_CRITICAL_GATES_MODE == "warn":
+                        logger.warning("⚠️ Advisory %s; continuing to protect the upload slot", message)
+                    else:
+                        raise RuntimeError(message)
 
                 # Pad video if slightly too short
                 # FIXED 2026-08-02: default 20 (short format). The old 40s
