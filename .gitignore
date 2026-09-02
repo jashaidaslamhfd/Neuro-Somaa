@@ -15,7 +15,6 @@ env/
 pipeline.log
 *.log
 output/*
-!output/gitkeep
 
 # ---- Auth / token artifacts (CRITICAL — never commit these) ----
 oauth_backup.json

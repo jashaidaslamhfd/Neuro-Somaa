@@ -916,23 +916,6 @@ class ThresholdParityTests(unittest.TestCase):
             )
 
 
-class DestructiveWorkflowTests(unittest.TestCase):
-    """Video deletion is irreversible; the cleanup workflow hardcoded --apply,
-    so one click on 'Run workflow' destroyed videos with no confirmation."""
-
-    def test_dead_cleanup_defaults_to_dry_run(self):
-        # 2026-08-11: the workflow was archived under _archived/ (ops_console.yml
-        # is now the single dispatch entry point); the safety assertion follows it.
-        workflow = (ROOT / ".github" / "workflows" / "_archived" / "yt_dead_cleanup_fr.yml").read_text()
-        self.assertIn("inputs:", workflow, "cleanup must expose an apply input")
-        self.assertIn("default: false", workflow)
-        self.assertNotIn(
-            "run: python scripts/yt_dead_cleanup_fr.py --apply",
-            workflow,
-            "cleanup must not hardcode --apply",
-        )
-
-
 class TitlePatternTests(unittest.TestCase):
     """_title_pattern() only knew English templates, so every French title
     landed in 'OTHER' and the whole A/B comparison collapsed to one bucket."""

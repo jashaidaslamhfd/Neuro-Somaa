@@ -4,9 +4,8 @@ name: "🛠️ Ops Console (one-shot repair/maintenance tools)"
 # (metadata_repair, video_repair, thumbnail_update, fr_metadata_sweep,
 # fr_full_optimize, seo_diag, channel_audit, niche_migration, yt_admin,
 # yt_dead_cleanup_fr, fix_published_videos) cluttered the Actions page and
-# invited misfires. They now live archived under
-# .github/workflows/_archived/ (GitHub only loads workflows/*.yml, so they
-# are inert but preserved) and every tool is reachable from THIS console.
+# invited misfires. Those obsolete workflow wrappers have been removed;
+# supported operations remain reachable from THIS console.
 #
 #   apply=false (default) → every tool runs in DRY-RUN: nothing is written
 #   to YouTube; the plan is uploaded as an artifact.

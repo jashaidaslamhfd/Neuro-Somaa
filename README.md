@@ -63,7 +63,7 @@ docs/                Runbooks, spécifications et archives de décisions
 tests/               Tests de régression et garde-fous
 ```
 
-Les rapports générés et historiques restent dans `data/`. Les analyses ponctuelles sont dans `scripts/analysis/`; les procédures actives sont dans `docs/operations/`; les audits et migrations historiques sont conservés dans `docs/archive/` afin de ne pas encombrer le parcours principal.
+Les rapports générés et historiques restent dans `data/`. Les commandes opérationnelles sont regroupées dans `scripts/`; les procédures actives sont dans `docs/operations/`; les audits et migrations historiques sont conservés dans `docs/archive/` afin de ne pas encombrer le parcours principal.
 
 ## Documentation utile
 
