@@ -17,10 +17,12 @@ Method:
 import json
 import sys
 
-sys.path.insert(0, "src")
-sys.path.insert(0, "scripts")
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts"))
 
-ROOT = "/home/ubuntu/Neuro-Somaa"
+ROOT = Path(__file__).resolve().parents[2]
 
 # The three scheduled picks from the demand-queue simulation
 NEXT3 = [

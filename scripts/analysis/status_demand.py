@@ -4,8 +4,10 @@ import json
 import sys
 import random
 
-sys.path.insert(0, "src")
-sys.path.insert(0, "scripts")
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "scripts"))
 
 import trend_fetcher  # noqa: E402
 

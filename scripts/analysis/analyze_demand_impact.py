@@ -9,10 +9,12 @@ Then compares views, completion %, and recency-controlled averages.
 import json
 import re
 import sys
+from pathlib import Path
 from collections import defaultdict
 from datetime import datetime, timezone
 
-sys.path.insert(0, "src")
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
 
 from trend_fetcher import _topic_words  # noqa: E402
 
@@ -20,7 +22,7 @@ STOP = {"le", "la", "les", "un", "une", "du", "des", "de", "et", "ou", "que",
         "qui", "quoi", "quand", "sans", "pour", "sur", "dans", "par", "est",
         "sont", "se", "ce", "cette", "on", "pas", "ne", "plus", "très"}
 
-ROOT = "/home/ubuntu/Neuro-Somaa"
+
 
 def topic_words(text: str) -> set:
     toks = [w for w in re.split(r"\s+", (text or "").lower())
@@ -31,7 +33,7 @@ def topic_words(text: str) -> set:
 demand_words = set()
 demand_entries = []
 try:
-    payload = json.load(open(f"{ROOT}/data/search_demand_queue_fr.json", encoding="utf-8"))
+    payload = json.load(open(ROOT / "data" / "search_demand_queue_fr.json", encoding="utf-8"))
     for item in payload.get("topics", []):
         t = item.get("topic") or item.get("angle") or ""
         demand_entries.append(t)
@@ -40,7 +42,7 @@ except OSError:
     pass
 
 # 2. Load history with real views
-vh = json.load(open(f"{ROOT}/data/video_history.json", encoding="utf-8"))
+vh = json.load(open(ROOT / "data" / "video_history.json", encoding="utf-8"))
 rows = []
 for e in vh:
     views = e.get("views")

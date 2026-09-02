@@ -1,110 +1,80 @@
-# Neuro-Somaa — YouTube Shorts France
+# Neuro-Somaa
 
-> **English summary:** Neuro-Somaa is a fully automated, French-first YouTube
-> Shorts pipeline that runs entirely on GitHub Actions — French topic → French
-> script (LLM) → French neural voice → visuals → captions → French SEO →
-> scheduled upload (3 Shorts/day at Paris peak times). A daily analytics sync
-> feeds real views/retention/CTR back into a learning loop (publish slots,
-> title patterns, topic gaps). Safety gates: French-language check, medical
-> claim filter, anti-spam checks, synthetic-media disclosure. The French
-> documentation below is the operator manual.
+> **Pipeline automatisé de Shorts YouTube en français**, conçu pour produire des vidéos courtes de science du quotidien avec des garde-fous éditoriaux, un contrôle qualité strict et une boucle d’apprentissage fondée sur les données réellement disponibles.
 
-Pipeline Python **France-first** pour une chaîne YouTube Shorts de science du quotidien :
+## Promesse
 
-`Sujet français → script français → voix française → visuels → sous-titres → SEO français → upload programmé`
+Neuro-Somaa transforme un sujet français en Short prêt à publier :
 
-## Positionnement éditorial
-- **Audience :** France et francophonie, adultes curieux de science simple.
-- **Série :** *faits surprenants* — phénomènes familiers du corps (paupière qui saute, déjà-vu, bâillement, sommeil…).
-- **Langue :** tous les éléments visibles et audibles sont générés en français naturel.
-- **Sécurité :** aucune promesse médicale, aucun engagement artificiel, aucune automatisation de vues/commentaires.
+`Sujet → script français → voix française → visuels → sous-titres → SEO → publication planifiée`
 
-## Réglages France actifs
-| Élément | Valeur |
-|---|---|
-| Recherche de tendances | `FR` |
-| Région YouTube | `FR` |
-| Fuseau de publication | `Europe/Paris` |
-| Créneaux par défaut | 12:30 / 19:30 / 21:00 (Paris), un Short par créneau, **3/jour** |
-| Créneaux dynamiques | appris dans `data/upload_slot_intel_fr.json` après 5 observations; production reste sur la heatmap hebdomadaire tant que `USE_DYNAMIC_SCHEDULE=false` |
-| Moteur vocal principal | `TTS_ENGINE=edge`, voix `fr-FR-HenriNeural` (repli Remy/Denise puis Kokoro `ff_siwis`) |
-| Série | `faits_surprenants_fr` |
-| Seuils qualité (production) | `MIN_HOOK_SCORE=70`, `QUALITY_APPROVAL_THRESHOLD=60` (alignés `env.example` ↔ `main.yml` via `tests/test_runtime_config.py`) |
+Le projet vise la **France et la francophonie**. Son positionnement éditorial repose sur des faits surprenants liés au corps, au sommeil, aux émotions et aux phénomènes familiers. Il ne promet ni viralité ni recommandation algorithmique et bloque les formulations médicales trompeuses, le spam et les doublons.
 
-## Démarrage
+## Vue d’ensemble
+
+| Étape | Composant principal | Résultat |
+|---|---|---|
+| Recherche | `src/trend_fetcher.py`, `src/trend_research.py` | Sujets et signaux francophones |
+| Écriture | `src/script_generator.py`, `src/french_humanizer.py` | Script court, naturel et contrôlé |
+| Audio | `src/voice_generator.py` | Voix française avec replis configurables |
+| Média | `src/image_generator.py`, `src/video_editor.py` | Vidéo verticale et sous-titres |
+| Contrôle | `src/french_quality_gate.py`, `src/strict_quality_gate.py` | Validation langue, sécurité, rythme et SEO |
+| Publication | `src/uploader.py`, `src/scheduler.py` | Upload YouTube et créneau Paris |
+| Apprentissage | `src/analytics_updater.py`, `src/intelligence/` | Historique réel, diagnostics et recommandations |
+
+## Démarrage local
+
 ```bash
 cp env.example .env
-# renseignez au minimum GROQ_API_KEY ; ajoutez OAuth YouTube pour publier
-# (le REFRESH_TOKEN doit aussi porter le scope yt-analytics.readonly pour
-#  que les impressions et le CTR réel remontent dans video_history.json)
+# Renseigner au minimum GROQ_API_KEY.
+# Ajouter les identifiants YouTube uniquement pour publier ou synchroniser les données.
 python scripts/generate_body_glitch_topics.py
 python src/main.py
 ```
 
-### Deux modes de publication — à choisir en connaissance de cause
+Pour les contrôles légers et les opérations de maintenance, utiliser `requirements-ops.txt`. Les dépendances de génération vidéo sont regroupées dans `requirements.txt`; les dépendances CI sont décrites par `requirements-ci.txt` et verrouillées dans `requirements-ci.lock`.
 
-| Mode | Réglage | Comportement |
-|---|---|---|
-| **Revue manuelle** (défaut de `env.example`) | `YT_PRIVACY_STATUS=private` | La vidéo reste privée indéfiniment. Rien n'est publié sans vous. |
-| **Automatique** (défaut du workflow) | `YT_PRIVACY_STATUS=private` + `YT_SCHEDULE_PUBLISH=true` | La vidéo est envoyée en privé avec un `publishAt` (au prochain créneau Paris appris), puis **YouTube la rend publique automatiquement** à cette minute. **Aucune relecture humaine n'a lieu entre les deux.** |
+## Publication et sécurité
 
-`.github/workflows/main.yml` tourne en mode **automatique** : c'est ce qui permet les 3 Shorts/jour sans intervention. Si vous préférez relire chaque vidéo, passez `YT_PRIVACY_STATUS` à `private` dans le workflow.
+Le workflow de production utilise une vidéo privée avec publication planifiée (`YT_PRIVACY_STATUS=private` et `YT_SCHEDULE_PUBLISH=true`). Pour une revue humaine, désactiver la publication planifiée. Une vidéo ne doit être considérée comme prête qu’après le passage des contrôles français, anti-spam, anti-doublon, média, miniature et métadonnées.
 
-Les garde-fous qui remplacent la relecture en mode automatique : double contrôle qualité français (script + métadonnées finales), blocage des titres tronqués, blocage des titres sans verbe, blocage des titres en doublon, miniatures à accroche verbale (jamais une étiquette nue), contrôle du rythme des sous-titres et vérification anti-spam.
+Les créneaux par défaut sont **12:30, 19:30 et 21:00**, dans le fuseau `Europe/Paris`. Le système peut produire des recommandations dynamiques, mais leur adoption doit rester une décision explicite après revue des observations.
 
-## Workflows principaux (noms réels)
-| Workflow | Rôle | Fréquence |
-|---|---|---|
-| `Neuro-Somaa - French Shorts Automation` | génère + programme 3 Shorts/jour | créneaux Paris variables selon le jour, définis dans `main.yml` |
-| `Neuro-Somaa - YouTube Analytics Sync` | vues/rétention/CTR réels → historique + réapprentissage | quotidien 05:30 UTC |
-| `Auto-Apply Verified Metadata Repairs (daily)` | répare les métadonnées défectueuses (cooldown 7 jours par vidéo) | quotidien 08:00 UTC |
-| `Monetization Readiness (daily plan)` | tableau de bord monétisation | quotidien |
-| `CI - guard tests on push` | 130+ tests hors-ligne | chaque push |
+## Workflows GitHub Actions
 
-Les outils manuels (one-shot) ont été consolidés : un seul workflow **🛠️ Ops Console** propose un menu déroulant (réparations, diagnostics, miniatures, migration de niche, nettoyage) avec `apply=false` en simulation par défaut. Les anciens workflows sont archivés sous `.github/workflows/_archived/` (inertes, non chargés par GitHub).
+| Workflow | Fonction |
+|---|---|
+| `Neuro-Somaa - French Shorts Automation` | Génère et programme les Shorts |
+| `Neuro-Somaa - YouTube Analytics Sync` | Synchronise vues, rétention et métriques disponibles |
+| `Auto-Apply Verified Metadata Repairs (daily)` | Applique les réparations validées avec délai de sécurité |
+| `Monetization Readiness (daily plan)` | Prépare le suivi de maturité de la chaîne |
+| `CI - guard tests on push` | Exécute les tests hors ligne |
+| `Ops Console` | Regroupe les opérations manuelles en mode simulation par défaut |
 
-## Signaux qui aident YouTube à identifier l'audience française
-Le système envoie des signaux cohérents et honnêtes : langue du script, voix FR, titre/description/tags/miniature FR, région de tendances `FR`, créneaux Paris et thèmes cohérents. **Aucun réglage ne garantit une recommandation** : l'algorithme apprend surtout des spectateurs qui choisissent et regardent réellement les vidéos.
+## Organisation du dépôt
 
-## Couche premium : intelligence concurrentielle française
-Le repo peut aussi apprendre des Shorts français déjà gagnants :
+```text
+.github/workflows/   Automatisation CI/CD et opérations YouTube
+src/                 Pipeline de production et intelligence
+scripts/             Commandes opérationnelles et analyses ponctuelles
+assets/              Musique et médias sources
+data/                État durable, historiques et rapports générés
+docs/                Runbooks, spécifications et archives de décisions
+tests/               Tests de régression et garde-fous
+```
 
-1. renseignez `YOUTUBE_API_KEY` ;
-2. laissez `COMPETITOR_CHANNEL_IDS` vide si vous voulez l'auto-découverte : le système choisit lui-même les concurrents à partir de requêtes FR à fort volume ;
-3. optionnellement, ajoutez des IDs de chaînes dans `COMPETITOR_CHANNEL_IDS` pour forcer certaines références ;
-4. lancez le workflow **Neuro-Somaa - French Competitor Repair**.
+Les rapports générés et historiques restent dans `data/`. Les analyses ponctuelles sont dans `scripts/analysis/`; les procédures actives sont dans `docs/operations/`; les audits et migrations historiques sont conservés dans `docs/archive/` afin de ne pas encombrer le parcours principal.
 
-Le fichier `data/competitor_intel_fr.json` apprend les **patterns** gagnants (ex. formats de titres, tags de niche), puis `seo_generator.py` les mélange aux titres/tags Neuro-Somaa. Par sécurité, le système **ne copie pas mot pour mot** les titres/tags concurrents : il crée des métadonnées originales à partir du sujet Neuro-Somaa et bloque les correspondances exactes.
+## Documentation utile
 
-Pour les vidéos déjà publiées, le workflow **SEO Repair (uploaded videos)** peut reconstruire titre/description/tags avec cette intelligence concurrentielle. Il reste en dry-run par défaut ; choisir `mode=apply` pour écrire sur YouTube.
+Commencer par le [runbook de production](docs/PRODUCTION_RUNBOOK.md), puis consulter l’[expérience de marché francophone](docs/FRANCOPHONE_MARKET_EXPERIMENT.md). Les procédures d’exploitation se trouvent dans [docs/operations](docs/operations/), et les décisions historiques dans [docs/archive](docs/archive/).
 
-## Boucle d'apprentissage continue (dans la sync analytique)
-La sync quotidienne (`src/analytics_updater.py`) enchaîne après chaque relevé :
+## Principes éditoriaux
 
-- **Dynamic publish slots** : apprend les heures Paris qui génèrent le plus de vues/rétention et écrit `data/upload_slot_intel_fr.json` (adoption seulement après **5 observations minimum**) ; ces créneaux restent consultatifs tant que la production garde `USE_DYNAMIC_SCHEDULE=false`; les activer requiert une décision explicite après revue des données.
-- **Title bandit** : compare les patterns de titres avec les performances réelles et réordonne les futurs titres dans `data/title_bandit_fr.json`.
-- **48h auto-repair plan** : repère les vidéos qui sous-performent après 48 h et génère un plan de réparation sans écrire sur YouTube.
-- **Topic gaps** : compare les mots-clés concurrents + demandes en commentaires avec le catalogue de sujets.
-- **Comments intelligence** : lit les vrais commentaires pour détecter les sujets demandés, sans automatiser les vues/commentaires.
-- **ML brain** : réentraîné à chaque sync uniquement sur les vidéos ayant de vraies mesures (`data/ml_brain_state.json`).
-- **Francophonie subtile** : tags France/francophonie via `FRANCOPHONE_LOCALE_TAGS=true` sans changer la voix `fr-FR`.
+Le contenu visible et audible est en français naturel. Les titres doivent contenir un verbe conjugué et une question ou une accroche compréhensible. Les affirmations médicales non vérifiables sont bloquées. Les titres, tags et miniatures concurrents servent uniquement à apprendre des formats : ils ne sont pas copiés mot pour mot.
 
-## 🧠 Couche d'intelligence (DS / ML / DL)
-La sync analytique lance aussi la couche d'intelligence (`src/intelligence/`, numpy pur — aucun poids lourd) :
-
-- **Modèles** : régression ridge (forme fermée, validation croisée k-fold) + petit MLP (couche cachée tanh) prédisent les vues à partir des caractéristiques du titre/SEO/créneau. **Chaque modèle publie ses métriques CV et refuse de prétendre quand n est trop petit.**
-- **Title bandit (Thompson sampling)** : postérieurs Bêta (winner-rate) par pattern de titre ; un pattern n'est **recommandé** qu'à partir de 5 vidéos.
-- **Clusters de sujets** : TF-IDF + k-means++ sphérique regroupe les micro-thèmes et montre leur vues moyennes réelles.
-- **Détection d'anomalies** : z-score robuste (médiane/MAD) — sous-performances → file de réparation, sur-performances → minage de pattern.
-- **Prévision de croissance** : lissage exponentiel double (Holt), projection 30 jours avec bandes, refus honnête sous 21 jours de données.
-- **Tests d'expérience** : test de permutation (sans scipy) pour les A/B (durée, formats).
-
-Sorties : `data/intelligence_report.json` + `data/intelligence_dashboard_latest.md` (fichiers roulants, régénérés à chaque sync).
-
-## Hygiène du dépôt
-- `data/video_history.json` = historique **cumulatif réel** (source de vérité ML).
-- Les instantanés datés (`seo_diag_*`, `premium_growth_dashboard_*`…) sont élagués automatiquement : **7 derniers jours + le plus récent** (`scripts/cleanup_data_snapshots.py`, lancé par la sync analytique).
-- Dépendances : `requirements.txt` (génération vidéo, lourd) · `requirements-ops.txt` (réparations/audits, léger) · `requirements-ci.txt` (intentions CI) + `requirements-ci.lock` (graphe CI verrouillé et audité).
+> **Règle centrale :** une métrique indisponible reste indisponible. Le pipeline ne fabrique pas de CTR, de rétention ou de causalité à partir de données manquantes.
 
 ## Licence
+
 MIT — voir [LICENSE](LICENSE).

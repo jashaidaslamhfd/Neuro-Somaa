@@ -3,8 +3,9 @@
 import json
 import os
 import glob
+from pathlib import Path
 
-ROOT = "/home/ubuntu/Neuro-Somaa"
+ROOT = Path(__file__).resolve().parents[2]
 
 def dump(name, path, n=3):
     try:
@@ -40,5 +41,5 @@ def dump(name, path, n=3):
             for i, it in enumerate(data[:n]):
                 print(f"  [{i}] {json.dumps({k: it.get(k) for k in list(it.keys())[:14]}, ensure_ascii=False)[:320]}")
 
-for p in sorted(glob.glob(f"{ROOT}/data/*metric*")) + sorted(glob.glob(f"{ROOT}/data/*analytic*")) + sorted(glob.glob(f"{ROOT}/data/*growth*")) + [f"{ROOT}/data/video_history.json"]:
+for p in sorted(glob.glob(str(ROOT / "data" / "*metric*"))) + sorted(glob.glob(str(ROOT / "data" / "*analytic*"))) + sorted(glob.glob(str(ROOT / "data" / "*growth*"))) + [str(ROOT / "data" / "video_history.json")]:
     dump(os.path.basename(p), p)

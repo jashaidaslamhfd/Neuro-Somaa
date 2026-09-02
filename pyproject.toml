@@ -1,7 +1,7 @@
 # ============================================================
-# SKILLOR — project configuration
+# Neuro-Somaa — project configuration
 # Tooling: ruff (lint + format), pytest.
-# This file gives the whole codebase ONE consistent quality
+# This file gives the whole codebase one consistent quality
 # standard so local dev and CI agree.
 # ============================================================
 
@@ -10,7 +10,7 @@ requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "skillor-channel"
+name = "neuro-somaa"
 version = "1.0.0"
 description = "France-first YouTube Shorts automation pipeline (science du quotidien)."
 readme = "README.md"
@@ -28,6 +28,7 @@ extend-exclude = [
     "__pycache__",
     "output",
     "assets",
+    "scripts/analysis",
 ]
 
 [tool.ruff.lint]

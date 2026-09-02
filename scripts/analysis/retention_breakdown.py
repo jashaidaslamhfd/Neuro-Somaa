@@ -7,9 +7,11 @@ average_view_percentage, average_view_duration_sec, views, predicted_retention.
 import json
 import sys
 
-sys.path.insert(0, "src")
+from pathlib import Path
+ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / "src"))
 
-ROOT = "/home/ubuntu/Neuro-Somaa"
+ROOT = Path(__file__).resolve().parents[2]
 
 TOP5_KEYS = [
     ("genoux qui craquent", "1. Pourquoi les genoux qui craquent en bougeant"),

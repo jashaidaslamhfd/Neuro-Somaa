@@ -826,7 +826,7 @@ class PublicApiTests(unittest.TestCase):
 
 
 class SecretHygieneTests(unittest.TestCase):
-    """`.env` was NOT ignored while UPDATE_ONLY_MANIFEST.md instructs the
+    """`.env` was NOT ignored while docs/operations/UPDATE_ONLY_MANIFEST.md instructs the
     operator to run `git add .` — one command from leaking GROQ_API_KEY and
     the Google OAuth refresh token to a public repo."""
 

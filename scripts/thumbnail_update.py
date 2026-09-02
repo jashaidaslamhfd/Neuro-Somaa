@@ -67,7 +67,7 @@ def _channel_video_ids(token: str) -> set:
     playlist.
 
     data/video_history.json is NOT a reliable allow-list: it was reset during
-    the France-first migration (see MIGRATION_FR.md), so genuine published
+    the France-first migration (see docs/archive/MIGRATION_FR.md), so genuine published
     videos are missing from it. Four real videos needing a thumbnail fix —
     including "Pourquoi on oublie un prénom…" (1,114 views) — were being
     refused as "not in video_history". The channel itself is the source of
