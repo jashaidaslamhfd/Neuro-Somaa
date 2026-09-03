@@ -110,6 +110,29 @@ def _pixabay_clip(caption: str, path: Path) -> Path | None:
     return None
 
 
+def _coverr_clip(caption: str, path: Path) -> Path | None:
+    """Fetch a Coverr clip; Coverr returns signed URLs when urls=true."""
+    key = os.getenv("COVERR_API_KEY")
+    if not key:
+        return None
+    try:
+        response = requests.get(
+            "https://api.coverr.co/videos",
+            params={"api_key": key, "query": caption, "page_size": 8, "urls": "true", "sort": "popular"},
+            timeout=18,
+        )
+        response.raise_for_status()
+        for video in response.json().get("hits", []):
+            if not video.get("is_vertical"):
+                continue
+            url = (video.get("urls") or {}).get("mp4_download") or (video.get("urls") or {}).get("mp4")
+            if url:
+                return _save_video(url, path)
+    except (KeyError, ValueError, requests.RequestException):
+        return None
+    return None
+
+
 def _pollinations(caption: str, path: Path) -> Path | None:
     # Optional AI visual provider. It is used only when explicitly configured.
     if not os.getenv("POLLINATIONS_KEY") and not os.getenv("GEMINI_API_KEY") and not os.getenv("REPLICATE_API_TOKEN"):
@@ -122,7 +145,7 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
     image_path = output_dir / f"source_{scene_index:02d}.jpg"
     # Prefer real moving footage. Image providers remain the safe fallback.
-    for provider in (_pexels_clip, _pixabay_clip):
+    for provider in (_pexels_clip, _pixabay_clip, _coverr_clip):
         visual = provider(caption, clip_path)
         if visual:
             return visual, provider.__name__.lstrip("_")

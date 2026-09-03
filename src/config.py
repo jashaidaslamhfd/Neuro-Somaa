@@ -32,7 +32,7 @@ class Settings:
         return tuple(name for name in (
             "GEMINI_API_KEY", "REPLICATE_API_TOKEN", "HF_API_KEY", "PEXELS_API_KEY",
             "PIXABAY_API_KEY", "AI_HORDE_API_KEY", "DEEPAI_API_KEY", "MODELSLAB_API_KEY",
-            "POLLINATIONS_KEY",
+            "POLLINATIONS_KEY", "COVERR_API_KEY",
         ) if _env(name))
 
     @property
