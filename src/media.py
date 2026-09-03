@@ -28,7 +28,7 @@ def _font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.load_default()
 
 
-def _draw_scene_card(caption: str, index: int, title: str, path: Path, background: Path | None = None) -> None:
+def _draw_scene_card(caption: str, index: int, title: str, path: Path, background: Path | None = None, include_caption: bool = True) -> None:
     first, second, accent = PALETTES[(index - 1) % len(PALETTES)]
     if background and background.exists():
         with Image.open(background) as source:
@@ -52,21 +52,18 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
     draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", font=_font(30, True), fill="#ffffff")
     draw.text((88, 250), f"{index:02d}", font=_font(76, True), fill=accent)
     draw.text((210, 280), "LE DÉTAIL QUI CHANGE TOUT", font=_font(30, True), fill="#dbeafe")
-    # Keep the on-screen French caption short, centered, and readable on mobile.
-    wrapped = textwrap.fill(caption.strip(), width=18, break_long_words=False, break_on_hyphens=False)
-    caption_size = 82
-    caption_font = _font(caption_size, True)
-    box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
-    while box[2] - box[0] > 850 and caption_size > 48:
-        caption_size -= 2
+    if include_caption:
+        wrapped = textwrap.fill(caption.strip(), width=18, break_long_words=False, break_on_hyphens=False)
+        caption_size = 82
         caption_font = _font(caption_size, True)
         box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
-    box_height = box[3] - box[1]
-    top = 860 - box_height // 2
-    # Use a translucent backing only for contrast; it must not hide the visual
-    # underneath the caption.  The dark stroke keeps text readable without blur.
-    draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111f70", outline=accent, width=5)
-    draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
+        while box[2] - box[0] > 850 and caption_size > 48:
+            caption_size -= 2
+            caption_font = _font(caption_size, True)
+            box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
+        box_height = box[3] - box[1]
+        top = 860 - box_height // 2
+        draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
     draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
     draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
     image.save(path, format="PNG", optimize=True)
@@ -81,33 +78,18 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, acti
     draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", font=_font(30, True), fill="#ffffff")
     draw.text((88, 250), f"{index:02d}", font=_font(76, True), fill=accent)
     draw.text((210, 280), "LE DÉTAIL QUI CHANGE TOUT", font=_font(30, True), fill="#dbeafe")
-    wrapped = textwrap.fill(caption.strip(), width=18, break_long_words=False, break_on_hyphens=False)
-    caption_size = 82
+    words = caption.split() or [caption]
+    caption_size = 112
     caption_font = _font(caption_size, True)
-    box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
-    while box[2] - box[0] > 850 and caption_size > 48:
+    while max(draw.textlength(word, font=caption_font) for word in words) > 900 and caption_size > 48:
         caption_size -= 2
         caption_font = _font(caption_size, True)
-        box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
-    box_height = box[3] - box[1]
-    top = 860 - box_height // 2
-    draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111f70", outline=accent, width=5)
-    if active_word is None:
-        draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
-    else:
-        word_index = 0
-        line_height = box_height // max(1, len(wrapped.splitlines()))
-        for line_number, line in enumerate(wrapped.splitlines()):
-            words = line.split()
-            widths = [draw.textlength(word, font=caption_font) for word in words]
-            total_width = sum(widths) + 16 * max(0, len(words) - 1)
-            x = (WIDTH - total_width) / 2
-            y = top + line_number * line_height
-            for word, word_width in zip(words, widths, strict=True):
-                fill = accent if word_index == active_word else "#ffffff"
-                draw.text((x, y), word, font=caption_font, fill=fill, stroke_width=3, stroke_fill="#07111f")
-                x += word_width + 16
-                word_index += 1
+    word = words[active_word] if active_word is not None and active_word < len(words) else ""
+    word_box = draw.textbbox((0, 0), word, font=caption_font, stroke_width=4)
+    top = 860 - (word_box[3] - word_box[1]) // 2
+    # Shorts-style captions: one centered word, no box or border.
+    word_width = draw.textlength(word, font=caption_font)
+    draw.text(((WIDTH - word_width) / 2, top), word, font=caption_font, fill=accent, stroke_width=4, stroke_fill="#07111f")
     draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
     draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
     overlay.save(path, format="PNG", optimize=True)
@@ -155,7 +137,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
         if not is_clip:
-            _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path)
+            _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path, include_caption=False)
         words = caption.split() or [caption]
         overlay_paths = []
         for word_index in range(len(words)):
