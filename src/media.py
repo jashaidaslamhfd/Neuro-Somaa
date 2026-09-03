@@ -164,7 +164,9 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
     concat = settings.output_dir / "video_concat.txt"
     concat.write_text("\n".join(f"file '{Path(item['segment_path']).resolve()}'" for item in segments), encoding="utf-8")
     video = settings.output_dir / "neuro_somaa_fr.mp4"
-    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-c", "copy", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
+    # Re-encode the concat: provider clips can carry different frame rates and
+    # timebases, which makes stream-copy concat report wildly inflated duration.
+    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
     return video, segments
 
 
