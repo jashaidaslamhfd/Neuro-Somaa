@@ -33,7 +33,9 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
     if background and background.exists():
         with Image.open(background) as source:
             image = ImageOps.fit(source.convert("RGB"), (WIDTH, HEIGHT), method=Image.Resampling.LANCZOS)
-        tint = Image.new("RGBA", image.size, first + "aa")
+        # Keep the fetched visual sharp and visible.  The previous ``aa`` alpha
+        # (67%) washed out most of the image and looked like a blur behind text.
+        tint = Image.new("RGBA", image.size, first + "28")
         image = Image.alpha_composite(image.convert("RGBA"), tint).convert("RGB")
     else:
         image = Image.new("RGB", (WIDTH, HEIGHT), first)
@@ -61,8 +63,10 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
         box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
     box_height = box[3] - box[1]
     top = 860 - box_height // 2
-    draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111fe8", outline=accent, width=5)
-    draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=2, stroke_fill="#07111f")
+    # Use a translucent backing only for contrast; it must not hide the visual
+    # underneath the caption.  The dark stroke keeps text readable without blur.
+    draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111f70", outline=accent, width=5)
+    draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
     draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
     draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
     image.save(path, format="PNG", optimize=True)
