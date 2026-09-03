@@ -72,6 +72,32 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
     image.save(path, format="PNG", optimize=True)
 
 
+def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> None:
+    """Create text-only overlay for motion clips without freezing their frame."""
+    _, second, accent = PALETTES[(index - 1) % len(PALETTES)]
+    overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+    draw.rounded_rectangle((70, 80, 1010, 215), radius=38, fill=second + "dd")
+    draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", font=_font(30, True), fill="#ffffff")
+    draw.text((88, 250), f"{index:02d}", font=_font(76, True), fill=accent)
+    draw.text((210, 280), "LE DÉTAIL QUI CHANGE TOUT", font=_font(30, True), fill="#dbeafe")
+    wrapped = textwrap.fill(caption.strip(), width=18, break_long_words=False, break_on_hyphens=False)
+    caption_size = 82
+    caption_font = _font(caption_size, True)
+    box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
+    while box[2] - box[0] > 850 and caption_size > 48:
+        caption_size -= 2
+        caption_font = _font(caption_size, True)
+        box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=18, align="center")
+    box_height = box[3] - box[1]
+    top = 860 - box_height // 2
+    draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111f70", outline=accent, width=5)
+    draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
+    draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
+    draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
+    overlay.save(path, format="PNG", optimize=True)
+
+
 def _tts_segment(text: str, path: Path, settings: Settings) -> float:
     if not settings.dry_run:
         mp3_path = path.with_suffix(".mp3")
@@ -112,8 +138,15 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         segment_path = segment_dir / f"scene_{index:02d}.mp4"
         duration = _tts_segment(narration, audio_path, settings)
         source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
-        _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path)
-        subprocess.run(["ffmpeg", "-y", "-loop", "1", "-i", str(image_path), "-i", str(audio_path), "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)], check=True, capture_output=True)
+        if source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}:
+            overlay_path = scene_dir / f"overlay_{index:02d}.png"
+            _draw_caption_overlay(caption, index, str(script.get("title", "")), overlay_path)
+            filter_graph = "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];[base][1:v]overlay=0:0:format=auto[v]"
+            command = ["ffmpeg", "-y", "-stream_loop", "-1", "-i", str(source_path), "-i", str(overlay_path), "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", "2:a", "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
+        else:
+            _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path)
+            command = ["ffmpeg", "-y", "-loop", "1", "-i", str(image_path), "-i", str(audio_path), "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
+        subprocess.run(command, check=True, capture_output=True)
         segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider})
     total = sum(float(item["duration"]) for item in segments)
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
