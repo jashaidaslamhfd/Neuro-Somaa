@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 from typing import Any
 
@@ -29,9 +30,12 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
     )
     credentials.refresh(Request())
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
+    status: dict[str, object] = {"privacyStatus": settings.privacy_status, "selfDeclaredMadeForKids": False}
+    if settings.schedule_publish and settings.privacy_status == "private":
+        status["publishAt"] = (datetime.now(UTC) + timedelta(minutes=15)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
         "snippet": {"title": script["title"][:100], "description": script["description"][:5000], "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
-        "status": {"privacyStatus": settings.privacy_status, "selfDeclaredMadeForKids": False},
+        "status": status,
     }
     result = youtube.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(video_path), mimetype="video/mp4", resumable=True)).execute()
     thumbnail_path = settings.output_dir / "thumbnail.jpg"
