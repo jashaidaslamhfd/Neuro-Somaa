@@ -32,7 +32,18 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)
     status: dict[str, object] = {"privacyStatus": settings.privacy_status, "selfDeclaredMadeForKids": False}
     if settings.schedule_publish and settings.privacy_status == "private":
-        status["publishAt"] = (datetime.now(UTC) + timedelta(minutes=15)).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        from zoneinfo import ZoneInfo
+
+        local_zone = ZoneInfo("Asia/Karachi")
+        now_local = datetime.now(UTC).astimezone(local_zone)
+        targets = [
+            now_local.replace(hour=1, minute=0, second=0, microsecond=0),
+            now_local.replace(hour=21, minute=0, second=0, microsecond=0),
+        ]
+        target = next((item for item in targets if item > now_local), None)
+        if target is None:
+            target = (now_local + timedelta(days=1)).replace(hour=1, minute=0, second=0, microsecond=0)
+        status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
         "snippet": {"title": script["title"][:100], "description": script["description"][:5000], "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
         "status": status,

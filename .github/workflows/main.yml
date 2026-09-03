@@ -14,8 +14,9 @@ on:
         type: string
         default: ""
   schedule:
-    - cron: "30 11 * * *"
-    - cron: "30 18 * * *"
+    # Heatmap time is PKT (GMT+5). Generate two hours before 9 PM and 1 AM PKT.
+    - cron: "0 14 * * *"
+    - cron: "0 20 * * *"
 
 permissions:
   contents: write
