@@ -155,7 +155,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(image_path)]
         audio_index = len(overlay_paths) + 1
-        command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
+        command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
         subprocess.run(command, check=True, capture_output=True)
         segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider})
     total = sum(float(item["duration"]) for item in segments)
@@ -166,7 +166,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
     video = settings.output_dir / "neuro_somaa_fr.mp4"
     # Re-encode the concat: provider clips can carry different frame rates and
     # timebases, which makes stream-copy concat report wildly inflated duration.
-    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-t", f"{total:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
+    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-t", f"{total:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
     return video, segments
 
 

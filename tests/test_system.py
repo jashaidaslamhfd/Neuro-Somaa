@@ -16,9 +16,9 @@ def test_french_defaults_and_duration_window():
     assert settings.max_seconds == 30
 
 
-def test_fallback_script_is_french_and_has_six_scenes():
+def test_fallback_script_is_french_and_has_eight_scenes():
     script = _fallback_script("Pourquoi le cerveau rêve-t-il ?")
-    assert len(script["scenes"]) == 6
+    assert len(script["scenes"]) == 8
     assert script["title"].endswith("?")
     assert "Tu vas comprendre" in script["description"]
     assert any("ton cerveau" in scene["narration"] for scene in script["scenes"])

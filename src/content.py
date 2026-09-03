@@ -63,10 +63,12 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "scenes": [
             {"caption": clean + " ?", "narration": clean + " ?"},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
-            {"caption": "Il repère un signal avant même que tu t’en rendes compte.", "narration": "Il repère un signal avant même que tu t’en rendes compte."},
-            {"caption": "Puis ton corps prépare une réaction rapide.", "narration": "Puis ton corps prépare une réaction rapide."},
-            {"caption": "Ce mécanisme est ancien, mais il reste utile.", "narration": "Ce mécanisme est ancien, mais il reste utile."},
-            {"caption": "Observe-le la prochaine fois que ça t’arrive.", "narration": "Observe-le la prochaine fois que ça t’arrive."},
+            {"caption": "Il repère d’abord un signal.", "narration": "Il repère d’abord un signal."},
+            {"caption": "Puis il cherche un souvenir lié.", "narration": "Puis il cherche un souvenir lié."},
+            {"caption": "Une odeur peut réveiller une émotion.", "narration": "Une odeur peut réveiller une émotion."},
+            {"caption": "Le cerveau associe les deux très vite.", "narration": "Le cerveau associe les deux très vite."},
+            {"caption": "C’est pourquoi le souvenir semble soudain.", "narration": "C’est pourquoi le souvenir semble soudain."},
+            {"caption": "Observe-le la prochaine fois.", "narration": "Observe-le la prochaine fois."},
         ],
     }
 
@@ -101,7 +103,7 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
                 messages=[
                     {"role": "system", "content": f"{FRANCE_COPY_RULES} Réponds uniquement en JSON valide."},
                     {"role": "user", "content": (
-                        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 6 scènes. "
+                        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 8 scènes très courtes. "
                         "Chaque scène doit contenir caption et narration en français de France. "
                         f"Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s."
                     )},
