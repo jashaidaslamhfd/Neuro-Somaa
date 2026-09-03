@@ -61,7 +61,7 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science",
         "tags": ["science", "cerveau", "corps humain", "curiosité", "shorts français"],
         "scenes": [
-            {"caption": clean + " ?", "narration": clean + " ?"},
+            {"caption": "ATTENDS—ton cerveau fait ça.", "narration": clean + " ?"},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
             {"caption": "Il repère d’abord un signal.", "narration": "Il repère d’abord un signal."},
             {"caption": "Puis il cherche un souvenir lié.", "narration": "Puis il cherche un souvenir lié."},
@@ -109,7 +109,12 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
                     )},
                 ],
             )
-            return _extract_json(response.choices[0].message.content or "")
+            result = _extract_json(response.choices[0].message.content or "")
+            scenes = result.get("scenes", [])
+            if (len(scenes) != 8 or not 3 <= len(str(scenes[0].get("caption", "")).split()) <= 7
+                    or any(len(str(scene.get("caption", "")).split()) > 12 for scene in scenes)):
+                raise ValueError("French script failed hook and caption-length gates")
+            return result
         except Exception:
             return _fallback_script(topic)
     return _fallback_script(topic)

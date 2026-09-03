@@ -70,14 +70,10 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
 
 
 def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, active_word: int | None = None) -> None:
-    """Create text-only overlay for motion clips without freezing their frame."""
+    """Create a minimal Shorts overlay: one word, no box, border, logo, or footer."""
     _, second, accent = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    draw.rounded_rectangle((70, 80, 1010, 215), radius=38, fill=second + "dd")
-    draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", font=_font(30, True), fill="#ffffff")
-    draw.text((88, 250), f"{index:02d}", font=_font(76, True), fill=accent)
-    draw.text((210, 280), "LE DÉTAIL QUI CHANGE TOUT", font=_font(30, True), fill="#dbeafe")
     words = caption.split() or [caption]
     caption_size = 112
     caption_font = _font(caption_size, True)
@@ -89,9 +85,7 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, acti
     top = 860 - (word_box[3] - word_box[1]) // 2
     # Shorts-style captions: one centered word, no box or border.
     word_width = draw.textlength(word, font=caption_font)
-    draw.text(((WIDTH - word_width) / 2, top), word, font=caption_font, fill=accent, stroke_width=4, stroke_fill="#07111f")
-    draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
-    draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
+    draw.text(((WIDTH - word_width) / 2, top), word, font=caption_font, fill=accent)
     overlay.save(path, format="PNG", optimize=True)
 
 
