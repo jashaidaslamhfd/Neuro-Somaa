@@ -72,7 +72,7 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
     image.save(path, format="PNG", optimize=True)
 
 
-def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> None:
+def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, active_word: int | None = None) -> None:
     """Create text-only overlay for motion clips without freezing their frame."""
     _, second, accent = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
@@ -92,7 +92,22 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> N
     box_height = box[3] - box[1]
     top = 860 - box_height // 2
     draw.rounded_rectangle((70, top - 55, 1010, top + box_height + 65), radius=42, fill="#07111f70", outline=accent, width=5)
-    draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
+    if active_word is None:
+        draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
+    else:
+        word_index = 0
+        line_height = box_height // max(1, len(wrapped.splitlines()))
+        for line_number, line in enumerate(wrapped.splitlines()):
+            words = line.split()
+            widths = [draw.textlength(word, font=caption_font) for word in words]
+            total_width = sum(widths) + 16 * max(0, len(words) - 1)
+            x = (WIDTH - total_width) / 2
+            y = top + line_number * line_height
+            for word, word_width in zip(words, widths, strict=True):
+                fill = accent if word_index == active_word else "#ffffff"
+                draw.text((x, y), word, font=caption_font, fill=fill, stroke_width=3, stroke_fill="#07111f")
+                x += word_width + 16
+                word_index += 1
     draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
     draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
     overlay.save(path, format="PNG", optimize=True)
@@ -138,14 +153,27 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         segment_path = segment_dir / f"scene_{index:02d}.mp4"
         duration = _tts_segment(narration, audio_path, settings)
         source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
-        if source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}:
-            overlay_path = scene_dir / f"overlay_{index:02d}.png"
-            _draw_caption_overlay(caption, index, str(script.get("title", "")), overlay_path)
-            filter_graph = "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];[base][1:v]overlay=0:0:format=auto[v]"
-            command = ["ffmpeg", "-y", "-stream_loop", "-1", "-i", str(source_path), "-i", str(overlay_path), "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", "2:a", "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
-        else:
+        is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
+        if not is_clip:
             _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path)
-            command = ["ffmpeg", "-y", "-loop", "1", "-i", str(image_path), "-i", str(audio_path), "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
+        words = caption.split() or [caption]
+        overlay_paths = []
+        for word_index in range(len(words)):
+            overlay_path = scene_dir / f"overlay_{index:02d}_{word_index:03d}.png"
+            _draw_caption_overlay(caption, index, str(script.get("title", "")), overlay_path, word_index)
+            overlay_paths.append(overlay_path)
+        # Each transparent overlay frame lasts for one equal word interval.
+        overlay_inputs = []
+        overlay_labels = []
+        word_duration = duration / len(overlay_paths)
+        for overlay_index, overlay_path in enumerate(overlay_paths, start=1):
+            overlay_inputs.extend(["-loop", "1", "-t", f"{word_duration:.3f}", "-i", str(overlay_path)])
+            overlay_labels.append(f"[{overlay_index}:v]")
+        concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
+        filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
+        source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(image_path)]
+        audio_index = len(overlay_paths) + 1
+        command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
         subprocess.run(command, check=True, capture_output=True)
         segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider})
     total = sum(float(item["duration"]) for item in segments)
