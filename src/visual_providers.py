@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import re
+import hashlib
 from pathlib import Path
 from urllib.parse import quote
 
@@ -65,10 +66,11 @@ def _pexels_clip(caption: str, path: Path) -> Path | None:
     if not key:
         return None
     try:
-        response = requests.get("https://api.pexels.com/videos/search", params={"query": caption, "orientation": "portrait", "size": "medium", "per_page": 5}, headers={"Authorization": key}, timeout=18)
+        response = requests.get("https://api.pexels.com/videos/search", params={"query": caption, "orientation": "portrait", "size": "medium", "per_page": 20}, headers={"Authorization": key}, timeout=18)
         response.raise_for_status()
         videos = response.json().get("videos", [])
-        for video in videos:
+        offset = int(hashlib.sha256(caption.encode()).hexdigest()[:8], 16) % max(1, len(videos))
+        for video in videos[offset:] + videos[:offset]:
             files = sorted(video.get("video_files", []), key=lambda item: item.get("width", 0), reverse=True)
             portrait = [item for item in files if item.get("height", 0) > item.get("width", 0)]
             selected = (portrait or files)[0] if (portrait or files) else None
@@ -100,7 +102,8 @@ def _pixabay_clip(caption: str, path: Path) -> Path | None:
         response = requests.get("https://pixabay.com/api/videos/", params={"key": key, "q": caption, "orientation": "vertical", "per_page": 5, "safesearch": "true"}, timeout=18)
         response.raise_for_status()
         hits = response.json().get("hits", [])
-        for hit in hits:
+        offset = int(hashlib.sha256(caption.encode()).hexdigest()[:8], 16) % max(1, len(hits))
+        for hit in hits[offset:] + hits[:offset]:
             files = hit.get("videos", {})
             selected = files.get("medium") or files.get("small") or files.get("tiny")
             if selected and selected.get("url"):
@@ -118,11 +121,13 @@ def _coverr_clip(caption: str, path: Path) -> Path | None:
     try:
         response = requests.get(
             "https://api.coverr.co/videos",
-            params={"api_key": key, "query": caption, "page_size": 8, "urls": "true", "sort": "popular"},
+            params={"api_key": key, "query": caption, "page_size": 20, "urls": "true", "sort": "popular"},
             timeout=18,
         )
         response.raise_for_status()
-        for video in response.json().get("hits", []):
+        hits = response.json().get("hits", [])
+        offset = int(hashlib.sha256(caption.encode()).hexdigest()[:8], 16) % max(1, len(hits))
+        for video in hits[offset:] + hits[:offset]:
             if not video.get("is_vertical"):
                 continue
             url = (video.get("urls") or {}).get("mp4_download") or (video.get("urls") or {}).get("mp4")

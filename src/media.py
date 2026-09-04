@@ -131,7 +131,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
         if not is_clip:
-            _draw_scene_card(caption, index, str(script.get("title", "")), image_path, source_path, include_caption=False)
+            raise RuntimeError(f"No moving stock clip available for scene {index}; refusing still-image fallback")
         words = caption.split() or [caption]
         overlay_paths = []
         for word_index in range(len(words)):
