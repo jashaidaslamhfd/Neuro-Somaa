@@ -3,6 +3,7 @@ from __future__ import annotations
 import os
 import re
 import hashlib
+import subprocess
 from pathlib import Path
 from urllib.parse import quote
 
@@ -138,6 +139,47 @@ def _coverr_clip(caption: str, path: Path) -> Path | None:
     return None
 
 
+def _commons_clip(caption: str, path: Path) -> Path | None:
+    try:
+        response = requests.get("https://commons.wikimedia.org/w/api.php", params={
+            "action": "query", "format": "json", "generator": "search",
+            "gsrsearch": f"{caption} filetype:video", "gsrnamespace": 6,
+            "gsrlimit": 20, "prop": "imageinfo", "iiprop": "url|mime",
+        }, headers={"User-Agent": "Neuro-Somaa/1.0"}, timeout=25)
+        response.raise_for_status()
+        candidates = [p.get("imageinfo", [{}])[0].get("url") for p in response.json().get("query", {}).get("pages", {}).values()
+                      if p.get("imageinfo") and p["imageinfo"][0].get("mime", "").startswith("video/")]
+        if not candidates:
+            return None
+        return _save_video(candidates[int(os.getenv("GITHUB_RUN_ID", "0")) % len(candidates)], path)
+    except (KeyError, ValueError, requests.RequestException):
+        return None
+
+
+def _archive_clip(caption: str, path: Path) -> Path | None:
+    try:
+        search = requests.get("https://archive.org/advancedsearch.php", params={
+            "q": f"mediatype:movies AND collection:opensource_movies AND ({caption})",
+            "fl[]": "identifier", "rows": 20, "output": "json",
+        }, headers={"User-Agent": "Neuro-Somaa/1.0"}, timeout=25)
+        search.raise_for_status()
+        candidates = []
+        for doc in search.json().get("response", {}).get("docs", []):
+            meta = requests.get(f"https://archive.org/metadata/{doc['identifier']}", timeout=25)
+            if not meta.ok:
+                continue
+            for item in meta.json().get("files", []):
+                name = item.get("name", "")
+                if name.lower().endswith((".mp4", ".webm", ".ogv")) and int(item.get("size", 0) or 0) < 200_000_000:
+                    candidates.append(f"https://archive.org/download/{doc['identifier']}/{quote(name)}")
+                    break
+        if not candidates:
+            return None
+        return _save_video(candidates[int(os.getenv("GITHUB_RUN_ID", "0")) % len(candidates)], path)
+    except (KeyError, ValueError, requests.RequestException):
+        return None
+
+
 def _pollinations(caption: str, path: Path) -> Path | None:
     # Optional AI visual provider. It is used only when explicitly configured.
     if not os.getenv("POLLINATIONS_KEY") and not os.getenv("GEMINI_API_KEY") and not os.getenv("REPLICATE_API_TOKEN"):
@@ -152,15 +194,12 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
     # Search variations prevent every scene from selecting the same first-ranked
     # stock result when providers return deterministic ordering.
     variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
-    search_caption = f"{caption} {variations[(scene_index - 1) % len(variations)]}"
+    run_salt = os.getenv("GITHUB_RUN_ID", "local")
+    variation_index = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) % len(variations)
+    search_caption = f"{caption} {variations[variation_index]} documentary footage"
     # Prefer real moving footage. Image providers remain the safe fallback.
-    for provider in (_pexels_clip, _pixabay_clip, _coverr_clip):
+    for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
         visual = provider(search_caption, clip_path)
         if visual:
             return visual, provider.__name__.lstrip("_")
-    providers = (_pollinations, _pexels, _pixabay) if scene_index % 2 == 0 else (_pexels, _pixabay)
-    for provider in providers:
-        visual = provider(search_caption, image_path)
-        if visual:
-            return visual, provider.__name__.lstrip("_")
-    return None, "branded_fallback"
+    return None, "no_moving_clip"

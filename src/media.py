@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import hashlib
 import subprocess
 import textwrap
 import wave
@@ -121,6 +122,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
     for directory in (audio_dir, scene_dir, segment_dir):
         directory.mkdir(parents=True, exist_ok=True)
     segments: list[dict[str, Any]] = []
+    used_clip_hashes: set[str] = set()
     for index, scene in enumerate(script["scenes"], start=1):
         narration = str(scene.get("narration") or scene.get("caption") or "").strip()
         caption = str(scene.get("caption") or narration).strip()
@@ -132,6 +134,10 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
         if not is_clip:
             raise RuntimeError(f"No moving stock clip available for scene {index}; refusing still-image fallback")
+        clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+        if clip_hash in used_clip_hashes:
+            raise RuntimeError(f"Duplicate moving clip detected in scene {index}; refusing render")
+        used_clip_hashes.add(clip_hash)
         words = caption.split() or [caption]
         overlay_paths = []
         for word_index in range(len(words)):
@@ -151,7 +157,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         audio_index = len(overlay_paths) + 1
         command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
         subprocess.run(command, check=True, capture_output=True)
-        segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider})
+        segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash})
     total = sum(float(item["duration"]) for item in segments)
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
         raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")

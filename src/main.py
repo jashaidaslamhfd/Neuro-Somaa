@@ -61,6 +61,8 @@ def run() -> dict:
         "duration": technical["duration"],
         "video_path": str(video_path),
         "audio_segments": len(segments),
+        "clip_hashes": [item.get("clip_hash") for item in segments],
+        "visual_providers": [item.get("visual_provider") for item in segments],
         "thumbnail_path": str(thumbnail_path),
         "fingerprint": current_fp,
     }
