@@ -144,14 +144,18 @@ def _pollinations(caption: str, path: Path) -> Path | None:
 def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings) -> tuple[Path | None, str]:
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
     image_path = output_dir / f"source_{scene_index:02d}.jpg"
+    # Search variations prevent every scene from selecting the same first-ranked
+    # stock result when providers return deterministic ordering.
+    variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
+    search_caption = f"{caption} {variations[(scene_index - 1) % len(variations)]}"
     # Prefer real moving footage. Image providers remain the safe fallback.
     for provider in (_pexels_clip, _pixabay_clip, _coverr_clip):
-        visual = provider(caption, clip_path)
+        visual = provider(search_caption, clip_path)
         if visual:
             return visual, provider.__name__.lstrip("_")
     providers = (_pollinations, _pexels, _pixabay) if scene_index % 2 == 0 else (_pexels, _pixabay)
     for provider in providers:
-        visual = provider(caption, image_path)
+        visual = provider(search_caption, image_path)
         if visual:
             return visual, provider.__name__.lstrip("_")
     return None, "branded_fallback"

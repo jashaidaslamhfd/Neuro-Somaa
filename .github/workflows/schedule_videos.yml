@@ -5,12 +5,19 @@ on:
     inputs:
       video_ids:
         description: "Comma-separated YouTube video IDs"
-        required: true
+        required: false
         type: string
+        default: ""
       publish_ats:
         description: "Comma-separated ISO-8601 UTC publication times"
-        required: true
+        required: false
         type: string
+        default: ""
+      unschedule_ids:
+        description: "Optional comma-separated IDs to keep private and remove from the schedule"
+        required: false
+        type: string
+        default: ""
 
 jobs:
   schedule:
@@ -19,6 +26,7 @@ jobs:
     env:
       VIDEO_IDS: ${{ inputs.video_ids }}
       PUBLISH_ATS: ${{ inputs.publish_ats }}
+      UNSCHEDULE_IDS: ${{ inputs.unschedule_ids }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
@@ -30,4 +38,8 @@ jobs:
       - name: Install dependencies
         run: python -m pip install -r requirements.txt
       - name: Schedule videos
+        if: inputs.video_ids != ''
         run: python scripts/schedule_videos.py
+      - name: Remove publication time from duplicate videos
+        if: inputs.unschedule_ids != ''
+        run: python scripts/unschedule_videos.py

@@ -37,9 +37,21 @@ def load_topic(settings: Settings) -> str:
         try:
             payload = json.loads(queue.read_text(encoding="utf-8"))
             items = payload if isinstance(payload, list) else payload.get("topics", [])
-            for item in items:
+            history = settings.data_dir / "video_history.json"
+            used = set()
+            if history.exists():
+                rows = json.loads(history.read_text(encoding="utf-8"))
+                used = {_clean_fr(str(row.get("topic", ""))).lower() for row in rows if isinstance(row, dict)}
+            pointer_path = settings.data_dir / "queue_index_fr.json"
+            try:
+                pointer = int(json.loads(pointer_path.read_text(encoding="utf-8")))
+            except (OSError, ValueError, TypeError, json.JSONDecodeError):
+                pointer = 0
+            ordered = items[pointer % len(items):] + items[:pointer % len(items)] if items else []
+            for offset, item in enumerate(ordered):
                 title = item.get("title") if isinstance(item, dict) else str(item)
-                if title:
+                if title and _clean_fr(str(title)).lower() not in used:
+                    pointer_path.write_text(json.dumps(pointer + offset + 1), encoding="utf-8")
                     return _clean_fr(str(title))
         except (OSError, json.JSONDecodeError, AttributeError):
             pass
