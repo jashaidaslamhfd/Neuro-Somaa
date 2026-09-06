@@ -4,6 +4,7 @@ import json
 import logging
 import hashlib
 import re
+import subprocess
 from datetime import UTC, datetime
 
 from config import SETTINGS
@@ -40,6 +41,18 @@ def _clip_history() -> list[dict]:
         return value if isinstance(value, list) else []
     except (OSError, json.JSONDecodeError):
         return []
+
+
+def _persist_state() -> None:
+    """Best-effort commit of duplicate state for the next scheduled runner."""
+    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json"]
+    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False)
+    subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
+    subprocess.run(["git", "add", *paths], check=False)
+    committed = subprocess.run(["git", "commit", "-m", "chore: persist Neuro-Somaa duplicate state"], capture_output=True, text=True, check=False)
+    if committed.returncode == 0:
+        subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=False, capture_output=True)
+        subprocess.run(["git", "push", "origin", "HEAD:main"], check=False, capture_output=True)
 
 
 def run() -> dict:
@@ -86,6 +99,7 @@ def run() -> dict:
     _write_history(result)
     clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
     (SETTINGS.data_dir / "clip_history.json").write_text(json.dumps(clip_history[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
+    _persist_state()
     logger.info("Pipeline complete: %s", result.get("url", result.get("status")))
     return result
 
