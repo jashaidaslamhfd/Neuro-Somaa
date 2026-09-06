@@ -21,6 +21,7 @@ class Settings:
     schedule_publish: bool = field(default_factory=lambda: _env("YT_SCHEDULE_PUBLISH", "true").lower() == "true")
     topic: str = field(default_factory=lambda: _env("VIDEO_TOPIC"))
     dry_run: bool = field(default_factory=lambda: _env("DRY_RUN", "false").lower() == "true")
+    render_only: bool = field(default_factory=lambda: _env("RENDER_ONLY", "false").lower() == "true")
     llm_model: str = field(default_factory=lambda: _env("GROQ_MODEL", "llama-3.3-70b-versatile"))
 
     @property
@@ -49,9 +50,9 @@ class Settings:
             errors.append("YT_PRIVACY_STATUS must be private, unlisted, or public")
         if self.schedule_publish and self.privacy_status != "private":
             errors.append("Scheduled YouTube publishing requires YT_PRIVACY_STATUS=private")
-        if not self.llm_keys and not self.dry_run:
+        if not self.llm_keys and not self.dry_run and not self.render_only:
             errors.append("At least one LLM secret is required outside dry-run mode")
-        if not self.youtube_ready and not self.dry_run:
+        if not self.youtube_ready and not self.dry_run and not self.render_only:
             errors.append("GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and REFRESH_TOKEN are required outside dry-run mode")
         return errors
 

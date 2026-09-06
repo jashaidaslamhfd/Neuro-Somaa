@@ -9,8 +9,8 @@ from config import Settings
 
 
 def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict[str, Any]:
-    if settings.dry_run:
-        return {"status": "dry_run", "video": str(video_path), "title": script["title"]}
+    if settings.dry_run or settings.render_only:
+        return {"status": "render_only" if settings.render_only else "dry_run", "video": str(video_path), "title": script["title"]}
     if not settings.youtube_ready:
         raise RuntimeError("YouTube OAuth secrets are incomplete")
     try:

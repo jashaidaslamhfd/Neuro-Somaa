@@ -8,6 +8,11 @@ on:
         required: true
         type: boolean
         default: true
+      render_only:
+        description: "Render with real French narration and clips without uploading"
+        required: true
+        type: boolean
+        default: false
       topic:
         description: "Optional French topic; blank selects the durable demand queue"
         required: false
@@ -37,6 +42,7 @@ jobs:
       YT_PRIVACY_STATUS: private
       YT_SCHEDULE_PUBLISH: "true"
       DRY_RUN: ${{ inputs.dry_run || 'false' }}
+      RENDER_ONLY: ${{ inputs.render_only || 'false' }}
       VIDEO_TOPIC: ${{ inputs.topic || '' }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       GROQ_MODEL: ${{ secrets.GROQ_MODEL }}
