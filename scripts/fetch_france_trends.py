@@ -11,12 +11,11 @@ import html
 import json
 import re
 import sys
-from datetime import datetime, timezone
+import xml.etree.ElementTree as ET
+from datetime import UTC, datetime
 from email.utils import parsedate_to_datetime
 from pathlib import Path
-from urllib.parse import quote
 from urllib.request import Request, urlopen
-import xml.etree.ElementTree as ET
 
 USER_AGENT = "Neuro-Somaa-TrendFetcher/1.0 (+https://github.com/jashaidaslamhfd/Neuro-Somaa)"
 DEFAULT_SOURCES = {
@@ -27,9 +26,9 @@ DEFAULT_SOURCES = {
 }
 KEYWORDS = {
     "cerveau", "mémoire", "sommeil", "stress", "rêve", "rêves", "émotion",
-    "psychologie", "corps", "santé", "science", "cerveau", "neurone", "douleur",
+    "psychologie", "corps", "santé", "science", "neurone", "douleur",
     "peur", "coeur", "cœur", "respiration", "fatigue", "odeur", "attention",
-    "hormone", "immunité", "immunité", "alimentation", "bien-être", "bizarre",
+    "hormone", "immunité", "alimentation", "bien-être", "bizarre",
 }
 NOISE = {"météo", "résultat", "match", "football", "horoscope", "loto", "promo", "soldes"}
 
@@ -49,7 +48,7 @@ def parse_date(value: str) -> str | None:
     if not value:
         return None
     try:
-        return parsedate_to_datetime(value).astimezone(timezone.utc).isoformat()
+        return parsedate_to_datetime(value).astimezone(UTC).isoformat()
     except (TypeError, ValueError, OverflowError):
         return None
 
@@ -58,7 +57,7 @@ def parse_feed(raw: bytes, source: str) -> list[dict[str, str]]:
     root = ET.fromstring(raw)
     rows = []
     for item in root.findall(".//item") + root.findall(".//{http://www.w3.org/2005/Atom}entry"):
-        def value(*names: str) -> str:
+        def value(*names: str, item: ET.Element = item) -> str:
             for name in names:
                 node = item.find(name)
                 if node is not None and (node.text or "").strip():
@@ -85,7 +84,7 @@ def score(row: dict[str, str]) -> int:
     text = row["title"].lower()
     hits = sum(1 for word in KEYWORDS if word in text)
     noise = sum(1 for word in NOISE if word in text)
-    recency = 2 if row.get("published_at", "").startswith(datetime.now(timezone.utc).date().isoformat()) else 0
+    recency = 2 if row.get("published_at", "").startswith(datetime.now(UTC).date().isoformat()) else 0
     source_bonus = 2 if row["source"] in {"google_trends_fr", "google_news_fr"} else 1
     return max(0, hits * 3 + recency + source_bonus - noise * 5)
 
@@ -104,7 +103,7 @@ def make_topic(row: dict[str, str], number: int) -> dict[str, str | int]:
         "source": row["source"],
         "source_url": row.get("url", ""),
         "trend_score": score(row),
-        "fetched_at": datetime.now(timezone.utc).isoformat(),
+        "fetched_at": datetime.now(UTC).isoformat(),
     }
 
 
@@ -141,7 +140,7 @@ def main() -> int:
     ranked = sorted(unique.values(), key=score, reverse=True)[: max(1, args.limit)]
     payload = {
         "source": "Google Trends France + French science RSS",
-        "mined_at": datetime.now(timezone.utc).isoformat(),
+        "mined_at": datetime.now(UTC).isoformat(),
         "topics": [make_topic(row, i) for i, row in enumerate(ranked, 1)],
         "source_errors": errors,
     }

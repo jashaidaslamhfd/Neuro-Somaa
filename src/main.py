@@ -1,14 +1,14 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
-import hashlib
 import re
 import subprocess
 from datetime import UTC, datetime
 
 from config import SETTINGS
-from content import generate_script, load_topic
+from content import generate_script, load_topic, score_hook, score_script_quality
 from media import render_video, validate_video
 from thumbnails import build_thumbnail
 from youtube import upload
@@ -65,6 +65,12 @@ def run() -> dict:
     script = generate_script(topic, SETTINGS)
     if not script.get("title") or len(script.get("scenes", [])) < 4:
         raise RuntimeError("Generated script is incomplete")
+    hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
+    if hook_score < SETTINGS.min_hook_score:
+        raise RuntimeError(f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}")
+    quality_score = score_script_quality(script["scenes"])
+    if quality_score < SETTINGS.quality_approval_threshold:
+        raise RuntimeError(f"Script rejected: quality score {quality_score} below QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}")
     history_path = SETTINGS.data_dir / "video_history.json"
     try:
         history = json.loads(history_path.read_text(encoding="utf-8")) if history_path.exists() else []
@@ -87,6 +93,8 @@ def run() -> dict:
         "topic": topic,
         "title": script["title"],
         "duration": technical["duration"],
+        "hook_score": hook_score,
+        "quality_score": quality_score,
         "video_path": str(video_path),
         "audio_segments": len(segments),
         "clip_hashes": [item.get("clip_hash") for item in segments],

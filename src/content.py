@@ -22,6 +22,104 @@ FRANCE_COPY_RULES = (
     "trop littérales. Préfère des phrases courtes, fluides et orales, sans exagération médicale."
 )
 
+# This mirrors score_hook() / score_script_quality() below line for line, so the
+# model is optimizing for exactly what the gate checks — not guessing at it.
+HOOK_SCORING_RUBRIC = """RÈGLES DE NOTATION DU HOOK — ton texte est noté automatiquement, vise le score maximum.
+
+1) LE TITRE (doit finir par un point d'interrogation) :
+   - Termine par "?" → +15 points. Un titre qui n'est pas une question perd 15 points ailleurs, alors termine TOUJOURS par "?".
+   - Contient un mot de curiosité — "pourquoi", "comment", "et si", "ce que" — → +10 points.
+   - Fait 70 caractères ou moins → +10 points. Au-delà de 70 caractères → -15 points. Reste COURT.
+   - Ne révèle jamais la réponse dans le titre : pose la question, ne donne pas le mécanisme.
+
+2) LA PREMIÈRE SCÈNE (caption) — c'est elle qui décide si le spectateur reste ou skip :
+   - Contient "tu", "ton", "ta", "tes" ou "toi" (adresse directe) → +10 points.
+   - Fait entre 3 et 7 mots → +10 points. Plus de 12 mots → -15 points.
+   - N'utilise JAMAIS une formule générique du type "Dans cette vidéo…", "Aujourd'hui on va parler de…",
+     "Bonjour à tous", "Salut tout le monde", "On va voir ensemble", "Dans cet épisode", "Bienvenue dans",
+     "Je vais vous expliquer" → chacune de ces formules fait perdre 25 points. INTERDITES.
+
+3) CHAQUE SCÈNE (les 8, pas seulement la première) — le rythme doit rester serré du début à la fin :
+   - Toutes les captions doivent faire entre 3 et 8 mots idéalement (jamais plus de 12 mots).
+   - Aucune formule générique de la liste interdite ci-dessus, dans AUCUNE scène.
+   - Chaque caption doit apporter une info concrète et courte, pas une transition vide.
+
+EXEMPLE QUI OBTIENT LE SCORE MAXIMUM (titre 100/100, rythme 90/100) :
+{
+  "title": "Pourquoi ton cerveau rêve-t-il ?",
+  "scenes": [
+    {"caption": "ATTENDS—ton cerveau fait ça.", "narration": "..."},
+    {"caption": "La réponse commence dans ton cerveau.", "narration": "..."},
+    {"caption": "Il repère d'abord un signal.", "narration": "..."}
+  ]
+}
+Remarque pourquoi ça marche : titre = question courte + "pourquoi" + "ton" (adresse directe) ;
+scène 1 = 5 mots, commence par une accroche ("ATTENDS—"), pas de formule générique."""
+
+# Generic openers that waste the first watch-time seconds instead of hooking
+# the viewer — a Short that starts here is far more likely to be skipped.
+_FILLER_OPENERS = (
+    "dans cette vidéo", "aujourd’hui on va parler de", "aujourd'hui on va parler de",
+    "bonjour à tous", "salut tout le monde", "on va voir ensemble", "dans cet épisode",
+    "bienvenue dans", "je vais vous expliquer",
+)
+_DIRECT_ADDRESS_RE = re.compile(r"\b(tu|ton|ta|tes|toi)\b", re.IGNORECASE)
+_CURIOSITY_WORDS = ("pourquoi", "comment", "et si", "ce que")
+
+
+def score_hook(title: str, first_caption: str) -> int:
+    """Heuristic 0-100 score for the opening hook (title + first caption).
+
+    A Short's watch-time survival is decided in its first seconds, so this
+    rewards the things that keep a viewer from skipping: an open curiosity
+    gap, direct address, and a title/caption short enough to land instantly.
+    It penalizes generic openers that burn that window without payoff.
+    """
+    title = title.strip()
+    caption = first_caption.strip()
+    title_lower = title.lower()
+    caption_lower = caption.lower()
+    score = 50
+    if title.endswith("?"):
+        score += 15
+    if any(word in title_lower for word in _CURIOSITY_WORDS):
+        score += 10
+    if _DIRECT_ADDRESS_RE.search(title_lower) or _DIRECT_ADDRESS_RE.search(caption_lower):
+        score += 10
+    score += 10 if len(title) <= 70 else -15
+    word_count = len(caption.split())
+    if 3 <= word_count <= 7:
+        score += 10
+    elif word_count > 12:
+        score -= 15
+    if any(opener in caption_lower for opener in _FILLER_OPENERS):
+        score -= 25
+    return max(0, min(100, score))
+
+
+def _scene_pace_score(caption: str) -> int:
+    """Heuristic 0-100 score for a single scene's caption pacing."""
+    words = caption.split()
+    score = 70
+    word_count = len(words)
+    if 3 <= word_count <= 8:
+        score += 20
+    elif word_count > 12:
+        score -= 30
+    elif word_count == 0:
+        return 0
+    if any(opener in caption.lower() for opener in _FILLER_OPENERS):
+        score -= 25
+    return max(0, min(100, score))
+
+
+def score_script_quality(scenes: list[dict[str, Any]]) -> int:
+    """Average per-scene pacing score — a proxy for retention across the whole Short."""
+    if not scenes:
+        return 0
+    scores = [_scene_pace_score(str(scene.get("caption", ""))) for scene in scenes]
+    return round(sum(scores) / len(scores))
+
 
 def _clean_fr(text: str) -> str:
     text = re.sub(r"\s+([?!:;…])", r"\1", text.strip())
@@ -104,29 +202,58 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     if settings.dry_run or not settings.llm_keys:
         return _fallback_script(topic)
     api_key = os.getenv(settings.llm_keys[0], "")
-    if settings.llm_keys[0] == "GROQ_API_KEY":
+    if settings.llm_keys[0] != "GROQ_API_KEY":
+        return _fallback_script(topic)
+    try:
+        from groq import Groq
+        client = Groq(api_key=api_key)
+    except Exception:
+        return _fallback_script(topic)
+
+    system_prompt = f"{FRANCE_COPY_RULES}\n\n{HOOK_SCORING_RUBRIC}\n\nRéponds uniquement en JSON valide."
+    user_prompt = (
+        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 8 scènes très courtes. "
+        "Chaque scène doit contenir caption et narration en français de France. "
+        f"Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
+        "Applique STRICTEMENT les règles de notation ci-dessus avant de répondre."
+    )
+    messages: list[dict[str, str]] = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+    max_attempts = 3
+    for attempt in range(1, max_attempts + 1):
         try:
-            from groq import Groq
-            client = Groq(api_key=api_key)
             response = client.chat.completions.create(
                 model=settings.llm_model,
                 temperature=0.6,
                 response_format={"type": "json_object"},
-                messages=[
-                    {"role": "system", "content": f"{FRANCE_COPY_RULES} Réponds uniquement en JSON valide."},
-                    {"role": "user", "content": (
-                        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 8 scènes très courtes. "
-                        "Chaque scène doit contenir caption et narration en français de France. "
-                        f"Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s."
-                    )},
-                ],
+                messages=messages,
             )
-            result = _extract_json(response.choices[0].message.content or "")
+            raw = response.choices[0].message.content or ""
+            result = _extract_json(raw)
             scenes = result.get("scenes", [])
-            if (len(scenes) != 8 or not 3 <= len(str(scenes[0].get("caption", "")).split()) <= 7
-                    or any(len(str(scene.get("caption", "")).split()) > 12 for scene in scenes)):
-                raise ValueError("French script failed hook and caption-length gates")
-            return result
+            if len(scenes) != 8:
+                raise ValueError(f"il faut exactement 8 scènes (reçu {len(scenes)})")
+            hook_score = score_hook(str(result.get("title", "")), str(scenes[0].get("caption", "")))
+            quality_score = score_script_quality(scenes)
+            if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold:
+                return result
+            reason = (
+                f"score du hook = {hook_score} (minimum requis {settings.min_hook_score}), "
+                f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})."
+            )
+        except (ValueError, KeyError, TypeError) as exc:
+            reason = str(exc)
         except Exception:
+            # Network/API-level failures are not worth retrying against the same prompt.
             return _fallback_script(topic)
+        if attempt == max_attempts:
+            break
+        messages.append({"role": "assistant", "content": raw})
+        messages.append({"role": "user", "content": (
+            f"Ta réponse a échoué la validation : {reason} Relis attentivement les règles de notation "
+            "et renvoie un JSON complet et corrigé (titre + 8 scènes) qui respecte STRICTEMENT chaque règle."
+        )})
     return _fallback_script(topic)

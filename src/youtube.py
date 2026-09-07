@@ -34,15 +34,16 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
     if settings.schedule_publish and settings.privacy_status == "private":
         from zoneinfo import ZoneInfo
 
-        local_zone = ZoneInfo("Asia/Karachi")
+        local_zone = ZoneInfo(settings.timezone)
         now_local = datetime.now(UTC).astimezone(local_zone)
-        targets = [
-            now_local.replace(hour=1, minute=0, second=0, microsecond=0),
-            now_local.replace(hour=21, minute=0, second=0, microsecond=0),
-        ]
+        # Default publish slots: Paris peak times (12:30 / 19:30 / 21:00).
+        targets = sorted(
+            now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            for hour, minute in ((12, 30), (19, 30), (21, 0))
+        )
         target = next((item for item in targets if item > now_local), None)
         if target is None:
-            target = (now_local + timedelta(days=1)).replace(hour=1, minute=0, second=0, microsecond=0)
+            target = (now_local + timedelta(days=1)).replace(hour=12, minute=30, second=0, microsecond=0)
         status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
         "snippet": {"title": script["title"][:100], "description": script["description"][:5000], "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},

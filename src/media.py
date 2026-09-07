@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import hashlib
 import json
 import os
-import hashlib
 import subprocess
 import textwrap
 import wave
@@ -72,7 +72,7 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
 
 def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, active_word: int | None = None) -> None:
     """Create a minimal Shorts overlay: one word, no box, border, logo, or footer."""
-    _, second, accent = PALETTES[(index - 1) % len(PALETTES)]
+    _, _unused, accent = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
     words = caption.split() or [caption]

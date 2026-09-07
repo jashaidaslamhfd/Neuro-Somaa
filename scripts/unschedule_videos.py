@@ -1,6 +1,9 @@
 from __future__ import annotations
+
 import os
+
 from schedule_videos import get_youtube
+
 
 def unschedule(video_id: str) -> None:
     youtube = get_youtube()

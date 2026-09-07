@@ -39,6 +39,8 @@ jobs:
       PUBLISH_TIMEZONE: Europe/Paris
       TARGET_MIN_SECONDS: "15"
       TARGET_MAX_SECONDS: "30"
+      MIN_HOOK_SCORE: "70"
+      QUALITY_APPROVAL_THRESHOLD: "60"
       YT_PRIVACY_STATUS: private
       YT_SCHEDULE_PUBLISH: "true"
       DRY_RUN: ${{ inputs.dry_run || 'false' }}

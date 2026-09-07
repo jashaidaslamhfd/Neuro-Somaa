@@ -1,9 +1,8 @@
 from __future__ import annotations
 
+import hashlib
 import os
 import re
-import hashlib
-import subprocess
 from pathlib import Path
 from urllib.parse import quote
 
@@ -190,14 +189,14 @@ def _pollinations(caption: str, path: Path) -> Path | None:
 
 def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings) -> tuple[Path | None, str]:
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
-    image_path = output_dir / f"source_{scene_index:02d}.jpg"
     # Search variations prevent every scene from selecting the same first-ranked
     # stock result when providers return deterministic ordering.
     variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
     run_salt = os.getenv("GITHUB_RUN_ID", "local")
     variation_index = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) % len(variations)
     search_caption = f"{caption} {variations[variation_index]} documentary footage"
-    # Prefer real moving footage. Image providers remain the safe fallback.
+    # Only real moving footage is accepted — media.py refuses a still-image
+    # fallback by policy, so no image provider is attempted here.
     for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
         visual = provider(search_caption, clip_path)
         if visual:

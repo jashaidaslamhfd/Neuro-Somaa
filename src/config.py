@@ -23,6 +23,8 @@ class Settings:
     dry_run: bool = field(default_factory=lambda: _env("DRY_RUN", "false").lower() == "true")
     render_only: bool = field(default_factory=lambda: _env("RENDER_ONLY", "false").lower() == "true")
     llm_model: str = field(default_factory=lambda: _env("GROQ_MODEL", "llama-3.3-70b-versatile"))
+    min_hook_score: int = field(default_factory=lambda: int(_env("MIN_HOOK_SCORE", "70")))
+    quality_approval_threshold: int = field(default_factory=lambda: int(_env("QUALITY_APPROVAL_THRESHOLD", "60")))
 
     @property
     def llm_keys(self) -> tuple[str, ...]:
