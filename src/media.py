@@ -2,15 +2,14 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
 import subprocess
 import textwrap
-import wave
 from pathlib import Path
 from typing import Any
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
+from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
 from visual_providers import fetch_visual
 
@@ -90,30 +89,6 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, acti
     overlay.save(path, format="PNG", optimize=True)
 
 
-def _tts_segment(text: str, path: Path, settings: Settings) -> float:
-    if not settings.dry_run:
-        mp3_path = path.with_suffix(".mp3")
-        voice = os.getenv("EDGE_FR_VOICE", "fr-FR-HenriNeural")
-        rate = os.getenv("EDGE_FR_RATE", "-5%")
-        try:
-            subprocess.run(["edge-tts", "--voice", voice, f"--rate={rate}", "--text", text, "--write-media", str(mp3_path)], check=True, capture_output=True)
-            subprocess.run(["ffmpeg", "-y", "-i", str(mp3_path), "-ar", "24000", "-ac", "1", str(path)], check=True, capture_output=True)
-            mp3_path.unlink(missing_ok=True)
-            probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(path)], check=True, capture_output=True, text=True)
-            return float(probe.stdout.strip())
-        except (OSError, subprocess.CalledProcessError, ValueError) as exc:
-            raise RuntimeError(f"French TTS failed for scene: {exc}") from exc
-    duration = max(1.2, min(5.8, 0.38 * len(text.split())))
-    rate_hz = 24000
-    frames = int(duration * rate_hz)
-    with wave.open(str(path), "wb") as out:
-        out.setnchannels(1)
-        out.setsampwidth(2)
-        out.setframerate(rate_hz)
-        out.writeframes(b"\x00\x00" * frames)
-    return duration
-
-
 def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list[dict[str, Any]]]:
     settings.ensure_dirs()
     audio_dir = settings.output_dir / "audio"
@@ -123,13 +98,20 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         directory.mkdir(parents=True, exist_ok=True)
     segments: list[dict[str, Any]] = []
     used_clip_hashes: set[str] = set()
+    music_path = select_music_track(settings, seed=str(script.get("title", "video"))) if settings.background_music else None
+    elapsed = 0.0
     for index, scene in enumerate(script["scenes"], start=1):
         narration = str(scene.get("narration") or scene.get("caption") or "").strip()
         caption = str(scene.get("caption") or narration).strip()
         audio_path = audio_dir / f"scene_{index:02d}.wav"
         image_path = scene_dir / f"scene_{index:02d}.png"
         segment_path = segment_dir / f"scene_{index:02d}.mp4"
-        duration = _tts_segment(narration, audio_path, settings)
+        duration, word_timings = synthesize_narration(narration, audio_path, settings)
+        mixed_path = audio_path
+        if music_path is not None:
+            mixed_path = audio_dir / f"scene_{index:02d}_mixed.wav"
+            mix_background_music(audio_path, music_path, elapsed, mixed_path, settings.music_gain_db)
+        elapsed += duration
         source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
         if not is_clip:
@@ -144,20 +126,27 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
             overlay_path = scene_dir / f"overlay_{index:02d}_{word_index:03d}.png"
             _draw_caption_overlay(caption, index, str(script.get("title", "")), overlay_path, word_index)
             overlay_paths.append(overlay_path)
-        # Each transparent overlay frame lasts for one equal word interval.
+        # Caption timing: use the TTS engine's own per-word timestamps when the
+        # on-screen caption is the same text as what's spoken (the common
+        # case), so captions land exactly on the spoken word instead of an
+        # approximation. Falls back to an even split when they diverge (e.g.
+        # a punchier hook caption over a longer narration line).
+        if len(word_timings) == len(words):
+            word_durations = [max(0.08, wt.duration) for wt in word_timings]
+        else:
+            word_durations = [duration / len(overlay_paths)] * len(overlay_paths)
         overlay_inputs = []
         overlay_labels = []
-        word_duration = duration / len(overlay_paths)
-        for overlay_index, overlay_path in enumerate(overlay_paths, start=1):
-            overlay_inputs.extend(["-loop", "1", "-t", f"{word_duration:.3f}", "-i", str(overlay_path)])
+        for overlay_index, (overlay_path, word_dur) in enumerate(zip(overlay_paths, word_durations, strict=True), start=1):
+            overlay_inputs.extend(["-loop", "1", "-t", f"{word_dur:.3f}", "-i", str(overlay_path)])
             overlay_labels.append(f"[{overlay_index}:v]")
         concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
         filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(image_path)]
         audio_index = len(overlay_paths) + 1
-        command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(audio_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
+        command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(mixed_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
         subprocess.run(command, check=True, capture_output=True)
-        segments.append({"path": str(audio_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash})
+        segments.append({"path": str(mixed_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash, "music_track": music_path.name if music_path else None})
     total = sum(float(item["duration"]) for item in segments)
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
         raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")

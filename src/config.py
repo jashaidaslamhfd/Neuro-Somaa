@@ -25,6 +25,9 @@ class Settings:
     llm_model: str = field(default_factory=lambda: _env("GROQ_MODEL", "llama-3.3-70b-versatile"))
     min_hook_score: int = field(default_factory=lambda: int(_env("MIN_HOOK_SCORE", "70")))
     quality_approval_threshold: int = field(default_factory=lambda: int(_env("QUALITY_APPROVAL_THRESHOLD", "60")))
+    background_music: bool = field(default_factory=lambda: _env("BACKGROUND_MUSIC", "true").lower() == "true")
+    music_source: str = field(default_factory=lambda: _env("MUSIC_SOURCE", "own"))
+    music_gain_db: float = field(default_factory=lambda: float(_env("MUSIC_GAIN_DB", "-20")))
 
     @property
     def llm_keys(self) -> tuple[str, ...]:
@@ -52,6 +55,11 @@ class Settings:
             errors.append("YT_PRIVACY_STATUS must be private, unlisted, or public")
         if self.schedule_publish and self.privacy_status != "private":
             errors.append("Scheduled YouTube publishing requires YT_PRIVACY_STATUS=private")
+        if self.background_music and self.music_source != "own":
+            errors.append(
+                "MUSIC_SOURCE must be 'own' — only assets/music/own_*.wav tracks are verified "
+                "Content-ID-safe (see assets/music/ATTRIBUTION.md); other sources are not auto-selected"
+            )
         if not self.llm_keys and not self.dry_run and not self.render_only:
             errors.append("At least one LLM secret is required outside dry-run mode")
         if not self.youtube_ready and not self.dry_run and not self.render_only:
