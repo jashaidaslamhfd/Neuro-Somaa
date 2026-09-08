@@ -8,11 +8,11 @@ from typing import Any
 from config import Settings
 
 FALLBACK_TOPICS = [
-    "Pourquoi votre cerveau bâille-t-il quand quelqu’un bâille ?",
-    "Pourquoi la peau se couvre-t-elle de chair de poule ?",
-    "Pourquoi un souvenir revient-il avec une odeur ?",
-    "Pourquoi le cœur accélère-t-il avant une décision ?",
-    "Pourquoi les jambes tremblent-elles sous le stress ?",
+    "Pourquoi le bâillement est contagieux ?",
+    "Pourquoi as-tu la chair de poule ?",
+    "Pourquoi une odeur réveille un souvenir ?",
+    "Pourquoi ton cœur accélère avant de choisir ?",
+    "Pourquoi tes jambes tremblent sous le stress ?",
 ]
 
 FRANCE_COPY_RULES = (
@@ -26,7 +26,7 @@ FRANCE_COPY_RULES = (
 # model is optimizing for exactly what the gate checks — not guessing at it.
 HOOK_SCORING_RUBRIC = """RÈGLES DE NOTATION DU HOOK — ton texte est noté automatiquement, vise le score maximum.
 
-1) LE TITRE — DEUX STYLES ACCEPTÉS, à égalité de points (les deux marchent selon les données réelles de la chaîne) :
+1) LE TITRE — PLUS C'EST COURT, PLUS ÇA MARCHE. Deux styles acceptés, à égalité de points :
    STYLE QUESTION : termine par "?" → +15 points. Contient un mot de curiosité — "pourquoi", "comment",
      "et si", "ce que" — → +10 points bonus.
    STYLE RÉVÉLATION (POV-reveal) : pas de "?", mais la scène 1 commence par une interjection qui capte
@@ -34,8 +34,12 @@ HOOK_SCORING_RUBRIC = """RÈGLES DE NOTATION DU HOOK — ton texte est noté aut
      +15 points, autant qu'une question. Les données de la chaîne montrent que ce style fonctionne AU MOINS
      aussi bien qu'une question — n'hésite pas à l'utiliser pour varier.
    Un titre qui n'est NI une question NI accompagné d'une accroche-révélation perd 15 points. Choisis toujours
-   l'un des deux styles. Dans tous les cas : 70 caractères ou moins → +10 points ; au-delà → -15. Ne révèle
-   jamais la réponse dans le titre.
+   l'un des deux styles.
+   LONGUEUR (notée par palier, vise le plus court possible) : ≤35 caractères → +15 points ; ≤50 → +10 ;
+     ≤70 → +5 ; au-delà de 70 → -15. Un titre court, unique et clair se lit d'un coup d'œil sur un flux
+     Shorts et se démarque — c'est ce qui le rend partageable. Ne révèle jamais la réponse dans le titre.
+   UNICITÉ : n'ouvre pas ton titre par le même premier mot que tes dernières vidéos (ex. pas toujours
+     "Pourquoi…") — varie l'angle et la formulation pour que chaque titre ait sa propre identité.
 
 2) LA PREMIÈRE SCÈNE (caption) — c'est elle qui décide si le spectateur reste ou skip :
    - Contient "tu", "ton", "ta", "tes" ou "toi" (adresse directe) → +10 points.
@@ -142,7 +146,18 @@ def score_hook(title: str, first_caption: str) -> int:
         score -= 15
     if _DIRECT_ADDRESS_RE.search(title_lower) or _DIRECT_ADDRESS_RE.search(caption_lower):
         score += 10
-    score += 10 if len(title) <= 70 else -15
+    # Tiered, not a flat cutoff: the shorter the title, the more it earns —
+    # a short title reads instantly on a thumbnail/feed and is what the
+    # channel's own data associates with stronger performance.
+    length = len(title)
+    if length <= 35:
+        score += 15
+    elif length <= 50:
+        score += 10
+    elif length <= 70:
+        score += 5
+    else:
+        score -= 15
     word_count = len(caption.split())
     if 3 <= word_count <= 7:
         score += 10
@@ -175,6 +190,47 @@ def score_script_quality(scenes: list[dict[str, Any]]) -> int:
         return 0
     scores = [_scene_pace_score(str(scene.get("caption", ""))) for scene in scenes]
     return round(sum(scores) / len(scores))
+
+
+_STOPWORDS_FR = frozenset((
+    "le", "la", "les", "un", "une", "des", "de", "du", "ton", "ta", "tes", "tu", "toi",
+    "ce", "que", "qui", "et", "ou", "à", "en", "au", "aux", "il", "elle", "on", "pourquoi",
+    "comment", "quand",
+))
+
+
+def _title_words(title: str) -> set[str]:
+    return {w for w in re.sub(r"[^\wà-ÿ' ]", " ", title.lower()).split() if w not in _STOPWORDS_FR}
+
+
+def title_is_fresh(title: str, settings: Settings, lookback: int = 8, similarity_threshold: float = 0.55) -> bool:
+    """Reject titles that are near word-for-word duplicates of a recent upload.
+
+    This only catches genuine repeats (same topic, reworded) — it does not
+    enforce opening-word variety as a hard gate, since a channel whose whole
+    history already shares one opener (as this one's does) would otherwise
+    fail every single attempt and burn the retry budget for nothing. Opener
+    variety is instead a soft instruction in HOOK_SCORING_RUBRIC.
+    """
+    history = settings.data_dir / "video_history.json"
+    if not history.exists():
+        return True
+    try:
+        rows = json.loads(history.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return True
+    recent_titles = [str(row.get("title", "")) for row in rows[-lookback:] if isinstance(row, dict) and row.get("title")]
+    candidate_words = _title_words(title)
+    if not candidate_words:
+        return True
+    for past_title in recent_titles:
+        past_words = _title_words(past_title)
+        if not past_words:
+            continue
+        overlap = len(candidate_words & past_words) / len(candidate_words | past_words)
+        if overlap >= similarity_threshold:
+            return False
+    return True
 
 
 def _clean_fr(text: str) -> str:
@@ -299,11 +355,11 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
         "Réponds uniquement en JSON valide."
     )
     user_prompt = (
-        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et EXACTEMENT 8 scènes très courtes, "
-        "en suivant précisément les 8 rôles de la structure point par point ci-dessus (scène 1 = accroche, "
-        "scène 2 = mystère, scène 3-4 = indices, scène 5 = rebondissement, scène 6 = indice final, "
-        "scène 7 = révélation, scène 8 = chute). Chaque scène doit contenir caption et narration en "
-        f"français de France. Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
+        f"Sujet: {topic}\nCrée un titre le plus court possible (idéalement 35-50 caractères, jamais plus de 70) "
+        "et EXACTEMENT 8 scènes très courtes, en suivant précisément les 8 rôles de la structure point par "
+        "point ci-dessus (scène 1 = accroche, scène 2 = mystère, scène 3-4 = indices, scène 5 = rebondissement, "
+        "scène 6 = indice final, scène 7 = révélation, scène 8 = chute). Chaque scène doit contenir caption et "
+        f"narration en français de France. Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
         "Applique STRICTEMENT les règles de notation ET la structure narrative ci-dessus avant de répondre."
     )
     messages: list[dict[str, str]] = [
@@ -327,12 +383,20 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
                 raise ValueError(f"il faut exactement 8 scènes (reçu {len(scenes)})")
             hook_score = score_hook(str(result.get("title", "")), str(scenes[0].get("caption", "")))
             quality_score = score_script_quality(scenes)
-            if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold:
+            fresh = title_is_fresh(str(result.get("title", "")), settings)
+            if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold and fresh:
                 return result
-            reason = (
-                f"score du hook = {hook_score} (minimum requis {settings.min_hook_score}), "
-                f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})."
-            )
+            reasons = []
+            if hook_score < settings.min_hook_score:
+                reasons.append(f"score du hook = {hook_score} (minimum requis {settings.min_hook_score})")
+            if quality_score < settings.quality_approval_threshold:
+                reasons.append(f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})")
+            if not fresh:
+                reasons.append(
+                    "le titre ressemble trop à une vidéo récente (mêmes mots-clés ou même mot de départ) — "
+                    "choisis un angle et un premier mot différents"
+                )
+            reason = "; ".join(reasons)
         except (ValueError, KeyError, TypeError) as exc:
             reason = str(exc)
         except Exception:
