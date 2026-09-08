@@ -36,10 +36,14 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
 
         local_zone = ZoneInfo(settings.timezone)
         now_local = datetime.now(UTC).astimezone(local_zone)
-        # Default publish slots: Paris peak times (12:30 / 19:30 / 21:00).
+        # Publish slots: data-backed best performers from the channel's own
+        # upload_slot_intel_fr.json (24/12/15 samples respectively), not the
+        # generic README default — that default's 12:30 slot had the fewest
+        # samples and 19:30 was flagged as underperforming in growth_state.json
+        # until the schedule below shifted it 30 minutes later.
         targets = sorted(
             now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            for hour, minute in ((12, 30), (19, 30), (21, 0))
+            for hour, minute in ((17, 30), (19, 30), (21, 30))
         )
         target = next((item for item in targets if item > now_local), None)
         if target is None:

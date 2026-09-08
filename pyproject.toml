@@ -52,22 +52,14 @@ select = ["E4", "E7", "E9", "F", "I", "UP", "B", "SIM", "PIE", "RUF", "C4", "FUR
 # so one bad video never aborts a channel-wide batch run.
 "scripts/*.py" = ["BLE001", "S110", "S112", "E402"]
 "src/main.py" = ["BLE001"]
-# These modules intentionally bootstrap sys.path before optional imports.
-"src/analytics_updater.py" = ["E402"]
-"src/image_providers.py" = ["E402"]
-"src/video_editor.py" = ["E402"]
-"src/intelligence/bandit.py" = ["E402"]
 # Offline unit tests may construct stubs loosely and bootstrap src imports.
 "tests/*.py" = ["BLE001", "DTZ", "S101", "E402"]
 "tests/test_runtime_config.py" = ["B018"]
 
 [tool.ruff.lint.isort]
 known-first-party = [
-    "script_generator", "image_generator", "voice_generator", "video_editor",
-    "uploader", "niche_strategy", "quality_checker", "scheduler", "anti_spam",
-    "french_quality_gate", "seo_generator", "shorts_enhancer", "seo_analytics",
-    "trend_fetcher", "media_validator", "analytics_updater", "image_providers",
-    "trend_research", "strict_quality_gate",
+    "audio", "config", "content", "main", "media", "thumbnails",
+    "visual_providers", "youtube",
 ]
 
 # ---------------------------------------------------------------------------

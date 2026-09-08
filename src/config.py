@@ -14,7 +14,7 @@ class Settings:
     language: str = field(default_factory=lambda: _env("CHANNEL_LANGUAGE", "fr"))
     timezone: str = field(default_factory=lambda: _env("PUBLISH_TIMEZONE", "Europe/Paris"))
     min_seconds: float = field(default_factory=lambda: float(_env("TARGET_MIN_SECONDS", "15")))
-    max_seconds: float = field(default_factory=lambda: float(_env("TARGET_MAX_SECONDS", "30")))
+    max_seconds: float = field(default_factory=lambda: float(_env("TARGET_MAX_SECONDS", "22")))
     output_dir: Path = field(default_factory=lambda: Path(_env("OUTPUT_DIR", "output")))
     data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", "data")))
     privacy_status: str = field(default_factory=lambda: _env("YT_PRIVACY_STATUS", "private"))

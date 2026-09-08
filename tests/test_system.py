@@ -13,7 +13,7 @@ def test_french_defaults_and_duration_window():
     settings = Settings()
     assert settings.language == "fr"
     assert settings.min_seconds == 15
-    assert settings.max_seconds == 30
+    assert settings.max_seconds == 22
 
 
 def test_fallback_script_is_french_and_has_eight_scenes():
