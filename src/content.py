@@ -56,6 +56,26 @@ EXEMPLE QUI OBTIENT LE SCORE MAXIMUM (titre 100/100, rythme 90/100) :
 Remarque pourquoi ça marche : titre = question courte + "pourquoi" + "ton" (adresse directe) ;
 scène 1 = 5 mots, commence par une accroche ("ATTENDS—"), pas de formule générique."""
 
+# "Point par point" mystery/investigation arc: each scene reveals exactly one
+# new clue, nothing is repeated, and a mid-video twist re-hooks the viewer at
+# the exact moment YouTube's retention curve typically dips.
+MYSTERY_STRUCTURE_GUIDE = """STRUCTURE NARRATIVE "POINT PAR POINT" (mystère façon enquête) — 8 scènes, dans cet ordre EXACT :
+
+Scène 1 — L'ACCROCHE : pose l'énigme sans la résoudre. Le spectateur doit penser "attends, quoi ?!".
+Scène 2 — LE MYSTÈRE : formule clairement la question à laquelle la vidéo va répondre. Zéro indice encore.
+Scène 3 — INDICE 1 : un premier élément concret, qui seul ne suffit pas à comprendre.
+Scène 4 — INDICE 2 : une deuxième pièce du puzzle. Le spectateur commence à deviner, sans être sûr.
+Scène 5 — REBONDISSEMENT : un fait surprenant qui bouscule ce que le spectateur croyait avoir compris.
+   C'est le point de la vidéo où l'attention décroche le plus souvent — cette scène DOIT relancer la curiosité.
+Scène 6 — INDICE 3 : la pièce qui relie tout. Les points commencent à se connecter entre eux.
+Scène 7 — RÉVÉLATION : la réponse complète, simple, qui relie tous les indices précédents en une seule idée claire.
+Scène 8 — LA CHUTE : une phrase courte qui donne envie de vérifier par soi-même, de commenter ou de partager —
+   jamais une formule de conclusion générique ("voilà", "et voilà pourquoi", "j'espère que ça t'a plu").
+
+RÈGLE D'OR : chaque scène apporte UNE SEULE information nouvelle (un "point"), jamais deux à la fois,
+et ne répète JAMAIS une information déjà donnée dans une scène précédente. Le spectateur doit sentir
+qu'il résout une enquête scène après scène, jusqu'à ce que tous les points se relient à la scène 7."""
+
 # Generic openers that waste the first watch-time seconds instead of hooking
 # the viewer — a Short that starts here is far more likely to be skipped.
 _FILLER_OPENERS = (
@@ -165,6 +185,9 @@ def load_topic(settings: Settings) -> str:
 
 
 def _fallback_script(topic: str) -> dict[str, Any]:
+    # Mirrors MYSTERY_STRUCTURE_GUIDE's 8 roles: hook, mystery, clue x2,
+    # twist, final clue, reveal, payoff — kept in sync by hand since this
+    # path never calls the LLM.
     clean = _clean_fr(topic).rstrip("?")
     return {
         "title": _clean_fr(clean + " ?"),
@@ -210,12 +233,17 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     except Exception:
         return _fallback_script(topic)
 
-    system_prompt = f"{FRANCE_COPY_RULES}\n\n{HOOK_SCORING_RUBRIC}\n\nRéponds uniquement en JSON valide."
+    system_prompt = (
+        f"{FRANCE_COPY_RULES}\n\n{HOOK_SCORING_RUBRIC}\n\n{MYSTERY_STRUCTURE_GUIDE}\n\n"
+        "Réponds uniquement en JSON valide."
+    )
     user_prompt = (
-        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et 8 scènes très courtes. "
-        "Chaque scène doit contenir caption et narration en français de France. "
-        f"Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
-        "Applique STRICTEMENT les règles de notation ci-dessus avant de répondre."
+        f"Sujet: {topic}\nCrée un titre de moins de 70 caractères et EXACTEMENT 8 scènes très courtes, "
+        "en suivant précisément les 8 rôles de la structure point par point ci-dessus (scène 1 = accroche, "
+        "scène 2 = mystère, scène 3-4 = indices, scène 5 = rebondissement, scène 6 = indice final, "
+        "scène 7 = révélation, scène 8 = chute). Chaque scène doit contenir caption et narration en "
+        f"français de France. Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
+        "Applique STRICTEMENT les règles de notation ET la structure narrative ci-dessus avant de répondre."
     )
     messages: list[dict[str, str]] = [
         {"role": "system", "content": system_prompt},
@@ -254,6 +282,7 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
         messages.append({"role": "assistant", "content": raw})
         messages.append({"role": "user", "content": (
             f"Ta réponse a échoué la validation : {reason} Relis attentivement les règles de notation "
-            "et renvoie un JSON complet et corrigé (titre + 8 scènes) qui respecte STRICTEMENT chaque règle."
+            "et la structure narrative point par point, et renvoie un JSON complet et corrigé "
+            "(titre + 8 scènes, une scène par rôle de l'enquête) qui respecte STRICTEMENT chaque règle."
         )})
     return _fallback_script(topic)
