@@ -26,11 +26,16 @@ FRANCE_COPY_RULES = (
 # model is optimizing for exactly what the gate checks — not guessing at it.
 HOOK_SCORING_RUBRIC = """RÈGLES DE NOTATION DU HOOK — ton texte est noté automatiquement, vise le score maximum.
 
-1) LE TITRE (doit finir par un point d'interrogation) :
-   - Termine par "?" → +15 points. Un titre qui n'est pas une question perd 15 points ailleurs, alors termine TOUJOURS par "?".
-   - Contient un mot de curiosité — "pourquoi", "comment", "et si", "ce que" — → +10 points.
-   - Fait 70 caractères ou moins → +10 points. Au-delà de 70 caractères → -15 points. Reste COURT.
-   - Ne révèle jamais la réponse dans le titre : pose la question, ne donne pas le mécanisme.
+1) LE TITRE — DEUX STYLES ACCEPTÉS, à égalité de points (les deux marchent selon les données réelles de la chaîne) :
+   STYLE QUESTION : termine par "?" → +15 points. Contient un mot de curiosité — "pourquoi", "comment",
+     "et si", "ce que" — → +10 points bonus.
+   STYLE RÉVÉLATION (POV-reveal) : pas de "?", mais la scène 1 commence par une interjection qui capte
+     l'attention ("ATTENDS", "STOP", "REGARDE", "VOICI", "ÉCOUTE", "IMAGINE") ou un mot en MAJUSCULES →
+     +15 points, autant qu'une question. Les données de la chaîne montrent que ce style fonctionne AU MOINS
+     aussi bien qu'une question — n'hésite pas à l'utiliser pour varier.
+   Un titre qui n'est NI une question NI accompagné d'une accroche-révélation perd 15 points. Choisis toujours
+   l'un des deux styles. Dans tous les cas : 70 caractères ou moins → +10 points ; au-delà → -15. Ne révèle
+   jamais la réponse dans le titre.
 
 2) LA PREMIÈRE SCÈNE (caption) — c'est elle qui décide si le spectateur reste ou skip :
    - Contient "tu", "ton", "ta", "tes" ou "toi" (adresse directe) → +10 points.
@@ -44,7 +49,7 @@ HOOK_SCORING_RUBRIC = """RÈGLES DE NOTATION DU HOOK — ton texte est noté aut
    - Aucune formule générique de la liste interdite ci-dessus, dans AUCUNE scène.
    - Chaque caption doit apporter une info concrète et courte, pas une transition vide.
 
-EXEMPLE QUI OBTIENT LE SCORE MAXIMUM (titre 100/100, rythme 90/100) :
+EXEMPLE STYLE QUESTION (score maximum, titre 100/100) :
 {
   "title": "Pourquoi ton cerveau rêve-t-il ?",
   "scenes": [
@@ -53,8 +58,17 @@ EXEMPLE QUI OBTIENT LE SCORE MAXIMUM (titre 100/100, rythme 90/100) :
     {"caption": "Il repère d'abord un signal.", "narration": "..."}
   ]
 }
-Remarque pourquoi ça marche : titre = question courte + "pourquoi" + "ton" (adresse directe) ;
-scène 1 = 5 mots, commence par une accroche ("ATTENDS—"), pas de formule générique."""
+
+EXEMPLE STYLE RÉVÉLATION — sans "?", même score maximum grâce à l'accroche "ATTENDS" :
+{
+  "title": "Ton cerveau efface tes rêves en quelques secondes",
+  "scenes": [
+    {"caption": "ATTENDS—ça se passe chaque nuit.", "narration": "..."},
+    {"caption": "Ton cerveau trie ce qu'il garde.", "narration": "..."}
+  ]
+}
+Remarque : les deux exemples marchent parce que chacun choisit UN style clairement (question OU
+révélation), utilise l'adresse directe ("ton"), reste court, et évite toute formule générique."""
 
 # "Point par point" mystery/investigation arc: each scene reveals exactly one
 # new clue, nothing is repeated, and a mid-video twist re-hooks the viewer at
@@ -85,25 +99,47 @@ _FILLER_OPENERS = (
 )
 _DIRECT_ADDRESS_RE = re.compile(r"\b(tu|ton|ta|tes|toi)\b", re.IGNORECASE)
 _CURIOSITY_WORDS = ("pourquoi", "comment", "et si", "ce que")
+# A caption opening on a punchy interjection or an ALL-CAPS attention-grab
+# word signals a "POV-reveal" style hook — the channel's own analytics
+# (hook_arms, growth_state.hook_weights) show this style outperforming plain
+# questions, so it earns the same credit as a question instead of a penalty.
+_REVEAL_INTERJECTIONS = ("attends", "stop", "regarde", "voici", "écoute", "alerte", "imagine")
+
+
+_LEADING_WORD_RE = re.compile(r"^([A-ZÀ-Ü][A-ZÀ-Üa-zà-ÿ']*)")
+
+
+def _has_reveal_opener(caption: str) -> bool:
+    match = _LEADING_WORD_RE.match(caption.strip())
+    if not match:
+        return False
+    word = match.group(1)
+    return word.lower() in _REVEAL_INTERJECTIONS or word.isupper()
 
 
 def score_hook(title: str, first_caption: str) -> int:
     """Heuristic 0-100 score for the opening hook (title + first caption).
 
-    A Short's watch-time survival is decided in its first seconds, so this
-    rewards the things that keep a viewer from skipping: an open curiosity
-    gap, direct address, and a title/caption short enough to land instantly.
-    It penalizes generic openers that burn that window without payoff.
+    A Short's watch-time survival is decided in its first seconds. Two hook
+    styles are credited equally here because the channel's own data shows
+    both working: a curiosity-gap question, or a punchy declarative
+    "POV-reveal" opener (e.g. "ATTENDS—..."). Only a flat title that is
+    neither is penalized.
     """
     title = title.strip()
     caption = first_caption.strip()
     title_lower = title.lower()
     caption_lower = caption.lower()
     score = 50
-    if title.endswith("?"):
+    is_question = title.endswith("?")
+    if is_question:
         score += 15
-    if any(word in title_lower for word in _CURIOSITY_WORDS):
-        score += 10
+        if any(word in title_lower for word in _CURIOSITY_WORDS):
+            score += 10
+    elif _has_reveal_opener(caption):
+        score += 15
+    else:
+        score -= 15
     if _DIRECT_ADDRESS_RE.search(title_lower) or _DIRECT_ADDRESS_RE.search(caption_lower):
         score += 10
     score += 10 if len(title) <= 70 else -15
@@ -147,6 +183,23 @@ def _clean_fr(text: str) -> str:
     return text
 
 
+# The channel's own historical analytics (topic_weights, before that data was
+# untracked from git) showed involuntary-movement/digestive body topics
+# consistently outperforming, and eye/heart topics underperforming. This is a
+# soft nudge, not a hard filter — it only picks among the next few unused
+# queue entries so topic rotation and freshness are still respected.
+_WINNING_TOPIC_KEYWORDS = ("muscle", "ventre", "intestin", "pied", "estomac", "digestion")
+_LOSING_TOPIC_KEYWORDS = ("œil", "oeil", "yeux", "cœur", "coeur")
+_TOPIC_LOOKAHEAD = 12
+
+
+def _topic_cluster_score(title: str) -> int:
+    normalized = title.lower()
+    score = sum(1 for kw in _WINNING_TOPIC_KEYWORDS if kw in normalized)
+    score -= sum(1 for kw in _LOSING_TOPIC_KEYWORDS if kw in normalized)
+    return score
+
+
 def load_topic(settings: Settings) -> str:
     if settings.topic:
         return _clean_fr(settings.topic)
@@ -166,11 +219,19 @@ def load_topic(settings: Settings) -> str:
             except (OSError, ValueError, TypeError, json.JSONDecodeError):
                 pointer = 0
             ordered = items[pointer % len(items):] + items[:pointer % len(items)] if items else []
+            candidates: list[tuple[int, str]] = []
             for offset, item in enumerate(ordered):
                 title = item.get("title") if isinstance(item, dict) else str(item)
                 if title and _clean_fr(str(title)).lower() not in used:
-                    pointer_path.write_text(json.dumps(pointer + offset + 1), encoding="utf-8")
-                    return _clean_fr(str(title))
+                    candidates.append((offset, _clean_fr(str(title))))
+                if len(candidates) >= _TOPIC_LOOKAHEAD:
+                    break
+            if candidates:
+                # Highest cluster score wins; ties broken by queue order
+                # (earliest offset) to keep rotation predictable.
+                offset, title = max(candidates, key=lambda c: (_topic_cluster_score(c[1]), -c[0]))
+                pointer_path.write_text(json.dumps(pointer + offset + 1), encoding="utf-8")
+                return title
         except (OSError, json.JSONDecodeError, AttributeError):
             pass
     history = settings.data_dir / "video_history.json"
