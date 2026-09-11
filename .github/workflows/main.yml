@@ -19,9 +19,14 @@ on:
         type: string
         default: ""
   schedule:
-    # Heatmap time is PKT (GMT+5). Generate two hours before 9 PM and 1 AM PKT.
-    - cron: "0 14 * * *"
-    - cron: "0 20 * * *"
+    # Three runs/day, each one feeding exactly one Europe/Paris publish slot
+    # (17:30 / 19:30 / 21:30 — see PUBLISH_SLOT below and youtube.py). This
+    # replaces the previous 2-runs/day schedule, which relied on "next slot
+    # after now" and structurally skipped the 19:30 slot every day because
+    # both runs landed on either side of it.
+    - cron: "0 13 * * *"   # feeds the 17:30 Paris slot
+    - cron: "0 16 * * *"   # feeds the 19:30 Paris slot
+    - cron: "0 18 * * *"   # feeds the 21:30 Paris slot
 
 permissions:
   contents: write
@@ -71,6 +76,14 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Preflight
         run: python scripts/preflight.py
+      - name: Determine publish slot
+        if: github.event_name == 'schedule'
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV" ;;
+            "0 16 * * *") echo "PUBLISH_SLOT=19:30" >> "$GITHUB_ENV" ;;
+            "0 18 * * *") echo "PUBLISH_SLOT=21:30" >> "$GITHUB_ENV" ;;
+          esac
       - name: Generate and upload French Short
         run: python src/main.py
       - name: Upload generated artifact

@@ -41,13 +41,28 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
         # generic README default — that default's 12:30 slot had the fewest
         # samples and 19:30 was flagged as underperforming in growth_state.json
         # until the schedule below shifted it 30 minutes later.
-        targets = sorted(
-            now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            for hour, minute in ((17, 30), (19, 30), (21, 30))
-        )
-        target = next((item for item in targets if item > now_local), None)
-        if target is None:
-            target = (now_local + timedelta(days=1)).replace(hour=12, minute=30, second=0, microsecond=0)
+        slot_hours = ((17, 30), (19, 30), (21, 30))
+        # PUBLISH_SLOT (set per scheduled workflow run, see main.yml) lets each
+        # of the day's runs own one specific slot deterministically. Without
+        # this, "next slot after now" meant two runs/day always landed on
+        # either side of 19:30 and that slot was structurally never used.
+        slot_env = os.getenv("PUBLISH_SLOT", "").strip()
+        if slot_env:
+            try:
+                hour, minute = (int(part) for part in slot_env.split(":"))
+            except ValueError:
+                hour, minute = slot_hours[0]
+            target = now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if target <= now_local:
+                target += timedelta(days=1)
+        else:
+            targets = sorted(
+                now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+                for hour, minute in slot_hours
+            )
+            target = next((item for item in targets if item > now_local), None)
+            if target is None:
+                target = (now_local + timedelta(days=1)).replace(hour=slot_hours[0][0], minute=slot_hours[0][1], second=0, microsecond=0)
         status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
         "snippet": {"title": script["title"][:100], "description": script["description"][:5000], "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},

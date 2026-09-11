@@ -94,6 +94,25 @@ RÈGLE D'OR : chaque scène apporte UNE SEULE information nouvelle (un "point"),
 et ne répète JAMAIS une information déjà donnée dans une scène précédente. Le spectateur doit sentir
 qu'il résout une enquête scène après scène, jusqu'à ce que tous les points se relient à la scène 7."""
 
+# Previously the prompt never asked for tags/hashtags at all, so real
+# generations uploaded with empty tags most of the time. This makes
+# topic-specific metadata a required, validated part of the JSON contract,
+# the same way the hook and structure are.
+METADATA_RULES = """MÉTADONNÉES SEO — obligatoires dans le JSON, en plus du titre et des scènes :
+
+"description" : 1 à 2 phrases en français qui reformulent le hook du titre SANS donner la
+réponse, suivies d'exactement 3 à 5 hashtags français pertinents au sujet PRÉCIS de la
+vidéo (jamais génériques comme "#shorts" seul) — ex. "#cerveau #neurosciences #saistu
+#shorts #france". Longueur totale max 400 caractères.
+
+"tags" : liste de 8 à 12 mots-clés français EN RAPPORT DIRECT avec le sujet exact de cette
+vidéo (jamais une liste générique répétée à chaque vidéo). Mélange obligatoire :
+- 2-3 mots-clés larges (ex. "science", "corps humain")
+- 3-4 mots-clés spécifiques au sujet exact de cette vidéo
+- 2-3 variantes de longue traîne en style recherche (ex. "pourquoi on bâille")
+- 1-2 tags de marché : "france", "shorts français"
+Ne réutilise jamais mot pour mot la liste de tags d'une vidéo précédente."""
+
 # Generic openers that waste the first watch-time seconds instead of hooking
 # the viewer — a Short that starts here is far more likely to be skipped.
 _FILLER_OPENERS = (
@@ -301,6 +320,23 @@ def load_topic(settings: Settings) -> str:
     return next((topic for topic in FALLBACK_TOPICS if _clean_fr(topic).lower() not in used), FALLBACK_TOPICS[0])
 
 
+def _fallback_tags(topic: str) -> list[str]:
+    """Derive tags from the topic instead of a fixed list, so if the LLM
+    path is ever unavailable the channel doesn't upload the same 5 generic
+    tags on every video."""
+    words = [
+        w for w in re.sub(r"[^\wà-ÿ' ]", " ", topic.lower()).split()
+        if len(w) > 2 and w not in _STOPWORDS_FR
+    ]
+    specific = words[:4] or ["quotidien"]
+    tags = ["science", "corps humain", *specific, "curiosité", "france", "shorts français"]
+    seen: list[str] = []
+    for tag in tags:
+        if tag not in seen:
+            seen.append(tag)
+    return seen[:10]
+
+
 def _fallback_script(topic: str) -> dict[str, Any]:
     # Mirrors MYSTERY_STRUCTURE_GUIDE's 8 roles: hook, mystery, clue x2,
     # twist, final clue, reveal, payoff — kept in sync by hand since this
@@ -308,8 +344,8 @@ def _fallback_script(topic: str) -> dict[str, Any]:
     clean = _clean_fr(topic).rstrip("?")
     return {
         "title": _clean_fr(clean + " ?"),
-        "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science",
-        "tags": ["science", "cerveau", "corps humain", "curiosité", "shorts français"],
+        "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science #france",
+        "tags": _fallback_tags(clean),
         "scenes": [
             {"caption": "ATTENDS—ton cerveau fait ça.", "narration": clean + " ?"},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
@@ -330,8 +366,18 @@ def _extract_json(text: str) -> dict[str, Any]:
     payload = json.loads(match.group(0))
     if not isinstance(payload, dict) or not payload.get("scenes"):
         raise ValueError("LLM JSON has no scenes")
+    # Metadata is now a required part of the contract (see METADATA_RULES) —
+    # previously nothing enforced this, so real generations often uploaded
+    # with empty tags and a generic/no-hashtag description.
+    tags = payload.get("tags")
+    if not isinstance(tags, list) or not (8 <= len(tags) <= 12):
+        raise ValueError("il faut 8 à 12 tags SEO spécifiques au sujet (voir MÉTADONNÉES SEO)")
+    description = str(payload.get("description", ""))
+    if not description or description.count("#") < 3:
+        raise ValueError("la description doit inclure 3 à 5 hashtags pertinents au sujet")
     payload["title"] = _clean_fr(str(payload.get("title", "")))
-    payload["description"] = _clean_fr(str(payload.get("description", "")))
+    payload["description"] = _clean_fr(description)
+    payload["tags"] = [_clean_fr(str(tag)) for tag in tags][:12]
     for scene in payload["scenes"]:
         scene["caption"] = _clean_fr(str(scene.get("caption", "")))
         scene["narration"] = _clean_fr(str(scene.get("narration", "")))
@@ -352,7 +398,7 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
 
     system_prompt = (
         f"{FRANCE_COPY_RULES}\n\n{HOOK_SCORING_RUBRIC}\n\n{MYSTERY_STRUCTURE_GUIDE}\n\n"
-        "Réponds uniquement en JSON valide."
+        f"{METADATA_RULES}\n\nRéponds uniquement en JSON valide."
     )
     user_prompt = (
         f"Sujet: {topic}\nCrée un titre le plus court possible (idéalement 35-50 caractères, jamais plus de 70) "
@@ -360,7 +406,9 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
         "point ci-dessus (scène 1 = accroche, scène 2 = mystère, scène 3-4 = indices, scène 5 = rebondissement, "
         "scène 6 = indice final, scène 7 = révélation, scène 8 = chute). Chaque scène doit contenir caption et "
         f"narration en français de France. Durée cible {settings.min_seconds:g}-{settings.max_seconds:g}s. "
-        "Applique STRICTEMENT les règles de notation ET la structure narrative ci-dessus avant de répondre."
+        "N'oublie pas les champs \"description\" (avec 3-5 hashtags) et \"tags\" (8-12 mots-clés "
+        "spécifiques au sujet), voir MÉTADONNÉES SEO. Applique STRICTEMENT les règles de notation, "
+        "la structure narrative ET les métadonnées SEO ci-dessus avant de répondre."
     )
     messages: list[dict[str, str]] = [
         {"role": "system", "content": system_prompt},
