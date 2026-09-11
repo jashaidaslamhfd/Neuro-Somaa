@@ -38,7 +38,11 @@ def _mock_groq(payloads: list[dict]):
 def test_mystery_structure_guide_is_sent_to_the_llm(monkeypatch):
     strong = {
         "title": "Pourquoi ton cerveau oublie-t-il tes rêves ?",
-        "description": "desc",
+        "description": "Tu vas comprendre pourquoi tes rêves s'effacent. #cerveau #reves #neurosciences #shorts #france",
+        "tags": [
+            "science", "corps humain", "cerveau", "rêves", "mémoire", "sommeil",
+            "pourquoi on oublie ses rêves", "neurosciences", "france", "shorts français",
+        ],
         "scenes": [{"caption": c, "narration": c} for c in [
             "ATTENDS—ton cerveau efface ça.", "La mémoire trie vite.", "Le rêve part en secondes.",
             "Ton cerveau garde l'essentiel.", "Mais un détail change tout.", "Le reste est effacé.",

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import re
 from pathlib import Path
 from typing import Any
@@ -20,32 +21,82 @@ def _font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont | ImageFont.I
     return ImageFont.load_default()
 
 
+# Keyword -> hand-tuned hook text for the handful of topics we have a bespoke
+# line for. Anything not in this table falls through to _hook()'s dynamic
+# title-derived text below instead of a generic placeholder, so every topic
+# — not just these launch topics — gets thumbnail text that matches the video.
+_BESPOKE_HOOKS: tuple[tuple[tuple[str, ...], str], ...] = (
+    (("odeur", "souvenir"), "ODEUR\n= SOUVENIR ?"),
+    (("stress", "jambes"), "TON CORPS\nRÉAGIT AU STRESS"),
+    (("bâill",), "POURQUOI\nLE BÂILLEMENT ?"),
+    (("cœur", "decision", "décision"), "TON CŒUR\nACCÉLÈRE POURQUOI ?"),
+)
+
+# Same idea for the hand-made background assets: keep the bespoke matches as
+# a quality upgrade for topics we've specifically designed art for, but never
+# fall back to a fixed asset for everything else.
+_BESPOKE_ASSETS: tuple[tuple[tuple[str, ...], str], ...] = (
+    (("odeur", "souvenir"), "ai_odeur_memoire.jpg"),
+    (("stress", "jambes"), "ai_stress_corps.jpg"),
+    (("bâill",), "ai_baillement_cerveau.jpg"),
+)
+
+
 def _hook(title: str) -> str:
+    """Thumbnail hook text: bespoke line if we have one, otherwise derived
+    straight from the generated title so it always matches the video.
+
+    Previously anything outside 4 hardcoded topics fell back to the generic
+    "LE DÉTAIL QUI CHANGE TOUT" — since the topic queue covers far more than
+    those 4 subjects, most thumbnails were topic-mismatched. This derives the
+    hook from the real title instead of a fixed keyword table.
+    """
     clean = re.sub(r"\s+", " ", title).strip().rstrip("?").lower()
-    if "odeur" in clean or "souvenir" in clean:
-        return "ODEUR\n= SOUVENIR ?"
-    if "stress" in clean or "jambes" in clean:
-        return "TON CORPS\nRÉAGIT AU STRESS"
-    if "bâill" in clean:
-        return "POURQUOI\nLE BÂILLEMENT ?"
-    if "cœur" in clean or "decision" in clean or "décision" in clean:
-        return "TON CŒUR\nACCÉLÈRE POURQUOI ?"
-    return "LE DÉTAIL\nQUI CHANGE TOUT"
+    for keywords, hook in _BESPOKE_HOOKS:
+        if any(kw in clean for kw in keywords):
+            return hook
+    words = re.sub(r"\s+", " ", title).strip().rstrip("?").upper().split()
+    if not words:
+        return "LE DÉTAIL\nQUI CHANGE TOUT"
+    short: list[str] = []
+    length = 0
+    for word in words:
+        if length + len(word) > 28 and short:
+            break
+        short.append(word)
+        length += len(word) + 1
+    if len(short) <= 2:
+        return "\n".join(short) if short else "LE DÉTAIL\nQUI CHANGE TOUT"
+    mid = (len(short) + 1) // 2
+    return " ".join(short[:mid]) + "\n" + " ".join(short[mid:])
 
 
 def _asset_for(title: str, assets_dir: Path) -> Path | None:
     clean = title.lower()
-    names = ["ai_odeur_memoire.jpg"] if "odeur" in clean or "souvenir" in clean else []
-    if "stress" in clean or "jambes" in clean:
-        names = ["ai_stress_corps.jpg"]
-    if "bâill" in clean:
-        names = ["ai_baillement_cerveau.jpg"]
-    for name in names:
-        candidate = assets_dir / name
-        if candidate.exists():
-            return candidate
+    for keywords, name in _BESPOKE_ASSETS:
+        if any(kw in clean for kw in keywords):
+            candidate = assets_dir / name
+            if candidate.exists():
+                return candidate
     all_assets = sorted(assets_dir.glob("ai_*.jpg"))
-    return all_assets[0] if all_assets else None
+    if not all_assets:
+        return None
+    # Deterministic per-title pick instead of always the same first asset
+    # alphabetically, so at minimum the fallback isn't visually identical
+    # across every non-bespoke video.
+    index = int(hashlib.sha256(title.lower().encode()).hexdigest()[:8], 16) % len(all_assets)
+    return all_assets[index]
+
+
+def _duration_label(settings: Any) -> str:
+    """Round the configured max duration for the thumbnail badge instead of a
+    hardcoded '30 S' — the channel actually renders 15-22s videos
+    (TARGET_MIN_SECONDS/TARGET_MAX_SECONDS), so the old label overpromised."""
+    try:
+        seconds = round(float(getattr(settings, "max_seconds", 20)))
+    except (TypeError, ValueError):
+        seconds = 20
+    return f"EXPLIQUE EN {seconds} S"
 
 
 def build_thumbnail(script: dict[str, Any], settings: Any) -> Path:
@@ -74,7 +125,7 @@ def build_thumbnail(script: dict[str, Any], settings: Any) -> Path:
     draw.rounded_rectangle((card_left, card_top, card_right, card_bottom), radius=42, fill="#07111fe8", outline="#ffffff", width=3)
     draw.multiline_text((card_left + 48, card_top + 65), hook, font=hook_font, fill="#ffffff", spacing=20, stroke_width=2, stroke_fill="#07111f")
     draw.rounded_rectangle((78, card_bottom + 70, 560, card_bottom + 150), radius=30, fill="#6ee7d8")
-    draw.text((112, card_bottom + 88), "EXPLIQUE EN 30 S", font=_font(30, True), fill="#07111f")
+    draw.text((112, card_bottom + 88), _duration_label(settings), font=_font(30, True), fill="#07111f")
     output = settings.output_dir / "thumbnail.jpg"
     image.convert("RGB").save(output, format="JPEG", quality=92, optimize=True)
     return output
