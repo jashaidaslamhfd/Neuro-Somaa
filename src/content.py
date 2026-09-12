@@ -296,7 +296,14 @@ def load_topic(settings: Settings) -> str:
             ordered = items[pointer % len(items):] + items[:pointer % len(items)] if items else []
             candidates: list[tuple[int, str]] = []
             for offset, item in enumerate(ordered):
-                title = item.get("title") if isinstance(item, dict) else str(item)
+                # Queue items (see scripts/fetch_france_trends.py::make_topic) use
+                # "angle"/"topic" keys — never "title". Reading "title" here meant
+                # this branch NEVER found a candidate, so every run silently fell
+                # through to the tiny 5-item FALLBACK_TOPICS list below, and once
+                # that list was fully used up (this channel has 69+ videos), the
+                # code returned FALLBACK_TOPICS[0] every single time — the same
+                # title forever, regardless of the mined queue's real content.
+                title = (item.get("angle") or item.get("topic") or item.get("question_phrase") or item.get("title")) if isinstance(item, dict) else str(item)
                 if title and _clean_fr(str(title)).lower() not in used:
                     candidates.append((offset, _clean_fr(str(title))))
                 if len(candidates) >= _TOPIC_LOOKAHEAD:

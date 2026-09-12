@@ -35,8 +35,15 @@ data/next_video_10k.json
 
 # ---- Operational data (CRITICAL — never commit to public repo) ----
 # video_history.json is kept tracked (needed on fresh clones).
+# queue_index_fr.json / clip_history.json are also kept tracked: main.py's
+# _persist_state() commits them after every run so the topic-queue pointer
+# and cross-run clip-dedup survive the next scheduled run's fresh checkout —
+# previously they were silently un-persistable because of the blanket
+# data/*.json rule below, so every run reset the pointer to 0.
 # Everything else is runtime-generated and synced via GitHub Actions artifacts.
 data/*.json
 data/*.md
 !data/video_history.json
 !data/body_glitch_topics.json
+!data/queue_index_fr.json
+!data/clip_history.json

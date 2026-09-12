@@ -45,7 +45,7 @@ def _clip_history() -> list[dict]:
 
 def _persist_state() -> None:
     """Best-effort commit of duplicate state for the next scheduled runner."""
-    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json"]
+    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json"]
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False)
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
     subprocess.run(["git", "add", *paths], check=False)
