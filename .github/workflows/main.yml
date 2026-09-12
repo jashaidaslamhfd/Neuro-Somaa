@@ -76,6 +76,16 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
       - name: Preflight
         run: python scripts/preflight.py
+      - name: Refresh topic queue
+        # fetch_france_trends.py was never wired into any workflow before this,
+        # so the queue only ever had the 3 topics mined once by hand on
+        # 2026-09-01. Runs once/day (first Paris slot) + on manual dispatch,
+        # not on all 3 daily runs, since RSS sources don't change that often.
+        # Non-fatal: if every source is unreachable/rate-limited, this leaves
+        # the existing queue file untouched rather than failing the run.
+        if: github.event.schedule == '0 13 * * *' || github.event_name == 'workflow_dispatch'
+        run: |
+          python scripts/fetch_france_trends.py --limit 40 || echo "trend refresh skipped, sources unavailable"
       - name: Determine publish slot
         if: github.event_name == 'schedule'
         run: |
