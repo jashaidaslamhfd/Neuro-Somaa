@@ -1,0 +1,32 @@
+name: "Thumbnail Update (one-shot)"
+
+# Uploads professional topic-match thumbnails from assets/thumbnails_fr/
+# to YouTube (thumbnails.set). Manual trigger only.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  thumbnails:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Upload thumbnails to YouTube
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: python scripts/thumbnail_update.py
+      - name: Upload thumbnail report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: thumbnail-update-report
+          path: output/thumbnail_update_report.txt

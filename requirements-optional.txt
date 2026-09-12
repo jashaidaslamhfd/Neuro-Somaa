@@ -1,0 +1,21 @@
+# ============================================================
+# SKILLOR-FR — extras OPTIONNELS (non installés en CI par défaut)
+# pip install -r requirements-optional.txt
+# ============================================================
+
+# ---- Clonage vocal (Chatterbox) — stack GPU lourd ----
+# Les runners GitHub sont CPU-only ; la production utilise TTS_ENGINE=kokoro.
+# Utile uniquement sur un runner GPU ou une machine auto-hébergée.
+chatterbox-tts>=0.1.7
+# Watermarqueur audio interne de Chatterbox (PerthImplicitWatermarker).
+# Sans ce paquet exact, ChatterboxTTS.from_pretrained() échoue avec
+#   TypeError: 'NoneType' object is not callable
+resemble-perth>=1.0.1
+peft>=0.10.0
+torchaudio>=2.1.0
+transformers>=4.40.0
+
+# ---- Automatisation navigateur (fallback screenshot des visuels) ----
+# Seulement si ENABLE_SCREENSHOT_FALLBACK=true. Penser aussi à
+# `playwright install chromium` — le paquet pip seul n'embarque pas de navigateur.
+playwright>=1.44.0

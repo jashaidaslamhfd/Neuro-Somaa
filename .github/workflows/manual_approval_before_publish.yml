@@ -1,0 +1,29 @@
+name: "Manual Approval Before Public Publish"
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "YouTube video ID to approve"
+        required: true
+        type: string
+      approve_publish:
+        description: "Approve public publish?"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  approve:
+    runs-on: ubuntu-latest
+    if: ${{ inputs.approve_publish == true }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - name: Log approval
+        run: |
+          echo "APPROVED: Video ${{ inputs.video_id }} cleared for public publish."
+          echo "MANUAL_REVIEW_PASSED=true" >> $GITHUB_ENV

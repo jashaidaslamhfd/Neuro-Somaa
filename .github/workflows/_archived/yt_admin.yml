@@ -1,0 +1,32 @@
+name: YT Admin - legacy junk cleanup (one-shot)
+
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: "Write changes to YouTube (default = dry run)"
+        required: false
+        default: "0"
+
+permissions:
+  contents: write
+
+jobs:
+  admin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run YT admin cleanup
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+        run: |
+          if [ "${{ github.event.inputs.apply }}" = "1" ]; then
+            python scripts/yt_admin.py --apply
+          else
+            python scripts/yt_admin.py
+          fi

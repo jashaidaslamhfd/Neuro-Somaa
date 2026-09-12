@@ -1,0 +1,43 @@
+__pycache__/
+*.pyc
+
+# ---- Local environment / virtualenvs ----
+.venv/
+venv/
+env/
+
+# ---- Secrets (CRITICAL) ----
+.env
+.env.*
+!env.example
+
+# ---- Generated run artifacts (never commit; kept in Actions artifacts) ----
+pipeline.log
+*.log
+output/*
+!output/gitkeep
+
+# ---- Auth / token artifacts (CRITICAL — never commit these) ----
+oauth_backup.json
+client_secrets*.json
+client_secret*.json
+token*.json
+*.token
+secrets*.json
+**/oauth_backup.json
+
+# Private voice-clone reference — keep locally, never on a public repo.
+assets/voice_reference.wav
+
+# ML feedback-loop runtime state (regenerated every run)
+data/script_history.json
+src/script_generator.py.bak
+data/next_video_10k.json
+
+# ---- Operational data (CRITICAL — never commit to public repo) ----
+# video_history.json is kept tracked (needed on fresh clones).
+# Everything else is runtime-generated and synced via GitHub Actions artifacts.
+data/*.json
+data/*.md
+!data/video_history.json
+!data/body_glitch_topics.json
