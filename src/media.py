@@ -11,6 +11,17 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
+
+
+def _safe_truncate(text: str, limit: int) -> str:
+    """Truncate at the last full word before `limit`, never mid-word — a
+    naive text[:limit] slice on the on-screen title watermark risked the
+    same kind of visible cut-off as the metadata title bug in content.py."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    truncated = text[:limit].rsplit(" ", 1)[0].rstrip(" ,.;:!?-")
+    return truncated or text[:limit]
 from visual_providers import fetch_visual
 
 WIDTH, HEIGHT = 1080, 1920
@@ -65,7 +76,7 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
         top = 860 - box_height // 2
         draw.multiline_text((WIDTH // 2, top), wrapped, font=caption_font, fill="#ffffff", anchor="ma", spacing=18, align="center", stroke_width=3, stroke_fill="#07111f")
     draw.text((90, 1760), "À retenir : observez votre corps, puis vérifiez la source.", font=_font(29), fill="#dbeafe")
-    draw.text((90, 1815), title[:68], font=_font(27, True), fill=accent)
+    draw.text((90, 1815), _safe_truncate(title, 68), font=_font(27, True), fill=accent)
     image.save(path, format="PNG", optimize=True)
 
 

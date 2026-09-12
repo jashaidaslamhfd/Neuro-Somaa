@@ -8,6 +8,21 @@ from typing import Any
 from config import Settings
 
 
+def _safe_truncate(text: str, limit: int) -> str:
+    """Truncate at the last full word before `limit`, never mid-word.
+
+    content.py's title validation should already keep titles well under any
+    limit this hits, but this is the last line of defense before upload —
+    a naive text[:limit] slice is what produced broken/cut-off titles like
+    "...son cœur battre la" in this channel's history.
+    """
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    truncated = text[:limit].rsplit(" ", 1)[0].rstrip(" ,.;:!?-")
+    return truncated or text[:limit]
+
+
 def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict[str, Any]:
     if settings.dry_run or settings.render_only:
         return {"status": "render_only" if settings.render_only else "dry_run", "video": str(video_path), "title": script["title"]}
@@ -65,7 +80,7 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
                 target = (now_local + timedelta(days=1)).replace(hour=slot_hours[0][0], minute=slot_hours[0][1], second=0, microsecond=0)
         status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
     body = {
-        "snippet": {"title": script["title"][:100], "description": script["description"][:5000], "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
+        "snippet": {"title": _safe_truncate(script["title"], 100), "description": _safe_truncate(script["description"], 5000), "tags": script.get("tags", []), "categoryId": "27", "defaultLanguage": "fr", "defaultAudioLanguage": "fr"},
         "status": status,
     }
     result = youtube.videos().insert(part="snippet,status", body=body, media_body=MediaFileUpload(str(video_path), mimetype="video/mp4", resumable=True)).execute()
