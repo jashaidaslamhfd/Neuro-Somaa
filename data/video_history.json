@@ -3188,5 +3188,41 @@
     "audio_segments": 6,
     "status": "dry_run",
     "video": "output/neuro_somaa_fr.mp4"
+  },
+  {
+    "created_at": "2026-09-12T20:29:23.630343+00:00",
+    "topic": "Pourquoi sOMMEIL ET MÉMOIRE?",
+    "title": "Pourquoi sOMMEIL ET MÉMOIRE?",
+    "duration": 21.9,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "33784d9f18575b9ea426981aa02636214ee22bbd84d67778475ee613f5777150",
+      "3dc113b215467ae46e2bab2ea17e5cccbe75612280f9348f6cf008027f2759e6",
+      "d00de65809f190736bbb1b19da05f0185f0e3879c14a5db44173768a05a5f388",
+      "71de31d1e4041d1a577c418823f3bc0dd79a144db4891917e2e1429131ebd073",
+      "547980b61a535456da5bfff602989b7305f1e696367503a5b0fb9c56b6b42a0e",
+      "c7eb916f572aa0f3bca0edf61c966ce0915625e834c1411365bea3463ad4c43c",
+      "91c60fa831c06f498f6d3f9df19f1ae580b4276f9c37d8328fe8f85ad72efcbd",
+      "c7c0b0caf20d657c0f8e1f9d1c28a94de941a85d9d5667b4f9eab31a7232d4a3"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "751d2205586dba62897039b725e1e606287e23fd4be14f3521e0c97bc43932a3",
+    "status": "uploaded",
+    "youtube_video_id": "JOYCEzk6TJs",
+    "url": "https://youtu.be/JOYCEzk6TJs",
+    "thumbnail_status": "uploaded"
   }
 ]
