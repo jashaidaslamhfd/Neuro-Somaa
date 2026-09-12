@@ -100,6 +100,12 @@ qu'il résout une enquête scène après scène, jusqu'à ce que tous les points
 # the same way the hook and structure are.
 METADATA_RULES = """MÉTADONNÉES SEO — obligatoires dans le JSON, en plus du titre et des scènes :
 
+"title" : DOIT contenir le ou les mots-clés concrets du sujet exact (l'organe, le
+phénomène, le mot précis que quelqu'un taperait dans la recherche YouTube) — jamais
+une accroche vague sans mot-clé identifiable. DOIT être une phrase COMPLÈTE se
+terminant par une ponctuation (?, !, .) — jamais coupée avant le dernier mot.
+35-70 caractères, jamais plus de 90.
+
 "description" : 1 à 2 phrases en français qui reformulent le hook du titre SANS donner la
 réponse, suivies d'exactement 3 à 5 hashtags français pertinents au sujet PRÉCIS de la
 vidéo (jamais génériques comme "#shorts" seul) — ex. "#cerveau #neurosciences #saistu
@@ -111,7 +117,10 @@ vidéo (jamais une liste générique répétée à chaque vidéo). Mélange obli
 - 3-4 mots-clés spécifiques au sujet exact de cette vidéo
 - 2-3 variantes de longue traîne en style recherche (ex. "pourquoi on bâille")
 - 1-2 tags de marché : "france", "shorts français"
-Ne réutilise jamais mot pour mot la liste de tags d'une vidéo précédente."""
+IMPORTANT : au moins 2 mots-clés significatifs du TITRE doivent réapparaître dans les
+tags (même racine/mot) — titre, description et tags doivent parler du MÊME mot-clé
+précis, pas de sujets vaguement liés. Ne réutilise jamais mot pour mot la liste de
+tags d'une vidéo précédente."""
 
 # Generic openers that waste the first watch-time seconds instead of hooking
 # the viewer — a Short that starts here is far more likely to be skipped.
@@ -382,7 +391,33 @@ def _extract_json(text: str) -> dict[str, Any]:
     description = str(payload.get("description", ""))
     if not description or description.count("#") < 3:
         raise ValueError("la description doit inclure 3 à 5 hashtags pertinents au sujet")
-    payload["title"] = _clean_fr(str(payload.get("title", "")))
+    title = _clean_fr(str(payload.get("title", "")))
+    # Hard title-integrity checks — this is what catches a broken/cut-off
+    # title (e.g. a real historical case ended mid-word with no final word
+    # or punctuation: "...son cœur battre la"). Rather than silently
+    # truncating or shipping it, reject here so the LLM retries with the
+    # existing feedback loop, the same way hook_score already does.
+    if not title:
+        raise ValueError("le titre est vide")
+    if not title.rstrip().endswith(("?", "!", ".", "…")):
+        raise ValueError("le titre semble coupé — il doit se terminer par une ponctuation (?, !, .)")
+    if len(title) > 90:
+        raise ValueError(f"le titre fait {len(title)} caractères, jamais plus de 70-90 (voir consignes de titre)")
+    if len(_title_words(title)) < 2:
+        raise ValueError("le titre est trop court ou vide de sens, il doit contenir au moins 2 mots significatifs")
+    # Keyword alignment: the title, tags, and description are only useful for
+    # SEO together if they actually share real keywords — a generic-but-valid
+    # title with unrelated tags defeats the point of METADATA_RULES. Require
+    # at least 2 significant title words to reappear somewhere in the tags.
+    title_words = _title_words(title)
+    tag_blob = " ".join(str(t).lower() for t in tags)
+    overlap = {w for w in title_words if w in tag_blob}
+    if len(overlap) < 2:
+        raise ValueError(
+            "les tags doivent partager au moins 2 mots-clés du titre "
+            f"(titre: {sorted(title_words)}, tags actuels ne correspondent pas assez)"
+        )
+    payload["title"] = title
     payload["description"] = _clean_fr(description)
     payload["tags"] = [_clean_fr(str(tag)) for tag in tags][:12]
     for scene in payload["scenes"]:
