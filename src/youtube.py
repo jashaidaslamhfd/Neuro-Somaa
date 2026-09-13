@@ -41,7 +41,10 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
         token_uri="https://oauth2.googleapis.com/token",
         client_id=os.environ["GOOGLE_CLIENT_ID"],
         client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
-        scopes=["https://www.googleapis.com/auth/youtube.upload"],
+        scopes=[
+            "https://www.googleapis.com/auth/youtube.upload",
+            "https://www.googleapis.com/auth/youtube.force-ssl",
+        ],
     )
     credentials.refresh(Request())
     youtube = build("youtube", "v3", credentials=credentials, cache_discovery=False)

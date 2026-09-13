@@ -363,14 +363,14 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science #france",
         "tags": _fallback_tags(clean),
         "scenes": [
-            {"caption": "ATTENDS—ton cerveau fait ça.", "narration": clean + " ?"},
+            {"caption": "ATTENDS—ton corps fait ça.", "narration": clean + " ?"},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
             {"caption": "Il repère d’abord un signal.", "narration": "Il repère d’abord un signal."},
-            {"caption": "Puis il cherche un souvenir lié.", "narration": "Puis il cherche un souvenir lié."},
-            {"caption": "Une odeur peut réveiller une émotion.", "narration": "Une odeur peut réveiller une émotion."},
-            {"caption": "Le cerveau associe les deux très vite.", "narration": "Le cerveau associe les deux très vite."},
-            {"caption": "C’est pourquoi le souvenir semble soudain.", "narration": "C’est pourquoi le souvenir semble soudain."},
-            {"caption": "Observe-le la prochaine fois.", "narration": "Observe-le la prochaine fois."},
+            {"caption": "Puis ton système nerveux réagit.", "narration": "Puis ton système nerveux réagit."},
+            {"caption": "Une réaction réflexe s'active.", "narration": "Une réaction réflexe s'active en chaîne."},
+            {"caption": "Ton organisme s'adapte très vite.", "narration": "Ton organisme s'adapte très vite."},
+            {"caption": "C’est pourquoi l'effet semble soudain.", "narration": "C’est pourquoi l'effet semble soudain."},
+            {"caption": "Observe ton corps la prochaine fois.", "narration": "Observe ton corps la prochaine fois."},
         ],
     }
 

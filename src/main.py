@@ -104,10 +104,14 @@ def run() -> dict:
     }
     upload_result = upload(video_path, script, SETTINGS)
     result.update(upload_result)
-    _write_history(result)
-    clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
-    (SETTINGS.data_dir / "clip_history.json").write_text(json.dumps(clip_history[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
-    _persist_state()
+    if not SETTINGS.dry_run and not SETTINGS.render_only and result.get("status") == "uploaded":
+        _write_history(result)
+        clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
+        (SETTINGS.data_dir / "clip_history.json").write_text(json.dumps(clip_history[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
+        _persist_state()
+        logger.info("Uploaded video state persisted.")
+    else:
+        logger.info("Dry-run/render-only complete; skipping history persistence.")
     logger.info("Pipeline complete: %s", result.get("url", result.get("status")))
     return result
 

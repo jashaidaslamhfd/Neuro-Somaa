@@ -162,7 +162,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
         raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")
     concat = settings.output_dir / "video_concat.txt"
-    concat.write_text("\n".join(f"file '{Path(item['segment_path']).resolve()}'" for item in segments), encoding="utf-8")
+    concat.write_text("\n".join(f"file '{Path(item['segment_path']).resolve().as_posix()}'" for item in segments), encoding="utf-8")
     video = settings.output_dir / "neuro_somaa_fr.mp4"
     # Re-encode the concat: provider clips can carry different frame rates and
     # timebases, which makes stream-copy concat report wildly inflated duration.
