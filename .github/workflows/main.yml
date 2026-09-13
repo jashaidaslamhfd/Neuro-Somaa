@@ -7,7 +7,7 @@ on:
         description: "Generate and validate without YouTube upload"
         required: true
         type: boolean
-        default: true
+        default: false
       render_only:
         description: "Render with real French narration and clips without uploading"
         required: true
