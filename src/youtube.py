@@ -75,7 +75,7 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
 
         local_zone = ZoneInfo(settings.timezone)
         now_local = datetime.now(UTC).astimezone(local_zone)
-        slot_hours = ((17, 30), (19, 30), (21, 30))
+        slot_hours = ((14, 30), (17, 30), (20, 00))
         slot_env = os.getenv("PUBLISH_SLOT", "").strip()
         if slot_env:
             try:
