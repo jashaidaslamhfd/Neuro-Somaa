@@ -5,7 +5,12 @@ import json
 import logging
 import re
 import subprocess
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+
+try:
+    from datetime import UTC
+except ImportError:
+    UTC = timezone.utc  # noqa: UP017
 
 from config import SETTINGS
 from content import generate_script, load_topic, score_hook, score_script_quality

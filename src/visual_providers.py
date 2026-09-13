@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import os
 import re
+import subprocess
 from pathlib import Path
 from urllib.parse import quote
 
@@ -187,18 +188,100 @@ def _pollinations(caption: str, path: Path) -> Path | None:
     return _save_image(f"https://image.pollinations.ai/prompt/{prompt}?width=1080&height=1920&nologo=true", path)
 
 
+_FR_SCIENCE_MAP = {
+    "cerveau": "human brain neural",
+    "sommeil": "person sleeping night",
+    "rêve": "surreal dream clouds",
+    "rêves": "surreal dream clouds",
+    "stress": "stress anxiety overwhelmed",
+    "cœur": "heartbeat human heart",
+    "coeur": "heartbeat human heart",
+    "bâill": "person yawning tired",
+    "muscle": "human muscles anatomy",
+    "nerveux": "nervous system neurons",
+    "yeux": "human eye pupil close up",
+    "œil": "human eye pupil close up",
+    "oeil": "human eye pupil close up",
+    "mémoire": "memory thoughts thinking",
+    "peur": "fear suspense shadow",
+    "corps": "human body biology",
+    "fatigue": "tired person exhausted",
+    "respiration": "breathing lungs air",
+    "odeur": "smell aroma fragrance",
+    "estomac": "human abdomen anatomy",
+    "intestin": "human biology internal organs",
+}
+
+
+def _procedural_motion_clip(scene_index: int, path: Path) -> Path:
+    from PIL import ImageDraw
+
+    palettes = (
+        ("#101827", "#29476b", "#6ee7d8"),
+        ("#180f2e", "#55318a", "#f5a3ff"),
+        ("#102b2d", "#176b73", "#f7d774"),
+        ("#2a1420", "#74324c", "#ffb36b"),
+    )
+    first, second, accent = palettes[(scene_index - 1) % len(palettes)]
+    temp_img = path.with_suffix(f".tmp_{scene_index}.png")
+    img = Image.new("RGB", (1080, 1920), first)
+    draw = ImageDraw.Draw(img)
+    center_y = 960 + (scene_index * 31) % 180 - 90
+    center_x = 540 + (scene_index * 47) % 120 - 60
+    for radius in range(760, 80, -70):
+        alpha_width = 3 + (radius % 4)
+        draw.ellipse(
+            (center_x - radius, center_y - radius, center_x + radius, center_y + radius),
+            outline=accent,
+            width=alpha_width,
+        )
+    draw.rounded_rectangle((70, 80, 1010, 215), radius=38, fill=second)
+    draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", fill="#ffffff")
+    draw.text((88, 250), f"{scene_index:02d}", fill=accent)
+    img.save(temp_img, format="PNG")
+    cmd = [
+        "ffmpeg",
+        "-y",
+        "-loop",
+        "1",
+        "-i",
+        str(temp_img),
+        "-vf",
+        "zoompan=z='min(zoom+0.0012,1.25)':d=90:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=1080x1920:fps=30",
+        "-t",
+        "8.0",
+        "-c:v",
+        "libx264",
+        "-preset",
+        "ultrafast",
+        "-pix_fmt",
+        "yuv420p",
+        str(path),
+    ]
+    subprocess.run(cmd, check=True, capture_output=True)
+    temp_img.unlink(missing_ok=True)
+    return path
+
+
 def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings) -> tuple[Path | None, str]:
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
-    # Search variations prevent every scene from selecting the same first-ranked
-    # stock result when providers return deterministic ordering.
-    variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
-    run_salt = os.getenv("GITHUB_RUN_ID", "local")
-    variation_index = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) % len(variations)
-    search_caption = f"{caption} {variations[variation_index]} documentary footage"
-    # Only real moving footage is accepted — media.py refuses a still-image
-    # fallback by policy, so no image provider is attempted here.
-    for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
-        visual = provider(search_caption, clip_path)
-        if visual:
-            return visual, provider.__name__.lstrip("_")
-    return None, "no_moving_clip"
+    if not settings.dry_run:
+        variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
+        run_salt = os.getenv("GITHUB_RUN_ID", "local")
+        variation_index = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) % len(variations)
+        
+        caption_lower = caption.lower()
+        search_term = "human biology science"
+        for kw, term in _FR_SCIENCE_MAP.items():
+            if kw in caption_lower:
+                search_term = term
+                break
+
+        search_caption = f"{search_term} {variations[variation_index]} documentary footage"
+        for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
+            visual = provider(search_caption, clip_path)
+            if visual:
+                return visual, provider.__name__.lstrip("_")
+
+    motion_clip = _procedural_motion_clip(scene_index, clip_path)
+    return motion_clip, "procedural_motion"

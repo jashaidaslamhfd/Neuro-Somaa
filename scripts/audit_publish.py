@@ -78,10 +78,12 @@ def main() -> int:
             "privacyStatus": "public",
             "selfDeclaredMadeForKids": bool(current_status.get("selfDeclaredMadeForKids", False)),
         }
-        updated = youtube.videos().update(part="status", body={"id": args.video_id, "status": status}).execute()
-        after = audit(updated)
-        print(json.dumps({"after": after, "public": after["privacy_status"] == "public"}, ensure_ascii=False, indent=2))
-        return 0 if after["privacy_status"] == "public" else 1
+        youtube.videos().update(part="status", body={"id": args.video_id, "status": status}).execute()
+        refreshed = youtube.videos().list(part="snippet,status", id=args.video_id).execute().get("items", [])
+        after = audit(refreshed[0]) if refreshed else {}
+        is_public = after.get("privacy_status") == "public"
+        print(json.dumps({"after": after, "public": is_public}, ensure_ascii=False, indent=2))
+        return 0 if is_public else 1
     return 0
 
 

@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
+from visual_providers import fetch_visual
 
 
 def _safe_truncate(text: str, limit: int) -> str:
@@ -22,7 +23,6 @@ def _safe_truncate(text: str, limit: int) -> str:
         return text
     truncated = text[:limit].rsplit(" ", 1)[0].rstrip(" ,.;:!?-")
     return truncated or text[:limit]
-from visual_providers import fetch_visual
 
 WIDTH, HEIGHT = 1080, 1920
 PALETTES = (("#101827", "#29476b", "#6ee7d8"), ("#180f2e", "#55318a", "#f5a3ff"), ("#102b2d", "#176b73", "#f7d774"), ("#2a1420", "#74324c", "#ffb36b"))
