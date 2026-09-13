@@ -268,12 +268,12 @@ def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> 
     return path
 
 
-def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings) -> tuple[Path | None, str]:
+def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings, used_hashes: set[str] | None = None) -> tuple[Path | None, str]:
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
     if not settings.dry_run:
-        variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract")
+        variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract", "cinematic", "laboratory")
         run_salt = os.getenv("GITHUB_RUN_ID", "local")
-        variation_index = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) % len(variations)
+        variation_index = (int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) + scene_index) % len(variations)
         
         caption_lower = caption.lower()
         search_term = "human biology science"
@@ -286,7 +286,11 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
         for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
             visual = provider(search_caption, clip_path)
             if visual:
+                # If this clip was already used in an earlier scene, fall through to procedural motion
+                clip_h = hashlib.sha256(visual.read_bytes()).hexdigest()
+                if used_hashes and clip_h in used_hashes:
+                    continue
                 return visual, provider.__name__.lstrip("_")
 
-    motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=caption)
+    motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=f"{caption}:{scene_index}")
     return motion_clip, "procedural_motion"
