@@ -213,8 +213,9 @@ _FR_SCIENCE_MAP = {
 }
 
 
-def _procedural_motion_clip(scene_index: int, path: Path) -> Path:
+def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> Path:
     from PIL import ImageDraw
+    import time
 
     palettes = (
         ("#101827", "#29476b", "#6ee7d8"),
@@ -226,8 +227,12 @@ def _procedural_motion_clip(scene_index: int, path: Path) -> Path:
     temp_img = path.with_suffix(f".tmp_{scene_index}.png")
     img = Image.new("RGB", (1080, 1920), first)
     draw = ImageDraw.Draw(img)
-    center_y = 960 + (scene_index * 31) % 180 - 90
-    center_x = 540 + (scene_index * 47) % 120 - 60
+
+    # Dynamic entropy injection: ensures clip hash is distinct across runs
+    run_salt = os.getenv("GITHUB_RUN_ID", str(time.time()))
+    entropy = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16)
+    center_y = 960 + (entropy % 180) - 90
+    center_x = 540 + ((entropy >> 8) % 120) - 60
     for radius in range(760, 80, -70):
         alpha_width = 3 + (radius % 4)
         draw.ellipse(
@@ -283,5 +288,5 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
             if visual:
                 return visual, provider.__name__.lstrip("_")
 
-    motion_clip = _procedural_motion_clip(scene_index, clip_path)
+    motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=caption)
     return motion_clip, "procedural_motion"

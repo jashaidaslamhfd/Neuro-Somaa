@@ -17,6 +17,7 @@ from content import generate_script, load_topic, score_hook, score_script_qualit
 from media import render_video, validate_video
 from thumbnails import build_thumbnail
 from youtube import upload
+from meta import is_meta_configured, upload_to_facebook_reels
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("neuro_somaa")
@@ -109,12 +110,32 @@ def run() -> dict:
     }
     upload_result = upload(video_path, script, SETTINGS)
     result.update(upload_result)
+
+    # Multi-Platform Distribution: Meta (Facebook Page Reels)
+    if not SETTINGS.dry_run and not SETTINGS.render_only and is_meta_configured():
+        logger.info("Publishing cross-post to Facebook Page Reels...")
+        meta_result = upload_to_facebook_reels(
+            video_path=video_path,
+            title=script["title"],
+            description=script.get("description", ""),
+        )
+        result.update(meta_result)
+    else:
+        result["facebook_success"] = False
+        result["facebook_note"] = "Dry run, render only, or Meta credentials not configured"
     if not SETTINGS.dry_run and not SETTINGS.render_only and result.get("status") == "uploaded":
         _write_history(result)
         clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
         (SETTINGS.data_dir / "clip_history.json").write_text(json.dumps(clip_history[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
         _persist_state()
         logger.info("Uploaded video state persisted.")
+
+    # Clean intermediate render artifacts to conserve disk in CI runner
+    for sub_dir in ("scenes", "segments"):
+        target_dir = SETTINGS.output_dir / sub_dir
+        if target_dir.exists():
+            import shutil
+            shutil.rmtree(target_dir, ignore_errors=True)
     else:
         logger.info("Dry-run/render-only complete; skipping history persistence.")
     logger.info("Pipeline complete: %s", result.get("url", result.get("status")))

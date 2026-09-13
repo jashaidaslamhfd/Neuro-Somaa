@@ -433,13 +433,33 @@ def _extract_json(text: str) -> dict[str, Any]:
 def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     if settings.dry_run or not settings.llm_keys:
         return _fallback_script(topic)
-    api_key = os.getenv(settings.llm_keys[0], "")
-    if settings.llm_keys[0] != "GROQ_API_KEY":
-        return _fallback_script(topic)
-    try:
-        from groq import Groq
-        client = Groq(api_key=api_key)
-    except Exception:
+    # Multi-provider LLM resolution: Groq preferred, fallback to OpenRouter
+    client = None
+    llm_model = settings.llm_model
+    for key_name in settings.llm_keys:
+        k = os.getenv(key_name, "").strip()
+        if not k:
+            continue
+        if key_name == "GROQ_API_KEY":
+            try:
+                from groq import Groq
+                client = Groq(api_key=k)
+                break
+            except Exception:
+                continue
+        elif key_name in ("OPENROUTER_API_KEY", "ALT_LLM_API_KEY"):
+            try:
+                import openai
+                client = openai.OpenAI(
+                    api_key=k,
+                    base_url="https://openrouter.ai/api/v1",
+                )
+                llm_model = os.getenv("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
+                break
+            except Exception:
+                continue
+
+    if client is None:
         return _fallback_script(topic)
 
     system_prompt = (
@@ -465,7 +485,7 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     for attempt in range(1, max_attempts + 1):
         try:
             response = client.chat.completions.create(
-                model=settings.llm_model,
+                model=llm_model,
                 temperature=0.6,
                 response_format={"type": "json_object"},
                 messages=messages,
