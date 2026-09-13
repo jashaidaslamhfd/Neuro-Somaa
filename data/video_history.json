@@ -3224,5 +3224,43 @@
     "youtube_video_id": "JOYCEzk6TJs",
     "url": "https://youtu.be/JOYCEzk6TJs",
     "thumbnail_status": "uploaded"
+  },
+  {
+    "created_at": "2026-09-13T19:25:18.700842+00:00",
+    "topic": "Pourquoi alors que votre cerveau reste en état d'alerte après un stress, la musique pourrait l'aider à en sortir?",
+    "title": "Pourquoi alors que votre cerveau reste?",
+    "duration": 22.472333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "aa67970cc95bfcafa96f667bced8c2d0d2c74116a5cc24c22fe23e21901112d7",
+      "4aaffc39aac5fc6dad31f92593ff2f1fe680fdf52edae3f3259ba67491a04056",
+      "01c2291d6fac91f3809df44be6c8fddf237b209794b3c7cb5c9970d391d72d3d",
+      "1d044cc91786626a2c95144952622a7ea31d228c42c89a7a89cf39ef98d83768",
+      "589805e05299182881475f79920040b6e670312cb6d6e75fdb2117da19a44e95",
+      "12080db8a22b4ac1a732fa49564aaabedb311fd30a5f6337458e07f35b844b44",
+      "1fef9e1299dd8d8b8f87cb6c7cc74c516ea52b5631b26e61c5a91c619e5d8cd1",
+      "d62d5820bbecbad54d521352f08bb3690bdb62d9604ea75c64c66e0dca68d8f7"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "bce143ee275ec8f8a096d74f47fd20dbaa3cc5ee18736f95a7f355c52bff3c03",
+    "status": "uploaded",
+    "youtube_video_id": "BYaH1bgUowY",
+    "url": "https://youtu.be/BYaH1bgUowY",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
