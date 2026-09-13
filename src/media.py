@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
-from visual_providers import fetch_visual
+from visual_providers import fetch_visual, _procedural_motion_clip
 
 
 def _safe_truncate(text: str, limit: int) -> str:
@@ -123,13 +123,16 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
             mixed_path = audio_dir / f"scene_{index:02d}_mixed.wav"
             mix_background_music(audio_path, music_path, elapsed, mixed_path, settings.music_gain_db)
         elapsed += duration
-        source_path, source_provider = fetch_visual(caption, index, scene_dir, settings)
+        source_path, source_provider = fetch_visual(caption, index, scene_dir, settings, used_hashes=used_clip_hashes)
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
         if not is_clip:
             raise RuntimeError(f"No moving stock clip available for scene {index}; refusing still-image fallback")
         clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
         if clip_hash in used_clip_hashes:
-            raise RuntimeError(f"Duplicate moving clip detected in scene {index}; refusing render")
+            # Fallback to distinct procedural clip with unique index salt if provider returned a duplicate
+            source_path = _procedural_motion_clip(index, source_path, caption=f"{caption}:fallback:{index}")
+            clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
+            source_provider = "procedural_motion"
         used_clip_hashes.add(clip_hash)
         words = caption.split() or [caption]
         overlay_paths = []
