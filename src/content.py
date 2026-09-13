@@ -16,10 +16,11 @@ FALLBACK_TOPICS = [
 ]
 
 FRANCE_COPY_RULES = (
-    "Écris en français de France métropolitaine, naturel et actuel. Utilise le tutoiement "
-    "(tu, ton, ta, tes) pour parler directement au spectateur. Évite les calques de l’anglais, "
-    "les tournures québécoises ou belges non nécessaires, le jargon administratif et les formulations "
-    "trop littérales. Préfère des phrases courtes, fluides et orales, sans exagération médicale."
+    "Écris en français parlé naturel (France métropolitaine / audience européenne francophone), "
+    "ultra-rythmé et percutant. Utilise systématiquement le tutoiement direct (tu, ton, ta, tes, toi). "
+    "Adopte les tournures de l'oral naturel (ex: 'c'est pas' au lieu de 'ce n'est pas', 't'as remarqué' au lieu de 'as-tu remarqué'). "
+    "Bannis le ton scolaire, les calques de l'anglais, le jargon pseudo-médical et le remplissage. "
+    "Chaque phrase doit agir comme un interrupteur d'attention visuel et sonore pour maximiser la rétention (APV > 85%)."
 )
 
 # This mirrors score_hook() / score_script_quality() below line for line, so the
@@ -98,29 +99,26 @@ qu'il résout une enquête scène après scène, jusqu'à ce que tous les points
 # generations uploaded with empty tags most of the time. This makes
 # topic-specific metadata a required, validated part of the JSON contract,
 # the same way the hook and structure are.
-METADATA_RULES = """MÉTADONNÉES SEO — obligatoires dans le JSON, en plus du titre et des scènes :
+METADATA_RULES = """MÉTADONNÉES SEO & ALGORITHME EUROPÉEN/FRANÇAIS — obligatoires dans le JSON :
 
-"title" : DOIT contenir le ou les mots-clés concrets du sujet exact (l'organe, le
-phénomène, le mot précis que quelqu'un taperait dans la recherche YouTube) — jamais
-une accroche vague sans mot-clé identifiable. DOIT être une phrase COMPLÈTE se
-terminant par une ponctuation (?, !, .) — jamais coupée avant le dernier mot.
-35-70 caractères, jamais plus de 90.
+"title" : DOIT être un titre à HAUTE RÉTENTION conçu pour le public français et européen francophone.
+Deux structures au choix :
+1) QUESTION VIRALE (avec mot interrogatif : pourquoi, comment, et si, ce que) : ex. "Pourquoi ton cerveau fait ça quand tu stresses ?"
+2) AFFIRMATION CHOC / DÉCONSTRUCTION DE MYTHE (Broken Title) : ex. "Arrête de faire ça au réveil !" ou "Ton cerveau t'efface tes souvenirs exprès."
+- Doit impérativement intégrer 1 à 2 mots-clés de recherche concrets (nom d'organe, réflexe, sensation, comportement).
+- DOIT être une phrase COMPLÈTE se terminant par une ponctuation (?, !, .). Longueur optimale : 35 à 65 caractères (max 80).
 
-"description" : 1 à 2 phrases en français qui reformulent le hook du titre SANS donner la
-réponse, suivies d'exactement 3 à 5 hashtags français pertinents au sujet PRÉCIS de la
-vidéo (jamais génériques comme "#shorts" seul) — ex. "#cerveau #neurosciences #saistu
-#shorts #france". Longueur totale max 400 caractères.
+"description" : Optimisée pour le référencement YouTube France/Europe.
+- 1 à 2 phrases d'accroche percutantes qui posent le mystère SANS révéler la solution (curiosity gap).
+- 1 phrase d'engagement/mots-clés naturels qui intègre le mot-clé principal et invite au débat ("Dis-moi en commentaire si ça t'arrive aussi.").
+- Exactement 4 à 5 hashtags pertinents, français et ciblés France/Europe : obligatoirement #shorts #science #france #neurosciences plus 1 hashtag spécifique au sujet précis (ex. #sommeil, #stress, #reflexe). Longueur max 450 caractères.
 
-"tags" : liste de 8 à 12 mots-clés français EN RAPPORT DIRECT avec le sujet exact de cette
-vidéo (jamais une liste générique répétée à chaque vidéo). Mélange obligatoire :
-- 2-3 mots-clés larges (ex. "science", "corps humain")
-- 3-4 mots-clés spécifiques au sujet exact de cette vidéo
-- 2-3 variantes de longue traîne en style recherche (ex. "pourquoi on bâille")
-- 1-2 tags de marché : "france", "shorts français"
-IMPORTANT : au moins 2 mots-clés significatifs du TITRE doivent réapparaître dans les
-tags (même racine/mot) — titre, description et tags doivent parler du MÊME mot-clé
-précis, pas de sujets vaguement liés. Ne réutilise jamais mot pour mot la liste de
-tags d'une vidéo précédente."""
+"tags" : Liste de 8 à 12 mots-clés français stratégiques pour capter le flux de recommandation européen francophone :
+- 2-3 tags larges : "science", "corps humain", "curiosité"
+- 3-4 tags ultra-spécifiques au sujet exact de cette vidéo
+- 2-3 requêtes de recherche naturelles en longue traîne (ex. "pourquoi on bâille", "réflexe du corps")
+- 2 tags de ciblage géographique/linguistique : "france", "shorts français"
+IMPORTANT : Au moins 2 mots-clés significatifs du TITRE doivent réapparaître dans les tags."""
 
 # Generic openers that waste the first watch-time seconds instead of hooking
 # the viewer — a Short that starts here is far more likely to be skipped.
@@ -135,7 +133,7 @@ _CURIOSITY_WORDS = ("pourquoi", "comment", "et si", "ce que")
 # word signals a "POV-reveal" style hook — the channel's own analytics
 # (hook_arms, growth_state.hook_weights) show this style outperforming plain
 # questions, so it earns the same credit as a question instead of a penalty.
-_REVEAL_INTERJECTIONS = ("attends", "stop", "regarde", "voici", "écoute", "alerte", "imagine")
+_REVEAL_INTERJECTIONS = ("attends", "stop", "regarde", "voici", "écoute", "alerte", "imagine", "arrête", "regarde-ça", "attention")
 
 
 _LEADING_WORD_RE = re.compile(r"^([A-ZÀ-Ü][A-ZÀ-Üa-zà-ÿ']*)")
@@ -358,10 +356,16 @@ def _fallback_script(topic: str) -> dict[str, Any]:
     # twist, final clue, reveal, payoff — kept in sync by hand since this
     # path never calls the LLM.
     clean = _clean_fr(topic).rstrip("?")
+    title = _clean_fr(clean + " ?")
+    tags = _fallback_tags(clean)
+    # Ensure mandatory European/French market tags
+    for market_tag in ("france", "shorts français", "science"):
+        if market_tag not in tags:
+            tags.append(market_tag)
     return {
-        "title": _clean_fr(clean + " ?"),
-        "description": f"Tu vas comprendre pourquoi {clean.lower()}. Une explication claire en quelques secondes. #shorts #science #france",
-        "tags": _fallback_tags(clean),
+        "title": title,
+        "description": f"Tu vas comprendre pourquoi {clean.lower()} en 15 secondes. Découvre ce mécanisme fascinant. #shorts #science #france #neurosciences",
+        "tags": tags[:12],
         "scenes": [
             {"caption": "ATTENDS—ton corps fait ça.", "narration": clean + " ?"},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
