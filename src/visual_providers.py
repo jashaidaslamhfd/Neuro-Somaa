@@ -151,7 +151,7 @@ def _commons_clip(caption: str, path: Path) -> Path | None:
                       if p.get("imageinfo") and p["imageinfo"][0].get("mime", "").startswith("video/")]
         if not candidates:
             return None
-        return _save_video(candidates[int(os.getenv("GITHUB_RUN_ID", "0")) % len(candidates)], path)
+        return _save_video(candidates[int(hashlib.sha256(f"{os.getenv('GITHUB_RUN_ID', '0')}:{caption}".encode()).hexdigest()[:8], 16) % len(candidates)], path)
     except (KeyError, ValueError, requests.RequestException):
         return None
 
@@ -175,7 +175,7 @@ def _archive_clip(caption: str, path: Path) -> Path | None:
                     break
         if not candidates:
             return None
-        return _save_video(candidates[int(os.getenv("GITHUB_RUN_ID", "0")) % len(candidates)], path)
+        return _save_video(candidates[int(hashlib.sha256(f"{os.getenv('GITHUB_RUN_ID', '0')}:{caption}".encode()).hexdigest()[:8], 16) % len(candidates)], path)
     except (KeyError, ValueError, requests.RequestException):
         return None
 

@@ -159,6 +159,28 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
         subprocess.run(command, check=True, capture_output=True)
         segments.append({"path": str(mixed_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash, "music_track": music_path.name if music_path else None})
     total = sum(float(item["duration"]) for item in segments)
+    max_allowed = settings.max_seconds + 3.0
+    # Resiliency: If duration slightly exceeds tolerance (up to 28s), speed up slightly via FFmpeg rather than crashing
+    if total > max_allowed and total <= 28.0:
+        speed_factor = min(1.25, total / settings.max_seconds)
+        adjusted_segments = []
+        for seg in segments:
+            p = Path(seg["segment_path"])
+            adj_path = p.with_name(f"{p.stem}_adj.mp4")
+            # Speed up video and audio seamlessly to fit perfectly in target window
+            subprocess.run([
+                "ffmpeg", "-y", "-i", str(p),
+                "-filter_complex", f"[0:v]setpts={1.0/speed_factor:.4f}*PTS[v];[0:a]atempo={speed_factor:.4f}[a]",
+                "-map", "[v]", "-map", "[a]",
+                "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                str(adj_path)
+            ], check=True, capture_output=True)
+            seg["segment_path"] = str(adj_path)
+            seg["duration"] = seg["duration"] / speed_factor
+            adjusted_segments.append(seg)
+        segments = adjusted_segments
+        total = sum(float(item["duration"]) for item in segments)
+
     if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
         raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")
     concat = settings.output_dir / "video_concat.txt"

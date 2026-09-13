@@ -356,7 +356,13 @@ def _fallback_script(topic: str) -> dict[str, Any]:
     # twist, final clue, reveal, payoff — kept in sync by hand since this
     # path never calls the LLM.
     clean = _clean_fr(topic).rstrip("?")
-    title = _clean_fr(clean + " ?")
+    clean_words = clean.split()
+    # Ensure hook narration is concise (max 6 words) so audio duration stays strictly within 15-20s
+    if len(clean_words) > 6:
+        hook_narration = " ".join(clean_words[:5]).rstrip(" ,.;:!-") + " ?"
+    else:
+        hook_narration = clean + " ?"
+    title = _clean_fr((clean if len(clean) <= 65 else " ".join(clean_words[:6])) + " ?")
     tags = _fallback_tags(clean)
     # Ensure mandatory European/French market tags
     for market_tag in ("france", "shorts français", "science"):
@@ -364,10 +370,10 @@ def _fallback_script(topic: str) -> dict[str, Any]:
             tags.append(market_tag)
     return {
         "title": title,
-        "description": f"Tu vas comprendre pourquoi {clean.lower()} en 15 secondes. Découvre ce mécanisme fascinant. #shorts #science #france #neurosciences",
+        "description": f"Tu vas comprendre pourquoi {clean.lower()[:80]} en 15 secondes. Découvre ce mécanisme fascinant. #shorts #science #france #neurosciences",
         "tags": tags[:12],
         "scenes": [
-            {"caption": "ATTENDS—ton corps fait ça.", "narration": clean + " ?"},
+            {"caption": "ATTENDS—ton corps fait ça.", "narration": hook_narration},
             {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
             {"caption": "Il repère d’abord un signal.", "narration": "Il repère d’abord un signal."},
             {"caption": "Puis ton système nerveux réagit.", "narration": "Puis ton système nerveux réagit."},
@@ -433,33 +439,32 @@ def _extract_json(text: str) -> dict[str, Any]:
 def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     if settings.dry_run or not settings.llm_keys:
         return _fallback_script(topic)
-    # Multi-provider LLM resolution: Groq preferred, fallback to OpenRouter
-    client = None
-    llm_model = settings.llm_model
-    for key_name in settings.llm_keys:
-        k = os.getenv(key_name, "").strip()
-        if not k:
-            continue
-        if key_name == "GROQ_API_KEY":
-            try:
-                from groq import Groq
-                client = Groq(api_key=k)
-                break
-            except Exception:
-                continue
-        elif key_name in ("OPENROUTER_API_KEY", "ALT_LLM_API_KEY"):
+
+    # Multi-provider LLM resolution: Groq primary (with certified model), OpenRouter fallback
+    providers: list[tuple[Any, str]] = []
+    groq_key = os.getenv("GROQ_API_KEY", "").strip()
+    if groq_key:
+        try:
+            from groq import Groq
+            chosen_model = settings.llm_model or "llama-3.3-70b-versatile"
+            if "llama" not in chosen_model.lower():
+                chosen_model = "llama-3.3-70b-versatile"
+            providers.append((Groq(api_key=groq_key), chosen_model))
+        except Exception:
+            pass
+
+    for alt_key in ("OPENROUTER_API_KEY", "ALT_LLM_API_KEY"):
+        k = os.getenv(alt_key, "").strip()
+        if k:
             try:
                 import openai
-                client = openai.OpenAI(
-                    api_key=k,
-                    base_url="https://openrouter.ai/api/v1",
-                )
-                llm_model = os.getenv("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct")
+                alt_model = os.getenv("OPENROUTER_MODEL") or "meta-llama/llama-3.3-70b-instruct"
+                providers.append((openai.OpenAI(api_key=k, base_url="https://openrouter.ai/api/v1"), alt_model))
                 break
             except Exception:
-                continue
+                pass
 
-    if client is None:
+    if not providers:
         return _fallback_script(topic)
 
     system_prompt = (
@@ -482,46 +487,49 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     ]
 
     max_attempts = 3
-    for attempt in range(1, max_attempts + 1):
-        try:
-            response = client.chat.completions.create(
-                model=llm_model,
-                temperature=0.6,
-                response_format={"type": "json_object"},
-                messages=messages,
-            )
-            raw = response.choices[0].message.content or ""
-            result = _extract_json(raw)
-            scenes = result.get("scenes", [])
-            if len(scenes) != 8:
-                raise ValueError(f"il faut exactement 8 scènes (reçu {len(scenes)})")
-            hook_score = score_hook(str(result.get("title", "")), str(scenes[0].get("caption", "")))
-            quality_score = score_script_quality(scenes)
-            fresh = title_is_fresh(str(result.get("title", "")), settings)
-            if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold and fresh:
-                return result
-            reasons = []
-            if hook_score < settings.min_hook_score:
-                reasons.append(f"score du hook = {hook_score} (minimum requis {settings.min_hook_score})")
-            if quality_score < settings.quality_approval_threshold:
-                reasons.append(f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})")
-            if not fresh:
-                reasons.append(
-                    "le titre ressemble trop à une vidéo récente (mêmes mots-clés ou même mot de départ) — "
-                    "choisis un angle et un premier mot différents"
+    for client, llm_model in providers:
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = client.chat.completions.create(
+                    model=llm_model,
+                    temperature=0.6,
+                    response_format={"type": "json_object"},
+                    messages=messages,
                 )
-            reason = "; ".join(reasons)
-        except (ValueError, KeyError, TypeError) as exc:
-            reason = str(exc)
-        except Exception:
-            # Network/API-level failures are not worth retrying against the same prompt.
-            return _fallback_script(topic)
-        if attempt == max_attempts:
-            break
-        messages.append({"role": "assistant", "content": raw})
-        messages.append({"role": "user", "content": (
-            f"Ta réponse a échoué la validation : {reason} Relis attentivement les règles de notation "
-            "et la structure narrative point par point, et renvoie un JSON complet et corrigé "
-            "(titre + 8 scènes, une scène par rôle de l'enquête) qui respecte STRICTEMENT chaque règle."
-        )})
+                raw = response.choices[0].message.content or ""
+                result = _extract_json(raw)
+                scenes = result.get("scenes", [])
+                if len(scenes) != 8:
+                    raise ValueError(f"il faut exactement 8 scènes (reçu {len(scenes)})")
+                hook_score = score_hook(str(result.get("title", "")), str(scenes[0].get("caption", "")))
+                quality_score = score_script_quality(scenes)
+                fresh = title_is_fresh(str(result.get("title", "")), settings)
+                if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold and fresh:
+                    return result
+                reasons = []
+                if hook_score < settings.min_hook_score:
+                    reasons.append(f"score du hook = {hook_score} (minimum requis {settings.min_hook_score})")
+                if quality_score < settings.quality_approval_threshold:
+                    reasons.append(f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})")
+                if not fresh:
+                    reasons.append(
+                        "le titre ressemble trop à une vidéo récente (mêmes mots-clés ou même mot de départ) — "
+                        "choisis un angle et un premier mot différents"
+                    )
+                reason = "; ".join(reasons)
+            except (ValueError, KeyError, TypeError) as exc:
+                reason = str(exc)
+            except Exception:
+                # If provider threw 404/401/429, break and fallback to next provider
+                break
+
+            if attempt == max_attempts:
+                break
+            messages.append({"role": "assistant", "content": raw})
+            messages.append({"role": "user", "content": (
+                f"Ta réponse a échoué la validation : {reason} Relis attentivement les règles de notation "
+                "et la structure narrative point par point, et renvoie un JSON complet et corrigé "
+                "(titre + 8 scènes, une scène par rôle de l'enquête) qui respecte STRICTEMENT chaque règle."
+            )})
+
     return _fallback_script(topic)
