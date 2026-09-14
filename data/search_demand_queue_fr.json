@@ -1,6 +1,6 @@
 {
   "source": "Google Trends France + French science RSS",
-  "mined_at": "2026-09-14T15:20:39.634181+00:00",
+  "mined_at": "2026-09-14T16:28:23.373982+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxNRFhSOUk4WUhhWE5tZGE4dEY0U0F3dFJWSGE2Wk5hcS1pRmdOR1FHQkdPVi0taG9nYTB1RXk3d1NzX3ZZcXJha0JXRmpNQkFwLUhqRjZzeEpGSXlLYjNnYmoyS0dxMHRUaEx6QmpFRXgwWHphQnIzSU9wSXo1QUpXTjdKOFh3c044Q2xLYmM3NWRaSldoUDA0bUFMQmFUY21oZ2NLd2dNTjZkdmVWRTdodEtMSEpERHpmZklZVkhWQTNGVU5nbkJGYmdyVTFuakdMeUNFQ2pn?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634196+00:00"
+      "fetched_at": "2026-09-14T16:28:23.373993+00:00"
     },
     {
       "series_number": "TREND-2",
@@ -26,7 +26,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxOMjdueFhkNW92VHVlOGdrVWtrU1ZXNDFpRlo4TGxtb3NVLVhMQVVzY2FYd1NVOUhMdkNMcDBXS0N0TEdYQTA1UnY2QXh4UnppdFEtWVhZNTFONEcwNnQwRVhTTnF3RVBINkg1T0ZrQzNSdVFkdEZOamk0UzJGcVN2NkdXNG9iem00b21mTkZfeFhubHNfQUdWdUwzTS1qZ3Z3NFZ1VmYwdGlSd3dGUGtPZ3ZEZksyTEl1MjhKMzY2Zw?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634208+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374000+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -39,7 +39,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxNWXRxd01yVTcxUlVKN1lpeExRYTVmNzhSbFdLRDhyVE5iQTNQM3dXYlNEUlRXdElCUUZDZnBsdndtVFF0ZWdJZVkzVXJ5ajRyUExNamZFWF80MFRKbUZSR2xRWVRiZ2hQRFAwSkNvS1FNVG9ITnd6RTkyQnlNNV9OaGFGSG1WZDlEcW5tdFNmWUVOYnlMQTNnbWJXd1NiMnNGc19OcmFRS0VLTGIteUdKNDR0VVN5OWJfc2ZXaG9wYjZMQkVmOVVaWnEtamZvYzVCMGQxZkFMc3pTaWtuM2k5WDg5aTc3SUdfUncxY0ZqLXZYX2lzUXNZMFNBTHZnYWNTaDdCYldVS1ZnVTJFVFE?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634222+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374010+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -52,7 +52,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxOYUItRFYtcjQ1b3U1aWIwZjlLSlJGWnBEN0x6VDJmR1IxWjZ1TTJGSWFmTHVGb0JZQlF0VkN1WVFaV2loeFhfeEhiNENjdGJSeklhb3Vvak5WX2J3X0JRbGtVcFpnVU1iVXc1MG9SYmYxaEVXdUtzOTRvY1pSZ0pTMDRoOUpBTDc1ZVA5MVhkaU05MThwa0o0aVVRTHZKaXFuLUZLSldyQ3dkbGozT3RCSWo2enhmZ2hQODFXUDJmMlloVFdEMUlTNXlRaDl6UQ?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634231+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374016+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -65,7 +65,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1uVW83UVRXWTNheW82Z1dpWDRhUHRDdUllcGlWWjFWLWdwaDJLUEk5TTRyU3ZqN1ZXX2N1QzEySmdOb1BvRk5EVDF4UTluelBkQ2ptTFBsQTVyYVNXZUNqMTkyRENIYUtj?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634240+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374021+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -78,7 +78,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxOa1dyRDBYcW51U05ERTVYZ1VTQ0Y0bTdrNTR4OTVUWHJvbjlBSDhVaHVVb3d6cEdZWEltXzhGbW9lN2p3Z3FYMGZjMlhmYkR3UlctRjNCN19HMV9zbmk3cWVxMFpaOWhiY3VNUkgyUkZXck5XcDhwQ0hUVFRkQ0FGS21HNmxJUFRNbzRmeWU0QkRwYzRIempKaWdLdWdKbmxoZU1OR29hNzdrTUlHc241SGhOVmk4RTZRWEJoaGZldXVnNDdac3M0eTkwMDU2S09QeFHSAdcBQVVfeXFMT0V5UUFIbjNpM3E0QXNEcXFNSzVEZzVQQkZOeHdMTzd4MExDanktSHhobFdWcElTcG9yaWZwZEk4XzRGaXlhbVVfUnI0bV84bW9YaUxSbU1SQzJDRW9HZ0tnVE9xa3BTM1RpMDlfQ2pkSlFLdEg1anlVT2g2cGhuUXA1VmRwaFdWZS1VYW5weGxCaldTa1BVczZqNTlVOEdtbzlFNTZLY1RobURrNC01M0xUVzk0LWJ2QmlQVUlwRW5TZFY2OWxSMHNCNDBFOFpLVlhiNFliOEU?oc=5",
       "trend_score": 10,
-      "fetched_at": "2026-09-14T15:20:39.634252+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374029+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -91,7 +91,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQcjYyVDlIZl9CcjhCaWVna3phWU9Ebk1yZ2NmWkRCbXVTY1V5Z25FbUFMMlpXNGxROW90ek9TOThhc2xubV9LZWtkcWpIYkZpM1BaZ19DR3ktaXQwWTJuYWRKM1ZKemFuWVVoZlFlcXhlN2lNRXd6VFhoTkUxY2VuR0F2TWdnTThQQTN1eE1kdXVLaHJsVzJ0RXc3NkFsY1NfM2pzY3RMNVFCOHBFV0hqUFZRcmxmZHZ4Nk1kR9IBwgFBVV95cUxOSTR1M0hycDJJb0NHQzljZEdxUjlwdHhLVmJpYmszWk9WdkVrb3VsMWhRUjdRQUZHS29BVDVta1BtZzJpcTBzQmxWTVFWNWk0MFVKZWR1NkxVa080NlhRc0Z6YlpQMzVVNGlOYkhpYllmVXZnbTQxa2RCclpXbG0zZWRZSHRlMkQ2Z0xFNGgxb3RlTURiQlVVR1ZHaEZEbmNhY3ZETWM1Vkc3NlpZQ05zX25pczVYYS1kbmF3T2xFdW1pdw?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634259+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374033+00:00"
     },
     {
       "series_number": "TREND-8",
@@ -104,7 +104,7 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNaEpVRE5xTW1wdEhvMng1TGpLQm5wSGx2NGdhQzVBSjY0cWVvNnFUU09ScG80V0dhc25aNWZGZVVISWtmSG9VOEh0cjR5bG9acXZhVUxKMEJvNUpJYjNUYWVFcU9FYWptS3pVYzNKSlREUVlnalNfU2dMOHZuWkxmczNiUjhEalkxQzF6dVNORi1wNTlrbURURE9XYmJMckFic0g4NW04UUkyZ2ZIeC1FT1R5RW53dWJ1RGVz?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634270+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374040+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -117,23 +117,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxQRUhwdmxhdF8zU1BSZHFvOUs3ZHlhMHdjWnQ0bmJENUM1VW1ZbUhKWlc5NmhLWGVqZHUxSFlIcmpJR0lLbEhXTHpCUHczS3VtWXJ0OHF6V2lfak9lTm1yVkozbnJPMi04a1BkZVV4T1FYY0JTVDdvcUx6S2FSY29sY0JZblRUdkFPR3VoZmE0TktfWVkxTS1JbFVPUFozTk50dHdfbVQ1djVjOUlDWG5VRlBpNjNsVGpHM3ZsVkkwQW1EYzhqVi1rUVFXN1RnOVNzUG1xWFdtZVBpWW9zUDB2cXM3dDRyYjhWZHJVel8zZjNqTzRfT21ZU0xidkdwZkdEelhkZ3otNHV2RkIybWJZOTFjWQ?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634279+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374046+00:00"
     },
     {
       "series_number": "TREND-10",
-      "series_title": "Cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été re",
-      "topic": "Cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre",
-      "question_phrase": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre ?",
-      "angle": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre ?",
-      "thumbnail_text": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, par",
-      "demand_note": "google_news_fr | 2026-09-14T07:12:39+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMipwJBVV95cUxPM09YVzNsRjFaeEQ4cERkWG1oaF9rTGh3NWtyUkI4UmZzUWdfaWd0Wm5CNElFSDlKb2hWVnhhOXJQSUk2U0p1ZU5HT3hTWU5jd1k5TG5JaUNPRDRFT0xDVE1EOXBHNjh1RlJTUE9YU2dkOUxEckJIOUY0S3ZuTkdpakF5d2J4ZW4xR3FzVENqc0s0cE5TaWoybmZVTzA0MTF4X0d5NnkwTldmYkpjMDBJRVRJbktpWjQ1NHZWNHp0T1pHM3pvTXJYZmZ1d3BPN0hHbWh4STRnTm90WFRPc1pOc1MwOGRieXpEX2NkcVNzWkxPYmZ1WG9td0xua1o3NXZFZTlDTTdFdGQ2TVhLVFg3MUZZTVcyMEtyRWRncVA5ejlpbVp2N21z?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634290+00:00"
-    },
-    {
-      "series_number": "TREND-11",
       "series_title": "Santé",
       "topic": "Santé",
       "question_phrase": "Pourquoi santé ?",
@@ -143,10 +130,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxQcVlyYnFSNlR4b012T09uZ240c2x0b0N3ZFNCQUVRVWVfX3otbTlWWkpDUERwNEdoVHU1ZTNxanFRZ3pmal9Hd2ZobU42WDB4UFNfUnBvMkJYTTEyWFFaUzg2QTR6SkY2VTF5bmZWNWJMUEhjWDFOLWE1Vm9fa0IzWC1MTXN0NG1RNXdOWmpNSEtldkFRQlMxTUt0UTJLd0Fsak1kcHhpd0tmRjhVV0ZNWnkxTlhhcTJYRjdxZDQ0T1pwZEdiUTNWRlI5WnJta0F6dnRZTlhhMFdFLVI3TTJqeXFuU2ZqYjR2YUNQY1FMWVF1N3RzeXNGc3VRM0NSd0NSdFdlYnNoQktXSElhY1E?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634297+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374051+00:00"
     },
     {
-      "series_number": "TREND-12",
+      "series_number": "TREND-11",
       "series_title": "Cancer du cerveau",
       "topic": "Cancer du cerveau",
       "question_phrase": "Pourquoi cancer du cerveau ?",
@@ -156,10 +143,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPNDhUdTdmNlZqZ2dzOXg5UEg4X3hPeXctVldSUEU0MHJ5S3NsdjNXVWN0bF8zVmlwZFk3ZjgyODBEejZOd2ZyZ2h3UkNQYXdKQTI4dEZOZ0NjekgtaEx4bXdPZUFvRklPanhBbFYwR0xHQ0p0NmlvVDV3STBEWmFGdm1UY0EzbUs0UW51a05hcGswY09Ld3c1dS0zUFp0R3ZFaXZKaTczU2tIek9nMkJQM3UtM2RycTU1NEkwZHFRNVpUeFVRcGxjN1JSLW1OUkJHbm5hRDdMZHpraWYxMkHSAeMBQVVfeXFMTmJYdWY2QnNvY09DdlQxMFJya2FQdjZoTDJkRzhqVWVRVXRhU0UtZW91Mmx3amFXc05xS2hQbW1IZUlYdkVZd1RiUFlScld5dGFPZmpoWGFJSWdNc1l6UHZEekEzc25QQnludGhvVDVPMlRubzhSbXk0cF9Cb2FmeW93LUFFN3VDcWgwQU1EUTRWVUxCLUN3RGlTRnZUNzNCTEs5UElETUItU1BzU25zTW1LUnFGTlljWkh5djB3MVNGTWZkVkVlMlpYaXdCaE14NzJxSk1HVzU2M3hKQkxEbDV4M2M?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634304+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374055+00:00"
     },
     {
-      "series_number": "TREND-13",
+      "series_number": "TREND-12",
       "series_title": "Le corps de l'homme disparu en paddle retrouvé sur la plage de Saint",
       "topic": "Le corps de l'homme disparu en paddle retrouvé sur la plage de Saint",
       "question_phrase": "Pourquoi le corps de l'homme disparu en paddle retrouvé sur la plage de Saint ?",
@@ -169,23 +156,23 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxNVWJtV2NGNEdfajFxVldIcUIxTTRIZDl3NjZETkU1QWU2TnRLQXFpbXhFcm5VdGRRZl9yTFZ6Z0xKMENseHB5Q3ZkVnNsLUFkdUxMOEtDQWJla1A0UjM4S0luUGpBNkd6VmlEZ0xTUmo1SXNmSlpzTVhhRm1RRHRoM0xSSTJ3cVZlcnVGeDl1b2RxOC0wV29TN3Q1b0VLVExTdlQ1ZzZmQmRDcjVlbXZBcVNKdWowbExEWXRoak5tZWZySTZVTmxWclY2YWdMMXd6QWFMWDlmbjAzdTVDT2k5cXVKZzZmYU0?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634313+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374061+00:00"
+    },
+    {
+      "series_number": "TREND-13",
+      "series_title": "Cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été re",
+      "topic": "Cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre",
+      "question_phrase": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre ?",
+      "angle": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, parti en mer en paddle, a été retrouvé sur la Côte de Nacre ?",
+      "thumbnail_text": "Pourquoi cinq jours après sa disparition, le corps du trentenaire, par",
+      "demand_note": "google_news_fr | 2026-09-14T07:12:39+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMipwJBVV95cUxPM09YVzNsRjFaeEQ4cERkWG1oaF9rTGh3NWtyUkI4UmZzUWdfaWd0Wm5CNElFSDlKb2hWVnhhOXJQSUk2U0p1ZU5HT3hTWU5jd1k5TG5JaUNPRDRFT0xDVE1EOXBHNjh1RlJTUE9YU2dkOUxEckJIOUY0S3ZuTkdpakF5d2J4ZW4xR3FzVENqc0s0cE5TaWoybmZVTzA0MTF4X0d5NnkwTldmYkpjMDBJRVRJbktpWjQ1NHZWNHp0T1pHM3pvTXJYZmZ1d3BPN0hHbWh4STRnTm90WFRPc1pOc1MwOGRieXpEX2NkcVNzWkxPYmZ1WG9td0xua1o3NXZFZTlDTTdFdGQ2TVhLVFg3MUZZTVcyMEtyRWRncVA5ejlpbVp2N21z?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374069+00:00"
     },
     {
       "series_number": "TREND-14",
-      "series_title": "Le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue",
-      "topic": "Le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue",
-      "question_phrase": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue ?",
-      "angle": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue ?",
-      "thumbnail_text": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa co",
-      "demand_note": "google_news_fr | 2026-09-14T14:17:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNU1lLS1lOUEVFODFuRE5RNEs5OXNMS29BWkNNY0xFMDRxUG1JYnY4bjZGZ25YVWVpUDlpcng2cThrNkYzNjlxYVlVdGVXVzkyRjV0Qzg1WTNLUjhNYjNlNEhudnNaM2d6NUhHUG9SQ0FsS0cyR1VXQ2RFTDdvZ1d3UjRrblRDdmo2R1JxUzlMQl9ZOEkwZXJkVTdvdVB0ZWo2bWlEcGZ4RVNsVHpPUFZ1blBBa3g3dWtWZzVWb2FwWHZyUGd0dWtHZmc4SnF0V2x6RFBDNkk5enBRVE0?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634323+00:00"
-    },
-    {
-      "series_number": "TREND-15",
       "series_title": "Sandra Bullock confie avoir perdu ses cheveux à cause du stress",
       "topic": "Sandra Bullock confie avoir perdu ses cheveux à cause du stress",
       "question_phrase": "Pourquoi sandra Bullock confie avoir perdu ses cheveux à cause du stress ?",
@@ -195,10 +182,75 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNSlZ6U09tRUQ2Qk1JMmxGTVZsdW1xTzdvSndyV1RWRlJjU1ZZbE4zMXdwcWFTSVhoUWJ3dGljQ3NBV2xVRHlNQTllNEh0TnRXbmVHLUFMM3QxbnR4QTNUdkFFMWMtX1dtSF9ZNmpBTGY1cTVMYTBLcHQwNmp5UmROay1xTXZvck81cVYxZUc0Wk91Wmw1cHpGQ1hNYkJRSkF2c0pmOVZLOGpodHpu0gGyAUFVX3lxTE5mVzhtbkFlMlV3Ulp3YnhNTTZ1M0NsU016ZDZlZENMVS1kSnVnX0ZFbGU3dTB3Y2h4enhoY3dRSVpYZi1CLVV1TUxIMDZMeVFraG5ZX0lfbWNIeFBtM3VjRlN4dTZBY3UyY0MzR2tDVEo2eG9ocmMycFN6SzhLSTVGaExSdTZuOEEyNDNaQVZqdWNhdW92aXBJbGFSQkxxZ2ZBZ0VwSGVtNjF6Q3ppNk5iMkE?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634331+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374074+00:00"
+    },
+    {
+      "series_number": "TREND-15",
+      "series_title": "L’activité physique protège le cerveau",
+      "topic": "L’activité physique protège le cerveau",
+      "question_phrase": "Pourquoi l’activité physique protège le cerveau ?",
+      "angle": "Pourquoi l’activité physique protège le cerveau ?",
+      "thumbnail_text": "Pourquoi l’activité physique protège le cerveau ?",
+      "demand_note": "google_news_fr | 2026-09-14T15:23:15+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNWVptdThYSHg4cUNkcGpicXNiVmdKQjBWbThDa0taM3ctZ2FSX2xnQ1pmQnFOUEVWT0VCcGZKYjNqNXJFcmM4dDRlaDk4dG4zNGxVYmFicW5WNTlIeFFWeFRuQ0pSTVNjdFJUUDR0SFhBV2FjNXJKN0R1aUdiUlJKN25oSHd5ZW9OamJfeTRwUzM5bmV1Yy1EZHYyOGlnU0drZ0lWWjg2djV2Wjd6OFZkTzRxM1NlY1pWcXFYcXVZZzFUbnJ5R1JMSnl6QnFkNlFLMU9aaXRFWWNYSFotMGt5ODdEbFdrWlgyN3BlSHBIYjk5Um8?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374080+00:00"
     },
     {
       "series_number": "TREND-16",
+      "series_title": "Running. « Je voulais voir jusqu’où mon corps et ma tête pouvaient aller »",
+      "topic": "Running. « Je voulais voir jusqu’où mon corps et ma tête pouvaient aller »",
+      "question_phrase": "Pourquoi running. « Je voulais voir jusqu’où mon corps et ma tête pouvaient aller » ?",
+      "angle": "Pourquoi running. « Je voulais voir jusqu’où mon corps et ma tête pouvaient aller » ?",
+      "thumbnail_text": "Pourquoi running. « Je voulais voir jusqu’où mon corps et ma tête pouv",
+      "demand_note": "google_news_fr | 2026-09-14T16:09:19+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxQa1pMTk5hY1FuYVdVWjQ1OV81OU54blYwanZobzlYMENvRFVIdmpBVm9kdk9QajhaTlRUQ1M0REFCTTBJV3hhbW1yV25YcjIwWUN0SUstclNfaUtXUGxZQXBsRGhDZ3VLS2pUamI1bzk1ZnpGOWp2YklPSHdnZ3g1RzUxWklXVVdPdEJGVDhySlJCWFBTT19hb20xcHhRbE1ZSms4Tk02U2NhWmFhZFFHNjZLYUw2YndJZzZmVzJQVkZZQnJCZC1nMkx3MGNRRHA5MWJlSTN1MXdtZVhpbV91d0RJaklEWTJUdHQ4bjh5eVI4NW5wZkhNTVFvRlNLaUJEVEpqTV82eTY4dC0yeGNQZHd3?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374087+00:00"
+    },
+    {
+      "series_number": "TREND-17",
+      "series_title": "« Cela fait du bien au corps et à la tête »",
+      "topic": "« Cela fait du bien au corps et à la tête »",
+      "question_phrase": "Pourquoi « Cela fait du bien au corps et à la tête » ?",
+      "angle": "Pourquoi « Cela fait du bien au corps et à la tête » ?",
+      "thumbnail_text": "Pourquoi « Cela fait du bien au corps et à la tête » ?",
+      "demand_note": "google_news_fr | 2026-09-14T15:56:12+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxPY3FBNVVQS1BBbldKNzdCTHRnMHB4VmJ2VkphY01ZWlBYLUZLOXBVNFdGMk9fM1NaXzFLcWc3dGF2THdQSS10TDV4UHdBYnBsOGJPMXphdUVlQ1ZzcGFOVDhtVTVyWmdpOEY1MUVjVENwSkcxZkRxdTVvSWtFZ1ZpbE45OHNIUTBCWEtnOFJLdWxGTEFsOF9DMDNBdDVKUzFuZlVPZ3I1dHRTX0RQU3dycEM3QmJYWXY2cXVkX2ptUEVlVzdxWUpNZzRQRmhRZEJjdG44ek5RUXVFX3RwLUY1MjVHVV9NYVBGNlJyb3pJOTlTbUdONDlGRTEzUVEyX2FjV1AtMl9n?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374092+00:00"
+    },
+    {
+      "series_number": "TREND-18",
+      "series_title": "Un corps sans vie découvert par un passant dans la Loire",
+      "topic": "Un corps sans vie découvert par un passant dans la Loire",
+      "question_phrase": "Pourquoi un corps sans vie découvert par un passant dans la Loire ?",
+      "angle": "Pourquoi un corps sans vie découvert par un passant dans la Loire ?",
+      "thumbnail_text": "Pourquoi un corps sans vie découvert par un passant dans la Loire ?",
+      "demand_note": "google_news_fr | 2026-09-14T16:21:29+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxNMHpPa0pKQ0pkdVFEMEV3NmdFVVo3WFZDb0VpV280Z2xjLTd5ZTFmWlBVdEN0YW55R2dQaFZyYUxRRHN5VGZScFNpS2ZDLUlyOHRPVXhtMVdjV3BDMWQxYkxMcFYzQmpEajluSU40N1dYQXpGSDUyQ2xsaXZqeWlIYmxvOUpKOU1QdW9mZlgxOUdnYmQzLUdDbVJDSEs3QmFuTTNBbE9sUnpYQVZ5OE5ZaU05aEtxSTcwQWcyWFYwX0RvMXlTWlFRODVDejc1Y2ZJd1pKd2FpakRDQQ?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374097+00:00"
+    },
+    {
+      "series_number": "TREND-19",
+      "series_title": "Le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue",
+      "topic": "Le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue",
+      "question_phrase": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue ?",
+      "angle": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa compagne avoue ?",
+      "thumbnail_text": "Pourquoi le corps d’un homme disparu retrouvé sous une terrasse, sa co",
+      "demand_note": "google_news_fr | 2026-09-14T14:17:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNU1lLS1lOUEVFODFuRE5RNEs5OXNMS29BWkNNY0xFMDRxUG1JYnY4bjZGZ25YVWVpUDlpcng2cThrNkYzNjlxYVlVdGVXVzkyRjV0Qzg1WTNLUjhNYjNlNEhudnNaM2d6NUhHUG9SQ0FsS0cyR1VXQ2RFTDdvZ1d3UjRrblRDdmo2R1JxUzlMQl9ZOEkwZXJkVTdvdVB0ZWo2bWlEcGZ4RVNsVHpPUFZ1blBBa3g3dWtWZzVWb2FwWHZyUGd0dWtHZmc4SnF0V2x6RFBDNkk5enBRVE0?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374104+00:00"
+    },
+    {
+      "series_number": "TREND-20",
       "series_title": "\"Le corps de la femme ne doit pas être un débat\", clame Léa Fontaine, victime d'insultes à",
       "topic": "\"Le corps de la femme ne doit pas être un débat\", clame Léa Fontaine, victime d'insultes à caractère grossophobe",
       "question_phrase": "Pourquoi \"Le corps de la femme ne doit pas être un débat\", clame Léa Fontaine, victime d'insultes à caractère grossophobe ?",
@@ -208,10 +260,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxQakFLM0xBMlB3OEN6NGI5MWdncmM0NnQ0S3VTbVdqV1I2ay1WeXpESE0xdnJmQ29WMUNEMU1HVUZ2aFpfMzhESElVZG92dG9NTjI5MXN6NGpQVl9VaHhYclA3TjhvU3NHYmJQdnRLQUh5Si1ySWh0S3RQVk45NWNKcWU5M2lPNmJqaVdfNHZ2QjVaNVE3V1FfRWFYaUdPSXA1RjVLbndNYzNwdjNzdUU1ZFhPNEpNTDJlWjRGbnpibHBIRGxNam5tZG8wUURSNm9yTll6cGJpSTVKZWN3WHRFMWYtT2h1ZXNUODJlRnNjZ3hUQUlST2g1Q0d1V2RaWUNlajlyWXRla0RHdjJZ?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634341+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374110+00:00"
     },
     {
-      "series_number": "TREND-17",
+      "series_number": "TREND-21",
       "series_title": "Des scientifiques découvrent un déclencheur possible d'Alzheimer dans le cerveau",
       "topic": "Des scientifiques découvrent un déclencheur possible d'Alzheimer dans le cerveau",
       "question_phrase": "Pourquoi des scientifiques découvrent un déclencheur possible d'Alzheimer dans le cerveau ?",
@@ -221,218 +273,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiugJBVV95cUxQdlotWVF1a3ZOaDdoQjVjVGRfemttNnptQmY1SUhYOXVwa2NZN2FPdkx2TncxX1ZycjlLMWxwMGVCaDJJc0gtQTg1WWxoQjJxbjhkRWM3WUtNVTFUcEN4ODFQd0ZxMi10TVU5QXBZWWhsaDhMOTBmQ2R2dGQ3ZW9sVTBPVTlZSjhILVQ4bzZmdEwxYzUzc2JVMWRHR1ZraDA0VlhmaU5tcUlyNXA1amdidE9wcjZHbGxDcU92X3JZazlRQjE2U00tMUtqVHE0WXRPR3pySjdHX2J5Uk0xYWpqeDA4aDNnNjY0Uk5JNnowbEtBSzgxcS1haUhBTnpZUk5DMkJWS05uVkduWlAxRmVNNWE1VEJwNGpuZVcwNUFCTGRjT3YxeHFKZGFSX0tidnZ5WDZtSGctTFNmUQ?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634351+00:00"
-    },
-    {
-      "series_number": "TREND-18",
-      "series_title": "La psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent oc",
-      "topic": "La psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés",
-      "question_phrase": "Pourquoi la psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés ?",
-      "angle": "Pourquoi la psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés ?",
-      "thumbnail_text": "Pourquoi la psychologie explique que les retraités les plus heureux ne",
-      "demand_note": "google_news_fr | 2026-09-14T12:21:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeU1rR2pNWjhqYkZNRUZqY3lzckMxZDc5S2tKQ205V2RET0VyNS0zeE1QQzZyNWxnMjdmNmo2V2VwcEhvZDczWFFYUnl2WGtlMklOZmRQWnFNZ3IzNnY4SWRoZzJVYlBPSlBsOHlfUzh1REx0RUlDbms3TGFvQXpmNlNwelRCbDZBZWwzX2MyVEc?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634360+00:00"
-    },
-    {
-      "series_number": "TREND-19",
-      "series_title": "« On est encore sous le coup de l’émotion »",
-      "topic": "« On est encore sous le coup de l’émotion »",
-      "question_phrase": "Pourquoi « On est encore sous le coup de l’émotion » ?",
-      "angle": "Pourquoi « On est encore sous le coup de l’émotion » ?",
-      "thumbnail_text": "Pourquoi « On est encore sous le coup de l’émotion » ?",
-      "demand_note": "google_news_fr | 2026-09-14T13:46:37+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQeVZFbmQyRDB6S3Zyb0YxTVk1SFlnT3E0SEFtQ1lacktkMmd2aWR4bExQVmdqdnplMS1VSXNKcTZPR296YVlLcFhBUjlialRTWmZzcDNSYV9EWldGSXRsd0h3d29Ec25YUXVsUlhGWm1JdndlQzhCTGZsb09JV3pIR1FaMXk3ZnFBTHBKNk1Ud29kYkVxUTctVmRYSDhhZTFCOHozcDRYMGRuZ2ctT0I4MmdSRzk4ZGhPUmRIVGoxQzZwWUZhN09aeEIzXzl5dEJXM2djc1pUdWQ?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634369+00:00"
-    },
-    {
-      "series_number": "TREND-20",
-      "series_title": "Marc Lou vend son corps pour financer un Hyrox",
-      "topic": "Marc Lou vend son corps pour financer un Hyrox",
-      "question_phrase": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
-      "angle": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
-      "thumbnail_text": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
-      "demand_note": "google_news_fr | 2026-09-14T15:17:34+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE10dHlJbExPdWh1ci16UTVWWVBzTmh6dllxc2hZT2JVWWh1T09ab3JRZHZOVjVudHRWWlJQbTE3T1JmWEpZMzQtbW9OOGZiS1F2X1czTE5NWmhMOGtJY1VPUDBBODE1dw?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634377+00:00"
-    },
-    {
-      "series_number": "TREND-21",
-      "series_title": "Le corps de Montaigne a disparu pendant plus d’un siècle",
-      "topic": "Le corps de Montaigne a disparu pendant plus d’un siècle",
-      "question_phrase": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
-      "angle": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
-      "thumbnail_text": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
-      "demand_note": "google_news_fr | 2026-09-14T05:30:14+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQM2tza0ZVaXk3dE5tb3lBSFhlekZ0VVNnMkRfcTZBXzg2VGwwVjJpWkx4YTg3YWQzeEUzSnQxRWg2YU02THk1OUxrdjFTX3JzTmRoeGJMZWlHMVFmODR3Y2VFMWQyTDIzS2FqY0xCQXZUR2d2Z1BxdnluTktRQTM0d0lEYmg2b1JwS0dOakFn?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634386+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374116+00:00"
     },
     {
       "series_number": "TREND-22",
-      "series_title": "Trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement l",
-      "topic": "Trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil",
-      "question_phrase": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil ?",
-      "angle": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil ?",
-      "thumbnail_text": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie",
-      "demand_note": "google_news_fr | 2026-09-14T14:05:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPajF0ZGNXU3dxVXlFem5VQTBxSld1N3ZKa2NoOFVRUzNiR2R0d0VuYUZfbFpUOUpjZ3RFem1VY3NKb0dIYVA1TGRxYkVCMTlETGpIUzU2VDZMbVNIenRqMEpKc2ZpMWNlTlJ0NHd2eFZCTTFoMzYyQkVidkVmc2ZER0pCOWdqMTFjSnZEVUtidWtwOTdKRE9ub3BKckstdVhkdnI1eVBpYWc5dWQ3c1N6RWNNVXc4b1IwbHFpbU1SS3JrbUhxMWZKcDFPRWs3UVNoU1F0cl8xVUVPQTRhRjh4djRjX21NRFVLS1pOeGtBTktWU2pqUFp2Y3ZKU1p1bWtoOE4yaElVWVZJQzJIQzlQcHZsV2gzeDQ?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634397+00:00"
-    },
-    {
-      "series_number": "TREND-23",
-      "series_title": "Nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les homm",
-      "topic": "Nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse",
-      "question_phrase": "Pourquoi nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse ?",
-      "angle": "Pourquoi nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse ?",
-      "thumbnail_text": "Pourquoi nudité, humour et corps masculins, cette exposition qui bousc",
-      "demand_note": "google_news_fr | 2026-09-14T04:36:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNUklPa0N3TlBzdUtkMnF1UWRpb1FXOWZpRFp1aWlvODBVazZOTTYzQ3E3WUNMMk9lekpldUpSbnJPZTNfczQtOElKRmV0VzlSLVNzTFRkWlRqOEhpTkk3eW1mU0FycllhZGtiVTZwZURDdGJTVWQ1TjQ2djNoUUhDZGpWWWhEekVTSWdSdFB3bGkxb0dWYTVtaXA2Z0ZqLVRIZzlEVnJVSXJmRFlKRnhvUlFDYVBrb3FqUFBqRGlKRlB3Q0xxbmE2VVY3cXVIYkZiSlZMNjhLb3ZzcG9UNk5Ubk8tYWxwM0tzbnVIUVM0ZUI1c2M1QkRQUjFHNXJDS1M4TzItdTRtVnZVcmNYV1FxOVRvTQ?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634407+00:00"
-    },
-    {
-      "series_number": "TREND-24",
-      "series_title": "« La photographie, c’est de l’émotion »",
-      "topic": "« La photographie, c’est de l’émotion »",
-      "question_phrase": "Pourquoi « La photographie, c’est de l’émotion » ?",
-      "angle": "Pourquoi « La photographie, c’est de l’émotion » ?",
-      "thumbnail_text": "Pourquoi « La photographie, c’est de l’émotion » ?",
-      "demand_note": "google_news_fr | 2026-09-14T09:45:02+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxNUG96SXNwWDVwZmh0N2tyODJTaGlsYVdDTnNJNWdza0JCMnROVmVPMTBGVjBzTjhrU1h4eHhxN3RuM3Rkek41Vjl4ZlZ2Q0pnMXJiRkZxYlBFTFVQTVVpTk9fLUMyWWlLUmxOeV9MYnU1NEVBbExCRllqb1JfN2ducW1GS1lpOTRMS29qUTdpdFJZdkdGTUEtMEpvLVREVEtqNHltUVhteGJ1OFY5QklOWXdqb0ZCbk9kbldPNHlGSHhvZXMxa1Q0U1dTVzk0dVJCdWl2a2tKTVJ6YTBRd29GbDU5Mm9RZDQ0bzd1TjFVdEhzaU52eVJXQlRUN0h3SXV2Zy1ZY0dyV3JWQml0dlQ0aWQyazE?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634415+00:00"
-    },
-    {
-      "series_number": "TREND-25",
-      "series_title": "Le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition",
-      "topic": "Le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition",
-      "question_phrase": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition ?",
-      "angle": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition ?",
-      "thumbnail_text": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ",
-      "demand_note": "google_news_fr | 2026-09-14T09:02:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiowJBVV95cUxQaDFFNmxBbjJvOUxYT1NlTjNtTTB3TTdyNDFYZVVQT1l1a0EzaWVfRTBwNnpLZWR2UkJSSG9Gd2JINW9qeHlwOUx5cVV6aF9CRG1uWDB0SmV0dUl1M3hzQnY5UVdrM0QwaG5JM05SLTlpdXlTbXdZcWRvMlk4VTU1Nmk4MW1UbzFyX1FiRnpPV3VDTE5PMEpKT281bGFVX2NfU0VBNXpHdUNIUXVhMlBqdUVnQkw1b0hEUEZTTlpoWnAtbVFIY0I2YmswQ3FVTmZZQmxROVdXSGJWR3p3WEFHQjVZb0x5SU1wNC1UbXdKaXplUWNRTTZQT0txa2dfSTl3VUJFQUdEa0NXT2J6T3dkYWc1QTM1bVgyRENZMVQzbjFfWmc?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634425+00:00"
-    },
-    {
-      "series_number": "TREND-26",
-      "series_title": "À Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin",
-      "topic": "À Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin",
-      "question_phrase": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin ?",
-      "angle": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin ?",
-      "thumbnail_text": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoi",
-      "demand_note": "google_news_fr | 2026-09-14T12:20:49+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNY24tMjdXYkJXbFVvOVZES2w3blZXYWVNWjh0SktxRERVclhlMFJKQWlNcElOdGY1NGUxcUhxcjRaMndhWTJvZS1tMGZlbkt5UlFXa1VHNEE4Mzk3Zkg3cXRoT0ZaN2Z6cGhDN0NLM3E4UG1oZzJEcWlDaFIwYkFyZXdKbnVfMzFWd3dVM3hUTndoT2prM0VvbEEwaW15OFBLVWI1YlB1SW83LUswVE5DdzQ2ckxQMzRy?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634434+00:00"
-    },
-    {
-      "series_number": "TREND-27",
-      "series_title": "Mulhouse. Une cérémonie en mémoire des combattants de Sidi",
-      "topic": "Mulhouse. Une cérémonie en mémoire des combattants de Sidi",
-      "question_phrase": "Pourquoi mulhouse. Une cérémonie en mémoire des combattants de Sidi ?",
-      "angle": "Pourquoi mulhouse. Une cérémonie en mémoire des combattants de Sidi ?",
-      "thumbnail_text": "Pourquoi mulhouse. Une cérémonie en mémoire des combattants de Sidi ?",
-      "demand_note": "google_news_fr | 2026-09-14T08:49:33+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNOGhjQXRONHpqNm9rUlN2M2p2cjNHSjZEb3lGSHV4TWE2QjI1aFJNZm5OM1p0RjNkUFJhQ0YwNi0yb2dNSUI2RERyNkU4bEZ4S2V6MndPckVoalVDLWJyeVhzUnNPbVVFX1RBYUpiUldTNTZucmxQajBLU2NWQ19LRnVXM0lRdVRzU0RhVk52ME1XekF3Q0ViWExoN3Q2SXJPbFRoQjBfRVE4TF9sc1hjdFBR?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634442+00:00"
-    },
-    {
-      "series_number": "TREND-28",
-      "series_title": "Un corps démembré retrouvé dans des sacs",
-      "topic": "Un corps démembré retrouvé dans des sacs",
-      "question_phrase": "Pourquoi un corps démembré retrouvé dans des sacs ?",
-      "angle": "Pourquoi un corps démembré retrouvé dans des sacs ?",
-      "thumbnail_text": "Pourquoi un corps démembré retrouvé dans des sacs ?",
-      "demand_note": "google_news_fr | 2026-09-14T14:24:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQQ20xTkNGZlNYOFBpUEJOU2lWb195OFlVRmlna2dKUG1QTk1LSnVUd3R5WkpFSVJCTmxuM0VnTXJzTGEwZEVuUnVrMU9scVl0Q3pEVEdOQkJfLV92ZTYyQUc1MldKR2VOYmo1eFpXUmVfOVVtcFgweVVhYVBZMGFCSDRRNlFtd0RXVXo5UUs2bVdDaGJnUWdrRHNUMWJfanNNY1RJMzl1LUxfZzlHWHRtM0ZnWldaMmtB?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634450+00:00"
-    },
-    {
-      "series_number": "TREND-29",
-      "series_title": "Le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... ",
-      "topic": "Le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile",
-      "question_phrase": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile ?",
-      "angle": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile ?",
-      "thumbnail_text": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt",
-      "demand_note": "google_news_fr | 2026-09-14T10:14:56+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPaDVZRnFrWTViRkUwelFzZGJKQm5HOHo1Q1NRWDFhaEg5RGJXb09uUEFxRVZPdkdGb0dWYU9wYU5SVVoyOUFPa21XX2dVY1NlX3Q0MzJoclJacExONmw3a2NuaUFVZzdwcUV1a0xLaHRPMUJVWmp6cU5RVnViaVEzbFRjdGhIV1l0ZHdWMktWSEwwRzV3YmluVHFZT0YwQS1WNVVGdmdXR2xCN1R6VFYzVmlDbEtPcWZHWjAzVE5vVEVCMlUxQV80Q0tUZnJTT2QzTkg2aDVsT184MlZWaEtCRA?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634460+00:00"
-    },
-    {
-      "series_number": "TREND-30",
-      "series_title": "Hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système sol",
-      "topic": "Hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire",
-      "question_phrase": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire ?",
-      "angle": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire ?",
-      "thumbnail_text": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoir",
-      "demand_note": "google_news_fr | 2026-09-14T09:44:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPQXBpWFJPUEN3WU9sTEpTa2p5TXhvLWU5MWhsSm9YT2xfcFg1U2JRTWw5NkljMmZ0dGRvc1MxVnIybGtneDA3eElTSEgwNHZJeHUwX3Q2Rjl1NnZocm1DaVFVdkN2ajF3b1FzYTRhaElSdklndGtsbWhOdi11WEJCN2NPV2xvaE4xTHY0NnJreG9iRHRWZnVSeUFoN0J3MS0zLWg5TDA3WjJOd1dCUHpHaHJfQ3hQeS1ET0V1MFZaa1prV09iTC1ZYw?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634469+00:00"
-    },
-    {
-      "series_number": "TREND-31",
-      "series_title": "Mémoire de fille",
-      "topic": "Mémoire de fille",
-      "question_phrase": "Pourquoi mémoire de fille ?",
-      "angle": "Pourquoi mémoire de fille ?",
-      "thumbnail_text": "Pourquoi mémoire de fille ?",
-      "demand_note": "google_news_fr | 2026-09-14T12:00:24+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1Ec1NqNUVTSlRJYUlGYXJyc1hIZk90SnFxS2h2WUhHbE5BWnBSY0dINnZrdjIxMXlLQjREUGZIY0xacDNOYmFJQlZEd1lEWXkxaHdESlFhTE1CMHhEcm5NeVZ4a3J0TUJ4NEhFSXJTbjJOc3ZX?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634476+00:00"
-    },
-    {
-      "series_number": "TREND-32",
-      "series_title": "Le vieillissement du cerveau n’est pas une fatalité",
-      "topic": "Le vieillissement du cerveau n’est pas une fatalité",
-      "question_phrase": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
-      "angle": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
-      "thumbnail_text": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
-      "demand_note": "google_news_fr | 2026-09-14T13:38:03+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPcGxrY1l2c0FXcXpYazhKVTN5Ty16bWlhSjRwWHBGS0RIanVMLWJYX0RGUmtuNVV0NmZERlk5ck4zaFltckJsOXVhTG5pdDZ4N1J6d2xJQW1YWWZrRlQtNEVrMjVvdC1zZkxVQ3pHckdSemh3dkRkMG1RNW9wZkRTRFJHWHRQdkJiRkVoaTBQZW5uVFAzNWFXY2dlOUhqcHdSemZPRGNNVnp5SXlsYnNCYzd5YW5CMjRFYlVVY2xRdTQ4T2tqT3c?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634485+00:00"
-    },
-    {
-      "series_number": "TREND-33",
-      "series_title": "Atlas 1.0 veut cartographier le cerveau au quotidien",
-      "topic": "Atlas 1.0 veut cartographier le cerveau au quotidien",
-      "question_phrase": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
-      "angle": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
-      "thumbnail_text": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
-      "demand_note": "google_news_fr | 2026-09-14T10:40:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOS0FDRW9IVkdmOWRCR3otZ2F3eV9CbmlJMzVOUDJaSllHcUZSckFWdjhPa3JNUVVETlhnMUIwSWltZTNGcDIwQTJ1TXVMdEc3eWdUUVdMRnJJM1A0Mk9RbnRrQmFDbWdpS3VfemlGM1dUOW9iNXhXM1ExU2dZcDk5Y2NWZzZCVG9FSlR6YW5EVW1JaXlDZnBNUTY4NXgxLXJpVnBoZmYyV3hUMVhhSVo5ekZtcXlOcXBONU5xREVfNXdqVjQxN2MxcC1Db0FCVEk5akEyOHFR?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634493+00:00"
-    },
-    {
-      "series_number": "TREND-34",
       "series_title": "Le petit soleil, \"la décortiquée du cerveau\", le caméléon",
       "topic": "Le petit soleil, \"la décortiquée du cerveau\", le caméléon",
       "question_phrase": "Pourquoi le petit soleil, \"la décortiquée du cerveau\", le caméléon ?",
@@ -442,23 +286,218 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQTlRMUEU0RTdfX0c5QmlrVkdzQk9GbXJWcGdjbEZaNDB1NkplQkZUeGQ5d3dmY29WNDhrWkZ1ajNsZXl5VEJnVF9UakdFTHUxWldNSWE3b29wcDVDS0ZCMlRhTG8yUU9XYUozeEJPWWxnWjZQd1pHQzc0MWNHb2VOM0hIdTNhSTByMGxVVlRkdFB2eHUyUnNMN3p5RlRPUUhGamlxN2Vkd0dxMUZ4amkwUmtzNy1jMjVCMTZvMXJzSVRTVUVnTzlIcE9XMA?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634501+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374122+00:00"
+    },
+    {
+      "series_number": "TREND-23",
+      "series_title": "La psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent oc",
+      "topic": "La psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés",
+      "question_phrase": "Pourquoi la psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés ?",
+      "angle": "Pourquoi la psychologie explique que les retraités les plus heureux ne sont pas ceux qui restent occupés ?",
+      "thumbnail_text": "Pourquoi la psychologie explique que les retraités les plus heureux ne",
+      "demand_note": "google_news_fr | 2026-09-14T12:21:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOeU1rR2pNWjhqYkZNRUZqY3lzckMxZDc5S2tKQ205V2RET0VyNS0zeE1QQzZyNWxnMjdmNmo2V2VwcEhvZDczWFFYUnl2WGtlMklOZmRQWnFNZ3IzNnY4SWRoZzJVYlBPSlBsOHlfUzh1REx0RUlDbms3TGFvQXpmNlNwelRCbDZBZWwzX2MyVEc?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374128+00:00"
+    },
+    {
+      "series_number": "TREND-24",
+      "series_title": "Marc Lou vend son corps pour financer un Hyrox",
+      "topic": "Marc Lou vend son corps pour financer un Hyrox",
+      "question_phrase": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
+      "angle": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
+      "thumbnail_text": "Pourquoi marc Lou vend son corps pour financer un Hyrox ?",
+      "demand_note": "google_news_fr | 2026-09-14T15:17:34+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE10dHlJbExPdWh1ci16UTVWWVBzTmh6dllxc2hZT2JVWWh1T09ab3JRZHZOVjVudHRWWlJQbTE3T1JmWEpZMzQtbW9OOGZiS1F2X1czTE5NWmhMOGtJY1VPUDBBODE1dw?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374133+00:00"
+    },
+    {
+      "series_number": "TREND-25",
+      "series_title": "Corps carbonisé dans une voiture à Villeurbanne",
+      "topic": "Corps carbonisé dans une voiture à Villeurbanne",
+      "question_phrase": "Pourquoi corps carbonisé dans une voiture à Villeurbanne ?",
+      "angle": "Pourquoi corps carbonisé dans une voiture à Villeurbanne ?",
+      "thumbnail_text": "Pourquoi corps carbonisé dans une voiture à Villeurbanne ?",
+      "demand_note": "google_news_fr | 2026-09-14T15:58:50+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQNzVjS1FxamVRRUlqWDdWSklSYU9XVHc5bEdNQ3ozTGJsR3FzN1AyWGM3d2lMX3pJWEZSakExa0xSQm5oSTgwejE3SFkwREM4SHgteEtwM0I2RWZST1YxVVI4MVVXSndHNkx4blZFZFNnZWgwMmpEVUJtWXNuVHdQZWxRQzlJMzhOT3RCT2I5bjBGRV9UZFVSZ3o0STJPUEFVSGhYSjJqQ2JheTRfYUE4QXNzdjdYU1gxOUZSU2Z4anhVZ0wtVjdITmZ5bGZVNW0xVzlBbGQ4N2txdWc?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374138+00:00"
+    },
+    {
+      "series_number": "TREND-26",
+      "series_title": "« On est encore sous le coup de l’émotion »",
+      "topic": "« On est encore sous le coup de l’émotion »",
+      "question_phrase": "Pourquoi « On est encore sous le coup de l’émotion » ?",
+      "angle": "Pourquoi « On est encore sous le coup de l’émotion » ?",
+      "thumbnail_text": "Pourquoi « On est encore sous le coup de l’émotion » ?",
+      "demand_note": "google_news_fr | 2026-09-14T13:46:37+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxQeVZFbmQyRDB6S3Zyb0YxTVk1SFlnT3E0SEFtQ1lacktkMmd2aWR4bExQVmdqdnplMS1VSXNKcTZPR296YVlLcFhBUjlialRTWmZzcDNSYV9EWldGSXRsd0h3d29Ec25YUXVsUlhGWm1JdndlQzhCTGZsb09JV3pIR1FaMXk3ZnFBTHBKNk1Ud29kYkVxUTctVmRYSDhhZTFCOHozcDRYMGRuZ2ctT0I4MmdSRzk4ZGhPUmRIVGoxQzZwWUZhN09aeEIzXzl5dEJXM2djc1pUdWQ?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374144+00:00"
+    },
+    {
+      "series_number": "TREND-27",
+      "series_title": "Le corps de Montaigne a disparu pendant plus d’un siècle",
+      "topic": "Le corps de Montaigne a disparu pendant plus d’un siècle",
+      "question_phrase": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
+      "angle": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
+      "thumbnail_text": "Pourquoi le corps de Montaigne a disparu pendant plus d’un siècle ?",
+      "demand_note": "google_news_fr | 2026-09-14T05:30:14+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQM2tza0ZVaXk3dE5tb3lBSFhlekZ0VVNnMkRfcTZBXzg2VGwwVjJpWkx4YTg3YWQzeEUzSnQxRWg2YU02THk1OUxrdjFTX3JzTmRoeGJMZWlHMVFmODR3Y2VFMWQyTDIzS2FqY0xCQXZUR2d2Z1BxdnluTktRQTM0d0lEYmg2b1JwS0dOakFn?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374150+00:00"
+    },
+    {
+      "series_number": "TREND-28",
+      "series_title": "Trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement l",
+      "topic": "Trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil",
+      "question_phrase": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil ?",
+      "angle": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie qui améliore drastiquement le sommeil ?",
+      "thumbnail_text": "Pourquoi trop de dormeurs font l’impasse sur cet accessoire de literie",
+      "demand_note": "google_news_fr | 2026-09-14T14:05:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMilwJBVV95cUxPajF0ZGNXU3dxVXlFem5VQTBxSld1N3ZKa2NoOFVRUzNiR2R0d0VuYUZfbFpUOUpjZ3RFem1VY3NKb0dIYVA1TGRxYkVCMTlETGpIUzU2VDZMbVNIenRqMEpKc2ZpMWNlTlJ0NHd2eFZCTTFoMzYyQkVidkVmc2ZER0pCOWdqMTFjSnZEVUtidWtwOTdKRE9ub3BKckstdVhkdnI1eVBpYWc5dWQ3c1N6RWNNVXc4b1IwbHFpbU1SS3JrbUhxMWZKcDFPRWs3UVNoU1F0cl8xVUVPQTRhRjh4djRjX21NRFVLS1pOeGtBTktWU2pqUFp2Y3ZKU1p1bWtoOE4yaElVWVZJQzJIQzlQcHZsV2gzeDQ?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374157+00:00"
+    },
+    {
+      "series_number": "TREND-29",
+      "series_title": "Nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les homm",
+      "topic": "Nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse",
+      "question_phrase": "Pourquoi nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse ?",
+      "angle": "Pourquoi nudité, humour et corps masculins, cette exposition qui bouscule notre regard sur les hommes à Toulouse ?",
+      "thumbnail_text": "Pourquoi nudité, humour et corps masculins, cette exposition qui bousc",
+      "demand_note": "google_news_fr | 2026-09-14T04:36:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMikwJBVV95cUxNUklPa0N3TlBzdUtkMnF1UWRpb1FXOWZpRFp1aWlvODBVazZOTTYzQ3E3WUNMMk9lekpldUpSbnJPZTNfczQtOElKRmV0VzlSLVNzTFRkWlRqOEhpTkk3eW1mU0FycllhZGtiVTZwZURDdGJTVWQ1TjQ2djNoUUhDZGpWWWhEekVTSWdSdFB3bGkxb0dWYTVtaXA2Z0ZqLVRIZzlEVnJVSXJmRFlKRnhvUlFDYVBrb3FqUFBqRGlKRlB3Q0xxbmE2VVY3cXVIYkZiSlZMNjhLb3ZzcG9UNk5Ubk8tYWxwM0tzbnVIUVM0ZUI1c2M1QkRQUjFHNXJDS1M4TzItdTRtVnZVcmNYV1FxOVRvTQ?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374163+00:00"
+    },
+    {
+      "series_number": "TREND-30",
+      "series_title": "« La photographie, c’est de l’émotion »",
+      "topic": "« La photographie, c’est de l’émotion »",
+      "question_phrase": "Pourquoi « La photographie, c’est de l’émotion » ?",
+      "angle": "Pourquoi « La photographie, c’est de l’émotion » ?",
+      "thumbnail_text": "Pourquoi « La photographie, c’est de l’émotion » ?",
+      "demand_note": "google_news_fr | 2026-09-14T09:45:02+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxNUG96SXNwWDVwZmh0N2tyODJTaGlsYVdDTnNJNWdza0JCMnROVmVPMTBGVjBzTjhrU1h4eHhxN3RuM3Rkek41Vjl4ZlZ2Q0pnMXJiRkZxYlBFTFVQTVVpTk9fLUMyWWlLUmxOeV9MYnU1NEVBbExCRllqb1JfN2ducW1GS1lpOTRMS29qUTdpdFJZdkdGTUEtMEpvLVREVEtqNHltUVhteGJ1OFY5QklOWXdqb0ZCbk9kbldPNHlGSHhvZXMxa1Q0U1dTVzk0dVJCdWl2a2tKTVJ6YTBRd29GbDU5Mm9RZDQ0bzd1TjFVdEhzaU52eVJXQlRUN0h3SXV2Zy1ZY0dyV3JWQml0dlQ0aWQyazE?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374168+00:00"
+    },
+    {
+      "series_number": "TREND-31",
+      "series_title": "Rhône. Corps carbonisé dans une voiture après une fusillade à Villeurbanne",
+      "topic": "Rhône. Corps carbonisé dans une voiture après une fusillade à Villeurbanne",
+      "question_phrase": "Pourquoi rhône. Corps carbonisé dans une voiture après une fusillade à Villeurbanne ?",
+      "angle": "Pourquoi rhône. Corps carbonisé dans une voiture après une fusillade à Villeurbanne ?",
+      "thumbnail_text": "Pourquoi rhône. Corps carbonisé dans une voiture après une fusillade à",
+      "demand_note": "google_news_fr | 2026-09-14T15:34:06+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxQaUxEZXdwbDVqY0JrUi1CV3FfanpWTU1yU3ZPZnNCVmI5dmhNWVVYc0t5MGZPZEk2d1VVdGdCY0p2ekZfOVpqVE1tSXhrSGRXVHA3QlhyMmxlVGcxVkxKSmVEbXVBZEZkQnprQUNEcjdaaGctSjF6TXYteWZGaHJMMFg5aHZMVmMtc0lqZWlMSVJXbGVzb3BQaXk1QUkzQVNPSnZqNklUZWRoTlcwbGNWS05jVDRoZUc5WXZ1ZE5UTFhWSWVrX3hBeWZXOVdGQmduUWNhUDB1dDIwQ1MtSzh4VUFsZjVKVWhKRG8xclE1MEpQdVk?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374174+00:00"
+    },
+    {
+      "series_number": "TREND-32",
+      "series_title": "À Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin",
+      "topic": "À Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin",
+      "question_phrase": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin ?",
+      "angle": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoire de Charlie Dalin ?",
+      "thumbnail_text": "Pourquoi à Concarneau, une grande parade maritime pour saluer la mémoi",
+      "demand_note": "google_news_fr | 2026-09-14T12:20:49+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNY24tMjdXYkJXbFVvOVZES2w3blZXYWVNWjh0SktxRERVclhlMFJKQWlNcElOdGY1NGUxcUhxcjRaMndhWTJvZS1tMGZlbkt5UlFXa1VHNEE4Mzk3Zkg3cXRoT0ZaN2Z6cGhDN0NLM3E4UG1oZzJEcWlDaFIwYkFyZXdKbnVfMzFWd3dVM3hUTndoT2prM0VvbEEwaW15OFBLVWI1YlB1SW83LUswVE5DdzQ2ckxQMzRy?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374180+00:00"
+    },
+    {
+      "series_number": "TREND-33",
+      "series_title": "Le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition",
+      "topic": "Le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition",
+      "question_phrase": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition ?",
+      "angle": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ans après sa disparition ?",
+      "thumbnail_text": "Pourquoi le corps d’un homme retrouvé sous une dalle de son jardin, 8 ",
+      "demand_note": "google_news_fr | 2026-09-14T09:02:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiowJBVV95cUxQaDFFNmxBbjJvOUxYT1NlTjNtTTB3TTdyNDFYZVVQT1l1a0EzaWVfRTBwNnpLZWR2UkJSSG9Gd2JINW9qeHlwOUx5cVV6aF9CRG1uWDB0SmV0dUl1M3hzQnY5UVdrM0QwaG5JM05SLTlpdXlTbXdZcWRvMlk4VTU1Nmk4MW1UbzFyX1FiRnpPV3VDTE5PMEpKT281bGFVX2NfU0VBNXpHdUNIUXVhMlBqdUVnQkw1b0hEUEZTTlpoWnAtbVFIY0I2YmswQ3FVTmZZQmxROVdXSGJWR3p3WEFHQjVZb0x5SU1wNC1UbXdKaXplUWNRTTZQT0txa2dfSTl3VUJFQUdEa0NXT2J6T3dkYWc1QTM1bVgyRENZMVQzbjFfWmc?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374186+00:00"
+    },
+    {
+      "series_number": "TREND-34",
+      "series_title": "Le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... ",
+      "topic": "Le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile",
+      "question_phrase": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile ?",
+      "angle": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt, le retour de la chaleur... l'info en Ile ?",
+      "thumbnail_text": "Pourquoi le corps d'un homme disparu depuis 15 jours retrouvé en forêt",
+      "demand_note": "google_news_fr | 2026-09-14T10:14:56+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPaDVZRnFrWTViRkUwelFzZGJKQm5HOHo1Q1NRWDFhaEg5RGJXb09uUEFxRVZPdkdGb0dWYU9wYU5SVVoyOUFPa21XX2dVY1NlX3Q0MzJoclJacExONmw3a2NuaUFVZzdwcUV1a0xLaHRPMUJVWmp6cU5RVnViaVEzbFRjdGhIV1l0ZHdWMktWSEwwRzV3YmluVHFZT0YwQS1WNVVGdmdXR2xCN1R6VFYzVmlDbEtPcWZHWjAzVE5vVEVCMlUxQV80Q0tUZnJTT2QzTkg2aDVsT184MlZWaEtCRA?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374193+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Oyé. La photographie en fil rouge au musée La Mémoire d'Oyé",
-      "topic": "Oyé. La photographie en fil rouge au musée La Mémoire d'Oyé",
-      "question_phrase": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
-      "angle": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
-      "thumbnail_text": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
-      "demand_note": "google_news_fr | 2026-09-14T11:00:00+00:00",
+      "series_title": "Hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système sol",
+      "topic": "Hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire",
+      "question_phrase": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire ?",
+      "angle": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoire la naissance du Système solaire ?",
+      "thumbnail_text": "Pourquoi hubble et Webb ont découvert des objets qui gardent en mémoir",
+      "demand_note": "google_news_fr | 2026-09-14T09:44:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNVW9RTjdaN2RrV0tKdHVwNE9YQlRwMXV0MG5VNGlsRWJ5Y3RiSGNWa0xVNXdLYnFwQmVoOGM3OGdBejRydm8zRmtmODFXSGd6V0FWX0huQlloVlNUZkJjR01ZYWVvZGxzUGYyOUNWMHlTSkM2WXV1WC12RFlMQzhhRDJHX2VERElDNS14S05oQXVQNDhDZFdhWnF5UmN6ZXVRUVJ5RndRSlBBREIz?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPQXBpWFJPUEN3WU9sTEpTa2p5TXhvLWU5MWhsSm9YT2xfcFg1U2JRTWw5NkljMmZ0dGRvc1MxVnIybGtneDA3eElTSEgwNHZJeHUwX3Q2Rjl1NnZocm1DaVFVdkN2ajF3b1FzYTRhaElSdklndGtsbWhOdi11WEJCN2NPV2xvaE4xTHY0NnJreG9iRHRWZnVSeUFoN0J3MS0zLWg5TDA3WjJOd1dCUHpHaHJfQ3hQeS1ET0V1MFZaa1prV09iTC1ZYw?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634509+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374199+00:00"
     },
     {
       "series_number": "TREND-36",
+      "series_title": "Le vieillissement du cerveau n’est pas une fatalité",
+      "topic": "Le vieillissement du cerveau n’est pas une fatalité",
+      "question_phrase": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
+      "angle": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
+      "thumbnail_text": "Pourquoi le vieillissement du cerveau n’est pas une fatalité ?",
+      "demand_note": "google_news_fr | 2026-09-14T13:38:03+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxPcGxrY1l2c0FXcXpYazhKVTN5Ty16bWlhSjRwWHBGS0RIanVMLWJYX0RGUmtuNVV0NmZERlk5ck4zaFltckJsOXVhTG5pdDZ4N1J6d2xJQW1YWWZrRlQtNEVrMjVvdC1zZkxVQ3pHckdSemh3dkRkMG1RNW9wZkRTRFJHWHRQdkJiRkVoaTBQZW5uVFAzNWFXY2dlOUhqcHdSemZPRGNNVnp5SXlsYnNCYzd5YW5CMjRFYlVVY2xRdTQ4T2tqT3c?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374205+00:00"
+    },
+    {
+      "series_number": "TREND-37",
+      "series_title": "Mémoire de fille",
+      "topic": "Mémoire de fille",
+      "question_phrase": "Pourquoi mémoire de fille ?",
+      "angle": "Pourquoi mémoire de fille ?",
+      "thumbnail_text": "Pourquoi mémoire de fille ?",
+      "demand_note": "google_news_fr | 2026-09-14T12:00:24+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1Ec1NqNUVTSlRJYUlGYXJyc1hIZk90SnFxS2h2WUhHbE5BWnBSY0dINnZrdjIxMXlLQjREUGZIY0xacDNOYmFJQlZEd1lEWXkxaHdESlFhTE1CMHhEcm5NeVZ4a3J0TUJ4NEhFSXJTbjJOc3ZX?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374209+00:00"
+    },
+    {
+      "series_number": "TREND-38",
+      "series_title": "Atlas 1.0 veut cartographier le cerveau au quotidien",
+      "topic": "Atlas 1.0 veut cartographier le cerveau au quotidien",
+      "question_phrase": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
+      "angle": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
+      "thumbnail_text": "Pourquoi atlas 1.0 veut cartographier le cerveau au quotidien ?",
+      "demand_note": "google_news_fr | 2026-09-14T10:40:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOS0FDRW9IVkdmOWRCR3otZ2F3eV9CbmlJMzVOUDJaSllHcUZSckFWdjhPa3JNUVVETlhnMUIwSWltZTNGcDIwQTJ1TXVMdEc3eWdUUVdMRnJJM1A0Mk9RbnRrQmFDbWdpS3VfemlGM1dUOW9iNXhXM1ExU2dZcDk5Y2NWZzZCVG9FSlR6YW5EVW1JaXlDZnBNUTY4NXgxLXJpVnBoZmYyV3hUMVhhSVo5ekZtcXlOcXBONU5xREVfNXdqVjQxN2MxcC1Db0FCVEk5akEyOHFR?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-09-14T16:28:23.374214+00:00"
+    },
+    {
+      "series_number": "TREND-39",
       "series_title": "Quand un piano raconte l’histoire, mélodies, mystère et mémoire",
       "topic": "Quand un piano raconte l’histoire, mélodies, mystère et mémoire",
       "question_phrase": "Pourquoi quand un piano raconte l’histoire, mélodies, mystère et mémoire ?",
@@ -468,59 +507,20 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5oSzJHTVU1ZXREZTBKd2tHUFVFd2lLVi13VGdCdTFtOE52cWNIUk93cFlRVmdwT3N3NFhla0xrNUFDMlE1bE9YY0ZZbXE1bnR1QzRlRHJhS29MSVZtMTBjWTlNRmRNVUoyaTBfczhDekJiRjRXUWJBdHBUODktUQ?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634519+00:00"
-    },
-    {
-      "series_number": "TREND-37",
-      "series_title": "Un corps arbitral espagnol au sifflet d’Anderlecht",
-      "topic": "Un corps arbitral espagnol au sifflet d’Anderlecht",
-      "question_phrase": "Pourquoi un corps arbitral espagnol au sifflet d’Anderlecht ?",
-      "angle": "Pourquoi un corps arbitral espagnol au sifflet d’Anderlecht ?",
-      "thumbnail_text": "Pourquoi un corps arbitral espagnol au sifflet d’Anderlecht ?",
-      "demand_note": "google_news_fr | 2026-09-14T10:40:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPdFliQjlEUzdGU1RqbjJHMG5JS0NpU1B4cnNMcDFmUVV3RndUZHBFUlRHcnotRUpVd3NvSmFVLWNPMjNHbzJ3SWpsMEF6Q0JMWmRkYy05TmZUM0wzbWxlRGdlMUhQQ1FiQXFQU0s4ejNObjIyQ1dMZS05UFpaOWZEOTd5SWJTeEpmR1NTNy1adDd6dzN6M0R3dG51dUFOaFZwa2k1Zw?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634528+00:00"
-    },
-    {
-      "series_number": "TREND-38",
-      "series_title": "Elle a la passion de l’héraldique chevillée au corps",
-      "topic": "Elle a la passion de l’héraldique chevillée au corps",
-      "question_phrase": "Pourquoi elle a la passion de l’héraldique chevillée au corps ?",
-      "angle": "Pourquoi elle a la passion de l’héraldique chevillée au corps ?",
-      "thumbnail_text": "Pourquoi elle a la passion de l’héraldique chevillée au corps ?",
-      "demand_note": "google_news_fr | 2026-09-14T03:29:46+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNRkpVMkNsVUJrNFRIQ2t3ZjdjRjJZMU5MS2hDaHM5Y1hmYTBPcF9OSVg5ZXN1cC1USjdHWTJWM1FnLUZ5STdsbjFkbjA5bl9kRjl6YzZ0OVc1Z2p3MVYyX1NpQXFrazZJOXlicWJNaXU3WFFFbVY3dzlaSWVWUUhBSmNGSHplc25QUnZIOElQRHo2M1V1RFZ0N1N3Nk9DNVlXc1VCZU1kLWx5b2FGckxVTlF3bklWUkpKT1NEVzB6OEp1QmpMc0tKN05teXFpWmNDQWtLcG5UazhQVDdudTJlMXFON09KUWxmUGdsQnNyRUdheVltT2gtU1JBbUc1WVlRQkFocnhR?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634536+00:00"
-    },
-    {
-      "series_number": "TREND-39",
-      "series_title": "Émotion pour Letizia d’Espagne",
-      "topic": "Émotion pour Letizia d’Espagne",
-      "question_phrase": "Pourquoi émotion pour Letizia d’Espagne ?",
-      "angle": "Pourquoi émotion pour Letizia d’Espagne ?",
-      "thumbnail_text": "Pourquoi émotion pour Letizia d’Espagne ?",
-      "demand_note": "google_news_fr | 2026-09-14T05:11:03+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxQbThiUFZaWDdsT3BJZjdxM2R2OTNNaVYxM19QS0c3U1dNR2dUbTZNZHJuTEhqR3hadVVyR3E4LTJvY3dGaG5ZTEQ0d2twVEhmTXpwSnNsQk4xbWhpNkkxQlBwcDNWdmwybXhPZmRDaF9mNHVKNFNNQ1Vicm5YdFB6dFRzbmdjWlFMZzJHM0NYV2dtdEVfNjJETmRiYnNWeDR1bHhvQXJnV0l2bE5hSldjWXI0X2c4X3dsMDJjQmJfS0d1dl9Eck8xUWxXSWVvdDh2LXBLQkdTaElvOFd6dElXUTdXcw?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634545+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374221+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Un père de famille de 30 ans porté disparu après être parti en mer en paddle, son corps re",
-      "topic": "Un père de famille de 30 ans porté disparu après être parti en mer en paddle, son corps retrouvé cinq jours plus tard",
-      "question_phrase": "Pourquoi un père de famille de 30 ans porté disparu après être parti en mer en paddle, son corps retrouvé cinq jours plus tard ?",
-      "angle": "Pourquoi un père de famille de 30 ans porté disparu après être parti en mer en paddle, son corps retrouvé cinq jours plus tard ?",
-      "thumbnail_text": "Pourquoi un père de famille de 30 ans porté disparu après être parti e",
-      "demand_note": "google_news_fr | 2026-09-14T09:13:01+00:00",
+      "series_title": "Oyé. La photographie en fil rouge au musée La Mémoire d'Oyé",
+      "topic": "Oyé. La photographie en fil rouge au musée La Mémoire d'Oyé",
+      "question_phrase": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
+      "angle": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
+      "thumbnail_text": "Pourquoi oyé. La photographie en fil rouge au musée La Mémoire d'Oyé ?",
+      "demand_note": "google_news_fr | 2026-09-14T11:00:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPWXR4SjRPcV95NkhTTm5vUE9yVXFvWW96OGNtNUhjdDNQMUliMklaaWNFX0hLek9nSFJ0VEt2cmZGSW9QMElSVTZkU1p3emlqV2ZEaTFpRktLVUFJVVpmQmp4d0hrRFJ5ZDNOVHF3RFFSNTg3eC1HOVZaeUpGeVk2Z0x2TWNZV242VzRjR2l1UG43cWQxWGFMUDk2dHQwbnM0aVJTRFlGN3pPaEVveUhzMUF0SDFfQUdaSWNRcEhyYi1iNTFmdXBZSVVJN1NtdDlRazRGS3J6MU1ndUY0emRUUFdKT2FRLWRUQ3NBMlhubUhGUQ?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNVW9RTjdaN2RrV0tKdHVwNE9YQlRwMXV0MG5VNGlsRWJ5Y3RiSGNWa0xVNXdLYnFwQmVoOGM3OGdBejRydm8zRmtmODFXSGd6V0FWX0huQlloVlNUZkJjR01ZYWVvZGxzUGYyOUNWMHlTSkM2WXV1WC12RFlMQzhhRDJHX2VERElDNS14S05oQXVQNDhDZFdhWnF5UmN6ZXVRUVJ5RndRSlBBREIz?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-09-14T15:20:39.634556+00:00"
+      "fetched_at": "2026-09-14T16:28:23.374226+00:00"
     }
   ],
   "source_errors": []

@@ -3300,5 +3300,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-14T16:29:14.990931+00:00",
+    "topic": "Pourquoi e. coli garde trace du passé, la mémoire cellulaire qui défie les neurones?",
+    "title": "Pourquoi e. coli garde trace du?",
+    "duration": 22.6,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "7d7ca47ef8f02c37664db0bd44acdacc87618111a4fd9f7e457e54641f7dbddb",
+      "41a26bcd8562c489c59817dce835c819d8e50d9f0049f557263fab39aa456986",
+      "8178be581ced3d8c3bd38d101b2da61f6babb47a1ae1f39a7d51a505b463241f",
+      "81f0dac429ed28b73415131dd43839e1835fddda0dc579cfb566d8471e1473bb",
+      "3dafcc959b283ec765825f0b5c88708d1972225118256841a94bb40c11425372",
+      "21b5d32bd2c668afd03b723a0b7b3f421c6501d900639deeaca537be83b46cc9",
+      "b129a348f7e4abd58d879751f89fa2fab23f5ee8f4bcd5e3b8d28ee8c57ceab2",
+      "8440a67f7b07a8ea27120b71d48c0dda633d4c2d575bc553571d9e3b58968b41"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pixabay_clip",
+      "pixabay_clip",
+      "pixabay_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "cacf60d212862f4293ef40c94ced2114a23cc373b3a4b92f7f7cd0de795dc831",
+    "status": "uploaded",
+    "youtube_video_id": "NVhIl1uaXkc",
+    "url": "https://youtu.be/NVhIl1uaXkc",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
