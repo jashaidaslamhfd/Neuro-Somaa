@@ -351,18 +351,34 @@ def _fallback_tags(topic: str) -> list[str]:
     return seen[:10]
 
 
-def _fallback_script(topic: str) -> dict[str, Any]:
-    # Mirrors MYSTERY_STRUCTURE_GUIDE's 8 roles: hook, mystery, clue x2,
-    # twist, final clue, reveal, payoff — kept in sync by hand since this
-    # path never calls the LLM.
-    clean = _clean_fr(topic).rstrip("?")
-    clean_words = clean.split()
-    # Ensure hook narration is concise (max 6 words) so audio duration stays strictly within 15-20s
-    if len(clean_words) > 6:
-        hook_narration = " ".join(clean_words[:5]).rstrip(" ,.;:!-") + " ?"
+def _format_clean_title(clean: str) -> str:
+    # If topic contains quote or colon, extract the core question/concept
+    clean = re.sub(r'^[«"]\s*', '', clean)
+    clean = re.sub(r'\s*[»"]\s*$', '', clean)
+    clean = re.sub(r'^[Pp]ourquoi\s+[Pp]ourquoi\s+', 'Pourquoi ', clean)
+    if not clean.lower().startswith(("pourquoi", "comment", "et si", "ton", "ta", "tes", "ce que")):
+        clean = f"Pourquoi {clean[0].lower() + clean[1:] if clean else ''}"
+    words = clean.split()
+    if len(" ".join(words)) <= 65:
+        res = " ".join(words)
     else:
-        hook_narration = clean + " ?"
-    title = _clean_fr((clean if len(clean) <= 65 else " ".join(clean_words[:6])) + " ?")
+        # Take words up to 60 chars without cutting mid-word
+        cur = []
+        cur_len = 0
+        for w in words:
+            if cur_len + len(w) + 1 > 60 and cur:
+                break
+            cur.append(w)
+            cur_len += len(w) + 1
+        res = " ".join(cur)
+    res = res.rstrip(" ,.;:!-?«»") + " ?"
+    return _clean_fr(res)
+
+def _fallback_script(topic: str) -> dict[str, Any]:
+    clean = _clean_fr(topic).rstrip("?")
+    title = _format_clean_title(clean)
+    clean_words = title.rstrip("?").split()
+    hook_narration = " ".join(clean_words[:6]).rstrip(" ,.;:!-") + " ?"
     tags = _fallback_tags(clean)
     # Ensure mandatory European/French market tags
     for market_tag in ("france", "shorts français", "science"):
@@ -374,13 +390,13 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "tags": tags[:12],
         "scenes": [
             {"caption": "ATTENDS—ton corps fait ça.", "narration": hook_narration},
-            {"caption": "La réponse commence dans ton cerveau.", "narration": "La réponse commence dans ton cerveau."},
-            {"caption": "Il repère d’abord un signal.", "narration": "Il repère d’abord un signal."},
-            {"caption": "Puis ton système nerveux réagit.", "narration": "Puis ton système nerveux réagit."},
-            {"caption": "Une réaction réflexe s'active.", "narration": "Une réaction réflexe s'active en chaîne."},
-            {"caption": "Ton organisme s'adapte très vite.", "narration": "Ton organisme s'adapte très vite."},
-            {"caption": "C’est pourquoi l'effet semble soudain.", "narration": "C’est pourquoi l'effet semble soudain."},
-            {"caption": "Observe ton corps la prochaine fois.", "narration": "Observe ton corps la prochaine fois."},
+            {"caption": "Tout se joue dans ton cerveau.", "narration": f"Tout se joue dans ton cerveau quand {clean[:30].lower()} arrive."},
+            {"caption": "Il repère un signal d’alerte.", "narration": "Il repère instantanément un signal d'alerte biologique."},
+            {"caption": "Ton système nerveux s’active.", "narration": "Ton système nerveux s'active en quelques millisecondes."},
+            {"caption": "Une onde réflexe se diffuse.", "narration": "Une onde de réactions chimiques traverse tout ton corps."},
+            {"caption": "Ton organisme s’adapte aussitôt.", "narration": "Ton métabolisme modifie son rythme sans que tu le saches."},
+            {"caption": "C’est pour ça que l’effet surprend.", "narration": "C'est exactement pour ça que la réaction semble si puissante."},
+            {"caption": "Dis-moi si tu as déjà ressenti ça.", "narration": "Dis-moi en commentaire si tu as déjà remarqué ça sur toi !"},
         ],
     }
 
