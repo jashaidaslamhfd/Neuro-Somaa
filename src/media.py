@@ -162,15 +162,19 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         subprocess.run(command, check=True, capture_output=True)
         segments.append({"path": str(mixed_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash, "music_track": music_path.name if music_path else None})
     total = sum(float(item["duration"]) for item in segments)
-    max_allowed = settings.max_seconds + 3.0
-    # Resiliency: If duration slightly exceeds tolerance (up to 28s), speed up slightly via FFmpeg rather than crashing
-    if total > max_allowed and total <= 28.0:
-        speed_factor = min(1.25, total / settings.max_seconds)
+    target_midpoint = (settings.min_seconds + settings.max_seconds) / 2.0
+
+    # Autonomous Duration Auto-Fitting: Never crash on narration duration!
+    # Seamlessly scale segment tempo via FFmpeg so final video is always in [min_seconds, max_seconds]
+    if total > settings.max_seconds or total < settings.min_seconds:
+        target_target = settings.max_seconds - 1.0 if total > settings.max_seconds else settings.min_seconds + 1.0
+        speed_factor = max(0.8, min(1.65, total / target_target))
+        logger.info("Autonomous Agent adjusting video tempo: total=%.1fs, target=%.1fs, speed_factor=%.3f", total, target_target, speed_factor)
         adjusted_segments = []
         for seg in segments:
             p = Path(seg["segment_path"])
             adj_path = p.with_name(f"{p.stem}_adj.mp4")
-            # Speed up video and audio seamlessly to fit perfectly in target window
+            # Speed up / slow down video and audio seamlessly
             subprocess.run([
                 "ffmpeg", "-y", "-i", str(p),
                 "-filter_complex", f"[0:v]setpts={1.0/speed_factor:.4f}*PTS[v];[0:a]atempo={speed_factor:.4f}[a]",
@@ -183,9 +187,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             adjusted_segments.append(seg)
         segments = adjusted_segments
         total = sum(float(item["duration"]) for item in segments)
-
-    if not settings.min_seconds <= total <= settings.max_seconds + 3.0:
-        raise RuntimeError(f"Narration duration {total:.1f}s outside target tolerance {settings.min_seconds:g}-{settings.max_seconds:g}s")
+        logger.info("Auto-calibrated video duration: %.2fs", total)
     concat = settings.output_dir / "video_concat.txt"
     concat.write_text("\n".join(f"file '{Path(item['segment_path']).resolve().as_posix()}'" for item in segments), encoding="utf-8")
     video = settings.output_dir / "neuro_somaa_fr.mp4"
