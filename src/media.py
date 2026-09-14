@@ -100,7 +100,7 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, acti
     overlay.save(path, format="PNG", optimize=True)
 
 
-def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list[dict[str, Any]]]:
+def render_video(script: dict[str, Any], settings: Settings, historical_clip_hashes: set[str] | None = None) -> tuple[Path, list[dict[str, Any]]]:
     settings.ensure_dirs()
     audio_dir = settings.output_dir / "audio"
     scene_dir = settings.output_dir / "scenes"
@@ -108,7 +108,7 @@ def render_video(script: dict[str, Any], settings: Settings) -> tuple[Path, list
     for directory in (audio_dir, scene_dir, segment_dir):
         directory.mkdir(parents=True, exist_ok=True)
     segments: list[dict[str, Any]] = []
-    used_clip_hashes: set[str] = set()
+    used_clip_hashes: set[str] = set(historical_clip_hashes or set())
     music_path = select_music_track(settings, seed=str(script.get("title", "video"))) if settings.background_music else None
     elapsed = 0.0
     for index, scene in enumerate(script["scenes"], start=1):
