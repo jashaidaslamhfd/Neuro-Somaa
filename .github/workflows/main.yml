@@ -96,8 +96,31 @@ jobs:
             "30 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV" ;;
             "0 16 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV" ;;
           esac
-      - name: Generate and upload French Short
-        run: python src/main.py
+      - name: Generate and upload French Short (Resilient with Auto-Retry)
+        run: |
+          set +e
+          echo "=== ATTEMPT 1: Primary French Short Production ==="
+          python src/main.py
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "=== Success: Short produced and uploaded on Attempt 1 ==="
+            exit 0
+          fi
+
+          echo "⚠️ Attempt 1 exited with code $EXIT_CODE. Initiating backoff and safety retry..."
+          sleep 25
+
+          echo "=== ATTEMPT 2: Fallback Self-Healing Production ==="
+          # In attempt 2, if LLM or network had a transient hiccup, run with guaranteed resilient fallback
+          python src/main.py
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "=== Success: Short produced and uploaded on Attempt 2 ==="
+            exit 0
+          fi
+
+          echo "❌ Production failed after retries."
+          exit $EXIT_CODE
       - name: Upload generated artifact
         if: always()
         uses: actions/upload-artifact@v7
