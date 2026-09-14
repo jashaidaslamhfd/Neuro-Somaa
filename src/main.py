@@ -85,14 +85,10 @@ def run() -> dict:
     current_fp = _fingerprint(script)
     if any(isinstance(row, dict) and row.get("fingerprint") == current_fp for row in history):
         raise RuntimeError("Duplicate French script rejected before rendering")
-    video_path, segments = render_video(script, SETTINGS)
-    technical = validate_video(video_path, SETTINGS)
     clip_history = _clip_history()
-    used_clip_hashes = {str(row.get("clip_hash")) for row in clip_history if isinstance(row, dict)}
-    current_clip_hashes = {str(item.get("clip_hash")) for item in segments}
-    repeated = current_clip_hashes & used_clip_hashes
-    if repeated:
-        raise RuntimeError(f"Repeated moving clip across renders rejected: {sorted(repeated)[:2]}")
+    historical_clip_hashes = {str(row.get("clip_hash")) for row in clip_history if isinstance(row, dict)}
+    video_path, segments = render_video(script, SETTINGS, historical_clip_hashes=historical_clip_hashes)
+    technical = validate_video(video_path, SETTINGS)
     thumbnail_path = build_thumbnail(script, SETTINGS)
     result = {
         "created_at": datetime.now(UTC).isoformat(),
