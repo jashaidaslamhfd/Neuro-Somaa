@@ -3262,5 +3262,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-14T15:21:44.684831+00:00",
+    "topic": "Pourquoi « Aujourd’hui, nous voyons des personnes qui ont mal vieilli à cause de leur alimentation. Dans 20 ans, ce sera à cause du stress. »?",
+    "title": "Pourquoi « Aujourd’hui, nous voyons des?",
+    "duration": 22.866667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "91abd1772ed9a47c90bb3b05465dc30cd2b7656eda4f9c1bdb5d15e308861a4a",
+      "44717879b060b7a1767f9e685a9b9a37c969517bb70f4005433cd8eade2c5bef",
+      "862304acecc4adeaa3f8240056b27cfdf937c8b60538882bfdf6342fa26ea21d",
+      "f313fc492ea7fa924745553bed412ce34e13c12138567f6365a8061080db3673",
+      "70ba2f94bb2bc1a40be654362415cb0cead7b3033bb0eb80c4ab26976c30ecf3",
+      "96fe93cc03a52db591d0f7bb7a3bec7b3278e612270fe1684846a31336a8a05d",
+      "f843ec2d543ac8cd7899aacf5f683b5f8ce788083be7514cb3fa399feaf91ee2",
+      "5f08b494d979623997cde27d41d02f019e62c37e5845cb18cb7ee3592825f9f0"
+    ],
+    "visual_providers": [
+      "pixabay_clip",
+      "pixabay_clip",
+      "pixabay_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pixabay_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "8b3c2909cc4436f967b7db8ca8221ae01dd488d6bec23cef27a1340dfc5bc2de",
+    "status": "uploaded",
+    "youtube_video_id": "Vqqpn02WANw",
+    "url": "https://youtu.be/Vqqpn02WANw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
