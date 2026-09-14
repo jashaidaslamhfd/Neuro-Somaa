@@ -404,13 +404,13 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "tags": tags[:12],
         "scenes": [
             {"caption": "ATTENDS—ton corps fait ça.", "narration": hook_narration},
-            {"caption": "Tout se joue dans ton cerveau.", "narration": f"Tout se joue dans ton cerveau quand {clean[:30].lower()} arrive."},
-            {"caption": "Il repère un signal d’alerte.", "narration": "Il repère instantanément un signal d'alerte biologique."},
-            {"caption": "Ton système nerveux s’active.", "narration": "Ton système nerveux s'active en quelques millisecondes."},
-            {"caption": "Une onde réflexe se diffuse.", "narration": "Une onde de réactions chimiques traverse tout ton corps."},
-            {"caption": "Ton organisme s’adapte aussitôt.", "narration": "Ton métabolisme modifie son rythme sans que tu le saches."},
-            {"caption": "C’est pour ça que l’effet surprend.", "narration": "C'est exactement pour ça que la réaction semble si puissante."},
-            {"caption": "Dis-moi si tu as déjà ressenti ça.", "narration": "Dis-moi en commentaire si tu as déjà remarqué ça sur toi !"},
+            {"caption": "Tout se passe là-haut.", "narration": "Tout se passe dans ton cerveau."},
+            {"caption": "Il repère une fausse alerte.", "narration": "Il déclenche une fausse alerte reflexe."},
+            {"caption": "Tes neurones s’activent.", "narration": "Tes neurones s'activent par automatisme."},
+            {"caption": "Une onde traverse tes nerfs.", "narration": "Une onde électrique traverse tes nerfs."},
+            {"caption": "Ton corps réagit direct.", "narration": "Ton corps réagit sans réfléchir."},
+            {"caption": "C’est un pur réflexe biologique.", "narration": "C'est un pur réflexe biologique."},
+            {"caption": "T’as déjà ressenti ça en vrai ?", "narration": "T'as déjà ressenti ça en vrai ?"},
         ],
     }
 
@@ -476,10 +476,11 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     if groq_key:
         try:
             from groq import Groq
-            chosen_model = settings.llm_model or "llama-3.3-70b-versatile"
-            if "llama" not in chosen_model.lower():
-                chosen_model = "llama-3.3-70b-versatile"
-            providers.append((Groq(api_key=groq_key), chosen_model))
+            groq_client = Groq(api_key=groq_key)
+            # Try multiple known high-availability models on Groq
+            for g_model in [settings.llm_model, "llama-3.3-70b-versatile", "llama-3.1-70b-versatile", "llama-3.1-8b-instant"]:
+                if g_model and (groq_client, g_model) not in providers:
+                    providers.append((groq_client, g_model))
         except Exception:
             pass
 
