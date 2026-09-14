@@ -3338,5 +3338,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-14T19:16:24.188039+00:00",
+    "topic": "Pourquoi comment le sommeil profond permet de lutter contre le stress?",
+    "title": "Pourquoi comment le sommeil profond?",
+    "duration": 21.008333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "cf795594c5b0087dc3f6fe54138347ff4a62cdad93c4a1d0a57b0eeef47c7c86",
+      "3fe3a1d1b2ea45685c7bb5cc4c59b0359ddc0435b54fa619074908af15e3e6f3",
+      "2138a931f12fcbeffdbf7fdde59118fd1e48b4f3ae38ef581f0a53a64d21c1bb",
+      "ff55927deac669f0000d8c19dd4f322dc8778ab0155aeb42ac913a4342bb25ce",
+      "2e6620aeba249b6ba776d6a3e575a7461a628088c220f7abb922821aa9f19708",
+      "b8ba5476babf4b75ac3cb897a98e400c4a233dc247380f3608c9fc78f95c3271",
+      "f4220d753c303a39da0e271831ea9cea78b17d48a7615253bd691b3a010911ca",
+      "ac4b1a216bf9bf56caefa0e97463fe5719471935685f5a25e262f99bfff633c0"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pixabay_clip",
+      "pixabay_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "a2ab8c71845f655fa2a1ea41e95c1aeb38a8cd3a72f38dbcf50588a451c1c207",
+    "status": "uploaded",
+    "youtube_video_id": "ARkMujULlT0",
+    "url": "https://youtu.be/ARkMujULlT0",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

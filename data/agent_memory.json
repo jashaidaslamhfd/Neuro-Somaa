@@ -17,7 +17,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.6,
+      "weight": 1.68,
       "engagement_avg": 9.2
     },
     {
@@ -44,6 +44,16 @@
       "keyword": "mémoire",
       "weight": 1.3,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "alors",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "reste",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
@@ -51,7 +61,8 @@
     "Pourquoi oublie-t-on nos rêves ?",
     "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
-    "Chair de poule en musique ?"
+    "Chair de poule en musique ?",
+    "Pourquoi comment le sommeil profond?"
   ],
   "performance_records": [
     {
@@ -62,6 +73,20 @@
       "hook_score": 95,
       "quality_score": 90,
       "status": "learning_baseline"
+    },
+    {
+      "cycle": 1,
+      "timestamp": "2026-09-14T19:16:33.289356+00:00",
+      "title": "Pourquoi comment le sommeil profond?",
+      "topic": "Pourquoi comment le sommeil profond permet de lutter contre le stress?",
+      "duration": 21.008333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/ARkMujULlT0",
+      "tempo": "ULTRA_DYNAMIC"
     }
-  ]
+  ],
+  "total_cycles": 1,
+  "last_cycle_at": "2026-09-14T19:16:33.289423+00:00"
 }
