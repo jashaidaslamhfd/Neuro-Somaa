@@ -17,7 +17,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.68,
+      "weight": 1.76,
       "engagement_avg": 9.2
     },
     {
@@ -47,12 +47,12 @@
     },
     {
       "keyword": "alors",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "reste",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -62,7 +62,8 @@
     "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
-    "Pourquoi comment le sommeil profond?"
+    "Pourquoi comment le sommeil profond?",
+    "Pourquoi sommeil perturbé, organisme?"
   ],
   "performance_records": [
     {
@@ -85,8 +86,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/ARkMujULlT0",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 2,
+      "timestamp": "2026-09-14T20:00:23.368382+00:00",
+      "title": "Pourquoi sommeil perturbé, organisme?",
+      "topic": "Pourquoi sommeil perturbé, organisme sollicité... Pourquoi la fatigue persiste après les fortes chaleurs de l’été?",
+      "duration": 21.041667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/gDbVsTzTPCw",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 1,
-  "last_cycle_at": "2026-09-14T19:16:33.289423+00:00"
+  "total_cycles": 2,
+  "last_cycle_at": "2026-09-14T20:00:23.368432+00:00"
 }

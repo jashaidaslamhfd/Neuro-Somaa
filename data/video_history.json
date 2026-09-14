@@ -3376,5 +3376,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-14T20:00:17.857654+00:00",
+    "topic": "Pourquoi sommeil perturbé, organisme sollicité... Pourquoi la fatigue persiste après les fortes chaleurs de l’été?",
+    "title": "Pourquoi sommeil perturbé, organisme?",
+    "duration": 21.041667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "ca45df84d324e16c078b59004df9703009f05006c7e9a9e9a4ccec6461987daf",
+      "37ed10d76d7c005f958e6027431de85c0f4a40e605b147497222a9b343cd89b7",
+      "e18a86e5abd85f083e7e45e2dadffcb53354e02615934b04cc57c5f992151143",
+      "a6f3de7ed412d56bebb7b626acd2444957efcccb79fe01ff2eae2a2ef9205daf",
+      "31ac97276280591511220e7c3756bf75286e04c95802149081bbe00bae3801e0",
+      "f22442541797804f9120a975ce26d6934c8ddf8952542205ae3d31c93746e7f2",
+      "ad118a15274ddc59ade35a1998e4b812ba95d52269b8840268d18d53ba0bf0b6",
+      "c7ca76889319f5219ca9c53d05423424e924dbd2e992360964f287e85daabff6"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pixabay_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "7b413c469b37d3e1f2a902152fb4b2c5ff57d55a3a6f6adf6dfc598749d8d698",
+    "status": "uploaded",
+    "youtube_video_id": "gDbVsTzTPCw",
+    "url": "https://youtu.be/gDbVsTzTPCw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
