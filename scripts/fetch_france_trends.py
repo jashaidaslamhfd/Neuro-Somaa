@@ -35,7 +35,12 @@ KEYWORDS = {
     "peur", "coeur", "cœur", "respiration", "fatigue", "odeur", "attention",
     "hormone", "immunité", "alimentation", "bien-être", "bizarre",
 }
-NOISE = {"météo", "résultat", "match", "football", "horoscope", "loto", "promo", "soldes"}
+NOISE = {
+    "météo", "résultat", "match", "football", "horoscope", "loto", "promo", "soldes",
+    "mort", "décès", "corps sans vie", "retrouvé", "retrouvée", "disparu", "disparue",
+    "paddle", "plage", "meurtre", "noyade", "accident", "drame", "procès", "justice",
+    "police", "tribunal", "victime", "agression", "avoue", "terrasse"
+}
 
 
 def fetch(url: str, timeout: int = 20) -> bytes:
