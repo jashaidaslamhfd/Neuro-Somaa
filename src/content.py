@@ -352,25 +352,39 @@ def _fallback_tags(topic: str) -> list[str]:
 
 
 def _format_clean_title(clean: str) -> str:
-    # If topic contains quote or colon, extract the core question/concept
+    """Mobile Shorts Feed Optimized Title:
+    Keeps the title concise (under 42 characters), punchy and 100% complete
+    so it is fully visible on a smartphone screen without ellipsis (...).
+    """
     clean = re.sub(r'^[«"]\s*', '', clean)
     clean = re.sub(r'\s*[»"]\s*$', '', clean)
     clean = re.sub(r'^[Pp]ourquoi\s+[Pp]ourquoi\s+', 'Pourquoi ', clean)
-    if not clean.lower().startswith(("pourquoi", "comment", "et si", "ton", "ta", "tes", "ce que")):
+    
+    # Common verbosity reduction for punchy mobile display
+    clean = re.sub(r"^[Pp]ourquoi as-tu l'impression que\s+", "Pourquoi ", clean)
+    clean = re.sub(r"^[Pp]ourquoi le cerveau efface-t-il\s+", "Pourquoi oublier ", clean)
+    clean = re.sub(r"^[Pp]ourquoi ton corps sursaute-t-il\s+", "Pourquoi sursauter ", clean)
+    clean = re.sub(r"^[Pp]ourquoi le temps semble passer\s+", "Pourquoi le temps passe ", clean)
+    clean = re.sub(r"^[Pp]ourquoi a-t-on la chair de poule\s+", "Chair de poule : ", clean)
+    clean = re.sub(r"^[Pp]ourquoi une odeur peut faire revivre\s+", "Une odeur réveille ", clean)
+
+    if not clean.lower().startswith(("pourquoi", "comment", "et si", "ton", "ta", "tes", "ce que", "chair", "une")):
         clean = f"Pourquoi {clean[0].lower() + clean[1:] if clean else ''}"
+    
     words = clean.split()
-    if len(" ".join(words)) <= 65:
+    if len(" ".join(words)) <= 42:
         res = " ".join(words)
     else:
-        # Take words up to 60 chars without cutting mid-word
+        # Fit comfortably within 38-42 characters at word boundary
         cur = []
         cur_len = 0
         for w in words:
-            if cur_len + len(w) + 1 > 60 and cur:
+            if cur_len + len(w) + 1 > 38 and cur:
                 break
             cur.append(w)
             cur_len += len(w) + 1
         res = " ".join(cur)
+    
     res = res.rstrip(" ,.;:!-?«»") + " ?"
     return _clean_fr(res)
 
