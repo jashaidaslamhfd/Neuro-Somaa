@@ -18,6 +18,7 @@ from media import render_video, validate_video
 from thumbnails import build_thumbnail
 from youtube import upload
 from meta import is_meta_configured, upload_to_facebook_reels
+from agent_brain import AgentBrain
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("neuro_somaa")
@@ -51,7 +52,7 @@ def _clip_history() -> list[dict]:
 
 def _persist_state() -> None:
     """Best-effort commit of duplicate state for the next scheduled runner."""
-    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json"]
+    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json", "data/agent_memory.json", "data/agent_log.json"]
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False)
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
     subprocess.run(["git", "add", *paths], check=False)
@@ -66,8 +67,15 @@ def run() -> dict:
     if errors:
         raise RuntimeError("Configuration invalid: " + "; ".join(errors))
     SETTINGS.ensure_dirs()
+    # Autonomous AI Agent Sensory & Reasoning Core
+    agent = AgentBrain(SETTINGS.data_dir)
+    sensory = agent.sense_youtube_performance()
+    logger.info("Agent Sensory Feedback Status: %s", sensory.get("sync_status"))
+    
     topic = load_topic(SETTINGS)
-    logger.info("French topic selected: %s", topic)
+    plan = agent.reason_and_strategize(topic)
+    logger.info("Agent Strategy Plan: topic='%s', tempo=%s, keywords=%s", topic, plan.get("chosen_tempo"), plan.get("detected_keywords"))
+    
     script = generate_script(topic, SETTINGS)
     if not script.get("title") or len(script.get("scenes", [])) < 4:
         raise RuntimeError("Generated script is incomplete")
@@ -119,6 +127,9 @@ def run() -> dict:
     else:
         result["facebook_success"] = False
         result["facebook_note"] = "Dry run, render only, or Meta credentials not configured"
+    # Agent Reflection & Episodic Memory Update
+    agent.reflect_and_learn(result, plan)
+    
     if not SETTINGS.dry_run and not SETTINGS.render_only and result.get("status") == "uploaded":
         _write_history(result)
         clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
