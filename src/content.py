@@ -270,8 +270,8 @@ def _clean_fr(text: str) -> str:
 # consistently outperforming, and eye/heart topics underperforming. This is a
 # soft nudge, not a hard filter — it only picks among the next few unused
 # queue entries so topic rotation and freshness are still respected.
-_WINNING_TOPIC_KEYWORDS = ("muscle", "ventre", "intestin", "pied", "estomac", "digestion")
-_LOSING_TOPIC_KEYWORDS = ("œil", "oeil", "yeux", "cœur", "coeur")
+_WINNING_TOPIC_KEYWORDS = ("cerveau", "sommeil", "stress", "rêve", "reve", "memoire", "mémoire", "téléphone", "dopamine", "fatigue", "muscle", "ventre")
+_LOSING_TOPIC_KEYWORDS = ("e. coli", "ecoli", "bactérie", "vatican", "gaza", "patrimoine", "médiéval")
 _TOPIC_LOOKAHEAD = 12
 
 
@@ -503,7 +503,7 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
         f"{METADATA_RULES}\n\nRéponds uniquement en JSON valide."
     )
     user_prompt = (
-        f"Sujet: {topic}\nCrée un titre le plus court possible (idéalement 35-50 caractères, jamais plus de 70) "
+        f"Sujet: {topic}\nCrée un titre VIRAL et PERCUTANT (30-48 caractères max). VARIE l angle : commence par Ton cerveau..., Ce qui arrive si..., Ne fais JAMAIS..., ou une question choc. Évite de toujours commencer par Pourquoi ! "
         "et EXACTEMENT 8 scènes très courtes, en suivant précisément les 8 rôles de la structure point par "
         "point ci-dessus (scène 1 = accroche, scène 2 = mystère, scène 3-4 = indices, scène 5 = rebondissement, "
         "scène 6 = indice final, scène 7 = révélation, scène 8 = chute). Chaque scène doit contenir caption et "
