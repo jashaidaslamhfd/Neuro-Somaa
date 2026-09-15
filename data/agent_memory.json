@@ -23,11 +23,11 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.85,
+      "weight": 1.94,
       "engagement_avg": 9.2
     },
     {
-      "keyword": "t\u00e9l\u00e9phone",
+      "keyword": "téléphone",
       "weight": 1.7,
       "engagement_avg": 9.4
     },
@@ -42,12 +42,12 @@
       "engagement_avg": 8.5
     },
     {
-      "keyword": "r\u00eaves",
+      "keyword": "rêves",
       "weight": 1.4,
       "engagement_avg": 8.3
     },
     {
-      "keyword": "m\u00e9moire",
+      "keyword": "mémoire",
       "weight": 1.3,
       "engagement_avg": 8.0
     },
@@ -58,28 +58,44 @@
     },
     {
       "keyword": "reste",
-      "weight": 1.32,
+      "weight": 1.39,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "éveillé",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "quand",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "dors",
+      "weight": 1.2,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Ce qui arrive si tu regardes ton \u00e9cran \u00e0 2h",
-    "Ne fais JAMAIS \u00e7a avant de dormir",
-    "Ton cerveau fait \u00e7a chaque nuit...",
-    "Ton t\u00e9l\u00e9phone vibre dans le vide ?",
-    "Pourquoi oublie-t-on nos r\u00eaves ?",
+    "Ce qui arrive si tu regardes ton écran à 2h",
+    "Ne fais JAMAIS ça avant de dormir",
+    "Ton cerveau fait ça chaque nuit...",
+    "Ton téléphone vibre dans le vide ?",
+    "Pourquoi oublie-t-on nos rêves ?",
     "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
     "Pourquoi comment le sommeil profond?",
-    "Pourquoi sommeil perturb\u00e9, organisme?",
-    "Pourquoi dans la bande de Gaza, l'ONU?"
+    "Pourquoi sommeil perturbé, organisme?",
+    "Pourquoi dans la bande de Gaza, l'ONU?",
+    "Pourquoi nonhigny. En sommeil depuis?"
   ],
   "performance_records": [
     {
       "cycle": 1,
       "timestamp": "2026-09-14T10:00:00Z",
-      "title": "Ton t\u00e9l\u00e9phone vibre dans le vide ?",
+      "title": "Ton téléphone vibre dans le vide ?",
       "duration": 18.2,
       "hook_score": 95,
       "quality_score": 90,
@@ -100,8 +116,8 @@
     {
       "cycle": 2,
       "timestamp": "2026-09-14T20:00:23.368382+00:00",
-      "title": "Pourquoi sommeil perturb\u00e9, organisme?",
-      "topic": "Pourquoi sommeil perturb\u00e9, organisme sollicit\u00e9... Pourquoi la fatigue persiste apr\u00e8s les fortes chaleurs de l\u2019\u00e9t\u00e9?",
+      "title": "Pourquoi sommeil perturbé, organisme?",
+      "topic": "Pourquoi sommeil perturbé, organisme sollicité... Pourquoi la fatigue persiste après les fortes chaleurs de l’été?",
       "duration": 21.041667,
       "hook_score": 100,
       "quality_score": 90,
@@ -113,15 +129,27 @@
       "cycle": 3,
       "timestamp": "2026-09-15T15:12:53.972741+00:00",
       "title": "Pourquoi dans la bande de Gaza, l'ONU?",
-      "topic": "Pourquoi dans la bande de Gaza, l'ONU r\u00e9clame un acc\u00e8s aux corps sous les d\u00e9combres pour des enqu\u00eateurs internationaux?",
+      "topic": "Pourquoi dans la bande de Gaza, l'ONU réclame un accès aux corps sous les décombres pour des enquêteurs internationaux?",
       "duration": 21.031333,
       "hook_score": 100,
       "quality_score": 90,
       "status": "uploaded",
       "url": "https://youtu.be/ZUez6M2BCws",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 4,
+      "timestamp": "2026-09-15T17:45:33.249884+00:00",
+      "title": "Pourquoi nonhigny. En sommeil depuis?",
+      "topic": "Pourquoi nonhigny. En sommeil depuis 2023, la MJC reprend du service?",
+      "duration": 21.013667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/6289WeveiSI",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 3,
-  "last_cycle_at": "2026-09-15T15:12:53.972816+00:00"
+  "total_cycles": 4,
+  "last_cycle_at": "2026-09-15T17:45:33.249939+00:00"
 }

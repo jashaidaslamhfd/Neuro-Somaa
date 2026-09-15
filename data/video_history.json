@@ -3452,5 +3452,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-15T17:45:26.246983+00:00",
+    "topic": "Pourquoi nonhigny. En sommeil depuis 2023, la MJC reprend du service?",
+    "title": "Pourquoi nonhigny. En sommeil depuis?",
+    "duration": 21.013667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "7f9311f645a10fe60039bd46f5132103b100a720d3ed46f95ee7bc83f45a2577",
+      "7c8b83a918d73747c0083bddde81534144713a63329cfdfac43f0b2965dd1af2",
+      "21a2bf06ef95abe19954b15189307cb2bf3e0754467e6444678ce50c2b79bdbe",
+      "7be6cd8f18ee0cd09701b21984c7eeeb754ef56e7b1adf233d5a90dfb0613b5e",
+      "6ced62df11d32929a4f771631e15e654020b4ccd770d8542b645bd25188ac3d5",
+      "cfdc1d1dbb9dd6d2ef648a9eaeebd108ce950a3d7bc68a26194eadfad3fd5670",
+      "6caf1f73300cec2a8c2d297d64aac177443317401fef630a31db577af40b6c76",
+      "033d3625d32a4f6012c5226cdb262d4e71393af1cc87a954adef6b353ba638fc"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "pixabay_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "943a93833a083f5ce0965f8efff9d1bcefa8186354d43c676dc05f8548d0c9ba",
+    "status": "uploaded",
+    "youtube_video_id": "6289WeveiSI",
+    "url": "https://youtu.be/6289WeveiSI",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
