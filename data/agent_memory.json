@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.94,
+      "weight": 2.04,
       "engagement_avg": 9.2
     },
     {
@@ -58,22 +58,22 @@
     },
     {
       "keyword": "reste",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "éveillé",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "quand",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "dors",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -89,7 +89,8 @@
     "Pourquoi comment le sommeil profond?",
     "Pourquoi sommeil perturbé, organisme?",
     "Pourquoi dans la bande de Gaza, l'ONU?",
-    "Pourquoi nonhigny. En sommeil depuis?"
+    "Pourquoi nonhigny. En sommeil depuis?",
+    "Pourquoi « Le syndrome de l'intestin?"
   ],
   "performance_records": [
     {
@@ -148,8 +149,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/6289WeveiSI",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 5,
+      "timestamp": "2026-09-15T19:20:35.359610+00:00",
+      "title": "Pourquoi « Le syndrome de l'intestin?",
+      "topic": "Pourquoi « Le syndrome de l'intestin irritable est le fruit d'une engueulade entre le ventre et le cerveau »?",
+      "duration": 21.03,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/Rq6uC_MjOEw",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 4,
-  "last_cycle_at": "2026-09-15T17:45:33.249939+00:00"
+  "total_cycles": 5,
+  "last_cycle_at": "2026-09-15T19:20:35.359683+00:00"
 }

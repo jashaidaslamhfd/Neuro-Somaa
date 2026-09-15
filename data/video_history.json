@@ -3490,5 +3490,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-15T19:20:28.172928+00:00",
+    "topic": "Pourquoi « Le syndrome de l'intestin irritable est le fruit d'une engueulade entre le ventre et le cerveau »?",
+    "title": "Pourquoi « Le syndrome de l'intestin?",
+    "duration": 21.03,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "2db39250d0de706f9a7cc4ed4459dd1fba8219096106408fe5f5509f1e943076",
+      "7fa9c77911f798bbe1d0d920f5315f26f429ae28612eaf014444c3b241f579f4",
+      "1f8216acfcb80604826b6db7e7e26bf48e1993698f7f050425f91e5732b58c22",
+      "f580c79a77587d2563f59a6160c6007dd3aa99434b6a93adc8736e9396a86a20",
+      "467a5949f53282e3001177b8629e7c36c61c49f65ebe0b89623793c095a6874f",
+      "15c623f200ec60822be885919070a2cd4b24bcfcf08c3abff373cffb17cc59e1",
+      "5087c7e4140490a59de6ae184d3a737b4185cdcc39a49a99f14de8c5819369c6",
+      "71b9c63d4f0720bc2ab7e6aca43d247125c584d17580b9a864e9e9fe14951b57"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "1f86eaf6defa81b70780e5476749e753d91c3e575784916c58915316a0076907",
+    "status": "uploaded",
+    "youtube_video_id": "Rq6uC_MjOEw",
+    "url": "https://youtu.be/Rq6uC_MjOEw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
