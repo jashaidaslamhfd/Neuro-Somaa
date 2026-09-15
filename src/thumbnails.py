@@ -116,14 +116,16 @@ def build_thumbnail(script: dict[str, Any], settings: Any) -> Path:
     draw.text((88, 92), "NEURO-SOMAA", font=_font(48, True), fill="#ffffff")
     draw.text((88, 155), "SCIENCE DU QUOTIDIEN", font=_font(25, True), fill="#6ee7d8")
     hook = _hook(title)
-    hook_font = _font(78, True)
-    hook_box = draw.multiline_textbbox((0, 0), hook, font=hook_font, spacing=20)
+    hook_font = _font(94, True)
+    hook_box = draw.multiline_textbbox((0, 0), hook, font=hook_font, spacing=24)
+    hook_width = hook_box[2] - hook_box[0]
     hook_height = hook_box[3] - hook_box[1]
-    card_left, card_top = 58, 600
-    card_right = min(990, 120 + hook_box[2] - hook_box[0])
-    card_bottom = card_top + hook_height + 130
-    draw.rounded_rectangle((card_left, card_top, card_right, card_bottom), radius=42, fill="#07111fe8", outline="#ffffff", width=3)
-    draw.multiline_text((card_left + 48, card_top + 65), hook, font=hook_font, fill="#ffffff", spacing=20, stroke_width=2, stroke_fill="#07111f")
+    card_left, card_top = 52, 540
+    card_right = min(1028, max(850, card_left + hook_width + 110))
+    card_bottom = card_top + hook_height + 140
+    # High-impact contrasting card with vibrant yellow border for maximum feed CTR
+    draw.rounded_rectangle((card_left, card_top, card_right, card_bottom), radius=42, fill="#050c18fa", outline="#facc15", width=6)
+    draw.multiline_text((card_left + 54, card_top + 68), hook, font=hook_font, fill="#facc15", spacing=24, stroke_width=4, stroke_fill="#000000")
     draw.rounded_rectangle((78, card_bottom + 70, 560, card_bottom + 150), radius=30, fill="#6ee7d8")
     draw.text((112, card_bottom + 88), _duration_label(settings), font=_font(30, True), fill="#07111f")
     output = settings.output_dir / "thumbnail.jpg"
