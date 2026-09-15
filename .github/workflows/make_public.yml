@@ -1,0 +1,26 @@
+name: Instant Make Public
+on:
+  workflow_dispatch:
+    inputs:
+      video_ids:
+        description: "Comma separated video IDs to make public immediately"
+        required: false
+        default: "gDbVsTzTPCw"
+
+jobs:
+  make-public:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: pip install google-api-python-client google-auth-oauthlib
+      - name: Run make public
+        env:
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+          VIDEO_IDS: ${{ inputs.video_ids }}
+        run: python scripts/make_public.py
