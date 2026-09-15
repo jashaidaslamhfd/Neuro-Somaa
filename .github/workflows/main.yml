@@ -45,8 +45,8 @@ jobs:
       TARGET_MAX_SECONDS: "22"
       MIN_HOOK_SCORE: "70"
       QUALITY_APPROVAL_THRESHOLD: "60"
-      YT_PRIVACY_STATUS: private
-      YT_SCHEDULE_PUBLISH: "true"
+      YT_PRIVACY_STATUS: public
+      YT_SCHEDULE_PUBLISH: "false"
       DRY_RUN: ${{ inputs.dry_run || 'false' }}
       RENDER_ONLY: ${{ inputs.render_only || 'false' }}
       VIDEO_TOPIC: ${{ inputs.topic || '' }}
