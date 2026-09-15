@@ -60,7 +60,7 @@ def optimize_all():
             
             # Ensure description contains high-volume hashtags
             if "#shorts" not in snippet.get("description", ""):
-                snippet["description"] = f"{snippet.get("description", "")}\n\n#shorts #cerveau #science #france"
+                snippet["description"] = str(snippet.get("description") or "") + "\n\n#shorts #cerveau #science #france"
 
             yt.videos().update(
                 part="snippet",
