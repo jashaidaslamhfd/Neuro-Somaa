@@ -17,7 +17,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.76,
+      "weight": 1.85,
       "engagement_avg": 9.2
     },
     {
@@ -47,12 +47,12 @@
     },
     {
       "keyword": "alors",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "reste",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
@@ -63,7 +63,8 @@
     "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
     "Pourquoi comment le sommeil profond?",
-    "Pourquoi sommeil perturbé, organisme?"
+    "Pourquoi sommeil perturbé, organisme?",
+    "Pourquoi dans la bande de Gaza, l'ONU?"
   ],
   "performance_records": [
     {
@@ -98,8 +99,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/gDbVsTzTPCw",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 3,
+      "timestamp": "2026-09-15T15:12:53.972741+00:00",
+      "title": "Pourquoi dans la bande de Gaza, l'ONU?",
+      "topic": "Pourquoi dans la bande de Gaza, l'ONU réclame un accès aux corps sous les décombres pour des enquêteurs internationaux?",
+      "duration": 21.031333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/ZUez6M2BCws",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 2,
-  "last_cycle_at": "2026-09-14T20:00:23.368432+00:00"
+  "total_cycles": 3,
+  "last_cycle_at": "2026-09-15T15:12:53.972816+00:00"
 }

@@ -3414,5 +3414,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-15T15:12:44.175643+00:00",
+    "topic": "Pourquoi dans la bande de Gaza, l'ONU réclame un accès aux corps sous les décombres pour des enquêteurs internationaux?",
+    "title": "Pourquoi dans la bande de Gaza, l'ONU?",
+    "duration": 21.031333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "f2d3e75a8b2ff96142e0b31b56c4d1bef5503c588917fe8cf30f9b47a4315de4",
+      "c9f2efb816c8a15692ef0dcda585dcd0204c99a47ea95f193efefdd9b5edfa24",
+      "f4425571731a4f52baaf399227c1c5dcd4724e622162488670d6517dbac9879f",
+      "b5dac6469674f1be15c9818c3c4f69e3da258d7eaebeee9bf6f9619568963303",
+      "d219fde098e3e0528d3b349cbe043174925d36df8b1362b466d077e37af7b658",
+      "5287b19f64a33c08a451243bad85a6f79cc6c51dc4d263b14e3f80094962efeb",
+      "f7dfd4acc6b3b94ebd05645fbc9aa892c4f75f5560d1ce1be7493962aaf01e20",
+      "3947c99c4630c0300950f141960cc0e811a25da63645b121fa6a965de968c086"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "3d6d06543c23381fc42498f71979cc950502f109be46f1258065f81d3db741e1",
+    "status": "uploaded",
+    "youtube_video_id": "ZUez6M2BCws",
+    "url": "https://youtu.be/ZUez6M2BCws",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
