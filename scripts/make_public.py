@@ -1,6 +1,7 @@
 from __future__ import annotations
+
 import os
-import sys
+
 
 def get_youtube():
     from google.auth.transport.requests import Request
@@ -29,7 +30,6 @@ def make_videos_public(video_ids: list[str]):
                 continue
             item = items[0]
             curr_status = item["status"]
-            snippet = item["snippet"]
             
             # 1. Update status to public and remove publishAt
             # In YouTube API, updating status to public clears publishAt

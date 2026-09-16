@@ -12,13 +12,13 @@ try:
 except ImportError:
     UTC = timezone.utc  # noqa: UP017
 
+from agent_brain import AgentBrain
 from config import SETTINGS
 from content import generate_script, load_topic, score_hook, score_script_quality
 from media import render_video, validate_video
+from meta import is_meta_configured, upload_to_facebook_reels
 from thumbnails import build_thumbnail
 from youtube import upload
-from meta import is_meta_configured, upload_to_facebook_reels
-from agent_brain import AgentBrain
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger("neuro_somaa")

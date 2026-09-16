@@ -1,6 +1,7 @@
 from __future__ import annotations
+
 import os
-import re
+
 
 def get_youtube():
     from google.auth.transport.requests import Request

@@ -214,8 +214,9 @@ _FR_SCIENCE_MAP = {
 
 
 def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> Path:
-    from PIL import ImageDraw
     import time
+
+    from PIL import ImageDraw
 
     palettes = (
         ("#101827", "#29476b", "#6ee7d8"),

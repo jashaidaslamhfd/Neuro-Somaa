@@ -232,3 +232,123 @@ class AgentBrain:
             logger.warning("Could not append to agent log: %s", exc)
 
         logger.info("Agent reflection complete. Cycle #%d recorded in memory.", self.memory["total_cycles"])
+
+    def predict_retention(self, script: dict[str, Any]) -> dict[str, Any]:
+        scenes = script.get("scenes", [])
+        if not scenes:
+            return {"passed": False, "overall_score": 0.50, "retention_index_pct": 50, "hook_potency": 0.5, "pacing_velocity": 0.5, "loopback_seamlessness": 0.5}
+
+        scene1 = scenes[0]
+        c1 = str(scene1.get("caption", "")).strip()
+        n1 = str(scene1.get("narration", "")).strip()
+        c1_words = len(c1.split())
+        n1_words = len(n1.split())
+
+        hook_score = 0.92
+        if not (2 <= c1_words <= 8):
+            hook_score -= 0.20
+        if not (6 <= n1_words <= 16):
+            hook_score -= 0.15
+        if any(w in (c1 + " " + n1).lower() for w in ("cerveau", "sommeil", "stress", "peur", "yeux", "mystere", "secret", "pourquoi")):
+            hook_score += 0.08
+        hook_potency = max(0.3, min(1.0, hook_score))
+
+        narration_lengths = [len(str(s.get("narration", "")).split()) for s in scenes]
+        avg_len = sum(narration_lengths) / max(1, len(narration_lengths))
+        variance = sum((x - avg_len) ** 2 for x in narration_lengths) / max(1, len(narration_lengths))
+        std_dev = variance ** 0.5
+        pacing_score = max(0.5, 0.95 - (std_dev * 0.04))
+
+        scene_last = scenes[-1]
+        n_last = str(scene_last.get("narration", "")).lower()
+        loopback_score = 0.85
+        if any(w in n_last for w in ("voila pourquoi", "chaque fois", "ce moment")):
+            loopback_score = 0.98
+
+        overall_score = round((hook_potency * 0.40) + (pacing_score * 0.35) + (loopback_score * 0.25), 3)
+
+        return {
+            "passed": overall_score >= 0.75,
+            "overall_score": overall_score,
+            "retention_index_pct": int(overall_score * 100),
+            "hook_potency": round(hook_potency, 2),
+            "pacing_velocity": round(pacing_score, 2),
+            "loopback_seamlessness": round(loopback_score, 2),
+        }
+
+    def audit_script(self, script: dict[str, Any]) -> dict[str, Any]:
+        verdict = self.predict_retention(script)
+        scenes = script.get("scenes", [])
+        neuro_triggers = ("cerveau", "neurones", "synapse", "dopamine", "inconscient", "panique", "sommeil", "memoire")
+        
+        found_triggers = []
+        total_words = 0
+        for s in scenes:
+            narr = str(s.get("narration", "")).lower()
+            total_words += len(narr.split())
+            for trig in neuro_triggers:
+                if trig in narr and trig not in found_triggers:
+                    found_triggers.append(trig)
+
+        neuro_score = round(min(1.0, len(found_triggers) / 4.0), 2)
+        str_pct = round(65.0 + (verdict["hook_potency"] * 25.0), 1)
+        apv_pct = round(80.0 + (verdict["overall_score"] * 30.0), 1)
+
+        return {
+            "neuro_score": neuro_score,
+            "retention_score": verdict["overall_score"],
+            "retention_index_pct": verdict["retention_index_pct"],
+            "passed": verdict["passed"],
+            "predicted_str_pct": str_pct,
+            "predicted_apv_pct": apv_pct,
+            "hook_potency": verdict["hook_potency"],
+            "pacing_velocity": verdict["pacing_velocity"],
+            "loopback_seamlessness": verdict["loopback_seamlessness"],
+            "neuro_triggers_found": found_triggers,
+            "total_narration_words": total_words,
+        }
+
+    def optimize_script(self, script: dict[str, Any]) -> dict[str, Any]:
+        scenes = script.get("scenes", [])
+        if scenes:
+            scene_last = scenes[-1]
+            n_last = str(scene_last.get("narration", ""))
+            if not any(w in n_last.lower() for w in ("voila pourquoi", "chaque fois")):
+                scene_last["narration"] = "Voila pourquoi ce mystere se repete a chaque fois."
+                scene_last["caption"] = "La boucle recommence."
+        script["retention_verdict"] = self.predict_retention(script)
+        return script
+
+    def simulate_retention_curve(self, script: dict[str, Any]) -> list[dict[str, Any]]:
+        verdict = self.predict_retention(script)
+        score = verdict.get("overall_score", 0.88)
+        scenes = script.get("scenes", [])
+        points = []
+        current = 100.0
+        for sec in range(19):
+            if sec == 0:
+                pct = 100.0
+            elif sec <= 2:
+                drop = (1.0 - (score * 0.95)) * 16.0
+                current -= drop / 2.0
+                pct = current
+            elif sec <= 6:
+                current -= 1.1
+                pct = current
+            elif sec <= 11:
+                current -= 0.9
+                pct = current
+            elif sec <= 15:
+                current -= 0.8
+                pct = current
+            else:
+                current += 1.8
+                pct = min(98.0, current)
+
+            scene_idx = min(len(scenes) - 1, int(sec / (18.0 / max(1, len(scenes))))) if scenes else 0
+            points.append({
+                "second": sec,
+                "retention_pct": round(pct, 1),
+                "scene_index": scene_idx + 1,
+            })
+        return points

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
@@ -37,3 +36,31 @@ def test_agent_reasoning_and_reflection(tmp_path: Path):
     assert agent.memory["total_cycles"] == 1
     assert len(agent.memory["performance_records"]) == 1
     assert "Pourquoi ton cerveau procrastine ?" in agent.memory["winning_hooks"]
+
+
+def test_agent_brain_audit_and_retention(tmp_path: Path):
+    agent = AgentBrain(data_dir=tmp_path)
+    script = {
+        "title": "Pourquoi ton corps sursaute ?",
+        "scenes": [
+            {"caption": "Ton corps sursaute.", "narration": "Au moment de t endormir ton corps sursaute violemment."},
+            {"caption": "Signal sensoriel.", "narration": "Tes neurones interpretent le sommeil comme une chute libre."},
+            {"caption": "Reflexe archaique.", "narration": "Un circuit cerebral ancestral prend les commandes avant la conscience."},
+            {"caption": "Spasme hypnique.", "narration": "Les neuroscientifiques appellent ce declic un sursaut hypnique."},
+            {"caption": "Impulsion motrice.", "narration": "Pour te sauver de cette chute le cortex moteur envoie une decharge."},
+            {"caption": "Panique inconsciente.", "narration": "Rien de dangereux mais ton inconscient panique un court instant."},
+            {"caption": "Transition nerveuse.", "narration": "Tu as surpris ton systeme nerveux en plein changement d etat."},
+            {"caption": "La boucle.", "narration": "Voila pourquoi ton corps sursaute a chaque fois."}
+        ]
+    }
+    audit = agent.audit_script(script)
+    assert audit["passed"] is True
+    assert audit["predicted_str_pct"] >= 70.0
+    assert audit["predicted_apv_pct"] >= 90.0
+
+    optimized = agent.optimize_script(script)
+    assert "retention_verdict" in optimized
+
+    curve = agent.simulate_retention_curve(script)
+    assert len(curve) == 19
+    assert curve[0]["retention_pct"] == 100.0

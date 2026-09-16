@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import os
 import random
-import socket
 import time
 from datetime import datetime, timedelta, timezone
 
@@ -14,6 +13,7 @@ except ImportError:
 
 from pathlib import Path
 from typing import Any
+
 from config import Settings
 
 logger = logging.getLogger("neuro_somaa.youtube")
@@ -150,7 +150,7 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
                 time.sleep(delay)
             else:
                 raise
-        except (socket.timeout, ConnectionResetError, BrokenPipeError) as exc:
+        except (TimeoutError, ConnectionResetError, BrokenPipeError) as exc:
             retries += 1
             if retries > max_retries:
                 raise RuntimeError("Network disconnects exceeded max retry allowance") from exc

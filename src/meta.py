@@ -7,6 +7,7 @@ import logging
 import os
 from pathlib import Path
 from typing import Any
+
 import requests
 
 logger = logging.getLogger("neuro_somaa.meta")

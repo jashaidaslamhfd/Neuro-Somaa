@@ -1,13 +1,8 @@
 from __future__ import annotations
-import logging
-
-logger = logging.getLogger(__name__)
-import logging
-
-logger = logging.getLogger(__name__)
 
 import hashlib
 import json
+import logging
 import subprocess
 import textwrap
 from pathlib import Path
@@ -17,7 +12,9 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
-from visual_providers import fetch_visual, _procedural_motion_clip
+from visual_providers import _procedural_motion_clip, fetch_visual
+
+logger = logging.getLogger(__name__)
 
 
 def _safe_truncate(text: str, limit: int) -> str:
@@ -173,7 +170,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
     # Autonomous Duration Auto-Fitting: Never crash on narration duration!
     # Seamlessly scale segment tempo via FFmpeg so final video is always in [min_seconds, max_seconds]
     if total > settings.max_seconds or total < settings.min_seconds:
-        target_target = settings.max_seconds - 1.0 if total > settings.max_seconds else settings.min_seconds + 1.0
+        target_target = target_midpoint
         speed_factor = max(0.8, min(1.65, total / target_target))
         logger.info("Autonomous Agent adjusting video tempo: total=%.1fs, target=%.1fs, speed_factor=%.3f", total, target_target, speed_factor)
         adjusted_segments = []
