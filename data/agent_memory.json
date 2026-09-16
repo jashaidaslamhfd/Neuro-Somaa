@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.14,
+      "weight": 2.25,
       "engagement_avg": 9.2
     },
     {
@@ -58,22 +58,22 @@
     },
     {
       "keyword": "reste",
-      "weight": 1.53,
+      "weight": 1.61,
       "engagement_avg": 8.0
     },
     {
       "keyword": "éveillé",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "quand",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "dors",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     }
   ],
@@ -91,7 +91,8 @@
     "Pourquoi dans la bande de Gaza, l'ONU?",
     "Pourquoi nonhigny. En sommeil depuis?",
     "Pourquoi « Le syndrome de l'intestin?",
-    "Pourquoi hommage au cinéaste Patricio?"
+    "Pourquoi hommage au cinéaste Patricio?",
+    "Pourquoi dans le cerveau de 37 femmes?"
   ],
   "performance_records": [
     {
@@ -174,8 +175,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/_giVVeKhfY0",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 7,
+      "timestamp": "2026-09-16T17:43:05.179155+00:00",
+      "title": "Pourquoi dans le cerveau de 37 femmes?",
+      "topic": "Pourquoi dans le cerveau de 37 femmes autopsiées sur 59 dormait de l'ADN masculin qui n'était pas le leur, et la plus âgée avait 94 ans?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/r1Emomy-hTU",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 6,
-  "last_cycle_at": "2026-09-16T15:09:13.164637+00:00"
+  "total_cycles": 7,
+  "last_cycle_at": "2026-09-16T17:43:05.179231+00:00"
 }
