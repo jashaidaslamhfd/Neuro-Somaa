@@ -3528,5 +3528,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-16T15:09:04.472393+00:00",
+    "topic": "Pourquoi hommage au cinéaste Patricio Guzmán, passeur de mémoire et “navigateur sans océan”?",
+    "title": "Pourquoi hommage au cinéaste Patricio?",
+    "duration": 21.023,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "cb7ed026ba0f9552955ddf5e60f021944c3106bae9ab51bdae9b40cba9b3f386",
+      "e333c5003de561746c1cfdd84f344f5983a0c733f60e666efd600f220db5ec9b",
+      "1518e69ae8d38336d096767bfd3a04c515e325b46ad7a0576cad29460a6700b5",
+      "e3c5f92acb2fe3c343eec245c38717ccec91e29b24a758c9ecc0d4a76e676375",
+      "3a0b9d970ea0f531ed04f4ac21330876de62886f0a221f632da94a33ccb931bc",
+      "f5a63308ef860b17474152956efa6e92c3659863ac9f0fae3f942c8cecc4660d",
+      "89c763de1542fc5440131f1dbf2fae3f1a12d0ec4dc87a0ff3862f4cc564d09c",
+      "7a9f77de71be5299081a7da451feb555a3a44598689c7c49e11f412c2bb5db56"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "8708f2b6f55ab7edd81edc4638a4922b8c8911ff49ba90540cdcb031ae702532",
+    "status": "uploaded",
+    "youtube_video_id": "_giVVeKhfY0",
+    "url": "https://youtu.be/_giVVeKhfY0",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
