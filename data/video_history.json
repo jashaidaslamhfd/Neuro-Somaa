@@ -3604,5 +3604,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-16T19:11:05.831145+00:00",
+    "topic": "Pourquoi un ours entre par la fenêtre de sa chambre et griffe une adolescente de 17 ans pendant son sommeil?",
+    "title": "Pourquoi un ours entre par la fenêtre?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "cdbd8c2cb93a36f8421be510a6b6b2cdd32087252604c3ac8dedc9385471bba6",
+      "cc3eead5b98cb4cc755d016ed4c0c9d012f6429d1e1dfb69f9cfe26476f61a07",
+      "e1eed1a6a8cd093d949d2c6b26ef6f0e205bbefd16f9c06bd708b10d704468ec",
+      "007fa672bfd51dae8af6af3728c1aa1dcc460a6602a2d891456122dcb41f5043",
+      "235b910d1c21e1add88e82f59c556bf60b4fb64b9ec529a8ab3844bbdb0ae305",
+      "575d93840e81e71518366ceb4f9026a0da31db34e7b6f7d29c0cd636479ccf5b",
+      "dcf35dc239e90d315098ae2f8de86deac6437eb3d7b4476db097e4e17f5918ed",
+      "06511bc7fe9cb5c207f3c6fb179b3f232c45e84555430a5bae7fad533abe8fa2"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "8325fb7c05f7440b6da1a6f5067b73ef47e9153209de441ac7999941211d27d4",
+    "status": "uploaded",
+    "youtube_video_id": "OZ0JRl92RKA",
+    "url": "https://youtu.be/OZ0JRl92RKA",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

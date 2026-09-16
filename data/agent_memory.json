@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.25,
+      "weight": 2.36,
       "engagement_avg": 9.2
     },
     {
@@ -58,22 +58,22 @@
     },
     {
       "keyword": "reste",
-      "weight": 1.61,
+      "weight": 1.69,
       "engagement_avg": 8.0
     },
     {
       "keyword": "éveillé",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "quand",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "dors",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     }
   ],
@@ -92,7 +92,8 @@
     "Pourquoi nonhigny. En sommeil depuis?",
     "Pourquoi « Le syndrome de l'intestin?",
     "Pourquoi hommage au cinéaste Patricio?",
-    "Pourquoi dans le cerveau de 37 femmes?"
+    "Pourquoi dans le cerveau de 37 femmes?",
+    "Pourquoi un ours entre par la fenêtre?"
   ],
   "performance_records": [
     {
@@ -187,8 +188,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/r1Emomy-hTU",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 8,
+      "timestamp": "2026-09-16T19:11:10.540058+00:00",
+      "title": "Pourquoi un ours entre par la fenêtre?",
+      "topic": "Pourquoi un ours entre par la fenêtre de sa chambre et griffe une adolescente de 17 ans pendant son sommeil?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/OZ0JRl92RKA",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 7,
-  "last_cycle_at": "2026-09-16T17:43:05.179231+00:00"
+  "total_cycles": 8,
+  "last_cycle_at": "2026-09-16T19:11:10.540130+00:00"
 }
