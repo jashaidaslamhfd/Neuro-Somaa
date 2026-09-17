@@ -3680,5 +3680,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-17T17:43:23.689503+00:00",
+    "topic": "Pourquoi apple pourrait bientôt faire fabriquer une partie de ses puces mémoire aux États?",
+    "title": "Pourquoi apple pourrait bientôt faire?",
+    "duration": 18.509667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "f2c130d37515c9d247afdd488f15be48afd6ea0729b35d1c508e0f3ddff19d73",
+      "e6d830590e19a1e9eb6bf45b00f7a255de269868b6f9d4e2cf0e78ba1a6e4e00",
+      "7232d054fd3bc092345cdf04089ca72e0ecd5efcd52c7a4750b0289d3dc42b4d",
+      "09f2e0e1b3ec4f0c4c205762e4024578bd603ef03deb67854004015146653535",
+      "1be1a2e83055d447ce3729ebb286c82e6ea20ab5bcba540faba6145f0e9fa048",
+      "0c38da6ec827255f8925baac3a25b788bc4f044a4ed646bb1bc4122ec472d325",
+      "3fcde58e37ee40e7a7e714a1ae338efc426efd27fd4eca0248983aa36ccd62e4",
+      "e573f10a504d01579f44b9c7c0e44cd7c4ccc4359b0f326a92314d38b60db35c"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "ai_editorial"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "5404fe13234760c1e660da0e5bfe640be226d8ff27e8a92e423d6001548d7598",
+    "status": "uploaded",
+    "youtube_video_id": "OsQubLRXBrU",
+    "url": "https://youtu.be/OsQubLRXBrU",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

@@ -78,12 +78,12 @@
     },
     {
       "keyword": "syndrome",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "intestin",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -104,7 +104,8 @@
     "Pourquoi hommage au cinéaste Patricio?",
     "Pourquoi dans le cerveau de 37 femmes?",
     "Pourquoi un ours entre par la fenêtre?",
-    "Pourquoi après 60 ans, notre cerveau?"
+    "Pourquoi après 60 ans, notre cerveau?",
+    "Pourquoi apple pourrait bientôt faire?"
   ],
   "performance_records": [
     {
@@ -223,8 +224,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/jVhqZU4oFhU",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 10,
+      "timestamp": "2026-09-17T17:43:28.825280+00:00",
+      "title": "Pourquoi apple pourrait bientôt faire?",
+      "topic": "Pourquoi apple pourrait bientôt faire fabriquer une partie de ses puces mémoire aux États?",
+      "duration": 18.509667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/OsQubLRXBrU",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 9,
-  "last_cycle_at": "2026-09-17T15:13:13.767309+00:00"
+  "total_cycles": 10,
+  "last_cycle_at": "2026-09-17T17:43:28.825370+00:00"
 }
