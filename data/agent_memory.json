@@ -75,6 +75,16 @@
       "keyword": "dors",
       "weight": 1.46,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "syndrome",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "intestin",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
@@ -93,7 +103,8 @@
     "Pourquoi « Le syndrome de l'intestin?",
     "Pourquoi hommage au cinéaste Patricio?",
     "Pourquoi dans le cerveau de 37 femmes?",
-    "Pourquoi un ours entre par la fenêtre?"
+    "Pourquoi un ours entre par la fenêtre?",
+    "Pourquoi après 60 ans, notre cerveau?"
   ],
   "performance_records": [
     {
@@ -200,8 +211,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/OZ0JRl92RKA",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 9,
+      "timestamp": "2026-09-17T15:13:13.767230+00:00",
+      "title": "Pourquoi après 60 ans, notre cerveau?",
+      "topic": "Pourquoi après 60 ans, notre cerveau peut toujours apprendre?",
+      "duration": 18.524333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/jVhqZU4oFhU",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 8,
-  "last_cycle_at": "2026-09-16T19:11:10.540130+00:00"
+  "total_cycles": 9,
+  "last_cycle_at": "2026-09-17T15:13:13.767309+00:00"
 }
