@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
+import re
 import subprocess
 import textwrap
 from pathlib import Path
@@ -103,6 +104,37 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, acti
     overlay.save(path, format="PNG", optimize=True)
 
 
+def _caption_word_durations(caption: str, narration: str, word_timings: list[Any], duration: float) -> list[float]:
+    """Return caption timings that fill exactly the French scene duration.
+
+    Edge TTS boundaries are based on spoken tokens, while captions may use a
+    shorter hook or punctuation such as ``ATTENDS—``. Match normalized tokens
+    when possible; otherwise use a safe even split instead of drifting captions
+    or leaving the final caption on screen after the narration ends.
+    """
+    words = caption.split() or [caption]
+    spoken_words = narration.split() or [narration]
+
+    def normalize(value: str) -> str:
+        return re.sub(r"[^\wÀ-ÿ]", "", value, flags=re.UNICODE).casefold()
+
+    raw: list[float]
+    if len(word_timings) == len(words):
+        raw = [max(0.08, float(item.duration)) for item in word_timings]
+    elif len(word_timings) == len(spoken_words) and [normalize(w) for w in words] == [normalize(w) for w in spoken_words]:
+        raw = [max(0.08, float(item.duration)) for item in word_timings]
+    else:
+        raw = [max(0.08, float(duration) / len(words))] * len(words)
+
+    total = sum(raw) or float(duration)
+    scale = float(duration) / total if total else 1.0
+    fitted = [value * scale for value in raw]
+    # Correct floating-point drift on the final caption so concat duration and
+    # the audio/video -t duration are identical.
+    fitted[-1] += float(duration) - sum(fitted)
+    return fitted
+
+
 def render_video(script: dict[str, Any], settings: Settings, historical_clip_hashes: set[str] | None = None) -> tuple[Path, list[dict[str, Any]]]:
     settings.ensure_dirs()
     audio_dir = settings.output_dir / "audio"
@@ -156,10 +188,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         # case), so captions land exactly on the spoken word instead of an
         # approximation. Falls back to an even split when they diverge (e.g.
         # a punchier hook caption over a longer narration line).
-        if len(word_timings) == len(words):
-            word_durations = [max(0.08, wt.duration) for wt in word_timings]
-        else:
-            word_durations = [duration / len(overlay_paths)] * len(overlay_paths)
+        word_durations = _caption_word_durations(caption, narration, word_timings, duration)
         overlay_inputs = []
         overlay_labels = []
         for overlay_index, (overlay_path, word_dur) in enumerate(zip(overlay_paths, word_durations, strict=True), start=1):
