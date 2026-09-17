@@ -229,18 +229,29 @@ def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> 
     img = Image.new("RGB", (1080, 1920), first)
     draw = ImageDraw.Draw(img)
 
-    # Dynamic entropy injection: ensures clip hash is distinct across runs
+    # Dynamic entropy injection: ensures clip hash is distinct across runs.
     run_salt = os.getenv("GITHUB_RUN_ID", str(time.time()))
     entropy = int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16)
     center_y = 960 + (entropy % 180) - 90
     center_x = 540 + ((entropy >> 8) % 120) - 60
-    for radius in range(760, 80, -70):
-        alpha_width = 3 + (radius % 4)
-        draw.ellipse(
-            (center_x - radius, center_y - radius, center_x + radius, center_y + radius),
-            outline=accent,
-            width=alpha_width,
-        )
+    semantic = caption.lower()
+    # The fallback remains deterministic, but its focal motif follows the
+    # scene meaning instead of showing the same concentric rings every time.
+    if any(word in semantic for word in ("cerveau", "mémoire", "neurone", "rêve")):
+        draw.ellipse((center_x - 250, center_y - 190, center_x + 20, center_y + 190), outline=accent, width=18)
+        draw.ellipse((center_x - 20, center_y - 190, center_x + 250, center_y + 190), outline=accent, width=18)
+        for offset in (-120, -40, 40, 120):
+            draw.line((center_x - 260, center_y + offset, center_x + 260, center_y - offset), fill=accent, width=7)
+    elif any(word in semantic for word in ("téléphone", "écran", "ia", "robot", "algorithme")):
+        draw.rounded_rectangle((center_x - 180, center_y - 330, center_x + 180, center_y + 330), radius=42, outline=accent, width=18)
+        draw.line((center_x - 100, center_y - 220, center_x + 100, center_y - 220), fill=accent, width=10)
+        draw.ellipse((center_x - 18, center_y + 250, center_x + 18, center_y + 286), fill=accent)
+    elif any(word in semantic for word in ("œil", "oeil", "yeux", "regard")):
+        draw.ellipse((center_x - 300, center_y - 150, center_x + 300, center_y + 150), outline=accent, width=18)
+        draw.ellipse((center_x - 75, center_y - 75, center_x + 75, center_y + 75), fill=accent)
+    else:
+        for diagonal in range(-900, 1200, 180):
+            draw.line((0, center_y + diagonal, 1080, center_y + diagonal - 500), fill=accent, width=8)
     draw.rounded_rectangle((70, 80, 1010, 215), radius=38, fill=second)
     draw.text((105, 112), "NEURO-SOMAA · SCIENCE DU QUOTIDIEN", fill="#ffffff")
     draw.text((88, 250), f"{scene_index:02d}", fill=accent)
@@ -269,21 +280,25 @@ def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> 
     return path
 
 
-def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings, used_hashes: set[str] | None = None) -> tuple[Path | None, str]:
+def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings, used_hashes: set[str] | None = None, narration: str = "") -> tuple[Path | None, str]:
     clip_path = output_dir / f"source_{scene_index:02d}.mp4"
     if not settings.dry_run:
         variations = ("wide shot", "close up", "slow motion", "hands", "silhouette", "macro", "night", "abstract", "cinematic", "laboratory")
         run_salt = os.getenv("GITHUB_RUN_ID", "local")
         variation_index = (int(hashlib.sha256(f"{run_salt}:{caption}:{scene_index}".encode()).hexdigest()[:8], 16) + scene_index) % len(variations)
         
-        caption_lower = caption.lower()
+        # Search against the spoken meaning as well as the short caption.
+        # Caption-only queries caused unrelated footage when a caption was
+        # intentionally abstract or just a hook.
+        semantic_text = f"{caption}. {narration}".strip()
+        caption_lower = semantic_text.lower()
         search_term = "human biology science"
         for kw, term in _FR_SCIENCE_MAP.items():
             if kw in caption_lower:
                 search_term = term
                 break
 
-        search_caption = f"{search_term} {variations[variation_index]} documentary footage"
+        search_caption = f"{search_term} {semantic_text[:120]} {variations[variation_index]} documentary footage"
         for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
             visual = provider(search_caption, clip_path)
             if visual:
@@ -292,6 +307,13 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
                 if used_hashes and clip_h in used_hashes:
                     continue
                 return visual, provider.__name__.lstrip("_")
+
+        # If an AI visual provider is configured, prefer a scene-specific
+        # editorial still over generic procedural rings. The renderer animates
+        # this image with a slow zoom while preserving exact captions.
+        ai_visual = _pollinations(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
+        if ai_visual:
+            return ai_visual, "ai_editorial"
 
     motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=f"{caption}:{scene_index}")
     return motion_clip, "procedural_motion"

@@ -126,10 +126,18 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             mixed_path = audio_dir / f"scene_{index:02d}_mixed.wav"
             mix_background_music(audio_path, music_path, elapsed, mixed_path, settings.music_gain_db)
         elapsed += duration
-        source_path, source_provider = fetch_visual(caption, index, scene_dir, settings, used_hashes=used_clip_hashes)
+        source_path, source_provider = fetch_visual(
+            caption,
+            index,
+            scene_dir,
+            settings,
+            used_hashes=used_clip_hashes,
+            narration=narration,
+        )
         is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
-        if not is_clip:
-            raise RuntimeError(f"No moving stock clip available for scene {index}; refusing still-image fallback")
+        is_image = source_path and source_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}
+        if not is_clip and not is_image:
+            raise RuntimeError(f"No visual asset available for scene {index}")
         clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
         if clip_hash in used_clip_hashes:
             # Fallback to distinct procedural clip with unique index salt if provider returned a duplicate
@@ -159,7 +167,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             overlay_labels.append(f"[{overlay_index}:v]")
         concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
         filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
-        source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(image_path)]
+        source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(source_path)]
         audio_index = len(overlay_paths) + 1
         command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(mixed_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
         subprocess.run(command, check=True, capture_output=True)
