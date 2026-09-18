@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 
 from config import Settings
-from visual_providers import fetch_visual
+from visual_providers import _procedural_motion_clip, fetch_visual
 
 
 def test_fetch_visual_dry_run_produces_valid_moving_clip(tmp_path):
@@ -35,3 +35,13 @@ def test_procedural_clips_have_distinct_hashes_per_scene(tmp_path):
     h1 = hashlib.sha256(p1.read_bytes()).hexdigest()
     h2 = hashlib.sha256(p2.read_bytes()).hexdigest()
     assert h1 != h2
+
+
+def test_image_path_is_promoted_to_mp4_without_overwriting_the_image(tmp_path):
+    image_path = tmp_path / "provider_image.jpg"
+    output_path = _procedural_motion_clip(8, image_path, caption="cerveau mémoire")
+
+    assert output_path == tmp_path / "provider_image.mp4"
+    assert output_path.exists()
+    assert output_path.stat().st_size > 5000
+    assert not image_path.exists()

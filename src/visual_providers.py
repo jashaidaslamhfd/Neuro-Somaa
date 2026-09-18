@@ -218,6 +218,12 @@ def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> 
 
     from PIL import ImageDraw
 
+    # A provider image can be promoted to a moving fallback when its hash is a
+    # duplicate. Never write H.264 bytes to the original .jpg/.png path: the
+    # extension selects FFmpeg's image muxer and causes exit 234. Keep the
+    # original still image intact and return a dedicated MP4 path instead.
+    output_path = path if path.suffix.lower() in {".mp4", ".mov", ".webm"} else path.with_suffix(".mp4")
+
     palettes = (
         ("#101827", "#29476b", "#6ee7d8"),
         ("#180f2e", "#55318a", "#f5a3ff"),
@@ -273,11 +279,15 @@ def _procedural_motion_clip(scene_index: int, path: Path, caption: str = "") -> 
         "ultrafast",
         "-pix_fmt",
         "yuv420p",
-        str(path),
+        str(output_path),
     ]
-    subprocess.run(cmd, check=True, capture_output=True)
+    try:
+        subprocess.run(cmd, check=True, capture_output=True)
+    except subprocess.CalledProcessError as exc:
+        detail = (exc.stderr or b"").decode(errors="replace")[-1000:]
+        raise RuntimeError(f"procedural motion render failed: {detail}") from exc
     temp_img.unlink(missing_ok=True)
-    return path
+    return output_path
 
 
 def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Settings, used_hashes: set[str] | None = None, narration: str = "") -> tuple[Path | None, str]:
