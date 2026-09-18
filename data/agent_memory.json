@@ -78,12 +78,12 @@
     },
     {
       "keyword": "syndrome",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "intestin",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
@@ -105,7 +105,8 @@
     "Pourquoi dans le cerveau de 37 femmes?",
     "Pourquoi un ours entre par la fenêtre?",
     "Pourquoi après 60 ans, notre cerveau?",
-    "Pourquoi apple pourrait bientôt faire?"
+    "Pourquoi apple pourrait bientôt faire?",
+    "Pourquoi ateliers mémoire pour?"
   ],
   "performance_records": [
     {
@@ -236,8 +237,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/OsQubLRXBrU",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 11,
+      "timestamp": "2026-09-18T18:43:01.058117+00:00",
+      "title": "Pourquoi ateliers mémoire pour?",
+      "topic": "Pourquoi ateliers mémoire pour seniors à Saint?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/ReTak3ubmM8",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 10,
-  "last_cycle_at": "2026-09-17T17:43:28.825370+00:00"
+  "total_cycles": 11,
+  "last_cycle_at": "2026-09-18T18:43:01.058193+00:00"
 }
