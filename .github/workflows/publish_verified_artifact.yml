@@ -1,0 +1,49 @@
+name: Publish Verified Neuro-Somaa Artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_run_id:
+        description: "Render-only workflow run ID containing the verified artifact"
+        required: true
+        type: string
+      title:
+        description: "Verified French title"
+        required: true
+        type: string
+        default: "Pourquoi elle pensait avoir un cancer?"
+
+permissions:
+  actions: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CHANNEL_LANGUAGE: fr
+      PUBLISH_TIMEZONE: Europe/Paris
+      YT_PRIVACY_STATUS: public
+      YT_SCHEDULE_PUBLISH: "false"
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install YouTube dependencies
+        run: python -m pip install google-api-python-client google-auth-oauthlib
+      - name: Download exact verified artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p output
+          gh run download "${{ inputs.artifact_run_id }}" --repo "${{ github.repository }}" --name neuro-somaa-output --dir output
+          test -s output/neuro_somaa_fr.mp4
+      - name: Publish verified video publicly now
+        run: |
+          python scripts/publish_verified_artifact.py \
+            --video output/neuro_somaa_fr.mp4 \
+            --title "${{ inputs.title }}"
