@@ -4,6 +4,12 @@ import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+# README documents .env as the local setup path. Load it before any Settings
+# instance is created so CLI and preflight use the documented configuration.
+load_dotenv()
+
 
 def _env(name: str, default: str = "") -> str:
     return (os.getenv(name, default) or "").strip()
@@ -18,13 +24,17 @@ class Settings:
     output_dir: Path = field(default_factory=lambda: Path(_env("OUTPUT_DIR", "output")))
     data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", "data")))
     privacy_status: str = field(default_factory=lambda: _env("YT_PRIVACY_STATUS", "private"))
-    schedule_publish: bool = field(default_factory=lambda: _env("YT_SCHEDULE_PUBLISH", "true").lower() == "true")
+    schedule_publish: bool = field(
+        default_factory=lambda: _env("YT_SCHEDULE_PUBLISH", "true").lower() == "true"
+    )
     topic: str = field(default_factory=lambda: _env("VIDEO_TOPIC"))
     dry_run: bool = field(default_factory=lambda: _env("DRY_RUN", "false").lower() == "true")
     render_only: bool = field(default_factory=lambda: _env("RENDER_ONLY", "false").lower() == "true")
-    llm_model: str = field(default_factory=lambda: (_env("GROQ_MODEL") or "llama-3.3-70b-versatile"))
+    llm_model: str = field(default_factory=lambda: _env("GROQ_MODEL") or "llama-3.3-70b-versatile")
     min_hook_score: int = field(default_factory=lambda: int(_env("MIN_HOOK_SCORE", "70")))
-    quality_approval_threshold: int = field(default_factory=lambda: int(_env("QUALITY_APPROVAL_THRESHOLD", "60")))
+    quality_approval_threshold: int = field(
+        default_factory=lambda: int(_env("QUALITY_APPROVAL_THRESHOLD", "60"))
+    )
     background_music: bool = field(default_factory=lambda: _env("BACKGROUND_MUSIC", "true").lower() == "true")
     music_source: str = field(default_factory=lambda: _env("MUSIC_SOURCE", "own"))
     music_gain_db: float = field(default_factory=lambda: float(_env("MUSIC_GAIN_DB", "-20")))
@@ -35,11 +45,22 @@ class Settings:
 
     @property
     def visual_keys(self) -> tuple[str, ...]:
-        return tuple(name for name in (
-            "GEMINI_API_KEY", "REPLICATE_API_TOKEN", "HF_API_KEY", "PEXELS_API_KEY",
-            "PIXABAY_API_KEY", "AI_HORDE_API_KEY", "DEEPAI_API_KEY", "MODELSLAB_API_KEY",
-            "POLLINATIONS_KEY", "COVERR_API_KEY",
-        ) if _env(name))
+        return tuple(
+            name
+            for name in (
+                "GEMINI_API_KEY",
+                "REPLICATE_API_TOKEN",
+                "HF_API_KEY",
+                "PEXELS_API_KEY",
+                "PIXABAY_API_KEY",
+                "AI_HORDE_API_KEY",
+                "DEEPAI_API_KEY",
+                "MODELSLAB_API_KEY",
+                "POLLINATIONS_KEY",
+                "COVERR_API_KEY",
+            )
+            if _env(name)
+        )
 
     @property
     def youtube_ready(self) -> bool:
@@ -51,6 +72,10 @@ class Settings:
             errors.append("CHANNEL_LANGUAGE must be fr for this French-first pipeline")
         if not 0 < self.min_seconds < self.max_seconds <= 60:
             errors.append("TARGET_MIN_SECONDS/TARGET_MAX_SECONDS must be a valid window within 60 seconds")
+        if self.min_seconds < 15 or self.max_seconds > 22:
+            errors.append(
+                "TARGET_MIN_SECONDS/TARGET_MAX_SECONDS must stay within the French Shorts window 15-22 seconds"
+            )
         if self.privacy_status not in {"private", "unlisted", "public"}:
             errors.append("YT_PRIVACY_STATUS must be private, unlisted, or public")
         if self.schedule_publish and self.privacy_status != "private":
@@ -63,7 +88,9 @@ class Settings:
         if not self.llm_keys and not self.dry_run and not self.render_only:
             errors.append("At least one LLM secret is required outside dry-run mode")
         if not self.youtube_ready and not self.dry_run and not self.render_only:
-            errors.append("GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and REFRESH_TOKEN are required outside dry-run mode")
+            errors.append(
+                "GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and REFRESH_TOKEN are required outside dry-run mode"
+            )
         return errors
 
     def ensure_dirs(self) -> None:

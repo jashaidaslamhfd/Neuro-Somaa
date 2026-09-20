@@ -1,6 +1,10 @@
 name: Neuro-Somaa French Shorts
 
 on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
     inputs:
       dry_run:
@@ -36,6 +40,7 @@ concurrency:
 
 jobs:
   production:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -45,8 +50,8 @@ jobs:
       TARGET_MAX_SECONDS: "22"
       MIN_HOOK_SCORE: "70"
       QUALITY_APPROVAL_THRESHOLD: "60"
-      YT_PRIVACY_STATUS: public
-      YT_SCHEDULE_PUBLISH: "false"
+      YT_PRIVACY_STATUS: private
+      YT_SCHEDULE_PUBLISH: "true"
       DRY_RUN: ${{ inputs.dry_run || 'false' }}
       RENDER_ONLY: ${{ inputs.render_only || 'false' }}
       VIDEO_TOPIC: ${{ inputs.topic || '' }}
@@ -141,5 +146,7 @@ jobs:
         run: python -m pip install -r requirements-ci.txt
       - name: Compile
         run: python -m compileall -q src scripts tests
+      - name: Lint
+        run: ruff check src scripts tests
       - name: Tests
         run: pytest -q

@@ -28,4 +28,11 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-        run: python scripts/audit_publish.py --video-id "${{ inputs.video_id }}" ${{ inputs.make_public && '--make-public' || '' }}
+          VIDEO_ID: ${{ inputs.video_id }}
+          MAKE_PUBLIC: ${{ inputs.make_public }}
+        run: |
+          set -euo pipefail
+          [[ "$VIDEO_ID" =~ ^[A-Za-z0-9_-]{6,}$ ]] || { echo "Invalid YouTube video ID" >&2; exit 1; }
+          args=(--video-id "$VIDEO_ID")
+          if [ "$MAKE_PUBLIC" = "true" ]; then args+=(--make-public); fi
+          python scripts/audit_publish.py "${args[@]}"

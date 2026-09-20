@@ -7,6 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
 from config import Settings
+from media import validate_video
 from youtube import upload
 
 
@@ -20,6 +21,11 @@ def main() -> None:
     video = Path(args.video)
     if not video.exists():
         raise SystemExit(f"Verified artifact video not found: {video}")
+    try:
+        technical = validate_video(video, settings)
+    except (OSError, RuntimeError, ValueError) as exc:
+        raise SystemExit(f"Refusing to publish unverified media: {exc}") from exc
+    print(f"Verified media: {technical['width']}x{technical['height']}, {technical['duration']:.2f}s")
     if settings.privacy_status != "public" or settings.schedule_publish:
         raise SystemExit("Refusing to publish: expected public immediate settings")
     if not settings.youtube_ready:

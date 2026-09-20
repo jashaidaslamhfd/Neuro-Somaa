@@ -50,16 +50,26 @@ def _clip_history() -> list[dict]:
         return []
 
 
+def _checkpoint_path(fingerprint: str):
+    return SETTINGS.data_dir / "upload_checkpoints" / f"{fingerprint}.json"
+
+
 def _persist_state() -> None:
-    """Best-effort commit of duplicate state for the next scheduled runner."""
-    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json", "data/agent_memory.json", "data/agent_log.json"]
+    """Persist state durably; never claim success when git synchronization failed."""
+    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json", "data/agent_memory.json", "data/agent_log.json", "data/upload_checkpoints"]
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False)
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
     subprocess.run(["git", "add", *paths], check=False)
     committed = subprocess.run(["git", "commit", "-m", "chore: persist Neuro-Somaa duplicate state"], capture_output=True, text=True, check=False)
+    if committed.returncode != 0 and "nothing to commit" not in committed.stdout + committed.stderr:
+        raise RuntimeError(f"State checkpoint commit failed: {committed.stderr.strip()}")
     if committed.returncode == 0:
-        subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=False, capture_output=True)
-        subprocess.run(["git", "push", "origin", "HEAD:main"], check=False, capture_output=True)
+        pulled = subprocess.run(["git", "pull", "--rebase", "origin", "main"], capture_output=True, text=True, check=False)
+        if pulled.returncode != 0:
+            raise RuntimeError(f"State checkpoint rebase failed: {pulled.stderr.strip()}")
+        pushed = subprocess.run(["git", "push", "origin", "HEAD:main"], capture_output=True, text=True, check=False)
+        if pushed.returncode != 0:
+            raise RuntimeError(f"State checkpoint push failed: {pushed.stderr.strip()}")
 
 
 def run() -> dict:
@@ -93,6 +103,15 @@ def run() -> dict:
     current_fp = _fingerprint(script)
     if any(isinstance(row, dict) and row.get("fingerprint") == current_fp for row in history):
         raise RuntimeError("Duplicate French script rejected before rendering")
+    checkpoint = _checkpoint_path(current_fp)
+    if checkpoint.exists():
+        try:
+            previous = json.loads(checkpoint.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise RuntimeError(f"Upload checkpoint is unreadable: {checkpoint}") from exc
+        if previous.get("status") == "uploaded" and previous.get("youtube_video_id"):
+            logger.warning("Resuming previously uploaded fingerprint %s; skipping duplicate upload.", current_fp)
+            return previous
     clip_history = _clip_history()
     historical_clip_hashes = {str(row.get("clip_hash")) for row in clip_history if isinstance(row, dict)}
     video_path, segments = render_video(script, SETTINGS, historical_clip_hashes=historical_clip_hashes)
@@ -114,6 +133,9 @@ def run() -> dict:
     }
     upload_result = upload(video_path, script, SETTINGS)
     result.update(upload_result)
+    if result.get("status") == "uploaded":
+        checkpoint.parent.mkdir(parents=True, exist_ok=True)
+        checkpoint.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # Multi-Platform Distribution: Meta (Facebook Page Reels)
     if not SETTINGS.dry_run and not SETTINGS.render_only and is_meta_configured():
@@ -143,7 +165,7 @@ def run() -> dict:
         if target_dir.exists():
             import shutil
             shutil.rmtree(target_dir, ignore_errors=True)
-    else:
+    if SETTINGS.dry_run or SETTINGS.render_only:
         logger.info("Dry-run/render-only complete; skipping history persistence.")
     logger.info("Pipeline complete: %s", result.get("url", result.get("status")))
     return result

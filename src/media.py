@@ -119,9 +119,10 @@ def _caption_word_durations(caption: str, narration: str, word_timings: list[Any
         return re.sub(r"[^\wÀ-ÿ]", "", value, flags=re.UNICODE).casefold()
 
     raw: list[float]
-    if len(word_timings) == len(words):
-        raw = [max(0.08, float(item.duration)) for item in word_timings]
-    elif len(word_timings) == len(spoken_words) and [normalize(w) for w in words] == [normalize(w) for w in spoken_words]:
+    if len(word_timings) == len(words) or (
+        len(word_timings) == len(spoken_words)
+        and [normalize(w) for w in words] == [normalize(w) for w in spoken_words]
+    ):
         raw = [max(0.08, float(item.duration)) for item in word_timings]
     else:
         raw = [max(0.08, float(duration) / len(words))] * len(words)
@@ -247,6 +248,10 @@ def validate_video(path: Path, settings: Settings) -> dict[str, Any]:
         raise RuntimeError("Rendered video must be 1080x1920")
     if not audio:
         raise RuntimeError("Rendered video must contain an audio stream")
-    if duration <= 0 or duration > settings.max_seconds + 3.0:
-        raise RuntimeError(f"Rendered video duration invalid: {duration:.2f}s")
+    tolerance = 0.15
+    if duration < settings.min_seconds - tolerance or duration > settings.max_seconds + tolerance:
+        raise RuntimeError(
+            f"Rendered video duration outside configured window "
+            f"[{settings.min_seconds:.2f}, {settings.max_seconds:.2f}]s: {duration:.2f}s"
+        )
     return {"width": stream["width"], "height": stream["height"], "duration": duration, "audio": True}
