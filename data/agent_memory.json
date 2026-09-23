@@ -78,12 +78,12 @@
     },
     {
       "keyword": "syndrome",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "intestin",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     }
   ],
@@ -106,7 +106,8 @@
     "Pourquoi un ours entre par la fenêtre?",
     "Pourquoi après 60 ans, notre cerveau?",
     "Pourquoi apple pourrait bientôt faire?",
-    "Pourquoi ateliers mémoire pour?"
+    "Pourquoi ateliers mémoire pour?",
+    "Pourquoi certaines souris ont montré?"
   ],
   "performance_records": [
     {
@@ -249,8 +250,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/ReTak3ubmM8",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 12,
+      "timestamp": "2026-09-23T17:56:10.895341+00:00",
+      "title": "Pourquoi certaines souris ont montré?",
+      "topic": "Pourquoi certaines souris ont montré des signes de résilience au stress avant même que le stress ne commence?",
+      "duration": 18.524333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/lWPB9FBwzJA",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 11,
-  "last_cycle_at": "2026-09-18T18:43:01.058193+00:00"
+  "total_cycles": 12,
+  "last_cycle_at": "2026-09-23T17:56:10.895382+00:00"
 }

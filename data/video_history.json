@@ -3756,5 +3756,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-23T17:56:01.182632+00:00",
+    "topic": "Pourquoi certaines souris ont montré des signes de résilience au stress avant même que le stress ne commence?",
+    "title": "Pourquoi certaines souris ont montré?",
+    "duration": 18.524333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "df472736940ca6ecabdec4194608b567784ebae7fe940e5c2b007cb3bdaf8d3a",
+      "df752a3f02cedebf2a4d30e89fd10278b966acbc51fa21ab993dc7eeed601b6c",
+      "dc35567f73d2694614f65ed3b25554f5bccd81057260c733b2c13cf39223a6d2",
+      "4002871175eba10abc8b101231b456dc90a749276dfc2b87dca13a88cf248308",
+      "c5058fcb84143ef0143ba7c3976765cd4b8471821988008f6647f6e97141801c",
+      "e43c59fd6ddd47dd708f827ad221129c1e1926c71c9e680d6239f451eb296344",
+      "74ddc4a19a161b5f4f1b502464eb3a04b85b81ca243ac3146199d23fb657f15d",
+      "00c4fdce780a41df483d94d9c8d494636e5ebde5baa0b89d7421273db9ad03a3"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "597126ef01d038569fbd9fdb7679029a608f750296467dbac1b5e2547222ead2",
+    "status": "uploaded",
+    "youtube_video_id": "lWPB9FBwzJA",
+    "url": "https://youtu.be/lWPB9FBwzJA",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
