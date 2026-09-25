@@ -3832,5 +3832,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-25T18:03:02.643662+00:00",
+    "topic": "Pourquoi « Perfect day », un thriller psychologique qui nous plonge dans le cerveau d’un tueur?",
+    "title": "Pourquoi « Perfect day », un thriller?",
+    "duration": 18.533667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "27248d194d93fa6c3a812835e5a8f87bc859f081f4225ff15681d9170437e095",
+      "bd928001cd4882fd741e410ee33ec341a13b168796ea371571d088e47ef31fd3",
+      "1e9cacb1e141358252026f755d23ddfb42e4d1178c46bcb9a90fdd9b3f070204",
+      "37d756d073397505cadde5291661629c08d6872932363960fdd82e34e1adcfe6",
+      "ce85e13438b07c9619be8c4ecaf008cb89ecb5f5dccc8c137470e1fee0f6c705",
+      "db33b092084c92e950f45e6180c3ea505e30eda549d27db514592801f2562265",
+      "82eb688202ccf5dd76da9d624454fece76e2a8da442b97c3c4499691aea3e629",
+      "bfd4571a72bea41d144a845faa458707187586a9f6609eaa784f3ef3bd3d5b7e"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "ai_editorial",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "4e53f5de1d326854ff0e3e39224d6d22542d88460f3afb38d3e6e1ecf8f887dd",
+    "status": "uploaded",
+    "youtube_video_id": "L2fS3HIcgXw",
+    "url": "https://youtu.be/L2fS3HIcgXw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

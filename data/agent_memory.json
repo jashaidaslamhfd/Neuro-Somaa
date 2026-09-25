@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -123,7 +123,8 @@
     "Pourquoi apple pourrait bientôt faire?",
     "Pourquoi ateliers mémoire pour?",
     "Pourquoi certaines souris ont montré?",
-    "Pourquoi portrait. Ouassila Arras?"
+    "Pourquoi portrait. Ouassila Arras?",
+    "Pourquoi « Perfect day », un thriller?"
   ],
   "performance_records": [
     {
@@ -290,8 +291,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/auhb1GJvEis",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 14,
+      "timestamp": "2026-09-25T18:03:10.231150+00:00",
+      "title": "Pourquoi « Perfect day », un thriller?",
+      "topic": "Pourquoi « Perfect day », un thriller psychologique qui nous plonge dans le cerveau d’un tueur?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/L2fS3HIcgXw",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 13,
-  "last_cycle_at": "2026-09-25T15:28:08.856206+00:00"
+  "total_cycles": 14,
+  "last_cycle_at": "2026-09-25T18:03:10.231188+00:00"
 }
