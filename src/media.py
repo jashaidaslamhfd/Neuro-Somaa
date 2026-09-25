@@ -167,10 +167,9 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             used_hashes=used_clip_hashes,
             narration=narration,
         )
-        is_clip = source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"}
-        is_image = source_path and source_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"}
-        if not is_clip and not is_image:
+        if not source_path or not source_path.exists():
             raise RuntimeError(f"No visual asset available for scene {index}")
+
         clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
         if clip_hash in used_clip_hashes:
             # Fallback to distinct procedural clip with unique index salt if provider returned a duplicate
@@ -178,6 +177,11 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             clip_hash = hashlib.sha256(source_path.read_bytes()).hexdigest()
             source_provider = "procedural_motion"
         used_clip_hashes.add(clip_hash)
+
+        is_clip = bool(source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"})
+        is_image = bool(source_path and source_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
+        if not is_clip and not is_image:
+            raise RuntimeError(f"No visual asset available for scene {index}")
         words = caption.split() or [caption]
         overlay_paths = []
         for word_index in range(len(words)):
@@ -200,7 +204,12 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(source_path)]
         audio_index = len(overlay_paths) + 1
         command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(mixed_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
-        subprocess.run(command, check=True, capture_output=True)
+        try:
+            subprocess.run(command, check=True, capture_output=True)
+        except subprocess.CalledProcessError as exc:
+            detail = (exc.stderr or b"").decode(errors="replace")[-1000:]
+            logger.error("FFmpeg render failed for scene %02d: %s", index, detail)
+            raise RuntimeError(f"FFmpeg scene {index} render failed: {detail}") from exc
         segments.append({"path": str(mixed_path), "duration": duration, "text": narration, "caption": caption, "image_path": str(image_path), "segment_path": str(segment_path), "visual_provider": source_provider, "clip_hash": clip_hash, "music_track": music_path.name if music_path else None})
     total = sum(float(item["duration"]) for item in segments)
     target_midpoint = (settings.min_seconds + settings.max_seconds) / 2.0
@@ -216,13 +225,18 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             p = Path(seg["segment_path"])
             adj_path = p.with_name(f"{p.stem}_adj.mp4")
             # Speed up / slow down video and audio seamlessly
-            subprocess.run([
-                "ffmpeg", "-y", "-i", str(p),
-                "-filter_complex", f"[0:v]setpts={1.0/speed_factor:.4f}*PTS[v];[0:a]atempo={speed_factor:.4f}[a]",
-                "-map", "[v]", "-map", "[a]",
-                "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac",
-                str(adj_path)
-            ], check=True, capture_output=True)
+            try:
+                subprocess.run([
+                    "ffmpeg", "-y", "-i", str(p),
+                    "-filter_complex", f"[0:v]setpts={1.0/speed_factor:.4f}*PTS[v];[0:a]atempo={speed_factor:.4f}[a]",
+                    "-map", "[v]", "-map", "[a]",
+                    "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac",
+                    str(adj_path)
+                ], check=True, capture_output=True)
+            except subprocess.CalledProcessError as exc:
+                detail = (exc.stderr or b"").decode(errors="replace")[-1000:]
+                logger.error("FFmpeg tempo adjustment failed for scene %02d: %s", index, detail)
+                raise RuntimeError(f"FFmpeg tempo adjustment failed: {detail}") from exc
             seg["segment_path"] = str(adj_path)
             seg["duration"] = seg["duration"] / speed_factor
             adjusted_segments.append(seg)
@@ -234,7 +248,12 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
     video = settings.output_dir / "neuro_somaa_fr.mp4"
     # Re-encode the concat: provider clips can carry different frame rates and
     # timebases, which makes stream-copy concat report wildly inflated duration.
-    subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-t", f"{total:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
+    try:
+        subprocess.run(["ffmpeg", "-y", "-f", "concat", "-safe", "0", "-i", str(concat), "-t", f"{total:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", str(video)], check=True, capture_output=True)
+    except subprocess.CalledProcessError as exc:
+        detail = (exc.stderr or b"").decode(errors="replace")[-1000:]
+        logger.error("FFmpeg concat failed: %s", detail)
+        raise RuntimeError(f"FFmpeg concat failed: {detail}") from exc
     return video, segments
 
 
