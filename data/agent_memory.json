@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
@@ -124,7 +124,8 @@
     "Pourquoi ateliers mémoire pour?",
     "Pourquoi certaines souris ont montré?",
     "Pourquoi portrait. Ouassila Arras?",
-    "Pourquoi « Perfect day », un thriller?"
+    "Pourquoi « Perfect day », un thriller?",
+    "Pourquoi à Belleau, dans le sud de?"
   ],
   "performance_records": [
     {
@@ -303,8 +304,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/L2fS3HIcgXw",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 15,
+      "timestamp": "2026-09-25T19:38:51.553490+00:00",
+      "title": "Pourquoi à Belleau, dans le sud de?",
+      "topic": "Pourquoi à Belleau, dans le sud de l’Aisne, respecter la mémoire tout en découvrant la Vallée du Clignon?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/OMax4nbl0cY",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 14,
-  "last_cycle_at": "2026-09-25T18:03:10.231188+00:00"
+  "total_cycles": 15,
+  "last_cycle_at": "2026-09-25T19:38:51.553529+00:00"
 }
