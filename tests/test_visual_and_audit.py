@@ -52,7 +52,6 @@ def test_duplicate_image_promotion_is_treated_as_clip(tmp_path):
     dummy_img = tmp_path / "scene_04_ai.jpg"
     dummy_img.write_bytes(b"fake-image-bytes")
     img_hash = hashlib.sha256(dummy_img.read_bytes()).hexdigest()
-    used_hashes = {img_hash}
 
     source_path = _procedural_motion_clip(4, dummy_img, caption="test:fallback:4")
     assert source_path.suffix == ".mp4"
