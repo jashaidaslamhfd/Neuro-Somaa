@@ -48,15 +48,11 @@ def test_image_path_is_promoted_to_mp4_without_overwriting_the_image(tmp_path):
 
 
 def test_duplicate_image_promotion_is_treated_as_clip(tmp_path):
-    import hashlib
     dummy_img = tmp_path / "scene_04_ai.jpg"
     dummy_img.write_bytes(b"fake-image-bytes")
-    img_hash = hashlib.sha256(dummy_img.read_bytes()).hexdigest()
-
     source_path = _procedural_motion_clip(4, dummy_img, caption="test:fallback:4")
     assert source_path.suffix == ".mp4"
     assert source_path.exists()
-
     is_clip = bool(source_path and source_path.suffix.lower() in {".mp4", ".mov", ".webm"})
     is_image = bool(source_path and source_path.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
     assert is_clip is True
