@@ -3794,5 +3794,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-25T15:28:03.347487+00:00",
+    "topic": "Pourquoi portrait. Ouassila Arras, une mémoire en chantier?",
+    "title": "Pourquoi portrait. Ouassila Arras?",
+    "duration": 18.539,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "24a88cd26ad5666d3ab85617ef0d22ad81ec8fef7457a02bec7f6a1ba2594701",
+      "bdb89342dbf95bd6d9d1a33df00397e94c4317ab604524444d4a5b3ea06a73a9",
+      "7a37239b8363f735e698b49318288bcc678ea322cfa1b7bf1b6e97a3251a1744",
+      "810200290a1293e6f3d490b88980773ca7c4d1ef8a48c9a92031e69ff48c91b2",
+      "48126160923f8d9e158172e93d2af5e91a8eb28e7d6b96cd52696e818f3039a9",
+      "a5bf7ac6eca677d8ab8104290ef52a0ff4e1c8280096baed62d7cb2df9a9ca55",
+      "aa2a1bd8e63e8147c1cf39b814e8eec05ccbe991d90b5e4e2ea7fa029ca39dd9",
+      "0b3278604f951bcfeec53c48afc50430563f3dea8150065200c1ca68a103427d"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pixabay_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "0b670915a5fc577ad5dc652497d393e0025c38819351f7ed851d0f25635ad06b",
+    "status": "uploaded",
+    "youtube_video_id": "auhb1GJvEis",
+    "url": "https://youtu.be/auhb1GJvEis",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

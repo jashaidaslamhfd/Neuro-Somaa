@@ -85,6 +85,21 @@
       "keyword": "intestin",
       "weight": 1.39,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "certaines",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "souris",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "montré",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
@@ -107,7 +122,8 @@
     "Pourquoi après 60 ans, notre cerveau?",
     "Pourquoi apple pourrait bientôt faire?",
     "Pourquoi ateliers mémoire pour?",
-    "Pourquoi certaines souris ont montré?"
+    "Pourquoi certaines souris ont montré?",
+    "Pourquoi portrait. Ouassila Arras?"
   ],
   "performance_records": [
     {
@@ -262,8 +278,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/lWPB9FBwzJA",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 13,
+      "timestamp": "2026-09-25T15:28:08.856161+00:00",
+      "title": "Pourquoi portrait. Ouassila Arras?",
+      "topic": "Pourquoi portrait. Ouassila Arras, une mémoire en chantier?",
+      "duration": 18.539,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/auhb1GJvEis",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 12,
-  "last_cycle_at": "2026-09-23T17:56:10.895382+00:00"
+  "total_cycles": 13,
+  "last_cycle_at": "2026-09-25T15:28:08.856206+00:00"
 }
