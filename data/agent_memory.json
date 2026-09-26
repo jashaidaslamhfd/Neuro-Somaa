@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     }
   ],
@@ -125,7 +125,8 @@
     "Pourquoi certaines souris ont montré?",
     "Pourquoi portrait. Ouassila Arras?",
     "Pourquoi « Perfect day », un thriller?",
-    "Pourquoi à Belleau, dans le sud de?"
+    "Pourquoi à Belleau, dans le sud de?",
+    "Pourquoi un simple exercice avant le?"
   ],
   "performance_records": [
     {
@@ -316,8 +317,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/OMax4nbl0cY",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 16,
+      "timestamp": "2026-09-26T14:40:39.359057+00:00",
+      "title": "Pourquoi un simple exercice avant le?",
+      "topic": "Pourquoi un simple exercice avant le coucher peut protéger votre mémoire du manque de sommeil?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/ujU38rEyBlA",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 15,
-  "last_cycle_at": "2026-09-25T19:38:51.553529+00:00"
+  "total_cycles": 16,
+  "last_cycle_at": "2026-09-26T14:40:39.359092+00:00"
 }
