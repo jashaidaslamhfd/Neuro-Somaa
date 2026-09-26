@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     }
   ],
@@ -126,7 +126,8 @@
     "Pourquoi portrait. Ouassila Arras?",
     "Pourquoi « Perfect day », un thriller?",
     "Pourquoi à Belleau, dans le sud de?",
-    "Pourquoi un simple exercice avant le?"
+    "Pourquoi un simple exercice avant le?",
+    "Pourquoi dans le cerveau, il y a?"
   ],
   "performance_records": [
     {
@@ -329,8 +330,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/ujU38rEyBlA",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 17,
+      "timestamp": "2026-09-26T17:22:16.346784+00:00",
+      "title": "Pourquoi dans le cerveau, il y a?",
+      "topic": "Pourquoi dans le cerveau, il y a beaucoup de gras?",
+      "duration": 18.500667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/S6_BQ1WGY9s",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 16,
-  "last_cycle_at": "2026-09-26T14:40:39.359092+00:00"
+  "total_cycles": 17,
+  "last_cycle_at": "2026-09-26T17:22:16.346836+00:00"
 }

@@ -3946,5 +3946,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-26T17:22:09.941762+00:00",
+    "topic": "Pourquoi dans le cerveau, il y a beaucoup de gras?",
+    "title": "Pourquoi dans le cerveau, il y a?",
+    "duration": 18.500667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "686af309c07721055298d1c83b51e93f50d098b5a6e7bd66283c779717757ba4",
+      "2dae80e9217ab788acce18c6051dc223da59b1550bb3a4f423cda35fd37c7c61",
+      "3c66a2df51e7cece61730008a97cc1c8cf072dbc9e22fd84257dc83d3a1cdb01",
+      "d47f6c9032667dded1728613de279a4a0234b45c2926a08dea3762edb0bd3f1d",
+      "b7a63e4cd960916ddef8c5e581a874ddeba72693ce33ca6d8dc15ac746635600",
+      "9215fe96387e8d0738f9207171d09a2da1646a68e9d38ebefb237d15836a0997",
+      "50f379a7f8975057af0b7ec99dc0be9c0c2a2225ac531beb8b82ddc5f9b59225",
+      "080db471476b170d632448ba730e4cef83c267066127a497c8132349252a3755"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "9dfcc86dfc31504e93bdf3e442ec5186ae1b89682c59a266e98f8e72b01232a5",
+    "status": "uploaded",
+    "youtube_video_id": "S6_BQ1WGY9s",
+    "url": "https://youtu.be/S6_BQ1WGY9s",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
