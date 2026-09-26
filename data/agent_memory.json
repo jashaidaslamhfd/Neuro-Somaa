@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     }
   ],
@@ -127,7 +127,8 @@
     "Pourquoi « Perfect day », un thriller?",
     "Pourquoi à Belleau, dans le sud de?",
     "Pourquoi un simple exercice avant le?",
-    "Pourquoi dans le cerveau, il y a?"
+    "Pourquoi dans le cerveau, il y a?",
+    "Pourquoi ces lentilles pourraient?"
   ],
   "performance_records": [
     {
@@ -342,8 +343,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/S6_BQ1WGY9s",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 18,
+      "timestamp": "2026-09-26T18:47:49.412697+00:00",
+      "title": "Pourquoi ces lentilles pourraient?",
+      "topic": "Pourquoi ces lentilles pourraient mesurer votre stress?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/umkezJPRf58",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 17,
-  "last_cycle_at": "2026-09-26T17:22:16.346836+00:00"
+  "total_cycles": 18,
+  "last_cycle_at": "2026-09-26T18:47:49.412736+00:00"
 }

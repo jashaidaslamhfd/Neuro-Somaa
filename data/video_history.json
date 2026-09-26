@@ -3984,5 +3984,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-26T18:47:40.618425+00:00",
+    "topic": "Pourquoi ces lentilles pourraient mesurer votre stress?",
+    "title": "Pourquoi ces lentilles pourraient?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "c447252f825824d5269b4719ef361c51930c4297fa81bc1a24823d7d4147ea08",
+      "bb5c579780507520b269cb486fb9da06969542a162d99c63d8c5df4e6a7a45e4",
+      "1de44bb31e86cb9169e4249408db83abbfe0c2f65b30efb48aadba25501df4d6",
+      "1aad162997b2d5d30652698460d7f60d88ac9508b224967aece90fc6b61c23af",
+      "de3d79c20d2aaa8634bd07410b40abdd4e72fc691813af96a79fd62b341a9346",
+      "5d25fe466732e219e7e313c0fd22ed67d8a1e5d329b507cd2bd2d8c2dbec135b",
+      "92fbf1b4f09a91d7ceb49f764eaba20f21961f7204ebdc35267a40414c0a633e",
+      "278248abc2fb55bc8ab1ee129a6474d1abf504edccc4bfb0115251088a9b6a87"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "0005c9de39b0907d492f5045db593837f7651b333619090e4f603830621b636b",
+    "status": "uploaded",
+    "youtube_video_id": "umkezJPRf58",
+    "url": "https://youtu.be/umkezJPRf58",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
