@@ -4060,5 +4060,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-27T17:55:26.752443+00:00",
+    "topic": "Pourquoi moins de 7 h de sommeil?",
+    "title": "Pourquoi moins de 7 h de sommeil?",
+    "duration": 18.533667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "d48ea9328887ca252f63ccc9d861a59ad520ae5d4e9ac62f1a90317b8e248022",
+      "736c25fe025f2792fb1686f12c118e2ed8bf70668e3f34d8b2afc5732bbbe1da",
+      "d181bfdda353c1e3a07722c7a3954b12efc271437efd86a398211908659dc2fe",
+      "2d48f0b7ee2aa148324c802bbd94f721e4dfe497446148f06054dc2ec438d010",
+      "dde9cdf8b32f705c913eb3b326749c98e03f1ff6467b9c91117b4eca5a0f1e1a",
+      "bd0348d54e44bbabd30ee4ebcbe7b8213aab32474c3a788c062375d643b3a8d2",
+      "f816832c16699c39b2bfb365247923bac3e51532fc2c017b782b6a1bf81392ad",
+      "6746c7af06136a5a0eb55587a1957de7deeb6c1e10c485d742f9c9e7221c2dbb"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "2d51a0c99d4f5db347d958399e05809b152a4cb867487038ffe76c69343a3913",
+    "status": "uploaded",
+    "youtube_video_id": "BhgeqYwfXb0",
+    "url": "https://youtu.be/BhgeqYwfXb0",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

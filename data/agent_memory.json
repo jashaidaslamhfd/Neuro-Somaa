@@ -88,17 +88,17 @@
     },
     {
       "keyword": "certaines",
-      "weight": 1.61,
+      "weight": 1.69,
       "engagement_avg": 8.0
     },
     {
       "keyword": "souris",
-      "weight": 1.61,
+      "weight": 1.69,
       "engagement_avg": 8.0
     },
     {
       "keyword": "montré",
-      "weight": 1.61,
+      "weight": 1.69,
       "engagement_avg": 8.0
     }
   ],
@@ -129,7 +129,8 @@
     "Pourquoi un simple exercice avant le?",
     "Pourquoi dans le cerveau, il y a?",
     "Pourquoi ces lentilles pourraient?",
-    "Pourquoi sommeil?"
+    "Pourquoi sommeil?",
+    "Pourquoi moins de 7 h de sommeil?"
   ],
   "performance_records": [
     {
@@ -368,8 +369,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/_Hc_TnZZytI",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 20,
+      "timestamp": "2026-09-27T17:55:34.266336+00:00",
+      "title": "Pourquoi moins de 7 h de sommeil?",
+      "topic": "Pourquoi moins de 7 h de sommeil?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/BhgeqYwfXb0",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 19,
-  "last_cycle_at": "2026-09-27T15:14:59.401259+00:00"
+  "total_cycles": 20,
+  "last_cycle_at": "2026-09-27T17:55:34.266392+00:00"
 }
