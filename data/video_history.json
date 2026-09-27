@@ -4098,5 +4098,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-27T19:22:51.822479+00:00",
+    "topic": "Pourquoi « Un aiguilleur doit savoir maîtriser son stress »?",
+    "title": "Pourquoi « Un aiguilleur doit savoir?",
+    "duration": 18.515,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "910cad970d177e6f2ad3e62bd27f95c28ed6f426c76de515cec0610b55092158",
+      "2f0687f2f2283bc0865740e8eec4f2d21101f72d717aa365f985a1ac29c968b6",
+      "105560f7b7b26d12a3683e7fbcd91468c004a95da107885635ae7f575d7743f8",
+      "2b1ff3487596e2c6168b887c6307b9000aa99258bb814c71b1e5cbd0bd9e6579",
+      "4ab114576e8b52cfa2a5f8bffbf25c065594f7213c5815d4192ee20b4601b6bc",
+      "3e7d956ccd146a047f94170fd9664416c26925e941590dc34c6a3775091be03f",
+      "a402210a1d24a1f7c914e6720fb1848e3031aa1902dcd02d6ab403875eb0289e",
+      "995f20f38f4cb68a54db77e61245a835f163c695543b4bf1e6ca87a14633a7a6"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "38263e0a355f84e4f19f422240c5b6b6c704b7239233fb3f39c0eb720e2224fb",
+    "status": "uploaded",
+    "youtube_video_id": "nAqHyp5gi_c",
+    "url": "https://youtu.be/nAqHyp5gi_c",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
