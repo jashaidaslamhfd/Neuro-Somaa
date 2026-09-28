@@ -4212,5 +4212,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-28T21:28:03.323492+00:00",
+    "topic": "Pourquoi prix de la mémoire?",
+    "title": "Pourquoi prix de la mémoire?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "e8ff11fc53bdf23bfbe2b373d050e81d17a1137c80a5a1634bbacf39c53febb4",
+      "cba0fea61e9049e6826610667bd71dba15e6139480313afc1a23f84eb698be7a",
+      "e5928363f39e90d4646ab294544d2b6435825e8e5751e628c787f7d17b65d69c",
+      "9d976b7a252be0e24534d60a5d2e422cf5f07fee8c2477d682c5e45cd7a203fa",
+      "ef15c36603025f64c4aef04f83db3f572a312c5b8d7271da4ddb8bc0dbb0520f",
+      "d4f9a5111c3867c4531c28efc7eff6b44819d3354edf8af81964592443c59e07",
+      "027765d53e85e223e4b05a214ee62d7bae32f8f17b80c7179d2e9b2b3b946594",
+      "691b0b7d97472c91a2be2e0adbc6257c8ad371ea525717c02ed099dd1162f2bb"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "d454ab59e46f0d9977efe911dba41cc4649f29e9f09f02e1abeb16f2677d11b8",
+    "status": "uploaded",
+    "youtube_video_id": "1i6XHoZRlXE",
+    "url": "https://youtu.be/1i6XHoZRlXE",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

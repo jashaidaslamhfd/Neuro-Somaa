@@ -103,22 +103,21 @@
     },
     {
       "keyword": "simple",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "exercice",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "avant",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Ne fais JAMAIS ça avant de dormir",
     "Ton cerveau fait ça chaque nuit...",
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
@@ -147,7 +146,8 @@
     "Pourquoi moins de 7 h de sommeil?",
     "Pourquoi « Un aiguilleur doit savoir?",
     "Pourquoi 8h de sommeil, entraînement?",
-    "Pourquoi apnée du sommeil?"
+    "Pourquoi apnée du sommeil?",
+    "Pourquoi prix de la mémoire?"
   ],
   "performance_records": [
     {
@@ -434,8 +434,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/Bd-aa2Hmrlg",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 24,
+      "timestamp": "2026-09-28T21:28:08.670184+00:00",
+      "title": "Pourquoi prix de la mémoire?",
+      "topic": "Pourquoi prix de la mémoire?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/1i6XHoZRlXE",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 23,
-  "last_cycle_at": "2026-09-28T20:13:03.650233+00:00"
+  "total_cycles": 24,
+  "last_cycle_at": "2026-09-28T21:28:08.670219+00:00"
 }
