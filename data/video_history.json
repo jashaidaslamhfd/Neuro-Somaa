@@ -4136,5 +4136,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-28T18:15:29.822240+00:00",
+    "topic": "Pourquoi 8h de sommeil, entraînement 5 jours par semaine?",
+    "title": "Pourquoi 8h de sommeil, entraînement?",
+    "duration": 18.533667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "3bff3a609d1a12c4cfd577aa230115a972a51e329f7ab0d67ad351622343a6f6",
+      "b894e01b7276de555c5df0417ae28f81a0cbe1725a9f7f30cb7d64b0a0c093d4",
+      "b55845e4bf26d0257f5be868b14f3c7f90c2f9dbc59aaa388cab61c20ff3f919",
+      "dfd6ed2d750caa49f5d26f8ed85c2ae4a8f1ec8b3cf71419a6dfac07a0cf2688",
+      "33e8753771067d1b304caa45296ad08e66d55e0c25888822bfff4cd49c099a4a",
+      "45581ef48a5a3f540113b4201af0429cd4245a2d9b46a269d3fd9b3a533067f0",
+      "5350eb67f32de11b4424bb3c4fafb983de0f6438a7b03cbed27986f341c1e822",
+      "bfa49fc7db8c6b989e412e7b04311a338e420a7e9f763080c8fbdd991a93d491"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "9db91ee5a8faa3fc7db9724faa8dcb4611804ea3643f811260b7175dfdb50959",
+    "status": "uploaded",
+    "youtube_video_id": "GBFzNXKukEo",
+    "url": "https://youtu.be/GBFzNXKukEo",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

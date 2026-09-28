@@ -100,6 +100,21 @@
       "keyword": "montré",
       "weight": 1.77,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "simple",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "exercice",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "avant",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
@@ -131,7 +146,8 @@
     "Pourquoi ces lentilles pourraient?",
     "Pourquoi sommeil?",
     "Pourquoi moins de 7 h de sommeil?",
-    "Pourquoi « Un aiguilleur doit savoir?"
+    "Pourquoi « Un aiguilleur doit savoir?",
+    "Pourquoi 8h de sommeil, entraînement?"
   ],
   "performance_records": [
     {
@@ -394,8 +410,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/nAqHyp5gi_c",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 22,
+      "timestamp": "2026-09-28T18:15:38.410916+00:00",
+      "title": "Pourquoi 8h de sommeil, entraînement?",
+      "topic": "Pourquoi 8h de sommeil, entraînement 5 jours par semaine?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/GBFzNXKukEo",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 21,
-  "last_cycle_at": "2026-09-27T19:22:56.607042+00:00"
+  "total_cycles": 22,
+  "last_cycle_at": "2026-09-28T18:15:38.410956+00:00"
 }
