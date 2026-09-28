@@ -103,22 +103,21 @@
     },
     {
       "keyword": "simple",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "exercice",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "avant",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Ce qui arrive si tu regardes ton écran à 2h",
     "Ne fais JAMAIS ça avant de dormir",
     "Ton cerveau fait ça chaque nuit...",
     "Ton téléphone vibre dans le vide ?",
@@ -147,7 +146,8 @@
     "Pourquoi sommeil?",
     "Pourquoi moins de 7 h de sommeil?",
     "Pourquoi « Un aiguilleur doit savoir?",
-    "Pourquoi 8h de sommeil, entraînement?"
+    "Pourquoi 8h de sommeil, entraînement?",
+    "Pourquoi apnée du sommeil?"
   ],
   "performance_records": [
     {
@@ -422,8 +422,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/GBFzNXKukEo",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 23,
+      "timestamp": "2026-09-28T20:13:03.650199+00:00",
+      "title": "Pourquoi apnée du sommeil?",
+      "topic": "Pourquoi apnée du sommeil?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/Bd-aa2Hmrlg",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 22,
-  "last_cycle_at": "2026-09-28T18:15:38.410956+00:00"
+  "total_cycles": 23,
+  "last_cycle_at": "2026-09-28T20:13:03.650233+00:00"
 }
