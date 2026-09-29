@@ -4250,5 +4250,39 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-29T16:37:43.352460+00:00",
+    "topic": "Pourquoi « Mémoire de fille », de Judith Godrèche?",
+    "title": "Pourquoi « Mémoire de fille » nous hante-t-il?",
+    "duration": 20.866667,
+    "hook_score": 95,
+    "quality_score": 87,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 6,
+    "clip_hashes": [
+      "b3cb0e4ff7a1e6d93c280c7683ed074e59f0f99c330ee3c64012441aab6caeec",
+      "7148e0005b79f65053f8a66a5cd28548522a823896b72a82310c6332acc114a1",
+      "839f59768a3da8024209fa895bd8ccd3730af95333504cd6feda37992f564514",
+      "ec978de554f0ad16a680d1bec3e873b1b82db8a4750188d6682b47bf2d9941d3",
+      "fbbaedfa9045ed760210a8ff68009e39f2d2bb6a340622b0ddcc246a245eadbc",
+      "6a9939aad2c96dbe6210636a5738b803e3721d45662658f7eca58d10efa30a9c"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "eb42d58c9a33c717e653b69812d7ddbf82077e767f95bb64c180c29e2255f223",
+    "status": "uploaded",
+    "youtube_video_id": "V2XNajGrX4Y",
+    "url": "https://youtu.be/V2XNajGrX4Y",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

@@ -103,17 +103,17 @@
     },
     {
       "keyword": "simple",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "exercice",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "avant",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     }
   ],
@@ -446,8 +446,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/1i6XHoZRlXE",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 25,
+      "timestamp": "2026-09-29T16:37:49.415227+00:00",
+      "title": "Pourquoi « Mémoire de fille » nous hante-t-il?",
+      "topic": "Pourquoi « Mémoire de fille », de Judith Godrèche?",
+      "duration": 20.866667,
+      "hook_score": 95,
+      "quality_score": 87,
+      "status": "uploaded",
+      "url": "https://youtu.be/V2XNajGrX4Y",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 24,
-  "last_cycle_at": "2026-09-28T21:28:08.670219+00:00"
+  "total_cycles": 25,
+  "last_cycle_at": "2026-09-29T16:37:49.415260+00:00"
 }
