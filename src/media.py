@@ -221,7 +221,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         speed_factor = max(0.8, min(1.65, total / target_target))
         logger.info("Autonomous Agent adjusting video tempo: total=%.1fs, target=%.1fs, speed_factor=%.3f", total, target_target, speed_factor)
         adjusted_segments = []
-        for seg in segments:
+        for seg_idx, seg in enumerate(segments, start=1):
             p = Path(seg["segment_path"])
             adj_path = p.with_name(f"{p.stem}_adj.mp4")
             # Speed up / slow down video and audio seamlessly
@@ -235,7 +235,7 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
                 ], check=True, capture_output=True)
             except subprocess.CalledProcessError as exc:
                 detail = (exc.stderr or b"").decode(errors="replace")[-1000:]
-                logger.error("FFmpeg tempo adjustment failed for scene %02d: %s", index, detail)
+                logger.error("FFmpeg tempo adjustment failed for scene %02d: %s", seg_idx, detail)
                 raise RuntimeError(f"FFmpeg tempo adjustment failed: {detail}") from exc
             seg["segment_path"] = str(adj_path)
             seg["duration"] = seg["duration"] / speed_factor

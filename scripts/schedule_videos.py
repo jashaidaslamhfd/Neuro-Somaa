@@ -14,7 +14,7 @@ def get_youtube():
         token_uri="https://oauth2.googleapis.com/token",
         client_id=os.environ["GOOGLE_CLIENT_ID"],
         client_secret=os.environ["GOOGLE_CLIENT_SECRET"],
-        scopes=["https://www.googleapis.com/auth/youtube"],
+        scopes=["https://www.googleapis.com/auth/youtube.force-ssl"],
     )
     credentials.refresh(Request())
     return build("youtube", "v3", credentials=credentials, cache_discovery=False)
@@ -42,8 +42,10 @@ def schedule(video_id: str, publish_at: str) -> dict[str, str]:
 
 
 if __name__ == "__main__":
-    ids = [value.strip() for value in os.environ["VIDEO_IDS"].split(",") if value.strip()]
-    times = [value.strip() for value in os.environ["PUBLISH_ATS"].split(",") if value.strip()]
+    ids = [value.strip() for value in os.getenv("VIDEO_IDS", "").split(",") if value.strip()]
+    times = [value.strip() for value in os.getenv("PUBLISH_ATS", "").split(",") if value.strip()]
+    if not ids or not times:
+        raise SystemExit("VIDEO_IDS and PUBLISH_ATS environment variables are required")
     if len(ids) != len(times):
         raise SystemExit("VIDEO_IDS and PUBLISH_ATS must contain the same number of comma-separated values")
     for video_id, publish_at in zip(ids, times, strict=True):

@@ -5,6 +5,8 @@ import os
 import re
 from typing import Any
 
+import requests
+
 from config import Settings
 
 FALLBACK_TOPICS = [
@@ -821,6 +823,76 @@ def _topic_category_and_angle(topic: str) -> tuple[str, str]:
     return category, angle
 
 
+
+class _GeminiAdapter:
+    """Lightweight adapter allowing Gemini to be called with OpenAI-compatible chat interface."""
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.chat = self
+
+    @property
+    def completions(self):
+        return self
+
+    def create(self, model: str, messages: list[dict[str, str]], **kwargs):
+        system_text = "\n\n".join(m["content"] for m in messages if m["role"] == "system")
+        user_parts = [f"{m['role'].upper()}: {m['content']}" for m in messages if m["role"] != "system"]
+        prompt_text = "\n\n".join(user_parts)
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.api_key}"
+        body = {
+            "contents": [{"role": "user", "parts": [{"text": prompt_text}]}],
+            "generationConfig": {"response_mime_type": "application/json", "temperature": 0.6},
+        }
+        if system_text:
+            body["system_instruction"] = {"parts": [{"text": system_text}]}
+        resp = requests.post(url, json=body, timeout=30)
+        resp.raise_for_status()
+        res_json = resp.json()
+        raw_text = res_json["candidates"][0]["content"]["parts"][0]["text"]
+
+        class _Choice:
+            def __init__(self, text):
+                self.message = type("Msg", (), {"content": text})()
+
+        return type("Resp", (), {"choices": [_Choice(raw_text)]})()
+
+
+class _OpenRouterAdapter:
+    """Fallback adapter for OpenRouter if openai package is absent."""
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.chat = self
+
+    @property
+    def completions(self):
+        return self
+
+    def create(self, model: str, messages: list[dict[str, str]], **kwargs):
+        url = "https://openrouter.ai/api/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/jashaidaslamhfd/Neuro-Somaa",
+            "X-Title": "Neuro-Somaa French Shorts",
+        }
+        body = {
+            "model": model,
+            "messages": messages,
+            "temperature": 0.6,
+            "response_format": {"type": "json_object"},
+        }
+        resp = requests.post(url, json=body, headers=headers, timeout=30)
+        resp.raise_for_status()
+        raw_text = resp.json()["choices"][0]["message"]["content"]
+
+        class _Choice:
+            def __init__(self, text):
+                self.message = type("Msg", (), {"content": text})()
+
+        return type("Resp", (), {"choices": [_Choice(raw_text)]})()
+
 def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
     if settings.dry_run or not settings.llm_keys:
         return _fallback_script(topic)
@@ -839,16 +911,22 @@ def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
         except Exception:
             pass
 
+    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
+    if gemini_key:
+        gemini_client = _GeminiAdapter(gemini_key)
+        providers.append((gemini_client, "gemini-2.0-flash"))
+        providers.append((gemini_client, "gemini-1.5-flash"))
+
     for alt_key in ("OPENROUTER_API_KEY", "ALT_LLM_API_KEY"):
         k = os.getenv(alt_key, "").strip()
         if k:
+            alt_model = os.getenv("OPENROUTER_MODEL") or "meta-llama/llama-3.3-70b-instruct"
             try:
                 import openai
-                alt_model = os.getenv("OPENROUTER_MODEL") or "meta-llama/llama-3.3-70b-instruct"
                 providers.append((openai.OpenAI(api_key=k, base_url="https://openrouter.ai/api/v1"), alt_model))
-                break
             except Exception:
-                pass
+                providers.append((_OpenRouterAdapter(k), alt_model))
+            break
 
     if not providers:
         return _fallback_script(topic)

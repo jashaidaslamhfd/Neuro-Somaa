@@ -5,6 +5,7 @@ import json
 import logging
 import re
 import subprocess
+import time
 from datetime import datetime, timezone
 
 try:
@@ -64,12 +65,20 @@ def _persist_state() -> None:
     if committed.returncode != 0 and "nothing to commit" not in committed.stdout + committed.stderr:
         raise RuntimeError(f"State checkpoint commit failed: {committed.stderr.strip()}")
     if committed.returncode == 0:
-        pulled = subprocess.run(["git", "pull", "--rebase", "origin", "main"], capture_output=True, text=True, check=False)
-        if pulled.returncode != 0:
-            raise RuntimeError(f"State checkpoint rebase failed: {pulled.stderr.strip()}")
-        pushed = subprocess.run(["git", "push", "origin", "HEAD:main"], capture_output=True, text=True, check=False)
-        if pushed.returncode != 0:
-            raise RuntimeError(f"State checkpoint push failed: {pushed.stderr.strip()}")
+        for attempt in range(1, 4):
+            pulled = subprocess.run(["git", "pull", "--rebase", "--autostash", "origin", "main"], capture_output=True, text=True, check=False)
+            if pulled.returncode != 0:
+                subprocess.run(["git", "rebase", "--abort"], check=False)
+                if attempt == 3:
+                    raise RuntimeError(f"State checkpoint rebase failed: {pulled.stderr.strip()}")
+                time.sleep(2 * attempt)
+                continue
+            pushed = subprocess.run(["git", "push", "origin", "HEAD:main"], capture_output=True, text=True, check=False)
+            if pushed.returncode == 0:
+                return
+            if attempt == 3:
+                raise RuntimeError(f"State checkpoint push failed: {pushed.stderr.strip()}")
+            time.sleep(2 * attempt)
 
 
 def run() -> dict:

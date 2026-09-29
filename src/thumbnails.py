@@ -128,6 +128,7 @@ def build_thumbnail(script: dict[str, Any], settings: Any) -> Path:
     draw.multiline_text((card_left + 54, card_top + 68), hook, font=hook_font, fill="#facc15", spacing=24, stroke_width=4, stroke_fill="#000000")
     draw.rounded_rectangle((78, card_bottom + 70, 560, card_bottom + 150), radius=30, fill="#6ee7d8")
     draw.text((112, card_bottom + 88), _duration_label(settings), font=_font(30, True), fill="#07111f")
+    settings.output_dir.mkdir(parents=True, exist_ok=True)
     output = settings.output_dir / "thumbnail.jpg"
     image.convert("RGB").save(output, format="JPEG", quality=92, optimize=True)
     return output

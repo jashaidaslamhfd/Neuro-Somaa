@@ -41,7 +41,7 @@ class Settings:
 
     @property
     def llm_keys(self) -> tuple[str, ...]:
-        return tuple(name for name in ("GROQ_API_KEY", "OPENROUTER_API_KEY", "ALT_LLM_API_KEY") if _env(name))
+        return tuple(name for name in ("GROQ_API_KEY", "OPENROUTER_API_KEY", "ALT_LLM_API_KEY", "GEMINI_API_KEY") if _env(name))
 
     @property
     def visual_keys(self) -> tuple[str, ...]:

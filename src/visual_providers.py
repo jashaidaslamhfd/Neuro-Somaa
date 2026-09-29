@@ -158,8 +158,9 @@ def _commons_clip(caption: str, path: Path) -> Path | None:
 
 def _archive_clip(caption: str, path: Path) -> Path | None:
     try:
+        clean_caption = re.sub(r"\s+", " ", re.sub(r"[^\wÀ-ÿ ]", " ", caption, flags=re.UNICODE)).strip() or "science"
         search = requests.get("https://archive.org/advancedsearch.php", params={
-            "q": f"mediatype:movies AND collection:opensource_movies AND ({caption})",
+            "q": f"mediatype:movies AND collection:opensource_movies AND ({clean_caption})",
             "fl[]": "identifier", "rows": 20, "output": "json",
         }, headers={"User-Agent": "Neuro-Somaa/1.0"}, timeout=25)
         search.raise_for_status()

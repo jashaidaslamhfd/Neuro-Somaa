@@ -5,3 +5,4 @@ pydub>=0.25.1
 groq>=1.7.0
 Pillow>=12.3.0
 requests>=2.31.0
+openai>=1.0.0
