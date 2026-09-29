@@ -1,5 +1,5 @@
 pytest>=8.0.0
-ruff>=0.16.6
+ruff>=0.16.8
 python-dotenv>=1.2.3
 pydub>=0.25.1
 groq>=1.7.0
