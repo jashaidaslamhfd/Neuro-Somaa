@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-09-29T20:20:05.068036+00:00",
+  "topic": "Pourquoi « Mémoire de fille »?",
+  "title": "Pourquoi « Mémoire de fille?",
+  "duration": 18.524333,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "cd1c08cf09fc447917db7fcc3a1d10e6f2103add6050da3d3847b1a75d7c679e",
+    "056ca1d26507651d354bf2ffca10111a128864d75fe10907635d959710dedf53",
+    "a84dcd318f463392fd93b3da79f99174a6ca0ff557f9f6b628d2849c0b91cca1",
+    "a4658bf0b3a646ad57e884c619102ae9c32914433b85a3f56180f07ff322e268",
+    "6d1d1298a91b4bef9d4b704ec94e0bfa3ae391e938738db930f069693f59e18b",
+    "8c9d7d58551080985d2191016b411ae07540843b28768ca7f2605dbe24df79ae",
+    "051fd0b6fad3b7e503507a343a9f2139a759606c225110f69a2d195e9771fe66",
+    "b8bbf5bcd24ed29c3239ec4817beef3f9dd8839e3a3a1947ae6d2db6338c99a8"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "6cc0ae98b5031254d26355477ee060a49c2f061f9fd161d7b885f79ae452f98f",
+  "status": "uploaded",
+  "youtube_video_id": "Qbq_EfczY7E",
+  "url": "https://youtu.be/Qbq_EfczY7E",
+  "thumbnail_status": "uploaded"
+}

@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.5,
+      "weight": 1.58,
       "engagement_avg": 8.8
     },
     {
@@ -115,10 +115,14 @@
       "keyword": "avant",
       "weight": 1.46,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "moins",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
     "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
@@ -147,7 +151,8 @@
     "Pourquoi 8h de sommeil, entraînement?",
     "Pourquoi apnée du sommeil?",
     "Pourquoi prix de la mémoire?",
-    "Pourquoi t.J. Warren, une carrière en?"
+    "Pourquoi t.J. Warren, une carrière en?",
+    "Pourquoi « Mémoire de fille?"
   ],
   "performance_records": [
     {
@@ -470,8 +475,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/cFVUefg-3ps",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 27,
+      "timestamp": "2026-09-29T20:20:13.045931+00:00",
+      "title": "Pourquoi « Mémoire de fille?",
+      "topic": "Pourquoi « Mémoire de fille »?",
+      "duration": 18.524333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/Qbq_EfczY7E",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 26,
-  "last_cycle_at": "2026-09-29T18:50:42.758279+00:00"
+  "total_cycles": 27,
+  "last_cycle_at": "2026-09-29T20:20:13.045972+00:00"
 }
