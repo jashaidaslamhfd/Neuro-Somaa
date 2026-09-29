@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-09-29T18:50:36.797795+00:00",
+  "topic": "Pourquoi t.J. Warren, une carrière en sommeil à relancer à Paris pour l'ailier américain arrivé cet été?",
+  "title": "Pourquoi t.J. Warren, une carrière en?",
+  "duration": 18.524333,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "4f993b981114cfe04798e07c0ce075fd06865f12ba44b4cdffaf333c1c734393",
+    "fc8c56edf37636c422382b0833b7e60e0c6d8625a14079da15fa9209d7be64aa",
+    "6e6d6eda623d3a0f4568954d9f77809aa2152c5dc4167ae70229c522d46f75ea",
+    "7871bd77b3e6c80574d6c977bd53a8905a7f61c5eb6719a4b5fefdaf101c57e0",
+    "9f8468f82b1a5df5e168c9e8dcac9237293e96f2bf8b419c5de4f4628ce31070",
+    "a9cad6edd8f23a2e461150c0650b645d48151266b69a637b087ce2e85fad2af1",
+    "c7fc4f9751e6e7d15ff7818e405ca54a981522479868b808d5cabe15abf42195",
+    "9c681c760f71e39b8b82f7e41709921a517abb6eebb83859a8169927f5e2e1d5"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "ded6a5af7ef9c497178b88a0f3e8a8e8446dda8a1ed1ada63c0d1cd820db8672",
+  "status": "uploaded",
+  "youtube_video_id": "cFVUefg-3ps",
+  "url": "https://youtu.be/cFVUefg-3ps",
+  "thumbnail_status": "uploaded"
+}

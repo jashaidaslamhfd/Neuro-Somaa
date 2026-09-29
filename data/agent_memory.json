@@ -103,22 +103,21 @@
     },
     {
       "keyword": "simple",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "exercice",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "avant",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Ton cerveau fait ça chaque nuit...",
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
     "Pourquoi le temps passe plus vite ?",
@@ -147,7 +146,8 @@
     "Pourquoi « Un aiguilleur doit savoir?",
     "Pourquoi 8h de sommeil, entraînement?",
     "Pourquoi apnée du sommeil?",
-    "Pourquoi prix de la mémoire?"
+    "Pourquoi prix de la mémoire?",
+    "Pourquoi t.J. Warren, une carrière en?"
   ],
   "performance_records": [
     {
@@ -458,8 +458,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/V2XNajGrX4Y",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 26,
+      "timestamp": "2026-09-29T18:50:42.758244+00:00",
+      "title": "Pourquoi t.J. Warren, une carrière en?",
+      "topic": "Pourquoi t.J. Warren, une carrière en sommeil à relancer à Paris pour l'ailier américain arrivé cet été?",
+      "duration": 18.524333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/cFVUefg-3ps",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 25,
-  "last_cycle_at": "2026-09-29T16:37:49.415260+00:00"
+  "total_cycles": 26,
+  "last_cycle_at": "2026-09-29T18:50:42.758279+00:00"
 }
