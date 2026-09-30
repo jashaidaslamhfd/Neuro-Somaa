@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-09-30T20:24:26.894550+00:00",
+  "topic": "Pourquoi en adaptant « Mémoire de fille » d’Annie Ernaux, Judith Godrèche affirme sa position de cinéaste féministe?",
+  "title": "Pourquoi en adaptant « Mémoire de?",
+  "duration": 18.533667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "55f145fef7efa3eaef56cf785fd2702cbc0856f490c7295dfbeec4325d2e80cd",
+    "50dd36d4330f10208e778b7de1683d22fa40221cad16193aff70799736bd958a",
+    "d0c627415217d46a29095f1d138782fd4990b9aae7e0e6a3e13a3255fa2ff1dc",
+    "c945dc87a065a10c67bbfb4f7bf74ac2575db70d00ff3df51a4b3cdc6e4befb9",
+    "42e6ba3b984ae1b1ea5de476e88cfe714ac33b757c8fe4082db7bb95a26a92cb",
+    "ec70b724bfdf9d695237eda430888915c3bc406bbca5b43dcf846c13bf1b33f7",
+    "b28b347c906f6db55d7502388d109d3554c64c203c3c46854b87adc99f4a86a0",
+    "e1c5e2117437f67cc8fc329ec95ed349d5807daa11fbdd60d16d866b6d3dc97e"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "cd719041373b3ab71f2d9817606fbd19afdedfaee10cb367a66045671dbc80bd",
+  "status": "uploaded",
+  "youtube_video_id": "GkzPbRaDQwg",
+  "url": "https://youtu.be/GkzPbRaDQwg",
+  "thumbnail_status": "uploaded"
+}

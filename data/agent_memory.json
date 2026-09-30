@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.74,
+      "weight": 1.83,
       "engagement_avg": 8.8
     },
     {
@@ -120,10 +120,14 @@
       "keyword": "moins",
       "weight": 1.32,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "entraînement",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi oublie-t-on nos rêves ?",
     "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
@@ -152,7 +156,8 @@
     "Pourquoi apnée du sommeil?",
     "Pourquoi prix de la mémoire?",
     "Pourquoi t.J. Warren, une carrière en?",
-    "Pourquoi « Mémoire de fille?"
+    "Pourquoi « Mémoire de fille?",
+    "Pourquoi en adaptant « Mémoire de?"
   ],
   "performance_records": [
     {
@@ -511,8 +516,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/E_sMz7aY2AY",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 30,
+      "timestamp": "2026-09-30T20:24:32.025793+00:00",
+      "title": "Pourquoi en adaptant « Mémoire de?",
+      "topic": "Pourquoi en adaptant « Mémoire de fille » d’Annie Ernaux, Judith Godrèche affirme sa position de cinéaste féministe?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/GkzPbRaDQwg",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 29,
-  "last_cycle_at": "2026-09-30T18:33:10.995925+00:00"
+  "total_cycles": 30,
+  "last_cycle_at": "2026-09-30T20:24:32.025824+00:00"
 }
