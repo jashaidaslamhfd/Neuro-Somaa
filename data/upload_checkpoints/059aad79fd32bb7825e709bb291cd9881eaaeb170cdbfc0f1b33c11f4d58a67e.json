@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-09-30T18:33:02.641756+00:00",
+  "topic": "Pourquoi « Digger », « Notre salut », « Mémoire de fille », « Le Monde à l’endroit »?",
+  "title": "Pourquoi certains titres vous rappellent-ils des souvenirs précis?",
+  "duration": 21.566667,
+  "hook_score": 80,
+  "quality_score": 80,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 4,
+  "clip_hashes": [
+    "9d20244d29f753d2a49488a57647d1cdc230769e433ee9eb0631075c2775479f",
+    "4a14921ebfb890a47b46a9f110fa3108761e2fa17f02ea039a4d424394797b46",
+    "409eb781b4582dc521b21efb0b9ea2ecb8267102dc609b2332d0625706d44a8a",
+    "3d02d0a9962e48df5251f467f9452ca3d4d551bcdaa2da3e1bb70fb2b08d5ee6"
+  ],
+  "visual_providers": [
+    "procedural_motion",
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "059aad79fd32bb7825e709bb291cd9881eaaeb170cdbfc0f1b33c11f4d58a67e",
+  "status": "uploaded",
+  "youtube_video_id": "E_sMz7aY2AY",
+  "url": "https://youtu.be/E_sMz7aY2AY",
+  "thumbnail_status": "uploaded"
+}

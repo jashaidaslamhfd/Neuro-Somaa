@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.66,
+      "weight": 1.74,
       "engagement_avg": 8.8
     },
     {
@@ -118,7 +118,7 @@
     },
     {
       "keyword": "moins",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
@@ -499,8 +499,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/8kG3iMTKG2M",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 29,
+      "timestamp": "2026-09-30T18:33:10.995883+00:00",
+      "title": "Pourquoi certains titres vous rappellent-ils des souvenirs précis?",
+      "topic": "Pourquoi « Digger », « Notre salut », « Mémoire de fille », « Le Monde à l’endroit »?",
+      "duration": 21.566667,
+      "hook_score": 80,
+      "quality_score": 80,
+      "status": "uploaded",
+      "url": "https://youtu.be/E_sMz7aY2AY",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 28,
-  "last_cycle_at": "2026-09-30T16:29:53.979673+00:00"
+  "total_cycles": 29,
+  "last_cycle_at": "2026-09-30T18:33:10.995925+00:00"
 }
