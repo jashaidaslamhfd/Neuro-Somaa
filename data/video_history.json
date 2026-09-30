@@ -4360,5 +4360,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-09-30T16:29:47.917361+00:00",
+    "topic": "Pourquoi vous croyez sentir vibrer votre téléphone? Voici pourquoi votre cerveau crée cette illusion?",
+    "title": "Pourquoi votre cerveau vous fait croire que votre téléphone vibre?",
+    "duration": 19.504333,
+    "hook_score": 80,
+    "quality_score": 75,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "d6483e1ac3eb73445aa1405797846d72f5477aa23c1fca11dca269dc1f8d20a9",
+      "6fdf97c6518c0e3a699a6be42eae038b928acc9ce81f6434a9055fbfb1a7b7be",
+      "08d67729cdbf4e40d322df926f319a7111aaff72eb15740c96dac568f6b3b62d",
+      "5a71dd70e43e6128bd2bbf26b5a84486b47036a492fd3e6ab5bc26bd911cc2c3"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "f8e905135d779c6e21a25243af5d82e6bf2013dc6ed0a85d96bf68f237eef74d",
+    "status": "uploaded",
+    "youtube_video_id": "8kG3iMTKG2M",
+    "url": "https://youtu.be/8kG3iMTKG2M",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

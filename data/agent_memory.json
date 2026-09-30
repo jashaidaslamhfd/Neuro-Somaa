@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.58,
+      "weight": 1.66,
       "engagement_avg": 8.8
     },
     {
@@ -118,7 +118,7 @@
     },
     {
       "keyword": "moins",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -487,8 +487,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/Qbq_EfczY7E",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 28,
+      "timestamp": "2026-09-30T16:29:53.979638+00:00",
+      "title": "Pourquoi votre cerveau vous fait croire que votre téléphone vibre?",
+      "topic": "Pourquoi vous croyez sentir vibrer votre téléphone? Voici pourquoi votre cerveau crée cette illusion?",
+      "duration": 19.504333,
+      "hook_score": 80,
+      "quality_score": 75,
+      "status": "uploaded",
+      "url": "https://youtu.be/8kG3iMTKG2M",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 27,
-  "last_cycle_at": "2026-09-29T20:20:13.045972+00:00"
+  "total_cycles": 28,
+  "last_cycle_at": "2026-09-30T16:29:53.979673+00:00"
 }
