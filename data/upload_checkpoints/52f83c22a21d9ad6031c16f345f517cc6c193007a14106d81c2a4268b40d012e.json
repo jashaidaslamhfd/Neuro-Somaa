@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-10-01T19:02:09.116165+00:00",
+  "topic": "Pourquoi merville. Une cérémonie placée sous le signe de la mémoire?",
+  "title": "Pourquoi merville. Une cérémonie?",
+  "duration": 18.505667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "835c35160394ace05d9ec6b6ace83ee5d320842c9e398591e2e2e5d7b4a5c091",
+    "a25aba0dfa1be699fd15bbcf0632e712baf77aa4297782bd5b1b2d20c3eef831",
+    "f50d16601b9211a333962abc15da2fe31035f0b7d5c4739a0c5f8ad6f06e2684",
+    "8b739f008763177f052c5eb2bc9c2c25a63a92399433a5f926c0b245eeb9ba26",
+    "42e6ba3b984ae1b1ea5de476e88cfe714ac33b757c8fe4082db7bb95a26a92cb",
+    "fd6eea4221cde62e0e1597568efeb909c1eafaa18f4d95bebae9df0b8fbbbcc0",
+    "3e0c19f30fd6057015917b2983aeb10521edb84f7c22c32a45578e43ad9852cd",
+    "c233c9e4e5ea2f2a7548e2d8534346573a38158f29a629f1c36974cc5a09cdff"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "52f83c22a21d9ad6031c16f345f517cc6c193007a14106d81c2a4268b40d012e",
+  "status": "uploaded",
+  "youtube_video_id": "WQrB_qWOzYo",
+  "url": "https://youtu.be/WQrB_qWOzYo",
+  "thumbnail_status": "uploaded"
+}

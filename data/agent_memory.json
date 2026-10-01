@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.92,
+      "weight": 2.02,
       "engagement_avg": 8.8
     },
     {
@@ -123,12 +123,11 @@
     },
     {
       "keyword": "entraînement",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
     "Pourquoi comment le sommeil profond?",
     "Pourquoi sommeil perturbé, organisme?",
@@ -157,7 +156,8 @@
     "Pourquoi t.J. Warren, une carrière en?",
     "Pourquoi « Mémoire de fille?",
     "Pourquoi en adaptant « Mémoire de?",
-    "Pourquoi vos nuits ne sont plus les?"
+    "Pourquoi vos nuits ne sont plus les?",
+    "Pourquoi merville. Une cérémonie?"
   ],
   "performance_records": [
     {
@@ -540,8 +540,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/gQQCmd5eMFE",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 32,
+      "timestamp": "2026-10-01T19:02:14.697923+00:00",
+      "title": "Pourquoi merville. Une cérémonie?",
+      "topic": "Pourquoi merville. Une cérémonie placée sous le signe de la mémoire?",
+      "duration": 18.505667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/WQrB_qWOzYo",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 31,
-  "last_cycle_at": "2026-10-01T17:09:39.008417+00:00"
+  "total_cycles": 32,
+  "last_cycle_at": "2026-10-01T19:02:14.697962+00:00"
 }
