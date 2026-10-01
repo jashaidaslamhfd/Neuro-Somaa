@@ -4458,5 +4458,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-01T17:09:33.237606+00:00",
+    "topic": "Pourquoi vos nuits ne sont plus les mêmes depuis la rentrée? 3 astuces pour retrouver le sommeil?",
+    "title": "Pourquoi vos nuits ne sont plus les?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "b89e6ecf420d09d0b673c280748a03104ec703aaaf687f532415ca63f7c25db7",
+      "a90e65a30449734e09a48bbf3df12843bfe5c455a03957e6de02d660f1f95094",
+      "f9b2ffc517b13c51a0c83ed2d1097944eda1b7750dd4d07a548d2d729994bbc4",
+      "9a04a1b10a5945fcff285200723edf3d11043a5dfda3b03c82a5b9b6e48fbb34",
+      "a62ae3d4f490f5e6f280452f7a755c2153078e31c77e98971760ec210397535a",
+      "dc130d1db56a3706837ade86b8a59b3421d9716bd14770bc179b6c804ebe5d13",
+      "28e07a158738196cc379fdb64f3ca65d319d07192efae3c33bc2f4794e16def9",
+      "67f7a050845bfd6d1f7f7ad8a5d574b4606348cc7052ebea6fadc64ab3c88405"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "pixabay_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "487f1e8d727435966c6297d286113776acb343b039dbb3a22eac4bdd828999da",
+    "status": "uploaded",
+    "youtube_video_id": "gQQCmd5eMFE",
+    "url": "https://youtu.be/gQQCmd5eMFE",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

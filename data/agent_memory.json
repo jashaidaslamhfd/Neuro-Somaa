@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 1.83,
+      "weight": 1.92,
       "engagement_avg": 8.8
     },
     {
@@ -123,12 +123,11 @@
     },
     {
       "keyword": "entraînement",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi le temps passe plus vite ?",
     "Pourquoi sursaute-t-on au lit ?",
     "Chair de poule en musique ?",
     "Pourquoi comment le sommeil profond?",
@@ -157,7 +156,8 @@
     "Pourquoi prix de la mémoire?",
     "Pourquoi t.J. Warren, une carrière en?",
     "Pourquoi « Mémoire de fille?",
-    "Pourquoi en adaptant « Mémoire de?"
+    "Pourquoi en adaptant « Mémoire de?",
+    "Pourquoi vos nuits ne sont plus les?"
   ],
   "performance_records": [
     {
@@ -528,8 +528,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/GkzPbRaDQwg",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 31,
+      "timestamp": "2026-10-01T17:09:39.008376+00:00",
+      "title": "Pourquoi vos nuits ne sont plus les?",
+      "topic": "Pourquoi vos nuits ne sont plus les mêmes depuis la rentrée? 3 astuces pour retrouver le sommeil?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/gQQCmd5eMFE",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 30,
-  "last_cycle_at": "2026-09-30T20:24:32.025824+00:00"
+  "total_cycles": 31,
+  "last_cycle_at": "2026-10-01T17:09:39.008417+00:00"
 }
