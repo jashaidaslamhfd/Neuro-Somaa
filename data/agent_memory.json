@@ -48,7 +48,7 @@
     },
     {
       "keyword": "mémoire",
-      "weight": 1.3,
+      "weight": 1.37,
       "engagement_avg": 8.0
     },
     {
@@ -125,10 +125,14 @@
       "keyword": "entraînement",
       "weight": 1.32,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "fille",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Chair de poule en musique ?",
     "Pourquoi comment le sommeil profond?",
     "Pourquoi sommeil perturbé, organisme?",
     "Pourquoi dans la bande de Gaza, l'ONU?",
@@ -157,7 +161,8 @@
     "Pourquoi « Mémoire de fille?",
     "Pourquoi en adaptant « Mémoire de?",
     "Pourquoi vos nuits ne sont plus les?",
-    "Pourquoi merville. Une cérémonie?"
+    "Pourquoi merville. Une cérémonie?",
+    "La mémoire cachée dans ta peau?"
   ],
   "performance_records": [
     {
@@ -552,8 +557,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/WQrB_qWOzYo",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 33,
+      "timestamp": "2026-10-01T20:53:44.818909+00:00",
+      "title": "La mémoire cachée dans ta peau?",
+      "topic": "Pourquoi la mémoire dans la peau du Théâtre Joliette?",
+      "duration": 18.509667,
+      "hook_score": 100,
+      "quality_score": 75,
+      "status": "uploaded",
+      "url": "https://youtu.be/YF6mPRg7T1I",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 32,
-  "last_cycle_at": "2026-10-01T19:02:14.697962+00:00"
+  "total_cycles": 33,
+  "last_cycle_at": "2026-10-01T20:53:44.818981+00:00"
 }

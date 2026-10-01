@@ -4534,5 +4534,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-01T20:53:39.482815+00:00",
+    "topic": "Pourquoi la mémoire dans la peau du Théâtre Joliette?",
+    "title": "La mémoire cachée dans ta peau?",
+    "duration": 18.509667,
+    "hook_score": 100,
+    "quality_score": 75,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "4ee0cf2c08e243df002a85f82e6633414abb76409d2e3764b648500931987795",
+      "696a56229476a7197e5a8c869dea3db1024c2f999a16ba694e6ccd9c451ac6c7",
+      "13d97201496d2f42bd40fb67400c4f04da076e28769e7bda14f2f4a70171939c",
+      "caeb12077f84b46046f28a0c1b5c79fea1cedf1d8e0eb1b1bf3b885a02ee60e9"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "3a0ea2d206efa0753885b9217d3160510f9f1f84d9175292117896f841940552",
+    "status": "uploaded",
+    "youtube_video_id": "YF6mPRg7T1I",
+    "url": "https://youtu.be/YF6mPRg7T1I",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
