@@ -23,12 +23,12 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.36,
+      "weight": 2.48,
       "engagement_avg": 9.2
     },
     {
       "keyword": "téléphone",
-      "weight": 1.7,
+      "weight": 1.78,
       "engagement_avg": 9.4
     },
     {
@@ -130,10 +130,29 @@
       "keyword": "fille",
       "weight": 1.2,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "vous",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "fait",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "croire",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "vibre",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi comment le sommeil profond?",
     "Pourquoi sommeil perturbé, organisme?",
     "Pourquoi dans la bande de Gaza, l'ONU?",
     "Pourquoi nonhigny. En sommeil depuis?",
@@ -162,7 +181,8 @@
     "Pourquoi en adaptant « Mémoire de?",
     "Pourquoi vos nuits ne sont plus les?",
     "Pourquoi merville. Une cérémonie?",
-    "La mémoire cachée dans ta peau?"
+    "La mémoire cachée dans ta peau?",
+    "Pourquoi “C'est la mémoire, et non?"
   ],
   "performance_records": [
     {
@@ -569,8 +589,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/YF6mPRg7T1I",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 34,
+      "timestamp": "2026-10-02T16:22:11.822318+00:00",
+      "title": "Pourquoi “C'est la mémoire, et non?",
+      "topic": "Pourquoi “C'est la mémoire, et non les processeurs, qui reste le point faible de l'Europe en matière de supercalcul”, déclare le directeur général de Bull?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/9Oe78WSBgnA",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 33,
-  "last_cycle_at": "2026-10-01T20:53:44.818981+00:00"
+  "total_cycles": 34,
+  "last_cycle_at": "2026-10-02T16:22:11.822356+00:00"
 }
