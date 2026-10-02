@@ -4602,5 +4602,37 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-02T18:37:28.450069+00:00",
+    "topic": "Pourquoi troubles de la mémoire?",
+    "title": "Pourquoi oublies-tu parfois jusqu'à ton propre nom?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 86,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 5,
+    "clip_hashes": [
+      "66ee4410e82892acd50bc5f240a048912d4e688f190487435176023fc5b923ca",
+      "3e4307eff5b4553aa4f2a020f1e93a6901fcf18b09465831d5c81a6be35cc188",
+      "f05364ca13eac11edf45d4bd746d7f7cf77d18cb99b36662aee14484710f81a4",
+      "835cba20a47bf6e9f12221f6664ace49e68b1229110afd80352b9800f61c4176",
+      "1bf767876918c9a443ea75ab82dfa7baab956a6d88279a942635ab4bdb694e5e"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "ai_editorial"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "2823bd98971bc9f4645f9ccc1a628bf1a4ab6943d57e31fe948fa3aab94fcdd1",
+    "status": "uploaded",
+    "youtube_video_id": "sCgSOBPz8to",
+    "url": "https://youtu.be/sCgSOBPz8to",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

@@ -23,12 +23,12 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.48,
+      "weight": 2.6,
       "engagement_avg": 9.2
     },
     {
       "keyword": "téléphone",
-      "weight": 1.78,
+      "weight": 1.87,
       "engagement_avg": 9.4
     },
     {
@@ -133,22 +133,22 @@
     },
     {
       "keyword": "vous",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fait",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "croire",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "vibre",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -601,8 +601,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/9Oe78WSBgnA",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 35,
+      "timestamp": "2026-10-02T18:37:34.157931+00:00",
+      "title": "Pourquoi oublies-tu parfois jusqu'à ton propre nom?",
+      "topic": "Pourquoi troubles de la mémoire?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 86,
+      "status": "uploaded",
+      "url": "https://youtu.be/sCgSOBPz8to",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 34,
-  "last_cycle_at": "2026-10-02T16:22:11.822356+00:00"
+  "total_cycles": 35,
+  "last_cycle_at": "2026-10-02T18:37:34.157966+00:00"
 }
