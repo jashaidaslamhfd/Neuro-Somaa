@@ -23,12 +23,12 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.6,
+      "weight": 2.73,
       "engagement_avg": 9.2
     },
     {
       "keyword": "téléphone",
-      "weight": 1.87,
+      "weight": 1.96,
       "engagement_avg": 9.4
     },
     {
@@ -133,27 +133,26 @@
     },
     {
       "keyword": "vous",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fait",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "croire",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "vibre",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi sommeil perturbé, organisme?",
     "Pourquoi dans la bande de Gaza, l'ONU?",
     "Pourquoi nonhigny. En sommeil depuis?",
     "Pourquoi « Le syndrome de l'intestin?",
@@ -182,7 +181,8 @@
     "Pourquoi vos nuits ne sont plus les?",
     "Pourquoi merville. Une cérémonie?",
     "La mémoire cachée dans ta peau?",
-    "Pourquoi “C'est la mémoire, et non?"
+    "Pourquoi “C'est la mémoire, et non?",
+    "Pourquoi la musique pourrait?"
   ],
   "performance_records": [
     {
@@ -613,8 +613,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/sCgSOBPz8to",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 36,
+      "timestamp": "2026-10-02T20:14:05.069843+00:00",
+      "title": "Pourquoi la musique pourrait?",
+      "topic": "Pourquoi la musique pourrait favoriser le développement du cerveau des bébés prématurés?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/gs8OUpcTajQ",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 35,
-  "last_cycle_at": "2026-10-02T18:37:34.157966+00:00"
+  "total_cycles": 36,
+  "last_cycle_at": "2026-10-02T20:14:05.069883+00:00"
 }

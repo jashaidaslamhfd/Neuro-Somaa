@@ -4634,5 +4634,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-02T20:13:59.885415+00:00",
+    "topic": "Pourquoi la musique pourrait favoriser le développement du cerveau des bébés prématurés?",
+    "title": "Pourquoi la musique pourrait?",
+    "duration": 18.500333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "ca350577ac98552180bc39d902ceb160ca915a29ac330e2a378c5c64da5dd8ee",
+      "294aa203470a53de94d235cb084ed8c055fa8d326e6b29f610fa1c87dc47f199",
+      "436c5990e7c49d5fdad4718d1089ddbd6ddf3bc47727e1b4065552ebc5794384",
+      "ecd0390da542931641e2b2f8565bd3bd91351a50aa8042bfc4ebf10c455c3713",
+      "22b7651209779faf0b702306b028b3d8558169a9a207544e6aca7c8624a29b07",
+      "24798917a7405efc5d82c4d47f5908afcda529c93a7fd9c80e5642bea97fb2c6",
+      "d3bf41f05c5231c60b105104e3ad6aa2575b5bc8e32eb939cdfadba6849a3f9e",
+      "e2a9bdac6a78824b8ea4f5c1bdf32d6d5c4a8ea29e185c17f9e37485dc900736"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "11b23b6077d1b79c64a02f5d1d1ad96bdd787674b14ce16fe1dff539546a8244",
+    "status": "uploaded",
+    "youtube_video_id": "gs8OUpcTajQ",
+    "url": "https://youtu.be/gs8OUpcTajQ",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
