@@ -4734,5 +4734,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-03T18:53:29.104408+00:00",
+    "topic": "Pourquoi ce fruit très populaire pourrait améliorer votre sommeil tout en aidant votre cœur?",
+    "title": "Le secret du fruit qui améliore votre sommeil et votre cœur?",
+    "duration": 18.524333,
+    "hook_score": 80,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "3b3454db231be23f2888decc031c075c12670d8d4f48d69a8696799cfa0df867",
+      "16a9dbfb56a3364ac92a8e8cfd77e98b80a2d13413c0a2f898708cd8e758c534",
+      "00c13f31051338ca704e47eee8dcc14ea8161ede809df0e32f617a0c4a4e7949",
+      "13a66c22bfc90b6d1ff4b744c3da72a250d32bd707a05c860d1c3d641547a39d"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "80d455466a56a5022ea0eeaf47f8606ac8a7e731a987da77bf6f5e61eca8b359",
+    "status": "uploaded",
+    "youtube_video_id": "kY8Er3D1kSI",
+    "url": "https://youtu.be/kY8Er3D1kSI",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

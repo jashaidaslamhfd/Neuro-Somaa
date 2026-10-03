@@ -48,7 +48,7 @@
     },
     {
       "keyword": "mémoire",
-      "weight": 1.37,
+      "weight": 1.44,
       "engagement_avg": 8.0
     },
     {
@@ -149,6 +149,11 @@
     {
       "keyword": "vibre",
       "weight": 1.46,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "adaptant",
+      "weight": 1.2,
       "engagement_avg": 8.0
     }
   ],
@@ -649,8 +654,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/65yHGHaiP7w",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 39,
+      "timestamp": "2026-10-03T18:53:33.564570+00:00",
+      "title": "Le secret du fruit qui améliore votre sommeil et votre cœur?",
+      "topic": "Pourquoi ce fruit très populaire pourrait améliorer votre sommeil tout en aidant votre cœur?",
+      "duration": 18.524333,
+      "hook_score": 80,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/kY8Er3D1kSI",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 38,
-  "last_cycle_at": "2026-10-03T17:35:12.885070+00:00"
+  "total_cycles": 39,
+  "last_cycle_at": "2026-10-03T18:53:33.564608+00:00"
 }
