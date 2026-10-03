@@ -23,12 +23,12 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.87,
+      "weight": 3.01,
       "engagement_avg": 9.2
     },
     {
       "keyword": "téléphone",
-      "weight": 2.06,
+      "weight": 2.16,
       "engagement_avg": 9.4
     },
     {
@@ -133,22 +133,22 @@
     },
     {
       "keyword": "vous",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fait",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "croire",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     },
     {
       "keyword": "vibre",
-      "weight": 1.39,
+      "weight": 1.46,
       "engagement_avg": 8.0
     }
   ],
@@ -637,8 +637,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/f-dGexoP2bY",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 38,
+      "timestamp": "2026-10-03T17:35:12.885034+00:00",
+      "title": "Alzheimer: la vérité cachée derrière la maladie?",
+      "topic": "Pourquoi on pensait qu'Alzheimer naissait dans le cerveau, des chercheurs pointent une toute autre origine?",
+      "duration": 18.520333,
+      "hook_score": 85,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/65yHGHaiP7w",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 37,
-  "last_cycle_at": "2026-10-03T14:50:24.706168+00:00"
+  "total_cycles": 38,
+  "last_cycle_at": "2026-10-03T17:35:12.885070+00:00"
 }

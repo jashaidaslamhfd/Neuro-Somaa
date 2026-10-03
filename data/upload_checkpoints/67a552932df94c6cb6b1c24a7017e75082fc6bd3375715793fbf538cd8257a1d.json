@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-03T17:35:06.966953+00:00",
+  "topic": "Pourquoi on pensait qu'Alzheimer naissait dans le cerveau, des chercheurs pointent une toute autre origine?",
+  "title": "Alzheimer: la vérité cachée derrière la maladie?",
+  "duration": 18.520333,
+  "hook_score": 85,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 4,
+  "clip_hashes": [
+    "fdd600ed318922d63f733d9545c10c1218a216427a0411d0341abad28e2447c8",
+    "08c11de9335ab9b1538e34d54e3a33394e72d71525dbb076d3939ebbbb19a94b",
+    "19580f3e483894156f1360b666962ad3bcdce9cae6eb270857604af3072ea430",
+    "27519e011a2173d2e9abaee317f04413ba884758b3f98c2811df7c33a9325dbd"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "67a552932df94c6cb6b1c24a7017e75082fc6bd3375715793fbf538cd8257a1d",
+  "status": "uploaded",
+  "youtube_video_id": "65yHGHaiP7w",
+  "url": "https://youtu.be/65yHGHaiP7w",
+  "thumbnail_status": "uploaded"
+}
