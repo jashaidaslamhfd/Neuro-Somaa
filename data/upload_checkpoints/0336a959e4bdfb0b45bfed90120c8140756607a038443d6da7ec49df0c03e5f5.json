@@ -1,0 +1,30 @@
+{
+  "created_at": "2026-10-03T14:50:19.232073+00:00",
+  "topic": "Pourquoi des jeunes deviennent passeurs de mémoire sur l’esclavage?",
+  "title": "Pourquoi les jeunes deviennent passeurs de mémoire?",
+  "duration": 18.515,
+  "hook_score": 90,
+  "quality_score": 86,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 5,
+  "clip_hashes": [
+    "781e1abac91680877901e9e2dcffef2ae904a3e25766f10e517f749514735ab1",
+    "a4d7360a994ba7d400868cccd36b3afa9ea381ac961917f10cf0b9f819d7ab3f",
+    "0e621590216e1dc076b15e19cbdf9cf37bd0cb2d585a6b14d5dec959c99b5777",
+    "0a8792d240c833c56ecdae7fa7280ffc92be3caef523cfe7288f49534dc8dc75",
+    "85874749bc6a5664e0ab1482566cdf3c7a2903fafb43d4e66f9c3e09f4c8567d"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "ai_editorial",
+    "pexels_clip",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "0336a959e4bdfb0b45bfed90120c8140756607a038443d6da7ec49df0c03e5f5",
+  "status": "uploaded",
+  "youtube_video_id": "f-dGexoP2bY",
+  "url": "https://youtu.be/f-dGexoP2bY",
+  "thumbnail_status": "uploaded"
+}

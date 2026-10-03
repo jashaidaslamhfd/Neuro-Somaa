@@ -23,12 +23,12 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 2.73,
+      "weight": 2.87,
       "engagement_avg": 9.2
     },
     {
       "keyword": "téléphone",
-      "weight": 1.96,
+      "weight": 2.06,
       "engagement_avg": 9.4
     },
     {
@@ -133,22 +133,22 @@
     },
     {
       "keyword": "vous",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fait",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "croire",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     },
     {
       "keyword": "vibre",
-      "weight": 1.32,
+      "weight": 1.39,
       "engagement_avg": 8.0
     }
   ],
@@ -625,8 +625,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/gs8OUpcTajQ",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 37,
+      "timestamp": "2026-10-03T14:50:24.706135+00:00",
+      "title": "Pourquoi les jeunes deviennent passeurs de mémoire?",
+      "topic": "Pourquoi des jeunes deviennent passeurs de mémoire sur l’esclavage?",
+      "duration": 18.515,
+      "hook_score": 90,
+      "quality_score": 86,
+      "status": "uploaded",
+      "url": "https://youtu.be/f-dGexoP2bY",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 36,
-  "last_cycle_at": "2026-10-02T20:14:05.069883+00:00"
+  "total_cycles": 37,
+  "last_cycle_at": "2026-10-03T14:50:24.706168+00:00"
 }
