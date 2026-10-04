@@ -48,7 +48,7 @@
     },
     {
       "keyword": "mémoire",
-      "weight": 1.44,
+      "weight": 1.51,
       "engagement_avg": 8.0
     },
     {
@@ -153,12 +153,11 @@
     },
     {
       "keyword": "adaptant",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi dans la bande de Gaza, l'ONU?",
     "Pourquoi nonhigny. En sommeil depuis?",
     "Pourquoi « Le syndrome de l'intestin?",
     "Pourquoi hommage au cinéaste Patricio?",
@@ -187,7 +186,8 @@
     "Pourquoi merville. Une cérémonie?",
     "La mémoire cachée dans ta peau?",
     "Pourquoi “C'est la mémoire, et non?",
-    "Pourquoi la musique pourrait?"
+    "Pourquoi la musique pourrait?",
+    "Pourquoi « Dans la douleur, on?"
   ],
   "performance_records": [
     {
@@ -666,8 +666,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/kY8Er3D1kSI",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 40,
+      "timestamp": "2026-10-04T15:29:39.166992+00:00",
+      "title": "Pourquoi « Dans la douleur, on?",
+      "topic": "Pourquoi « Dans la douleur, on apprend à gérer son cerveau »?",
+      "duration": 18.533667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/u2lK1G5yn8k",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 39,
-  "last_cycle_at": "2026-10-03T18:53:33.564608+00:00"
+  "total_cycles": 40,
+  "last_cycle_at": "2026-10-04T15:29:39.167046+00:00"
 }

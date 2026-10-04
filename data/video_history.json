@@ -4764,5 +4764,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-04T15:29:34.121464+00:00",
+    "topic": "Pourquoi « Dans la douleur, on apprend à gérer son cerveau »?",
+    "title": "Pourquoi « Dans la douleur, on?",
+    "duration": 18.533667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "5d00caf50407affbe4638cc19c4f91f1c5a19c87e349ed7e50fbb581e85868a3",
+      "5475506e7447623df0635143d9411201bdc4850f64750e171410d89f8b4f29a4",
+      "d9163fd3b91bea835a3be701bd0dcd9dc726299c4c63682cbd4ccc2c5ecffff2",
+      "955e637f314ad65b24a97475656f2c4ac92ef9f4e77ed05525f3412294218aa5",
+      "d39fecb79850d78f3474cb68e13af5e3ac004802ceb7c89474ccfc4d8cf34155",
+      "2693b434d855107253f6b3fc635ae3fceb0a1f874da98c149e0a77c7a11c5bb9",
+      "9b0fea8eb89a6845c0bb431c4986d9267fc18a5dcfe0a5e5d75c2726376b575d",
+      "55fac24894f1b4d756029fec06589e8118eb82f20bc5fd29e8f53510fb86c853"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pixabay_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "e758c9fbc9ed6d23d7949d51ef596b307efabf7caf9f56c65a02f49f0e2518ca",
+    "status": "uploaded",
+    "youtube_video_id": "u2lK1G5yn8k",
+    "url": "https://youtu.be/u2lK1G5yn8k",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
