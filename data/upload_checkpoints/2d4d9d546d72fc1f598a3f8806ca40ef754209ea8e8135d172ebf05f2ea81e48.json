@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-04T18:53:02.780137+00:00",
+  "topic": "Pourquoi vous écoutez la même chanson en boucle pendant des jours? Votre cerveau ne la réclame pas par hasard?",
+  "title": "Pourquoi écoutes-tu la même chanson en boucle?",
+  "duration": 20.566667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 4,
+  "clip_hashes": [
+    "0a10328c773a0fb43f50a81dab7b1bd181e22f40ae856fcce20c5826678cb9a6",
+    "14af8f4834ef86d1203607a750d232221f62bcab51f5a58ea5720f286cde9b9f",
+    "010bd585765cc11dccd77a9479a4fc4074f9255db9ab7393112e2d300118cd1c",
+    "4767f4c30db43fd1b5963da264c6d40d3ba015c32efbff9f9057392df52284bf"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "2d4d9d546d72fc1f598a3f8806ca40ef754209ea8e8135d172ebf05f2ea81e48",
+  "status": "uploaded",
+  "youtube_video_id": "Aa1dh_Zed9U",
+  "url": "https://youtu.be/Aa1dh_Zed9U",
+  "thumbnail_status": "uploaded"
+}

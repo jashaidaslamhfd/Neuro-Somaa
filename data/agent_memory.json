@@ -48,7 +48,7 @@
     },
     {
       "keyword": "mémoire",
-      "weight": 1.59,
+      "weight": 1.67,
       "engagement_avg": 8.0
     },
     {
@@ -158,12 +158,12 @@
     },
     {
       "keyword": "cachée",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "peau",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
@@ -700,8 +700,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/EuuVjAL45DQ",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 42,
+      "timestamp": "2026-10-04T18:53:11.057464+00:00",
+      "title": "Pourquoi écoutes-tu la même chanson en boucle?",
+      "topic": "Pourquoi vous écoutez la même chanson en boucle pendant des jours? Votre cerveau ne la réclame pas par hasard?",
+      "duration": 20.566667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/Aa1dh_Zed9U",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 41,
-  "last_cycle_at": "2026-10-04T17:47:46.764885+00:00"
+  "total_cycles": 42,
+  "last_cycle_at": "2026-10-04T18:53:11.057497+00:00"
 }
