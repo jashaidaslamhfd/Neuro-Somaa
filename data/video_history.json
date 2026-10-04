@@ -4802,5 +4802,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-04T17:47:42.435415+00:00",
+    "topic": "Pourquoi tDAH, quand attention et sommeil s’entremêlent?",
+    "title": "Le lien caché entre tDAH, attention et sommeil?",
+    "duration": 19.069667,
+    "hook_score": 85,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "5e6d9df3d540547d14c05ae9634b2eff4d9ed4e2596f68bb7c6574af8330febe",
+      "6d7cafc8d229cf00b58d0fda0eae4780a43a84acacee29b1f01187c1f5329bda",
+      "570c0e63593af472c6064a031034a5ac092b5b11505e56ec48d8c58516824797",
+      "cfe2b28e57f0d7cbf3d0d6ec11e96115277a981c39339ec52abc195984ad7698"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "29b8bf22c2b6b89607980513af3a04433a541abf355cb44e8f9e8060e615535e",
+    "status": "uploaded",
+    "youtube_video_id": "EuuVjAL45DQ",
+    "url": "https://youtu.be/EuuVjAL45DQ",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

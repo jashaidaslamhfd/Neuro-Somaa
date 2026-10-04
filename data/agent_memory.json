@@ -48,7 +48,7 @@
     },
     {
       "keyword": "mémoire",
-      "weight": 1.51,
+      "weight": 1.59,
       "engagement_avg": 8.0
     },
     {
@@ -154,6 +154,16 @@
     {
       "keyword": "adaptant",
       "weight": 1.26,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "cachée",
+      "weight": 1.2,
+      "engagement_avg": 8.0
+    },
+    {
+      "keyword": "peau",
+      "weight": 1.2,
       "engagement_avg": 8.0
     }
   ],
@@ -678,8 +688,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/u2lK1G5yn8k",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 41,
+      "timestamp": "2026-10-04T17:47:46.764849+00:00",
+      "title": "Le lien caché entre tDAH, attention et sommeil?",
+      "topic": "Pourquoi tDAH, quand attention et sommeil s’entremêlent?",
+      "duration": 19.069667,
+      "hook_score": 85,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/EuuVjAL45DQ",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 40,
-  "last_cycle_at": "2026-10-04T15:29:39.167046+00:00"
+  "total_cycles": 41,
+  "last_cycle_at": "2026-10-04T17:47:46.764885+00:00"
 }
