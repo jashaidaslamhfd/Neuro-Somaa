@@ -4930,5 +4930,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-05T22:15:43.695539+00:00",
+    "topic": "Pourquoi comment la lumière permet d’explorer le cerveau?",
+    "title": "La lumière qui éclaire ton cerveau?",
+    "duration": 18.505667,
+    "hook_score": 90,
+    "quality_score": 75,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "b892bc96820d2d63276d3844b611b4f9932cd8d9721453e678e77d1f8af9ac5b",
+      "87ffdb2d98eecfb9b85c168025bb39e53cd8fedc6009bfb4c86eb167ce9ad7a8",
+      "62b34a73727aacfa226b4018a9969bd5c30801c5d1568f7e16d476961a7cd1d7",
+      "2ee550ed8bb1d01a5c06c6b54c9f7709b62f05883f24acc2a863e7108f126131"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "pexels_clip",
+      "ai_editorial",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "07d9e8a1bd8e8b4a844ec189132f9452653fcb3265143b9d0d98377429c5e459",
+    "status": "uploaded",
+    "youtube_video_id": "As-87Jnx7Og",
+    "url": "https://youtu.be/As-87Jnx7Og",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

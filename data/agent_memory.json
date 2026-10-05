@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.23,
+      "weight": 2.34,
       "engagement_avg": 8.8
     },
     {
@@ -168,22 +168,21 @@
     },
     {
       "keyword": "secret",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fruit",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     },
     {
       "keyword": "améliore",
-      "weight": 1.26,
+      "weight": 1.32,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi hommage au cinéaste Patricio?",
     "Pourquoi dans le cerveau de 37 femmes?",
     "Pourquoi un ours entre par la fenêtre?",
     "Pourquoi après 60 ans, notre cerveau?",
@@ -212,7 +211,8 @@
     "Pourquoi la musique pourrait?",
     "Pourquoi « Dans la douleur, on?",
     "Pourquoi sommeil après 60 ans?",
-    "La lumière qui commande ton cerveau?"
+    "La lumière qui commande ton cerveau?",
+    "La lumière qui éclaire ton cerveau?"
   ],
   "performance_records": [
     {
@@ -751,8 +751,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/QTqV3IsHbLw",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 45,
+      "timestamp": "2026-10-05T22:15:49.248700+00:00",
+      "title": "La lumière qui éclaire ton cerveau?",
+      "topic": "Pourquoi comment la lumière permet d’explorer le cerveau?",
+      "duration": 18.505667,
+      "hook_score": 90,
+      "quality_score": 75,
+      "status": "uploaded",
+      "url": "https://youtu.be/As-87Jnx7Og",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 44,
-  "last_cycle_at": "2026-10-05T21:14:52.151377+00:00"
+  "total_cycles": 45,
+  "last_cycle_at": "2026-10-05T22:15:49.248731+00:00"
 }
