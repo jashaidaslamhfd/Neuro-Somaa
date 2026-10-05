@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.12,
+      "weight": 2.23,
       "engagement_avg": 8.8
     },
     {
@@ -168,22 +168,21 @@
     },
     {
       "keyword": "secret",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fruit",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     },
     {
       "keyword": "améliore",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi « Le syndrome de l'intestin?",
     "Pourquoi hommage au cinéaste Patricio?",
     "Pourquoi dans le cerveau de 37 femmes?",
     "Pourquoi un ours entre par la fenêtre?",
@@ -212,7 +211,8 @@
     "Pourquoi “C'est la mémoire, et non?",
     "Pourquoi la musique pourrait?",
     "Pourquoi « Dans la douleur, on?",
-    "Pourquoi sommeil après 60 ans?"
+    "Pourquoi sommeil après 60 ans?",
+    "La lumière qui commande ton cerveau?"
   ],
   "performance_records": [
     {
@@ -739,8 +739,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/8RZYtcQQjUQ",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 44,
+      "timestamp": "2026-10-05T21:14:52.151346+00:00",
+      "title": "La lumière qui commande ton cerveau?",
+      "topic": "Pourquoi comment la lumière devient une télécommande du cerveau et vaut un prix Nobel?",
+      "duration": 21.636333,
+      "hook_score": 95,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/QTqV3IsHbLw",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 43,
-  "last_cycle_at": "2026-10-05T19:24:59.403526+00:00"
+  "total_cycles": 44,
+  "last_cycle_at": "2026-10-05T21:14:52.151377+00:00"
 }

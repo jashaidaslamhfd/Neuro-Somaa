@@ -4900,5 +4900,35 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-05T21:14:43.865767+00:00",
+    "topic": "Pourquoi comment la lumière devient une télécommande du cerveau et vaut un prix Nobel?",
+    "title": "La lumière qui commande ton cerveau?",
+    "duration": 21.636333,
+    "hook_score": 95,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 4,
+    "clip_hashes": [
+      "48235cfa460e81fc2a665c35124071225466f0bbb1afe2e69d706a419b6b40c4",
+      "a6a229b558743896f80d369321fbd3175b828dbe0c5f4a6ae4d27ecbe12846c7",
+      "4f681f4a7a7a43d0cb17de0518d0002ab1199707fe4c463d3648ecdb4c804923",
+      "8804f7b0677aeca704626c30cf69121005f0d2660d0b0a58ee15faab5dc53abc"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "3df4dc12ea110984742c2b57c43ec27c01fc617d6b4e1e8dccf07a77bf5ca021",
+    "status": "uploaded",
+    "youtube_video_id": "QTqV3IsHbLw",
+    "url": "https://youtu.be/QTqV3IsHbLw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
