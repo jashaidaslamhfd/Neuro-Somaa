@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-10-05T19:24:52.815012+00:00",
+  "topic": "Pourquoi sommeil après 60 ans?",
+  "title": "Pourquoi sommeil après 60 ans?",
+  "duration": 18.533667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "fbe1396896d895c5321af341ccc2e24d46f365e30adf1544d9c89b36ea1eb59f",
+    "8e2d54d99f00e2d49b90c45a96eb54931f0a8d17728098da1128eabd072b8c04",
+    "b147ff76a8a8cefbca79dd05b4cf8bcda14fc7274f22bc3d4796581b04547738",
+    "87e8a6afef191337a77dad8a730478031a300a077613a939432befb1f7220b0e",
+    "4c4bb6cb89828fcc1233fb10ba90ae829ba060b719f7ca4387847c548485fdf8",
+    "ee17a2f4ea30537b0c9040989b7569a33811c08eb52a28f20c9ce1a00282d952",
+    "0f605e87b770c5b5617fc16748b7df2e705994c4db9fce363abe05d43fa174bd",
+    "f0dcc7c9de515f5eac1916a8db23a870e6077dd244288fabfb7643f030164c6e"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "cdd0d4c658e376905a09e02cd6997ade5a01d87788dd508bae1fcb55251ba715",
+  "status": "uploaded",
+  "youtube_video_id": "8RZYtcQQjUQ",
+  "url": "https://youtu.be/8RZYtcQQjUQ",
+  "thumbnail_status": "uploaded"
+}
