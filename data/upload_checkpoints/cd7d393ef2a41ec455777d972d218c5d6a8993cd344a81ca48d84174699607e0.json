@@ -1,0 +1,28 @@
+{
+  "created_at": "2026-10-06T19:01:07.194327+00:00",
+  "topic": "Pourquoi sommeil en orbite, ce que l'espace révèle sur nos rythmes circadiens et la sécurité des missions?",
+  "title": "Sommeil en orbite: le mystère de nos rythmes circadiens?",
+  "duration": 18.509667,
+  "hook_score": 80,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 4,
+  "clip_hashes": [
+    "4ee232a5ba53d5e781ff2e6e692f2401c9c20318663ad9089b342d17ff91b0a2",
+    "b9bb6dcbacfe879da00441448155178312161841bd72724f09fdfc5dec90cb12",
+    "8d79c957307c7516155dd3b10c1598d01bb63a3d0be805d208e2ae670ea78c71",
+    "9fda69dc3a9885a252d62cbd7308229773240a0db38a6cee4dfb17cc0874cd2c"
+  ],
+  "visual_providers": [
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "cd7d393ef2a41ec455777d972d218c5d6a8993cd344a81ca48d84174699607e0",
+  "status": "uploaded",
+  "youtube_video_id": "M1YYgJP30VM",
+  "url": "https://youtu.be/M1YYgJP30VM",
+  "thumbnail_status": "uploaded"
+}
