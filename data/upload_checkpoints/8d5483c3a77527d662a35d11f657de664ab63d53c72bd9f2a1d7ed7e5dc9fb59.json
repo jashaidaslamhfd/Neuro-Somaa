@@ -1,0 +1,36 @@
+{
+  "created_at": "2026-10-06T20:39:13.888519+00:00",
+  "topic": "Pourquoi quatre artistes explorent la mémoire et l’intime à Concarneau?",
+  "title": "Pourquoi quatre artistes explorent la?",
+  "duration": 18.500333,
+  "hook_score": 100,
+  "quality_score": 90,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "497e01c6d7a10ee43af2c1b8c453ba32a3c11665caf5addde9481a1e6be3e870",
+    "7f8f53c249d677d2ed3f9d6dcba7f5ebd172b855bc7b8780664b1ac028e67015",
+    "8592e7d062deea6dc6062dcfcdbaca232a5983af3d8b1fb968024f8658afc63a",
+    "01a1479e6ac55fb7dc659d649b67ff0d592a35eb594452a5a2d38023cd4f2904",
+    "887d404fefdc562597a1e32b76213d776b0ddcb5d2b0b3c282716c47299254a7",
+    "3e7d956ccd146a047f94170fd9664416c26925e941590dc34c6a3775091be03f",
+    "8f9914924d22da1f1bfc1992fd53fa2c5053916f74b2604a19ab0ffdfea55a9e",
+    "dec448ade8576f17a5d315213db5a22e48985f971b86f988726d3389e45c15b5"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "8d5483c3a77527d662a35d11f657de664ab63d53c72bd9f2a1d7ed7e5dc9fb59",
+  "status": "uploaded",
+  "youtube_video_id": "BDW2FA7CqAM",
+  "url": "https://youtu.be/BDW2FA7CqAM",
+  "thumbnail_status": "uploaded"
+}

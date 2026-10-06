@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.58,
+      "weight": 2.71,
       "engagement_avg": 8.8
     },
     {
@@ -168,22 +168,21 @@
     },
     {
       "keyword": "secret",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fruit",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     },
     {
       "keyword": "améliore",
-      "weight": 1.46,
+      "weight": 1.53,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi dans le cerveau de 37 femmes?",
     "Pourquoi un ours entre par la fenêtre?",
     "Pourquoi après 60 ans, notre cerveau?",
     "Pourquoi apple pourrait bientôt faire?",
@@ -212,7 +211,8 @@
     "Pourquoi « Dans la douleur, on?",
     "Pourquoi sommeil après 60 ans?",
     "La lumière qui commande ton cerveau?",
-    "La lumière qui éclaire ton cerveau?"
+    "La lumière qui éclaire ton cerveau?",
+    "Pourquoi quatre artistes explorent la?"
   ],
   "performance_records": [
     {
@@ -787,8 +787,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/M1YYgJP30VM",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 48,
+      "timestamp": "2026-10-06T20:39:21.073808+00:00",
+      "title": "Pourquoi quatre artistes explorent la?",
+      "topic": "Pourquoi quatre artistes explorent la mémoire et l’intime à Concarneau?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/BDW2FA7CqAM",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 47,
-  "last_cycle_at": "2026-10-06T19:01:13.185895+00:00"
+  "total_cycles": 48,
+  "last_cycle_at": "2026-10-06T20:39:21.073840+00:00"
 }
