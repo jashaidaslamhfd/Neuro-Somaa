@@ -4960,5 +4960,37 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-06T16:56:44.840641+00:00",
+    "topic": "Pourquoi tumeur au cerveau?",
+    "title": "Pourquoi développons-nous des tumeurs au cerveau?",
+    "duration": 21.766667,
+    "hook_score": 95,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 5,
+    "clip_hashes": [
+      "7ee18763a4850b0226637359aac223a522c0ed740944bf706c5ddd0148361784",
+      "97658486ae8842a33684146eefcf58a204b1e5bce6e9d0306015191d7e505bbc",
+      "31f2f060a2be3ae85c61481ef3119c9d1fd990e8189e742820b736d9331e8d9d",
+      "7e9ef9a3b49759a0de7ab7d67981191a845453dd16c3b2e89799f099bcba2b6b",
+      "11ad210adc29d81e89a0e5aca9e7f3f5d5553d4d6aaf2c4e8637775f666637be"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "ec681cad4a7b2d17eac83b464488e4f8206d078397e44c4939d6551661c9a769",
+    "status": "uploaded",
+    "youtube_video_id": "77itJ8XMHhw",
+    "url": "https://youtu.be/77itJ8XMHhw",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
