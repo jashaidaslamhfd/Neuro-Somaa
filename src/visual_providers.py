@@ -70,8 +70,7 @@ def _pexels_clip(caption: str, path: Path) -> Path | None:
         response = requests.get("https://api.pexels.com/videos/search", params={"query": caption, "orientation": "portrait", "size": "medium", "per_page": 20}, headers={"Authorization": key}, timeout=18)
         response.raise_for_status()
         videos = response.json().get("videos", [])
-        offset = int(hashlib.sha256(caption.encode()).hexdigest()[:8], 16) % max(1, len(videos))
-        for video in videos[offset:] + videos[:offset]:
+        for video in videos:
             files = sorted(video.get("video_files", []), key=lambda item: item.get("width", 0), reverse=True)
             portrait = [item for item in files if item.get("height", 0) > item.get("width", 0)]
             selected = (portrait or files)[0] if (portrait or files) else None
@@ -103,8 +102,7 @@ def _pixabay_clip(caption: str, path: Path) -> Path | None:
         response = requests.get("https://pixabay.com/api/videos/", params={"key": key, "q": caption, "orientation": "vertical", "per_page": 5, "safesearch": "true"}, timeout=18)
         response.raise_for_status()
         hits = response.json().get("hits", [])
-        offset = int(hashlib.sha256(caption.encode()).hexdigest()[:8], 16) % max(1, len(hits))
-        for hit in hits[offset:] + hits[:offset]:
+        for hit in hits:
             files = hit.get("videos", {})
             selected = files.get("medium") or files.get("small") or files.get("tiny")
             if selected and selected.get("url"):
