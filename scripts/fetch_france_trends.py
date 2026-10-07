@@ -69,6 +69,8 @@ NOISE = {
     "vaccin", "hôpital", "patient", "patients", "clinique", "diagnostic",
     "chirurgie", "thérapie", "symptôme", "symptômes",
     "obésité", "diabète", "addiction", "suicide",
+    "atelier", "ateliers", "honoraire", "église", "frères", "empire",
+    "convalescence", "opération", "astronaute", "prix pour", "mon corps",
 }
 
 EVENT_PATTERNS = (
@@ -196,6 +198,8 @@ def is_good_topic(title: str) -> bool:
         return False
 
     hits = sum(1 for word in KEYWORDS if word in text)
+    if re.search(r"\\b(?:à|au|aux|en)\\s+[A-ZÀ-Ü][\\wÀ-ÿ-]+", title):
+        return False
     return hits >= 1
 
 
@@ -204,7 +208,7 @@ def score(row: dict[str, str]) -> int:
     hits = sum(1 for word in KEYWORDS if word in text)
     noise = sum(1 for word in NOISE if word in text)
     recency = 2 if row.get("published_at", "").startswith(datetime.now(UTC).date().isoformat()) else 0
-    source_bonus = 3 if row["source"] in {"google_trends_fr", "google_news_fr"} else 1
+    source_bonus = 5 if row["source"] == "evergreen_seed" else (3 if row["source"] in {"google_trends_fr", "google_news_fr"} else 1)
     curiosity_bonus = 2 if "?" in text or any(x in text for x in ("pourquoi", "comment", "étrange", "surprenant")) else 0
     return max(0, hits * 3 + recency + source_bonus + curiosity_bonus - noise * 8)
 
@@ -261,9 +265,13 @@ def main() -> int:
         if score(row) >= args.min_score:
             unique[key] = row
 
+    for seed in EVERGREEN_SEEDS:
+        key = re.sub(r"[^a-zà-ÿ0-9]", "", seed.lower())
+        unique.setdefault(key, {"title": seed, "url": "", "published_at": "", "source": "evergreen_seed"})
+
     ranked = sorted(unique.values(), key=score, reverse=True)[: max(1, args.limit)]
     payload = {
-        "source": "Google Trends France + French science RSS (filtered)",
+        "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
         "mined_at": datetime.now(UTC).isoformat(),
         "topics": [make_topic(row, i) for i, row in enumerate(ranked, 1)],
         "source_errors": errors,
