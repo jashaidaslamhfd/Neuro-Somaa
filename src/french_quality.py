@@ -14,8 +14,8 @@ _FILLERS = (
 )
 
 _ENGLISH_LEAKS = re.compile(
-    r"\\b(?:the|your|you|why|what|how|brain|body|sleep|memory|"
-    r"this|that|today|video|subscribe|like|follow|discover|science)\\b",
+    r"\b(?:the|your|you|why|what|how|brain|body|sleep|memory|"
+    r"this|that|today|video|subscribe|like|follow|discover|science)\b",
     re.IGNORECASE,
 )
 
