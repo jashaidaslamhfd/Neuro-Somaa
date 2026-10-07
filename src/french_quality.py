@@ -14,10 +14,17 @@ _FILLERS = (
 )
 
 _ENGLISH_LEAKS = re.compile(
-    r"\b(?:the|your|you|why|what|how|brain|body|sleep|memory|"
-    r"this|that|today|video|subscribe|like|follow)\b",
+    r"\\b(?:the|your|you|why|what|how|brain|body|sleep|memory|"
+    r"this|that|today|video|subscribe|like|follow|discover|science)\\b",
     re.IGNORECASE,
 )
+
+_FRENCH_SEO_MARKERS = (
+    "science", "cerveau", "psychologie", "corps humain", "mémoire",
+    "sommeil", "comportement", "curiosité", "france", "sciences",
+)
+
+_FRENCH_HASHTAG_RE = re.compile(r"#([A-Za-zÀ-ÿ0-9_]+)")
 
 
 def validate_french_script(script: dict[str, Any], min_seconds: float = 15, max_seconds: float = 22) -> list[str]:
@@ -72,5 +79,13 @@ def validate_french_script(script: dict[str, Any], min_seconds: float = 15, max_
         errors.append("description: 3 à 5 hashtags attendus")
     if not isinstance(tags, list) or not 8 <= len(tags) <= 12:
         errors.append("8 à 12 tags SEO attendus")
+
+    # Metadata must be genuinely French-market metadata, not English SEO.
+    tag_blob = " ".join(str(tag).casefold() for tag in tags)
+    hashtag_blob = " ".join(_FRENCH_HASHTAG_RE.findall(description)).casefold()
+    if not any(marker in tag_blob or marker in hashtag_blob for marker in _FRENCH_SEO_MARKERS):
+        errors.append("SEO trop générique pour l'audience française")
+    if _ENGLISH_LEAKS.search(tag_blob + " " + hashtag_blob):
+        errors.append("anglais détecté dans les métadonnées SEO")
 
     return errors
