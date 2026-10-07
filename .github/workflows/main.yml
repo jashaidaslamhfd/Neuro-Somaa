@@ -101,6 +101,8 @@ jobs:
             "30 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV" ;;
             "0 16 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV" ;;
           esac
+      - name: Sanitize France topic queue
+        run: python scripts/clean_france_queue.py
       - name: Generate and upload French Short (Resilient with Auto-Retry)
         run: |
           set +e
