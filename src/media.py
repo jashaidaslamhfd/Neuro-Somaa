@@ -89,7 +89,7 @@ def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> N
     _, _unused, accent = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    text = re.sub(r"\\s+", " ", caption.strip()) or "..."
+    text = re.sub(r"\s+", " ", caption.strip()) or "..."
     # French mobile captions read better as short phrases than isolated words.
     # Keep them large, centered, high-contrast and safely away from UI edges.
     caption_size = 92
@@ -211,7 +211,6 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             overlay_paths.append(overlay_path)
             overlay_inputs.extend(["-loop", "1", "-t", f"{chunk_duration:.3f}", "-i", str(overlay_path)])
             overlay_labels.append(f"[{chunk_index + 1}:v]")
-        for overlay_index, (overlay_path, word_dur) in enumerate(zip(overlay_paths, [x[1] for x in chunks], strict=True), start=1):
         concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
         filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(source_path)]
