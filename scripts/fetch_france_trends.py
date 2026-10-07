@@ -166,7 +166,7 @@ def is_good_topic(title: str) -> bool:
     # verified trends, but most of these are not evergreen Neuro-Somaa topics.
     if re.search(r"\b(?:steve|elon|donald|emmanuel|brigitte|kylian|taylor|jean|marie)\b", text):
         return False
-    if text.count(",") >= 3:
+    if text.count(",") >= 2:
         return False
 
     hits = sum(1 for word in KEYWORDS if word in text)
