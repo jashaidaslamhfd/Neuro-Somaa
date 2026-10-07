@@ -44,7 +44,7 @@ KEYWORDS = {
     "psychologie", "comportement", "science", "neurone", "attention",
     "perception", "dopamine", "habitude", "concentration", "curiosité",
     "peur", "coeur", "cœur", "respiration", "fatigue", "odeur", "odorat",
-    "mémoire", "vision", "audition", "réflexe", "réflexe", "cerveau",
+    "vision", "audition", "réflexe",
     "intelligence artificielle", "ia", "robot", "algorithme", "numérique",
     "téléphone", "écran", "notification", "apprentissage", "créativité",
     "décision", "conscience", "illusion", "sensation",
@@ -187,7 +187,7 @@ def make_topic(row: dict[str, str], number: int) -> dict[str, str | int]:
     title = row["title"]
     # Do not blindly prepend "Pourquoi" to a news headline. The LLM receives
     # the clean source title and chooses a natural French curiosity angle.
-    question = title if title.endswith("?") else title
+    question = title
     return {
         "series_number": f"TREND-{number}",
         "series_title": title[:90],
