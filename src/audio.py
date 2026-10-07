@@ -68,8 +68,12 @@ def synthesize_narration(text: str, wav_path: Path, settings: Settings) -> tuple
     """
     if settings.dry_run:
         return _synthetic_narration(text, wav_path)
-    voice = os.getenv("EDGE_FR_VOICE", "fr-FR-HenriNeural")
-    rate = os.getenv("EDGE_FR_RATE", "-5%")
+    # Native metropolitan-French voice by default. Keep the override available
+    # for controlled A/B tests, but never fall back to an English voice.
+    voice = os.getenv("EDGE_FR_VOICE", "fr-FR-HenriNeural").strip() or "fr-FR-HenriNeural"
+    if not voice.lower().startswith("fr-fr-"):
+        voice = "fr-FR-HenriNeural"
+    rate = os.getenv("EDGE_FR_RATE", "-3%")
     mp3_path = wav_path.with_suffix(".mp3")
     try:
         timings = asyncio.run(_synthesize_edge_tts(text, mp3_path, voice, rate))
