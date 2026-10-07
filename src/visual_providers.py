@@ -310,21 +310,24 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
                 break
 
         search_caption = f"{search_term} {semantic_text[:120]} {variations[variation_index]} documentary footage"
+
+        # AI-first when an AI visual credential is available. This is important
+        # for Neuro-Somaa's cinematic identity: stock is the resilience fallback,
+        # not the primary visual style. A failed/rate-limited AI request simply
+        # falls through to licensed stock providers.
+        ai_visual = _pollinations(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
+        if ai_visual:
+            clip_h = hashlib.sha256(ai_visual.read_bytes()).hexdigest()
+            if not used_hashes or clip_h not in used_hashes:
+                return ai_visual, "ai_editorial"
+
         for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
             visual = provider(search_caption, clip_path)
             if visual:
-                # If this clip was already used in an earlier scene, fall through to procedural motion
                 clip_h = hashlib.sha256(visual.read_bytes()).hexdigest()
                 if used_hashes and clip_h in used_hashes:
                     continue
                 return visual, provider.__name__.lstrip("_")
-
-        # If an AI visual provider is configured, prefer a scene-specific
-        # editorial still over generic procedural rings. The renderer animates
-        # this image with a slow zoom while preserving exact captions.
-        ai_visual = _pollinations(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
-        if ai_visual:
-            return ai_visual, "ai_editorial"
 
     motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=f"{caption}:{scene_index}")
     return motion_clip, "procedural_motion"
