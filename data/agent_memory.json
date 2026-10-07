@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.85,
+      "weight": 2.99,
       "engagement_avg": 8.8
     },
     {
@@ -180,10 +180,14 @@
       "keyword": "améliore",
       "weight": 1.61,
       "engagement_avg": 8.0
+    },
+    {
+      "keyword": "après",
+      "weight": 1.2,
+      "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi après 60 ans, notre cerveau?",
     "Pourquoi apple pourrait bientôt faire?",
     "Pourquoi ateliers mémoire pour?",
     "Pourquoi certaines souris ont montré?",
@@ -212,7 +216,8 @@
     "La lumière qui commande ton cerveau?",
     "La lumière qui éclaire ton cerveau?",
     "Pourquoi quatre artistes explorent la?",
-    "Pourquoi jour de mémoire et de leçons?"
+    "Pourquoi jour de mémoire et de leçons?",
+    "Pourquoi stress, surcharge mentale?"
   ],
   "performance_records": [
     {
@@ -811,8 +816,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/uaROjXhUI6g",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 50,
+      "timestamp": "2026-10-07T19:31:40.891027+00:00",
+      "title": "Pourquoi stress, surcharge mentale?",
+      "topic": "Stress, surcharge mentale, perte de sens",
+      "duration": 18.539,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/I_o5_BDnVUE",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 49,
-  "last_cycle_at": "2026-10-07T17:33:08.510562+00:00"
+  "total_cycles": 50,
+  "last_cycle_at": "2026-10-07T19:31:40.891063+00:00"
 }

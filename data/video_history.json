@@ -5098,5 +5098,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-07T19:31:33.975186+00:00",
+    "topic": "Stress, surcharge mentale, perte de sens",
+    "title": "Pourquoi stress, surcharge mentale?",
+    "duration": 18.539,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "c81d2df760f0989c763c58e78a94b9473c2c6410d011ae85ce017dfeffe0a3bd",
+      "805fabce41d874f18eb3507b26803dd6037a1024079fcd8dbc16016de877cb71",
+      "9b6e43a63470dbd6d4e8b8f29faf270968b9a8ff13719f6edfd0a21473e128bc",
+      "61cc3a9e766009b4d43fe54f7b73299bb972963e955ffd08037ef5d5ac288165",
+      "b4b118ee7ad715df9689b6c6e6a94d2265a789a9f4beb2bd7c987ae01d2b7b28",
+      "8407041c3c06c3ad1e43a7c990644e875ba65731d5acd5e1b11ac1f5b21890c8",
+      "adf521ed8df9a299715def39894f0552f808ff5dc0d85de91cc3f9c220009ec8",
+      "1338344c091173b3340dfc4e65d26ff4d2d8c9704120bd63d6503e797fb1a217"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "547036b5291fbf9a0774c047780cb756a92fef275ebfea3da9fcbce0df7089d3",
+    "status": "uploaded",
+    "youtube_video_id": "I_o5_BDnVUE",
+    "url": "https://youtu.be/I_o5_BDnVUE",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
