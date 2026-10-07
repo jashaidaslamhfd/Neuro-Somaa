@@ -17,6 +17,7 @@ from agent_brain import AgentBrain
 from config import SETTINGS
 from content import generate_script, load_topic, score_hook, score_script_quality
 from media import render_video, validate_video
+from french_quality import validate_french_script
 from meta import is_meta_configured, upload_to_facebook_reels
 from thumbnails import build_thumbnail
 from youtube import upload
@@ -104,6 +105,9 @@ def run() -> dict:
     quality_score = score_script_quality(script["scenes"])
     if quality_score < SETTINGS.quality_approval_threshold:
         raise RuntimeError(f"Script rejected: quality score {quality_score} below QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}")
+    french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
+    if french_errors:
+        raise RuntimeError("French production gate failed: " + "; ".join(french_errors))
     history_path = SETTINGS.data_dir / "video_history.json"
     try:
         history = json.loads(history_path.read_text(encoding="utf-8")) if history_path.exists() else []
