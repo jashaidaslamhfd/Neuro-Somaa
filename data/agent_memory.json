@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.71,
+      "weight": 2.85,
       "engagement_avg": 8.8
     },
     {
@@ -168,22 +168,21 @@
     },
     {
       "keyword": "secret",
-      "weight": 1.53,
+      "weight": 1.61,
       "engagement_avg": 8.0
     },
     {
       "keyword": "fruit",
-      "weight": 1.53,
+      "weight": 1.61,
       "engagement_avg": 8.0
     },
     {
       "keyword": "améliore",
-      "weight": 1.53,
+      "weight": 1.61,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi un ours entre par la fenêtre?",
     "Pourquoi après 60 ans, notre cerveau?",
     "Pourquoi apple pourrait bientôt faire?",
     "Pourquoi ateliers mémoire pour?",
@@ -212,7 +211,8 @@
     "Pourquoi sommeil après 60 ans?",
     "La lumière qui commande ton cerveau?",
     "La lumière qui éclaire ton cerveau?",
-    "Pourquoi quatre artistes explorent la?"
+    "Pourquoi quatre artistes explorent la?",
+    "Pourquoi jour de mémoire et de leçons?"
   ],
   "performance_records": [
     {
@@ -799,8 +799,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/BDW2FA7CqAM",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 49,
+      "timestamp": "2026-10-07T17:33:08.510521+00:00",
+      "title": "Pourquoi jour de mémoire et de leçons?",
+      "topic": "Pourquoi jour de mémoire et de leçons politiques?",
+      "duration": 18.500333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/uaROjXhUI6g",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 48,
-  "last_cycle_at": "2026-10-06T20:39:21.073840+00:00"
+  "total_cycles": 49,
+  "last_cycle_at": "2026-10-07T17:33:08.510562+00:00"
 }
