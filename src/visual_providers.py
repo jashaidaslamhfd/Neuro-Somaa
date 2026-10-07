@@ -183,7 +183,12 @@ def _pollinations(caption: str, path: Path) -> Path | None:
     # Optional AI visual provider. It is used only when explicitly configured.
     if not os.getenv("POLLINATIONS_KEY") and not os.getenv("GEMINI_API_KEY") and not os.getenv("REPLICATE_API_TOKEN"):
         return None
-    prompt = quote(f"vertical editorial science illustration, French educational short, no text, clean modern lighting, concept: {caption}")
+    prompt = quote(
+        f"vertical cinematic editorial science visual for a French audience in France, "
+        f"natural European everyday setting when humans are shown, authentic documentary photography, "
+        f"no text, no logos, no watermark, realistic skin and anatomy, clean modern lighting, "
+        f"high visual curiosity, concept: {caption}"
+    )
     return _save_image(f"https://image.pollinations.ai/prompt/{prompt}?width=1080&height=1920&nologo=true", path)
 
 
@@ -307,7 +312,10 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
                 search_term = term
                 break
 
-        search_caption = f"{search_term} {semantic_text[:120]} {variations[variation_index]} documentary footage"
+        search_caption = (
+            f"{search_term} {semantic_text[:120]} {variations[variation_index]} "
+            "realistic documentary footage vertical, natural European setting"
+        )
 
         # AI-first when an AI visual credential is available. This is important
         # for Neuro-Somaa's cinematic identity: stock is the resilience fallback,
