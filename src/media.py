@@ -84,23 +84,34 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
     image.save(path, format="PNG", optimize=True)
 
 
-def _draw_caption_overlay(caption: str, index: int, title: str, path: Path, active_word: int | None = None) -> None:
-    """Create a minimal Shorts overlay: one word, no box, border, logo, or footer."""
+def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> None:
+    """Create a French Shorts-style phrase caption, optimized for fast reading."""
     _, _unused, accent = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
-    words = caption.split() or [caption]
-    caption_size = 112
+    text = re.sub(r"\\s+", " ", caption.strip()) or "..."
+    # French mobile captions read better as short phrases than isolated words.
+    # Keep them large, centered, high-contrast and safely away from UI edges.
+    caption_size = 92
     caption_font = _font(caption_size, True)
-    while max(draw.textlength(word, font=caption_font) for word in words) > 900 and caption_size > 48:
+    wrapped = textwrap.fill(text, width=20, break_long_words=False, break_on_hyphens=False)
+    box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=12, align="center", stroke_width=4)
+    while box[2] - box[0] > 900 and caption_size > 54:
         caption_size -= 2
         caption_font = _font(caption_size, True)
-    word = words[active_word] if active_word is not None and active_word < len(words) else ""
-    word_box = draw.textbbox((0, 0), word, font=caption_font, stroke_width=4)
-    top = 860 - (word_box[3] - word_box[1]) // 2
-    # Shorts-style captions: one centered word, no box or border.
-    word_width = draw.textlength(word, font=caption_font)
-    draw.text(((WIDTH - word_width) / 2, top), word, font=caption_font, fill=accent)
+        box = draw.multiline_textbbox((0, 0), wrapped, font=caption_font, spacing=12, align="center", stroke_width=4)
+    top = 820 - (box[3] - box[1]) // 2
+    draw.multiline_text(
+        (WIDTH // 2, top),
+        wrapped,
+        font=caption_font,
+        fill="#ffffff",
+        anchor="ma",
+        spacing=12,
+        align="center",
+        stroke_width=4,
+        stroke_fill="#07111f",
+    )
     overlay.save(path, format="PNG", optimize=True)
 
 
@@ -183,22 +194,24 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         if not is_clip and not is_image:
             raise RuntimeError(f"No visual asset available for scene {index}")
         words = caption.split() or [caption]
-        overlay_paths = []
-        for word_index in range(len(words)):
-            overlay_path = scene_dir / f"overlay_{index:02d}_{word_index:03d}.png"
-            _draw_caption_overlay(caption, index, str(script.get("title", "")), overlay_path, word_index)
-            overlay_paths.append(overlay_path)
-        # Caption timing: use the TTS engine's own per-word timestamps when the
-        # on-screen caption is the same text as what's spoken (the common
-        # case), so captions land exactly on the spoken word instead of an
-        # approximation. Falls back to an even split when they diverge (e.g.
-        # a punchier hook caption over a longer narration line).
+        # Group 2–4 words per caption card. This keeps French subtitles readable
+        # at Shorts speed while still changing with the narration.
         word_durations = _caption_word_durations(caption, narration, word_timings, duration)
+        chunks = []
+        chunk_size = 3
+        for start in range(0, len(words), chunk_size):
+            end = min(start + chunk_size, len(words))
+            chunks.append((" ".join(words[start:end]), sum(word_durations[start:end])))
+        overlay_paths = []
         overlay_inputs = []
         overlay_labels = []
-        for overlay_index, (overlay_path, word_dur) in enumerate(zip(overlay_paths, word_durations, strict=True), start=1):
-            overlay_inputs.extend(["-loop", "1", "-t", f"{word_dur:.3f}", "-i", str(overlay_path)])
-            overlay_labels.append(f"[{overlay_index}:v]")
+        for chunk_index, (chunk_text, chunk_duration) in enumerate(chunks):
+            overlay_path = scene_dir / f"overlay_{index:02d}_{chunk_index:03d}.png"
+            _draw_caption_overlay(chunk_text, index, str(script.get("title", "")), overlay_path)
+            overlay_paths.append(overlay_path)
+            overlay_inputs.extend(["-loop", "1", "-t", f"{chunk_duration:.3f}", "-i", str(overlay_path)])
+            overlay_labels.append(f"[{chunk_index + 1}:v]")
+        for overlay_index, (overlay_path, word_dur) in enumerate(zip(overlay_paths, [x[1] for x in chunks], strict=True), start=1):
         concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
         filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(source_path)]
