@@ -70,12 +70,22 @@ AUDIENCE
 ==================================================
 
 Audience primaire :
-France.
+France métropolitaine.
 
 Audience secondaire :
 Belgique francophone
 Suisse romande
 Europe francophone.
+
+LOCALISATION FRANCE :
+- français naturel de France métropolitaine
+- tutoiement naturel : tu, ton, ta, tes
+- vocabulaire oral moderne utilisé en France
+- formulations simples et idiomatiques, jamais traduites littéralement de l'anglais
+- évite les tournures québécoises, trop scolaires ou artificielles
+- références quotidiennes compréhensibles par un public français
+- n'ajoute jamais « en France » artificiellement
+- pour l'IA et la technologie, utilise les termes réellement employés par le public français
 
 Le français doit sembler écrit par un créateur français natif.
 
