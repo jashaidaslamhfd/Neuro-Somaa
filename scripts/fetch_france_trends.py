@@ -193,7 +193,7 @@ def make_topic(row: dict[str, str], number: int) -> dict[str, str | int]:
         "series_title": title[:90],
         "topic": title[:180],
         "question_phrase": question[:180],
-        "angle": "Transformer ce sujet en phénomène humain, quotidien et intrigant.",
+        "angle": title[:180],
         "thumbnail_text": title[:70],
         "demand_note": f"{row['source']} | {row.get('published_at', '')}",
         "source": row["source"],
