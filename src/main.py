@@ -16,8 +16,8 @@ except ImportError:
 from agent_brain import AgentBrain
 from config import SETTINGS
 from content import generate_script, load_topic, score_hook, score_script_quality
-from media import render_video, validate_video
 from french_quality import validate_french_script
+from media import render_video, validate_video
 from meta import is_meta_configured, upload_to_facebook_reels
 from thumbnails import build_thumbnail
 from youtube import upload
