@@ -45,6 +45,8 @@ jobs:
     timeout-minutes: 20
     env:
       CHANNEL_LANGUAGE: fr
+      EDGE_FR_VOICE: fr-FR-HenriNeural
+      EDGE_FR_RATE: "-3%"
       PUBLISH_TIMEZONE: Europe/Paris
       TARGET_MIN_SECONDS: "15"
       TARGET_MAX_SECONDS: "22"
