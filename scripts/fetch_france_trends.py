@@ -78,6 +78,32 @@ EVENT_PATTERNS = (
     r"\b(?:festival|salon|forum|conférence|concours|élection)\b",
 )
 
+
+EVERGREEN_SEEDS = [
+    "Pourquoi ton cerveau oublie-t-il certains souvenirs ?",
+    "Pourquoi oublie-t-on parfois un mot pourtant familier ?",
+    "Pourquoi une chanson reste-t-elle dans ta tête ?",
+    "Pourquoi le temps semble-t-il accélérer avec l'âge ?",
+    "Pourquoi rêves-tu davantage au réveil que la nuit ?",
+    "Pourquoi le cerveau invente-t-il de faux souvenirs ?",
+    "Pourquoi le stress déforme-t-il parfois ta perception ?",
+    "Pourquoi ton téléphone capte-t-il autant ton attention ?",
+    "Pourquoi une notification suffit-elle à interrompre ta concentration ?",
+    "Pourquoi le cerveau adore-t-il les récompenses imprévisibles ?",
+    "Pourquoi bâille-t-on quand quelqu'un d'autre bâille ?",
+    "Pourquoi as-tu la chair de poule sans avoir froid ?",
+    "Pourquoi une odeur peut-elle réveiller un souvenir ancien ?",
+    "Pourquoi tremble-t-on sous l'effet du stress ?",
+    "Pourquoi le cerveau cherche-t-il des visages partout ?",
+    "Pourquoi manque-t-on parfois un objet juste devant nos yeux ?",
+    "Pourquoi le cerveau aime-t-il autant les histoires incomplètes ?",
+    "Pourquoi la musique change-t-elle parfois ton humeur instantanément ?",
+    "Pourquoi certaines habitudes deviennent-elles automatiques ?",
+    "Pourquoi manque-t-on de concentration après trop d'écrans ?",
+    "Pourquoi le cerveau continue-t-il à réfléchir pendant le sommeil ?",
+    "Pourquoi une peur peut-elle apparaître avant même de comprendre le danger ?",
+]
+
 GENERIC_HEADLINES = {
     "cerveau", "sommeil", "science", "psychologie", "mémoire", "stress",
     "corps", "émotion", "intelligence artificielle", "ia",
