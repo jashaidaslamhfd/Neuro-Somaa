@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Build a clean France-first demand queue for Neuro-Somaa.
 
-The queue is deliberately narrower than a generic news feed: it keeps
-consumer-friendly science, psychology, brain, sleep, behaviour and
-human-centred technology topics, while rejecting local events, sports,
-politics, crime, medical-news headlines and other items that are poor fits
-for an evergreen Shorts channel.
+The queue is optimized for a broad curiosity niche:
+mysteries of the brain, psychology, human behaviour, perception, illusions,
+sleep, dreams, memory, attention and human-centred AI/science. News is only a
+supplemental discovery source; the core queue is evergreen and relatable.
 """
 from __future__ import annotations
 
@@ -44,7 +43,8 @@ KEYWORDS = {
     "psychologie", "comportement", "science", "neurone", "attention",
     "perception", "dopamine", "habitude", "concentration", "curiosité",
     "peur", "coeur", "cœur", "respiration", "fatigue", "odeur", "odorat",
-    "vision", "audition", "réflexe",
+    "vision", "audition", "réflexe", "illusion", "illusions", "sens",
+    "habitude", "récompense", "récompenses", "curiosité", "décision",
     "intelligence artificielle", "ia", "robot", "algorithme", "numérique",
     "téléphone", "écran", "notification", "apprentissage", "créativité",
     "décision", "conscience", "illusion", "sensation",
@@ -102,6 +102,16 @@ EVERGREEN_SEEDS = [
     "Pourquoi une odeur peut-elle réveiller un souvenir ancien ?",
     "Pourquoi tremble-t-on sous l'effet du stress ?",
     "Pourquoi le cerveau cherche-t-il des visages partout ?",
+    "Pourquoi ton cerveau te fait-il voir des choses qui n'existent pas ?",
+    "Pourquoi ton attention disparaît-elle dès qu'une notification arrive ?",
+    "Pourquoi certaines habitudes deviennent-elles presque automatiques ?",
+    "Pourquoi ton cerveau préfère-t-il parfois une réponse simple à une réponse vraie ?",
+    "Pourquoi un souvenir peut-il changer à chaque fois que tu le racontes ?",
+    "Pourquoi ton cerveau déteste-t-il les tâches inachevées ?",
+    "Pourquoi as-tu parfois l'impression d'avoir déjà vécu une scène ?",
+    "Pourquoi ton cerveau remarque-t-il soudainement un mot que tu vois partout ?",
+    "Pourquoi le silence peut-il sembler plus étrange que le bruit ?",
+    "Pourquoi ton cerveau imite-t-il parfois les émotions des autres ?",
     "Pourquoi manque-t-on parfois un objet juste devant nos yeux ?",
     "Pourquoi le cerveau aime-t-il autant les histoires incomplètes ?",
     "Pourquoi la musique change-t-elle parfois ton humeur instantanément ?",
