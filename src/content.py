@@ -613,6 +613,21 @@ def _clean_fr(text: str) -> str:
 _WINNING_TOPIC_KEYWORDS = ("cerveau", "sommeil", "stress", "rêve", "reve", "memoire", "mémoire", "téléphone", "dopamine", "fatigue", "muscle", "ventre")
 _LOSING_TOPIC_KEYWORDS = ("e. coli", "ecoli", "bactérie", "vatican", "gaza", "patrimoine", "médiéval")
 _TOPIC_LOOKAHEAD = 12
+_RUNTIME_TOPIC_BANS = (
+    "on lui ", "une personne", "un homme", "une femme", "après une ",
+    "après un ", "témoigne", "témoignage", "festival", "exposition",
+    "municipalité", "village", "ville", "tumeur", "cancer", "maladie",
+    "hôpital", "patient", "procès", "police", "élection",
+)
+
+def _runtime_topic_fit(title: str) -> bool:
+    normalized = " ".join(title.lower().split())
+    if any(token in normalized for token in _RUNTIME_TOPIC_BANS):
+        return False
+    # Prefer a reusable curiosity/science question over article-shaped prose.
+    if len(normalized) > 110:
+        return False
+    return True
 
 
 def _topic_cluster_score(title: str) -> int:
@@ -651,8 +666,9 @@ def load_topic(settings: Settings) -> str:
                 # code returned FALLBACK_TOPICS[0] every single time — the same
                 # title forever, regardless of the mined queue's real content.
                 title = (item.get("angle") or item.get("topic") or item.get("question_phrase") or item.get("title")) if isinstance(item, dict) else str(item)
-                if title and _clean_fr(str(title)).lower() not in used:
-                    candidates.append((offset, _clean_fr(str(title))))
+                clean_title = _clean_fr(str(title))
+                if clean_title and clean_title.lower() not in used and _runtime_topic_fit(clean_title):
+                    candidates.append((offset, clean_title))
                 if len(candidates) >= _TOPIC_LOOKAHEAD:
                     break
             if candidates:
