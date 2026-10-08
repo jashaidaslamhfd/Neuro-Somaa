@@ -651,18 +651,23 @@ _WINNING_TOPIC_KEYWORDS = ("cerveau", "psychologie", "comportement", "sommeil", 
 _LOSING_TOPIC_KEYWORDS = ("e. coli", "ecoli", "bactérie", "vatican", "gaza", "patrimoine", "médiéval")
 _TOPIC_LOOKAHEAD = 12
 _RUNTIME_TOPIC_BANS = (
-    "on lui ", "une personne", "un homme", "une femme", "après une ",
-    "après un ", "témoigne", "témoignage", "festival", "exposition",
-    "municipalité", "village", "ville", "tumeur", "cancer", "maladie",
-    "hôpital", "patient", "procès", "police", "élection",
+    "on lui ", "on leur ", "une personne", "un homme", "une femme",
+    "après une ", "après un ", "témoigne", "témoignage", "festival",
+    "exposition", "municipalité", "village", "ville", "tumeur", "cancer",
+    "maladie", "hôpital", "patient", "patients", "procès", "police",
+    "élection", "politique", "guerre", "ukraine", "gaza", "concarneau",
+    "bannalec", "quimper", "paris", "lyon", "marseille", "bordeaux",
+    "quatre artistes", "jour de mémoire", "leçons politiques",
+    "stress, surcharge", "surcharge mentale, perte de sens",
 )
 
 def _runtime_topic_fit(title: str) -> bool:
     normalized = " ".join(title.lower().split())
     if any(token in normalized for token in _RUNTIME_TOPIC_BANS):
         return False
-    # Prefer a reusable curiosity/science question over article-shaped prose.
-    return len(normalized) <= 110
+    if len(normalized) > 110 or normalized.count(",") >= 2:
+        return False
+    return True
 
 
 def _topic_cluster_score(title: str) -> int:
@@ -743,24 +748,295 @@ def _fallback_tags(topic: str) -> list[str]:
 
 
 def _format_clean_title(clean: str) -> str:
-    """Create a short, natural French title without forcing a question."""
+    """Normalize a title without ever cutting it mid-thought."""
     clean = re.sub(r'^[«"]\s*', '', clean)
-    clean = re.sub(r'\s*[»"]\s*$', '', clean)
+    clean = re.sub(r'\s*[»"]\s*
+def _fallback_script(topic: str) -> dict[str, Any]:
+    clean = _clean_fr(topic).rstrip("?")
+    title = _format_clean_title(clean)
+    tags = _fallback_tags(clean)
+    for market_tag in ("france", "shorts français", "science"):
+        if market_tag not in tags:
+            tags.append(market_tag)
+    hook = title.rstrip(" ?") + " ?"
+    return {
+        "title": title,
+        "description": "Un phénomène étonnant expliqué simplement. #shorts #science #france #neurosciences",
+        "tags": tags[:12],
+        "scenes": [
+            {"caption": "Regarde ce phénomène.", "narration": hook},
+            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},
+            {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},
+            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},
+            {"caption": "La réaction est rapide.", "narration": "La réaction peut arriver avant même que tu y penses consciemment."},
+            {"caption": "Voilà le mécanisme.", "narration": "C'est donc surtout une réponse automatique du système nerveux."},
+        ],
+    }
+
+
+def _extract_json(text: str) -> dict[str, Any]:
+    match = re.search(r"\{.*\}", text, re.DOTALL)
+    if not match:
+        raise ValueError("LLM returned no JSON object")
+    payload = json.loads(match.group(0))
+    if not isinstance(payload, dict) or not payload.get("scenes"):
+        raise ValueError("LLM JSON has no scenes")
+    # Metadata is now a required part of the contract (see METADATA_RULES) —
+    # previously nothing enforced this, so real generations often uploaded
+    # with empty tags and a generic/no-hashtag description.
+    tags = payload.get("tags")
+    if not isinstance(tags, list) or not (8 <= len(tags) <= 12):
+        raise ValueError("il faut 8 à 12 tags SEO spécifiques au sujet (voir MÉTADONNÉES SEO)")
+    description = str(payload.get("description", ""))
+    if not description or description.count("#") < 3:
+        raise ValueError("la description doit inclure 3 à 5 hashtags pertinents au sujet")
+    title = _clean_fr(str(payload.get("title", "")))
+    # Hard title-integrity checks — this is what catches a broken/cut-off
+    # title (e.g. a real historical case ended mid-word with no final word
+    # or punctuation: "...son cœur battre la"). Rather than silently
+    # truncating or shipping it, reject here so the LLM retries with the
+    # existing feedback loop, the same way hook_score already does.
+    if not title:
+        raise ValueError("le titre est vide")
+    if not title.rstrip().endswith(("?", "!", ".", "…")):
+        raise ValueError("le titre semble coupé — il doit se terminer par une ponctuation (?, !, .)")
+    if len(title) > 60:
+        raise ValueError(f"le titre fait {len(title)} caractères; vise 60 maximum")
+    title_lower = title.lower()
+    banned_title_patterns = (
+        "on lui ", "une personne", "un homme", "une femme", "quatre artistes",
+        "jour de mémoire", "surcharge mentale", "pourquoi quatre",
+        "pourquoi on lui", "pourquoi jour de",
+    )
+    if any(pattern in title_lower for pattern in banned_title_patterns):
+        raise ValueError("titre article-shaped ou hors ligne éditoriale")
+    if len(_title_words(title)) < 2:
+        raise ValueError("le titre est trop court ou vide de sens, il doit contenir au moins 2 mots significatifs")
+    # Keyword alignment: the title, tags, and description are only useful for
+    # SEO together if they actually share real keywords — a generic-but-valid
+    # title with unrelated tags defeats the point of METADATA_RULES. Require
+    # at least 2 significant title words to reappear somewhere in the tags.
+    title_words = _title_words(title)
+    tag_blob = " ".join(str(t).lower() for t in tags)
+    overlap = {w for w in title_words if w in tag_blob}
+    if len(overlap) < 2:
+        raise ValueError(
+            "les tags doivent partager au moins 2 mots-clés du titre "
+            f"(titre: {sorted(title_words)}, tags actuels ne correspondent pas assez)"
+        )
+    payload["title"] = title
+    payload["description"] = _clean_fr(description)
+    payload["tags"] = [_clean_fr(str(tag)) for tag in tags][:12]
+    for scene in payload["scenes"]:
+        scene["caption"] = _clean_fr(str(scene.get("caption", "")))
+        scene["narration"] = _clean_fr(str(scene.get("narration", "")))
+    return payload
+
+
+_TOPIC_CATEGORY_KEYWORDS = {
+    "brain / psychology / behaviour": ("cerveau", "mémoire", "rêve", "stress", "émotion", "attention", "décision", "comportement"),
+    "AI × human": ("ia", "intelligence artificielle", "chatgpt", "algorithme", "robot", "agent"),
+    "AI / future science": ("technologie", "futur", "machine", "automatisation", "science"),
+    "digital life / behaviour": ("téléphone", "écran", "réseau", "internet", "notification", "numérique"),
+}
+
+
+def _topic_category_and_angle(topic: str) -> tuple[str, str]:
+    """Map raw queue topics to the prompt's human-first category and angle."""
+    normalized = str(topic or "").lower()
+    scores = {
+        category: sum(1 for keyword in keywords if keyword in normalized)
+        for category, keywords in _TOPIC_CATEGORY_KEYWORDS.items()
+    }
+    category = max(scores, key=scores.get) if max(scores.values(), default=0) else "brain / psychology / behaviour"
+    if category == "AI × human":
+        angle = "le lien entre cette technologie et le cerveau, les émotions ou les décisions humaines"
+    elif category == "digital life / behaviour":
+        angle = "la conséquence personnelle et surprenante de ce comportement quotidien"
+    elif category == "AI / future science":
+        angle = "ce que cette évolution change concrètement pour les humains"
+    else:
+        angle = "le phénomène personnel et contre-intuitif que le spectateur peut reconnaître"
+    return category, angle
+
+
+
+class _GeminiAdapter:
+    """Lightweight adapter allowing Gemini to be called with OpenAI-compatible chat interface."""
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.chat = self
+
+    @property
+    def completions(self):
+        return self
+
+    def create(self, model: str, messages: list[dict[str, str]], **kwargs):
+        system_text = "\n\n".join(m["content"] for m in messages if m["role"] == "system")
+        user_parts = [f"{m['role'].upper()}: {m['content']}" for m in messages if m["role"] != "system"]
+        prompt_text = "\n\n".join(user_parts)
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={self.api_key}"
+        body = {
+            "contents": [{"role": "user", "parts": [{"text": prompt_text}]}],
+            "generationConfig": {"response_mime_type": "application/json", "temperature": 0.6},
+        }
+        if system_text:
+            body["system_instruction"] = {"parts": [{"text": system_text}]}
+        resp = requests.post(url, json=body, timeout=30)
+        resp.raise_for_status()
+        res_json = resp.json()
+        raw_text = res_json["candidates"][0]["content"]["parts"][0]["text"]
+
+        class _Choice:
+            def __init__(self, text):
+                self.message = type("Msg", (), {"content": text})()
+
+        return type("Resp", (), {"choices": [_Choice(raw_text)]})()
+
+
+class _OpenRouterAdapter:
+    """Fallback adapter for OpenRouter if openai package is absent."""
+
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+        self.chat = self
+
+    @property
+    def completions(self):
+        return self
+
+    def create(self, model: str, messages: list[dict[str, str]], **kwargs):
+        url = "https://openrouter.ai/api/v1/chat/completions"
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/jashaidaslamhfd/Neuro-Somaa",
+            "X-Title": "Neuro-Somaa French Shorts",
+        }
+        body = {
+            "model": model,
+            "messages": messages,
+            "temperature": 0.6,
+            "response_format": {"type": "json_object"},
+        }
+        resp = requests.post(url, json=body, headers=headers, timeout=30)
+        resp.raise_for_status()
+        raw_text = resp.json()["choices"][0]["message"]["content"]
+
+        class _Choice:
+            def __init__(self, text):
+                self.message = type("Msg", (), {"content": text})()
+
+        return type("Resp", (), {"choices": [_Choice(raw_text)]})()
+
+def generate_script(topic: str, settings: Settings) -> dict[str, Any]:
+    if settings.dry_run or not settings.llm_keys:
+        return _fallback_script(topic)
+
+    # Multi-provider LLM resolution: Groq primary (with certified model), OpenRouter fallback
+    providers: list[tuple[Any, str]] = []
+    groq_key = os.getenv("GROQ_API_KEY", "").strip()
+    if groq_key:
+        try:
+            from groq import Groq
+            groq_client = Groq(api_key=groq_key)
+            # Try multiple known high-availability models on Groq
+            for g_model in [settings.llm_model, "llama-3.3-70b-versatile", "llama-3.1-70b-versatile", "llama-3.1-8b-instant"]:
+                if g_model and (groq_client, g_model) not in providers:
+                    providers.append((groq_client, g_model))
+        except Exception:
+            pass
+
+    gemini_key = os.getenv("GEMINI_API_KEY", "").strip()
+    if gemini_key:
+        gemini_client = _GeminiAdapter(gemini_key)
+        providers.append((gemini_client, "gemini-2.0-flash"))
+        providers.append((gemini_client, "gemini-1.5-flash"))
+
+    for alt_key in ("OPENROUTER_API_KEY", "ALT_LLM_API_KEY"):
+        k = os.getenv(alt_key, "").strip()
+        if k:
+            alt_model = os.getenv("OPENROUTER_MODEL") or "meta-llama/llama-3.3-70b-instruct"
+            try:
+                import openai
+                providers.append((openai.OpenAI(api_key=k, base_url="https://openrouter.ai/api/v1"), alt_model))
+            except Exception:
+                providers.append((_OpenRouterAdapter(k), alt_model))
+            break
+
+    if not providers:
+        return _fallback_script(topic)
+
+    system_prompt = (
+        NEURO_SOMAA_SYSTEM_PROMPT
+    )
+    topic_category, suggested_angle = _topic_category_and_angle(topic)
+    user_prompt = NEURO_SOMAA_USER_PROMPT.format(
+        topic=topic,
+        topic_category=topic_category,
+        suggested_angle=suggested_angle,
+        min_seconds=settings.min_seconds,
+        max_seconds=settings.max_seconds,
+    )
+    messages: list[dict[str, str]] = [
+        {"role": "system", "content": system_prompt},
+        {"role": "user", "content": user_prompt},
+    ]
+
+    max_attempts = 3
+    for client, llm_model in providers:
+        for attempt in range(1, max_attempts + 1):
+            try:
+                response = client.chat.completions.create(
+                    model=llm_model,
+                    temperature=0.6,
+                    response_format={"type": "json_object"},
+                    messages=messages,
+                )
+                raw = response.choices[0].message.content or ""
+                result = _extract_json(raw)
+                scenes = result.get("scenes", [])
+                if not 4 <= len(scenes) <= 10:
+                    raise ValueError(f"il faut entre 4 et 10 scènes adaptées au rythme (reçu {len(scenes)})")
+                hook_score = score_hook(str(result.get("title", "")), str(scenes[0].get("caption", "")))
+                quality_score = score_script_quality(scenes)
+                fresh = title_is_fresh(str(result.get("title", "")), settings)
+                if hook_score >= settings.min_hook_score and quality_score >= settings.quality_approval_threshold and fresh:
+                    return result
+                reasons = []
+                if hook_score < settings.min_hook_score:
+                    reasons.append(f"score du hook = {hook_score} (minimum requis {settings.min_hook_score})")
+                if quality_score < settings.quality_approval_threshold:
+                    reasons.append(f"score de rythme = {quality_score} (minimum requis {settings.quality_approval_threshold})")
+                if not fresh:
+                    reasons.append(
+                        "le titre ressemble trop à une vidéo récente (mêmes mots-clés ou même mot de départ) — "
+                        "choisis un angle et un premier mot différents"
+                    )
+                reason = "; ".join(reasons)
+            except (ValueError, KeyError, TypeError) as exc:
+                reason = str(exc)
+            except Exception:
+                # If provider threw 404/401/429, break and fallback to next provider
+                break
+
+            if attempt == max_attempts:
+                break
+            messages.append({"role": "assistant", "content": raw})
+            messages.append({"role": "user", "content": (
+                RETRY_PROMPT.format(reason=reason)
+            )})
+
+    return _fallback_script(topic)
+, '', clean)
     clean = re.sub(r'^[Pp]ourquoi\s+[Pp]ourquoi\s+', 'Pourquoi ', clean)
     clean = _clean_fr(clean).strip(" .?!")
     if not clean:
         return "Un mystère de ton cerveau ?"
-    if len(clean) > 42:
-        words = clean.split()
-        cur = []
-        size = 0
-        for word in words:
-            next_size = size + len(word) + (1 if cur else 0)
-            if next_size > 42:
-                break
-            cur.append(word)
-            size = next_size
-        clean = " ".join(cur).rstrip(" ,.;:!-?")
+    # Never slice a generated title to a character budget: that created broken
+    # titles such as "Pourquoi quatre artistes explorent la?". Validation
+    # rejects titles that are too long or article-shaped.
     if clean.lower().startswith(("pourquoi", "comment", "et si")):
         return _clean_fr(clean + " ?")
     return _clean_fr(clean)
