@@ -82,7 +82,8 @@ class AgentBrain:
             "channel_title": "Neuro-Somaa",
             "recent_videos_audited": 0,
             "top_performing_video": None,
-            "sync_status": "offline_mode"
+            "sync_status": "offline_mode",
+            "learning_mode": "production_only",
         }
         
         req_keys = ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN")
@@ -120,7 +121,7 @@ class AgentBrain:
                 p_resp = yt.playlistItems().list(part="contentDetails", playlistId=uploads_id, maxResults=10).execute()
                 vid_ids = [it["contentDetails"]["videoId"] for it in p_resp.get("items", [])]
                 if vid_ids:
-                    v_resp = yt.videos().list(part="snippet,statistics", id=",".join(vid_ids)).execute()
+                    v_resp = yt.videos().list(part="snippet,statistics,contentDetails", id=",".join(vid_ids)).execute()
                     audited = []
                     for v in v_resp.get("items", []):
                         stats = v.get("statistics", {})
@@ -130,13 +131,21 @@ class AgentBrain:
                             "views": int(stats.get("viewCount", 0)),
                             "likes": int(stats.get("likeCount", 0)),
                             "comments": int(stats.get("commentCount", 0)),
+                            "engagement_rate": round(
+                                (
+                                    int(stats.get("likeCount", 0))
+                                    + int(stats.get("commentCount", 0)) * 2
+                                ) / max(1, int(stats.get("viewCount", 0))) * 100,
+                                3,
+                            ),
                         })
                     metrics["recent_videos_audited"] = len(audited)
                     if audited:
-                        best = max(audited, key=lambda x: x["views"])
+                        best = max(audited, key=lambda x: (x["engagement_rate"], x["views"]))
                         metrics["top_performing_video"] = best
-                        # If best video has high engagement, reinforce its keywords
-                        self._reinforce_keywords_from_title(best["title"])
+                        metrics["learning_mode"] = "live_data_api"
+                        if best["engagement_rate"] > 1.0:
+                            self._reinforce_keywords_from_title(best["title"])
                     metrics["sync_status"] = "synced_live"
                     logger.info("Agent sensory loop successfully ingested %d live YouTube video metrics.", len(audited))
         except Exception as exc:
@@ -207,7 +216,20 @@ class AgentBrain:
         records.append(record)
         self.memory["performance_records"] = records[-100:]  # Keep last 100
         
-        if record.get("title") and len(record["title"]) <= 42:
+        # Never call every generated title a "winning hook". That polluted
+        # memory with low-quality news headlines even when they had never been
+        # viewed. Keep only strong production candidates; live viewer metrics,
+        # when available, are handled separately by sense_youtube_performance.
+        if (
+            record.get("title")
+            and len(record["title"]) <= 44
+            and float(record.get("hook_score") or 0) >= 88
+            and float(record.get("quality_score") or 0) >= 80
+            and not any(bad in str(record["title"]).lower() for bad in (
+                "pourquoi on lui", "pourquoi quatre", "pourquoi jour de",
+                "pourquoi stress, surcharge",
+            ))
+        ):
             winning = self.memory.setdefault("winning_hooks", [])
             if record["title"] not in winning:
                 winning.append(record["title"])
