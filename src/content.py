@@ -625,9 +625,7 @@ def _runtime_topic_fit(title: str) -> bool:
     if any(token in normalized for token in _RUNTIME_TOPIC_BANS):
         return False
     # Prefer a reusable curiosity/science question over article-shaped prose.
-    if len(normalized) > 110:
-        return False
-    return True
+    return len(normalized) <= 110
 
 
 def _topic_cluster_score(title: str) -> int:
