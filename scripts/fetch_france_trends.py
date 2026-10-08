@@ -65,9 +65,10 @@ NOISE = {
     "municipalité", "préfecture", "région", "département", "ville",
     "quimper", "paris", "lyon", "marseille", "bordeaux", "toulouse",
     "lille", "nantes", "nice", "tokyo", "new york",
-    "polyarthrite", "cancer", "maladie", "traitement", "médicament",
+    "polyarthrite", "alzheimer", "cancer", "maladie", "traitement", "médicament",
     "vaccin", "hôpital", "patient", "patients", "clinique", "diagnostic",
-    "chirurgie", "thérapie", "symptôme", "symptômes",
+    "chirurgie", "thérapie", "symptôme", "symptômes", "tumeur", "tumeurs",
+    "douleur chronique", "maladie rare", "essai clinique",
     "obésité", "diabète", "addiction", "suicide",
     "atelier", "ateliers", "honoraire", "église", "frères", "empire",
     "convalescence", "opération", "astronaute", "prix pour", "mon corps",
@@ -205,11 +206,13 @@ def is_good_topic(title: str) -> bool:
     if any(re.search(pattern, text) for pattern in EVENT_PATTERNS):
         return False
 
-    # Reject obvious named-person/news headlines. Proper nouns are useful for
-    # verified trends, but most of these are not evergreen Neuro-Somaa topics.
+    # Reject article-shaped news headlines. Proper nouns and one-off cases
+    # are poor inputs for a reusable evergreen Short.
     if re.search(r"\b(?:steve|elon|donald|emmanuel|brigitte|kylian|taylor|jean|marie)\b", text):
         return False
     if text.count(",") >= 2:
+        return False
+    if re.search(r"\b(?:on lui|une personne|un homme|une femme|après une|après un|témoigne|témoignage)\b", text):
         return False
 
     # Reject article-shaped personal/event headlines even when they contain a
