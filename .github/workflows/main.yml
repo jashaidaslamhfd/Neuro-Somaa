@@ -48,8 +48,8 @@ jobs:
       EDGE_FR_VOICE: fr-FR-HenriNeural
       EDGE_FR_RATE: "-3%"
       PUBLISH_TIMEZONE: Europe/Paris
-      TARGET_MIN_SECONDS: "15"
-      TARGET_MAX_SECONDS: "22"
+      TARGET_MIN_SECONDS: "18"
+      TARGET_MAX_SECONDS: "30"
       MIN_HOOK_SCORE: "70"
       QUALITY_APPROVAL_THRESHOLD: "60"
       YT_PRIVACY_STATUS: private
@@ -99,9 +99,9 @@ jobs:
         if: github.event_name == 'schedule'
         run: |
           case "${{ github.event.schedule }}" in
-            "30 10 * * *") echo "PUBLISH_SLOT=14:30" >> "$GITHUB_ENV" ;;
-            "30 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV" ;;
-            "0 16 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV" ;;
+            "30 10 * * *") echo "PUBLISH_SLOT=14:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=18" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=22" >> "$GITHUB_ENV" ;;
+            "30 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=20" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=26" >> "$GITHUB_ENV" ;;
+            "0 16 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=22" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=30" >> "$GITHUB_ENV" ;;
           esac
       - name: Sanitize France topic queue
         run: python scripts/clean_france_queue.py
