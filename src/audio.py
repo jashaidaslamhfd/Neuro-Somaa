@@ -103,7 +103,7 @@ def _music_catalog(settings: Settings) -> list[Path]:
     if settings.music_source != "own":
         return []
     music_dir = Path(__file__).parents[1] / "assets" / "music"
-    return sorted(music_dir.glob("own_*.wav"))
+    return sorted([*music_dir.glob("own_*.wav"), *music_dir.glob("own_*.ogg")])
 
 
 def select_music_track(settings: Settings, seed: str) -> Path | None:
