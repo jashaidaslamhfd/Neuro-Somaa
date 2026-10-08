@@ -71,6 +71,11 @@ NOISE = {
     "obésité", "diabète", "addiction", "suicide",
     "atelier", "ateliers", "honoraire", "église", "frères", "empire",
     "convalescence", "opération", "astronaute", "prix pour", "mon corps",
+    # Personal-case / local-news patterns: poor fit for an evergreen science Short.
+    "on lui", "une personne", "un homme", "une femme", "chez lui", "chez elle",
+    "après une chute", "après un accident", "témoigne", "témoignage",
+    "dans sa ville", "dans le village", "à bannalec", "à concarneau",
+    "à belleau", "à quimper", "à paris", "à lyon", "à marseille", "à bordeaux",
 }
 
 EVENT_PATTERNS = (
@@ -197,8 +202,22 @@ def is_good_topic(title: str) -> bool:
     if text.count(",") >= 2:
         return False
 
+    # Reject article-shaped personal/event headlines even when they contain a
+    # science keyword. Neuro-Somaa needs a reusable curiosity question, not a
+    # one-off local story.
+    personal_patterns = (
+        r"\bon lui\b", r"\bune personne\b", r"\bun homme\b", r"\bune femme\b",
+        r"\baprès (?:une|un)\b", r"\bà [a-zà-ÿ-]+\b.*\b(?:ville|village)\b",
+        r"\b(?:témoigne|témoignage)\b",
+    )
+    if any(re.search(pattern, text) for pattern in personal_patterns):
+        return False
+
     hits = sum(1 for word in KEYWORDS if word in text)
-    if re.search(r"\\b(?:à|au|aux|en)\\s+[A-ZÀ-Ü][\\wÀ-ÿ-]+", title):
+    # The previous check lower-cased the headline and then searched for
+    # uppercase proper nouns, so it could never match. Inspect the original
+    # title instead.
+    if re.search(r"\b(?:à|au|aux|en)\s+[A-ZÀ-Ü][\wÀ-ÿ-]+", title):
         return False
     return hits >= 1
 
@@ -208,7 +227,7 @@ def score(row: dict[str, str]) -> int:
     hits = sum(1 for word in KEYWORDS if word in text)
     noise = sum(1 for word in NOISE if word in text)
     recency = 2 if row.get("published_at", "").startswith(datetime.now(UTC).date().isoformat()) else 0
-    source_bonus = 5 if row["source"] == "evergreen_seed" else (3 if row["source"] in {"google_trends_fr", "google_news_fr"} else 1)
+    source_bonus = 14 if row["source"] == "evergreen_seed" else (4 if row["source"] in {"futura_sciences", "inserm"} else 1)
     curiosity_bonus = 2 if "?" in text or any(x in text for x in ("pourquoi", "comment", "étrange", "surprenant")) else 0
     return max(0, hits * 3 + recency + source_bonus + curiosity_bonus - noise * 8)
 
@@ -269,7 +288,13 @@ def main() -> int:
         key = re.sub(r"[^a-zà-ÿ0-9]", "", seed.lower())
         unique.setdefault(key, {"title": seed, "url": "", "published_at": "", "source": "evergreen_seed"})
 
-    ranked = sorted(unique.values(), key=score, reverse=True)[: max(1, args.limit)]
+    # Evergreen curiosity topics are the default backbone. News is allowed only
+    # as a supplemental discovery source, never as the dominant queue.
+    ranked = sorted(
+        unique.values(),
+        key=lambda row: (row["source"] == "evergreen_seed", score(row)),
+        reverse=True,
+    )[: max(1, args.limit)]
     payload = {
         "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
         "mined_at": datetime.now(UTC).isoformat(),
