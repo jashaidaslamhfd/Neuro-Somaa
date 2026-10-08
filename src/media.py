@@ -86,7 +86,7 @@ def _draw_scene_card(caption: str, index: int, title: str, path: Path, backgroun
 
 def _draw_caption_overlay(caption: str, index: int, title: str, path: Path) -> None:
     """Create a French Shorts-style phrase caption, optimized for fast reading."""
-    _, _unused, accent = PALETTES[(index - 1) % len(PALETTES)]
+    _, _, _ = PALETTES[(index - 1) % len(PALETTES)]
     overlay = Image.new("RGBA", (WIDTH, HEIGHT), (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
     text = re.sub(r"\s+", " ", caption.strip()) or "..."
