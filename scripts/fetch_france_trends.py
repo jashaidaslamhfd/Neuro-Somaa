@@ -30,7 +30,7 @@ DEFAULT_SOURCES = {
     "google_trends_fr": "https://trends.google.com/trending/rss?geo=FR",
     "google_news_fr": (
         "https://news.google.com/rss/search?"
-        "q=cerveau+OR+sommeil+OR+psychologie+OR+mémoire+OR+stress+OR+émotion+"
+        "q=cerveau+OR+sommeil+OR+psychologie+OR+m%C3%A9moire+OR+stress+OR+%C3%A9motion+"
         "OR+attention+OR+perception+OR+habitude+OR+intelligence+artificielle&"
         "hl=fr&gl=FR&ceid=FR:fr"
     ),
