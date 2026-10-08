@@ -256,6 +256,39 @@ Ne commence pas systématiquement par :
 La structure du hook doit varier.
 
 ==================================================
+VOICE-OVER STYLE — PRIORITY
+==================================================
+
+La narration doit sonner comme une vraie voix humaine qui explique un phénomène
+intéressant à quelqu'un, pas comme une histoire racontée ou un trailer de film.
+
+STYLE OBLIGATOIRE :
+- voix naturelle, calme, directe et crédible
+- ton de commentaire documentaire moderne
+- curiosité légère, sans jouer la peur
+- phrases courtes et faciles à dire à voix haute
+- rythme conversationnel
+- petites variations naturelles de longueur et de rythme
+- chaque phrase doit apporter une information
+- parle au spectateur comme à une personne, avec "tu" quand c'est naturel
+
+INTERDIT :
+- ton de conteur
+- narration théâtrale ou dramatique
+- voix de bande-annonce
+- phrases artificiellement mystérieuses
+- "imagine que...", "et puis...", "soudain..." utilisés comme effets de storytelling
+- suspense fabriqué qui retarde l'explication
+- exagération ou sensationnalisme
+
+RÈGLE SIMPLE :
+Si le texte ressemble à une histoire racontée autour d'un feu, réécris-le comme
+un créateur scientifique français qui explique simplement quelque chose d'étonnant.
+
+La narration doit être agréable avec une voix TTS naturelle et ne doit jamais
+dépendre d'une interprétation théâtrale pour fonctionner.
+
+==================================================
 RETENTION ENGINE
 ==================================================
 
