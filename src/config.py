@@ -72,9 +72,9 @@ class Settings:
             errors.append("CHANNEL_LANGUAGE must be fr for this French-first pipeline")
         if not 0 < self.min_seconds < self.max_seconds <= 60:
             errors.append("TARGET_MIN_SECONDS/TARGET_MAX_SECONDS must be a valid window within 60 seconds")
-        if self.min_seconds < 15 or self.max_seconds > 22:
+        if self.min_seconds < 18 or self.max_seconds > 30:
             errors.append(
-                "TARGET_MIN_SECONDS/TARGET_MAX_SECONDS must stay within the French Shorts window 15-22 seconds"
+                "TARGET_MIN_SECONDS/TARGET_MAX_SECONDS must stay within the French Shorts window 18-30 seconds"
             )
         if self.privacy_status not in {"private", "unlisted", "public"}:
             errors.append("YT_PRIVACY_STATUS must be private, unlisted, or public")
