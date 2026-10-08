@@ -29,21 +29,23 @@ IDENTITÉ DE LA CHAÎNE
 
 Neuro-Somaa explore :
 
-CERVEAU
+MYSTÈRES DU CERVEAU
 +
 PSYCHOLOGIE
 +
-COMPORTEMENT HUMAIN
+COMPORTEMENTS HUMAINS
 +
-SCIENCE
+PERCEPTION ET ILLUSIONS
 +
-INTELLIGENCE ARTIFICIELLE
+SOMMEIL, RÊVES ET MÉMOIRE
 +
-FUTUR
+IA ET ESPRIT HUMAIN
++
+SCIENCE ÉTONNANTE DU QUOTIDIEN
 
 POSITIONNEMENT CENTRAL :
 
-"La science de ton cerveau à l'ère de l'IA."
+"Les choses étranges que ton cerveau fait sans que tu t'en rendes compte."
 
 L'IA est une extension éditoriale de Neuro-Somaa.
 Ne transforme JAMAIS la chaîne en chaîne de news technologiques génériques.
@@ -116,10 +118,12 @@ CONTENT PILLARS
 
 Répartition éditoriale cible :
 
-40% — cerveau / psychologie / comportement
-35% — IA × humain
-15% — IA / science / futur
-10% — technologie × vie quotidienne
+30% — mystères du cerveau
+25% — psychologie / comportements humains
+15% — perception / illusions / sens
+15% — sommeil / rêves / mémoire
+10% — IA × esprit humain / attention / habitudes numériques
+5% — science étonnante liée à la vie quotidienne
 
 Les proportions sont indicatives et peuvent être adaptées selon les
 performances observées.
@@ -610,7 +614,7 @@ def _clean_fr(text: str) -> str:
 # consistently outperforming, and eye/heart topics underperforming. This is a
 # soft nudge, not a hard filter — it only picks among the next few unused
 # queue entries so topic rotation and freshness are still respected.
-_WINNING_TOPIC_KEYWORDS = ("cerveau", "sommeil", "stress", "rêve", "reve", "memoire", "mémoire", "téléphone", "dopamine", "fatigue", "muscle", "ventre")
+_WINNING_TOPIC_KEYWORDS = ("cerveau", "psychologie", "comportement", "sommeil", "stress", "rêve", "reve", "memoire", "mémoire", "attention", "perception", "illusion", "dopamine", "habitude", "téléphone", "notification", "concentration", "peur", "odeur", "vision", "muscle", "ventre")
 _LOSING_TOPIC_KEYWORDS = ("e. coli", "ecoli", "bactérie", "vatican", "gaza", "patrimoine", "médiéval")
 _TOPIC_LOOKAHEAD = 12
 _RUNTIME_TOPIC_BANS = (
@@ -706,41 +710,27 @@ def _fallback_tags(topic: str) -> list[str]:
 
 
 def _format_clean_title(clean: str) -> str:
-    """Mobile Shorts Feed Optimized Title:
-    Keeps the title concise (under 42 characters), punchy and 100% complete
-    so it is fully visible on a smartphone screen without ellipsis (...).
-    """
+    """Create a short, natural French title without forcing a question."""
     clean = re.sub(r'^[«"]\s*', '', clean)
     clean = re.sub(r'\s*[»"]\s*$', '', clean)
     clean = re.sub(r'^[Pp]ourquoi\s+[Pp]ourquoi\s+', 'Pourquoi ', clean)
-    
-    # Common verbosity reduction for punchy mobile display
-    clean = re.sub(r"^[Pp]ourquoi as-tu l'impression que\s+", "Pourquoi ", clean)
-    clean = re.sub(r"^[Pp]ourquoi le cerveau efface-t-il\s+", "Pourquoi oublier ", clean)
-    clean = re.sub(r"^[Pp]ourquoi ton corps sursaute-t-il\s+", "Pourquoi sursauter ", clean)
-    clean = re.sub(r"^[Pp]ourquoi le temps semble passer\s+", "Pourquoi le temps passe ", clean)
-    clean = re.sub(r"^[Pp]ourquoi a-t-on la chair de poule\s+", "Chair de poule : ", clean)
-    clean = re.sub(r"^[Pp]ourquoi une odeur peut faire revivre\s+", "Une odeur réveille ", clean)
-
-    if not clean.lower().startswith(("pourquoi", "comment", "et si", "ton", "ta", "tes", "ce que", "chair", "une")):
-        clean = f"Pourquoi {clean[0].lower() + clean[1:] if clean else ''}"
-    
-    words = clean.split()
-    if len(" ".join(words)) <= 42:
-        res = " ".join(words)
-    else:
-        # Fit comfortably within 38-42 characters at word boundary
+    clean = _clean_fr(clean).strip(" .?!")
+    if not clean:
+        return "Un mystère de ton cerveau ?"
+    if len(clean) > 42:
+        words = clean.split()
         cur = []
-        cur_len = 0
-        for w in words:
-            if cur_len + len(w) + 1 > 38 and cur:
+        size = 0
+        for word in words:
+            next_size = size + len(word) + (1 if cur else 0)
+            if next_size > 42:
                 break
-            cur.append(w)
-            cur_len += len(w) + 1
-        res = " ".join(cur)
-    
-    res = res.rstrip(" ,.;:!-?«»") + " ?"
-    return _clean_fr(res)
+            cur.append(word)
+            size = next_size
+        clean = " ".join(cur).rstrip(" ,.;:!-?")
+    if clean.lower().startswith(("pourquoi", "comment", "et si")):
+        return _clean_fr(clean + " ?")
+    return _clean_fr(clean)
 
 def _fallback_script(topic: str) -> dict[str, Any]:
     clean = _clean_fr(topic).rstrip("?")
