@@ -3,19 +3,6 @@
   "mined_at": "2026-10-07T17:30:40.601305+00:00",
   "topics": [
     {
-      "series_number": "TREND-4",
-      "series_title": "Cerveau, cœur, intestins",
-      "topic": "Cerveau, cœur, intestins",
-      "question_phrase": "Cerveau, cœur, intestins",
-      "angle": "Cerveau, cœur, intestins",
-      "thumbnail_text": "Cerveau, cœur, intestins",
-      "demand_note": "google_news_fr | 2026-10-07T11:12:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE8zY1RabmszVERLZTI2YlZZQldJalJONnNBOU90Y3RadFVnMG50cUtSdFd4ODBXeTRob09UWlJoYkZUMkdqbWk5eUZuTDc4TTlDRzlMWWJUbjJFenZPMHl3ZnJUZFNLdy1MWTZYVlRsS1RQRVhqSGFtS040MENDZw?oc=5",
-      "trend_score": 10,
-      "fetched_at": "2026-10-07T17:30:40.601369+00:00"
-    },
-    {
       "series_number": "TREND-5",
       "series_title": "Bannalec. Au cœur du corps poursuit son activité",
       "topic": "Bannalec. Au cœur du corps poursuit son activité",
@@ -42,32 +29,6 @@
       "fetched_at": "2026-10-07T17:30:40.601426+00:00"
     },
     {
-      "series_number": "TREND-9",
-      "series_title": "\"Pas du tout féministe\", \"cerveau de matheuse\", ex",
-      "topic": "\"Pas du tout féministe\", \"cerveau de matheuse\", ex",
-      "question_phrase": "\"Pas du tout féministe\", \"cerveau de matheuse\", ex",
-      "angle": "\"Pas du tout féministe\", \"cerveau de matheuse\", ex",
-      "thumbnail_text": "\"Pas du tout féministe\", \"cerveau de matheuse\", ex",
-      "demand_note": "google_news_fr | 2026-10-07T09:59:16+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7gJBVV95cUxPS09Iam9qWUFjaHJCMFQ1M05oZ1A5RG9WLWFWdjhvMmVHczI3UlBCQ1JlVEJBWnhscGh5bFlIaXUxdUJNVHFRWGpadFlLM1FUcS1RSHB4WG5OZzFZendzR1dtbFRvaHJjeEUyS2JXUXJUam9wbGZCcnpVMnkwMk14TVp5TmlLNk03X0haZEpTelpXYmFXUTI2bmV0WHM1Y1dWVFBfSHZOWUF0Q3JDS0QyMl95SmFnaG1XVnh4ZHN2aTA3b0tQWmx0ZFlkeEkwRGV3Rl9tQzZNS29sbmV4V3dlR1dQaGJESGY3MXB5eV84ZFNqaGFYbl9kUV9sdml2NDU0MDlpQkRTTWszdE4xb2ZuNG9iZXFhU0NxZHZsM0hDNEQzNUsxdmcwRlkwT2tKM1cwRkFpOUhsdGZkT0ZneHVBSTNGbjZsdDBGUXN5cDJTMGRpN3Nvczd2UVo0MXYxN2FfUUFBeHBiamZ6eUFqUGc?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601438+00:00"
-    },
-    {
-      "series_number": "TREND-11",
-      "series_title": "Stress, surcharge mentale, perte de sens",
-      "topic": "Stress, surcharge mentale, perte de sens",
-      "question_phrase": "Stress, surcharge mentale, perte de sens",
-      "angle": "Stress, surcharge mentale, perte de sens",
-      "thumbnail_text": "Stress, surcharge mentale, perte de sens",
-      "demand_note": "google_news_fr | 2026-10-07T16:22:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPX0tuaDR4TFdHY1pBT2lLLUhJRVNoeDQ2SDd3QmFFVkt6VXB1SnptQUxsdHQ5MGxxTmN0RUZab1BYb3dBMjhmVTVsNmJQOW11RTVrRGpCa0U3ZnZnSDdvcHNrZHR6Zkt6LUdWMms2NHdFU0ZFeVhyTGhZR1ZaZE9pdXRWUDJzVlphckxxb2RFOXU3TWRVenpzZ2VnaE1ad29HYkgyTXJUT2VUcm5wUmIxZ1lsZ0R5QTNJcXg1eGVzelVPVktaV1ZONWV2Y1hKV2NiZUFXWFdSRUhRdkZ4akdxVHRwTGxxb3M?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601459+00:00"
-    },
-    {
       "series_number": "TREND-14",
       "series_title": "On lui découvre deux tumeurs au cerveau après une chute à cheval",
       "topic": "On lui découvre deux tumeurs au cerveau après une chute à cheval",
@@ -79,19 +40,6 @@
       "source_url": "https://news.google.com/rss/articles/CBMimAJBVV95cUxOLUpxeGZEWndKS3ZJTUlJcTJGVlNOVWxBWHl0VnM0bDQydDhBd19OUTJJVVhBeTBGbWpCU1Z5STNLRkFubHBvdXpHZXhoY0h6dU9nS0JtX05IcVdtQk1DNnZjc1U1VVhXQVhFRDhLand1b29tZHQ3amRSU2NMM3J2YTlYZHc0YkJLT1Buck9IVW1ZUjZxeEU4UXlIaFFENzFYYURGXzBxbEFJRDU3VHBlTVVtT2ZZYVdCblJsNld1NlBpWDdVaGZhNGprM1hkQUVhbENxNEx4V21ieWROYTB5bmlMMGl5VUdwSk9HTkxmbXp4NmlvTHNoellHNlczcGFSYVd5YXZON19Ya1p4YzRaRDZ6eDNnUlk1?oc=5",
       "trend_score": 7,
       "fetched_at": "2026-10-07T17:30:40.601496+00:00"
-    },
-    {
-      "series_number": "TREND-16",
-      "series_title": "Trois continents en 15 jours, travail physique, sommeil... Comment les frères Lebrun s'ada",
-      "topic": "Trois continents en 15 jours, travail physique, sommeil... Comment les frères Lebrun s'adaptent à un calendrier surchargé",
-      "question_phrase": "Trois continents en 15 jours, travail physique, sommeil... Comment les frères Lebrun s'adaptent à un calendrier surchargé",
-      "angle": "Trois continents en 15 jours, travail physique, sommeil... Comment les frères Lebrun s'adaptent à un calendrier surchargé",
-      "thumbnail_text": "Trois continents en 15 jours, travail physique, sommeil... Comment les",
-      "demand_note": "google_news_fr | 2026-10-07T16:27:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQeWJnY05BMm5WcENqMHJSZGZwb0VoYlloN3UzcUE1Rl9VUC1rUVZ1WnNlaU1yUWp2cE9PSlpqUzAySEFVR3JxNzhfTkt0Q1lZMmZ5Nzd5c1hLTWdfUmdJZ3Q0bElYUzBOYkREM2c0WkRMZVJVUnpQQ2gzUEotTXdmMEtkYlh3dE1MNFlWY2p5MVFVS25NLVFENmhyS3V6WDZ0RmxzR25oaWZOWGZHZ1EtdUF5TW95cjF0dms5UnJpcC1tSnNwLTN6R0JhbGxWMWlFSnI2aWVNTmxkeXRKNm1PdFJVZnVLbTjSAewBQVVfeXFMTzQ0TlN3TUx3Si1XbmJXb2VDS2RhLWFpSms5dURLaXRoUnI5Sy1tMS1OTGZuNmJwOFRBbmFOSkNqUlNMUDBiOWNVRVF2V05zMWg4eDFOb3FnLUxEdHRLdzNxMGRlNHBYRFRjUlZLeVh3bkdkNWs3dndBb0FoTGxnUDlCSzBEMkdpdE1xVEFnYkxCVlBnQnNsMVJ4eU16T3FMN2txelVUbjdxZ1Z5bzBoam9BOUR0YXNQRHJRaV9Fd1pMdWlPZVFuSU5hTVA2LWp2MXpMQ25SRzh6OS1fVEFpT3loMzJRZ1Y2Y3FfOUQ?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601522+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -120,19 +68,6 @@
       "fetched_at": "2026-10-07T17:30:40.601568+00:00"
     },
     {
-      "series_number": "TREND-21",
-      "series_title": "\"Palpitations, troubles du sommeil, angoisse\"… les boissons énergisantes bientôt interdite",
-      "topic": "\"Palpitations, troubles du sommeil, angoisse\"… les boissons énergisantes bientôt interdites aux moins de 16 ans",
-      "question_phrase": "\"Palpitations, troubles du sommeil, angoisse\"… les boissons énergisantes bientôt interdites aux moins de 16 ans",
-      "angle": "\"Palpitations, troubles du sommeil, angoisse\"… les boissons énergisantes bientôt interdites aux moins de 16 ans",
-      "thumbnail_text": "\"Palpitations, troubles du sommeil, angoisse\"… les boissons énergisant",
-      "demand_note": "google_news_fr | 2026-10-07T08:56:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxObGNPaFhhZUV0MnBfeVI2TmoxUjNsc2R3Y21KYWc5TE5MSWswdlBHUWVRVjZWYlZfWjdVb1FtSC1Ea2Y5NGZlYlVDSGhqLTVaVGlIMDdOeU1ycGxWczNZMkdqNUhBeXRMTlVvZEl5eWtOQmM0VHE4TExITV85WldQYWdqZlhjaEhNcEZqc094ZHVJVEsyd3B2VjA4TUg5YTZjNGZValEyNVRVNUh4ZG9NcHVtelY3TS1Qamp5cGstRzRzQy1NdTJ4RTdSOEZBbTc0cWhZUGpwdVRwTTljOXk2Sk9lc3E4VlM0dzF2WENZdw?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601583+00:00"
-    },
-    {
       "series_number": "TREND-22",
       "series_title": "Les jeunes du centre social ont appris à compter avec leur corps",
       "topic": "Les jeunes du centre social ont appris à compter avec leur corps",
@@ -159,45 +94,6 @@
       "fetched_at": "2026-10-07T17:30:40.601616+00:00"
     },
     {
-      "series_number": "TREND-26",
-      "series_title": "Un atelier pour entretenir sa mémoire dans le cadre de la Semaine bleue à La Rivière",
-      "topic": "Un atelier pour entretenir sa mémoire dans le cadre de la Semaine bleue à La Rivière",
-      "question_phrase": "Un atelier pour entretenir sa mémoire dans le cadre de la Semaine bleue à La Rivière",
-      "angle": "Un atelier pour entretenir sa mémoire dans le cadre de la Semaine bleue à La Rivière",
-      "thumbnail_text": "Un atelier pour entretenir sa mémoire dans le cadre de la Semaine bleu",
-      "demand_note": "google_news_fr | 2026-10-07T09:10:36+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOcl94YWhKdzNLYjhWUEZoV09IUTBTTWVPNms1UFI4RE9CZVZydGdrQzRaQlA3d2lZbXNDaUlUUlVPSFF6dmV5bEg2RWZFOWhOSklJcEtuWkZtdFFQOV9BSkVmc2EyMEZDV1hIejRmNkxBT3pDMGM1X2hUY2tLT21Vdjl1RFN4TXpBekR4NFRJYm1aa1o4RVNrcTVZN1EzSFk2U0FBODU5MmF4cXlnNjNRY1FlblV3WTQ4ZVl3cHVWQUxha0dnTzVzbA?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601639+00:00"
-    },
-    {
-      "series_number": "TREND-28",
-      "series_title": "« Mon corps n’avait plus l’habitude »",
-      "topic": "« Mon corps n’avait plus l’habitude »",
-      "question_phrase": "« Mon corps n’avait plus l’habitude »",
-      "angle": "« Mon corps n’avait plus l’habitude »",
-      "thumbnail_text": "« Mon corps n’avait plus l’habitude »",
-      "demand_note": "google_news_fr | 2026-10-07T15:02:44+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxPSi1XcVp1cmRzNFNuVnJFdTFvcm8zMm9lN3BfeDVGaGFGWTNhajFfcGQ0dVlHaUotUWppeHF0LThJdUl6U19Bc2RMR245RGN5eXR1dHItcEtXbkhhbnNZSkc4c29YdFZTTHplTFRXSGpuVW9sZkh2WmtYNkxZUnNCRk5IcHR1MjRlYm5hNi1Ya2w1RW9MMm5SWV9yMnRLbUlrY2ZsOVF3cjBXSXBNZHFZOTNzMGpvY1JvaWR1UmFqYlFuRTZBWXU1UzFYeXhqWjRtZ3lONWtxZXl2bW1vMW9taFJ0VkR1c1BfY2hvaDJLbGRLNUN3Ymc?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601659+00:00"
-    },
-    {
-      "series_number": "TREND-29",
-      "series_title": "Des matelas aux pyjamas, comment les frères Fremaux construisent un véritable empire du so",
-      "topic": "Des matelas aux pyjamas, comment les frères Fremaux construisent un véritable empire du sommeil",
-      "question_phrase": "Des matelas aux pyjamas, comment les frères Fremaux construisent un véritable empire du sommeil",
-      "angle": "Des matelas aux pyjamas, comment les frères Fremaux construisent un véritable empire du sommeil",
-      "thumbnail_text": "Des matelas aux pyjamas, comment les frères Fremaux construisent un vé",
-      "demand_note": "google_news_fr | 2026-10-07T05:10:11+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi9wFBVV95cUxPcU1XQUJPRTR5SVNZaW5YeGs5Nkk2S2RpS1RFb0JUS2hUOWNvLXc2OU9uSXlwdVNYQnpWM2J0UUlGbzAyX2U4VmZkLWNrT1F5NnBwankyMDdfV3Z3eW9BcWx5LWh4UFNJYzhoVjFjM3VGMzRvVFAzem1FdmdqbGNFLTFlNTQtTThHaUN0VDFvXzdtcWFSdTJKOEpGYVR6Vzd6OFZVV0llaDEwb0lDZ2NoYnFyVHVwQ19KNUYwbGFFek1Zam1xUkxaeWFRRU5LVUQ2c0dFeEhFUkpFcl9GVThNZDdXZVh0ekNQRzFjaVhkNWJBVE56Nmpn?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601671+00:00"
-    },
-    {
       "series_number": "TREND-33",
       "series_title": "D’une algue au cerveau",
       "topic": "D’une algue au cerveau",
@@ -222,34 +118,8 @@
       "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNbWIzcm1qWHVEbGRPMlpZdXBSNmpfdlNfV25uMVhLVlcwbWtHdVpsSXRZcXk1TkFPeWtCcEJjRXNFVkpNaURuc0pRUHJvU0NHNWVCcTJZeVFWYmRiQUo1aWFjbkJjQnpIVHFIU1hPUy1EZk1tOV9WM055bEQxSXZ3TXFVRUJaWENWRnNHNFF2eElFZDBXMkJScUdqbnI3S2VqSy1kR2VOT1FJSGlzLVhpODN6MlllRE12VU5DUEh2Sk1wWGE3V0N3TXNxeHFtbmtlWEdNaVF3SEF6MVBLcThkaWpnMFZYN3g3akJZRzZPUQ?oc=5",
       "trend_score": 7,
       "fetched_at": "2026-10-07T17:30:40.601720+00:00"
-    },
-    {
-      "series_number": "TREND-38",
-      "series_title": "À Guilligomarc’h, des ateliers mémoire pour les plus de 60 ans",
-      "topic": "À Guilligomarc’h, des ateliers mémoire pour les plus de 60 ans",
-      "question_phrase": "À Guilligomarc’h, des ateliers mémoire pour les plus de 60 ans",
-      "angle": "À Guilligomarc’h, des ateliers mémoire pour les plus de 60 ans",
-      "thumbnail_text": "À Guilligomarc’h, des ateliers mémoire pour les plus de 60 ans",
-      "demand_note": "google_news_fr | 2026-10-07T12:12:49+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPYk1NZWxIUWl0VTRhOURSNjFrNnhhYmdIQlFOcTRRRmc1YklUZ0MyRjQ2cTdvZWpSbmNWNks1MXRZd3FrQ2tFX3Fmc0xqc0hLZXZnbHFYWko3bTBUQ2RCeEdKLS16NHZNNmxVN1VUY192dGIyMnlGajdzNWlOWi1FM0hTbldyV1BzQjF5ZHBDMWpHYkVCY1VvUmJwS1RHOGhFUFE2U25lb1I5Z2l5bjEwLU45Z2dVMFNrNk5IdlRLeGJzT3hiblVkTE1B?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601779+00:00"
-    },
-    {
-      "series_number": "TREND-40",
-      "series_title": "Émagny. Un prix pour honorer la mémoire de Christian Courtet",
-      "topic": "Émagny. Un prix pour honorer la mémoire de Christian Courtet",
-      "question_phrase": "Émagny. Un prix pour honorer la mémoire de Christian Courtet",
-      "angle": "Émagny. Un prix pour honorer la mémoire de Christian Courtet",
-      "thumbnail_text": "Émagny. Un prix pour honorer la mémoire de Christian Courtet",
-      "demand_note": "google_news_fr | 2026-10-07T17:23:07+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQNkdKa2NrWGhBdVdjMEVtRjlhSzYwTGNTRUNjdVBPaC0wWXVZTTNzNEo5RzUxRlM1ZG9wMEllUnV1T2ZNR2JOSlRTZ1g5T1ZyUXpHR1RzTWFRbm82SVRnZHEycjJWQzY2ZF9qU2l2eG5XdVJyWWo4amViMU55a1pYWTVCR0NneGpqMDBXelc5SG5WYzFmTkxKX1JMQl9wZVhibFRV?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-07T17:30:40.601798+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-07T19:28:38.475201+00:00"
+  "filtered_at": "2026-10-08T01:45:37.046337+00:00"
 }

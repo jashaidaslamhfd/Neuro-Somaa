@@ -5136,5 +5136,43 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-08T01:48:19.898779+00:00",
+    "topic": "On lui découvre deux tumeurs au cerveau après une chute à cheval",
+    "title": "Pourquoi on lui découvre deux tumeurs?",
+    "duration": 18.524333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "a55f6b855e7487ba59f24ea1f117c57a2fe703c171e691f1333b31e3263cba3c",
+      "d7dcb0cae67cc6e152ac9a0bf0be850837c12f6607383d02e6aa2d0dca353e92",
+      "6988677c1de880bf5140c484c47e459860d368da4637753456b2889bcf47ba58",
+      "84e9c248a9f67367ae08647391ffdab43245d0c4e621ea3a820ceabc3e8d11cb",
+      "71fcad1205a901e993c0f3c7b070938aee0dbb84466bd96a997782e071976cd6",
+      "15c773ad07b26d6fc22f1612eeed4009331df7e33868850df6c3d806350fbbd7",
+      "b16060cf4fb43d202c798b3a3f08a73663e8dd85f870d14ff1cfceae69d9c0f7",
+      "82f4893f91e4787498eadf246e851711d917642e74a9f1e0272ad3c2dd5f7d81"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "800955feab962f52dcabf94fbedbe1bee3dfc94ef8acc25bbe8f50d8bc299401",
+    "status": "uploaded",
+    "youtube_video_id": "bbXqVtBxXAo",
+    "url": "https://youtu.be/bbXqVtBxXAo",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

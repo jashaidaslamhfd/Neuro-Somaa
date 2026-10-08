@@ -33,7 +33,7 @@
     },
     {
       "keyword": "sommeil",
-      "weight": 2.99,
+      "weight": 3.14,
       "engagement_avg": 8.8
     },
     {
@@ -183,12 +183,11 @@
     },
     {
       "keyword": "après",
-      "weight": 1.2,
+      "weight": 1.26,
       "engagement_avg": 8.0
     }
   ],
   "winning_hooks": [
-    "Pourquoi apple pourrait bientôt faire?",
     "Pourquoi ateliers mémoire pour?",
     "Pourquoi certaines souris ont montré?",
     "Pourquoi portrait. Ouassila Arras?",
@@ -217,7 +216,8 @@
     "La lumière qui éclaire ton cerveau?",
     "Pourquoi quatre artistes explorent la?",
     "Pourquoi jour de mémoire et de leçons?",
-    "Pourquoi stress, surcharge mentale?"
+    "Pourquoi stress, surcharge mentale?",
+    "Pourquoi on lui découvre deux tumeurs?"
   ],
   "performance_records": [
     {
@@ -828,8 +828,20 @@
       "status": "uploaded",
       "url": "https://youtu.be/I_o5_BDnVUE",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 51,
+      "timestamp": "2026-10-08T01:48:24.626882+00:00",
+      "title": "Pourquoi on lui découvre deux tumeurs?",
+      "topic": "On lui découvre deux tumeurs au cerveau après une chute à cheval",
+      "duration": 18.524333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/bbXqVtBxXAo",
+      "tempo": "ULTRA_DYNAMIC"
     }
   ],
-  "total_cycles": 50,
-  "last_cycle_at": "2026-10-07T19:31:40.891063+00:00"
+  "total_cycles": 51,
+  "last_cycle_at": "2026-10-08T01:48:24.626918+00:00"
 }
