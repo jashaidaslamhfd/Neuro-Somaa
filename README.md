@@ -6,7 +6,7 @@ Neuro-Somaa is a France-first automation system for producing concise, natural F
 
 The system is intentionally small and observable. It prefers a French-native fallback script over a failed slot, uses an 18–30 second production target window, keeps upload private when scheduling is enabled, and writes a durable record to `data/video_history.json`. It never prints secret values. It also never treats a dry-run as a published upload.
 
-YouTube's own guidance groups performance into appeal, engagement, and satisfaction. Accordingly, this rebuild prioritizes a clear French title, immediate value in the opening seconds, readable narration, and real post-publication analytics rather than fabricated scores.
+YouTube's own guidance groups performance into appeal, engagement, and satisfaction. Accordingly, the engine prioritizes a clear French title, immediate value in the opening seconds, readable narration, and observed post-publication analytics. Topic ranking uses average view percentage only when analytics were fetched and the video has a meaningful view sample. Script-audit scores are heuristics, not actual retention or swipe-rate measurements.
 
 ## Secret-name mapping
 
@@ -24,7 +24,7 @@ For a live upload, provide at least one LLM secret and the three YouTube OAuth s
 
 ## GitHub Actions
 
-The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and three daily scheduled runs. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
+The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and three daily scheduled runs. Manual dispatch defaults to dry-run to prevent accidental uploads; explicitly disable it only when a live upload is intended. The GitHub token is read-only by default, with write permission limited to production state persistence. Cron runs are scheduled before the Europe/Paris publish slots, and late jobs fall forward to the next same-day slot where possible. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
 
 ## Preserved state
 
