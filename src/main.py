@@ -35,12 +35,19 @@ def _write_history(result: dict) -> None:
     path = SETTINGS.data_dir / "video_history.json"
     try:
         rows = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
-        if not isinstance(rows, list):
-            rows = []
-    except (OSError, json.JSONDecodeError):
-        rows = []
+    except (OSError, json.JSONDecodeError) as exc:
+        # Never replace a damaged history with a single new row: it contains
+        # the duplicate guard and the channel's accumulated analytics.
+        raise RuntimeError(f"Cannot safely read video history at {path}") from exc
+    if not isinstance(rows, list):
+        raise RuntimeError(f"Video history must be a JSON list: {path}")
     rows.append(result)
-    path.write_text(json.dumps(rows[-200:], ensure_ascii=False, indent=2), encoding="utf-8")
+    temporary = path.with_name(path.name + ".tmp")
+    temporary.write_text(
+        json.dumps(rows[-200:], ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    temporary.replace(path)
 
 
 def _clip_history() -> list[dict]:
