@@ -55,8 +55,11 @@ def test_agent_brain_audit_and_retention(tmp_path: Path):
     }
     audit = agent.audit_script(script)
     assert audit["passed"] is True
-    assert audit["predicted_str_pct"] >= 70.0
-    assert audit["predicted_apv_pct"] >= 90.0
+    assert audit["predicted_str_pct"] is None
+    assert audit["heuristic_hook_score_pct"] >= 70.0
+    assert 35.0 <= audit["predicted_apv_pct"] <= 65.0
+    assert audit["score_type"] == "heuristic_script_score_not_actual_audience_retention"
+    assert audit["apv_estimate_basis"] == "generic_heuristic_no_analytics"
 
     optimized = agent.optimize_script(script)
     assert "retention_verdict" in optimized
