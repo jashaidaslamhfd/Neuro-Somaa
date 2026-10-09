@@ -28,6 +28,31 @@ def _safe_truncate(text: str, limit: int) -> str:
     return truncated or text[:limit]
 
 
+PUBLISH_SLOTS = ((14, 30), (17, 30), (20, 0))
+
+
+def _next_publish_time(now_local: datetime, slot_env: str = "") -> datetime:
+    """Return the next future Paris publish slot, never a past timestamp."""
+    targets = sorted(
+        now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+        for hour, minute in PUBLISH_SLOTS
+    )
+    if slot_env:
+        try:
+            hour, minute = (int(part) for part in slot_env.split(":"))
+            requested = now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if requested > now_local:
+                return requested
+        except ValueError:
+            logger.warning("Invalid PUBLISH_SLOT=%r; selecting the next valid slot.", slot_env)
+    # A late job uses the next remaining slot today, not the same slot tomorrow.
+    target = next((item for item in targets if item > now_local), None)
+    if target is not None:
+        return target
+    return (now_local + timedelta(days=1)).replace(
+        hour=PUBLISH_SLOTS[0][0], minute=PUBLISH_SLOTS[0][1], second=0, microsecond=0
+    )
+
 def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict[str, Any]:
     if settings.dry_run or settings.render_only:
         return {
@@ -75,29 +100,9 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
 
         local_zone = ZoneInfo(settings.timezone)
         now_local = datetime.now(UTC).astimezone(local_zone)
-        slot_hours = ((14, 30), (17, 30), (20, 00))
-        slot_env = os.getenv("PUBLISH_SLOT", "").strip()
-        targets = sorted(
-            now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            for hour, minute in slot_hours
-        )
-        target = None
-        if slot_env:
-            try:
-                hour, minute = (int(part) for part in slot_env.split(":"))
-                requested = now_local.replace(hour=hour, minute=minute, second=0, microsecond=0)
-                if requested > now_local:
-                    target = requested
-            except ValueError:
-                logger.warning("Invalid PUBLISH_SLOT=%r; selecting the next valid slot.", slot_env)
-        # If a scheduled job starts late, use the next remaining slot today
-        # rather than silently delaying publication by a full day.
-        if target is None:
-            target = next((item for item in targets if item > now_local), None)
-        if target is None:
-            target = (now_local + timedelta(days=1)).replace(
-                hour=slot_hours[0][0], minute=slot_hours[0][1], second=0, microsecond=0
-            )
+        local_zone = ZoneInfo(settings.timezone)
+        now_local = datetime.now(UTC).astimezone(local_zone)
+        target = _next_publish_time(now_local, os.getenv("PUBLISH_SLOT", "").strip())
         status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
     body = {
