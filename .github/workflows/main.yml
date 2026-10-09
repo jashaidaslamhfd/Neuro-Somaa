@@ -23,13 +23,12 @@ on:
         type: string
         default: ""
   schedule:
-    # Three runs/day, aligned with the YouTube Studio audience activity heatmap:
-    # - 17:30 PKT (14:30 Paris slot) -> Cron: 10:30 UTC
-    # - 20:30 PKT (17:30 Paris slot) -> Cron: 13:30 UTC
-    # - 23:00 PKT (20:00 Paris slot) -> Cron: 16:00 UTC
-    - cron: "30 10 * * *"   # feeds the 14:30 Paris slot (17:30 PKT)
-    - cron: "30 13 * * *"   # feeds the 17:30 Paris slot (20:30 PKT)
-    - cron: "0 16 * * *"    # feeds the 20:00 Paris slot (23:00 PKT)
+    # GitHub cron is UTC and does not follow DST. These runs start before the
+    # Paris publish slots in both summer and winter; youtube.py converts the
+    # intended slot using Europe/Paris and falls forward if a run starts late.
+    - cron: "0 12 * * *"    # before 14:30 Paris (12:30 UTC summer / 13:30 UTC winter)
+    - cron: "0 15 * * *"    # before 17:30 Paris (15:30 UTC summer / 16:30 UTC winter)
+    - cron: "30 17 * * *"   # before 20:00 Paris (18:00 UTC summer / 19:00 UTC winter)
 
 permissions:
   contents: read
@@ -97,16 +96,16 @@ jobs:
         # not on all 3 daily runs, since RSS sources don't change that often.
         # Non-fatal: if every source is unreachable/rate-limited, this leaves
         # the existing queue file untouched rather than failing the run.
-        if: github.event.schedule == '30 10 * * *' || github.event_name == 'workflow_dispatch'
+        if: github.event.schedule == '0 12 * * *' || github.event_name == 'workflow_dispatch'
         run: |
           python scripts/fetch_france_trends.py --limit 40 || echo "trend refresh skipped, sources unavailable"
       - name: Determine publish slot
         if: github.event_name == 'schedule'
         run: |
           case "${{ github.event.schedule }}" in
-            "30 10 * * *") echo "PUBLISH_SLOT=14:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=18" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=22" >> "$GITHUB_ENV" ;;
-            "30 13 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=20" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=26" >> "$GITHUB_ENV" ;;
-            "0 16 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=22" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=30" >> "$GITHUB_ENV" ;;
+            "0 12 * * *") echo "PUBLISH_SLOT=14:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=18" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=22" >> "$GITHUB_ENV" ;;
+            "0 15 * * *") echo "PUBLISH_SLOT=17:30" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=20" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=26" >> "$GITHUB_ENV" ;;
+            "30 17 * * *") echo "PUBLISH_SLOT=20:00" >> "$GITHUB_ENV"; echo "TARGET_MIN_SECONDS=22" >> "$GITHUB_ENV"; echo "TARGET_MAX_SECONDS=30" >> "$GITHUB_ENV" ;;
           esac
       - name: Sanitize France topic queue
         run: python scripts/clean_france_queue.py
