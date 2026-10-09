@@ -312,6 +312,7 @@ class AgentBrain:
         logger.info("Agent reflection complete. Cycle #%d recorded in memory.", self.memory["total_cycles"])
 
     def predict_retention(self, script: dict[str, Any]) -> dict[str, Any]:
+        """Return a script-structure heuristic, not measured audience retention."""
         scenes = script.get("scenes", [])
         if not scenes:
             return {"passed": False, "overall_score": 0.50, "retention_index_pct": 50, "hook_potency": 0.5, "pacing_velocity": 0.5, "loopback_seamlessness": 0.5}
@@ -369,16 +370,35 @@ class AgentBrain:
                     found_triggers.append(trig)
 
         neuro_score = round(min(1.0, len(found_triggers) / 4.0), 2)
-        str_pct = round(65.0 + (verdict["hook_potency"] * 25.0), 1)
-        apv_pct = round(80.0 + (verdict["overall_score"] * 30.0), 1)
+        # The channel's actual analytics have averaged far below the old
+        # hard-coded 90-110% APV estimates. Calibrate the estimate to observed
+        # watch data when there is a meaningful sample; otherwise use a modest
+        # neutral prior and explicitly label the estimate as heuristic.
+        observed = self._local_analytics_snapshot()
+        has_baseline = observed.get("videos_with_usable_analytics", 0) >= 5
+        baseline_apv = (
+            float(observed["mean_average_view_percentage"])
+            if has_baseline
+            else 45.0
+        )
+        adjustment = (float(verdict["overall_score"]) - 0.75) * 20.0
+        apv_pct = round(max(10.0, min(100.0, baseline_apv + adjustment)), 1)
 
         return {
             "neuro_score": neuro_score,
             "retention_score": verdict["overall_score"],
             "retention_index_pct": verdict["retention_index_pct"],
+            "score_type": "heuristic_script_score_not_actual_audience_retention",
             "passed": verdict["passed"],
-            "predicted_str_pct": str_pct,
+            # Stayed-to-watch is unavailable in this channel's analytics; do
+            # not fabricate a percentage from a script rubric.
+            "predicted_str_pct": None,
+            "heuristic_hook_score_pct": round(float(verdict["hook_potency"]) * 100.0, 1),
             "predicted_apv_pct": apv_pct,
+            "apv_estimate_basis": (
+                "channel_observed_analytics" if has_baseline else "generic_heuristic_no_analytics"
+            ),
+            "observed_channel_apv_pct": observed.get("mean_average_view_percentage"),
             "hook_potency": verdict["hook_potency"],
             "pacing_velocity": verdict["pacing_velocity"],
             "loopback_seamlessness": verdict["loopback_seamlessness"],
