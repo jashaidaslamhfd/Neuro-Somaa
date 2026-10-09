@@ -24,7 +24,7 @@ except ImportError:
 logger = logging.getLogger("neuro_somaa.agent")
 
 DEFAULT_MEMORY = {
-    "version": "2.0.0",
+    "version": "3.0.0",
     "agent_name": "Neuro-Somaa Autonomous Agent",
     "created_at": datetime.now(UTC).isoformat(),
     "last_cycle_at": None,
@@ -37,12 +37,12 @@ DEFAULT_MEMORY = {
         "active_narrative_role": "POV_MYSTERY_INVESTIGATION"
     },
     "high_velocity_keywords": [
-        {"keyword": "cerveau", "weight": 1.5, "engagement_avg": 8.8},
-        {"keyword": "sommeil", "weight": 1.4, "engagement_avg": 8.5},
-        {"keyword": "stress", "weight": 1.4, "engagement_avg": 8.2},
-        {"keyword": "téléphone", "weight": 1.6, "engagement_avg": 9.1},
-        {"keyword": "rêves", "weight": 1.3, "engagement_avg": 8.0},
-        {"keyword": "mémoire", "weight": 1.3, "engagement_avg": 7.9}
+        {"keyword": "cerveau", "weight": 1.5, "engagement_avg": None},
+        {"keyword": "sommeil", "weight": 1.4, "engagement_avg": None},
+        {"keyword": "stress", "weight": 1.4, "engagement_avg": None},
+        {"keyword": "téléphone", "weight": 1.6, "engagement_avg": None},
+        {"keyword": "rêves", "weight": 1.3, "engagement_avg": None},
+        {"keyword": "mémoire", "weight": 1.3, "engagement_avg": None}
     ],
     "winning_hooks": [
         "Ton téléphone vibre dans le vide ?",
@@ -66,6 +66,22 @@ class AgentBrain:
             try:
                 data = json.loads(self.memory_path.read_text(encoding="utf-8"))
                 if isinstance(data, dict):
+                    if data.get("version") != "3.0.0":
+                        # Version 2 memory treated generated hook/quality scores as
+                        # viewer success and accumulated ordinary title words as
+                        # "high velocity" keywords. Reset those ungrounded fields,
+                        # but preserve the episodic production log and cycle count.
+                        data["version"] = "3.0.0"
+                        data["strategy"] = {
+                            **DEFAULT_MEMORY["strategy"],
+                            **(data.get("strategy") if isinstance(data.get("strategy"), dict) else {}),
+                        }
+                        data["strategy"]["target_duration_window"] = [18.0, 30.0]
+                        data["strategy"]["max_title_chars"] = 60
+                        data["high_velocity_keywords"] = json.loads(
+                            json.dumps(DEFAULT_MEMORY["high_velocity_keywords"])
+                        )
+                        data["winning_hooks"] = list(DEFAULT_MEMORY["winning_hooks"])
                     return data
             except (OSError, json.JSONDecodeError) as exc:
                 logger.warning("Could not read agent memory (%s), initializing default.", exc)
@@ -206,7 +222,7 @@ class AgentBrain:
                         metrics["top_performing_video"] = best
                         metrics["learning_mode"] = "live_data_api"
                         if best["engagement_rate"] > 1.0:
-                            self._reinforce_keywords_from_title(best["title"])
+                            self._reinforce_keywords_from_title(best["title"], best["engagement_rate"])
                     metrics["sync_status"] = "synced_live"
                     logger.info("Agent sensory loop successfully ingested %d live YouTube video metrics.", len(audited))
         except Exception as exc:
@@ -215,19 +231,32 @@ class AgentBrain:
 
         return metrics
 
-    def _reinforce_keywords_from_title(self, title: str) -> None:
-        words = re.findall(r"\b[a-zà-ÿ]{4,}\b", title.lower())
-        existing = {k["keyword"]: k for k in self.memory.get("high_velocity_keywords", [])}
-        for w in words:
-            if w in ("pourquoi", "dans", "avec", "pour", "cette", "votre"):
-                continue
-            if w in existing:
-                existing[w]["weight"] = round(existing[w]["weight"] * 1.05, 2)
+    def _reinforce_keywords_from_title(self, title: str, engagement_rate: float) -> None:
+        # Learn only from observed engagement on a real upload, and only for
+        # relevant niche terms. Never promote filler words from a headline.
+        allowed = {
+            "cerveau", "psychologie", "comportement", "sommeil", "rêve", "rêves",
+            "mémoire", "attention", "perception", "illusion", "dopamine",
+            "concentration", "peur", "odeur", "vision", "habitude", "notification",
+            "téléphone", "muscle", "cœur", "corps", "respiration", "fatigue",
+            "émotion", "stress", "neurone", "créativité", "conscience",
+        }
+        words = set(re.findall(r"\b[a-zà-ÿ]{4,}\b", title.lower())) & allowed
+        existing = {
+            item["keyword"]: item
+            for item in self.memory.get("high_velocity_keywords", [])
+            if isinstance(item, dict) and item.get("keyword")
+        }
+        for word in words:
+            if word in existing:
+                item = existing[word]
+                item["weight"] = round(min(3.0, float(item.get("weight", 1.0)) * 1.05), 2)
+                item["engagement_avg"] = round(float(engagement_rate), 3)
             else:
                 self.memory.setdefault("high_velocity_keywords", []).append({
-                    "keyword": w,
+                    "keyword": word,
                     "weight": 1.2,
-                    "engagement_avg": 8.0
+                    "engagement_avg": round(float(engagement_rate), 3),
                 })
 
     def reason_and_strategize(self, chosen_topic: str) -> dict[str, Any]:
@@ -277,24 +306,10 @@ class AgentBrain:
         records.append(record)
         self.memory["performance_records"] = records[-100:]  # Keep last 100
         
-        # Never call every generated title a "winning hook". That polluted
-        # memory with low-quality news headlines even when they had never been
-        # viewed. Keep only strong production candidates; live viewer metrics,
-        # when available, are handled separately by sense_youtube_performance.
-        if (
-            record.get("title")
-            and len(record["title"]) <= 44
-            and float(record.get("hook_score") or 0) >= 88
-            and float(record.get("quality_score") or 0) >= 80
-            and not any(bad in str(record["title"]).lower() for bad in (
-                "pourquoi on lui", "pourquoi quatre", "pourquoi jour de",
-                "pourquoi stress, surcharge",
-            ))
-        ):
-            winning = self.memory.setdefault("winning_hooks", [])
-            if record["title"] not in winning:
-                winning.append(record["title"])
-                self.memory["winning_hooks"] = winning[-30:]
+        # Script rubric scores are not audience outcomes. A generated title is
+        # never promoted to "winning" until a separate analytics job proves it
+        # with observed watch metrics; current production results do not carry
+        # those metrics at upload time.
 
         self.save_memory()
 
