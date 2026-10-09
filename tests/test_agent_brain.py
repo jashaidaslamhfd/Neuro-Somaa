@@ -64,3 +64,54 @@ def test_agent_brain_audit_and_retention(tmp_path: Path):
     curve = agent.simulate_retention_curve(script)
     assert len(curve) == 19
     assert curve[0]["retention_pct"] == 100.0
+
+
+def test_local_analytics_uses_observed_watch_metrics_only(tmp_path: Path, monkeypatch):
+    import json
+
+    (tmp_path / "video_history.json").write_text(json.dumps([
+        {
+            "title": "Faible échantillon",
+            "views": 8,
+            "average_view_percentage": 99,
+            "average_view_duration_sec": 15,
+            "analytics_fetched_at": "2026-10-01T00:00:00Z",
+        },
+        {
+            "title": "Bonne rétention",
+            "topic": "Pourquoi la mémoire fonctionne",
+            "views": 120,
+            "average_view_percentage": 82.5,
+            "average_view_duration_sec": 18,
+            "analytics_fetched_at": "2026-10-02T00:00:00Z",
+        },
+        {
+            "title": "Prédiction uniquement",
+            "views": 500,
+            "predicted_retention": 0.99,
+        },
+    ]), encoding="utf-8")
+    agent = AgentBrain(data_dir=tmp_path)
+    snapshot = agent._local_analytics_snapshot()
+    assert snapshot["videos_with_usable_analytics"] == 1
+    assert snapshot["best_observed_video"]["title"] == "Bonne rétention"
+    assert snapshot["mean_average_view_percentage"] == 82.5
+
+
+def test_sense_uses_local_analytics_without_oauth(tmp_path: Path, monkeypatch):
+    import json
+
+    for name in ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN"):
+        monkeypatch.delenv(name, raising=False)
+    (tmp_path / "video_history.json").write_text(json.dumps([{
+        "title": "Rétention observée",
+        "topic": "Pourquoi le cerveau retient une chanson",
+        "views": 80,
+        "average_view_percentage": 71,
+        "average_view_duration_sec": 17,
+        "analytics_fetched_at": "2026-10-02T00:00:00Z",
+    }]), encoding="utf-8")
+    metrics = AgentBrain(data_dir=tmp_path).sense_youtube_performance()
+    assert metrics["sync_status"] == "local_history_only"
+    assert metrics["learning_mode"] == "local_observed_analytics"
+    assert metrics["local_analytics"]["videos_with_usable_analytics"] == 1
