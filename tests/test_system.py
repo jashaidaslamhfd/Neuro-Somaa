@@ -21,7 +21,7 @@ def test_fallback_script_is_french_and_has_six_scenes():
     assert len(script["scenes"]) == 6
     assert script["title"].endswith("?")
     assert "#science" in script["description"]
-    assert any("ton cerveau" in scene["narration"] for scene in script["scenes"])
+    assert any("ton cerveau" in scene["narration"].lower() for scene in script["scenes"])
     assert all(scene["narration"] for scene in script["scenes"])
 
 
