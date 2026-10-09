@@ -10,7 +10,7 @@ from agent_brain import AgentBrain
 
 def test_agent_brain_initialization(tmp_path: Path):
     agent = AgentBrain(data_dir=tmp_path)
-    assert agent.memory["version"] == "2.0.0"
+    assert agent.memory["version"] == "3.0.0"
     assert "strategy" in agent.memory
     assert agent.memory["strategy"]["max_title_chars"] == 60
 
@@ -35,7 +35,7 @@ def test_agent_reasoning_and_reflection(tmp_path: Path):
     agent.reflect_and_learn(production_mock, plan)
     assert agent.memory["total_cycles"] == 1
     assert len(agent.memory["performance_records"]) == 1
-    assert "Pourquoi ton cerveau procrastine ?" in agent.memory["winning_hooks"]
+    assert "Pourquoi ton cerveau procrastine ?" not in agent.memory["winning_hooks"]
 
 
 def test_agent_brain_audit_and_retention(tmp_path: Path):
@@ -118,3 +118,10 @@ def test_sense_uses_local_analytics_without_oauth(tmp_path: Path, monkeypatch):
     assert metrics["sync_status"] == "local_history_only"
     assert metrics["learning_mode"] == "local_observed_analytics"
     assert metrics["local_analytics"]["videos_with_usable_analytics"] == 1
+
+def test_keyword_learning_uses_real_engagement_and_niche_terms(tmp_path: Path):
+    agent = AgentBrain(data_dir=tmp_path)
+    agent._reinforce_keywords_from_title("Pourquoi le cerveau reste éveillé", 2.375)
+    keywords = {item["keyword"]: item for item in agent.memory["high_velocity_keywords"]}
+    assert keywords["cerveau"]["engagement_avg"] == 2.375
+    assert "éveillé" not in keywords
