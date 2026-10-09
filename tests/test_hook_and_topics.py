@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 
 from config import Settings
-from content import load_topic, score_hook, title_is_fresh
+from content import _topic_retention_bonus, load_topic, score_hook, title_is_fresh
 
 
 def test_near_duplicate_title_is_rejected(tmp_path):
@@ -74,3 +74,17 @@ def test_load_topic_falls_back_to_rotation_when_no_winning_topic_nearby(tmp_path
     (tmp_path / "video_history.json").write_text("[]", encoding="utf-8")
     topic = load_topic(settings)
     assert "cœur" in topic.lower()
+
+
+def test_topic_retention_bonus_uses_observed_analytics_not_predictions():
+    history = [
+        {"topic": "Pourquoi le sommeil aide la mémoire ?", "views": 120, "average_view_percentage": 84, "average_view_duration_sec": 18, "analytics_fetched_at": "2026-10-01T00:00:00Z"},
+        {"topic": "Pourquoi le sommeil change-t-il les rêves ?", "views": 140, "average_view_percentage": 80, "average_view_duration_sec": 19, "analytics_fetched_at": "2026-10-02T00:00:00Z"},
+        {"topic": "Pourquoi le téléphone coupe la concentration ?", "views": 130, "average_view_percentage": 25, "average_view_duration_sec": 7, "analytics_fetched_at": "2026-10-03T00:00:00Z"},
+        {"topic": "Pourquoi le téléphone attire ton attention ?", "views": 160, "average_view_percentage": 30, "average_view_duration_sec": 8, "analytics_fetched_at": "2026-10-04T00:00:00Z"},
+        {"topic": "Sommeil prédit", "views": 500, "predicted_retention": 0.99},
+    ]
+    sleep_bonus = _topic_retention_bonus("Pourquoi le sommeil aide-t-il le cerveau ?", history)
+    phone_bonus = _topic_retention_bonus("Pourquoi le téléphone attire ton attention ?", history)
+    assert sleep_bonus > phone_bonus
+    assert sleep_bonus > 0
