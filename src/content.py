@@ -670,6 +670,51 @@ def _runtime_topic_fit(title: str) -> bool:
     return True
 
 
+_TOPIC_PERFORMANCE_KEYWORDS = (
+    "cerveau", "psychologie", "comportement", "sommeil", "rêve", "rêves",
+    "mémoire", "attention", "perception", "illusion", "dopamine",
+    "concentration", "peur", "odeur", "vision", "habitude",
+    "notification", "téléphone", "muscle", "cœur", "corps",
+    "respiration", "fatigue", "émotion", "stress",
+)
+
+
+def _topic_retention_bonus(title: str, rows: list[dict[str, Any]]) -> float:
+    """Use actual watch analytics as a modest tie-breaker for topic choice.
+
+    Only fetched analytics with at least 30 views count. Predicted retention
+    and low-sample videos are excluded to avoid reinforcing invented signals.
+    """
+    keyword_rates: dict[str, list[float]] = {}
+    for row in rows:
+        if not isinstance(row, dict) or not row.get("analytics_fetched_at"):
+            continue
+        historical_topic = _clean_fr(str(row.get("topic") or row.get("title") or ""))
+        if not historical_topic or not _runtime_topic_fit(historical_topic):
+            continue
+        try:
+            views = int(row.get("views") or 0)
+            average_pct = float(row.get("average_view_percentage") or 0)
+        except (TypeError, ValueError):
+            continue
+        if views < 30 or average_pct <= 0:
+            continue
+        historical_text = historical_topic.lower()
+        for keyword in _TOPIC_PERFORMANCE_KEYWORDS:
+            if keyword in historical_text:
+                keyword_rates.setdefault(keyword, []).append(min(average_pct, 100.0))
+
+    current = title.lower()
+    supported_rates = [
+        sum(rates) / len(rates)
+        for keyword, rates in keyword_rates.items()
+        if len(rates) >= 2 and keyword in current
+    ]
+    if not supported_rates:
+        return 0.0
+    # Keep the metric as a small adjustment; content relevance still matters more.
+    return max(-4.0, min(4.0, (sum(supported_rates) / len(supported_rates) - 45.0) / 10.0))
+
 def _topic_cluster_score(title: str) -> int:
     normalized = title.lower()
     score = sum(1 for kw in _WINNING_TOPIC_KEYWORDS if kw in normalized)
@@ -687,8 +732,10 @@ def load_topic(settings: Settings) -> str:
             items = payload if isinstance(payload, list) else payload.get("topics", [])
             history = settings.data_dir / "video_history.json"
             used = set()
+            rows: list[dict[str, Any]] = []
             if history.exists():
-                rows = json.loads(history.read_text(encoding="utf-8"))
+                loaded_rows = json.loads(history.read_text(encoding="utf-8"))
+                rows = loaded_rows if isinstance(loaded_rows, list) else []
                 used = {_clean_fr(str(row.get("topic", ""))).lower() for row in rows if isinstance(row, dict)}
             pointer_path = settings.data_dir / "queue_index_fr.json"
             try:
@@ -696,7 +743,7 @@ def load_topic(settings: Settings) -> str:
             except (OSError, ValueError, TypeError, json.JSONDecodeError):
                 pointer = 0
             ordered = items[pointer % len(items):] + items[:pointer % len(items)] if items else []
-            candidates: list[tuple[int, str]] = []
+            candidates: list[tuple[float, int, str]] = []
             for offset, item in enumerate(ordered):
                 # Queue items (see scripts/fetch_france_trends.py::make_topic) use
                 # "angle"/"topic" keys — never "title". Reading "title" here meant
@@ -708,13 +755,15 @@ def load_topic(settings: Settings) -> str:
                 title = (item.get("angle") or item.get("topic") or item.get("question_phrase") or item.get("title")) if isinstance(item, dict) else str(item)
                 clean_title = _clean_fr(str(title))
                 if clean_title and clean_title.lower() not in used and _runtime_topic_fit(clean_title):
-                    candidates.append((offset, clean_title))
+                    retention_bonus = _topic_retention_bonus(clean_title, rows)
+                    combined_score = _topic_cluster_score(clean_title) + retention_bonus
+                    candidates.append((combined_score, offset, clean_title))
                 if len(candidates) >= _TOPIC_LOOKAHEAD:
                     break
             if candidates:
-                # Highest cluster score wins; ties broken by queue order
-                # (earliest offset) to keep rotation predictable.
-                offset, title = max(candidates, key=lambda c: (_topic_cluster_score(c[1]), -c[0]))
+                # Topic relevance is the primary signal; observed watch retention
+                # gives a modest, evidence-based adjustment, then queue order wins.
+                _, offset, title = max(candidates, key=lambda candidate: (candidate[0], -candidate[1]))
                 pointer_path.write_text(json.dumps(pointer + offset + 1), encoding="utf-8")
                 return title
         except (OSError, json.JSONDecodeError, AttributeError):
