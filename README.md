@@ -4,7 +4,7 @@ Neuro-Somaa is a France-first automation system for producing concise, natural F
 
 ## Design principles
 
-The system is intentionally small and observable. It prefers a French-native fallback script over a failed slot, uses a 15–30 second target window, keeps upload private when scheduling is enabled, and writes a durable record to `data/video_history.json`. It never prints secret values. It also never treats a dry-run as a published upload.
+The system is intentionally small and observable. It prefers a French-native fallback script over a failed slot, uses an 18–30 second production target window, keeps upload private when scheduling is enabled, and writes a durable record to `data/video_history.json`. It never prints secret values. It also never treats a dry-run as a published upload.
 
 YouTube's own guidance groups performance into appeal, engagement, and satisfaction. Accordingly, this rebuild prioritizes a clear French title, immediate value in the opening seconds, readable narration, and real post-publication analytics rather than fabricated scores.
 
@@ -24,7 +24,7 @@ For a live upload, provide at least one LLM secret and the three YouTube OAuth s
 
 ## GitHub Actions
 
-The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and two daily scheduled runs. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
+The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and three daily scheduled runs. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
 
 ## Preserved state
 
