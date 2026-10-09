@@ -74,7 +74,12 @@ class AgentBrain:
     def save_memory(self) -> None:
         self.data_dir.mkdir(parents=True, exist_ok=True)
         self.memory["last_cycle_at"] = datetime.now(UTC).isoformat()
-        self.memory_path.write_text(json.dumps(self.memory, ensure_ascii=False, indent=2), encoding="utf-8")
+        temporary = self.memory_path.with_name(self.memory_path.name + ".tmp")
+        temporary.write_text(
+            json.dumps(self.memory, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+        temporary.replace(self.memory_path)
 
     def _local_analytics_snapshot(self) -> dict[str, Any]:
         """Summarize observed YouTube Analytics from the persisted video history.
@@ -305,7 +310,12 @@ class AgentBrain:
                 "plan": plan,
                 "outcome": record
             })
-            self.log_path.write_text(json.dumps(logs[-150:], ensure_ascii=False, indent=2), encoding="utf-8")
+            temporary = self.log_path.with_name(self.log_path.name + ".tmp")
+            temporary.write_text(
+                json.dumps(logs[-150:], ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            temporary.replace(self.log_path)
         except Exception as exc:
             logger.warning("Could not append to agent log: %s", exc)
 
