@@ -125,3 +125,23 @@ def test_keyword_learning_uses_real_engagement_and_niche_terms(tmp_path: Path):
     keywords = {item["keyword"]: item for item in agent.memory["high_velocity_keywords"]}
     assert keywords["cerveau"]["engagement_avg"] == 2.375
     assert "éveillé" not in keywords
+
+def test_legacy_memory_migration_discards_synthetic_wins(tmp_path: Path):
+    import json
+
+    (tmp_path / "agent_memory.json").write_text(json.dumps({
+        "version": "2.0.0",
+        "strategy": {"target_duration_window": [16, 21], "max_title_chars": 44},
+        "high_velocity_keywords": [{"keyword": "concarneau", "weight": 3.0, "engagement_avg": 8.0}],
+        "winning_hooks": ["Pourquoi quatre artistes explorent la?"],
+        "performance_records": [{"title": "historique conservé"}],
+        "total_cycles": 12,
+    }), encoding="utf-8")
+    agent = AgentBrain(data_dir=tmp_path)
+    assert agent.memory["version"] == "3.0.0"
+    assert agent.memory["strategy"]["target_duration_window"] == [18.0, 30.0]
+    assert agent.memory["strategy"]["max_title_chars"] == 60
+    assert "concarneau" not in {item["keyword"] for item in agent.memory["high_velocity_keywords"]}
+    assert agent.memory["winning_hooks"] == []
+    assert agent.memory["performance_records"] == [{"title": "historique conservé"}]
+    assert agent.memory["total_cycles"] == 12
