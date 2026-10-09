@@ -11,7 +11,7 @@ on:
         description: "Generate and validate without YouTube upload"
         required: true
         type: boolean
-        default: false
+        default: true
       render_only:
         description: "Render with real French narration and clips without uploading"
         required: true
@@ -32,7 +32,7 @@ on:
     - cron: "0 16 * * *"    # feeds the 20:00 Paris slot (23:00 PKT)
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: neuro-somaa-production
@@ -41,6 +41,8 @@ concurrency:
 jobs:
   production:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
