@@ -46,8 +46,6 @@ def validate_french_script(script: dict[str, Any], min_seconds: float = 15, max_
         errors.append("titre trop long pour un Short mobile")
     if "#" in title:
         errors.append("hashtags interdits dans le titre")
-    if len(title) > 60:
-        errors.append("titre trop long")
     title_lower = title.lower()
     if any(pattern in title_lower for pattern in (
         "on lui ", "une personne", "un homme", "une femme",
