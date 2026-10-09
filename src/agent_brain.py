@@ -34,7 +34,7 @@ DEFAULT_MEMORY = {
         "target_duration_window": [18.0, 30.0],
         "max_title_chars": 60,
         "mobile_feed_optimized": True,
-        "active_narrative_role": "POV_MYSTERY_INVESTIGATION"
+        "active_narrative_role": "NATURAL_DOCUMENTARY_CURIOSITY"
     },
     "high_velocity_keywords": [
         {"keyword": "cerveau", "weight": 1.5, "engagement_avg": None},
@@ -44,7 +44,8 @@ DEFAULT_MEMORY = {
         {"keyword": "rêves", "weight": 1.3, "engagement_avg": None},
         {"keyword": "mémoire", "weight": 1.3, "engagement_avg": None}
     ],
-    "winning_hooks": [
+    "winning_hooks": [],
+    "reference_hooks": [
         "Ton téléphone vibre dans le vide ?",
         "Pourquoi oublie-t-on nos rêves ?",
         "Pourquoi le temps passe plus vite ?",
@@ -78,10 +79,13 @@ class AgentBrain:
                         }
                         data["strategy"]["target_duration_window"] = [18.0, 30.0]
                         data["strategy"]["max_title_chars"] = 60
+                        data["strategy"]["preferred_hook_style"] = "QUESTION_CURIOSITY"
+                        data["strategy"]["active_narrative_role"] = "NATURAL_DOCUMENTARY_CURIOSITY"
                         data["high_velocity_keywords"] = json.loads(
                             json.dumps(DEFAULT_MEMORY["high_velocity_keywords"])
                         )
-                        data["winning_hooks"] = list(DEFAULT_MEMORY["winning_hooks"])
+                        data["winning_hooks"] = []
+                        data["reference_hooks"] = list(DEFAULT_MEMORY["reference_hooks"])
                     return data
             except (OSError, json.JSONDecodeError) as exc:
                 logger.warning("Could not read agent memory (%s), initializing default.", exc)
