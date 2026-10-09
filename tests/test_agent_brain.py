@@ -145,3 +145,32 @@ def test_legacy_memory_migration_discards_synthetic_wins(tmp_path: Path):
     assert agent.memory["winning_hooks"] == []
     assert agent.memory["performance_records"] == [{"title": "historique conservé"}]
     assert agent.memory["total_cycles"] == 12
+
+def test_apv_estimate_calibrates_to_real_channel_history(tmp_path: Path):
+    import json
+
+    rows = [
+        {
+            "title": f"Observed video {index}",
+            "topic": "Pourquoi le sommeil aide la mémoire",
+            "views": 100 + index,
+            "average_view_percentage": value,
+            "average_view_duration_sec": 15,
+            "analytics_fetched_at": f"2026-10-0{index + 1}T00:00:00Z",
+        }
+        for index, value in enumerate((40, 45, 50, 55, 60))
+    ]
+    (tmp_path / "video_history.json").write_text(json.dumps(rows), encoding="utf-8")
+    agent = AgentBrain(data_dir=tmp_path)
+    script = {"title": "Pourquoi le sommeil aide-t-il le cerveau ?", "scenes": [
+        {"caption": "Ton cerveau réagit.", "narration": "Le cerveau traite les informations rapidement."},
+        {"caption": "Les signaux circulent.", "narration": "Les signaux nerveux se déplacent entre les cellules."},
+        {"caption": "Le sommeil compte.", "narration": "Le sommeil aide plusieurs fonctions du cerveau."},
+        {"caption": "La mémoire change.", "narration": "La mémoire dépend de nombreux mécanismes."},
+        {"caption": "Tout se relie.", "narration": "Ces mécanismes fonctionnent ensemble pendant la nuit."},
+        {"caption": "Le cycle revient.", "narration": "Voilà pourquoi le sommeil influence la mémoire."},
+    ]}
+    audit = agent.audit_script(script)
+    assert audit["apv_estimate_basis"] == "channel_observed_analytics"
+    assert audit["observed_channel_apv_pct"] == 50.0
+    assert 40.0 <= audit["predicted_apv_pct"] <= 60.0
