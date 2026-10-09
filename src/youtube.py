@@ -100,8 +100,6 @@ def upload(video_path: Path, script: dict[str, Any], settings: Settings) -> dict
 
         local_zone = ZoneInfo(settings.timezone)
         now_local = datetime.now(UTC).astimezone(local_zone)
-        local_zone = ZoneInfo(settings.timezone)
-        now_local = datetime.now(UTC).astimezone(local_zone)
         target = _next_publish_time(now_local, os.getenv("PUBLISH_SLOT", "").strip())
         status["publishAt"] = target.astimezone(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
