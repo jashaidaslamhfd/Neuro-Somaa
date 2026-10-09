@@ -31,8 +31,8 @@ DEFAULT_MEMORY = {
     "total_cycles": 0,
     "strategy": {
         "preferred_hook_style": "QUESTION_CURIOSITY",
-        "target_duration_window": [16.0, 21.0],
-        "max_title_chars": 42,
+        "target_duration_window": [18.0, 30.0],
+        "max_title_chars": 60,
         "mobile_feed_optimized": True,
         "active_narrative_role": "POV_MYSTERY_INVESTIGATION"
     },
@@ -248,7 +248,7 @@ class AgentBrain:
             "detected_keywords": keyword_matches,
             "chosen_tempo": pacing,
             "title_length_cap": self.memory.get("strategy", {}).get("max_title_chars", 42),
-            "target_duration_window": self.memory.get("strategy", {}).get("target_duration_window", [15.0, 22.0]),
+            "target_duration_window": self.memory.get("strategy", {}).get("target_duration_window", [18.0, 30.0]),
             "mobile_screen_constraint": "Strict single-line visibility in YouTube Shorts feed (no ellipsis)",
             "call_to_action": "High-retention comment provocation"
         }
