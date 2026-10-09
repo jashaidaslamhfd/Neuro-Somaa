@@ -855,7 +855,10 @@ def _extract_json(text: str) -> dict[str, Any]:
     banned_title_patterns = (
         "on lui ", "une personne", "un homme", "une femme", "quatre artistes",
         "jour de mémoire", "surcharge mentale", "pourquoi quatre",
-        "pourquoi on lui", "pourquoi jour de",
+        "pourquoi on lui", "pourquoi jour de", "tumeur", "cancer",
+        "leçons politiques", "concarneau", "bannalec", "prix nobel",
+        "festival", "exposition", "témoignage", "témoigne", "ukraine", "gaza",
+        "guerre", "élection",
     )
     if any(pattern in title_lower for pattern in banned_title_patterns):
         raise ValueError("titre article-shaped ou hors ligne éditoriale")
