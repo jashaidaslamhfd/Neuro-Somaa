@@ -26,9 +26,9 @@ on:
     # GitHub cron is UTC and does not follow DST. These runs start before the
     # Paris publish slots in both summer and winter; youtube.py converts the
     # intended slot using Europe/Paris and falls forward if a run starts late.
-    - cron: "0 12 * * *"    # before 14:30 Paris (12:30 UTC summer / 13:30 UTC winter)
-    - cron: "0 15 * * *"    # before 17:30 Paris (15:30 UTC summer / 16:30 UTC winter)
-    - cron: "30 17 * * *"   # before 20:00 Paris (18:00 UTC summer / 19:00 UTC winter)
+    - cron: "0 12 * * *"    # before 14:30 Paris (14:00 Paris summer / 13:00 winter)
+    - cron: "0 15 * * *"    # before 17:30 Paris (17:00 Paris summer / 16:00 winter)
+    - cron: "30 17 * * *"   # before 20:00 Paris (19:30 Paris summer / 18:30 winter)
 
 permissions:
   contents: read
