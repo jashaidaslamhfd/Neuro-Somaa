@@ -33,13 +33,12 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: neuro-somaa-production
-  cancel-in-progress: false
-
 jobs:
   production:
     if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    concurrency:
+      group: neuro-somaa-production
+      cancel-in-progress: false
     permissions:
       contents: write
     runs-on: ubuntu-latest
