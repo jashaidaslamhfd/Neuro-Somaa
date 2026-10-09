@@ -12,7 +12,7 @@ def test_agent_brain_initialization(tmp_path: Path):
     agent = AgentBrain(data_dir=tmp_path)
     assert agent.memory["version"] == "2.0.0"
     assert "strategy" in agent.memory
-    assert agent.memory["strategy"]["max_title_chars"] == 42
+    assert agent.memory["strategy"]["max_title_chars"] == 60
 
 
 def test_agent_reasoning_and_reflection(tmp_path: Path):
@@ -20,7 +20,7 @@ def test_agent_reasoning_and_reflection(tmp_path: Path):
     topic = "Pourquoi ton cerveau adore-t-il procrastiner ?"
     plan = agent.reason_and_strategize(topic)
     assert "cerveau" in plan["detected_keywords"]
-    assert plan["title_length_cap"] == 42
+    assert plan["title_length_cap"] == 60
 
     production_mock = {
         "title": "Pourquoi ton cerveau procrastine ?",
