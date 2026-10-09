@@ -50,7 +50,10 @@ def validate_french_script(script: dict[str, Any], min_seconds: float = 15, max_
     if any(pattern in title_lower for pattern in (
         "on lui ", "une personne", "un homme", "une femme",
         "quatre artistes", "jour de mémoire", "surcharge mentale",
-        "pourquoi quatre", "pourquoi on lui", "pourquoi jour de",
+        "pourquoi quatre", "pourquoi on lui", "pourquoi jour de", "tumeur", "cancer",
+        "leçons politiques", "concarneau", "bannalec", "prix nobel",
+        "festival", "exposition", "témoignage", "témoigne", "ukraine", "gaza",
+        "guerre", "élection",
     )):
         errors.append("titre article-shaped ou hors ligne éditoriale")
 
