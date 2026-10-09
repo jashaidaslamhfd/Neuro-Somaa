@@ -222,10 +222,19 @@ class AgentBrain:
                         })
                     metrics["recent_videos_audited"] = len(audited)
                     if audited:
-                        best = max(audited, key=lambda x: (x["engagement_rate"], x["views"]))
+                        # A single like on a one-view video is not reliable
+                        # evidence. Learn engagement only from a minimally
+                        # useful sample; otherwise report the most-viewed item
+                        # without treating it as a winner.
+                        eligible = [video for video in audited if video["views"] >= 30]
+                        best = (
+                            max(eligible, key=lambda x: (x["engagement_rate"], x["views"]))
+                            if eligible
+                            else max(audited, key=lambda x: x["views"])
+                        )
                         metrics["top_performing_video"] = best
-                        metrics["learning_mode"] = "live_data_api"
-                        if best["engagement_rate"] > 1.0:
+                        metrics["learning_mode"] = "live_data_api" if eligible else "live_data_low_sample"
+                        if eligible and best["engagement_rate"] > 1.0:
                             self._reinforce_keywords_from_title(best["title"], best["engagement_rate"])
                     metrics["sync_status"] = "synced_live"
                     logger.info("Agent sensory loop successfully ingested %d live YouTube video metrics.", len(audited))
