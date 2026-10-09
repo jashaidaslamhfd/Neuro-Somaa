@@ -76,6 +76,53 @@ class AgentBrain:
         self.memory["last_cycle_at"] = datetime.now(UTC).isoformat()
         self.memory_path.write_text(json.dumps(self.memory, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    def _local_analytics_snapshot(self) -> dict[str, Any]:
+        """Summarize observed YouTube Analytics from the persisted video history.
+
+        Predicted scores are deliberately excluded. Only records with fetched
+        analytics, non-zero watch metrics, and at least 20 views are eligible.
+        """
+        path = self.data_dir / "video_history.json"
+        try:
+            rows = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
+        except (OSError, json.JSONDecodeError) as exc:
+            logger.warning("Could not read local video analytics history: %s", exc)
+            rows = []
+        if not isinstance(rows, list):
+            rows = []
+
+        observed: list[dict[str, Any]] = []
+        for row in rows:
+            if not isinstance(row, dict) or not row.get("analytics_fetched_at"):
+                continue
+            try:
+                views = int(row.get("views") or 0)
+                average_pct = float(row.get("average_view_percentage") or 0)
+                average_seconds = float(row.get("average_view_duration_sec") or 0)
+            except (TypeError, ValueError):
+                continue
+            if views < 20 or average_pct <= 0 or average_seconds <= 0:
+                continue
+            observed.append({
+                "title": str(row.get("title") or ""),
+                "topic": str(row.get("topic") or ""),
+                "views": views,
+                "average_view_percentage": average_pct,
+                "average_view_duration_sec": average_seconds,
+                "youtube_video_id": row.get("youtube_video_id"),
+            })
+
+        if not observed:
+            return {"videos_with_usable_analytics": 0, "best_observed_video": None}
+
+        best = max(observed, key=lambda row: (min(float(row["average_view_percentage"]), 100.0), int(row["views"])))
+        return {
+            "videos_with_usable_analytics": len(observed),
+            "mean_average_view_percentage": round(sum(float(row["average_view_percentage"]) for row in observed) / len(observed), 2),
+            "mean_average_view_duration_sec": round(sum(float(row["average_view_duration_sec"]) for row in observed) / len(observed), 2),
+            "best_observed_video": best,
+            "analytics_source": "video_history.json",
+        }
     def sense_youtube_performance(self) -> dict[str, Any]:
         """Sense phase: Connects to YouTube API to inspect channel analytics and recent video stats."""
         metrics: dict[str, Any] = {
@@ -85,10 +132,19 @@ class AgentBrain:
             "sync_status": "offline_mode",
             "learning_mode": "production_only",
         }
-        
+        local_snapshot = self._local_analytics_snapshot()
+        metrics["local_analytics"] = local_snapshot
+        if local_snapshot.get("videos_with_usable_analytics", 0):
+            metrics["learning_mode"] = "local_observed_analytics"
+
         req_keys = ("GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "REFRESH_TOKEN")
         if not all(os.getenv(k) for k in req_keys):
-            logger.info("YouTube OAuth credentials not available in environment; using local memory telemetry.")
+            logger.info(
+                "YouTube OAuth credentials unavailable; using %s.",
+                metrics["learning_mode"],
+            )
+            if local_snapshot.get("videos_with_usable_analytics", 0):
+                metrics["sync_status"] = "local_history_only"
             return metrics
 
         try:
