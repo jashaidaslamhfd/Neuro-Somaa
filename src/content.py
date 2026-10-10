@@ -665,9 +665,7 @@ def _runtime_topic_fit(title: str) -> bool:
     normalized = " ".join(title.lower().split())
     if any(token in normalized for token in _RUNTIME_TOPIC_BANS):
         return False
-    if len(normalized) > 110 or normalized.count(",") >= 2:
-        return False
-    return True
+    return not (len(normalized) > 110 or normalized.count(",") >= 2)
 
 
 _TOPIC_PERFORMANCE_KEYWORDS = (

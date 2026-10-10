@@ -62,7 +62,7 @@ def _days_since(iso: str | None) -> float:
     if not iso:
         return 1.0
     try:
-        dt = datetime.fromisoformat(iso.replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(iso)
         if dt.tzinfo is None:
             dt = dt.replace(tzinfo=UTC)
         delta = datetime.now(UTC) - dt

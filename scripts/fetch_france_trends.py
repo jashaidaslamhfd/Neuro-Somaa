@@ -44,10 +44,10 @@ KEYWORDS = {
     "perception", "dopamine", "habitude", "concentration", "curiosité",
     "peur", "coeur", "cœur", "respiration", "fatigue", "odeur", "odorat",
     "vision", "audition", "réflexe", "illusion", "illusions", "sens",
-    "habitude", "récompense", "récompenses", "curiosité", "décision",
+    "récompense", "récompenses", "décision",
     "intelligence artificielle", "ia", "robot", "algorithme", "numérique",
     "téléphone", "écran", "notification", "apprentissage", "créativité",
-    "décision", "conscience", "illusion", "sensation",
+    "conscience", "sensation",
 }
 
 # These are intentionally broad because a single local-news phrase can make
