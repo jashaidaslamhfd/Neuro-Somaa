@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1,
-      "engagement_avg": null
+      "weight": 1.05,
+      "engagement_avg": 2.439
     },
     {
       "keyword": "sommeil",
@@ -674,10 +674,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/bbXqVtBxXAo",
       "tempo": "ULTRA_DYNAMIC"
+    },
+    {
+      "cycle": 52,
+      "timestamp": "2026-10-10T20:44:08.985927+00:00",
+      "title": "Pourquoi ton téléphone capte ?",
+      "topic": "Pourquoi ton téléphone capte",
+      "duration": 26.7,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/bLc9CrEh2sw",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 51,
-  "last_cycle_at": "2026-10-08T01:48:24.626918+00:00",
+  "total_cycles": 52,
+  "last_cycle_at": "2026-10-10T20:44:08.985959+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
