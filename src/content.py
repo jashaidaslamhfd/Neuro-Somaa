@@ -832,13 +832,13 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "tags": tags,
         "scenes": [
             {"caption": "Regarde ce phénomène.", "narration": hook},
-            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement sans que tu le remarques."},
-            {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement quotidien."},
-            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps très rapidement."},
-            {"caption": "La réaction est rapide.", "narration": "La réaction peut arriver avant même que tu y penses consciemment."},
-            {"caption": "Voilà le mécanisme.", "narration": "C'est donc surtout une réponse automatique du système nerveux central."},
-            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions et tes émotions sans effort."},
-            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ce mécanisme change la façon dont tu observes ton corps."},
+            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},
+            {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},
+            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},
+            {"caption": "La réaction est rapide.", "narration": "La réaction arrive avant même que tu y penses."},
+            {"caption": "Voilà le mécanisme.", "narration": "C'est une réponse automatique du système nerveux."},
+            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions sans effort."},
+            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ça change comment tu observes ton corps."},
         ],
     }
 
