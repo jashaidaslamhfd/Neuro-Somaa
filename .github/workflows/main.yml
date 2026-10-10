@@ -46,7 +46,7 @@ jobs:
     env:
       CHANNEL_LANGUAGE: fr
       EDGE_FR_VOICE: fr-FR-HenriNeural
-      EDGE_FR_RATE: "0%"
+      EDGE_FR_RATE: "+0%"
       BACKGROUND_MUSIC: "true"
       MUSIC_SOURCE: own
       MUSIC_GAIN_DB: "-23"
