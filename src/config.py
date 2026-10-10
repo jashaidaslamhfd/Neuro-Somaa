@@ -23,9 +23,10 @@ class Settings:
     max_seconds: float = field(default_factory=lambda: float(_env("TARGET_MAX_SECONDS", "30")))
     output_dir: Path = field(default_factory=lambda: Path(_env("OUTPUT_DIR", "output")))
     data_dir: Path = field(default_factory=lambda: Path(_env("DATA_DIR", "data")))
-    privacy_status: str = field(default_factory=lambda: _env("YT_PRIVACY_STATUS", "private"))
+    # Growth default: public so Shorts enter the algorithm immediately
+    privacy_status: str = field(default_factory=lambda: _env("YT_PRIVACY_STATUS", "public"))
     schedule_publish: bool = field(
-        default_factory=lambda: _env("YT_SCHEDULE_PUBLISH", "true").lower() == "true"
+        default_factory=lambda: _env("YT_SCHEDULE_PUBLISH", "false").lower() == "true"
     )
     topic: str = field(default_factory=lambda: _env("VIDEO_TOPIC"))
     dry_run: bool = field(default_factory=lambda: _env("DRY_RUN", "false").lower() == "true")
@@ -38,6 +39,10 @@ class Settings:
     background_music: bool = field(default_factory=lambda: _env("BACKGROUND_MUSIC", "true").lower() == "true")
     music_source: str = field(default_factory=lambda: _env("MUSIC_SOURCE", "own"))
     music_gain_db: float = field(default_factory=lambda: float(_env("MUSIC_GAIN_DB", "-20")))
+    # Growth mode: viral titles + SEO description shaping (default ON)
+    growth_mode: bool = field(
+        default_factory=lambda: _env("GROWTH_MODE", "true").lower() == "true"
+    )
 
     @property
     def llm_keys(self) -> tuple[str, ...]:
