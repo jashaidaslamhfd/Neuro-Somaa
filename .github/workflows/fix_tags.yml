@@ -1,0 +1,90 @@
+name: Fix fallback SEO tags
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Pad _fallback_tags to always return 8-12 tags
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          path = Path("src/content.py")
+          text = path.read_text(encoding="utf-8")
+          old = '''def _fallback_tags(topic: str) -> list[str]:
+    """Derive tags from the topic instead of a fixed list, so if the LLM
+    path is ever unavailable the channel doesn't upload the same 5 generic
+    tags on every video."""
+    words = [
+        w for w in re.sub(r"[^\\wà-ÿ' ]", " ", topic.lower()).split()
+        if len(w) > 2 and w not in _STOPWORDS_FR
+    ]
+    specific = words[:4] or ["quotidien"]
+    tags = ["science", "corps humain", *specific, "curiosité", "france", "shorts français"]
+    seen: list[str] = []
+    for tag in tags:
+        if tag not in seen:
+            seen.append(tag)
+    return seen[:10]
+'''
+          new = '''def _fallback_tags(topic: str) -> list[str]:
+    """Derive tags from the topic; always return 8-12 SEO tags."""
+    words = [
+        w for w in re.sub(r"[^\\wà-ÿ' ]", " ", topic.lower()).split()
+        if len(w) > 2 and w not in _STOPWORDS_FR
+    ]
+    specific = words[:5] or ["quotidien"]
+    base = [
+        "science", "corps humain", "cerveau", "psychologie", "neurosciences",
+        "curiosité", "france", "shorts français", "comportement", "mémoire",
+    ]
+    tags = [*specific, *base]
+    seen: list[str] = []
+    for tag in tags:
+        key = tag.lower()
+        if key not in {s.lower() for s in seen}:
+            seen.append(tag)
+        if len(seen) >= 12:
+            break
+    while len(seen) < 8:
+        seen.append(f"science{len(seen)}")
+    return seen[:12]
+'''
+          if old not in text:
+              # try looser match via line rewrite
+              lines = text.splitlines(keepends=True)
+              out = []
+              i = 0
+              replaced = False
+              while i < len(lines):
+                  if lines[i].startswith("def _fallback_tags"):
+                      out.append(new if not new.endswith("\n") else new)
+                      if not new.endswith("\n"):
+                          out[-1] = new + "\n"
+                      i += 1
+                      while i < len(lines) and not lines[i].startswith("def "):
+                          i += 1
+                      replaced = True
+                      continue
+                  out.append(lines[i])
+                  i += 1
+              if not replaced:
+                  raise SystemExit("could not find _fallback_tags")
+              text = "".join(out)
+          else:
+              text = text.replace(old, new, 1)
+          compile(text, "content.py", "exec")
+          path.write_text(text, encoding="utf-8")
+          print("fallback tags fixed")
+          PY
+          python -m compileall -q src/content.py
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content.py
+          git commit -m "fix: ensure fallback always returns 8-12 SEO tags" || exit 0
+          git push origin HEAD:main
