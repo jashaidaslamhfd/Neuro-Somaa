@@ -1,0 +1,54 @@
+name: Dedupe content.py
+on:
+  workflow_dispatch:
+jobs:
+  dedupe:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Remove duplicate defs after first generate_script
+        run: |
+          python3 << 'PY'
+          from pathlib import Path
+          path = Path("src/content.py")
+          lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
+          # Keep through end of first generate_script (line with 'return _fallback_script(topic)' after def generate_script)
+          first_gen = None
+          for i, line in enumerate(lines):
+              if line.startswith("def generate_script"):
+                  first_gen = i
+                  break
+          if first_gen is None:
+              raise SystemExit("generate_script not found")
+          # Find second top-level def after first generate_script body ends
+          cut = None
+          for i in range(first_gen + 1, len(lines)):
+              if lines[i].startswith("def ") and not lines[i].startswith("def "):
+                  pass
+              if lines[i].startswith("def ") and i > first_gen + 5:
+                  # check indent is top-level (no leading spaces)
+                  if not lines[i].startswith(" ") and not lines[i].startswith("\t"):
+                      cut = i
+                      break
+          if cut is None:
+              print("No duplicate found, already clean")
+          else:
+              kept = lines[:cut]
+              text = "".join(kept)
+              if not text.endswith("\n"):
+                  text += "\n"
+              compile(text, "content.py", "exec")
+              path.write_text(text, encoding="utf-8")
+              print(f"Cut at line {cut+1}, kept {len(kept)} lines, {len(text)} chars")
+          PY
+          python -m compileall -q src/content.py
+          ruff check src/content.py src/growth.py || true
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/content.py
+          git commit -m "fix: remove duplicate generate_script/_fallback_script in content.py" || exit 0
+          git push origin HEAD:main
