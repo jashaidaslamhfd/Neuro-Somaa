@@ -1,0 +1,27 @@
+name: Ruff autofix
+on:
+  workflow_dispatch:
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - name: Ruff autofix
+        run: |
+          ruff check src scripts tests --fix || true
+          # safe style only; leave unsafe SIM103 as-is by not using --unsafe-fixes
+          python -m compileall -q src scripts tests
+          ruff check src scripts tests
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git commit -m "fix: ruff autofix lint (duplicate set items, style)" || exit 0
+          git push origin HEAD:main
