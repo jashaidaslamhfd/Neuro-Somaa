@@ -778,20 +778,29 @@ def load_topic(settings: Settings) -> str:
 
 
 def _fallback_tags(topic: str) -> list[str]:
-    """Derive tags from the topic instead of a fixed list, so if the LLM
-    path is ever unavailable the channel doesn't upload the same 5 generic
-    tags on every video."""
+    """Always return 8-12 French SEO tags."""
     words = [
         w for w in re.sub(r"[^\wà-ÿ' ]", " ", topic.lower()).split()
         if len(w) > 2 and w not in _STOPWORDS_FR
     ]
-    specific = words[:4] or ["quotidien"]
-    tags = ["science", "corps humain", *specific, "curiosité", "france", "shorts français"]
+    specific = words[:5] or ["quotidien"]
+    base = [
+        "science", "corps humain", "cerveau", "psychologie", "neurosciences",
+        "curiosité", "france", "shorts français", "comportement", "mémoire",
+    ]
+    tags = [*specific, *base]
     seen: list[str] = []
     for tag in tags:
-        if tag not in seen:
+        if tag.lower() not in {s.lower() for s in seen}:
             seen.append(tag)
-    return seen[:10]
+        if len(seen) >= 12:
+            break
+    for pad in ("attention", "stress", "sommeil", "émotion", "réflexe"):
+        if len(seen) >= 8:
+            break
+        if pad not in {s.lower() for s in seen}:
+            seen.append(pad)
+    return seen[:12]
 
 
 def _format_clean_title(clean: str) -> str:
@@ -810,21 +819,26 @@ def _fallback_script(topic: str) -> dict[str, Any]:
     clean = _clean_fr(topic).rstrip("?")
     title = _format_clean_title(clean)
     tags = _fallback_tags(clean)
-    for market_tag in ("france", "shorts français", "science"):
-        if market_tag not in tags:
+    for market_tag in ("france", "shorts français", "science", "cerveau", "psychologie"):
+        if market_tag not in tags and len(tags) < 12:
             tags.append(market_tag)
+    tags = tags[:12]
+    while len(tags) < 8:
+        tags.append("neurosciences")
     hook = title.rstrip(" ?") + " ?"
     return {
         "title": title,
-        "description": "Un phénomène étonnant expliqué simplement. #shorts #science #france #neurosciences",
-        "tags": tags[:12],
+        "description": "Un phénomène étonnant expliqué simplement. #shorts #science #france #neurosciences #cerveau",
+        "tags": tags,
         "scenes": [
             {"caption": "Regarde ce phénomène.", "narration": hook},
-            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},
-            {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},
-            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},
+            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement sans que tu le remarques."},
+            {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement quotidien."},
+            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps très rapidement."},
             {"caption": "La réaction est rapide.", "narration": "La réaction peut arriver avant même que tu y penses consciemment."},
-            {"caption": "Voilà le mécanisme.", "narration": "C'est donc surtout une réponse automatique du système nerveux."},
+            {"caption": "Voilà le mécanisme.", "narration": "C'est donc surtout une réponse automatique du système nerveux central."},
+            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions et tes émotions sans effort."},
+            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ce mécanisme change la façon dont tu observes ton corps."},
         ],
     }
 
