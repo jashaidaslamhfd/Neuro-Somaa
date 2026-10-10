@@ -17,6 +17,12 @@ from agent_brain import AgentBrain
 from config import SETTINGS
 from content import generate_script, load_topic, score_hook, score_script_quality
 from french_quality import validate_french_script
+from growth import (
+    apply_growth_metadata,
+    is_allowed_growth_topic,
+    is_weak_title,
+    pick_biased_topic,
+)
 from media import render_video, validate_video
 from meta import is_meta_configured, upload_to_facebook_reels
 from thumbnails import build_thumbnail
@@ -36,8 +42,6 @@ def _write_history(result: dict) -> None:
     try:
         rows = json.loads(path.read_text(encoding="utf-8")) if path.exists() else []
     except (OSError, json.JSONDecodeError) as exc:
-        # Never replace a damaged history with a single new row: it contains
-        # the duplicate guard and the channel's accumulated analytics.
         raise RuntimeError(f"Cannot safely read video history at {path}") from exc
     if not isinstance(rows, list):
         raise RuntimeError(f"Video history must be a JSON list: {path}")
@@ -65,23 +69,49 @@ def _checkpoint_path(fingerprint: str):
 
 def _persist_state() -> None:
     """Persist state durably; never claim success when git synchronization failed."""
-    paths = ["data/video_history.json", "data/clip_history.json", "data/queue_index_fr.json", "data/search_demand_queue_fr.json", "data/agent_memory.json", "data/agent_log.json", "data/upload_checkpoints"]
+    paths = [
+        "data/video_history.json",
+        "data/clip_history.json",
+        "data/queue_index_fr.json",
+        "data/search_demand_queue_fr.json",
+        "data/agent_memory.json",
+        "data/agent_log.json",
+        "data/upload_checkpoints",
+    ]
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False)
-    subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False)
+    subprocess.run(
+        ["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"],
+        check=False,
+    )
     subprocess.run(["git", "add", *paths], check=False)
-    committed = subprocess.run(["git", "commit", "-m", "chore: persist Neuro-Somaa duplicate state"], capture_output=True, text=True, check=False)
+    committed = subprocess.run(
+        ["git", "commit", "-m", "chore: persist Neuro-Somaa duplicate state"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
     if committed.returncode != 0 and "nothing to commit" not in committed.stdout + committed.stderr:
         raise RuntimeError(f"State checkpoint commit failed: {committed.stderr.strip()}")
     if committed.returncode == 0:
         for attempt in range(1, 4):
-            pulled = subprocess.run(["git", "pull", "--rebase", "--autostash", "origin", "main"], capture_output=True, text=True, check=False)
+            pulled = subprocess.run(
+                ["git", "pull", "--rebase", "--autostash", "origin", "main"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
             if pulled.returncode != 0:
                 subprocess.run(["git", "rebase", "--abort"], check=False)
                 if attempt == 3:
                     raise RuntimeError(f"State checkpoint rebase failed: {pulled.stderr.strip()}")
                 time.sleep(2 * attempt)
                 continue
-            pushed = subprocess.run(["git", "push", "origin", "HEAD:main"], capture_output=True, text=True, check=False)
+            pushed = subprocess.run(
+                ["git", "push", "origin", "HEAD:main"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
             if pushed.returncode == 0:
                 return
             if attempt == 3:
@@ -89,32 +119,76 @@ def _persist_state() -> None:
             time.sleep(2 * attempt)
 
 
+def _select_growth_topic() -> str:
+    """Load queue topics until one passes the felt-science growth gate."""
+    history_path = SETTINGS.data_dir / "video_history.json"
+    last = ""
+    for attempt in range(1, 8):
+        candidate = load_topic(SETTINGS)
+        last = candidate
+        if is_allowed_growth_topic(candidate):
+            logger.info("Growth topic accepted (attempt %s): %s", attempt, candidate)
+            return candidate
+        logger.warning("Growth topic rejected (attempt %s): %s", attempt, candidate)
+    biased = pick_biased_topic(last, history_path)
+    if not is_allowed_growth_topic(biased):
+        raise RuntimeError(
+            "No felt-science growth topic available in queue/history. "
+            "Refresh search_demand_queue_fr.json with body/brain topics."
+        )
+    logger.info("Using history-biased growth topic: %s", biased)
+    return biased
+
+
 def run() -> dict:
     errors = SETTINGS.validate()
     if errors:
         raise RuntimeError("Configuration invalid: " + "; ".join(errors))
     SETTINGS.ensure_dirs()
-    # Autonomous AI Agent Sensory & Reasoning Core
     agent = AgentBrain(SETTINGS.data_dir)
     sensory = agent.sense_youtube_performance()
     logger.info("Agent Sensory Feedback Status: %s", sensory.get("sync_status"))
-    
-    topic = load_topic(SETTINGS)
+
+    topic = _select_growth_topic()
     plan = agent.reason_and_strategize(topic)
-    logger.info("Agent Strategy Plan: topic='%s', tempo=%s, keywords=%s", topic, plan.get("chosen_tempo"), plan.get("detected_keywords"))
-    
+    logger.info(
+        "Agent Strategy Plan: topic='%s', tempo=%s, keywords=%s",
+        topic,
+        plan.get("chosen_tempo"),
+        plan.get("detected_keywords"),
+    )
+
     script = generate_script(topic, SETTINGS)
+    script["topic"] = topic
+    # Growth pass: viral title, SEO tags/description, opening-hook enforcement
+    script = apply_growth_metadata(script)
+    logger.info(
+        "Growth optimized title='%s' tags=%s hook_enforced=%s",
+        script.get("title"),
+        len(script.get("tags") or []),
+        script.get("hook_enforced"),
+    )
+
     if not script.get("title") or len(script.get("scenes", [])) < 4:
         raise RuntimeError("Generated script is incomplete")
+    if is_weak_title(str(script["title"])):
+        raise RuntimeError(f"Growth gate rejected weak title: {script['title']}")
+
     hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
     if hook_score < SETTINGS.min_hook_score:
-        raise RuntimeError(f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}")
+        raise RuntimeError(
+            f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
+        )
     quality_score = score_script_quality(script["scenes"])
     if quality_score < SETTINGS.quality_approval_threshold:
-        raise RuntimeError(f"Script rejected: quality score {quality_score} below QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}")
+        raise RuntimeError(
+            f"Script rejected: quality score {quality_score} below "
+            f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+        )
     french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
     if french_errors:
         raise RuntimeError("French production gate failed: " + "; ".join(french_errors))
+
     history_path = SETTINGS.data_dir / "video_history.json"
     try:
         history = json.loads(history_path.read_text(encoding="utf-8")) if history_path.exists() else []
@@ -130,8 +204,12 @@ def run() -> dict:
         except (OSError, json.JSONDecodeError) as exc:
             raise RuntimeError(f"Upload checkpoint is unreadable: {checkpoint}") from exc
         if previous.get("status") == "uploaded" and previous.get("youtube_video_id"):
-            logger.warning("Resuming previously uploaded fingerprint %s; skipping duplicate upload.", current_fp)
+            logger.warning(
+                "Resuming previously uploaded fingerprint %s; skipping duplicate upload.",
+                current_fp,
+            )
             return previous
+
     clip_history = _clip_history()
     historical_clip_hashes = {str(row.get("clip_hash")) for row in clip_history if isinstance(row, dict)}
     video_path, segments = render_video(script, SETTINGS, historical_clip_hashes=historical_clip_hashes)
@@ -144,6 +222,7 @@ def run() -> dict:
         "duration": technical["duration"],
         "hook_score": hook_score,
         "quality_score": quality_score,
+        "growth_optimized": bool(script.get("growth_optimized")),
         "video_path": str(video_path),
         "audio_segments": len(segments),
         "clip_hashes": [item.get("clip_hash") for item in segments],
@@ -157,7 +236,6 @@ def run() -> dict:
         checkpoint.parent.mkdir(parents=True, exist_ok=True)
         checkpoint.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    # Multi-Platform Distribution: Meta (Facebook Page Reels)
     if not SETTINGS.dry_run and not SETTINGS.render_only and is_meta_configured():
         logger.info("Publishing cross-post to Facebook Page Reels...")
         meta_result = upload_to_facebook_reels(
@@ -169,21 +247,31 @@ def run() -> dict:
     else:
         result["facebook_success"] = False
         result["facebook_note"] = "Dry run, render only, or Meta credentials not configured"
-    # Agent Reflection & Episodic Memory Update
+
     agent.reflect_and_learn(result, plan)
-    
+
     if not SETTINGS.dry_run and not SETTINGS.render_only and result.get("status") == "uploaded":
         _write_history(result)
-        clip_history.extend({"clip_hash": item.get("clip_hash"), "title": result["title"], "created_at": result["created_at"]} for item in segments)
-        (SETTINGS.data_dir / "clip_history.json").write_text(json.dumps(clip_history[-500:], ensure_ascii=False, indent=2), encoding="utf-8")
+        clip_history.extend(
+            {
+                "clip_hash": item.get("clip_hash"),
+                "title": result["title"],
+                "created_at": result["created_at"],
+            }
+            for item in segments
+        )
+        (SETTINGS.data_dir / "clip_history.json").write_text(
+            json.dumps(clip_history[-500:], ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
         _persist_state()
         logger.info("Uploaded video state persisted.")
 
-    # Clean intermediate render artifacts to conserve disk in CI runner
     for sub_dir in ("scenes", "segments"):
         target_dir = SETTINGS.output_dir / sub_dir
         if target_dir.exists():
             import shutil
+
             shutil.rmtree(target_dir, ignore_errors=True)
     if SETTINGS.dry_run or SETTINGS.render_only:
         logger.info("Dry-run/render-only complete; skipping history persistence.")
