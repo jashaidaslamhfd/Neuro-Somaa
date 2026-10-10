@@ -1,7 +1,7 @@
 """Channel growth engine for Neuro-Somaa.
 
 Expert levers that move Shorts from stalled → thousands of views:
-1. Viral title shaping (feed-native, curiosity gap, personal \"tu\")
+1. Viral title shaping (feed-native, curiosity gap, personal "tu")
 2. SEO description + hashtag pack optimized for French Shorts discovery
 3. Growth-state machine from observed views (stalled / flat / growing / breakout)
 4. Topic ranking bias toward historically high-view clusters
@@ -12,7 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import re
-from datetime import datetime, timezone
+from datetime import timezone
 from pathlib import Path
 from typing import Any
 
@@ -77,9 +77,7 @@ def is_weak_title(title: str) -> bool:
         return True
     if t.endswith(("la?", "de?", "le?", "les?", "des?", "du?", "un?", "une?")):
         return True
-    if re.search(r"\b(pourquoi|comment)\s+\w{1,3}\s*\?$", t):
-        return True
-    return False
+    return bool(re.search(r"\b(pourquoi|comment)\s+\w{1,3}\s*\?$", t))
 
 
 def shape_viral_title(title: str, topic: str = "") -> str:
