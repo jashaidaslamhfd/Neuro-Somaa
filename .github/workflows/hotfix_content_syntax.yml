@@ -8,76 +8,30 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v7
-      - name: Trim fallback narration word count
+      - name: Normalize EDGE_FR_RATE for edge-tts
         run: |
           python3 << 'PY'
           from pathlib import Path
-          path = Path("src/content.py")
-          lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
-          new_script = (
-              "def _fallback_script(topic: str) -> dict[str, Any]:\n"
-              "    clean = _clean_fr(topic).rstrip(\"?\")\n"
-              "    title = _format_clean_title(clean)\n"
-              "    tags = _fallback_tags(clean)\n"
-              "    for market_tag in (\"france\", \"shorts français\", \"science\", \"cerveau\", \"psychologie\"):\n"
-              "        if market_tag not in tags and len(tags) < 12:\n"
-              "            tags.append(market_tag)\n"
-              "    tags = tags[:12]\n"
-              "    while len(tags) < 8:\n"
-              "        tags.append(\"neurosciences\")\n"
-              "    hook = title.rstrip(\" ?\") + \" ?\"\n"
-              "    return {\n"
-              "        \"title\": title,\n"
-              '        "description": "Un phénomène étonnant expliqué simplement. #shorts #science #france #neurosciences #cerveau",\n'
-              "        \"tags\": tags,\n"
-              "        \"scenes\": [\n"
-              '            {"caption": "Regarde ce phénomène.", "narration": hook},\n'
-              '            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},\n'
-              '            {"caption": "Ce n\'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},\n'
-              '            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},\n'
-              '            {"caption": "La réaction est rapide.", "narration": "La réaction arrive avant même que tu y penses."},\n'
-              '            {"caption": "Voilà le mécanisme.", "narration": "C\'est une réponse automatique du système nerveux."},\n'
-              '            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions sans effort."},\n'
-              '            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ça change comment tu observes ton corps."},\n'
-              "        ],\n"
-              "    }\n\n\n"
-          )
-          out = []
-          i = 0
-          while i < len(lines):
-              if lines[i].startswith("def _fallback_script"):
-                  out.append(new_script)
-                  i += 1
-                  while i < len(lines) and not lines[i].startswith("def "):
-                      i += 1
-                  continue
-              out.append(lines[i])
-              i += 1
-          text = "".join(out)
-          compile(text, "content.py", "exec")
-          # sanity: word count of fallback narrations for a sample topic
-          ns = [
-              "Pourquoi le stress déforme ?",
-              "Ton cerveau traite ce phénomène automatiquement.",
-              "Ce mécanisme a une fonction précise dans ton comportement.",
-              "Des signaux nerveux coordonnent ensuite la réponse du corps.",
-              "La réaction arrive avant même que tu y penses.",
-              "C'est une réponse automatique du système nerveux.",
-              "Ce réflexe influence tes décisions sans effort.",
-              "Comprendre ça change comment tu observes ton corps.",
-          ]
-          total = sum(len(s.split()) for s in ns)
-          print("sample narration words", total)
-          assert 42 <= total <= 72, total
+          path = Path("src/audio.py")
+          text = path.read_text(encoding="utf-8")
+          old = 'rate = os.getenv("EDGE_FR_RATE", "-3%")'
+          new = '''rate = os.getenv("EDGE_FR_RATE", "-3%").strip() or "-3%"
+    # edge-tts requires a leading sign: "0%" is invalid, "+0%" is valid
+    if rate[0].isdigit():
+        rate = "+" + rate'''
+          if old not in text:
+              raise SystemExit("pattern not found")
+          text = text.replace(old, new, 1)
+          compile(text, "audio.py", "exec")
           path.write_text(text, encoding="utf-8")
-          print("trimmed OK")
+          print("audio rate normalized")
           PY
-          python -m compileall -q src/content.py
-      - name: Commit fix
+          python -m compileall -q src/audio.py
+      - name: Commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/content.py
+          git add src/audio.py
           git diff --cached --quiet && echo "no change" && exit 0
-          git commit -m "fix: trim fallback narration to 42-72 words for French gate"
+          git commit -m "fix: normalize edge-tts rate (0% -> +0%)"
           git push origin HEAD:main
