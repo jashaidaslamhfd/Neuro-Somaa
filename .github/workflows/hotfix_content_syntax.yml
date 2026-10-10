@@ -8,38 +8,12 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v7
-      - name: Pad fallback tags and expand fallback script
+      - name: Trim fallback narration word count
         run: |
           python3 << 'PY'
           from pathlib import Path
           path = Path("src/content.py")
           lines = path.read_text(encoding="utf-8").splitlines(keepends=True)
-          new_tags = (
-              "def _fallback_tags(topic: str) -> list[str]:\n"
-              '    """Always return 8-12 French SEO tags."""\n'
-              "    words = [\n"
-              "        w for w in re.sub(r\"[^\\wà-ÿ' ]\", \" \", topic.lower()).split()\n"
-              "        if len(w) > 2 and w not in _STOPWORDS_FR\n"
-              "    ]\n"
-              "    specific = words[:5] or [\"quotidien\"]\n"
-              "    base = [\n"
-              "        \"science\", \"corps humain\", \"cerveau\", \"psychologie\", \"neurosciences\",\n"
-              "        \"curiosité\", \"france\", \"shorts français\", \"comportement\", \"mémoire\",\n"
-              "    ]\n"
-              "    tags = [*specific, *base]\n"
-              "    seen: list[str] = []\n"
-              "    for tag in tags:\n"
-              "        if tag.lower() not in {s.lower() for s in seen}:\n"
-              "            seen.append(tag)\n"
-              "        if len(seen) >= 12:\n"
-              "            break\n"
-              "    for pad in (\"attention\", \"stress\", \"sommeil\", \"émotion\", \"réflexe\"):\n"
-              "        if len(seen) >= 8:\n"
-              "            break\n"
-              "        if pad not in {s.lower() for s in seen}:\n"
-              "            seen.append(pad)\n"
-              "    return seen[:12]\n\n\n"
-          )
           new_script = (
               "def _fallback_script(topic: str) -> dict[str, Any]:\n"
               "    clean = _clean_fr(topic).rstrip(\"?\")\n"
@@ -58,25 +32,19 @@ jobs:
               "        \"tags\": tags,\n"
               "        \"scenes\": [\n"
               '            {"caption": "Regarde ce phénomène.", "narration": hook},\n'
-              '            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement sans que tu le remarques."},\n'
-              '            {"caption": "Ce n\'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement quotidien."},\n'
-              '            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps très rapidement."},\n'
-              '            {"caption": "La réaction est rapide.", "narration": "La réaction peut arriver avant même que tu y penses consciemment."},\n'
-              '            {"caption": "Voilà le mécanisme.", "narration": "C\'est donc surtout une réponse automatique du système nerveux central."},\n'
-              '            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions et tes émotions sans effort."},\n'
-              '            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ce mécanisme change la façon dont tu observes ton corps."},\n'
+              '            {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},\n'
+              '            {"caption": "Ce n\'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},\n'
+              '            {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},\n'
+              '            {"caption": "La réaction est rapide.", "narration": "La réaction arrive avant même que tu y penses."},\n'
+              '            {"caption": "Voilà le mécanisme.", "narration": "C\'est une réponse automatique du système nerveux."},\n'
+              '            {"caption": "Tu le vis chaque jour.", "narration": "Ce réflexe influence tes décisions sans effort."},\n'
+              '            {"caption": "Maintenant tu le sais.", "narration": "Comprendre ça change comment tu observes ton corps."},\n'
               "        ],\n"
               "    }\n\n\n"
           )
           out = []
           i = 0
           while i < len(lines):
-              if lines[i].startswith("def _fallback_tags"):
-                  out.append(new_tags)
-                  i += 1
-                  while i < len(lines) and not lines[i].startswith("def "):
-                      i += 1
-                  continue
               if lines[i].startswith("def _fallback_script"):
                   out.append(new_script)
                   i += 1
@@ -87,8 +55,22 @@ jobs:
               i += 1
           text = "".join(out)
           compile(text, "content.py", "exec")
+          # sanity: word count of fallback narrations for a sample topic
+          ns = [
+              "Pourquoi le stress déforme ?",
+              "Ton cerveau traite ce phénomène automatiquement.",
+              "Ce mécanisme a une fonction précise dans ton comportement.",
+              "Des signaux nerveux coordonnent ensuite la réponse du corps.",
+              "La réaction arrive avant même que tu y penses.",
+              "C'est une réponse automatique du système nerveux.",
+              "Ce réflexe influence tes décisions sans effort.",
+              "Comprendre ça change comment tu observes ton corps.",
+          ]
+          total = sum(len(s.split()) for s in ns)
+          print("sample narration words", total)
+          assert 42 <= total <= 72, total
           path.write_text(text, encoding="utf-8")
-          print("fallback SEO tags + scenes fixed")
+          print("trimmed OK")
           PY
           python -m compileall -q src/content.py
       - name: Commit fix
@@ -97,5 +79,5 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add src/content.py
           git diff --cached --quiet && echo "no change" && exit 0
-          git commit -m "fix: fallback meets French gate (8-12 tags, 8 scenes)"
+          git commit -m "fix: trim fallback narration to 42-72 words for French gate"
           git push origin HEAD:main
