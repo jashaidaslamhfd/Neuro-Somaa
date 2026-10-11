@@ -3451,7 +3451,18 @@
     "url": "https://youtu.be/ZUez6M2BCws",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 82,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 82.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-15T17:45:26.246983+00:00",
@@ -3489,7 +3500,18 @@
     "url": "https://youtu.be/6289WeveiSI",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 34,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 34.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-15T19:20:28.172928+00:00",
@@ -3527,7 +3549,18 @@
     "url": "https://youtu.be/Rq6uC_MjOEw",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 218,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 218.0,
+    "growth_state": "growing",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-16T15:09:04.472393+00:00",
@@ -3565,7 +3598,18 @@
     "url": "https://youtu.be/_giVVeKhfY0",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 75,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 75.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-16T17:42:57.021036+00:00",
@@ -3603,7 +3647,18 @@
     "url": "https://youtu.be/r1Emomy-hTU",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 39,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 39.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-16T19:11:05.831145+00:00",
@@ -3641,7 +3696,18 @@
     "url": "https://youtu.be/OZ0JRl92RKA",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 34,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 34.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-17T15:13:08.473086+00:00",
@@ -3679,7 +3745,18 @@
     "url": "https://youtu.be/jVhqZU4oFhU",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 138,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 138.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-17T17:43:23.689503+00:00",
@@ -3717,7 +3794,18 @@
     "url": "https://youtu.be/OsQubLRXBrU",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 211,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 211.0,
+    "growth_state": "growing",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-18T18:42:54.130753+00:00",
@@ -3755,7 +3843,18 @@
     "url": "https://youtu.be/ReTak3ubmM8",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 17,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 17.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-23T17:56:01.182632+00:00",
@@ -3793,7 +3892,18 @@
     "url": "https://youtu.be/lWPB9FBwzJA",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 389,
+    "likes": 6,
+    "comments": 0,
+    "views_per_day": 389.0,
+    "growth_state": "growing",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-25T15:28:03.347487+00:00",
@@ -3831,7 +3941,18 @@
     "url": "https://youtu.be/auhb1GJvEis",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 37,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 37.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-25T18:03:02.643662+00:00",
@@ -3869,7 +3990,18 @@
     "url": "https://youtu.be/L2fS3HIcgXw",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 33,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 33.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-25T19:38:45.402237+00:00",
@@ -3907,7 +4039,18 @@
     "url": "https://youtu.be/OMax4nbl0cY",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 32,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 32.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-26T14:40:33.534783+00:00",
@@ -3945,7 +4088,18 @@
     "url": "https://youtu.be/ujU38rEyBlA",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 83,
+    "likes": 2,
+    "comments": 0,
+    "views_per_day": 83.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-26T17:22:09.941762+00:00",
@@ -3983,7 +4137,18 @@
     "url": "https://youtu.be/S6_BQ1WGY9s",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 38,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 38.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-26T18:47:40.618425+00:00",
@@ -4021,7 +4186,18 @@
     "url": "https://youtu.be/umkezJPRf58",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 24,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 24.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-27T15:14:53.469661+00:00",
@@ -4059,7 +4235,18 @@
     "url": "https://youtu.be/_Hc_TnZZytI",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 30,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 30.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-27T17:55:26.752443+00:00",
@@ -4097,7 +4284,18 @@
     "url": "https://youtu.be/BhgeqYwfXb0",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 57,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 57.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-27T19:22:51.822479+00:00",
@@ -4135,7 +4333,18 @@
     "url": "https://youtu.be/nAqHyp5gi_c",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 30,
+    "likes": 2,
+    "comments": 0,
+    "views_per_day": 30.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-28T18:15:29.822240+00:00",
@@ -4173,7 +4382,18 @@
     "url": "https://youtu.be/GBFzNXKukEo",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 89,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 89.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-28T20:12:55.312677+00:00",
@@ -4211,7 +4431,18 @@
     "url": "https://youtu.be/Bd-aa2Hmrlg",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 44,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 44.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-28T21:28:03.323492+00:00",
@@ -4249,7 +4480,18 @@
     "url": "https://youtu.be/1i6XHoZRlXE",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 46,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 46.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-29T16:37:43.352460+00:00",
@@ -4283,7 +4525,18 @@
     "url": "https://youtu.be/V2XNajGrX4Y",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 52,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 52.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-29T18:50:36.797795+00:00",
@@ -4321,7 +4574,18 @@
     "url": "https://youtu.be/cFVUefg-3ps",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 47,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 47.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-29T20:20:05.068036+00:00",
@@ -4359,7 +4623,18 @@
     "url": "https://youtu.be/Qbq_EfczY7E",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 66,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 66.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-30T16:29:47.917361+00:00",
@@ -4389,7 +4664,18 @@
     "url": "https://youtu.be/8kG3iMTKG2M",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 99,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 99.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-30T18:33:02.641756+00:00",
@@ -4419,7 +4705,18 @@
     "url": "https://youtu.be/E_sMz7aY2AY",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 15,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 15.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-09-30T20:24:26.894550+00:00",
@@ -4457,7 +4754,18 @@
     "url": "https://youtu.be/GkzPbRaDQwg",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 40,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 40.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-01T17:09:33.237606+00:00",
@@ -4495,7 +4803,18 @@
     "url": "https://youtu.be/gQQCmd5eMFE",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 35,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 35.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-01T19:02:09.116165+00:00",
@@ -4533,7 +4852,18 @@
     "url": "https://youtu.be/WQrB_qWOzYo",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 32,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 32.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-01T20:53:39.482815+00:00",
@@ -4563,7 +4893,18 @@
     "url": "https://youtu.be/YF6mPRg7T1I",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 37,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 37.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-02T16:22:07.499448+00:00",
@@ -4601,7 +4942,18 @@
     "url": "https://youtu.be/9Oe78WSBgnA",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 28,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 28.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-02T18:37:28.450069+00:00",
@@ -4633,7 +4985,18 @@
     "url": "https://youtu.be/sCgSOBPz8to",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 32,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 32.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-02T20:13:59.885415+00:00",
@@ -4671,7 +5034,18 @@
     "url": "https://youtu.be/gs8OUpcTajQ",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 17,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 17.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-03T14:50:19.232073+00:00",
@@ -4703,7 +5077,18 @@
     "url": "https://youtu.be/f-dGexoP2bY",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 11,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 11.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-03T17:35:06.966953+00:00",
@@ -4733,7 +5118,18 @@
     "url": "https://youtu.be/65yHGHaiP7w",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 7,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 7.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-03T18:53:29.104408+00:00",
@@ -4763,7 +5159,18 @@
     "url": "https://youtu.be/kY8Er3D1kSI",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 58,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 58.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-04T15:29:34.121464+00:00",
@@ -4801,7 +5208,18 @@
     "url": "https://youtu.be/u2lK1G5yn8k",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 26,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 26.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-04T17:47:42.435415+00:00",
@@ -4831,7 +5249,18 @@
     "url": "https://youtu.be/EuuVjAL45DQ",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 15,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 15.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-04T18:53:02.780137+00:00",
@@ -4861,7 +5290,18 @@
     "url": "https://youtu.be/Aa1dh_Zed9U",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 19,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 19.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-05T19:24:52.815012+00:00",
@@ -4899,7 +5339,18 @@
     "url": "https://youtu.be/8RZYtcQQjUQ",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 60,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 60.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-05T21:14:43.865767+00:00",
@@ -4929,7 +5380,18 @@
     "url": "https://youtu.be/QTqV3IsHbLw",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 82,
+    "likes": 2,
+    "comments": 0,
+    "views_per_day": 82.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-05T22:15:43.695539+00:00",
@@ -4959,7 +5421,18 @@
     "url": "https://youtu.be/As-87Jnx7Og",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 12,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 12.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-06T16:56:44.840641+00:00",
@@ -4991,7 +5464,18 @@
     "url": "https://youtu.be/77itJ8XMHhw",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 13,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 13.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-06T19:01:07.194327+00:00",
@@ -5021,7 +5505,18 @@
     "url": "https://youtu.be/M1YYgJP30VM",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 36,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 36.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-06T20:39:13.888519+00:00",
@@ -5059,7 +5554,18 @@
     "url": "https://youtu.be/BDW2FA7CqAM",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 61,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 61.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-07T17:33:00.995258+00:00",
@@ -5097,7 +5603,18 @@
     "url": "https://youtu.be/uaROjXhUI6g",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 71,
+    "likes": 1,
+    "comments": 0,
+    "views_per_day": 71.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-07T19:31:33.975186+00:00",
@@ -5135,7 +5652,18 @@
     "url": "https://youtu.be/I_o5_BDnVUE",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 12,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 12.0,
+    "growth_state": "stalled",
+    "stall_streak": 1,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-08T01:48:19.898779+00:00",
@@ -5173,7 +5701,18 @@
     "url": "https://youtu.be/bbXqVtBxXAo",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 48,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 48.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   },
   {
     "created_at": "2026-10-10T20:44:01.921355+00:00",
@@ -5211,6 +5750,17 @@
     "url": "https://youtu.be/bLc9CrEh2sw",
     "thumbnail_status": "uploaded",
     "facebook_success": false,
-    "facebook_note": "Dry run, render only, or Meta credentials not configured"
+    "facebook_note": "Dry run, render only, or Meta credentials not configured",
+    "views_prev": null,
+    "views": 49,
+    "likes": 0,
+    "comments": 0,
+    "views_per_day": 49.0,
+    "growth_state": "flat",
+    "stall_streak": 0,
+    "privacy_status": "public",
+    "analytics_fetched_at": "2026-10-11T05:43:58.020439+00:00",
+    "analytics_via": "data_api",
+    "posted_at": "2026-10-11T05:43:58.020439+00:00"
   }
 ]
