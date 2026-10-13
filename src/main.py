@@ -217,6 +217,9 @@ def run() -> dict:
         script = _fallback_script(topic)
         script["topic"] = topic
         script = apply_growth_metadata(script)
+        # Growth shaping may replace a truncated queue title with a complete
+        # curiosity title. Keep the fallback's spoken opening synchronized.
+        script["scenes"][0]["narration"] = str(script["title"])
         hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
         quality_score = score_script_quality(script["scenes"])
         french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
