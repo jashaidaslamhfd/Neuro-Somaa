@@ -173,24 +173,31 @@ def run() -> dict:
             generation_attempt,
         )
 
-        if not script.get("title") or len(script.get("scenes", [])) < 4:
-            raise RuntimeError("Generated script is incomplete")
-        if is_weak_title(str(script["title"])):
-            raise RuntimeError(f"Growth gate rejected weak title: {script['title']}")
+        scenes = script.get("scenes")
+        french_errors = []
+        if not script.get("title") or not isinstance(scenes, list) or len(scenes) < 4:
+            french_errors.append("script incomplet: titre ou scènes manquants")
+        else:
+            if is_weak_title(str(script["title"])):
+                french_errors.append(f"titre faible selon le growth gate: {script['title']}")
 
-        hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
-        if hook_score < SETTINGS.min_hook_score:
-            raise RuntimeError(
-                f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
-            )
-        quality_score = score_script_quality(script["scenes"])
-        if quality_score < SETTINGS.quality_approval_threshold:
-            raise RuntimeError(
-                f"Script rejected: quality score {quality_score} below "
-                f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+            hook_score = score_hook(str(script["title"]), str(scenes[0].get("caption", "")))
+            if hook_score < SETTINGS.min_hook_score:
+                french_errors.append(
+                    f"score du hook {hook_score} inférieur à MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
+                )
+
+            quality_score = score_script_quality(scenes)
+            if quality_score < SETTINGS.quality_approval_threshold:
+                french_errors.append(
+                    f"score de rythme {quality_score} inférieur à "
+                    f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+                )
+
+            french_errors.extend(
+                validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
             )
 
-        french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
         if not french_errors:
             break
         quality_feedback = "\n".join(f"- {error}" for error in french_errors)
