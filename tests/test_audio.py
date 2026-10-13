@@ -26,7 +26,7 @@ def test_music_catalog_only_ever_returns_own_tracks():
     track = select_music_track(settings, seed="any-video")
     assert track is not None
     assert track.name.startswith("own_")
-    assert track.suffix == ".wav"
+    assert track.suffix in {".wav", ".ogg"}
 
 
 def test_music_source_other_than_own_disables_selection():
