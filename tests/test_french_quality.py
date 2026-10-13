@@ -53,3 +53,8 @@ def test_growth_title_shaper_does_not_insert_duplicate_french_article():
 
     assert "ton le " not in shaped.lower()
     assert not is_weak_title(shaped)
+
+
+def test_weak_title_suffix_detection_uses_whole_words():
+    assert is_weak_title("Pourquoi ton cerveau fait le ?")
+    assert not is_weak_title("Pourquoi ton stress réagit comme ça ?")
