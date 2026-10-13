@@ -144,7 +144,14 @@ def shape_viral_title(title: str, topic: str = "") -> str:
     if not re.search(r"\b(ton|ta|tes|tu|toi)\b", low):
         if low.startswith("pourquoi "):
             rest = source[9:].lstrip()
-            if not rest.lower().startswith(("ton ", "ta ", "tes ")):
+            rest_lower = rest.lower()
+            # Do not create ungrammatical forms such as "Pourquoi ton le stress".
+            # If the source already has a French article, let the weak-title
+            # repair below select a clean curiosity template instead.
+            has_article = rest_lower.startswith(
+                ("le ", "la ", "les ", "l'", "un ", "une ", "des ", "du ", "de ", "d'")
+            )
+            if not rest_lower.startswith(("ton ", "ta ", "tes ")) and not has_article:
                 source = f"Pourquoi ton {rest}"
         else:
             source = f"Pourquoi ton cerveau {source}" if "cerveau" not in low else source
