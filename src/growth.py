@@ -101,11 +101,10 @@ def is_allowed_growth_topic(topic: str) -> bool:
     if any(b in t for b in _BANNED_WEAK_OPENERS):
         return False
     if not any(k in t for k in _ALLOW_KEYWORDS):
-        if t.startswith("pourquoi") and any(
-            w in t for w in ("ton ", "ta ", "tes ", "tu ", "corps", "cerveau")
-        ):
-            return True
-        return False
+        return bool(
+            t.startswith("pourquoi")
+            and any(w in t for w in ("ton ", "ta ", "tes ", "tu ", "corps", "cerveau"))
+        )
     return True
 
 
@@ -127,9 +126,7 @@ def is_weak_title(title: str) -> bool:
         return True
     if re.search(r"\b(pourquoi|comment)\s+\w{1,3}\s*\?$", t):
         return True
-    if t.endswith(("capte ?", "déforme ?", "fait ?", "est ?")) and len(t) < 32:
-        return True
-    return False
+    return bool(t.endswith(("capte ?", "déforme ?", "fait ?", "est ?")) and len(t) < 32)
 
 
 def shape_viral_title(title: str, topic: str = "") -> str:
@@ -227,7 +224,7 @@ def enforce_opening_hook(script: dict[str, Any]) -> dict[str, Any]:
         narration = title if title.endswith("?") else (title.rstrip(".") + " ?")
 
     if len(narration.split()) > 14 or not narration:
-        narration = title if title else "Regarde ce que fait ton cerveau."
+        narration = title or "Regarde ce que fait ton cerveau."
 
     if not caption or len(caption.split()) > 8:
         words = re.findall(r"[\wà-ÿ']+", title, flags=re.IGNORECASE)
