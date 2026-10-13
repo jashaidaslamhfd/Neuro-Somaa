@@ -831,7 +831,7 @@ def _fallback_script(topic: str) -> dict[str, Any]:
         "description": "Un phénomène étonnant expliqué simplement. #shorts #science #france #neurosciences #cerveau",
         "tags": tags,
         "scenes": [
-            {"caption": "Regarde ce phénomène.", "narration": hook},
+            {"caption": "ATTENDS—ton corps réagit.", "narration": hook},
             {"caption": "Ton cerveau intervient.", "narration": "Ton cerveau traite ce phénomène automatiquement."},
             {"caption": "Ce n'est pas un hasard.", "narration": "Ce mécanisme a une fonction précise dans ton comportement."},
             {"caption": "Les signaux circulent.", "narration": "Des signaux nerveux coordonnent ensuite la réponse du corps."},
