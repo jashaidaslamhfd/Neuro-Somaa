@@ -468,7 +468,108 @@ Aucune explication.
 """
 
 
-NEURO_SOMAA_USER_PROMPT = '\nSUJET :\n{topic}\n\nTYPE DE SUJET :\n{topic_category}\n\nANGLE SUGGÉRÉ :\n{suggested_angle}\n\nDURÉE CIBLE :\n{min_seconds}-{max_seconds} secondes\n\nCrée un YouTube Short original pour Neuro-Somaa.\n\nCONTRAINTES TECHNIQUES OBLIGATOIRES :\n- Produis entre 6 et 10 scènes exactement.\n- Chaque caption contient entre 2 et 8 mots.\n- Chaque narration contient au maximum 16 mots.\n- Le total de narration contient entre 42 et 72 mots.\n- Chaque caption est unique.\n- Écris pour être parlé à voix haute, comme un créateur français qui explique quelque chose à un ami curieux.\n- Utilise des tournures orales naturelles quand elles conviennent; varie la longueur et le rythme des phrases.\n- Ajoute une ponctuation utile à la respiration et à l'intention; évite le ton de manuel et les phrases toutes construites de la même façon.\n- Chaque scène doit apporter une nouvelle information visuelle ou une action concrète, afin que l'image puisse montrer précisément ce qui est raconté.\n- La description contient entre 3 et 5 hashtags français pertinents.\n- Fournis entre 8 et 12 tags SEO en français.\n- Vérifie ces contraintes avant de retourner le JSON.\n\nPUBLIC :\nFrance en priorité.\nBelgique francophone et Suisse romande en audience secondaire.\n\nOBJECTIF :\nCréer une vidéo qui donne immédiatement une raison de rester,\npuis maintenir une curiosité jusqu\'au payoff.\n\nIMPORTANT :\n\nLe sujet peut concerner :\n- cerveau\n- psychologie\n- comportement humain\n- science\n- IA\n- IA × humain\n- technologie × comportement\n- futur\n\nSi le sujet concerne l\'IA, privilégie un angle qui montre ce que cela\nchange pour l\'humain, son cerveau, ses émotions, ses décisions ou son\ncomportement lorsque cela est naturel.\n\nNE TRANSFORME PAS LE CONTENU EN NEWS TECHNIQUE GÉNÉRIQUE.\n\nSTRUCTURE :\n\nNe force pas 8 scènes.\n\nUtilise uniquement le nombre de scènes nécessaire.\n\nChaque scène doit contenir :\n\n{{\n  "caption": "...",\n  "narration": "..."\n}}\n\nLe premier segment doit commencer directement par le hook.\n\nAucune introduction.\n\nLa dernière partie doit produire un payoff clair.\n\nGÉNÈRE :\n\n- title\n- scenes\n- description\n- tags\n\nDESCRIPTION :\ncourte, naturelle, pertinente.\n\nHASHTAGS :\n3 à 5 maximum.\n\nTAGS :\n8 à 12 mots-clés réellement pertinents.\n\nRetourne exactement :\n\n{{\n  "title": "...",\n  "scenes": [\n    {{\n      "caption": "...",\n      "narration": "..."\n    }}\n  ],\n  "description": "...",\n  "tags": ["...", "..."]\n}}\n\nUNIQUEMENT DU JSON VALIDE.\n'
+NEURO_SOMAA_USER_PROMPT = r"""
+SUJET :
+{topic}
+
+TYPE DE SUJET :
+{topic_category}
+
+ANGLE SUGGÉRÉ :
+{suggested_angle}
+
+DURÉE CIBLE :
+{min_seconds}-{max_seconds} secondes
+
+Crée un YouTube Short original pour Neuro-Somaa.
+
+CONTRAINTES TECHNIQUES OBLIGATOIRES :
+- Produis entre 6 et 10 scènes exactement.
+- Chaque caption contient entre 2 et 8 mots.
+- Chaque narration contient au maximum 16 mots.
+- Le total de narration contient entre 42 et 72 mots.
+- Chaque caption est unique.
+- Écris pour être parlé à voix haute, comme un créateur français qui explique quelque chose à un ami curieux.
+- Utilise des tournures orales naturelles quand elles conviennent; varie la longueur et le rythme des phrases.
+- Ajoute une ponctuation utile à la respiration et à l'intention; évite le ton de manuel et les phrases toutes construites de la même façon.
+- Chaque scène doit apporter une nouvelle information visuelle ou une action concrète, afin que l'image puisse montrer précisément ce qui est raconté.
+- La description contient entre 3 et 5 hashtags français pertinents.
+- Fournis entre 8 et 12 tags SEO en français.
+- Vérifie ces contraintes avant de retourner le JSON.
+
+PUBLIC :
+France en priorité.
+Belgique francophone et Suisse romande en audience secondaire.
+
+OBJECTIF :
+Créer une vidéo qui donne immédiatement une raison de rester,
+puis maintenir une curiosité jusqu'au payoff.
+
+IMPORTANT :
+
+Le sujet peut concerner :
+- cerveau
+- psychologie
+- comportement humain
+- science
+- IA
+- IA × humain
+- technologie × comportement
+- futur
+
+Si le sujet concerne l'IA, privilégie un angle qui montre ce que cela
+change pour l'humain, son cerveau, ses émotions, ses décisions ou son
+comportement lorsque cela est naturel.
+
+NE TRANSFORME PAS LE CONTENU EN NEWS TECHNIQUE GÉNÉRIQUE.
+
+STRUCTURE :
+
+Ne force pas 8 scènes.
+Utilise uniquement le nombre de scènes nécessaire.
+
+Chaque scène doit contenir :
+
+{{
+  "caption": "...",
+  "narration": "..."
+}}
+
+Le premier segment doit commencer directement par le hook.
+Aucune introduction.
+La dernière partie doit produire un payoff clair.
+
+GÉNÈRE :
+- title
+- scenes
+- description
+- tags
+
+DESCRIPTION :
+courte, naturelle, pertinente.
+
+HASHTAGS :
+3 à 5 maximum.
+
+TAGS :
+8 à 12 mots-clés réellement pertinents.
+
+Retourne exactement :
+
+{{
+  "title": "...",
+  "scenes": [
+    {{
+      "caption": "...",
+      "narration": "..."
+    }}
+  ],
+  "description": "...",
+  "tags": ["...", "..."]
+}}
+
+UNIQUEMENT DU JSON VALIDE.
+"""
 
 # Kept as a compatibility export for older tests and integrations. The active
 # prompt deliberately does not include this fixed eight-role structure; scene
