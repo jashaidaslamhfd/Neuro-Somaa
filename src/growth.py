@@ -74,8 +74,6 @@ _SHORTS_HASHTAG_CORE = (
     "#shorts",
     "#science",
     "#cerveau",
-    "#france",
-    "#psychologie",
 )
 
 _VIRAL_TITLE_TEMPLATES = (
@@ -191,7 +189,7 @@ def boost_description(description: str, title: str, tags: list[str] | None = Non
         h = f"#{w.replace(' ', '')}"
         if h.lower() not in {x.lower() for x in _SHORTS_HASHTAG_CORE} and h not in extra:
             extra.append(h)
-        if len(extra) >= 3:
+        if len(extra) >= 2:
             break
 
     packed: list[str] = []
@@ -205,7 +203,7 @@ def boost_description(description: str, title: str, tags: list[str] | None = Non
     block = (
         f"{base}\n\n"
         f"Neuro-Somaa — cerveau, corps, sommeil et comportements expliqués simplement.\n\n"
-        f"{' '.join(packed[:8])}"
+        f"{' '.join(packed[:5])}"
     )
     return block[:4900]
 
