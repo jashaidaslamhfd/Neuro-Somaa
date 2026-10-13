@@ -182,6 +182,8 @@ def boost_description(description: str, title: str, tags: list[str] | None = Non
     base = re.sub(r"#\w+", "", base).strip()
     if not base:
         base = f"{title} — expliqué simplement."
+    # Prevent long model text from truncating the required hashtag block.
+    base = base[:2800].rstrip()
 
     tag_words = [str(t).strip().lstrip("#") for t in (tags or []) if str(t).strip()]
     extra: list[str] = []
