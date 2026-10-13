@@ -20,7 +20,7 @@ python scripts/preflight.py
 DRY_RUN=true python src/main.py
 ```
 
-For a live upload, provide at least one LLM secret and the three YouTube OAuth secrets, then set `DRY_RUN=false`. The default YouTube privacy is `private`; scheduled publication must remain private until a publish time is explicitly assigned.
+For a live upload, provide at least one LLM secret and the three YouTube OAuth secrets, then set `DRY_RUN=false`. The default YouTube privacy is `public` for immediate Shorts distribution. If `YT_SCHEDULE_PUBLISH=true`, privacy must be `private` and a future publication time is assigned.
 
 ## GitHub Actions
 
@@ -28,7 +28,7 @@ The single workflow `.github/workflows/main.yml` supports manual dry-runs, manua
 
 ## Preserved state
 
-The rebuild preserves the existing `.git` history, `data/` state and video history, `assets/`, and remote GitHub Secret values. Source code, workflows, tests, and documentation were replaced with the clean implementation above.
+The pipeline defaults to immediate public uploads when `DRY_RUN=false` (`YT_PRIVACY_STATUS=public`, `YT_SCHEDULE_PUBLISH=false`). If scheduled publishing is explicitly enabled, YouTube requires the video to remain private until its assigned `publishAt` time. Manual workflow dispatch defaults to `dry_run=true`, so a live upload requires deliberately turning dry-run off.
 
 ## License
 
