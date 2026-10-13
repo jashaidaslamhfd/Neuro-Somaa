@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from PIL import Image, ImageDraw, ImageFont, ImageOps
+from pydub import AudioSegment
 
 from audio import mix_background_music, select_music_track, synthesize_narration
 from config import Settings
@@ -165,6 +166,13 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
         image_path = scene_dir / f"scene_{index:02d}.png"
         segment_path = segment_dir / f"scene_{index:02d}.mp4"
         duration, word_timings = synthesize_narration(narration, audio_path, settings)
+        # Short breath between separately synthesized lines makes scene changes
+        # feel less like continuous robot reading; keep audio/video synchronized.
+        if index < len(script["scenes"]) and not settings.dry_run:
+            speech = AudioSegment.from_file(audio_path, format="wav")
+            speech = speech.fade_in(18).fade_out(28) + AudioSegment.silent(duration=115, frame_rate=speech.frame_rate)
+            speech.export(audio_path, format="wav")
+            duration = len(speech) / 1000.0
         mixed_path = audio_path
         if music_path is not None:
             mixed_path = audio_dir / f"scene_{index:02d}_mixed.wav"
@@ -212,7 +220,17 @@ def render_video(script: dict[str, Any], settings: Settings, historical_clip_has
             overlay_inputs.extend(["-loop", "1", "-t", f"{chunk_duration:.3f}", "-i", str(overlay_path)])
             overlay_labels.append(f"[{chunk_index + 1}:v]")
         concat_filter = "".join(overlay_labels) + f"concat=n={len(overlay_paths)}:v=1:a=0[ov]"
-        filter_graph = f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base];{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
+        # Still images get a subtle Ken Burns push-in instead of a static slideshow.
+        if is_image:
+            base_filter = (
+                "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,"
+                "crop=1080:1920,zoompan=z='min(zoom+0.00045,1.10)':"
+                "x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:"
+                "s=1080x1920:fps=30,setsar=1[base]"
+            )
+        else:
+            base_filter = "[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[base]"
+        filter_graph = f"{base_filter};{concat_filter};[base][ov]overlay=0:0:format=auto[v]"
         source_input = ["-stream_loop", "-1", "-i", str(source_path)] if is_clip else ["-loop", "1", "-i", str(source_path)]
         audio_index = len(overlay_paths) + 1
         command = ["ffmpeg", "-y", *source_input, *overlay_inputs, "-i", str(mixed_path), "-filter_complex", filter_graph, "-map", "[v]", "-map", f"{audio_index}:a", "-t", f"{duration:.3f}", "-r", "30", "-c:v", "libx264", "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "aac", "-shortest", str(segment_path)]
