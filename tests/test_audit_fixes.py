@@ -4,10 +4,13 @@ import sys
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
+import pytest
+
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 
 from config import Settings
+from make_public import make_videos_public
 from content import _GeminiAdapter, _OpenRouterAdapter
 from thumbnails import build_thumbnail
 from visual_providers import _archive_clip
@@ -83,3 +86,13 @@ def test_build_thumbnail_creates_output_directory(tmp_path):
     thumb_path = build_thumbnail(script, settings)
     assert thumb_path.exists()
     assert thumb_path.parent.exists()
+
+
+def test_make_public_requires_explicit_video_ids():
+    with pytest.raises(SystemExit, match="VIDEO_IDS is required"):
+        make_videos_public([])
+
+
+def test_make_public_rejects_invalid_video_ids_before_oauth():
+    with pytest.raises(SystemExit, match="Invalid YouTube video ID"):
+        make_videos_public(["not-a-video-id"])
