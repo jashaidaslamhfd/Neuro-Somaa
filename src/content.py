@@ -1056,6 +1056,21 @@ def generate_script(topic: str, settings: Settings, quality_feedback: str = "") 
         {"role": "user", "content": user_prompt},
     ]
 
+    # Feed production-gate failures back into the next generation. Previously
+    # main.py supplied quality_feedback, but this function never added it to
+    # the model messages, so every retry repeated the same mistakes.
+    if quality_feedback.strip():
+        messages.append({
+            "role": "user",
+            "content": (
+                "CORRECTIONS OBLIGATOIRES DU CONTRÔLE QUALITÉ — corrige chaque point "
+                "avant de retourner le JSON. Respecte 6 à 10 scènes, 2 à 8 mots "
+                "par caption, maximum 16 mots par narration, 42 à 72 mots au total, "
+                "3 à 5 hashtags dans la description et 8 à 12 tags SEO.\n"
+                + quality_feedback
+            ),
+        })
+
     max_attempts = 3
     for client, llm_model in providers:
         for attempt in range(1, max_attempts + 1):
