@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-13T21:50:06.777850+00:00",
+  "topic": "Pourquoi ton attention disparaît",
+  "title": "Pourquoi ton attention disparaît ?",
+  "duration": 26.836333,
+  "hook_score": 100,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "9b76ff1422125569dcbaf96b4e0b8e83700c50f28da4e8bd64496c47f947c830",
+    "6a069ad0839c9a8085fa068e364c29dc923a79bf35aa27c44d20343a273972c8",
+    "730714c8b6eee94f47fcc8d6ac57c51febecb95d71aecacab21ca01d4ff3c2e3",
+    "07dabffdc460ab2e3ddf31f9cc6013a7a862d490a28dc0cb68c3f7a4707791b9",
+    "1baf0249364a74d51c48ed627270f887f36f809f6fd4b89ab4df64970376bae0",
+    "4c5cc1358e158265f47a9ae8a30dbd06144ca21b69e9c123bdcc05bd45e9718c",
+    "41f3e57ad4e7e744677637d8410a374e5567bf9ad3adc29fa3d853fce0c68d11",
+    "25cba2265332c5be429f406b112c52c13443205f58598241b0f9614b73f65dee"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "ai_editorial"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "f153b969b9a159853dba22d796a797d1b0e50b714849d6bc28f8109e82be5c86",
+  "status": "uploaded",
+  "youtube_video_id": "uHTJwg34rFY",
+  "url": "https://youtu.be/uHTJwg34rFY",
+  "thumbnail_status": "uploaded"
+}

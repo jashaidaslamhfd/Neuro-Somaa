@@ -710,10 +710,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/QoDMGDLUPG4",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 55,
+      "timestamp": "2026-10-13T21:50:13.028669+00:00",
+      "title": "Pourquoi ton attention disparaît ?",
+      "topic": "Pourquoi ton attention disparaît",
+      "duration": 26.836333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/uHTJwg34rFY",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 54,
-  "last_cycle_at": "2026-10-13T20:23:15.945142+00:00",
+  "total_cycles": 55,
+  "last_cycle_at": "2026-10-13T21:50:13.028704+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
