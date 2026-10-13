@@ -15,7 +15,7 @@ except ImportError:
 
 from agent_brain import AgentBrain
 from config import SETTINGS
-from content import generate_script, load_topic, score_hook, score_script_quality
+from content import _fallback_script, generate_script, load_topic, score_hook, score_script_quality
 from french_quality import validate_french_script
 from growth import (
     apply_growth_metadata,
@@ -200,9 +200,33 @@ def run() -> dict:
             "; ".join(french_errors),
         )
     else:
-        raise RuntimeError(
-            "French production gate failed after 3 generation attempts: " + "; ".join(french_errors)
+        # A model that repeatedly violates formatting must not block the entire
+        # production slot. Use the deterministic, repository-owned French script
+        # and run the exact same gates before rendering; never bypass validation.
+        logger.error(
+            "LLM output failed the French gate after 3 attempts; switching to deterministic fallback: %s",
+            "; ".join(french_errors),
         )
+        script = _fallback_script(topic)
+        script["topic"] = topic
+        script = apply_growth_metadata(script)
+        hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
+        quality_score = score_script_quality(script["scenes"])
+        french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
+        if is_weak_title(str(script.get("title", ""))):
+            raise RuntimeError(f"Deterministic fallback has a weak title: {script.get('title')}")
+        if hook_score < SETTINGS.min_hook_score:
+            raise RuntimeError(
+                f"Deterministic fallback hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
+            )
+        if quality_score < SETTINGS.quality_approval_threshold:
+            raise RuntimeError(
+                f"Deterministic fallback quality score {quality_score} below "
+                f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+            )
+        if french_errors:
+            raise RuntimeError("Deterministic fallback failed French gate: " + "; ".join(french_errors))
+        logger.info("Deterministic French fallback passed all gates; continuing to render.")
 
     history_path = SETTINGS.data_dir / "video_history.json"
     try:
