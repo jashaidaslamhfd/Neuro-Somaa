@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.1,
+      "weight": 1.16,
       "engagement_avg": 2.222
     },
     {
@@ -698,10 +698,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/WPRdf8wvrZ8",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 54,
+      "timestamp": "2026-10-13T20:23:15.945096+00:00",
+      "title": "Pourquoi une notification suffit ?",
+      "topic": "Pourquoi une notification suffit",
+      "duration": 23.011,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/QoDMGDLUPG4",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 53,
-  "last_cycle_at": "2026-10-13T19:30:52.504942+00:00",
+  "total_cycles": 54,
+  "last_cycle_at": "2026-10-13T20:23:15.945142+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

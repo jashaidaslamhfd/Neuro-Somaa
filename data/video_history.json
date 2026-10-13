@@ -6053,5 +6053,44 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-13T20:23:07.819087+00:00",
+    "topic": "Pourquoi une notification suffit",
+    "title": "Pourquoi une notification suffit ?",
+    "duration": 23.011,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "ecca7bd406abcafd9ae36ce925723be5c4e32ce53cda84bd0b9646d4b990fb12",
+      "d67f71ee992b4dbfe768393ee35f6863c1c69a287c466c7d376094c7782952d9",
+      "37dfd19a6c63e4bab8521a62c6652fa4295550c0cd5ee5748fecf2219d0beb59",
+      "d65a4af331313dee4d5cb38d9260d311a5ea14b9b007421747714c8dfea2a34f",
+      "8da34de23c51c83a8b10c4a203d09b82ab7830968ddd54cf65278bbbb56265d2",
+      "a960fc0f57795144f56758c85147b98745a16dc77cf8f66bfb9e3f6922d335ed",
+      "428a3444e091dedb9e5cabdf5e056c2d899dec45fe23315f755978a5ff34f4ac",
+      "ac98f537e8b690802f42a72bda7604a014e5e3007304da54da82ffa145c5d1b0"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "ai_editorial",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "1bab0267ecc66f0f09aa9bce6a76d6c700df0487d7c1fd69f1143d3eabf69477",
+    "status": "uploaded",
+    "youtube_video_id": "QoDMGDLUPG4",
+    "url": "https://youtu.be/QoDMGDLUPG4",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
