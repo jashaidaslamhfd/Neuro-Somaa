@@ -120,7 +120,7 @@ def is_weak_title(title: str) -> bool:
         return True
     # Match whole French words, not raw suffixes: endswith("a ?") wrongly
     # classified perfectly valid titles such as "Pourquoi ton stress réagit comme ça ?".
-    if re.search(r"\\b(?:la|de|le|les|des|du|un|une|et|à|a)\\s+\\?$", t):
+    if re.search(r"\b(?:la|de|le|les|des|du|un|une|et|à|a)\s+\?$", t):
         return True
     if re.search(r"\b(pourquoi|comment)\s+\w{1,3}\s*\?$", t):
         return True
