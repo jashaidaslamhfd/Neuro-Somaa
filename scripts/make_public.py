@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 
 
 def get_youtube():
@@ -20,7 +21,13 @@ def get_youtube():
     return build("youtube", "v3", credentials=credentials, cache_discovery=False)
 
 def make_videos_public(video_ids: list[str]):
+    if not video_ids:
+        raise SystemExit("VIDEO_IDS is required; refusing to publish an implicit/default video")
+    invalid = [vid for vid in video_ids if not re.fullmatch(r"[A-Za-z0-9_-]{11}", vid)]
+    if invalid:
+        raise SystemExit(f"Invalid YouTube video ID(s): {', '.join(invalid)}")
     yt = get_youtube()
+    errors = []
     for vid in video_ids:
         try:
             res = yt.videos().list(part="snippet,status", id=vid).execute()
@@ -43,8 +50,12 @@ def make_videos_public(video_ids: list[str]):
             yt.videos().update(part="status", body=status_body).execute()
             print(f"[{vid}] Successfully transitioned to PUBLIC!")
         except Exception as e:
-            print(f"[{vid}] Error: {e}")
+            message = f"[{vid}] Error: {e}"
+            print(message)
+            errors.append(message)
+    if errors:
+        raise RuntimeError("One or more videos could not be made public: " + "; ".join(errors))
 
 if __name__ == "__main__":
-    ids = [v.strip() for v in os.getenv("VIDEO_IDS", "gDbVsTzTPCw").split(",") if v.strip()]
+    ids = [v.strip() for v in os.getenv("VIDEO_IDS", "").split(",") if v.strip()]
     make_videos_public(ids)
