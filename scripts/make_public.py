@@ -33,7 +33,9 @@ def make_videos_public(video_ids: list[str]):
             res = yt.videos().list(part="snippet,status", id=vid).execute()
             items = res.get("items", [])
             if not items:
-                print(f"[{vid}] Not found")
+                message = f"[{vid}] Not found or inaccessible"
+                print(message)
+                errors.append(message)
                 continue
             item = items[0]
             curr_status = item["status"]
