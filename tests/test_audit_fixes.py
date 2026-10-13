@@ -9,8 +9,9 @@ import pytest
 sys.path.insert(0, str(Path(__file__).parents[1] / "src"))
 sys.path.insert(0, str(Path(__file__).parents[1] / "scripts"))
 
-from config import Settings
 from make_public import make_videos_public
+
+from config import Settings
 from content import _GeminiAdapter, _OpenRouterAdapter
 from thumbnails import build_thumbnail
 from visual_providers import _archive_clip
