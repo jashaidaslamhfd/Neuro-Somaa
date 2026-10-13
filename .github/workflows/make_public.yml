@@ -4,8 +4,7 @@ on:
     inputs:
       video_ids:
         description: "Comma separated video IDs to make public immediately"
-        required: false
-        default: "gDbVsTzTPCw"
+        required: true
 
 jobs:
   make-public:
