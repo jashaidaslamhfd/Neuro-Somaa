@@ -6014,5 +6014,44 @@
     "analytics_fetched_at": "2026-10-13T14:08:55.335572+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-11T05:43:58.020439+00:00"
+  },
+  {
+    "created_at": "2026-10-13T19:30:47.896818+00:00",
+    "topic": "Pourquoi le stress déforme",
+    "title": "Stress: ton cerveau déformé?",
+    "duration": 21.472333,
+    "hook_score": 90,
+    "quality_score": 80,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "0f91e43dc9175ee92f5daf895dbf53ec70326dedf4920ebd45e10eb8269f85c6",
+      "e23efcbca12bdd62ccee8cdaad2c8754e84858aaac53fc9a441ba703eb2fec9d",
+      "3f5aba21869864e630d75a8277d64ccee3bdcc43d6e5bddfd9f01768e6360f7f",
+      "e635bf1ba39b04d2f46143cf09e9896942e1f5c261cb62f08162dc3087fdb357",
+      "0dc283d27b3a473fedc1f2cd41fe67dbf4c54d55d587db7fff477423e9cdc0b4",
+      "4ef16285e6309abb6ff43a4d5864c21ad99725df42568aeb4eb3a6604d6406b3",
+      "ae5dd25e6d87d7e093c43a45d1353a37821b60c5071c41664bf0f6d8488a99b6",
+      "9deb14b6d0639eb591d2a937d1068caf6847cfd6104ad4625566036123682554"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "ai_editorial",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "5388f23bdf26266911ad4a7ce97abfe8029679eb71e80fe23c55c2cc725ed9c4",
+    "status": "uploaded",
+    "youtube_video_id": "WPRdf8wvrZ8",
+    "url": "https://youtu.be/WPRdf8wvrZ8",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

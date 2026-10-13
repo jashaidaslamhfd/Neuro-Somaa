@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-10T20:41:35.961082+00:00",
+  "mined_at": "2026-10-13T19:27:53.790619+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-10T20:41:35.961110+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790646+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961165+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790688+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961186+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790708+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961208+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790731+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961230+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790752+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961250+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790773+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-10T20:41:35.961293+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790816+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,10 +104,23 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961312+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790836+00:00"
     },
     {
       "series_number": "TREND-11",
+      "series_title": "Pourquoi une chanson reste",
+      "topic": "Pourquoi une chanson reste",
+      "question_phrase": "Pourquoi une chanson reste",
+      "angle": "Pourquoi une chanson reste",
+      "thumbnail_text": "Pourquoi une chanson reste",
+      "demand_note": "evergreen_seed | ",
+      "source": "evergreen_seed",
+      "source_url": "",
+      "trend_score": 19,
+      "fetched_at": "2026-10-13T19:27:53.790855+00:00"
+    },
+    {
+      "series_number": "TREND-12",
       "series_title": "Pourquoi le cerveau invente",
       "topic": "Pourquoi le cerveau invente",
       "question_phrase": "Pourquoi le cerveau invente",
@@ -117,10 +130,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961331+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790874+00:00"
     },
     {
-      "series_number": "TREND-12",
+      "series_number": "TREND-13",
       "series_title": "Pourquoi une odeur peut",
       "topic": "Pourquoi une odeur peut",
       "question_phrase": "Pourquoi une odeur peut",
@@ -130,10 +143,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961351+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790894+00:00"
     },
     {
-      "series_number": "TREND-14",
+      "series_number": "TREND-15",
       "series_title": "Pourquoi le cerveau cherche",
       "topic": "Pourquoi le cerveau cherche",
       "question_phrase": "Pourquoi le cerveau cherche",
@@ -143,10 +156,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961388+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790931+00:00"
     },
     {
-      "series_number": "TREND-15",
+      "series_number": "TREND-16",
       "series_title": "Pourquoi ton cerveau te fait",
       "topic": "Pourquoi ton cerveau te fait",
       "question_phrase": "Pourquoi ton cerveau te fait",
@@ -156,10 +169,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961408+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790951+00:00"
     },
     {
-      "series_number": "TREND-16",
+      "series_number": "TREND-17",
       "series_title": "Pourquoi certaines habitudes deviennent",
       "topic": "Pourquoi certaines habitudes deviennent",
       "question_phrase": "Pourquoi certaines habitudes deviennent",
@@ -169,10 +182,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961429+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790972+00:00"
     },
     {
-      "series_number": "TREND-17",
+      "series_number": "TREND-18",
       "series_title": "Pourquoi ton cerveau préfère",
       "topic": "Pourquoi ton cerveau préfère",
       "question_phrase": "Pourquoi ton cerveau préfère",
@@ -182,10 +195,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961452+00:00"
+      "fetched_at": "2026-10-13T19:27:53.790996+00:00"
     },
     {
-      "series_number": "TREND-18",
+      "series_number": "TREND-19",
       "series_title": "Pourquoi ton cerveau déteste",
       "topic": "Pourquoi ton cerveau déteste",
       "question_phrase": "Pourquoi ton cerveau déteste",
@@ -195,10 +208,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961472+00:00"
+      "fetched_at": "2026-10-13T19:27:53.791015+00:00"
     },
     {
-      "series_number": "TREND-19",
+      "series_number": "TREND-20",
       "series_title": "Pourquoi ton cerveau remarque",
       "topic": "Pourquoi ton cerveau remarque",
       "question_phrase": "Pourquoi ton cerveau remarque",
@@ -208,10 +221,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961493+00:00"
+      "fetched_at": "2026-10-13T19:27:53.791050+00:00"
     },
     {
-      "series_number": "TREND-20",
+      "series_number": "TREND-21",
       "series_title": "Pourquoi le cerveau aime",
       "topic": "Pourquoi le cerveau aime",
       "question_phrase": "Pourquoi le cerveau aime",
@@ -221,10 +234,23 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961515+00:00"
+      "fetched_at": "2026-10-13T19:27:53.791071+00:00"
     },
     {
       "series_number": "TREND-22",
+      "series_title": "Pourquoi la musique change",
+      "topic": "Pourquoi la musique change",
+      "question_phrase": "Pourquoi la musique change",
+      "angle": "Pourquoi la musique change",
+      "thumbnail_text": "Pourquoi la musique change",
+      "demand_note": "evergreen_seed | ",
+      "source": "evergreen_seed",
+      "source_url": "",
+      "trend_score": 19,
+      "fetched_at": "2026-10-13T19:27:53.791092+00:00"
+    },
+    {
+      "series_number": "TREND-24",
       "series_title": "Pourquoi une peur peut",
       "topic": "Pourquoi une peur peut",
       "question_phrase": "Pourquoi une peur peut",
@@ -234,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-10T20:41:35.961556+00:00"
+      "fetched_at": "2026-10-13T19:27:53.791134+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Intelligence artificielle et expériences multisensorielles au cœur de la Science Fair 2026",
-      "topic": "Intelligence artificielle et expériences multisensorielles au cœur de la Science Fair 2026",
-      "question_phrase": "Intelligence artificielle et expériences multisensorielles au cœur de la Science Fair 2026",
-      "angle": "Intelligence artificielle et expériences multisensorielles au cœur de la Science Fair 2026",
-      "thumbnail_text": "Intelligence artificielle et expériences multisensorielles au cœur de ",
-      "demand_note": "google_news_fr | 2026-10-10T10:17:00+00:00",
+      "series_title": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
+      "topic": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
+      "question_phrase": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
+      "angle": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
+      "thumbnail_text": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine eur",
+      "demand_note": "google_news_fr | 2026-10-13T15:00:22+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxPNTRSZkM5ajg3S3RPRHBjWXZPLWhNSGpPTndLbU14OXNsN29SY3pMRE5HM0dyX3lFbFdfQkdQNTg0ZXc0M0FSSk1PakN4WGNnOFh5TnM1SUtfY0R6UEFUb1R0TmFxV2l0QlA0eXQ1bHphdjRjWUpWU1FyZnNPOFZNTmVDRm9nNkZCUnQwaVJTNDJ2QUx5YWFLYnEtWGxzVEEza21UMDNmejlXZmZLN2NQdTBud0FCYjBnLXZHaXZOMnNSTWJpOThGYmFR?oc=5",
-      "trend_score": 15,
-      "fetched_at": "2026-10-10T20:41:35.961788+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQQWFvbXN0OXlOVEswdXJNMDNUeXRRb1VRMEVkakFBNDMzcFd5TkdUdU5VdS1IVjhUczljM0o5ZjNVWlF6NC1ULTJDU01BUGxkRERNZi1NNEl4Q0hwb1RUeGdCVzh5TFRaSFBnUGIzZ3pNcU1GM19MeHl6S3V5WXFnajdFZkFTWGpnVzM5Tk05cmNvaGNmWEU0SDY5aEFXZEZheENyU2dKclBVY3BaS3h6Nmt3ZFVVcExJamNKRHZ5WVc0VXJrR1F6Skl0Z2RLUlJLQU15YUpMMHhYRjJ0ajUzTjh4TF9BQQ?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791317+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "«L’intelligence artificielle ne nous fait pas du tout peur",
-      "topic": "«L’intelligence artificielle ne nous fait pas du tout peur",
-      "question_phrase": "«L’intelligence artificielle ne nous fait pas du tout peur",
-      "angle": "«L’intelligence artificielle ne nous fait pas du tout peur",
-      "thumbnail_text": "«L’intelligence artificielle ne nous fait pas du tout peur",
-      "demand_note": "google_news_fr | 2026-10-10T10:00:00+00:00",
+      "series_title": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithm",
+      "topic": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
+      "question_phrase": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
+      "angle": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
+      "thumbnail_text": "Meta Platforms introduit des outils d’intelligence artificielle pour a",
+      "demand_note": "google_news_fr | 2026-10-13T18:29:20+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxONnEtdnZReTN3aW5FLTFoMU5BWXFfR0ZfbG0ybDB3b0xiTzJpb1RHT1czZGU2eWtZeFh3bUlxdmZzNXc0RGJxVGVCZWM2WHB0ekdSU180WVNoQmR3ZV9vczBGNm1LQkRGRkdJWF9FMUVfblpXNmpodk5ucFhEZmFzVUNUNDRpcmtaRjJNS1U5R2MtWE9pYUlGWXAzM0VkRW0zQVAtQkdfcThERkVlX3ZqZjdZQ1hzMDhnbnVqUVpWa0VmUUl6ZWE4NFQ1UFRyTTkyZk14TW9QTm1wLXNkRmxLalVZSklvd3BaWjMyd0VCTUFWYlVpVm1oTUdtc0xJQzZ4ZlE?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOTkZGOTVFeGpaR0JVYWhGaWhtYVhCWkZnQzNDNW8zVDBMYzYxcWNqY2d5eXZNb0pCUjJjSDVkR3V6Q09fVGZ1ZGgySEdFMUU0UERiMXBrVU9Cd1pVbUtQVEJ5WWxQRVRIaVZHanBHdjIxZFh4RkRDY3J5RkoyRHBsMF92cDl1WFNHZk91X3ctNFljREtXZXZoZmFReEl3blYtOVF6YnhVV2s4YTFId2RrWHVLOFpSVG9vWGZhbDByYWdVcXgySVpaOVg0dmRsUXhTcjBZY2dxQUxwdUtzRDkyb05DYUdCajVnUG4yb19zQ1E?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-10T20:41:35.961817+00:00"
+      "fetched_at": "2026-10-13T19:27:53.791353+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Pourquoi la Suisse joue un rôle clé dans la bataille mondiale des mots",
-      "topic": "Pourquoi la Suisse joue un rôle clé dans la bataille mondiale des mots",
-      "question_phrase": "Pourquoi la Suisse joue un rôle clé dans la bataille mondiale des mots",
-      "angle": "Pourquoi la Suisse joue un rôle clé dans la bataille mondiale des mots",
-      "thumbnail_text": "Pourquoi la Suisse joue un rôle clé dans la bataille mondiale des mots",
-      "demand_note": "google_news_fr | 2026-10-10T12:02:59+00:00",
+      "series_title": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développ",
+      "topic": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
+      "question_phrase": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
+      "angle": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
+      "thumbnail_text": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Arg",
+      "demand_note": "google_news_fr | 2026-10-13T16:02:38+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxPX0hkVHRkZmRyMHBDWXZiTzJyTmdXS0ZieDNwSXo5S0hMd1FZMk81dUcwb0VUM3F0Zzd2c3ZjYTVBM2F4N3J2QlkydzFnLXd2Mlg0TDN0M1dxVnF2NndQMjQ0ZXpTcXIzYVQyZnFRNDBzbG9qMFd3dFhaQWhZM0dvMUN4aFlMMG8zY0doaVAyMGIwX0tBSThsdXA4Z1J4NzFCSTBubm5NVQ?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-10-10T20:41:35.961839+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNcEE4N0J0ajRaSTZpbjNSemdMNmZFdWgxMy1YdGFRakhtNjFWMzBpd1ZzaTdZUjViWVp5dGdLYTVEcHRRSWxzSXVweUhCUXlhNnVDejNjTlVZR2tpWHdBbmxvcHlmYnptYk5SZm8tcXNnQU4zZEdyOVBrZGN3T1dDZ0lVeWJaOVlNN2ZmS2h2Z0tGSm9rUUpZODZrVXNWZ0M1LXUxTW1KRzkzU2dsdGlFdWRkdzVOaHNoZUZFdlo3OVZYWTdUaVpmZ1hTWE1vNzVHQVY0RE5RZEM4aEtDbTJnS0tYZ3VnbXlKY1FHVEJmc1g?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791392+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "Intelligence artificielle en santé. Futur de nos cerveaux",
-      "topic": "Intelligence artificielle en santé. Futur de nos cerveaux",
-      "question_phrase": "Intelligence artificielle en santé. Futur de nos cerveaux",
-      "angle": "Intelligence artificielle en santé. Futur de nos cerveaux",
-      "thumbnail_text": "Intelligence artificielle en santé. Futur de nos cerveaux",
-      "demand_note": "google_news_fr | 2026-10-09T12:57:18+00:00",
+      "series_title": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation profession",
+      "topic": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
+      "question_phrase": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
+      "angle": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
+      "thumbnail_text": "L’essor de l’intelligence artificielle, sur les choix d’études et d’or",
+      "demand_note": "google_news_fr | 2026-10-13T08:16:09+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQSUV4UEppS1dWOV9KZkw0M0F5RWFfM05uZFNJcGtzX0Jtekx4ZWZMdGNVNWEwV2MzSXhLb2hPakpUenpxTVZiSGUxT0NQakIyZjZORHN4cDVTcVQtZF9lb21uTzVFOUJjWGxqRUFYRWZtUnp0NnJUMW1CMU1vTy0zLVhCQUlKaDVILWk4WFVrQzcyaGRxZEdEOTZHcjNVcWNwS0ZuZ21NSFhmaGVMRDI2TzZR?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-10T20:41:35.961861+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQZUg3elZaX0c2VGdsaXFCTkRXRU40T3pOZzN4Tk9Bd2R2cm56WmduZ2NuNnlkTjRxU3dQcG55c3pfY0l4LUp6QzJWczFYaGUyNnVxckJHM1prWlhlVkFpVHZfU0xpVV9fbE43dXZROXYyaUhlZjNxcEJwMjN0WjVfQ29hcXUzY1dtajhjOGpjY3pOU00xR1pKd0xUcEVpcjFxUWRUQ3diM3ZGeVVlSVdpNGVoZG5HMzMtVlFHZEhEVkJ4MHd5dng4Vm9rN0cwd3RwMTNUdGtfS3NKV0ZMbFQyU056RDVfT0U?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791430+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "L'intelligence artificielle pour éclairer les décisions face au changement climatique",
-      "topic": "L'intelligence artificielle pour éclairer les décisions face au changement climatique",
-      "question_phrase": "L'intelligence artificielle pour éclairer les décisions face au changement climatique",
-      "angle": "L'intelligence artificielle pour éclairer les décisions face au changement climatique",
-      "thumbnail_text": "L'intelligence artificielle pour éclairer les décisions face au change",
-      "demand_note": "google_news_fr | 2026-10-07T08:32:00+00:00",
+      "series_title": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
+      "topic": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
+      "question_phrase": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
+      "angle": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
+      "thumbnail_text": "L’intelligence artificielle porte la croissance mondiale, l’énergie pl",
+      "demand_note": "google_news_fr | 2026-10-13T06:39:50+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxNcV9pejFlTVFDUzY0Rzl4N2g5cHZaelpPZVBJZ0RYcTFvcl84X3cyY2xRZVpselMyeFVMOXBaeEN5WjlqUmVuVmZFbVVBNHJfSXFXZENEanowbXFEUUItTjdOMVBCTDljWDlxdVRrOWhoRWw3eWN2WHdqWi01RnlkN1ZhbUk0YUl2VzBnajdxaC1rb0pJU2xzalh5bk91Q2J0V3pNWWUxUjBkQzgyLVAxdnQybGN3cmZF?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-10T20:41:35.961888+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPR0VjWXRwZHRkdGtZNmpkdzV3VE03ZzdabFVyN3VnUU04cTJ5UHZNcUFXNGpiUWtOVkstY1V3dF9yRkcyS1Fld1RPSWw4Vm81UzdRb2RtZ29VcFF0NHM2b28yRVZZUFFrXzBJMGVrekxabmI0RmM5Q0xoTTZqRkJkTm1fbDd0dzJBcl9YRlJpSm5oajNLMmpOT2hPLTlNaDVZMFl6LWpzOHh5LW9l?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791463+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Intelligence artificielle et travail social",
-      "topic": "Intelligence artificielle et travail social",
-      "question_phrase": "Intelligence artificielle et travail social",
-      "angle": "Intelligence artificielle et travail social",
-      "thumbnail_text": "Intelligence artificielle et travail social",
-      "demand_note": "google_news_fr | 2026-09-23T07:00:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOR25JdUQ5TEgxZVQyX2t5SkpVVXNlOWZKNXhLaTJuTGZXS0pCamdxYlpEYS1RRDR2LUhVSTFfN1JKd3hKX1RJbEwtZHBhQ05QZktRbzB1MFM2UGpJY3kxM2djN1V0RnRnUzMwUUVPa1lUQ2xxa3owbnhtY0luMTdnMGJybDMwUV9Ma1YtX2NFaVZWOWlRMW9iUExpX0FtdjZQbEhvTA?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-10T20:41:35.961907+00:00"
+      "series_title": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
+      "topic": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
+      "question_phrase": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
+      "angle": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
+      "thumbnail_text": "Attention à votre santé, des métaux lourds se cachent dans l'encre de ",
+      "demand_note": "futura_sciences | 2026-10-13T16:00:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/systeme-immunitaire-attention-votre-sante-metaux-lourds-cachent-encre-vos-tatouages-k2m6-138476/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791488+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "À Propriano, Restovia met l'intelligence artificielle au service des restaurateurs",
-      "topic": "À Propriano, Restovia met l'intelligence artificielle au service des restaurateurs",
-      "question_phrase": "À Propriano, Restovia met l'intelligence artificielle au service des restaurateurs",
-      "angle": "À Propriano, Restovia met l'intelligence artificielle au service des restaurateurs",
-      "thumbnail_text": "À Propriano, Restovia met l'intelligence artificielle au service des r",
-      "demand_note": "google_news_fr | 2026-10-08T17:00:54+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQTmhUNUNzQ2pfYXlSWTUxWmpJbXhQMTcwLWlOZmc4anp4aGh6dzRTaG5DanlBajdudXFmdXF1YlZhdTZ5MjZtZnJMWTlYbjRiLURLcmc0dVlfTzJuNWpGN0lJeU5STkU4ZGpxVWswU19XWDNRR18wRHpKQk9aMVhIUElmUzVIejd2cjI1ellzTDViRF9VdjJHVm5pazFkNXV2VHFmblhLQllYbmM4TlM4TFV6Qk53X0wyMS02VzJCcS1rTmhNdXA5clFSM2JGTktSX1NMVEl3?oc=5",
-      "trend_score": 7,
-      "fetched_at": "2026-10-10T20:41:35.961933+00:00"
+      "series_title": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
+      "topic": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
+      "question_phrase": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
+      "angle": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
+      "thumbnail_text": "Cette machine à cagé Philips avec broyeur est à prix défiant toute con",
+      "demand_note": "futura_sciences | 2026-10-13T14:00:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-petit-electromenager-cette-machine-cage-philips-broyeur-prix-defiant-toute-concurrence-amazon-11538/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791513+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Ces marins lisaient le ciel pour traverser l'océan, voici la vraie méthode derrière le des",
-      "topic": "Ces marins lisaient le ciel pour traverser l'océan, voici la vraie méthode derrière le dessin animé Vaiana",
-      "question_phrase": "Ces marins lisaient le ciel pour traverser l'océan, voici la vraie méthode derrière le dessin animé Vaiana",
-      "angle": "Ces marins lisaient le ciel pour traverser l'océan, voici la vraie méthode derrière le dessin animé Vaiana",
-      "thumbnail_text": "Ces marins lisaient le ciel pour traverser l'océan, voici la vraie mét",
-      "demand_note": "futura_sciences | 2026-10-09T14:00:00+00:00",
+      "series_title": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
+      "topic": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
+      "question_phrase": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
+      "angle": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
+      "thumbnail_text": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
+      "demand_note": "futura_sciences | 2026-10-13T13:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sciences/actualites/histoire-ces-marins-lisaient-ciel-traverser-ocean-voici-vraie-methode-derriere-dessin-anime-vaiana-k2m6-138358/#xtor%3DRSS-8",
-      "trend_score": 7,
-      "fetched_at": "2026-10-10T20:41:35.961963+00:00"
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-moins-150-xiaomi-redmi-17-4g-ultra-endurant-tres-equilibre-fait-carton-11536/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-13T19:27:53.791538+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-10T20:41:36.049909+00:00"
+  "filtered_at": "2026-10-13T19:27:53.879843+00:00"
 }
