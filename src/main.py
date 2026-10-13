@@ -193,7 +193,7 @@ def run() -> dict:
         french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
         if not french_errors:
             break
-        quality_feedback = "\\n".join(f"- {error}" for error in french_errors)
+        quality_feedback = "\n".join(f"- {error}" for error in french_errors)
         logger.warning(
             "French production gate rejected generation attempt %s: %s",
             generation_attempt,
