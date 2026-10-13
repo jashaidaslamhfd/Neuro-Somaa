@@ -47,7 +47,7 @@ KEYWORDS = {
     "récompense", "récompenses", "décision",
     "intelligence artificielle", "ia", "robot", "algorithme", "numérique",
     "téléphone", "écran", "notification", "apprentissage", "créativité",
-    "conscience", "sensation",
+    "conscience", "sensation", "chanson", "musique",
 }
 
 # These are intentionally broad because a single local-news phrase can make
