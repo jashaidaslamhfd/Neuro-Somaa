@@ -58,7 +58,7 @@ jobs:
       # Public immediately so Shorts enter the feed and can grow views.
       YT_PRIVACY_STATUS: public
       YT_SCHEDULE_PUBLISH: "false"
-      DRY_RUN: ${{ inputs.dry_run || 'false' }}
+      DRY_RUN: ${{ inputs.render_only && 'false' || inputs.dry_run || 'false' }}
       RENDER_ONLY: ${{ inputs.render_only || 'false' }}
       VIDEO_TOPIC: ${{ inputs.topic || '' }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -109,31 +109,11 @@ jobs:
           esac
       - name: Sanitize France topic queue
         run: python scripts/clean_france_queue.py
-      - name: Generate and upload French Short (Resilient with Auto-Retry)
-        run: |
-          set +e
-          echo "=== ATTEMPT 1: Primary French Short Production ==="
-          python src/main.py
-          EXIT_CODE=$?
-          if [ $EXIT_CODE -eq 0 ]; then
-            echo "=== Success: Short produced and uploaded on Attempt 1 ==="
-            exit 0
-          fi
-
-          echo "⚠️ Attempt 1 exited with code $EXIT_CODE. Initiating backoff and safety retry..."
-          sleep 25
-
-          echo "=== ATTEMPT 2: Fallback Self-Healing Production ==="
-          # In attempt 2, if LLM or network had a transient hiccup, run with guaranteed resilient fallback
-          python src/main.py
-          EXIT_CODE=$?
-          if [ $EXIT_CODE -eq 0 ]; then
-            echo "=== Success: Short produced and uploaded on Attempt 2 ==="
-            exit 0
-          fi
-
-          echo "❌ Production failed after retries."
-          exit $EXIT_CODE
+      - name: Generate and upload French Short
+        # main.py owns bounded LLM retries and a validated deterministic fallback.
+        # Do not rerun the whole pipeline: it would select a new topic and could
+        # publish a second video if the first upload succeeded before a later error.
+        run: python src/main.py
       - name: Upload generated artifact
         if: always()
         uses: actions/upload-artifact@v7
