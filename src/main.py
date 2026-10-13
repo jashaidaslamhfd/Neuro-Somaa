@@ -158,36 +158,51 @@ def run() -> dict:
         plan.get("detected_keywords"),
     )
 
-    script = generate_script(topic, SETTINGS)
-    script["topic"] = topic
-    # Growth pass: viral title, SEO tags/description, opening-hook enforcement
-    script = apply_growth_metadata(script)
-    logger.info(
-        "Growth optimized title='%s' tags=%s hook_enforced=%s",
-        script.get("title"),
-        len(script.get("tags") or []),
-        script.get("hook_enforced"),
-    )
-
-    if not script.get("title") or len(script.get("scenes", [])) < 4:
-        raise RuntimeError("Generated script is incomplete")
-    if is_weak_title(str(script["title"])):
-        raise RuntimeError(f"Growth gate rejected weak title: {script['title']}")
-
-    hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
-    if hook_score < SETTINGS.min_hook_score:
-        raise RuntimeError(
-            f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
+    # Retry script generation when the French production gate finds concrete format issues.
+    quality_feedback = ""
+    french_errors: list[str] = []
+    for generation_attempt in range(1, 4):
+        script = generate_script(topic, SETTINGS, quality_feedback=quality_feedback)
+        script["topic"] = topic
+        script = apply_growth_metadata(script)
+        logger.info(
+            "Growth optimized title='%s' tags=%s hook_enforced=%s (generation attempt %s)",
+            script.get("title"),
+            len(script.get("tags") or []),
+            script.get("hook_enforced"),
+            generation_attempt,
         )
-    quality_score = score_script_quality(script["scenes"])
-    if quality_score < SETTINGS.quality_approval_threshold:
-        raise RuntimeError(
-            f"Script rejected: quality score {quality_score} below "
-            f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+
+        if not script.get("title") or len(script.get("scenes", [])) < 4:
+            raise RuntimeError("Generated script is incomplete")
+        if is_weak_title(str(script["title"])):
+            raise RuntimeError(f"Growth gate rejected weak title: {script['title']}")
+
+        hook_score = score_hook(str(script["title"]), str(script["scenes"][0].get("caption", "")))
+        if hook_score < SETTINGS.min_hook_score:
+            raise RuntimeError(
+                f"Script rejected: hook score {hook_score} below MIN_HOOK_SCORE={SETTINGS.min_hook_score}"
+            )
+        quality_score = score_script_quality(script["scenes"])
+        if quality_score < SETTINGS.quality_approval_threshold:
+            raise RuntimeError(
+                f"Script rejected: quality score {quality_score} below "
+                f"QUALITY_APPROVAL_THRESHOLD={SETTINGS.quality_approval_threshold}"
+            )
+
+        french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
+        if not french_errors:
+            break
+        quality_feedback = "\\n".join(f"- {error}" for error in french_errors)
+        logger.warning(
+            "French production gate rejected generation attempt %s: %s",
+            generation_attempt,
+            "; ".join(french_errors),
         )
-    french_errors = validate_french_script(script, SETTINGS.min_seconds, SETTINGS.max_seconds)
-    if french_errors:
-        raise RuntimeError("French production gate failed: " + "; ".join(french_errors))
+    else:
+        raise RuntimeError(
+            "French production gate failed after 3 generation attempts: " + "; ".join(french_errors)
+        )
 
     history_path = SETTINGS.data_dir / "video_history.json"
     try:
