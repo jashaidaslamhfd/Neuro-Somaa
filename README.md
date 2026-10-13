@@ -26,7 +26,7 @@ For a live upload, provide at least one LLM secret and the three YouTube OAuth s
 
 The single workflow `.github/workflows/main.yml` supports manual dry-runs, manual live runs, and three daily scheduled runs. Manual dispatch defaults to dry-run to prevent accidental uploads; explicitly disable it only when a live upload is intended. The GitHub token is read-only by default, with write permission limited to production state persistence. Cron runs are scheduled before the Europe/Paris publish slots, and late jobs fall forward to the next same-day slot where possible. The CI job compiles the code and runs tests. The production job runs preflight, generates the French Short, uploads only when `dry_run=false`, and always stores the generated output as an artifact.
 
-## Preserved state
+## Publishing behavior
 
 The pipeline defaults to immediate public uploads when `DRY_RUN=false` (`YT_PRIVACY_STATUS=public`, `YT_SCHEDULE_PUBLISH=false`). If scheduled publishing is explicitly enabled, YouTube requires the video to remain private until its assigned `publishAt` time. Manual workflow dispatch defaults to `dry_run=true`, so a live upload requires deliberately turning dry-run off.
 
