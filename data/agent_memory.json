@@ -50,6 +50,11 @@
       "keyword": "mémoire",
       "weight": 1,
       "engagement_avg": null
+    },
+    {
+      "keyword": "attention",
+      "weight": 1.2,
+      "engagement_avg": 2.105
     }
   ],
   "winning_hooks": [],
@@ -746,10 +751,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/OXTotF5jRLo",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 58,
+      "timestamp": "2026-10-14T20:34:05.446393+00:00",
+      "title": "Pourquoi ton cerveau imite ?",
+      "topic": "Pourquoi ton cerveau imite",
+      "duration": 26.701667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/AFvt27W7-Bg",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 57,
-  "last_cycle_at": "2026-10-14T18:53:51.669155+00:00",
+  "total_cycles": 58,
+  "last_cycle_at": "2026-10-14T20:34:05.446419+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

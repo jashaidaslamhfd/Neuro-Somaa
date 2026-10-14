@@ -6253,5 +6253,44 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-14T20:33:57.203934+00:00",
+    "topic": "Pourquoi ton cerveau imite",
+    "title": "Pourquoi ton cerveau imite ?",
+    "duration": 26.701667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "1431018aa7bff9c5a20791bd0c29fe6dd4c6f7a5b0d12bc2063e804bbeb085ae",
+      "f39b21ae5ae8a5d85c94dad7045055cc8facefa48d0a478531ae10a91a12fb99",
+      "af40a3708e49999aaefe9eaf482a48e81652fe66681d02956692288526197f85",
+      "f6015324c77a7a63639d33e91ebdf4584c373d90f6fe71ba67b60dc5b855fda3",
+      "490e60604c7f6e4c93b8fdb132966a89b58793e0ae64fccf9924ad67efa20fcd",
+      "720e8610ee08af76beb785c8e507f63cff72abd9820ad27df94c3ee1287be000",
+      "2d40d2dd4ff44982d74dac0711759fdb6631145f1c44ee697f43405d3d5afcd8",
+      "b9ddce70b31dfdc278f800a9d9ff6f310c178e1efdc7422b114cfd18bfbe8722"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "f9db12787ee782fbcd30ddb0f93340e6a33f30338d2413986466122ecb605f11",
+    "status": "uploaded",
+    "youtube_video_id": "AFvt27W7-Bg",
+    "url": "https://youtu.be/AFvt27W7-Bg",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
