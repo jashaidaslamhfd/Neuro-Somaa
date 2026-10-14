@@ -734,10 +734,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/3n4sldkrR0Y",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 57,
+      "timestamp": "2026-10-14T18:53:51.669123+00:00",
+      "title": "Pourquoi le cerveau adore ?",
+      "topic": "Pourquoi le cerveau adore",
+      "duration": 23.011,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/OXTotF5jRLo",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 56,
-  "last_cycle_at": "2026-10-14T15:57:14.388614+00:00",
+  "total_cycles": 57,
+  "last_cycle_at": "2026-10-14T18:53:51.669155+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

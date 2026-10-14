@@ -6214,5 +6214,44 @@
     "analytics_fetched_at": "2026-10-14T17:08:44.064407+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-14T17:08:44.064407+00:00"
+  },
+  {
+    "created_at": "2026-10-14T18:53:47.114479+00:00",
+    "topic": "Pourquoi le cerveau adore",
+    "title": "Pourquoi le cerveau adore ?",
+    "duration": 23.011,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "e6fba5f0cfda6318539ae162c8d8d67617e9d53fba9e65e28f19662f1ce0b103",
+      "b9279df5f86051718875e08b46ba642b4430ead34166a6b25febd0113a582909",
+      "f6b4c8d45e2c6b5bd97898b542bed82bc114af60230808de8f5d1d0b020e1237",
+      "983a2af33d2d53e363ccfd1a735ca62e0cd0035379962537d8d8cb49574bf9ec",
+      "7eac1e8e2caafe1daf351aee7aedd6bb03f49ee159741ce9a71cc3d86ca8524d",
+      "0d0a87acc3108e331cd0f56cc81df1f944de87760b4a86141b57666945c59d8d",
+      "fef6947b17ef87599483a816a2b436491301cb46902a1cfc9d32daa0997f769b",
+      "d518e8dc8a54ac2dc2eaf383df9ba639c849eede883f225e5e0ae2a363faa65d"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "pexels_clip",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "2623ac110dc7a1b5ba3d51016e7181124dcb03bb7c464bde9954ab48977033f7",
+    "status": "uploaded",
+    "youtube_video_id": "OXTotF5jRLo",
+    "url": "https://youtu.be/OXTotF5jRLo",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
