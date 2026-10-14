@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-14T15:57:06.178062+00:00",
+  "topic": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+  "title": "Attention à ces fausses pancartes créées par l'IA pour ?",
+  "duration": 20.023,
+  "hook_score": 90,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "b6c0268d19933445380d0610b3b7a57c4937cb0507ef62a6eabd48cc96a4d1f2",
+    "ba422c3a5bb2e25d4b30f2e9423ff1b7b61afaff0262855a29bd327b6a32c1b8",
+    "38ccb556aa4b758f74f9b36778cf163060e97da2da7b556b77f1b52e4551327a",
+    "f5559c6c7624eeaa398bdd314248febd7b1333b855de3e654e64ec9b4a2152d9",
+    "3f494e49e2e6f9690d48f553a09116a19dbf1e3885c6879f1e261c45cb848da1",
+    "2baf373951a9fc97db66bab2d7c85b74aafad6519c7383220bdfc6f63d06a09e",
+    "473334fb301058fce3f0f9a1edecfd4703c953397cb9c55bfbdef5ea183f4fe4",
+    "939dfeb6b5057634ed126f148d3c063ee970dde5c9f7bfd9583dd6c2d000a1d3"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "800a1f99e946660047bc31fc0fe0c1d646e1a166bbc4ffcf800119e6fa6f1727",
+  "status": "uploaded",
+  "youtube_video_id": "3n4sldkrR0Y",
+  "url": "https://youtu.be/3n4sldkrR0Y",
+  "thumbnail_status": "uploaded"
+}

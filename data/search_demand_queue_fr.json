@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-13T19:27:53.790619+00:00",
+  "mined_at": "2026-10-14T15:53:29.135928+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-13T19:27:53.790646+00:00"
+      "fetched_at": "2026-10-14T15:53:29.135955+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790688+00:00"
+      "fetched_at": "2026-10-14T15:53:29.135997+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790708+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136017+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790731+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136039+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790752+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136061+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790773+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136082+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-13T19:27:53.790816+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136125+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790836+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136145+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790855+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136163+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790874+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136182+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790894+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136202+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790931+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136238+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790951+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136258+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790972+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136279+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.790996+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136303+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.791015+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136323+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.791050+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136345+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.791071+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136366+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.791092+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136400+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-13T19:27:53.791134+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136442+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
-      "topic": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
-      "question_phrase": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
-      "angle": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine européenne de l'IA",
-      "thumbnail_text": "Scaleway, l'outsider français du cloud qui rêve de devenir l'usine eur",
-      "demand_note": "google_news_fr | 2026-10-13T15:00:22+00:00",
+      "series_title": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
+      "topic": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
+      "question_phrase": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
+      "angle": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
+      "thumbnail_text": "Forvia nomme un directeur du numérique et de l’intelligence artificiel",
+      "demand_note": "google_news_fr | 2026-10-14T06:48:25+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxQQWFvbXN0OXlOVEswdXJNMDNUeXRRb1VRMEVkakFBNDMzcFd5TkdUdU5VdS1IVjhUczljM0o5ZjNVWlF6NC1ULTJDU01BUGxkRERNZi1NNEl4Q0hwb1RUeGdCVzh5TFRaSFBnUGIzZ3pNcU1GM19MeHl6S3V5WXFnajdFZkFTWGpnVzM5Tk05cmNvaGNmWEU0SDY5aEFXZEZheENyU2dKclBVY3BaS3h6Nmt3ZFVVcExJamNKRHZ5WVc0VXJrR1F6Skl0Z2RLUlJLQU15YUpMMHhYRjJ0ajUzTjh4TF9BQQ?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791317+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQRkcwbVE3Y3V5UVVYSXBHd1hfVDRQeTBlQlZ0NWZBVDFoaGpFdnZQd3NDSVc5czQ5eF9uOHpzaDU5TEpOVFk3LW9yY2pRSXlWQ1hkQUJLOXRmWXpyWEdCblg4SnJWc2NubXRzRERURndSbExJbHlDRVNhMWlDa2FPVHBrLXd6MHBkcjItQTFBSVB3MmNSWUZuMHc5VldMZTZaM0ZpNTBxenFyaldYSG1YSG1EblpNd213eHBQazMtWWhhLVhJVkV0NndUd0o1clk?oc=5",
+      "trend_score": 12,
+      "fetched_at": "2026-10-14T15:53:29.136629+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithm",
-      "topic": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
-      "question_phrase": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
-      "angle": "Meta Platforms introduit des outils d’intelligence artificielle pour affiner les algorithmes de Facebook",
-      "thumbnail_text": "Meta Platforms introduit des outils d’intelligence artificielle pour a",
-      "demand_note": "google_news_fr | 2026-10-13T18:29:20+00:00",
+      "series_title": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+      "topic": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+      "question_phrase": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+      "angle": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+      "thumbnail_text": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser ",
+      "demand_note": "google_news_fr | 2026-10-14T13:18:59+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOTkZGOTVFeGpaR0JVYWhGaWhtYVhCWkZnQzNDNW8zVDBMYzYxcWNqY2d5eXZNb0pCUjJjSDVkR3V6Q09fVGZ1ZGgySEdFMUU0UERiMXBrVU9Cd1pVbUtQVEJ5WWxQRVRIaVZHanBHdjIxZFh4RkRDY3J5RkoyRHBsMF92cDl1WFNHZk91X3ctNFljREtXZXZoZmFReEl3blYtOVF6YnhVV2s4YTFId2RrWHVLOFpSVG9vWGZhbDByYWdVcXgySVpaOVg0dmRsUXhTcjBZY2dxQUxwdUtzRDkyb05DYUdCajVnUG4yb19zQ1E?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxOQ2ZDbmtvU09rUVRRWVFYQk94QWxzb0FyWTN2eFhHUTg3bmlKX1dGTXltNWNkRkJEZUFSUjBWcVdLVFRGeWpGajVMR1BxSS10Qm13ZHhSZm9Mbml4RXFHQzlaOVdsU2d3bUpZQ3FZem90akpfSkVxZGRiVDZ3TmdtSFQ5UXV2alpld2VQOXNKLWc2dmdpaUhBUGkyWjBNR0NLWnRtQmFPd2hqOC00Z19RUUJ4c2kxRkNmU3phYW5HYmpoa2hUenpqem9yalV0TXhkV3hCMkl5b19nTERPYVE0NS1ESmk5TDNpUEsw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791353+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136656+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développ",
-      "topic": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
-      "question_phrase": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
-      "angle": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Argon pour les développeurs et les entreprises",
-      "thumbnail_text": "Google lance son modèle phare d’intelligence artificielle Gemini 4 Arg",
-      "demand_note": "google_news_fr | 2026-10-13T16:02:38+00:00",
+      "series_title": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
+      "topic": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
+      "question_phrase": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
+      "angle": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
+      "thumbnail_text": "intelligence artificielle sexe chat avec copine IA gratuit sans inscri",
+      "demand_note": "google_news_fr | 2026-10-14T12:56:21+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNcEE4N0J0ajRaSTZpbjNSemdMNmZFdWgxMy1YdGFRakhtNjFWMzBpd1ZzaTdZUjViWVp5dGdLYTVEcHRRSWxzSXVweUhCUXlhNnVDejNjTlVZR2tpWHdBbmxvcHlmYnptYk5SZm8tcXNnQU4zZEdyOVBrZGN3T1dDZ0lVeWJaOVlNN2ZmS2h2Z0tGSm9rUUpZODZrVXNWZ0M1LXUxTW1KRzkzU2dsdGlFdWRkdzVOaHNoZUZFdlo3OVZYWTdUaVpmZ1hTWE1vNzVHQVY0RE5RZEM4aEtDbTJnS0tYZ3VnbXlKY1FHVEJmc1g?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiugJBVV95cUxPUnJabk1GVlFIY3AwVXFNWmtRRHV1RFpqajZ3Q1BVZUZzVTdtbjdHVHZhYS1GeVVZNjhORldzalRSSzJxaUl5a3l5YjNOUlVTNDA5X0MyV2puOGtfSllXaEtqZUdBSTVNalJFUFM3TTR6XzFNazdjV3pndHhrZjQ2eEJRSGQ3ZXR5UnF2cXR5TGhaWmVMQXJXWTVvSzVvQlFwZXFvMWtTOEdWenZGaDBpeUp1Zi1nZEhxM01kc1JsMXRwV3VUcllfRlo4N0pOZk1mNFlyTXVHbXdJRFM4djRxWTJ1Z3dmWW1oTl81SjlDWE44TU1BSzI4THh5Y2RxVE9jSnYtQkNJdXE1Z0JfRHdmQ2xLN2txeGExczl5b2hId2owbEVCUlhra2JfdmZGbklLWWtqZWhreDZMZw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791392+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136680+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation profession",
-      "topic": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
-      "question_phrase": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
-      "angle": "L’essor de l’intelligence artificielle, sur les choix d’études et d’orientation professionnelle des étudiants israéliens",
-      "thumbnail_text": "L’essor de l’intelligence artificielle, sur les choix d’études et d’or",
-      "demand_note": "google_news_fr | 2026-10-13T08:16:09+00:00",
+      "series_title": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et D",
+      "topic": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
+      "question_phrase": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
+      "angle": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
+      "thumbnail_text": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognit",
+      "demand_note": "google_news_fr | 2026-10-14T13:41:23+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxQZUg3elZaX0c2VGdsaXFCTkRXRU40T3pOZzN4Tk9Bd2R2cm56WmduZ2NuNnlkTjRxU3dQcG55c3pfY0l4LUp6QzJWczFYaGUyNnVxckJHM1prWlhlVkFpVHZfU0xpVV9fbE43dXZROXYyaUhlZjNxcEJwMjN0WjVfQ29hcXUzY1dtajhjOGpjY3pOU00xR1pKd0xUcEVpcjFxUWRUQ3diM3ZGeVVlSVdpNGVoZG5HMzMtVlFHZEhEVkJ4MHd5dng4Vm9rN0cwd3RwMTNUdGtfS3NKV0ZMbFQyU056RDVfT0U?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOLWVXUll6UW9NUnNfSGRzMEo2MFkybDFIclBacHZuZ1l2Q0ZucUpCOUFvVXc0WmxOLUxRT1hDbERpcFk5RGhTRlRxQXBsNXJGREhRS2hVYllzVHVRdjJhR1hGaG5tU2o3MXJJVjdJaFFkQk1HdTZYQ0VtTS02TzQ3WGlvSThPZHh4RUc4TGZSbFJZc0FrSS0wSzluSzRuQVRGWVVZbWtXVWNNaDVTQVdfeFJQZ2YzWmxpNHpUa0prWXZRaGNjdUcyMktvbFQwNTRQZVhfWkdGRkFBeFJxbFRtc3R2UElWM0FPZ3p3eVZB?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791430+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136715+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
-      "topic": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
-      "question_phrase": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
-      "angle": "L’intelligence artificielle porte la croissance mondiale, l’énergie plombe le reste",
-      "thumbnail_text": "L’intelligence artificielle porte la croissance mondiale, l’énergie pl",
-      "demand_note": "google_news_fr | 2026-10-13T06:39:50+00:00",
+      "series_title": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
+      "topic": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
+      "question_phrase": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
+      "angle": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
+      "thumbnail_text": "Forvia fait entrer l'intelligence artificielle à son comité exécutif a",
+      "demand_note": "google_news_fr | 2026-10-14T06:36:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPR0VjWXRwZHRkdGtZNmpkdzV3VE03ZzdabFVyN3VnUU04cTJ5UHZNcUFXNGpiUWtOVkstY1V3dF9yRkcyS1Fld1RPSWw4Vm81UzdRb2RtZ29VcFF0NHM2b28yRVZZUFFrXzBJMGVrekxabmI0RmM5Q0xoTTZqRkJkTm1fbDd0dzJBcl9YRlJpSm5oajNLMmpOT2hPLTlNaDVZMFl6LWpzOHh5LW9l?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOLUUxQlZYRmpjejBOZWRuQ3FuVXRHdmM5QUczamEyUHhzUkVOSENGRzJ3dC04UlZlLXhXSy1CWl9rNDgwR0ZUU3FOSEEtV0N1amItOVRySWNwSjg2aEJfRjI3X0tBT0F5NzltTlpTdUtqbE5SZjQyalNGdEU4dGdQbkpsbm1XakhxSE0zMGJuVnk4cUtRcUpYbjlFZ3N6T3RWSlBSbENRTGI4eWNWdlAwWVRpczFfT09wQlpkUEFHWFVuTlJGUHdPTXdEd0VHR2d6VXpmV1pENW8?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791463+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136740+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
-      "topic": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
-      "question_phrase": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
-      "angle": "Attention à votre santé, des métaux lourds se cachent dans l'encre de vos tatouages",
-      "thumbnail_text": "Attention à votre santé, des métaux lourds se cachent dans l'encre de ",
-      "demand_note": "futura_sciences | 2026-10-13T16:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/systeme-immunitaire-attention-votre-sante-metaux-lourds-cachent-encre-vos-tatouages-k2m6-138476/#xtor%3DRSS-8",
+      "series_title": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
+      "topic": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
+      "question_phrase": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
+      "angle": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
+      "thumbnail_text": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intel",
+      "demand_note": "google_news_fr | 2026-10-14T05:58:48+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQdXp3cWxMbTAyUE5fRlBYYi1sbHJfV2xiY0hqbTFHc0NjUzF3Rm9uT2RYZ2g1TXhsNGZ5bUtIYy05dUt1Nm01dXk5cjVmSzFDS2YzQW1nZTNjXzRVRVZyRS1pWmhBblYxZGlfQm9na0VOMDZUMWV5bG9RQUZoZmJ5LTN6ZDI1YUNwN21kdTdDbXlrSldkSHFnSVpjVUlCamNZRFBhRkNJeXNnTlFXTm5GRzh5Xzl3OGF0UnYwQ0hB?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791488+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136767+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
-      "topic": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
-      "question_phrase": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
-      "angle": "Cette machine à cagé Philips avec broyeur est à prix défiant toute concurrence sur Amazon",
-      "thumbnail_text": "Cette machine à cagé Philips avec broyeur est à prix défiant toute con",
-      "demand_note": "futura_sciences | 2026-10-13T14:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-petit-electromenager-cette-machine-cage-philips-broyeur-prix-defiant-toute-concurrence-amazon-11538/#xtor%3DRSS-8",
+      "series_title": "intelligence artificielle sexe meilleure petite amie IA 2026",
+      "topic": "intelligence artificielle sexe meilleure petite amie IA 2026",
+      "question_phrase": "intelligence artificielle sexe meilleure petite amie IA 2026",
+      "angle": "intelligence artificielle sexe meilleure petite amie IA 2026",
+      "thumbnail_text": "intelligence artificielle sexe meilleure petite amie IA 2026",
+      "demand_note": "google_news_fr | 2026-10-14T12:56:21+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiugJBVV95cUxNMnhmd0NZU0RNVGdhbFdsY0tiSUtWdlcyVUY3SGZoWUh4M19MdHRTVXgtcmlqQWc4UUw4dGpyZU9PTnJLMzh6WGFkcFpKWjdIMWNnVS03eUpwNG00dUFjekUwMlEyY2U0dkRqdl80LVdRUnBhVFp3U0xBV29DSTVSZU9XUks5cFVZZ2NQcWZJZE1UTkplN0VZeWdNQ3pqaHhnZU1KcDM0Qzh5dWdldml5VWRfdFg2QVd6TFV2RThkQkQxemlXeGlXUi1UYlNidHhyZnJ5NjdVNmFzMUxqaG5FcnF4MkRJTFFfaVNZQ19qLUVfMlQzYmFHVzJMSHNRdU9nVkpuUE1CWC1sMDN1cHlvVTNDZElhaFJZWHN0bWpCYzZZSENBYi1yZTBIUEtGbVVFamJDY0t5bTg2QQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791513+00:00"
+      "fetched_at": "2026-10-14T15:53:29.136788+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
-      "topic": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
-      "question_phrase": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
-      "angle": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
-      "thumbnail_text": "A moins de 150 €, le Xiaomi Redmi 17 4G ultra",
-      "demand_note": "futura_sciences | 2026-10-13T13:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-moins-150-xiaomi-redmi-17-4g-ultra-endurant-tres-equilibre-fait-carton-11536/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-10-13T19:27:53.791538+00:00"
+      "series_title": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
+      "topic": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
+      "question_phrase": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
+      "angle": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
+      "thumbnail_text": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que ",
+      "demand_note": "google_news_fr | 2026-10-14T07:12:10+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNcm1TZWdaclBOUXhPYzBKUGwwS2dfRFRFdzkxN3JHTFlNWk1vWGs0ck54bzB6NmdvQjU1RzAzTWRsSENfMmthQzI3djRBVTZjZ3o0cTBLTXlWb2ZwVDRmNjluanpac2wtNnpkVXEycl9pYmd5cEFJMlpaa2R2dzRxdFFYSmVxaldsWXdEc2FHNzB4dVA3MEtTdmtHZ2NJc2FCVEp0clVIbGpaQ1hVS1BvUDBZN2o?oc=5",
+      "trend_score": 8,
+      "fetched_at": "2026-10-14T15:53:29.136820+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-13T21:45:55.761006+00:00"
+  "filtered_at": "2026-10-14T15:53:29.246502+00:00"
 }

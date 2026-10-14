@@ -722,10 +722,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/uHTJwg34rFY",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 56,
+      "timestamp": "2026-10-14T15:57:14.388578+00:00",
+      "title": "Attention à ces fausses pancartes créées par l'IA pour ?",
+      "topic": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
+      "duration": 20.023,
+      "hook_score": 90,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/3n4sldkrR0Y",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 55,
-  "last_cycle_at": "2026-10-13T21:50:13.028704+00:00",
+  "total_cycles": 56,
+  "last_cycle_at": "2026-10-14T15:57:14.388614+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
