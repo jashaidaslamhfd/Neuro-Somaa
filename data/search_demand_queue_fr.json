@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-14T15:53:29.135928+00:00",
+  "mined_at": "2026-10-15T15:40:24.601214+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-14T15:53:29.135955+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601242+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.135997+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601283+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.136017+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601303+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.136039+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601325+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.136061+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601347+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.136082+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601367+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-14T15:53:29.136125+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601409+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136145+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601429+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136163+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601449+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136182+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601480+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136202+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601501+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136238+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601538+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136258+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601558+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136279+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601579+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136303+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601603+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136323+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601623+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136345+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601644+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136366+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601666+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136400+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601687+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-14T15:53:29.136442+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601728+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
-      "topic": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
-      "question_phrase": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
-      "angle": "Forvia nomme un directeur du numérique et de l’intelligence artificielle",
-      "thumbnail_text": "Forvia nomme un directeur du numérique et de l’intelligence artificiel",
-      "demand_note": "google_news_fr | 2026-10-14T06:48:25+00:00",
+      "series_title": "Intelligence artificielle et musique",
+      "topic": "Intelligence artificielle et musique",
+      "question_phrase": "Intelligence artificielle et musique",
+      "angle": "Intelligence artificielle et musique",
+      "thumbnail_text": "Intelligence artificielle et musique",
+      "demand_note": "google_news_fr | 2026-10-15T04:05:01+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxQRkcwbVE3Y3V5UVVYSXBHd1hfVDRQeTBlQlZ0NWZBVDFoaGpFdnZQd3NDSVc5czQ5eF9uOHpzaDU5TEpOVFk3LW9yY2pRSXlWQ1hkQUJLOXRmWXpyWEdCblg4SnJWc2NubXRzRERURndSbExJbHlDRVNhMWlDa2FPVHBrLXd6MHBkcjItQTFBSVB3MmNSWUZuMHc5VldMZTZaM0ZpNTBxenFyaldYSG1YSG1EblpNd213eHBQazMtWWhhLVhJVkV0NndUd0o1clk?oc=5",
-      "trend_score": 12,
-      "fetched_at": "2026-10-14T15:53:29.136629+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOMG9ZcG9INE9Xanpva0M3WjUydV9BYUI2X3F5ZG9hZ1NnV2dpZGVlajVZV2FwbUh1c2tvNE9yLTc2Umc5WlRqTXBxdFo3XzFDYlIydDB3Uk42NUJGVmtmcUJVM1VZNDNYLTNYMlVnUTNIOHRnREl0TFpWeFpRN0QzUXdQaF9OV3BCTXJWTWdjMUFLWk1hd0JyNkdqUlI2cVRoSktRN0NwNzdrNXh0SlpmNEExTzRPMS10QmZscWltUlRDbTBQS0dWY1lIRnpaYk92bW5hTWJJSHEwT05GU2x5U05aNHhxeUJSRFFRLWprc29qX3dVenpmag?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-15T15:40:24.601914+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
-      "topic": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
-      "question_phrase": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
-      "angle": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser les lycéens",
-      "thumbnail_text": "Attention à ces fausses pancartes créées par l'IA pour décrédibiliser ",
-      "demand_note": "google_news_fr | 2026-10-14T13:18:59+00:00",
+      "series_title": "YouTube Music signalera clairement les chansons générées par une IA",
+      "topic": "YouTube Music signalera clairement les chansons générées par une IA",
+      "question_phrase": "YouTube Music signalera clairement les chansons générées par une IA",
+      "angle": "YouTube Music signalera clairement les chansons générées par une IA",
+      "thumbnail_text": "YouTube Music signalera clairement les chansons générées par une IA",
+      "demand_note": "google_news_fr | 2026-10-15T14:12:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxOQ2ZDbmtvU09rUVRRWVFYQk94QWxzb0FyWTN2eFhHUTg3bmlKX1dGTXltNWNkRkJEZUFSUjBWcVdLVFRGeWpGajVMR1BxSS10Qm13ZHhSZm9Mbml4RXFHQzlaOVdsU2d3bUpZQ3FZem90akpfSkVxZGRiVDZ3TmdtSFQ5UXV2alpld2VQOXNKLWc2dmdpaUhBUGkyWjBNR0NLWnRtQmFPd2hqOC00Z19RUUJ4c2kxRkNmU3phYW5HYmpoa2hUenpqem9yalV0TXhkV3hCMkl5b19nTERPYVE0NS1ESmk5TDNpUEsw?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPVVZUVjNQQWgxQmVlUFJXTGhXRjNTSVBRTHBfbE5aVXVMVzFGajlHeEgyMWxTaXZiUkVxLVNqNmFSdF9TYUlQWlRtOWJ1cFctdHZoVG5YN0NoTzhJQnlHcWxQVDhvWE5vMm9heXYxcEo0NEVwVThVUjYzcEVEcGRlX0Y3eGRESHNDVDZCQnRIeVoweGhSYVBCdFpHeUJjQ09aVHJKNzBiYzNwYkp3Q1M4Z2FKZlcyclk5d1d4N1loY2RFVDk4QW1FaDdTcVhGZFdvUWdWNWFfX2NUdEx6UEhlLVdZSQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136656+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601938+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
-      "topic": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
-      "question_phrase": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
-      "angle": "intelligence artificielle sexe chat avec copine IA gratuit sans inscription",
-      "thumbnail_text": "intelligence artificielle sexe chat avec copine IA gratuit sans inscri",
-      "demand_note": "google_news_fr | 2026-10-14T12:56:21+00:00",
+      "series_title": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour génér",
+      "topic": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "question_phrase": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "angle": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "thumbnail_text": "Il écoutait en boucle ses propres musiques créées par intelligence art",
+      "demand_note": "google_news_fr | 2026-10-15T05:01:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiugJBVV95cUxPUnJabk1GVlFIY3AwVXFNWmtRRHV1RFpqajZ3Q1BVZUZzVTdtbjdHVHZhYS1GeVVZNjhORldzalRSSzJxaUl5a3l5YjNOUlVTNDA5X0MyV2puOGtfSllXaEtqZUdBSTVNalJFUFM3TTR6XzFNazdjV3pndHhrZjQ2eEJRSGQ3ZXR5UnF2cXR5TGhaWmVMQXJXWTVvSzVvQlFwZXFvMWtTOEdWenZGaDBpeUp1Zi1nZEhxM01kc1JsMXRwV3VUcllfRlo4N0pOZk1mNFlyTXVHbXdJRFM4djRxWTJ1Z3dmWW1oTl81SjlDWE44TU1BSzI4THh5Y2RxVE9jSnYtQkNJdXE1Z0JfRHdmQ2xLN2txeGExczl5b2hId2owbEVCUlhra2JfdmZGbklLWWtqZWhreDZMZw?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxQd3NOM0NETFg3alh0QVducHdET3JoazFudHZ2cWkyUWM3Ykh1WEptV25GaG01R2JGOHJ1ZXlJbU5YaFhjZ21sLVl1b2VZVmJHTGVER2szMmpleS1UTzVBU1Zfc1dLZm9MMXNLLWdTa2NOT0FzVkJacjNrUDhCVlRyRVM0V2QwMGxrZ29OeUI2SmtNa05LbHU5dzVreF8ya0ozY3N1NElZQnVLdk94OVNfZlRoWDh1WXYySThuazdHWVdwUEQtQ1p5b0prSEltRDRXWUEtd01hZnFFal9NcTJ4OVprcDJxT2lBREJnNXVNemN6eTY5aUp4bHVVMk1ZUkkweXNsZTBUeUVhb2FGOWhMZGRiOWlvWDFHLXN0SFhscFNQWTFuYnN6V292Zw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136680+00:00"
+      "fetched_at": "2026-10-15T15:40:24.601977+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et D",
-      "topic": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
-      "question_phrase": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
-      "angle": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognition avec Nvidia et Dell Technologies",
-      "thumbnail_text": "Honeywell lance la plateforme d’intelligence artificielle Forge Cognit",
-      "demand_note": "google_news_fr | 2026-10-14T13:41:23+00:00",
+      "series_title": "NeoGenomics étend ses capacités en anatomopathologie numérique fondées sur l’intelligence ",
+      "topic": "NeoGenomics étend ses capacités en anatomopathologie numérique fondées sur l’intelligence artificielle",
+      "question_phrase": "NeoGenomics étend ses capacités en anatomopathologie numérique fondées sur l’intelligence artificielle",
+      "angle": "NeoGenomics étend ses capacités en anatomopathologie numérique fondées sur l’intelligence artificielle",
+      "thumbnail_text": "NeoGenomics étend ses capacités en anatomopathologie numérique fondées",
+      "demand_note": "google_news_fr | 2026-10-15T12:24:32+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxOLWVXUll6UW9NUnNfSGRzMEo2MFkybDFIclBacHZuZ1l2Q0ZucUpCOUFvVXc0WmxOLUxRT1hDbERpcFk5RGhTRlRxQXBsNXJGREhRS2hVYllzVHVRdjJhR1hGaG5tU2o3MXJJVjdJaFFkQk1HdTZYQ0VtTS02TzQ3WGlvSThPZHh4RUc4TGZSbFJZc0FrSS0wSzluSzRuQVRGWVVZbWtXVWNNaDVTQVdfeFJQZ2YzWmxpNHpUa0prWXZRaGNjdUcyMktvbFQwNTRQZVhfWkdGRkFBeFJxbFRtc3R2UElWM0FPZ3p3eVZB?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxQZGFoaVlEQjR5RjhFWmI5cldBZjFHeVNwT1otWEJtNWF5Z0FKM3VyUGhiRlRGM1BvalZCcTZTR0pBcUlFajRreGtQQjVJeDlfT3YtOHEzNjRBY0YtXzNONFVyQmlUX2tlSTJlSU9veUFuMEtrSGRKaC1EZnBVY1VpOTlGc1I4NDNzOGtxZXh0c2Zla1VUaGJWLUlOZWdXYzlRdG1xRHJMcE4zWXZIT0h5OW1EMWdobmRTck81ZDFKWnBYWk9FTmk0SjJKbWxzdFRBZzlNRnJNQ1A2SkpYTFpzNDlPaHBvTXJPQ0NyRkduN255QQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136715+00:00"
+      "fetched_at": "2026-10-15T15:40:24.602013+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
-      "topic": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
-      "question_phrase": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
-      "angle": "Forvia fait entrer l'intelligence artificielle à son comité exécutif avec Raphaël Viard",
-      "thumbnail_text": "Forvia fait entrer l'intelligence artificielle à son comité exécutif a",
-      "demand_note": "google_news_fr | 2026-10-14T06:36:00+00:00",
+      "series_title": "Les marchés asiatiques plongent, les valeurs liées à l’intelligence artificielle s’effondr",
+      "topic": "Les marchés asiatiques plongent, les valeurs liées à l’intelligence artificielle s’effondrant après les chiffres élevés de l’inflation américaine",
+      "question_phrase": "Les marchés asiatiques plongent, les valeurs liées à l’intelligence artificielle s’effondrant après les chiffres élevés de l’inflation américaine",
+      "angle": "Les marchés asiatiques plongent, les valeurs liées à l’intelligence artificielle s’effondrant après les chiffres élevés de l’inflation américaine",
+      "thumbnail_text": "Les marchés asiatiques plongent, les valeurs liées à l’intelligence ar",
+      "demand_note": "google_news_fr | 2026-10-15T00:47:32+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxOLUUxQlZYRmpjejBOZWRuQ3FuVXRHdmM5QUczamEyUHhzUkVOSENGRzJ3dC04UlZlLXhXSy1CWl9rNDgwR0ZUU3FOSEEtV0N1amItOVRySWNwSjg2aEJfRjI3X0tBT0F5NzltTlpTdUtqbE5SZjQyalNGdEU4dGdQbkpsbm1XakhxSE0zMGJuVnk4cUtRcUpYbjlFZ3N6T3RWSlBSbENRTGI4eWNWdlAwWVRpczFfT09wQlpkUEFHWFVuTlJGUHdPTXdEd0VHR2d6VXpmV1pENW8?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPV054US16ZUNPcVBsUXNqM3c5MDl0clVCM3pyVm9JQmR0NkE2M2JLSVA0UHFYUXNrMnJtaEhZb0QzRkxlNk0tY1RxeFZ3LXJ3NzIybTEzc2w0N0dlY1E3dWtsT01Rcm9zazB4VG44T1I2UllqeXdlVWFzcGRCV0I0Y0RHelJFOURQaUVXSDdDc2ZKUzJXaVNRaENNdVI3YUpSbk00UGJtVklfeUc0Vzl6WDVCZTdhVk5jeFhuN2w0UFVQQzZkSWtnelRqMlhadGkzcWF6NmQ4aWJwOGtTZWpYUG9lLXFoT1V5ZnpTZjJKZw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136740+00:00"
+      "fetched_at": "2026-10-15T15:40:24.602054+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
-      "topic": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
-      "question_phrase": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
-      "angle": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intelligence artificielle",
-      "thumbnail_text": "Nvidia entre au capital de Doctolib pour accélérer ses projets d'intel",
-      "demand_note": "google_news_fr | 2026-10-14T05:58:48+00:00",
+      "series_title": "Comment l’IA transforme déjà les écoles et la formation professionnelle",
+      "topic": "Comment l’IA transforme déjà les écoles et la formation professionnelle",
+      "question_phrase": "Comment l’IA transforme déjà les écoles et la formation professionnelle",
+      "angle": "Comment l’IA transforme déjà les écoles et la formation professionnelle",
+      "thumbnail_text": "Comment l’IA transforme déjà les écoles et la formation professionnell",
+      "demand_note": "google_news_fr | 2026-10-15T13:13:56+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxQdXp3cWxMbTAyUE5fRlBYYi1sbHJfV2xiY0hqbTFHc0NjUzF3Rm9uT2RYZ2g1TXhsNGZ5bUtIYy05dUt1Nm01dXk5cjVmSzFDS2YzQW1nZTNjXzRVRVZyRS1pWmhBblYxZGlfQm9na0VOMDZUMWV5bG9RQUZoZmJ5LTN6ZDI1YUNwN21kdTdDbXlrSldkSHFnSVpjVUlCamNZRFBhRkNJeXNnTlFXTm5GRzh5Xzl3OGF0UnYwQ0hB?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136767+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPUWg2VmJWSXFhLUdobUhBMWFhNE1YUXRqLUcxN2I1SXRwZVU4SXVIMlk2clc3cHB0NEsxVG1yV21acHEyLWpwZnlSd2xvY3k0cDNxMFZNX1RXZEVpaXNtNS1BVXQ0SWNRTTVFdmJoeTc0LVVwdDNpMExMandYa0gyUkhYMDRscUZSVnhLcVh5YWhZeDIyem5UcnhDWnB5M3Z4MXhVWkthNkpvR2J0LXVVR0V4eHpqOGFfUTRrVzVpa2ZCaUpoOGxRWTdSbHBGWWlyVmZ4RkdjY24wRzdvU0VweEtlSU5lSEhlbW1NanlEMA?oc=5",
+      "trend_score": 8,
+      "fetched_at": "2026-10-15T15:40:24.602087+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "intelligence artificielle sexe meilleure petite amie IA 2026",
-      "topic": "intelligence artificielle sexe meilleure petite amie IA 2026",
-      "question_phrase": "intelligence artificielle sexe meilleure petite amie IA 2026",
-      "angle": "intelligence artificielle sexe meilleure petite amie IA 2026",
-      "thumbnail_text": "intelligence artificielle sexe meilleure petite amie IA 2026",
-      "demand_note": "google_news_fr | 2026-10-14T12:56:21+00:00",
+      "series_title": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligen",
+      "topic": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
+      "question_phrase": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
+      "angle": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
+      "thumbnail_text": "« L’IApocalypse est une chimère qui nous fait oublier que le développe",
+      "demand_note": "google_news_fr | 2026-09-27T07:00:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiugJBVV95cUxNMnhmd0NZU0RNVGdhbFdsY0tiSUtWdlcyVUY3SGZoWUh4M19MdHRTVXgtcmlqQWc4UUw4dGpyZU9PTnJLMzh6WGFkcFpKWjdIMWNnVS03eUpwNG00dUFjekUwMlEyY2U0dkRqdl80LVdRUnBhVFp3U0xBV29DSTVSZU9XUks5cFVZZ2NQcWZJZE1UTkplN0VZeWdNQ3pqaHhnZU1KcDM0Qzh5dWdldml5VWRfdFg2QVd6TFV2RThkQkQxemlXeGlXUi1UYlNidHhyZnJ5NjdVNmFzMUxqaG5FcnF4MkRJTFFfaVNZQ19qLUVfMlQzYmFHVzJMSHNRdU9nVkpuUE1CWC1sMDN1cHlvVTNDZElhaFJZWHN0bWpCYzZZSENBYi1yZTBIUEtGbVVFamJDY0t5bTg2QQ?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-14T15:53:29.136788+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMisAJBVV95cUxNVFV0Z1dYRnAtd0RheGxBZ3RUd1AzX04wWFVNVEloOUtZZTZ0WXlxYkhuX3RTYkFnamgwcXEtdzFOT0F1R0cwd0h2cFVrZVVPMjlfTFE3LWxFTE9vcy1QZ0hjQ1Z5eVlldDRSNzIxNUQ0a1ZsM1hJVW1RUDRPRF9GWFB0QVY3NGhSSk1sOXFva1NwU1pYaURhZmdVUW1RUkt6NVdPb21fb0xhN3JhOVpYeXRheFBtV0ZXamdLWE9JVW11cGNjYlpuTHk1dUpISHp3SGdzMlRKUmNBeE9wZ1BOMW5tcGZvOXlZRTdvSW5OQUFlOEhBSVplUk1FX3RIWU91ZjFPc1kyekREUThMNXVHTkhFa1U1LTU5MVJNSEs3M1Y2ZzktUTVZTm9vUDhXWmxf?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-15T15:40:24.602128+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
-      "topic": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
-      "question_phrase": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
-      "angle": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que nous lui disons",
-      "thumbnail_text": "Pourquoi l’intelligence artificielle en sait plus sur nous que ce que ",
-      "demand_note": "google_news_fr | 2026-10-14T07:12:10+00:00",
+      "series_title": "Innovation numérique en santé et intelligence artificielle",
+      "topic": "Innovation numérique en santé et intelligence artificielle",
+      "question_phrase": "Innovation numérique en santé et intelligence artificielle",
+      "angle": "Innovation numérique en santé et intelligence artificielle",
+      "thumbnail_text": "Innovation numérique en santé et intelligence artificielle",
+      "demand_note": "google_news_fr | 2026-10-12T16:10:49+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxNcm1TZWdaclBOUXhPYzBKUGwwS2dfRFRFdzkxN3JHTFlNWk1vWGs0ck54bzB6NmdvQjU1RzAzTWRsSENfMmthQzI3djRBVTZjZ3o0cTBLTXlWb2ZwVDRmNjluanpac2wtNnpkVXEycl9pYmd5cEFJMlpaa2R2dzRxdFFYSmVxaldsWXdEc2FHNzB4dVA3MEtTdmtHZ2NJc2FCVEp0clVIbGpaQ1hVS1BvUDBZN2o?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-10-14T15:53:29.136820+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTzhXd1hMNllPbUxmN2JtTXpOZmhiejhUV1NOT3c4NHh0TGFOMUFlR1hUNGpKU3RzY0kxT3VROVJYdzBELWZVUUZGSUtTbXNRQV9XTnZnN0hLSk8wOUZfTVlXU0VjMDZYcjQxOFFpcDhkeXZoZzIzRnhUSm1oS2xuR0w3dlAwU0loYko3akstbVctMU1TNXhqQkRsVVdpRlhibE9wVFZlN28?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-15T15:40:24.602150+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-14T20:29:51.637254+00:00"
+  "filtered_at": "2026-10-15T15:40:24.713894+00:00"
 }

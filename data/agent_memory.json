@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.16,
-      "engagement_avg": 2.222
+      "weight": 1.22,
+      "engagement_avg": 1.674
     },
     {
       "keyword": "sommeil",
@@ -763,10 +763,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/AFvt27W7-Bg",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 59,
+      "timestamp": "2026-10-15T15:46:29.504948+00:00",
+      "title": "Pourquoi le ventre se serre lors d'une peur peut sembler ?",
+      "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+      "duration": 20.008333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/aIwWXi3Kvf4",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 58,
-  "last_cycle_at": "2026-10-14T20:34:05.446419+00:00",
+  "total_cycles": 59,
+  "last_cycle_at": "2026-10-15T15:46:29.504982+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
