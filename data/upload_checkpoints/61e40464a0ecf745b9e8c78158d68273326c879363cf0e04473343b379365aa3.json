@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-15T18:36:46.563738+00:00",
+  "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+  "title": "Pourquoi ton ventre se serre?",
+  "duration": 20.387,
+  "hook_score": 100,
+  "quality_score": 78,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "f0567e2b9a80298dcb730e8cb15ed25b65de5b36d2d38ef8d03ba132ef642abe",
+    "fb1bb950babeb1270fc197cde48861589d95515e015deefb022f93ae7af45d39",
+    "32feaeb59e3f9a7e164eb58eb6c78cad8597772d722844e3df15a2fc10cf36a3",
+    "ce6fe6121c0cfd1b93f6122d875c6680f894625190493c4982bdb2c959a1598f",
+    "bca36d3f338521ad176c1c244e9bcd0f514d48128a1445bb15b4532b6947abc4",
+    "fcd215320700cbdb4128e8acf44db6e6beb71c53dbb2a0c1b47469ef02e3e13f",
+    "8361953fde7da41646070736e0b21696fe641bbb44605416aaa283c3cc0f6cd7",
+    "300091c366dc38e859a23b6961797ebcaef5c6ac20336479162039fefaa83391"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "pexels_clip",
+    "ai_editorial",
+    "pexels_clip",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "61e40464a0ecf745b9e8c78158d68273326c879363cf0e04473343b379365aa3",
+  "status": "uploaded",
+  "youtube_video_id": "OOSOhue7iCg",
+  "url": "https://youtu.be/OOSOhue7iCg",
+  "thumbnail_status": "uploaded"
+}

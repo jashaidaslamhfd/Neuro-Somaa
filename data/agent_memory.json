@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.22,
+      "weight": 1.28,
       "engagement_avg": 1.674
     },
     {
@@ -775,10 +775,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/aIwWXi3Kvf4",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 60,
+      "timestamp": "2026-10-15T18:36:54.899749+00:00",
+      "title": "Pourquoi ton ventre se serre?",
+      "topic": "Pourquoi le ventre se serre lors d'une peur peut sembler étrange",
+      "duration": 20.387,
+      "hook_score": 100,
+      "quality_score": 78,
+      "status": "uploaded",
+      "url": "https://youtu.be/OOSOhue7iCg",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 59,
-  "last_cycle_at": "2026-10-15T15:46:29.504982+00:00",
+  "total_cycles": 60,
+  "last_cycle_at": "2026-10-15T18:36:54.899780+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
