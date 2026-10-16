@@ -6414,5 +6414,44 @@
     "analytics_fetched_at": "2026-10-16T11:20:27.992937+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-15T21:21:25.444327+00:00"
+  },
+  {
+    "created_at": "2026-10-16T15:29:19.423443+00:00",
+    "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
+    "title": "Ce que votre corps vous dit quand les souvenirs gênants ?",
+    "duration": 20.041667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "c10259dd5481bc76884c100e00cd16775fe2960e7a683e7b2599456629fe3476",
+      "a7b67c9e3425e799df098db1a128e3cca50438aa4ee2d66448f82f708fa87edc",
+      "4d705125a3705c1d4019de87f1b45d97ec3fd48642e8443ae8bfb1bf309df24a",
+      "f20feae6b64991e09a2ff55271c79fe3b4f6ce21816d30b760e74824743885f1",
+      "fe43687c8835e5a2020af29531e6a8130f109911a79b97e94ca2e8cb89765a6b",
+      "a3f0f2bd6f6e3f19848a039caa8a03e1073307c73d73ec75556b2a8f3c6280d8",
+      "ce1177f3e145dda850f051c3934c7dfc6586ebe0557f9450aa84ddf36e8f361c",
+      "90141952d47bb6ee38235e1b876b2006f6d90543b14aaa9c32dd7cf41250f29b"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "8fada0e9383fe91a5f63b3255c7fce9ec2ae5585f49629b570046eb0ce0e109b",
+    "status": "uploaded",
+    "youtube_video_id": "C8PFYeE3cTk",
+    "url": "https://youtu.be/C8PFYeE3cTk",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

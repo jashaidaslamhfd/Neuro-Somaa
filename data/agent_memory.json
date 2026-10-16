@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.28,
-      "engagement_avg": 1.674
+      "weight": 1.34,
+      "engagement_avg": 1.375
     },
     {
       "keyword": "sommeil",
@@ -787,10 +787,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/OOSOhue7iCg",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 61,
+      "timestamp": "2026-10-16T15:29:26.258294+00:00",
+      "title": "Ce que votre corps vous dit quand les souvenirs gênants ?",
+      "topic": "Ce que votre corps vous dit quand les souvenirs gênants reviennent",
+      "duration": 20.041667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/C8PFYeE3cTk",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 60,
-  "last_cycle_at": "2026-10-15T18:36:54.899780+00:00",
+  "total_cycles": 61,
+  "last_cycle_at": "2026-10-16T15:29:26.258326+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
