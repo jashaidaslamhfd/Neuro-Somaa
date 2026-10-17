@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-17T14:20:21.611797+00:00",
+  "topic": "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+  "title": "Pourquoi ton stress réagit comme ça ?",
+  "duration": 20.041667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "1ac5d56aa1406bcf5947211d709d79422e1671fb26f518c951972b2aa8a5663f",
+    "4630f8989e165822f289cb5a204b1df1759d477b5561884b60c5b9be83a0d751",
+    "9a34c920d7c4ff5a9010948e27a70857b682a24e8e3f6a488be2875c9e5ecfb4",
+    "45823c7630bfe4910b4521d849024cb10740ce2115ac9f77bd570d1aa4c5fcc2",
+    "ddb9222b7d743efdf0183f77e49a29cd4ab593d1328a1c9c78948c2581dab51e",
+    "f2049de021e115b4a52c0f029b53ae43fbeef72c2eab4894eca2b9ebc31912d4",
+    "26e32af9ba10696a58a6472a473c54c747f36ef936d626da5d157736d28616d5",
+    "06c7fa0cfae2406ddffda2a29614d33c8334b8fc28da63c581d4c2bf0be16ea7"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "170dc98961ffa61747abca5ec5296ac8253c40929ba8d606a9a8722cf8d62344",
+  "status": "uploaded",
+  "youtube_video_id": "3foMkrWc56w",
+  "url": "https://youtu.be/3foMkrWc56w",
+  "thumbnail_status": "uploaded"
+}

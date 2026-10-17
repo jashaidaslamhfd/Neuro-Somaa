@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-16T15:26:27.626033+00:00",
+  "mined_at": "2026-10-17T14:18:51.596508+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-16T15:26:27.626057+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596535+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626092+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596576+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626119+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596596+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626138+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596619+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626157+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596641+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626174+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596662+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-16T15:26:27.626207+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596704+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626224+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596724+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626240+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596743+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626255+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596762+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626276+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596782+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626307+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596819+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626326+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596839+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626344+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596861+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626364+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596884+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626381+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596904+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626399+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596926+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626417+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596947+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626435+00:00"
+      "fetched_at": "2026-10-17T14:18:51.596969+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,10 +260,23 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-16T15:26:27.626471+00:00"
+      "fetched_at": "2026-10-17T14:18:51.597012+00:00"
     },
     {
       "series_number": "TREND-33",
+      "series_title": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'a",
+      "topic": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
+      "question_phrase": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
+      "angle": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
+      "thumbnail_text": "L'intelligence artificielle représente la moitié des nominations pour ",
+      "demand_note": "google_news_fr | 2026-10-17T01:23:14+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQUjRoUDVTUHF2eWhBUDBSc3hKdF9EZW93alpqVG5ONzZ0R255bVJBbkNoVVJqQVdOWm11cW9ERW04OUlKSndfMWNXQkV6TGRvWDZkWUVLNjEtNU5Ga1R4d1p6SEs0ZFRqaUdmVS14YVVzaktoWmhSMWtDOFBZOGh5S1ZzLWpfdzhNb0psQ09QRHZvWHM?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-17T14:18:51.597217+00:00"
+    },
+    {
+      "series_number": "TREND-34",
       "series_title": "Votre cerveau se lave pendant que vous dormez, et le MIT a trouvé comment renforcer ce net",
       "topic": "Votre cerveau se lave pendant que vous dormez, et le MIT a trouvé comment renforcer ce nettoyage avec un simple « bruit rose »",
       "question_phrase": "Votre cerveau se lave pendant que vous dormez, et le MIT a trouvé comment renforcer ce nettoyage avec un simple « bruit rose »",
@@ -272,63 +285,37 @@
       "demand_note": "futura_sciences | 2026-10-16T05:01:01+00:00",
       "source": "futura_sciences",
       "source_url": "https://www.futura-sciences.com/sante/actualites/cerveau-votre-cerveau-lave-pendant-vous-dormez-mit-trouve-renforcer-ce-nettoyage-simple-bruit-rose-138085/#xtor%3DRSS-8",
-      "trend_score": 11,
-      "fetched_at": "2026-10-16T15:26:27.626631+00:00"
-    },
-    {
-      "series_number": "TREND-34",
-      "series_title": "Nvidia signera un accord avec l’Allemagne sur l’intelligence artificielle afin d’étendre l",
-      "topic": "Nvidia signera un accord avec l’Allemagne sur l’intelligence artificielle afin d’étendre les usages industriels de cette technologie",
-      "question_phrase": "Nvidia signera un accord avec l’Allemagne sur l’intelligence artificielle afin d’étendre les usages industriels de cette technologie",
-      "angle": "Nvidia signera un accord avec l’Allemagne sur l’intelligence artificielle afin d’étendre les usages industriels de cette technologie",
-      "thumbnail_text": "Nvidia signera un accord avec l’Allemagne sur l’intelligence artificie",
-      "demand_note": "google_news_fr | 2026-10-16T11:39:55+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxNdzlFWlNDb2k0UWlVSW02UVNuaXBlaUtnOE52S2xsaFpZOUt1eVRlVnJQODV2UHRQUXZwMVQ2bVBPWUlFR3hIQTZYWkVweFBsVlRhZm9MWVEzcTVTbG1Jc1hlOEUyNlFSVFdYMjBxYU84bUtjSXhVbHhqX05tbmVybWQwZ1E3ZFkxakZNZkJueXpvcnkyVjNfbDQ0RFU3LWRKbmJub0lVTDFBc3ljcVl0eVpaX2xLVl9nY0txbDFqZ1NWQWpQN2ctS01NWDYxVXRPU0lfVkc3WDU1eFd2di1tSl9jcVNQMUVPUHNfZ3Zmaw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-16T15:26:27.626668+00:00"
+      "fetched_at": "2026-10-17T14:18:51.597249+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "La débâcle de l’intelligence artificielle frappe les hedge funds cette semaine, les gérant",
-      "topic": "La débâcle de l’intelligence artificielle frappe les hedge funds cette semaine, les gérants asiatiques en tête des pertes",
-      "question_phrase": "La débâcle de l’intelligence artificielle frappe les hedge funds cette semaine, les gérants asiatiques en tête des pertes",
-      "angle": "La débâcle de l’intelligence artificielle frappe les hedge funds cette semaine, les gérants asiatiques en tête des pertes",
-      "thumbnail_text": "La débâcle de l’intelligence artificielle frappe les hedge funds cette",
-      "demand_note": "google_news_fr | 2026-10-16T02:06:21+00:00",
+      "series_title": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le ",
+      "topic": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
+      "question_phrase": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
+      "angle": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
+      "thumbnail_text": "Comment l'intelligence artificielle replace l'art oratoire et la force",
+      "demand_note": "google_news_fr | 2026-10-17T08:00:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQeVFRTXU1Xzh1eWpYUm1UVmwxSnY5bUkzVkU5QXQxS3ZBU2lSaFlNMW52NTY0VjNDLUVCblFLOTJVSzRZVDJxTUVCZEZPYTEzeS1uZGZqSThUa1pWSVB1eVU2eHVwWGk1MHFyZ0haYzJiMXMzcXZlTVR4cGJpQkZQTFp6aXI5bnFCRTBNUXZNbWxQcklJWmx5MnU2MU5KNDE3d1VwREhJVUJ6UmFGYkdxcGR6Z3M4azdUUHlyNUdEb2I5cXNJRndla1EtVnB5R1pPODNUejJIdllkWXpDUjF0elVCSzNERVlJZ2F5eA?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-16T15:26:27.626703+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOWTl4YUs4Nkp2T0xWS2tNUHpUYkJtUmswVlh3WDdreERSWnFGZmh2Y19aN3V2TU02OWJBWmlaeTB3WktYeHYwS0dqS0JSM0pDU213YjFrRURTRFphV0NQWFV3cU9iNmQxTHFTTzhaWUVEZ3lMVXBROUJ3cFowQWFUNEdsNFJ4cWpkYnM1WksxRW4ySERWM3E2bC1WaEZINjkzVE0tTzREeGVYUnBxNERMNXc5dGlOVXEyM2JrUmhqejhyMVRFQmp0d1hiNmZpZGZxQnVQOUk2VEZrVFU0WUxRWg?oc=5",
+      "trend_score": 8,
+      "fetched_at": "2026-10-17T14:18:51.597279+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "YouTube Music va enfin vous aider à identifier les musiques générées par l’IA",
-      "topic": "YouTube Music va enfin vous aider à identifier les musiques générées par l’IA",
-      "question_phrase": "YouTube Music va enfin vous aider à identifier les musiques générées par l’IA",
-      "angle": "YouTube Music va enfin vous aider à identifier les musiques générées par l’IA",
-      "thumbnail_text": "YouTube Music va enfin vous aider à identifier les musiques générées p",
-      "demand_note": "google_news_fr | 2026-10-16T06:00:56+00:00",
+      "series_title": "« Et si on testait l’IA ? »",
+      "topic": "« Et si on testait l’IA ? »",
+      "question_phrase": "« Et si on testait l’IA ? »",
+      "angle": "« Et si on testait l’IA ? »",
+      "thumbnail_text": "« Et si on testait l’IA ? »",
+      "demand_note": "google_news_fr | 2026-10-17T06:54:04+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQOTBodzRuaXhvNFc3ekR1ZWx6SUk1aXZrZUtTLUpZZ0otckNLRGdEVmZSQ2lIMTYtRTVfZ0MyeXZfNGF1bU5FdUllUWd0RXNvSTRpRlVuMVY5UTVURXhVdmlnX01NS3E5dm9VLW1ZRlFudE8wal8yVHlCTVRhM2ppUTIyclF0MXVOeHRzZDhZd1FCUTVuTXpWTG5SaVR5QUtIY3FKR0ktZjZ2MHRmV1p6cFdsdUw?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-16T15:26:27.626730+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPRThYYkp2RXZ2QXB4QmdjQzAwT3lJaVdpcU5lQmQ3MUFObWlwVjZjMHJVOGR0THMxSXpLcUhSTENqbWdWYlY3eEtvSXpiTmxsRi0yNUZBVDBrd2JEUENabTlmemhLWkZCQ0ZLMmgzdE9WWTVPMGdTd0F5YTkzMm1DcnlxeEs2U3RfSkpyOTNteEJvS04yMFlSTE5iUTM3ay15dDhESDZvVEpoNEt2X3FYVmQwTm9ReXFmdzRsVjF2MVVUdw?oc=5",
+      "trend_score": 8,
+      "fetched_at": "2026-10-17T14:18:51.597301+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "Ce robot transforme le sol en batterie",
-      "topic": "Ce robot transforme le sol en batterie",
-      "question_phrase": "Ce robot transforme le sol en batterie",
-      "angle": "Ce robot transforme le sol en batterie",
-      "thumbnail_text": "Ce robot transforme le sol en batterie",
-      "demand_note": "futura_sciences | 2026-10-16T09:07:45+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/tech/actualites/robot-humanoide-ce-robot-transforme-sol-batterie-invention-chinoise-pourrait-changer-avenir-robotique-138359/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-10-16T15:26:27.626746+00:00"
-    },
-    {
-      "series_number": "TREND-38",
       "series_title": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligen",
       "topic": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
       "question_phrase": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
@@ -338,10 +325,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMisAJBVV95cUxNVFV0Z1dYRnAtd0RheGxBZ3RUd1AzX04wWFVNVEloOUtZZTZ0WXlxYkhuX3RTYkFnamgwcXEtdzFOT0F1R0cwd0h2cFVrZVVPMjlfTFE3LWxFTE9vcy1QZ0hjQ1Z5eVlldDRSNzIxNUQ0a1ZsM1hJVW1RUDRPRF9GWFB0QVY3NGhSSk1sOXFva1NwU1pYaURhZmdVUW1RUkt6NVdPb21fb0xhN3JhOVpYeXRheFBtV0ZXamdLWE9JVW11cGNjYlpuTHk1dUpISHp3SGdzMlRKUmNBeE9wZ1BOMW5tcGZvOXlZRTdvSW5OQUFlOEhBSVplUk1FX3RIWU91ZjFPc1kyekREUThMNXVHTkhFa1U1LTU5MVJNSEs3M1Y2ZzktUTVZTm9vUDhXWmxf?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-16T15:26:27.626782+00:00"
+      "fetched_at": "2026-10-17T14:18:51.597343+00:00"
     },
     {
-      "series_number": "TREND-39",
+      "series_number": "TREND-38",
       "series_title": "Innovation numérique en santé et intelligence artificielle",
       "topic": "Innovation numérique en santé et intelligence artificielle",
       "question_phrase": "Innovation numérique en santé et intelligence artificielle",
@@ -351,10 +338,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTzhXd1hMNllPbUxmN2JtTXpOZmhiejhUV1NOT3c4NHh0TGFOMUFlR1hUNGpKU3RzY0kxT3VROVJYdzBELWZVUUZGSUtTbXNRQV9XTnZnN0hLSk8wOUZfTVlXU0VjMDZYcjQxOFFpcDhkeXZoZzIzRnhUSm1oS2xuR0w3dlAwU0loYko3akstbVctMU1TNXhqQkRsVVdpRlhibE9wVFZlN28?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-16T15:26:27.626802+00:00"
+      "fetched_at": "2026-10-17T14:18:51.597366+00:00"
     },
     {
-      "series_number": "TREND-40",
+      "series_number": "TREND-39",
       "series_title": "Intelligence artificielle et musique",
       "topic": "Intelligence artificielle et musique",
       "question_phrase": "Intelligence artificielle et musique",
@@ -364,9 +351,22 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOMG9ZcG9INE9Xanpva0M3WjUydV9BYUI2X3F5ZG9hZ1NnV2dpZGVlajVZV2FwbUh1c2tvNE9yLTc2Umc5WlRqTXBxdFo3XzFDYlIydDB3Uk42NUJGVmtmcUJVM1VZNDNYLTNYMlVnUTNIOHRnREl0TFpWeFpRN0QzUXdQaF9OV3BCTXJWTWdjMUFLWk1hd0JyNkdqUlI2cVRoSktRN0NwNzdrNXh0SlpmNEExTzRPMS10QmZscWltUlRDbTBQS0dWY1lIRnpaYk92bW5hTWJJSHEwT05GU2x5U05aNHhxeUJSRFFRLWprc29qX3dVenpmag?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-16T15:26:27.626817+00:00"
+      "fetched_at": "2026-10-17T14:18:51.597384+00:00"
+    },
+    {
+      "series_number": "TREND-40",
+      "series_title": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour génér",
+      "topic": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "question_phrase": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "angle": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
+      "thumbnail_text": "Il écoutait en boucle ses propres musiques créées par intelligence art",
+      "demand_note": "google_news_fr | 2026-10-15T05:01:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxQd3NOM0NETFg3alh0QVducHdET3JoazFudHZ2cWkyUWM3Ykh1WEptV25GaG01R2JGOHJ1ZXlJbU5YaFhjZ21sLVl1b2VZVmJHTGVER2szMmpleS1UTzVBU1Zfc1dLZm9MMXNLLWdTa2NOT0FzVkJacjNrUDhCVlRyRVM0V2QwMGxrZ29OeUI2SmtNa05LbHU5dzVreF8ya0ozY3N1NElZQnVLdk94OVNfZlRoWDh1WXYySThuazdHWVdwUEQtQ1p5b0prSEltRDRXWUEtd01hZnFFal9NcTJ4OVprcDJxT2lBREJnNXVNemN6eTY5aUp4bHVVMk1ZUkkweXNsZTBUeUVhb2FGOWhMZGRiOWlvWDFHLXN0SFhscFNQWTFuYnN6V292Zw?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-17T14:18:51.597422+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-16T15:26:27.720957+00:00"
+  "filtered_at": "2026-10-17T14:18:51.707235+00:00"
 }

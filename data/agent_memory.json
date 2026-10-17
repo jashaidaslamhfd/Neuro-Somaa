@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.34,
-      "engagement_avg": 1.375
+      "weight": 1.41,
+      "engagement_avg": 1.316
     },
     {
       "keyword": "sommeil",
@@ -799,10 +799,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/C8PFYeE3cTk",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 62,
+      "timestamp": "2026-10-17T14:20:25.829960+00:00",
+      "title": "Pourquoi ton stress réagit comme ça ?",
+      "topic": "Ce que votre corps vous dit quand le ventre se serre lors d'une peur",
+      "duration": 20.041667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/3foMkrWc56w",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 61,
-  "last_cycle_at": "2026-10-16T15:29:26.258326+00:00",
+  "total_cycles": 62,
+  "last_cycle_at": "2026-10-17T14:20:25.829994+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
