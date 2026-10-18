@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.41,
-      "engagement_avg": 1.316
+      "weight": 1.48,
+      "engagement_avg": 1.32
     },
     {
       "keyword": "sommeil",
@@ -811,10 +811,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/3foMkrWc56w",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 63,
+      "timestamp": "2026-10-18T14:44:01.671487+00:00",
+      "title": "Ce que votre corps vous dit quand des fourmillements ?",
+      "topic": "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
+      "duration": 20.008333,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/tGHBMhp3OYA",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 62,
-  "last_cycle_at": "2026-10-17T14:20:25.829994+00:00",
+  "total_cycles": 63,
+  "last_cycle_at": "2026-10-18T14:44:01.671519+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

@@ -6514,5 +6514,44 @@
     "analytics_fetched_at": "2026-10-18T11:01:30.678412+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-17T15:31:56.756992+00:00"
+  },
+  {
+    "created_at": "2026-10-18T14:43:54.055320+00:00",
+    "topic": "Ce que votre corps vous dit quand des fourmillements apparaissent sans raison",
+    "title": "Ce que votre corps vous dit quand des fourmillements ?",
+    "duration": 20.008333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "792ddb87f1d701d5a078849033282ddc30b5030978bfa7329d400996df82bf1a",
+      "11617217c48ee682d0c34cc95a8ace9b5b8bda5bb4c9731e9db2e75f22a26c99",
+      "27b1dcb99956d9449607be4ce95b3ccc33299e3785df38a1198097a4a6042edb",
+      "5675f428449e300ac40d99049cca3c1d811b2eb9d261003ecce05bf6225acba7",
+      "80d10e8c0c145fac86374e7aabb13b0c881e1fb350b953bd0b2326f57068d0a7",
+      "2ae55fcf9a4d7671659e3244e1031bea98b8c8f8c795c42929c9c7b8b26f0861",
+      "f079311121ca0d2992bfff8432793e222d409d9da774ce20c6e07f7561069af7",
+      "6b74dd6cc44fda8307f6ff1b502c899bbd3d33b883918b03ed80b5096bff284a"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "a13e9e956c46a94723d6a7064a7e922396a466cc57dda14e805a813be506af2c",
+    "status": "uploaded",
+    "youtube_video_id": "tGHBMhp3OYA",
+    "url": "https://youtu.be/tGHBMhp3OYA",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

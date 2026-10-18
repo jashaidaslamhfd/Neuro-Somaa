@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-17T14:18:51.596508+00:00",
+  "mined_at": "2026-10-18T14:42:39.797188+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-17T14:18:51.596535+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797215+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596576+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797256+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596596+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797275+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596619+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797297+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596641+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797319+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596662+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797341+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-17T14:18:51.596704+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797383+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596724+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797403+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596743+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797422+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596762+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797441+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596782+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797461+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596819+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797498+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596839+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797518+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596861+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797539+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596884+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797564+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596904+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797584+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596926+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797605+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596947+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797626+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.596969+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797648+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,20 +260,20 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-17T14:18:51.597012+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797689+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'a",
-      "topic": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
-      "question_phrase": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
-      "angle": "L'intelligence artificielle représente la moitié des nominations pour le prix du livre d'affaires du Financial Times",
-      "thumbnail_text": "L'intelligence artificielle représente la moitié des nominations pour ",
-      "demand_note": "google_news_fr | 2026-10-17T01:23:14+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQUjRoUDVTUHF2eWhBUDBSc3hKdF9EZW93alpqVG5ONzZ0R255bVJBbkNoVVJqQVdOWm11cW9ERW04OUlKSndfMWNXQkV6TGRvWDZkWUVLNjEtNU5Ga1R4d1p6SEs0ZFRqaUdmVS14YVVzaktoWmhSMWtDOFBZOGh5S1ZzLWpfdzhNb0psQ09QRHZvWHM?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-17T14:18:51.597217+00:00"
+      "series_title": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, sel",
+      "topic": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
+      "question_phrase": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
+      "angle": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
+      "thumbnail_text": "Les personnes les plus épanouies après 60 ans partageraient 5 habitude",
+      "demand_note": "futura_sciences | 2026-10-17T16:00:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/psychologie-personnes-plus-epanouies-apres-60-ans-partageraient-5-habitudes-bien-precises-selon-specialistes-k2m6-138602/#xtor%3DRSS-8",
+      "trend_score": 10,
+      "fetched_at": "2026-10-18T14:42:39.797874+00:00"
     },
     {
       "series_number": "TREND-34",
@@ -286,36 +286,10 @@
       "source": "futura_sciences",
       "source_url": "https://www.futura-sciences.com/sante/actualites/cerveau-votre-cerveau-lave-pendant-vous-dormez-mit-trouve-renforcer-ce-nettoyage-simple-bruit-rose-138085/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-10-17T14:18:51.597249+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797905+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le ",
-      "topic": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
-      "question_phrase": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
-      "angle": "Comment l'intelligence artificielle replace l'art oratoire et la force de la voix dans le monde professionnel",
-      "thumbnail_text": "Comment l'intelligence artificielle replace l'art oratoire et la force",
-      "demand_note": "google_news_fr | 2026-10-17T08:00:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxOWTl4YUs4Nkp2T0xWS2tNUHpUYkJtUmswVlh3WDdreERSWnFGZmh2Y19aN3V2TU02OWJBWmlaeTB3WktYeHYwS0dqS0JSM0pDU213YjFrRURTRFphV0NQWFV3cU9iNmQxTHFTTzhaWUVEZ3lMVXBROUJ3cFowQWFUNEdsNFJ4cWpkYnM1WksxRW4ySERWM3E2bC1WaEZINjkzVE0tTzREeGVYUnBxNERMNXc5dGlOVXEyM2JrUmhqejhyMVRFQmp0d1hiNmZpZGZxQnVQOUk2VEZrVFU0WUxRWg?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-10-17T14:18:51.597279+00:00"
-    },
-    {
-      "series_number": "TREND-36",
-      "series_title": "« Et si on testait l’IA ? »",
-      "topic": "« Et si on testait l’IA ? »",
-      "question_phrase": "« Et si on testait l’IA ? »",
-      "angle": "« Et si on testait l’IA ? »",
-      "thumbnail_text": "« Et si on testait l’IA ? »",
-      "demand_note": "google_news_fr | 2026-10-17T06:54:04+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPRThYYkp2RXZ2QXB4QmdjQzAwT3lJaVdpcU5lQmQ3MUFObWlwVjZjMHJVOGR0THMxSXpLcUhSTENqbWdWYlY3eEtvSXpiTmxsRi0yNUZBVDBrd2JEUENabTlmemhLWkZCQ0ZLMmgzdE9WWTVPMGdTd0F5YTkzMm1DcnlxeEs2U3RfSkpyOTNteEJvS04yMFlSTE5iUTM3ay15dDhESDZvVEpoNEt2X3FYVmQwTm9ReXFmdzRsVjF2MVVUdw?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-10-17T14:18:51.597301+00:00"
-    },
-    {
-      "series_number": "TREND-37",
       "series_title": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligen",
       "topic": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
       "question_phrase": "« L’IApocalypse est une chimère qui nous fait oublier que le développement de l’intelligence artificielle est insoutenable à tous points de vue »",
@@ -325,23 +299,23 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMisAJBVV95cUxNVFV0Z1dYRnAtd0RheGxBZ3RUd1AzX04wWFVNVEloOUtZZTZ0WXlxYkhuX3RTYkFnamgwcXEtdzFOT0F1R0cwd0h2cFVrZVVPMjlfTFE3LWxFTE9vcy1QZ0hjQ1Z5eVlldDRSNzIxNUQ0a1ZsM1hJVW1RUDRPRF9GWFB0QVY3NGhSSk1sOXFva1NwU1pYaURhZmdVUW1RUkt6NVdPb21fb0xhN3JhOVpYeXRheFBtV0ZXamdLWE9JVW11cGNjYlpuTHk1dUpISHp3SGdzMlRKUmNBeE9wZ1BOMW5tcGZvOXlZRTdvSW5OQUFlOEhBSVplUk1FX3RIWU91ZjFPc1kyekREUThMNXVHTkhFa1U1LTU5MVJNSEs3M1Y2ZzktUTVZTm9vUDhXWmxf?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-17T14:18:51.597343+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797947+00:00"
     },
     {
-      "series_number": "TREND-38",
+      "series_number": "TREND-36",
       "series_title": "Innovation numérique en santé et intelligence artificielle",
       "topic": "Innovation numérique en santé et intelligence artificielle",
       "question_phrase": "Innovation numérique en santé et intelligence artificielle",
       "angle": "Innovation numérique en santé et intelligence artificielle",
       "thumbnail_text": "Innovation numérique en santé et intelligence artificielle",
-      "demand_note": "google_news_fr | 2026-10-12T16:10:49+00:00",
+      "demand_note": "google_news_fr | 2026-10-13T15:06:38+00:00",
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTzhXd1hMNllPbUxmN2JtTXpOZmhiejhUV1NOT3c4NHh0TGFOMUFlR1hUNGpKU3RzY0kxT3VROVJYdzBELWZVUUZGSUtTbXNRQV9XTnZnN0hLSk8wOUZfTVlXU0VjMDZYcjQxOFFpcDhkeXZoZzIzRnhUSm1oS2xuR0w3dlAwU0loYko3akstbVctMU1TNXhqQkRsVVdpRlhibE9wVFZlN28?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-17T14:18:51.597366+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797970+00:00"
     },
     {
-      "series_number": "TREND-39",
+      "series_number": "TREND-37",
       "series_title": "Intelligence artificielle et musique",
       "topic": "Intelligence artificielle et musique",
       "question_phrase": "Intelligence artificielle et musique",
@@ -351,10 +325,10 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi-AFBVV95cUxOMG9ZcG9INE9Xanpva0M3WjUydV9BYUI2X3F5ZG9hZ1NnV2dpZGVlajVZV2FwbUh1c2tvNE9yLTc2Umc5WlRqTXBxdFo3XzFDYlIydDB3Uk42NUJGVmtmcUJVM1VZNDNYLTNYMlVnUTNIOHRnREl0TFpWeFpRN0QzUXdQaF9OV3BCTXJWTWdjMUFLWk1hd0JyNkdqUlI2cVRoSktRN0NwNzdrNXh0SlpmNEExTzRPMS10QmZscWltUlRDbTBQS0dWY1lIRnpaYk92bW5hTWJJSHEwT05GU2x5U05aNHhxeUJSRFFRLWprc29qX3dVenpmag?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-17T14:18:51.597384+00:00"
+      "fetched_at": "2026-10-18T14:42:39.797989+00:00"
     },
     {
-      "series_number": "TREND-40",
+      "series_number": "TREND-38",
       "series_title": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour génér",
       "topic": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
       "question_phrase": "Il écoutait en boucle ses propres musiques créées par intelligence artificielle pour générer des droits d’auteur",
@@ -364,9 +338,35 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMiqwJBVV95cUxQd3NOM0NETFg3alh0QVducHdET3JoazFudHZ2cWkyUWM3Ykh1WEptV25GaG01R2JGOHJ1ZXlJbU5YaFhjZ21sLVl1b2VZVmJHTGVER2szMmpleS1UTzVBU1Zfc1dLZm9MMXNLLWdTa2NOT0FzVkJacjNrUDhCVlRyRVM0V2QwMGxrZ29OeUI2SmtNa05LbHU5dzVreF8ya0ozY3N1NElZQnVLdk94OVNfZlRoWDh1WXYySThuazdHWVdwUEQtQ1p5b0prSEltRDRXWUEtd01hZnFFal9NcTJ4OVprcDJxT2lBREJnNXVNemN6eTY5aUp4bHVVMk1ZUkkweXNsZTBUeUVhb2FGOWhMZGRiOWlvWDFHLXN0SFhscFNQWTFuYnN6V292Zw?oc=5",
       "trend_score": 7,
-      "fetched_at": "2026-10-17T14:18:51.597422+00:00"
+      "fetched_at": "2026-10-18T14:42:39.798040+00:00"
+    },
+    {
+      "series_number": "TREND-39",
+      "series_title": "YouTube Music signalera clairement les chansons générées par une IA",
+      "topic": "YouTube Music signalera clairement les chansons générées par une IA",
+      "question_phrase": "YouTube Music signalera clairement les chansons générées par une IA",
+      "angle": "YouTube Music signalera clairement les chansons générées par une IA",
+      "thumbnail_text": "YouTube Music signalera clairement les chansons générées par une IA",
+      "demand_note": "google_news_fr | 2026-10-15T14:12:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxPVVZUVjNQQWgxQmVlUFJXTGhXRjNTSVBRTHBfbE5aVXVMVzFGajlHeEgyMWxTaXZiUkVxLVNqNmFSdF9TYUlQWlRtOWJ1cFctdHZoVG5YN0NoTzhJQnlHcWxQVDhvWE5vMm9heXYxcEo0NEVwVThVUjYzcEVEcGRlX0Y3eGRESHNDVDZCQnRIeVoweGhSYVBCdFpHeUJjQ09aVHJKNzBiYzNwYkp3Q1M4Z2FKZlcyclk5d1d4N1loY2RFVDk4QW1FaDdTcVhGZFdvUWdWNWFfX2NUdEx6UEhlLVdZSQ?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-18T14:42:39.798066+00:00"
+    },
+    {
+      "series_number": "TREND-40",
+      "series_title": "«L’intelligence artificielle ne nous fait pas du tout peur",
+      "topic": "«L’intelligence artificielle ne nous fait pas du tout peur",
+      "question_phrase": "«L’intelligence artificielle ne nous fait pas du tout peur",
+      "angle": "«L’intelligence artificielle ne nous fait pas du tout peur",
+      "thumbnail_text": "«L’intelligence artificielle ne nous fait pas du tout peur",
+      "demand_note": "google_news_fr | 2026-10-10T07:00:00+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxONnEtdnZReTN3aW5FLTFoMU5BWXFfR0ZfbG0ybDB3b0xiTzJpb1RHT1czZGU2eWtZeFh3bUlxdmZzNXc0RGJxVGVCZWM2WHB0ekdSU180WVNoQmR3ZV9vczBGNm1LQkRGRkdJWF9FMUVfblpXNmpodk5ucFhEZmFzVUNUNDRpcmtaRjJNS1U5R2MtWE9pYUlGWXAzM0VkRW0zQVAtQkdfcThERkVlX3ZqZjdZQ1hzMDhnbnVqUVpWa0VmUUl6ZWE4NFQ1UFRyTTkyZk14TW9QTm1wLXNkRmxLalVZSklvd3BaWjMyd0VCTUFWYlVpVm1oTUdtc0xJQzZ4ZlE?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-18T14:42:39.798094+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-17T14:18:51.707235+00:00"
+  "filtered_at": "2026-10-18T14:42:39.907192+00:00"
 }
