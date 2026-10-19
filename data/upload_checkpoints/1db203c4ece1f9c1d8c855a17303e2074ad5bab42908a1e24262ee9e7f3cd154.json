@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-19T17:39:07.067253+00:00",
+  "topic": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
+  "title": "Les personnes les plus épanouies après 60 ans ?",
+  "duration": 20.041667,
+  "hook_score": 95,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "d95fa51d6b100f0571f4b12891b4e89149ec96798c755ae96fbd77c695d9744f",
+    "f81e9744f2f0d41e2858949fb6f1f235b35a2bf64796fb110fe09d4fe0214031",
+    "b424f403401b56d65e273bd3f4fb1a36edd09cca75e068f4b6fbb890a285cb98",
+    "a2f1bd0d101a3a86d88e9439c27a7b6486e44cb471f8b5e249b577601e043151",
+    "cb3957b84c0542ee657026c5241ea022ed726f7bd005e3c5493c1a995d7cd8ee",
+    "92a1a00ef1ebde71a141431f655bf7726bf89659cfe0c2ae1bb5bcd6d28b158c",
+    "ea667185bb5dcdb757ea415f9551b8ddbc7ae60fd1d966feccff0b21e0cc6d16",
+    "ee33776b0462867529f032c4e8b7e98708ea6d80d1934825d4eef3c2320084e5"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "ai_editorial",
+    "pexels_clip",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "1db203c4ece1f9c1d8c855a17303e2074ad5bab42908a1e24262ee9e7f3cd154",
+  "status": "uploaded",
+  "youtube_video_id": "wpFtRZjUm3Y",
+  "url": "https://youtu.be/wpFtRZjUm3Y",
+  "thumbnail_status": "uploaded"
+}

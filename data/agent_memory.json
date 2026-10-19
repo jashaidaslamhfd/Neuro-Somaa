@@ -23,7 +23,7 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.48,
+      "weight": 1.55,
       "engagement_avg": 1.32
     },
     {
@@ -823,10 +823,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/tGHBMhp3OYA",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 64,
+      "timestamp": "2026-10-19T17:39:13.886429+00:00",
+      "title": "Les personnes les plus épanouies après 60 ans ?",
+      "topic": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
+      "duration": 20.041667,
+      "hook_score": 95,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/wpFtRZjUm3Y",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 63,
-  "last_cycle_at": "2026-10-18T14:44:01.671519+00:00",
+  "total_cycles": 64,
+  "last_cycle_at": "2026-10-19T17:39:13.886466+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
