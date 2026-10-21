@@ -23,8 +23,8 @@
   "high_velocity_keywords": [
     {
       "keyword": "cerveau",
-      "weight": 1.55,
-      "engagement_avg": 1.32
+      "weight": 1.63,
+      "engagement_avg": 1.325
     },
     {
       "keyword": "sommeil",
@@ -835,10 +835,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/wpFtRZjUm3Y",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 65,
+      "timestamp": "2026-10-21T16:05:58.317888+00:00",
+      "title": "Pourquoi je stresse autant?",
+      "topic": "« Pourquoi je stresse autant? »",
+      "duration": 20.027,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/4Cc-VYovP_U",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 64,
-  "last_cycle_at": "2026-10-19T17:39:13.886466+00:00",
+  "total_cycles": 65,
+  "last_cycle_at": "2026-10-21T16:05:58.317917+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

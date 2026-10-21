@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-19T17:37:17.545060+00:00",
+  "mined_at": "2026-10-21T16:01:19.787013+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-19T17:37:17.545089+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787036+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545130+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787071+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545150+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787088+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545173+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787107+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545195+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787133+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545216+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787151+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-19T17:37:17.545258+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787183+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545279+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787200+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545298+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787216+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545317+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787231+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545338+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787248+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545374+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787279+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545394+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787296+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545415+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787313+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545439+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787334+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545458+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787350+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545480+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787368+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545500+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787385+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545521+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787403+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-19T17:37:17.545562+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787438+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Vous vous réveillez fatigué ? Les scientifiques ont identifié une habitude toute simple de",
-      "topic": "Vous vous réveillez fatigué ? Les scientifiques ont identifié une habitude toute simple de 10 minutes qui va changer vos nuits",
-      "question_phrase": "Vous vous réveillez fatigué ? Les scientifiques ont identifié une habitude toute simple de 10 minutes qui va changer vos nuits",
-      "angle": "Vous vous réveillez fatigué ? Les scientifiques ont identifié une habitude toute simple de 10 minutes qui va changer vos nuits",
-      "thumbnail_text": "Vous vous réveillez fatigué ? Les scientifiques ont identifié une habi",
-      "demand_note": "futura_sciences | 2026-10-19T03:05:42+00:00",
+      "series_title": "« Pourquoi je stresse autant ? »",
+      "topic": "« Pourquoi je stresse autant ? »",
+      "question_phrase": "« Pourquoi je stresse autant ? »",
+      "angle": "« Pourquoi je stresse autant ? »",
+      "thumbnail_text": "« Pourquoi je stresse autant ? »",
+      "demand_note": "futura_sciences | 2026-10-21T03:08:04+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/sommeil-vous-vous-reveillez-fatigue-scientifiques-ont-identifie-habitude-toute-simple-10-minutes-va-changer-vos-nuits-138633/#xtor%3DRSS-8",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/stress-je-stresse-autant-chercheurs-ont-repere-point-commun-chez-ceux-gardent-leur-calme-138621/#xtor%3DRSS-8",
       "trend_score": 11,
-      "fetched_at": "2026-10-19T17:37:17.545755+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787582+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, sel",
-      "topic": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
-      "question_phrase": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
-      "angle": "Les personnes les plus épanouies après 60 ans partageraient 5 habitudes bien précises, selon les spécialistes",
-      "thumbnail_text": "Les personnes les plus épanouies après 60 ans partageraient 5 habitude",
-      "demand_note": "futura_sciences | 2026-10-17T16:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/psychologie-personnes-plus-epanouies-apres-60-ans-partageraient-5-habitudes-bien-precises-selon-specialistes-k2m6-138602/#xtor%3DRSS-8",
-      "trend_score": 10,
-      "fetched_at": "2026-10-19T17:37:17.545786+00:00"
+      "series_title": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
+      "topic": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
+      "question_phrase": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
+      "angle": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
+      "thumbnail_text": "L'IA ne crée pas une fracture générationnelle, elle révèle une fractur",
+      "demand_note": "google_news_fr | 2026-10-21T08:08:16+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPcmhqamxoQ1ZSMG50MDdycUdNWkxWc0xiVmNHNmV2Rl9DX3pLQzBfTHlCd0hhbkZJQUFYS0JJY2w4VTQ3Z2U5YlhCV2V1OEthcFg2a1dJVnhNUlcxYTJ2aG94SUF6dUxDT2JwYWQ5RUJ0ZUhzOE14WE1MZHlEYl83U2NhTU5hSEIwcUdNWFc3cnpZdm83QnZNY1p5aTNFVW96aWtGMGJZMHdQSlZZd0Y4blFZbDk1Um5DbmM0TnJ3QTd5TEw1MG9BYXpWLVdIOFoxeExkekRRZkRsdUEtTVpaOA?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-21T16:01:19.787605+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Amazon affirme que ses puces d’intelligence artificielle fonctionneront avec un langage de",
-      "topic": "Amazon affirme que ses puces d’intelligence artificielle fonctionneront avec un langage de programmation répandu, défiant Nvidia",
-      "question_phrase": "Amazon affirme que ses puces d’intelligence artificielle fonctionneront avec un langage de programmation répandu, défiant Nvidia",
-      "angle": "Amazon affirme que ses puces d’intelligence artificielle fonctionneront avec un langage de programmation répandu, défiant Nvidia",
-      "thumbnail_text": "Amazon affirme que ses puces d’intelligence artificielle fonctionneron",
-      "demand_note": "google_news_fr | 2026-10-19T13:04:25+00:00",
+      "series_title": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds au",
+      "topic": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
+      "question_phrase": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
+      "angle": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
+      "thumbnail_text": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour",
+      "demand_note": "google_news_fr | 2026-10-21T12:52:53+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNT3N2d29lV1NLMkttbUYzU1dESjNZVEdKVF93dVcwdTN6UGtJdDJMWjVVbkc4cmVRd05IaGxMRGplTXdiWlNKXzNBeUl0NEh4VjlGZ2IzN3ZIcm5iZ1FXejZGVVNnakVFZFZuR3d6WVphVEFJU3ZEeVcwX1k4Y2p0U0ctcm0zc1JQbEd5S01TMURnM1VLM1dzZ1RQbGtmLTZiRjdhRDdTOGVVSnctRW80QmRFLWQyUnFuLTExZF9Kcmhqa0IzUVAyVXVSeXBacVZGOFVwWG9zSGtiT0l3SmxmMXJFUVFueC1Sdjd3VVhR?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQalJTTDc1czE5T0FfdTNxUnVmdGYxOUhjR3FUekhGeUlvYmVlZDdrZzRiQVhvbEZ3UXJ5RnVCZ0dmekhha1ZxVGpCd000RmpHUW5VSkt2R1JrMXQ1azgwazBGLVBqU0VKX2NvZWg2a0tMLUV6d1V0ZTJvNG5nSEhmN1dERU1wNFEtVEkzOFlpczNYdm5aTjVCelVxalMydHkyMnRka3pJdUY2R1RXTlMzNHF0ZlFhZ3Q4SEU5Rm9ub2JLd1lTUGtTMFRLa0Z3b1hWRk5RU2tMR2VKZzlWSkZmVVpjR3IweDBOZGEyZENPOA?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545825+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787636+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "C'était ça ou écrire avec l'IA... Le Prix Pascal récompense la meilleure œuvre co",
-      "topic": "C'était ça ou écrire avec l'IA... Le Prix Pascal récompense la meilleure œuvre co",
-      "question_phrase": "C'était ça ou écrire avec l'IA... Le Prix Pascal récompense la meilleure œuvre co",
-      "angle": "C'était ça ou écrire avec l'IA... Le Prix Pascal récompense la meilleure œuvre co",
-      "thumbnail_text": "C'était ça ou écrire avec l'IA... Le Prix Pascal récompense la meilleu",
-      "demand_note": "google_news_fr | 2026-10-19T07:59:45+00:00",
+      "series_title": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés",
+      "topic": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
+      "question_phrase": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
+      "angle": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
+      "thumbnail_text": "Bernard Mensah sur l’intelligence artificielle, les rendements obligat",
+      "demand_note": "google_news_fr | 2026-10-21T13:03:35+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPUy1fVUJSS3pFRkNLNHRpaUVaWUJTMEhwMVlOcTRjVW9wdDVKUTNmeHNsaDRvVjNEQjhrV0lVWDdpQ21qWTBZa1dRcVA5NmxRdVJrWEJsYXpvWFFYYTFwSjNreUMzMjRaNzVFRkVLS19pd1cya2hVMWxpVWp6QkVMLTM2Y2czSmF2ZFZpeE1XQ2tYN2dBS2pOZlVHMDQwOWFUUTNlU050UU82QXd1bGJjdWVYbHp6UUxLcGlBRzlLek9Ldw?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOTlhKblRmVGgtTnBnNW1kUXkzZV9mTHNBa0tMbkxWbDJmaDJGSXAxd2NCSlFTS044d0kxUE10d1hBcEI4bmZzbF8wZElqM0c5S1lTRGo5MjhsU3hMS1J2cmFqdlg5Q1M0bmEwc1YtRlFBVVRtZ3NzVUlzQUlSaDVRa0hFUUJoZHdCX3BQOXg0dHlLNlBPVHlLNVNQXy0yaldrX0YxOXhiT1VBQlk2MExpN09nQXNweXRQMVNIY1VBcUkxNERxQ2M0NElOMmhqYUlEdEhhQXYtSW1DX0dfSll0N0lvQkxVZnJpMWV5U0NsTQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545872+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787667+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "L'intelligence artificielle permet aux véhicules d'interpréter des situations réelles comp",
-      "topic": "L'intelligence artificielle permet aux véhicules d'interpréter des situations réelles complexes du et de faciliter la prise de décision en temps réel",
-      "question_phrase": "L'intelligence artificielle permet aux véhicules d'interpréter des situations réelles complexes du et de faciliter la prise de décision en temps réel",
-      "angle": "L'intelligence artificielle permet aux véhicules d'interpréter des situations réelles complexes du et de faciliter la prise de décision en temps réel",
-      "thumbnail_text": "L'intelligence artificielle permet aux véhicules d'interpréter des sit",
-      "demand_note": "google_news_fr | 2026-10-19T06:35:49+00:00",
+      "series_title": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
+      "topic": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
+      "question_phrase": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
+      "angle": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
+      "thumbnail_text": "L'intelligence artificielle ne supplantera pas l'analyse des situation",
+      "demand_note": "google_news_fr | 2026-10-21T10:31:26+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMirgJBVV95cUxPRnB2WTNacVJIUHA5X29LaEE2TGg4aHB1eUd0Si04Um9RVVMzdmNnR2Y2QUNoWFF0UlJXUEY0VThxLTVTRXhkOTNEOU13Qmo1ZTRETUI2OUltNV9lT0NGOVlZdzVCMTlGS0xtR19YVk9OOGtmMXpzbWF6ZGwxMDA3MEE5X1QyV05keHp6OGhpQmpzVjh4OWdNSmhuR1B4N0NvUW82QjlDUnNhQ09KOTk2Z2V1b3J3c2ZERS1TRHR4bHdPQTBlcllFR1hTSGNyUkJkOXFmX3ZZSTJnYUZHWHo0SUlQTF90NnlEcnlDN0xiS05WMGgzRVE2bnlJZVlCNUd4VkVNaWNzNEttc1pfcExtRzUzWHdDSGJrTEFLNUwtUDdNamtCdEM0aFpPZmlzUQ?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQaDIwTkdkQzVhMU1ZWFRwNy1nUk1ZazRyRjN5Z1dmMWdCaERaVXlSRnhBTDh0X3JFNVQ2YzdlLXFheXF4OHRER0VFYlp0R3BrLWZKQnBGZU9Nb3FRZlJRRDhvcVdBbzV0S2dlRWtHZ1BNOVJfZnpVbmY2NFl3TmtkZ2x6Tnctc3loQkNQWFlkdTR3SlJZYW1NTDVrbzNQTWhYbDhiU3ZENFpsRjh3?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545913+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787689+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "L’intelligence artificielle, la prévention de la fraude et la cybersécurité sont au cœur d",
-      "topic": "L’intelligence artificielle, la prévention de la fraude et la cybersécurité sont au cœur du plan Smart Banking 2026",
-      "question_phrase": "L’intelligence artificielle, la prévention de la fraude et la cybersécurité sont au cœur du plan Smart Banking 2026",
-      "angle": "L’intelligence artificielle, la prévention de la fraude et la cybersécurité sont au cœur du plan Smart Banking 2026",
-      "thumbnail_text": "L’intelligence artificielle, la prévention de la fraude et la cyberséc",
-      "demand_note": "google_news_fr | 2026-10-19T09:44:34+00:00",
+      "series_title": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé",
+      "topic": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
+      "question_phrase": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
+      "angle": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
+      "thumbnail_text": "Nvidia noue des partenariats dans l’intelligence artificielle appliqué",
+      "demand_note": "google_news_fr | 2026-10-21T10:58:27+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxQUm54RkdvNjdRa0FzbUNINVNfYTR4QmgyelhpTUpFa25rckp2TVpEUGdra3NEWV95NHpGUEFkQkN1V2Y4ODVJV0F0RFZPM3RkVlFUYkpyVlM1NXRQQWlieGFrTktLa0d2VF8yY3FEWm95WGRkbV9MVDZ6TWwwNEMwR1c0dkJUT3VrdTBvc1ZESUh6Z3lq?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOckN0b3BwRzFyZ3gtR1RlMkd3TUx0VVdWWFRsOE56Q2ljRE14QUxhdHhSQUs0LTBNSExQMk5vZ1gtN2hucndmbnNQVF9fSlNxR2xrRm5pcmg5WFNldlI3ZU9IdmEweXFzQ21fSHBWTl9laEJOaWJCSTRDQlNYN1k3cXd4Uk1SUWFCSS0xMEw0NXM1WkJCTW14Z2Q5YzFCN2VYM0l5RWthSnAxdDA3Qk9OY093Z1FSTXREWTZjaFpDY1ZBeEZuM182d25wMlJhb1J1UWpBQjcxTHh1a1ZxOVhySjVYT1hZckp5cVI4NFlsRFE?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545948+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787738+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "Ce trait de personnalité reviendrait sans cesse chez les personnes qui vivent jusqu'à 100 ",
-      "topic": "Ce trait de personnalité reviendrait sans cesse chez les personnes qui vivent jusqu'à 100 ans, selon la science",
-      "question_phrase": "Ce trait de personnalité reviendrait sans cesse chez les personnes qui vivent jusqu'à 100 ans, selon la science",
-      "angle": "Ce trait de personnalité reviendrait sans cesse chez les personnes qui vivent jusqu'à 100 ans, selon la science",
-      "thumbnail_text": "Ce trait de personnalité reviendrait sans cesse chez les personnes qui",
-      "demand_note": "futura_sciences | 2026-10-19T16:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/longevite-ce-trait-personnalite-reviendrait-cesse-chez-personnes-vivent-jusqua-100-ans-selon-science-k2m6-138628/#xtor%3DRSS-8",
+      "series_title": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificiell",
+      "topic": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
+      "question_phrase": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
+      "angle": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
+      "thumbnail_text": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’inte",
+      "demand_note": "google_news_fr | 2026-10-21T10:34:46+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOT3NvdVNLVUh6cHpNMUJzTktPUVY1a0ROM2hwZ3BaaGMxWWJiN25FN3RGWEo5NE54d0lIS09LbGJTSmJZN2ZRbFdBazcwZHhuQ2J5YV9UVnFXbnZQWTBKb2lXTl9US25rSGY5eXY0aXRxbFF1bnEwNHFxcEhVc1JfT1MxUXo1ZnpvX0VyU3hTRnZScU5CM0FmOEU1SERHZUhNZ05OVnByekQtei12d1NCYy1Ud0pOWC1KQ3RJZkhHV240NlpOTU5lMU9MOUptbG1xQkVMZHhja2tnUmNXRUw2NVFjQW5EVE5wZEE?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545977+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787768+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Odeurs de friture, de renfermé",
-      "topic": "Odeurs de friture, de renfermé",
-      "question_phrase": "Odeurs de friture, de renfermé",
-      "angle": "Odeurs de friture, de renfermé",
-      "thumbnail_text": "Odeurs de friture, de renfermé",
-      "demand_note": "futura_sciences | 2026-10-19T14:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/maison/actualites/diy-odeurs-friture-renferme-cette-astuce-grand-mere-moins-1-fait-mieux-aerosols-k2m6-138626/#xtor%3DRSS-8",
+      "series_title": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvi",
+      "topic": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
+      "question_phrase": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
+      "angle": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
+      "thumbnail_text": "F5 retenu par Telenor pour son infrastructure d’intelligence artificie",
+      "demand_note": "google_news_fr | 2026-10-21T08:04:54+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQdUxnOHFOVG9NeV93WGtiZVcySzJQai1vY0VGUy1Ld2IwRHdxbVNOYlBaUVBtNEVTQmVvZmN4VDlWZG9LNkhOaURMZUtUbkZLQU1US3dBcXJkMzdha1Z6QzRaanNVOEF6aE84cXZBQW9wNVdYdTkwN1RFZ1ZRbERDdkczNi05TEtYWkpxM0ZhSFZrLWpuMkNqaFg0S3N2aGw1cWtmckZ6MWUtSnRjZUxSdncyQWZXcW81VmVjUWt2eHVRelYxMExac21GWWlHeDFGbEhDWUVtX0NIUHV3R0pmMldXXzBxY0dpVGc?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-19T17:37:17.545994+00:00"
+      "fetched_at": "2026-10-21T16:01:19.787797+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-19T17:37:17.654211+00:00"
+  "filtered_at": "2026-10-21T16:01:19.879397+00:00"
 }

@@ -6614,5 +6614,44 @@
     "analytics_fetched_at": "2026-10-21T11:45:52.573281+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-19T22:20:05.450484+00:00"
+  },
+  {
+    "created_at": "2026-10-21T16:05:52.305618+00:00",
+    "topic": "« Pourquoi je stresse autant? »",
+    "title": "Pourquoi je stresse autant?",
+    "duration": 20.027,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "714b6e89a316f104941cc070fd495ccb4843da9fa011dbe3473ecd0068787257",
+      "265bfd18574f812a2daa60d27ddfc9a187224112589f878b175a0511ec171a7b",
+      "3a170f1b2974ea1d97cc5d22e67429b2059bbe1d32458bb4d3b4bd08c5871762",
+      "760329b50057dca9194e060f3f3794ea97734e0c8b2faad48e0f707b119cae90",
+      "54f7aea33e72c5a76b65db84606e98b887b0dc0274415f8cdbd90f5ccd83b86e",
+      "bc6c2935fe20f238e13b6de31fe65c47bc88b8b758d1cf4a97d2e36cdfd6968f",
+      "53705229d70cef82a064e7084e95ef56086f867ba2f102015f2fff8e274e2b71",
+      "3bdd8cd36d2653e6a9864fae83c37ed0655d80efd763e85f2b7a25330d374551"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "d68e87a4c92cbef61e16c22627b131d7a85d2ed5a8fb523acb5c12339dea3ef3",
+    "status": "uploaded",
+    "youtube_video_id": "4Cc-VYovP_U",
+    "url": "https://youtu.be/4Cc-VYovP_U",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
