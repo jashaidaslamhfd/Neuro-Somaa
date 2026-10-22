@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-21T16:01:19.787013+00:00",
+  "mined_at": "2026-10-22T16:07:35.524875+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-21T16:01:19.787036+00:00"
+      "fetched_at": "2026-10-22T16:07:35.524907+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787071+00:00"
+      "fetched_at": "2026-10-22T16:07:35.524951+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787088+00:00"
+      "fetched_at": "2026-10-22T16:07:35.524973+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787107+00:00"
+      "fetched_at": "2026-10-22T16:07:35.524997+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787133+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525020+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787151+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525042+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-21T16:01:19.787183+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525086+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787200+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525107+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787216+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525126+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787231+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525155+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787248+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525177+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787279+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525217+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787296+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525238+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787313+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525261+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787334+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525285+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787350+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525305+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787368+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525328+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787385+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525350+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787403+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525372+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,10 +260,101 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-21T16:01:19.787438+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525417+00:00"
     },
     {
       "series_number": "TREND-33",
+      "series_title": "Infineon, Nvidia et Microsoft soutiennent le développement de robots dotés d’intelligence ",
+      "topic": "Infineon, Nvidia et Microsoft soutiennent le développement de robots dotés d’intelligence artificielle",
+      "question_phrase": "Infineon, Nvidia et Microsoft soutiennent le développement de robots dotés d’intelligence artificielle",
+      "angle": "Infineon, Nvidia et Microsoft soutiennent le développement de robots dotés d’intelligence artificielle",
+      "thumbnail_text": "Infineon, Nvidia et Microsoft soutiennent le développement de robots d",
+      "demand_note": "google_news_fr | 2026-10-22T14:24:01+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPc1ZaeUNSd0F3ZzBMVWhoalY5THlKLVFVMjRfd09fYXlhZXJabGZCa3BYNGd5ZW9GbTRDd3dPNVlSSUZtVmx6QWJOeGpQdS10ME9MT2N6TGRrQWRNaWhxWnJpMV8tTk00U19CM2t3T2t4WHNVWklCQTNFY2xyZDZHU2xsbkVvWGRqTzhjN0duV3hfQmpoV1RCUDVwckNwLS1MS3FYZC1EWC1UZ2NFVkRncDhTWjJTWUFTejBraHhldXlLTFpBS1lvRTNNMF9PX2k0M0EyZjRqaVJWUHJvdG1aUGJDY1RhdXdVX19hcjBLQQ?oc=5",
+      "trend_score": 12,
+      "fetched_at": "2026-10-22T16:07:35.525615+00:00"
+    },
+    {
+      "series_number": "TREND-34",
+      "series_title": "Disiz très cash sur l'intelligence artificielle dans la musique",
+      "topic": "Disiz très cash sur l'intelligence artificielle dans la musique",
+      "question_phrase": "Disiz très cash sur l'intelligence artificielle dans la musique",
+      "angle": "Disiz très cash sur l'intelligence artificielle dans la musique",
+      "thumbnail_text": "Disiz très cash sur l'intelligence artificielle dans la musique",
+      "demand_note": "google_news_fr | 2026-10-22T11:18:55+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQaExEWVZZdUowTjJZakJjeTNtcEtGNVBCaFMyYlhXZ29ISFNNaGZTNFNfUU5zdjJObzZtUTJldnBaZFNRMTVkUjc2RHd3UDAyWXNvdjRaYUIxWkpwYWJZUkVVa2NuT3VvcUJ5V2JWbjUwS1pUNkR3bW94RGpZdkVnaU5nNVJrRlA5MVU1T0xCbG9ZcnRsN3ZqLQ?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525638+00:00"
+    },
+    {
+      "series_number": "TREND-35",
+      "series_title": "Après le scandale Goncourt, ce prix veut récompenser le meilleur roman IA",
+      "topic": "Après le scandale Goncourt, ce prix veut récompenser le meilleur roman IA",
+      "question_phrase": "Après le scandale Goncourt, ce prix veut récompenser le meilleur roman IA",
+      "angle": "Après le scandale Goncourt, ce prix veut récompenser le meilleur roman IA",
+      "thumbnail_text": "Après le scandale Goncourt, ce prix veut récompenser le meilleur roman",
+      "demand_note": "google_news_fr | 2026-10-22T07:38:41+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPTjNBNzBIMkY0Vmx5dVNldUlaZ0hELTlkSllCMnk2ejRVQm1VUmpkb0dId2RFUUU0WkI2VkRpcTdMVGtjcTEwWl9MeHQySjZNVTZsNy1PU01tN2E0WlBqRTBRdE50dnN2X0dhM2YxYjNuekM5UlVnRkVKRmJ2SHJlT2h2U0VuWXBpLTA3ZXduY3hRTl9WSXJweXZRZks0TlpNWlY1SnVWcEtiYjVrLTJWT1FqeFY?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525663+00:00"
+    },
+    {
+      "series_number": "TREND-36",
+      "series_title": "Tesla recule, le repli des dépenses assombrissant ses ambitions dans l’intelligence artifi",
+      "topic": "Tesla recule, le repli des dépenses assombrissant ses ambitions dans l’intelligence artificielle et la robotique",
+      "question_phrase": "Tesla recule, le repli des dépenses assombrissant ses ambitions dans l’intelligence artificielle et la robotique",
+      "angle": "Tesla recule, le repli des dépenses assombrissant ses ambitions dans l’intelligence artificielle et la robotique",
+      "thumbnail_text": "Tesla recule, le repli des dépenses assombrissant ses ambitions dans l",
+      "demand_note": "google_news_fr | 2026-10-22T12:27:01+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQMW9OSDZHWGNBU3Z1bi02ZzJ6emUzQmJjWWRfb09CaU4zQmRjRU1xUVk2YzJBb1RDZHl3ekFJVHNiLUV6ZXJFQzJXc1hDOXlTRVh1YmxDaFdjcFQxNm5pcXlvRFBBb3NZNUJWVVFqdVpGZVd4NkUzaTFIYWxaN1JIclZJX2k4c2tULVRHUnd2VXVfRlVGckxiNlVsUFp0MmJZZ09pdnVkekJDSGJSb3laQmIyU2h0ZEtRRTVxTkFwWDVBMEdxc1RISGVWdVpHUHJYdlFZUVpPVE02dDBhZS1oc1pCb2R1cjUtNzkzQWt4OA?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525702+00:00"
+    },
+    {
+      "series_number": "TREND-37",
+      "series_title": "Le Xiaomi Redmi Note 14 Pro+ met tout le monde d'accord avec cette à offre à",
+      "topic": "Le Xiaomi Redmi Note 14 Pro+ met tout le monde d'accord avec cette à offre à",
+      "question_phrase": "Le Xiaomi Redmi Note 14 Pro+ met tout le monde d'accord avec cette à offre à",
+      "angle": "Le Xiaomi Redmi Note 14 Pro+ met tout le monde d'accord avec cette à offre à",
+      "thumbnail_text": "Le Xiaomi Redmi Note 14 Pro+ met tout le monde d'accord avec cette à o",
+      "demand_note": "futura_sciences | 2026-10-22T14:00:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-xiaomi-redmi-note-14-pro-met-tout-monde-accord-cette-offre-42-amazon-11631/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525725+00:00"
+    },
+    {
+      "series_number": "TREND-38",
+      "series_title": "Avec cette remise inédite, les stocks du robot",
+      "topic": "Avec cette remise inédite, les stocks du robot",
+      "question_phrase": "Avec cette remise inédite, les stocks du robot",
+      "angle": "Avec cette remise inédite, les stocks du robot",
+      "thumbnail_text": "Avec cette remise inédite, les stocks du robot",
+      "demand_note": "futura_sciences | 2026-10-22T13:00:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-entretien-sols-cette-remise-inedite-stocks-robot-aspirateur-ilife-a30-pro-station-effondrent-aliexpress-11629/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525745+00:00"
+    },
+    {
+      "series_number": "TREND-39",
+      "series_title": "Ils ont identifié un matériau étonnant",
+      "topic": "Ils ont identifié un matériau étonnant",
+      "question_phrase": "Ils ont identifié un matériau étonnant",
+      "angle": "Ils ont identifié un matériau étonnant",
+      "thumbnail_text": "Ils ont identifié un matériau étonnant",
+      "demand_note": "futura_sciences | 2026-10-22T10:17:07+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/tech/actualites/tech-ils-ont-identifie-materiau-etonnant-prochaine-revolution-informatique-pourrait-venir-magnetisme-138537/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-10-22T16:07:35.525764+00:00"
+    },
+    {
+      "series_number": "TREND-40",
       "series_title": "« Pourquoi je stresse autant ? »",
       "topic": "« Pourquoi je stresse autant ? »",
       "question_phrase": "« Pourquoi je stresse autant ? »",
@@ -272,101 +363,10 @@
       "demand_note": "futura_sciences | 2026-10-21T03:08:04+00:00",
       "source": "futura_sciences",
       "source_url": "https://www.futura-sciences.com/sante/actualites/stress-je-stresse-autant-chercheurs-ont-repere-point-commun-chez-ceux-gardent-leur-calme-138621/#xtor%3DRSS-8",
-      "trend_score": 11,
-      "fetched_at": "2026-10-21T16:01:19.787582+00:00"
-    },
-    {
-      "series_number": "TREND-34",
-      "series_title": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
-      "topic": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
-      "question_phrase": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
-      "angle": "L'IA ne crée pas une fracture générationnelle, elle révèle une fracture de curiosité",
-      "thumbnail_text": "L'IA ne crée pas une fracture générationnelle, elle révèle une fractur",
-      "demand_note": "google_news_fr | 2026-10-21T08:08:16+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPcmhqamxoQ1ZSMG50MDdycUdNWkxWc0xiVmNHNmV2Rl9DX3pLQzBfTHlCd0hhbkZJQUFYS0JJY2w4VTQ3Z2U5YlhCV2V1OEthcFg2a1dJVnhNUlcxYTJ2aG94SUF6dUxDT2JwYWQ5RUJ0ZUhzOE14WE1MZHlEYl83U2NhTU5hSEIwcUdNWFc3cnpZdm83QnZNY1p5aTNFVW96aWtGMGJZMHdQSlZZd0Y4blFZbDk1Um5DbmM0TnJ3QTd5TEw1MG9BYXpWLVdIOFoxeExkekRRZkRsdUEtTVpaOA?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787605+00:00"
-    },
-    {
-      "series_number": "TREND-35",
-      "series_title": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds au",
-      "topic": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
-      "question_phrase": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
-      "angle": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour les poids lourds autonomes",
-      "thumbnail_text": "Einride va tester le modèle d’intelligence artificielle de Nvidia pour",
-      "demand_note": "google_news_fr | 2026-10-21T12:52:53+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQalJTTDc1czE5T0FfdTNxUnVmdGYxOUhjR3FUekhGeUlvYmVlZDdrZzRiQVhvbEZ3UXJ5RnVCZ0dmekhha1ZxVGpCd000RmpHUW5VSkt2R1JrMXQ1azgwazBGLVBqU0VKX2NvZWg2a0tMLUV6d1V0ZTJvNG5nSEhmN1dERU1wNFEtVEkzOFlpczNYdm5aTjVCelVxalMydHkyMnRka3pJdUY2R1RXTlMzNHF0ZlFhZ3Q4SEU5Rm9ub2JLd1lTUGtTMFRLa0Z3b1hWRk5RU2tMR2VKZzlWSkZmVVpjR3IweDBOZGEyZENPOA?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787636+00:00"
-    },
-    {
-      "series_number": "TREND-36",
-      "series_title": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés",
-      "topic": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
-      "question_phrase": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
-      "angle": "Bernard Mensah sur l’intelligence artificielle, les rendements obligataires et les marchés mondiaux",
-      "thumbnail_text": "Bernard Mensah sur l’intelligence artificielle, les rendements obligat",
-      "demand_note": "google_news_fr | 2026-10-21T13:03:35+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxOTlhKblRmVGgtTnBnNW1kUXkzZV9mTHNBa0tMbkxWbDJmaDJGSXAxd2NCSlFTS044d0kxUE10d1hBcEI4bmZzbF8wZElqM0c5S1lTRGo5MjhsU3hMS1J2cmFqdlg5Q1M0bmEwc1YtRlFBVVRtZ3NzVUlzQUlSaDVRa0hFUUJoZHdCX3BQOXg0dHlLNlBPVHlLNVNQXy0yaldrX0YxOXhiT1VBQlk2MExpN09nQXNweXRQMVNIY1VBcUkxNERxQ2M0NElOMmhqYUlEdEhhQXYtSW1DX0dfSll0N0lvQkxVZnJpMWV5U0NsTQ?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787667+00:00"
-    },
-    {
-      "series_number": "TREND-37",
-      "series_title": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
-      "topic": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
-      "question_phrase": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
-      "angle": "L'intelligence artificielle ne supplantera pas l'analyse des situations en travail social",
-      "thumbnail_text": "L'intelligence artificielle ne supplantera pas l'analyse des situation",
-      "demand_note": "google_news_fr | 2026-10-21T10:31:26+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQaDIwTkdkQzVhMU1ZWFRwNy1nUk1ZazRyRjN5Z1dmMWdCaERaVXlSRnhBTDh0X3JFNVQ2YzdlLXFheXF4OHRER0VFYlp0R3BrLWZKQnBGZU9Nb3FRZlJRRDhvcVdBbzV0S2dlRWtHZ1BNOVJfZnpVbmY2NFl3TmtkZ2x6Tnctc3loQkNQWFlkdTR3SlJZYW1NTDVrbzNQTWhYbDhiU3ZENFpsRjh3?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787689+00:00"
-    },
-    {
-      "series_number": "TREND-38",
-      "series_title": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé",
-      "topic": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
-      "question_phrase": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
-      "angle": "Nvidia noue des partenariats dans l’intelligence artificielle appliquée aux soins de santé et dévoile un modèle ouvert de conception de protéines",
-      "thumbnail_text": "Nvidia noue des partenariats dans l’intelligence artificielle appliqué",
-      "demand_note": "google_news_fr | 2026-10-21T10:58:27+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxOckN0b3BwRzFyZ3gtR1RlMkd3TUx0VVdWWFRsOE56Q2ljRE14QUxhdHhSQUs0LTBNSExQMk5vZ1gtN2hucndmbnNQVF9fSlNxR2xrRm5pcmg5WFNldlI3ZU9IdmEweXFzQ21fSHBWTl9laEJOaWJCSTRDQlNYN1k3cXd4Uk1SUWFCSS0xMEw0NXM1WkJCTW14Z2Q5YzFCN2VYM0l5RWthSnAxdDA3Qk9OY093Z1FSTXREWTZjaFpDY1ZBeEZuM182d25wMlJhb1J1UWpBQjcxTHh1a1ZxOVhySjVYT1hZckp5cVI4NFlsRFE?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787738+00:00"
-    },
-    {
-      "series_number": "TREND-39",
-      "series_title": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificiell",
-      "topic": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
-      "question_phrase": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
-      "angle": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’intelligence artificielle",
-      "thumbnail_text": "Nvidia lance l’architecture OpenShell pour sécuriser les agents d’inte",
-      "demand_note": "google_news_fr | 2026-10-21T10:34:46+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxOT3NvdVNLVUh6cHpNMUJzTktPUVY1a0ROM2hwZ3BaaGMxWWJiN25FN3RGWEo5NE54d0lIS09LbGJTSmJZN2ZRbFdBazcwZHhuQ2J5YV9UVnFXbnZQWTBKb2lXTl9US25rSGY5eXY0aXRxbFF1bnEwNHFxcEhVc1JfT1MxUXo1ZnpvX0VyU3hTRnZScU5CM0FmOEU1SERHZUhNZ05OVnByekQtei12d1NCYy1Ud0pOWC1KQ3RJZkhHV240NlpOTU5lMU9MOUptbG1xQkVMZHhja2tnUmNXRUw2NVFjQW5EVE5wZEE?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787768+00:00"
-    },
-    {
-      "series_number": "TREND-40",
-      "series_title": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvi",
-      "topic": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
-      "question_phrase": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
-      "angle": "F5 retenu par Telenor pour son infrastructure d’intelligence artificielle soutenue par Nvidia",
-      "thumbnail_text": "F5 retenu par Telenor pour son infrastructure d’intelligence artificie",
-      "demand_note": "google_news_fr | 2026-10-21T08:04:54+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi6gFBVV95cUxQdUxnOHFOVG9NeV93WGtiZVcySzJQai1vY0VGUy1Ld2IwRHdxbVNOYlBaUVBtNEVTQmVvZmN4VDlWZG9LNkhOaURMZUtUbkZLQU1US3dBcXJkMzdha1Z6QzRaanNVOEF6aE84cXZBQW9wNVdYdTkwN1RFZ1ZRbERDdkczNi05TEtYWkpxM0ZhSFZrLWpuMkNqaFg0S3N2aGw1cWtmckZ6MWUtSnRjZUxSdncyQWZXcW81VmVjUWt2eHVRelYxMExac21GWWlHeDFGbEhDWUVtX0NIUHV3R0pmMldXXzBxY0dpVGc?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-21T16:01:19.787797+00:00"
+      "fetched_at": "2026-10-22T16:07:35.525781+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-21T16:01:19.879397+00:00"
+  "filtered_at": "2026-10-22T16:07:35.618800+00:00"
 }

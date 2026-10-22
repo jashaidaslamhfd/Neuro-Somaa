@@ -6664,5 +6664,44 @@
     "analytics_fetched_at": "2026-10-22T11:48:59.905673+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-21T17:10:00.538951+00:00"
+  },
+  {
+    "created_at": "2026-10-22T16:09:16.986878+00:00",
+    "topic": "Pourquoi un pied s'endort tout seul peut sembler étrange",
+    "title": "Pourquoi un pied s'endort tout seul peut sembler étrange ?",
+    "duration": 20.041667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "0ac26aa38d6e923ad5372abbb029748d5066fb48f513a26b246282b3e7253584",
+      "a62fa2b6c23bcaf336b574c32f79a766156aaa2eb4e088430192251746e36bad",
+      "d556beb7c24bb0e81a5e09c21905f8d12799623e03632fea6ed03d86d67fee93",
+      "9e422de8ccdbedd7774eb26103d87c240c65f15a3c8d3cdfbdfe217474bcd176",
+      "1bff32343c64395a58deb91479b5da9b7896191c4632520bf821692385b47d1b",
+      "ff3cf008e4cc41226d72b6802b17bc143240c6a192060be80298696ba0798fd8",
+      "d2a47eee48e632e106a7e209eba049dd1d2f309d4c28f2285d58590822a62622",
+      "a0815da4c18cb5fb983763fca5f2276266b895fcc5d7e3b9eb32f79a28fba89d"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "b67249deb90507898f2dd701134e14ac91c6734321df66a0725732bf60019a2c",
+    "status": "uploaded",
+    "youtube_video_id": "W9CX98c4j_g",
+    "url": "https://youtu.be/W9CX98c4j_g",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
