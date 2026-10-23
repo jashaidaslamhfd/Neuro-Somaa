@@ -6714,5 +6714,44 @@
     "analytics_fetched_at": "2026-10-23T11:35:45.939702+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-22T17:08:37.334164+00:00"
+  },
+  {
+    "created_at": "2026-10-23T15:50:21.424300+00:00",
+    "topic": "Ce que la science explique sur le sursaut du corps en s'endormant",
+    "title": "Ce que la science explique sur le sursaut du corps en ?",
+    "duration": 20.032333,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "adef8ed05c052670ce09048cbbdf97242512b99427b5bd8939ecf70c9a402634",
+      "7ba014fbd5fb7aa8004b9f71b5d6875dfda46715e864635fa0641c6d86cccfc3",
+      "9bd5a853c40dc8ea8d61d0b02d5d0cd9a65ab7a18f0c5c94d6afddf1154263d3",
+      "17d51ab81d2b72125f8cb2d4a1f610aed839bb66b431060e56f707355d54de5e",
+      "f103a5d6185c8f83eb3ca86f08862cc196174358b41e9be4bb1fbb3ccb7bb7f6",
+      "677389097c7ceaaef325bb68b07b09e1d0c6240466dae1aa5be872761cec09ab",
+      "12a151579f6af791684c816024498344d1eebd37a9788347fac4465e559edb15",
+      "1be1a23c20f8ac21107b5f107c96e8b4a1c35cd252fd2f36db4a308f43f04d53"
+    ],
+    "visual_providers": [
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "8318c551a41944a0e3f9a7de21081adfb3cad70f231997b9c11e8d214b9b1617",
+    "status": "uploaded",
+    "youtube_video_id": "MRbpCj0WZDo",
+    "url": "https://youtu.be/MRbpCj0WZDo",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
