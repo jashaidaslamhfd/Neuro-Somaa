@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import hashlib
 import os
 import re
@@ -179,17 +180,55 @@ def _archive_clip(caption: str, path: Path) -> Path | None:
         return None
 
 
+def _gemini_image(caption: str, path: Path) -> Path | None:
+    """Generate a scene-specific image with Gemini's image model when configured."""
+    key = os.getenv("GEMINI_API_KEY")
+    if not key:
+        return None
+    prompt = (
+        "Create one photorealistic vertical 9:16 documentary-style frame for a French "
+        "science and psychology YouTube Short. Show the specific subject/action described "
+        "below, not a poster or infographic. Natural human anatomy, believable expressions, "
+        "cinematic practical lighting, clear focal subject, subtle depth of field. "
+        "No text, lettering, logos, borders or watermarks. Scene: " + caption
+    )
+    try:
+        response = requests.post(
+            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent",
+            params={"key": key},
+            json={"contents": [{"parts": [{"text": prompt}]}],
+                  "generationConfig": {"responseModalities": ["IMAGE", "TEXT"]}},
+            timeout=75,
+        )
+        response.raise_for_status()
+        payload = response.json()
+        for candidate in payload.get("candidates", []):
+            for part in candidate.get("content", {}).get("parts", []):
+                inline = part.get("inlineData") or part.get("inline_data")
+                if inline and inline.get("data"):
+                    path.write_bytes(base64.b64decode(inline["data"]))
+                    with Image.open(path) as source:
+                        frame = ImageOps.fit(source.convert("RGB"), (1080, 1920), method=Image.Resampling.LANCZOS)
+                        frame.save(path, format="JPEG", quality=91, optimize=True)
+                    return path
+    except (OSError, ValueError, requests.RequestException):
+        return None
+    return None
+
+
 def _pollinations(caption: str, path: Path) -> Path | None:
-    # Optional AI visual provider. It is used only when explicitly configured.
-    if not os.getenv("POLLINATIONS_KEY") and not os.getenv("GEMINI_API_KEY") and not os.getenv("REPLICATE_API_TOKEN"):
+    # Never mistake a Gemini/Replicate credential for a Pollinations credential.
+    if not os.getenv("POLLINATIONS_KEY"):
         return None
     prompt = quote(
-        f"vertical cinematic editorial science visual for a French audience in France, "
-        f"natural European everyday setting when humans are shown, authentic documentary photography, "
-        f"no text, no logos, no watermark, realistic skin and anatomy, clean modern lighting, "
-        f"high visual curiosity, concept: {caption}"
+        f"photorealistic vertical 9:16 documentary science visual, natural human "
+        f"expressions and anatomy, no text, no logos, no watermark, scene: {caption}"
     )
-    return _save_image(f"https://image.pollinations.ai/prompt/{prompt}?width=1080&height=1920&nologo=true", path)
+    key = quote(os.getenv("POLLINATIONS_KEY", ""))
+    return _save_image(
+        f"https://image.pollinations.ai/prompt/{prompt}?width=1080&height=1920&nologo=true&key={key}",
+        path,
+    )
 
 
 _FR_SCIENCE_MAP = {
@@ -312,21 +351,17 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
                 search_term = term
                 break
 
-        search_caption = (
-            f"{search_term} {semantic_text[:120]} {variations[variation_index]} "
-            "realistic documentary footage vertical, natural European setting"
-        )
+        # Short concrete queries outperform long captions in stock search APIs.
+        search_caption = f"{search_term} {variations[variation_index]}"
 
-        # AI-first when an AI visual credential is available. This is important
-        # for Neuro-Somaa's cinematic identity: stock is the resilience fallback,
-        # not the primary visual style. A failed/rate-limited AI request simply
-        # falls through to licensed stock providers.
-        ai_visual = _pollinations(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
+        # A Gemini key must invoke Gemini itself, not silently use another provider.
+        ai_visual = _gemini_image(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
         if ai_visual:
             clip_h = hashlib.sha256(ai_visual.read_bytes()).hexdigest()
             if not used_hashes or clip_h not in used_hashes:
-                return ai_visual, "ai_editorial"
+                return ai_visual, "gemini_image"
 
+        # Prefer moving footage when available; keep each query tied to the scene.
         for provider in (_pexels_clip, _pixabay_clip, _coverr_clip, _commons_clip, _archive_clip):
             visual = provider(search_caption, clip_path)
             if visual:
@@ -334,6 +369,13 @@ def fetch_visual(caption: str, scene_index: int, output_dir: Path, settings: Set
                 if used_hashes and clip_h in used_hashes:
                     continue
                 return visual, provider.__name__.lstrip("_")
+
+        # Secondary AI image provider, only when its own integration is configured.
+        ai_visual = _pollinations(semantic_text, output_dir / f"scene_{scene_index:02d}_ai.jpg")
+        if ai_visual:
+            clip_h = hashlib.sha256(ai_visual.read_bytes()).hexdigest()
+            if not used_hashes or clip_h not in used_hashes:
+                return ai_visual, "pollinations_image"
 
     motion_clip = _procedural_motion_clip(scene_index, clip_path, caption=f"{caption}:{scene_index}")
     return motion_clip, "procedural_motion"
