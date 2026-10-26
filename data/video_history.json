@@ -6764,5 +6764,44 @@
     "analytics_fetched_at": "2026-10-26T12:57:55.694554+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-23T17:04:48.361611+00:00"
+  },
+  {
+    "created_at": "2026-10-26T17:31:49.237289+00:00",
+    "topic": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
+    "title": "Pourquoi ton cerveau Attention, les serpents se réfugient ?",
+    "duration": 20.013667,
+    "hook_score": 100,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "c2fe900a2416f423f8ec339e35ba4996147bb984ed228187cdd5b93de386901d",
+      "921308a90e28e97558480faefecda748f80f2411b8c2505e97b9b646d5f901bc",
+      "f320b9f455f97f33b23e97232dbb82e6bd86b9fe29e87e411d83b4b76d873cdd",
+      "334e80336df45450ec6bc252a26818c00a7a5faf02cf74baa1fe132567a2edde",
+      "5d3873102db05e978f7b209446d661b351f8170e05b135ccd0818788b6a10ba5",
+      "c7c4b60f358b862455b91cf9cd4ebdf0eb5ed89a19578349d12774c1f1291798",
+      "6c447bfcd8f12ac4d206e61ffc64b6383b6eff6b095bae4b62b6bd2d99dfad3c",
+      "f9578eb6ab9660c6e69b05e3b9b78ac119430806c31fb90683fd9885184d9f3d"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "403eb75d562a35a20d63c7784930c8b6f76b50d815ad511854bb0171335fed09",
+    "status": "uploaded",
+    "youtube_video_id": "IaOhj2O22Kc",
+    "url": "https://youtu.be/IaOhj2O22Kc",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
