@@ -6853,5 +6853,44 @@
     "thumbnail_status": "uploaded",
     "facebook_success": false,
     "facebook_note": "Dry run, render only, or Meta credentials not configured"
+  },
+  {
+    "created_at": "2026-10-28T19:48:42.578059+00:00",
+    "topic": "Dites adieu aux nuits blanches! Voici nos 3 conseils infaillibles pour retrouver votre sommeil",
+    "title": "Dites adieu aux nuits blanches! Voici nos 3 conseils ?",
+    "duration": 23.021667,
+    "hook_score": 90,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "ef1eb4a727b28cdae5b046e2bf89d9fe1286425de08fb1f19c13da7429a13469",
+      "a3273e23538e23bf1afb11d1fe317f8a6b63170ef74f2eebc2c0b34a2cda9e19",
+      "3ff3361b7091fcae8eb432bf382e766ed6d9d933219aa762d45dbaab8246e9aa",
+      "70c99beacfa12bf4d1eb677deb33a02454c6382747fc0d26ec967444ede9975f",
+      "cf795594c5b0087dc3f6fe54138347ff4a62cdad93c4a1d0a57b0eeef47c7c86",
+      "452ef00e06ac440f81041d2a1d78767cffe257c34b1ceeff8c7c3b5e5737abfd",
+      "475e18bd0a3fbeeb59b69effa75ad79b595f3262453a1377d77bb85214a1d379",
+      "394585e37a1c4fac32ef8e92da0bc52790966874686db748b579e548b7aa055d"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "9cbfa1a2f516f2ea313c5ba7ffd4b6b7e4bc699e5aef6f6dd637cd698b1c7ef1",
+    "status": "uploaded",
+    "youtube_video_id": "YKBQTXm_LRU",
+    "url": "https://youtu.be/YKBQTXm_LRU",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

@@ -895,10 +895,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/bjB0-JLYgIo",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 70,
+      "timestamp": "2026-10-28T19:48:50.013815+00:00",
+      "title": "Dites adieu aux nuits blanches! Voici nos 3 conseils ?",
+      "topic": "Dites adieu aux nuits blanches! Voici nos 3 conseils infaillibles pour retrouver votre sommeil",
+      "duration": 23.021667,
+      "hook_score": 90,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/YKBQTXm_LRU",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 69,
-  "last_cycle_at": "2026-10-28T17:15:55.059043+00:00",
+  "total_cycles": 70,
+  "last_cycle_at": "2026-10-28T19:48:50.013842+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
