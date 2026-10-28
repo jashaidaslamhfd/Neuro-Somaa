@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-10-28T17:15:50.727302+00:00",
+  "topic": "600 millions d'euros de profit par jour... Le géant de la mémoire SK Hynix dément toute crise dans l'IA",
+  "title": "Pourquoi ton cerveau 600 millions d'euros de profit par ?",
+  "duration": 20.013667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "27047fbcbdf450b1f74b5b1f79e63567207607aedb642d8ae39c2bafb8efd17c",
+    "9ea3c8c9c1a1c4b89bf11279578242acf99a9f0d7bf86cb1134630bbf17ffa87",
+    "20c4e5aeac32cd9fd87ddb5e4ee6256e93722f8cf43b7378ce67bf84a52cede9",
+    "f73e63c929ae70a3584a65c73b2d74951b3f53ef0b22583358aaefe961aaddd4",
+    "349da6f99f3883046364c3cc20b09067ecd119870f87f08cc437fb2fa3fe9fa9",
+    "aa67970cc95bfcafa96f667bced8c2d0d2c74116a5cc24c22fe23e21901112d7",
+    "7d7ca47ef8f02c37664db0bd44acdacc87618111a4fd9f7e457e54641f7dbddb",
+    "c44bb258d43162ca620b988b01ad40af5b8da4f6537f1505d4a73656713d82ae"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "pexels_clip",
+    "pexels_clip",
+    "pexels_clip"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "03c68ad46d8458ee00aa9453a685310762b4e7b120e9a0d8e1b1c8000f7d1ea3",
+  "status": "uploaded",
+  "youtube_video_id": "bjB0-JLYgIo",
+  "url": "https://youtu.be/bjB0-JLYgIo",
+  "thumbnail_status": "uploaded"
+}

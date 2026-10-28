@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-10-26T17:30:22.561686+00:00",
+  "mined_at": "2026-10-28T17:14:28.041464+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-10-26T17:30:22.561709+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041493+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561740+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041538+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561757+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041560+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561774+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041584+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561790+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041608+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561806+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041629+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-10-26T17:30:22.561836+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041672+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561851+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041693+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561864+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041713+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561878+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041733+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561893+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041755+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561920+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041793+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561935+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041815+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561951+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041838+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561968+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041863+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.561983+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041884+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.562000+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041907+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.562015+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041930+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.562031+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041953+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-10-26T17:30:22.562062+00:00"
+      "fetched_at": "2026-10-28T17:14:28.041997+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Léonie Schröder, l’alliance de l’intelligence artificielle et santé de la peau",
-      "topic": "Léonie Schröder, l’alliance de l’intelligence artificielle et santé de la peau",
-      "question_phrase": "Léonie Schröder, l’alliance de l’intelligence artificielle et santé de la peau",
-      "angle": "Léonie Schröder, l’alliance de l’intelligence artificielle et santé de la peau",
-      "thumbnail_text": "Léonie Schröder, l’alliance de l’intelligence artificielle et santé de",
-      "demand_note": "google_news_fr | 2026-10-26T15:41:02+00:00",
+      "series_title": "Remplacer des stagiaires par l’intelligence artificielle ? 'Un mauvais calcul', estime Flo",
+      "topic": "Remplacer des stagiaires par l’intelligence artificielle ? 'Un mauvais calcul', estime Florence Loumaye de Student.be",
+      "question_phrase": "Remplacer des stagiaires par l’intelligence artificielle ? 'Un mauvais calcul', estime Florence Loumaye de Student.be",
+      "angle": "Remplacer des stagiaires par l’intelligence artificielle ? 'Un mauvais calcul', estime Florence Loumaye de Student.be",
+      "thumbnail_text": "Remplacer des stagiaires par l’intelligence artificielle ? 'Un mauvais",
+      "demand_note": "google_news_fr | 2026-10-28T08:27:47+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPOHYxTkcwam1lN21FTlRoNGRlam1RWk9UV2lqc2laVE5ZZ3h4N0dmMU92VXFLUXVlLXVNd0tkb3NpMFhCdlRXZmdpYUZENm91V3ZvX3pZWFBQSDhPS2k2aXNjaXpMR1dnLUZYNGVCa2hPenBQZ0drY0w0OEJEUTVoeGdCdG9XcjNxWWd5a3pVdjVqQVI3c1doRTBraHl2N3NEWG1kTW5MWEF2RGZ0MXJuMFplYzVYbTFWck9RYQ?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562198+00:00"
+      "source_url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNclNCZFAzWFdrelA0T1drNmotZmxMcjJGN1ZYZWJlWEhORlV5d2RWdE1KbU9LRjV5dzI5ZF9sSE9YeVh1TWZTNUNWVmhyWjhlYk5ITDlfWXU4QTd6VFhJU0JDeGI4NUo0MEEtVUpVZ2R6ZV9rQzRwRHhyOUx5TVM3M0pRSlFaN0V6S1lIbmM4SWVZdXhmUVJnTGpDWVpkZUtqbzdIZF94UUEzWkh6U0ZSSUhCTHNRTmJ1VUx6NS1UOXdJcjJJdGkzbkdDRjExWjhYQWt6eWZWS3owYXRodmswU0dvdw?oc=5",
+      "trend_score": 11,
+      "fetched_at": "2026-10-28T17:14:28.042221+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Oracle dévoile une architecture d’intelligence artificielle pour intégrer la sécurité et l",
-      "topic": "Oracle dévoile une architecture d’intelligence artificielle pour intégrer la sécurité et la confiance dans les systèmes d’entreprise",
-      "question_phrase": "Oracle dévoile une architecture d’intelligence artificielle pour intégrer la sécurité et la confiance dans les systèmes d’entreprise",
-      "angle": "Oracle dévoile une architecture d’intelligence artificielle pour intégrer la sécurité et la confiance dans les systèmes d’entreprise",
-      "thumbnail_text": "Oracle dévoile une architecture d’intelligence artificielle pour intég",
-      "demand_note": "google_news_fr | 2026-10-26T12:41:32+00:00",
+      "series_title": "L'Australie veut bannir \"l'intimité émotionnelle\" avec l'intelligence artificielle pour pr",
+      "topic": "L'Australie veut bannir \"l'intimité émotionnelle\" avec l'intelligence artificielle pour préserver les plus fragiles",
+      "question_phrase": "L'Australie veut bannir \"l'intimité émotionnelle\" avec l'intelligence artificielle pour préserver les plus fragiles",
+      "angle": "L'Australie veut bannir \"l'intimité émotionnelle\" avec l'intelligence artificielle pour préserver les plus fragiles",
+      "thumbnail_text": "L'Australie veut bannir \"l'intimité émotionnelle\" avec l'intelligence ",
+      "demand_note": "google_news_fr | 2026-10-28T14:25:38+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi8AFBVV95cUxNTmg3Q1RJWHFlTEdUZmYxTDdKN2QxLTlvWGRCSGx0dE1hR2RvV1pLdjQ2U0cyemkzZkdsczVFaGFCSUhVRGZzXzJfak1weGozRzk4X1FGWC1VZjhIS05DTEYzLWRhck52NmtLeFBaSFVocmtfaHMzdXphUEx0LVRiUWxmYVFjMjNVQmhFR3RSaXBqY3RtY3B3YklkUTBNdFRzU2tBY2NmeHRLX0tfekZxRHNTbWhTSVE3cWtVTlA4N2VrSWFXMncteE5QOGFtX2tCSGszb2RzYXF5a1dhR0hPZ0xTSE1YYkptek5IaXlNc2Q?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiggNBVV95cUxPZ293bUJCWnEwMk0wS0VXcE1UTDc4cDlSbmY4SFRjNm91aDdWQ0NTcmk0MWJMVWxhM0tpcFJKaVVjZ1lleFNoSzRNZzh0VTFFcDdTTEx0ZXlBM05ON1FyX0o3aUJaVXBCa3JqOUtaWTVKXzU1TC0yTEVHVG5NZE4ydkhmT2JXNUNmOVhyVjAzWUxLYU44dEo5VnphSGMyN2x1Y0RVNVFSbndFcUdDY3QtdXZZcW9tUjQ4MzBMcUtRVzVSRzRGVUJPejdZWFV0Vk1IakRaTV92SDBfMDA4bkQxRE9EN05scmNMNDUzVE9hU0pLYnhaU3lmUHQ1MG1ncW5XVzhKbzZWdXRsdlBleFJhb0VqaXl4MF9iay11bEFIbXNPNmlqVnpNc0NtdVhBdWRNV25QRkIwWjVmdk5tSnM5NEo4V3FtMXJJRE9mRk4tWUJmelFJZjhQOHFnMElvd3BCeDNITWRiTTZDRC1BVFoyOTdGdExIVVAtQzRUMExfUkpWQQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562230+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042255+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "L’intelligence artificielle ramène à quelques minutes certaines décisions de crédit aux en",
-      "topic": "L’intelligence artificielle ramène à quelques minutes certaines décisions de crédit aux entreprises de Deutsche Bank",
-      "question_phrase": "L’intelligence artificielle ramène à quelques minutes certaines décisions de crédit aux entreprises de Deutsche Bank",
-      "angle": "L’intelligence artificielle ramène à quelques minutes certaines décisions de crédit aux entreprises de Deutsche Bank",
-      "thumbnail_text": "L’intelligence artificielle ramène à quelques minutes certaines décisi",
-      "demand_note": "google_news_fr | 2026-10-26T11:24:12+00:00",
+      "series_title": "600 millions d'euros de profit par jour... Le géant de la mémoire SK Hynix dément toute cr",
+      "topic": "600 millions d'euros de profit par jour... Le géant de la mémoire SK Hynix dément toute crise dans l'IA",
+      "question_phrase": "600 millions d'euros de profit par jour... Le géant de la mémoire SK Hynix dément toute crise dans l'IA",
+      "angle": "600 millions d'euros de profit par jour... Le géant de la mémoire SK Hynix dément toute crise dans l'IA",
+      "thumbnail_text": "600 millions d'euros de profit par jour... Le géant de la mémoire SK H",
+      "demand_note": "google_news_fr | 2026-10-28T06:33:44+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNSFRQbGlmWGw2ZHRNZFZpVElqOFltM1RyTXVFa1ZnTnM2ejJjQmJ0RldkY3hDc3dBVjNIaHVJWVhvZ0dmTWdYZ01valZoLWZ2bkd5d19ZX25DclZXQXNmU25lWjR6TFJobzg5TzdydWk4QTQxeV9UU2U1SEtrNzh4cXJ2alJVODRVMWVVdFJEM0JJeTRrSGlyT0FwN2dSSWhhUThDTWttY1B5dWRlZllmVE5Gd2dGQnVKakJ0MDd0d1poSlNfWmw0bmcyM1J6SDRNMWdzRVZEWE80cUpsWnVMMVpTQ3FreE9BYklzQ2JR?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiigJBVV95cUxNODBzTjZiOHJsS2xSUEtUMzZLV0dBZ2E3OXlaQVMyYmlkeUhIVHBrcTNOSEdna0ROTTk2N2VTZ2dKckVoM2xKVkdXT2l1ZjZTLWQ4LS1kY25tSTd1UFVsTkZYUHZsRVZERG5WZVAwaWhMS3NZbzRBUjRpdzFIaEpzcUFzbUNrZTRGakowc0NvSF85Yy1mSFRaUUROdXZyV0dadFFsUkNsTWNHeDR5SmIxVFBWWGduT1daQ19BMkVFcGw0cDRrbHZTTVk0b2U4NnFvdWthWXY4bDdocmNNRkFOOHltczRIeUJEYkY0RUh2RVRURlFYdjVuWnFscDNHVjJHX3VuaUdOb0hXUQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562259+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042285+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "L'ère de l'efficience de l'IA replace les données au cœur de la création de valeur",
-      "topic": "L'ère de l'efficience de l'IA replace les données au cœur de la création de valeur",
-      "question_phrase": "L'ère de l'efficience de l'IA replace les données au cœur de la création de valeur",
-      "angle": "L'ère de l'efficience de l'IA replace les données au cœur de la création de valeur",
-      "thumbnail_text": "L'ère de l'efficience de l'IA replace les données au cœur de la créati",
-      "demand_note": "google_news_fr | 2026-10-26T09:56:41+00:00",
+      "series_title": "Une IA vient bousculer notre vision des pires catastrophes de l'histoire de la Terre",
+      "topic": "Une IA vient bousculer notre vision des pires catastrophes de l'histoire de la Terre",
+      "question_phrase": "Une IA vient bousculer notre vision des pires catastrophes de l'histoire de la Terre",
+      "angle": "Une IA vient bousculer notre vision des pires catastrophes de l'histoire de la Terre",
+      "thumbnail_text": "Une IA vient bousculer notre vision des pires catastrophes de l'histoi",
+      "demand_note": "google_news_fr | 2026-10-28T10:55:03+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi4AFBVV95cUxPanlCQ1U2aFY4bWJtUEUyMlB4d3lMRnpxMmx3a1dtU3pGSDdwaVQ4LVZmaHdYM1V0VFhZSEJqTHYxMG5RM3FvYzVxdUxwODlTNVA4eHRPcUNMcjlQYjBnNmszRWRJTG1qYmZVSVZaYlVLS0k4OXlEaElMcllQM29nemM0NGxRLW4tS3dSeWNlWUdmMEVaZXFIT2ZobU9sdUVxSUlabkMxZ3RpM2pxR1pwTmV1REk1UFRLOFlvWDhseVV1cUNYTmd2ZHBWbzZSZ0hGckJLRUZOZ19lWUdMNjdRZQ?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQb28zTWd4UFQyVVNrSURyOEduU0xONkE2SnNzRXN1bTY0SW11SVdNR3BBblNOWFpyUjAwemdHR1ZNRmVHMHhEc19TajBDdkg2WGVzMlVjY1pTcVRicEYtd0piZ3QtM1RKTVZvbkdiVTZweWNwREFUNzY5aUQyZi1mdXZJaUVRUFp0NHF0OFFMM3F5TndzZldBTG9xYzNWMFJUZjM2N0JvRE9sRWZTcHR1OdIBtgFBVV95cUxQdmM3dVZTd200enk2MUZCbUdFRktpUUNjbUlyOWdsZ3E4cWVweERrRl91Q2w5dHFKNE42T2xvWG5oUmhMZi1rTmVYUkNhWnM0WmVxTzRJUWFzczJSZkZwSVJ4Tkt5SFkzb2lvSDQ1SXNkUFBwel9JVUhRTFJuSW1Pd3RqZDhERWZ5TGdWQXJhVDdITnpYOHc5d2IwRlFUdk5hbk1oVC1CVF96NFVOcG45UHZOdWdFdw?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562281+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042329+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "Le tueur du Zodiaque démasqué par l’intelligence artificielle",
-      "topic": "Le tueur du Zodiaque démasqué par l’intelligence artificielle",
-      "question_phrase": "Le tueur du Zodiaque démasqué par l’intelligence artificielle",
-      "angle": "Le tueur du Zodiaque démasqué par l’intelligence artificielle",
-      "thumbnail_text": "Le tueur du Zodiaque démasqué par l’intelligence artificielle",
-      "demand_note": "google_news_fr | 2026-10-26T05:07:29+00:00",
+      "series_title": "Les marchés actions mondiaux soutenus par l’intelligence artificielle avant 48 heures char",
+      "topic": "Les marchés actions mondiaux soutenus par l’intelligence artificielle avant 48 heures chargées",
+      "question_phrase": "Les marchés actions mondiaux soutenus par l’intelligence artificielle avant 48 heures chargées",
+      "angle": "Les marchés actions mondiaux soutenus par l’intelligence artificielle avant 48 heures chargées",
+      "thumbnail_text": "Les marchés actions mondiaux soutenus par l’intelligence artificielle ",
+      "demand_note": "google_news_fr | 2026-10-28T05:21:47+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOTURXSGxzTS1EMmgtRG9DR0ZqU2Z6YzlOQVpJUGZDTjNYbUo2azdjT21SdzQyX0l5N2dIYm5ZWko3Q3cxNEVPUUY3clppQi02MVlVOTcyVGg5b0FnODNvR0xkRlNwWVpHSkZrdXNkd0pmbG9JWndnRjlSTnNSb0FnOXVaNWpTRUo1T2w1dlZjMA?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxQUFhLZ3lKNFkwTnhqQk5DeEpDMU5zMVBZa3V6aXh6TEh6NHRmRlNnNU4wNFdzZzl4ZWgxbUg2R2J1TkxzakJXYjRWUGFKSmZ2WjVObVJoYjFFOHZUd21aOWNBTkhvQXRlOHBEZk5Bb3VsN2U5MTc1WnV1X0drTXZmcXRGck1mZVJ6dFlfWndXM3FXalFfTWZiYnlXYjJBNXM0M2MxZlRqcl9vLXFvWGhhelN0eEphNV9EejF6a0JwYTFjTTlyNEpGT1BPa1pUTEN5WnB4M1dud3J3LVBNUjRNQWd3Y1NjYW9iWG9WdQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562300+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042368+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Le cimetière numérique de l’intelligence artificielle dévoile ses nombreux échecs",
-      "topic": "Le cimetière numérique de l’intelligence artificielle dévoile ses nombreux échecs",
-      "question_phrase": "Le cimetière numérique de l’intelligence artificielle dévoile ses nombreux échecs",
-      "angle": "Le cimetière numérique de l’intelligence artificielle dévoile ses nombreux échecs",
-      "thumbnail_text": "Le cimetière numérique de l’intelligence artificielle dévoile ses nomb",
-      "demand_note": "google_news_fr | 2026-10-26T10:30:34+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPanppSWRLUlpLTEtNczNRbkI1S3FIY24yX1h0emJEdnhybGV4TXdRWjdUQTdlWndrRFRfWWk1VjZ3YjVjbXpqTnhCa2RQN3FNUlRnOWNxQ3JuVjhOWDJZWGY2UlZTTUt0SUFISFZLRlMzYXJ0N3BlTThCV19WVFM5YnRicEtib01qNEs0bHBpMWxjQURSX3dYZjNMLW5UWlZHZlIzRUZjNmZfUQ?oc=5",
+      "series_title": "Le Pentagone et la DIA dévoilent des détails jusqu'ici invisibles du mystérieux avion spat",
+      "topic": "Le Pentagone et la DIA dévoilent des détails jusqu'ici invisibles du mystérieux avion spatial de la Chine, le « dragon divin »",
+      "question_phrase": "Le Pentagone et la DIA dévoilent des détails jusqu'ici invisibles du mystérieux avion spatial de la Chine, le « dragon divin »",
+      "angle": "Le Pentagone et la DIA dévoilent des détails jusqu'ici invisibles du mystérieux avion spatial de la Chine, le « dragon divin »",
+      "thumbnail_text": "Le Pentagone et la DIA dévoilent des détails jusqu'ici invisibles du m",
+      "demand_note": "futura_sciences | 2026-10-28T10:41:51+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sciences/actualites/astronautique-pentagone-dia-devoilent-details-jusquici-invisibles-mysterieux-avion-spatial-chine-dragon-divin-138890/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562324+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042404+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "Ils voient les mêmes humains miniatures par dizaines après avoir mangé des champignons",
-      "topic": "Ils voient les mêmes humains miniatures par dizaines après avoir mangé des champignons",
-      "question_phrase": "Ils voient les mêmes humains miniatures par dizaines après avoir mangé des champignons",
-      "angle": "Ils voient les mêmes humains miniatures par dizaines après avoir mangé des champignons",
-      "thumbnail_text": "Ils voient les mêmes humains miniatures par dizaines après avoir mangé",
-      "demand_note": "futura_sciences | 2026-10-26T17:28:53+00:00",
+      "series_title": "Dites adieu aux nuits blanches ! Voici nos 3 conseils infaillibles pour retrouver votre so",
+      "topic": "Dites adieu aux nuits blanches ! Voici nos 3 conseils infaillibles pour retrouver votre sommeil",
+      "question_phrase": "Dites adieu aux nuits blanches ! Voici nos 3 conseils infaillibles pour retrouver votre sommeil",
+      "angle": "Dites adieu aux nuits blanches ! Voici nos 3 conseils infaillibles pour retrouver votre sommeil",
+      "thumbnail_text": "Dites adieu aux nuits blanches ! Voici nos 3 conseils infaillibles pou",
+      "demand_note": "futura_sciences | 2026-10-28T09:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/drogues-hallucinogenes-ils-voient-memes-humains-miniatures-dizaines-apres-avoir-mange-champignons-chercheurs-ont-mene-enquete-138852/#xtor%3DRSS-8",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/sommeil-dites-adieu-nuits-blanches-voici-nos-3-conseils-infaillibles-retrouver-votre-sommeil-k2m6-138845/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562342+00:00"
+      "fetched_at": "2026-10-28T17:14:28.042438+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
-      "topic": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
-      "question_phrase": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
-      "angle": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
-      "thumbnail_text": "Attention, les serpents se réfugient chez vous à cause de cet objet…",
-      "demand_note": "futura_sciences | 2026-10-26T17:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/planete/actualites/serpent-attention-serpents-refugient-chez-vous-cause-cet-objet-k2m6-138833/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-10-26T17:30:22.562363+00:00"
+      "series_title": "Un nouveau prix littéraire récompensera une œuvre créée à l’aide de l’intelligence artific",
+      "topic": "Un nouveau prix littéraire récompensera une œuvre créée à l’aide de l’intelligence artificielle",
+      "question_phrase": "Un nouveau prix littéraire récompensera une œuvre créée à l’aide de l’intelligence artificielle",
+      "angle": "Un nouveau prix littéraire récompensera une œuvre créée à l’aide de l’intelligence artificielle",
+      "thumbnail_text": "Un nouveau prix littéraire récompensera une œuvre créée à l’aide de l’",
+      "demand_note": "google_news_fr | 2026-10-27T15:00:11+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi_wJBVV95cUxNMWRNUzY5ZXJWUXBPaDVLMUdFNmlRaElKa1hzNE0xTjQwVEVVeWExOFdONTk0RUdxWWJScksxSWJMUnFFd3VZUHlqU3lUSkFPdFI1cUpZMXpLVnVTekotU1h0ZjRfR0F4QzRSeVBReTRXemd4MEl6ZjdhcGlOQl9tWlRlLW5DMjBGbUMxYkJmeEZTZWQ0bk5Rd2tYbnNQVVg0N05nNklhMjRlaGZ3YWtrUE1FLVJqV2lMaGhGUFRnTzhXX1hyX3ZMbjF6MGJfOWY1Sk03OHoyckJpQUlrTjM5dGU3c0dXQkw2NkIwYTh2MVNVaVlZWGlDSHU2UTFuWmhKb3VucS1KZFYxekROT1hKVjE1QVYzQ1N3bUVCZHF4YVdYQmNiOGFzYm5jcWFtdVN3OHNITVhGVW81UUVoTzljTXhBNFE3Z0dad2VfbTNYbnFTM0RWbVViTVJYN0h3Wkh6dHA3cjNYZTlvcGxaUlZqc2t4RlBoVWRobDMwQlBkOA?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-10-28T17:14:28.042478+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-10-26T17:30:22.649626+00:00"
+  "filtered_at": "2026-10-28T17:14:28.141537+00:00"
 }
