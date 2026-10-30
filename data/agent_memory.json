@@ -907,10 +907,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/YKBQTXm_LRU",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 71,
+      "timestamp": "2026-10-30T17:06:26.263288+00:00",
+      "title": "L’IA pour décortiquer des comportements humains ?",
+      "topic": "L’IA pour décortiquer des comportements humains",
+      "duration": 20.041667,
+      "hook_score": 95,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/P69JKNCpG5A",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 70,
-  "last_cycle_at": "2026-10-28T19:48:50.013842+00:00",
+  "total_cycles": 71,
+  "last_cycle_at": "2026-10-30T17:06:26.263319+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

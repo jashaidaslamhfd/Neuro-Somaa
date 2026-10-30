@@ -6914,5 +6914,44 @@
     "analytics_fetched_at": "2026-10-30T12:51:29.166855+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-10-28T22:33:20.679852+00:00"
+  },
+  {
+    "created_at": "2026-10-30T17:06:19.643515+00:00",
+    "topic": "L’IA pour décortiquer des comportements humains",
+    "title": "L’IA pour décortiquer des comportements humains ?",
+    "duration": 20.041667,
+    "hook_score": 95,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "095b7a70f173582b64ef167d3accf5b4ca3e6fa74e53cbdb1478d470e1a6ca62",
+      "7520d65fe2c6afdcde94c9876208e8289a50b17f3314bad437578b0e7b4f3f1f",
+      "d759c69c3ffe4f047210d726b88130e433994a804baffba35876cb055cc042cb",
+      "ddc01dfa418c646ba1ec79b623b756ac14884262ee4e96234b272833a06591c3",
+      "a0f666482933007d39709d0569fb15416da69dbdcda792265eb5f38484725465",
+      "cb0608db44b8598bd5d732d60218fbe991312097f0ae74eaca917fbcefe26c3a",
+      "2102b5608b1db21e4d43ff42a115cdac6ce7057abd28502212846acba40bd72a",
+      "adc81006e102c18b2e401c858aa5e01bf75a838529902e4d5caecee2bd292dfa"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "166e2fdcf273153ee83eca61d4bab0c94211c6c29d931d4bf3d6f39154678d17",
+    "status": "uploaded",
+    "youtube_video_id": "P69JKNCpG5A",
+    "url": "https://youtu.be/P69JKNCpG5A",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]
