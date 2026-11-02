@@ -919,10 +919,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/P69JKNCpG5A",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 72,
+      "timestamp": "2026-11-02T20:52:23.158518+00:00",
+      "title": "Pourquoi le cerveau continue ?",
+      "topic": "Pourquoi le cerveau continue",
+      "duration": 20.017667,
+      "hook_score": 100,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/BGTBBc0JMDk",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 71,
-  "last_cycle_at": "2026-10-30T17:06:26.263319+00:00",
+  "total_cycles": 72,
+  "last_cycle_at": "2026-11-02T20:52:23.158557+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

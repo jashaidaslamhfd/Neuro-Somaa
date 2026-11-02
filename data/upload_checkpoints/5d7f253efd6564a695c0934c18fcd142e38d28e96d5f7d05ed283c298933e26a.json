@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-11-02T20:52:15.681091+00:00",
+  "topic": "Pourquoi le cerveau continue",
+  "title": "Pourquoi le cerveau continue ?",
+  "duration": 20.017667,
+  "hook_score": 100,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "c6318a69c9467ab1e1ba957e5db2829c81555a21b292c6955dfd7b1023388ee0",
+    "bbf599507c11c1a081faa517c8b8e203eb0c86ec05f9fb2f9b477eab3092470f",
+    "583bc6e9c5ffad7dcd4decb3a8a0ed55c830e7737f0935a76279800e5b1a7d7a",
+    "bcb98983868bb638bde688a8012c62a58916ba93f72b21fa88b4c8051296b39d",
+    "49268e8bae378f26c2f55e33a7a8bcf47717f7cad19358f93c5429bca652723e",
+    "9096e34df21b3bdb7a42c62ff3fa34feb9f46fa6be7a24197937e82ea543efcd",
+    "dd757fd43d511121a0a2523f908b6f166a2bd7868f59fab1613f03d0cbd09472",
+    "5f63ccdcf91e8a8771d918d1b73aea5c1f0636eaae0dda794cbc63cdbd41a055"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "5d7f253efd6564a695c0934c18fcd142e38d28e96d5f7d05ed283c298933e26a",
+  "status": "uploaded",
+  "youtube_video_id": "BGTBBc0JMDk",
+  "url": "https://youtu.be/BGTBBc0JMDk",
+  "thumbnail_status": "uploaded"
+}
