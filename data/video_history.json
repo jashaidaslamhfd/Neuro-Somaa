@@ -7014,5 +7014,44 @@
     "analytics_fetched_at": "2026-11-03T14:09:18.406354+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-11-03T00:56:17.630186+00:00"
+  },
+  {
+    "created_at": "2026-11-03T18:34:39.492723+00:00",
+    "topic": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
+    "title": "Aisin et l’université de Tohoku développent une puce ?",
+    "duration": 20.023,
+    "hook_score": 90,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "d14708838fc469f26d52142dbe6e0c4f9a6ef79ce06367f0ba69bb171a5c8921",
+      "696087a49bc21a9fbcd7506cd73f508cec4f55b615bbfe764cf00f41643316b3",
+      "96e0b8db038f616a213ba4f66b233d9c207e0cc287c3d88ef0527a00dca75714",
+      "113d89db4337179b8e31b188c5f0c0d3023ae3e7a7a1be6b4bf24d8421480f72",
+      "7ac7b7b88d0a86842175bb39ba5e9b42096e09d36ec42937778db082997db417",
+      "34c701ea0bf4be786b8a2c9dad19d57a048c2c7e444347911e3f56cac33e5904",
+      "387b91ade3fca72dbe77c9046f6f32393dcf904ed0af58a71213d6a981d3c9a9",
+      "f5da3eae3aac08f5d34df819f2982b1acb59481fb2ff4348c85d8e56cc515180"
+    ],
+    "visual_providers": [
+      "ai_editorial",
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "a5d4da644baa4c642010a5ac03bfdd099cf67cfea9be1c8fad09a32102c7e968",
+    "status": "uploaded",
+    "youtube_video_id": "My2JAFz53ew",
+    "url": "https://youtu.be/My2JAFz53ew",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

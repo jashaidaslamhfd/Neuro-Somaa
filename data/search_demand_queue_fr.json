@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-11-02T20:50:51.522292+00:00",
+  "mined_at": "2026-11-03T18:33:24.450418+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-11-02T20:50:51.522323+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450439+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522367+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450468+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522388+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450482+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522412+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450499+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522434+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450515+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522455+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450530+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-02T20:50:51.522499+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450559+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522519+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450574+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522538+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450587+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522557+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450601+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522578+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450616+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522615+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450643+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522637+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450657+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522675+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450680+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522699+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450698+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522732+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450712+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522756+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450728+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522777+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450744+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522801+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450759+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,36 +260,10 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-02T20:50:51.522843+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450790+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Tsahal Prépare Sa Révolution De L’intelligence Artificielle Et De La Robotique",
-      "topic": "Tsahal Prépare Sa Révolution De L’intelligence Artificielle Et De La Robotique",
-      "question_phrase": "Tsahal Prépare Sa Révolution De L’intelligence Artificielle Et De La Robotique",
-      "angle": "Tsahal Prépare Sa Révolution De L’intelligence Artificielle Et De La Robotique",
-      "thumbnail_text": "Tsahal Prépare Sa Révolution De L’intelligence Artificielle Et De La R",
-      "demand_note": "google_news_fr | 2026-11-02T20:34:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPVWZoYl9UN0hsLTFOeHZoSVdjcUo0U1hUNHlnaDIxWlFUT3FSbUNDbTBxNlpVeXVuQWJxV3hYYnl6a1REXzM2LXVBRUJZRzRGRFBwUDJkdHR0aU45Uno2ejFUWFJfWXNPRGc5RWZsYWV2NUJJb3dVYUt0Tmh3RldjNklXY1dXdzhjZVpxcDhZQXdBLXA0bFQzYzliMS1zTV9acHY3TGFpOVIybmczUG9DQ3Z3VndraHJtVUd3OHZR?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523041+00:00"
-    },
-    {
-      "series_number": "TREND-34",
-      "series_title": "Positive acquiert Humanlinker, spécialiste de la prospection par intelligence artificielle",
-      "topic": "Positive acquiert Humanlinker, spécialiste de la prospection par intelligence artificielle",
-      "question_phrase": "Positive acquiert Humanlinker, spécialiste de la prospection par intelligence artificielle",
-      "angle": "Positive acquiert Humanlinker, spécialiste de la prospection par intelligence artificielle",
-      "thumbnail_text": "Positive acquiert Humanlinker, spécialiste de la prospection par intel",
-      "demand_note": "google_news_fr | 2026-11-02T06:16:33+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi3gFBVV95cUxPOXJCV0Vnb3lKRjdyMlFZcW5WeUVZN0pNRW1IR05OVkpzd0NnbGpqNklfTzBXVkZqSzFPeDdwbWNHcGR0U3lrMlRPU1pENXRKNEtWZUtqaWhIZ0NFeXRjQ1dXZ0ZmZkVNcTlSelNHN0ZaYTc0bWJBNVR3MFhzQjFIbllHenl0RU1ndDY1eXEyVklQTjd4bDZTZnhjWWhtTnFZeDZ3MklacHlIX055MURWQXE2RFpJcnFGc08xVWdwMUhuQ05yUGQ1eWJYM1U5SDVSLURnRFViM19FRlpXcmc?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523070+00:00"
-    },
-    {
-      "series_number": "TREND-35",
       "series_title": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes le",
       "topic": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes les mêmes faiblesses",
       "question_phrase": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes les mêmes faiblesses",
@@ -299,74 +273,100 @@
       "source": "google_news_fr",
       "source_url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOZFN6UWdoVnNoUEI3Vm93WTNmNWVjLWlKd2Viek1mNjM0czhrV2lLX3dTM2h5OTJrT0lPMEN0TDd4cVg5a3k5bm9teUphQld3Yjh2U2gtU2xlei1SR09EWDZMOTJQeGRqU3ltSHFBMnMwbklWT0VwbHktaEQxWmNTa2RvZnFwNzNJMW9QeEotRzRtTGxxOGY2SGYwOE9SUVRtX29CRVFiMkJuTFdYSlhUbTZtaUxBQ3pXM3RRRFI5a0toNlRCSjdrbVlfYjVoYm9kRTF6dFpBQS1FZ2JIOG12RmhsRkFac25SYjBfRVB3RzFCSVJPZzJYRk5uLThpUQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523099+00:00"
+      "fetched_at": "2026-11-03T18:33:24.450925+00:00"
+    },
+    {
+      "series_number": "TREND-34",
+      "series_title": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement rout",
+      "topic": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
+      "question_phrase": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
+      "angle": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
+      "thumbnail_text": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant ",
+      "demand_note": "google_news_fr | 2026-11-03T12:40:35+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxQM2l5bU5BcUs2cDg0MENTOHV3c3BhUEFPU1c0TlY4NTBzT24tM196bGFxcTRPSGZnWXZEc0V6cWVRZVhDRVE3ZHJDWXhGSHhDVFZ0ekdNd1IyUUdDTG5LR3FHWkx4R0gyRjlhSF9KVHpPbnJFQ25aRjRtRkQ4S3hPN3RjOG9DcUhtcU1JcmY0VG9kc0hlV0ltb1h1cUxWeHU0TmRNUDVRWVVhSUhHRmx2bFFSWExkYlRyU2JQNlFETGNtT2JoOVU5ZFZBSmNzeTMyaUlVaXNzV2N4eUVIWFJTS2hZNjFjMTQ4QlpJZDhn?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-11-03T18:33:24.450954+00:00"
+    },
+    {
+      "series_number": "TREND-35",
+      "series_title": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’u",
+      "topic": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
+      "question_phrase": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
+      "angle": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
+      "thumbnail_text": "Aisin et l’université de Tohoku développent une puce d’intelligence ar",
+      "demand_note": "google_news_fr | 2026-11-03T01:25:15+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPY3A4dzFTeXBhaEgyVVRSYmlaclA0WTlOQTFEMkJGc3NmLUxiaW0zX200b2NmU3pWT2xZZlpCTkVENlNQMGdlSzRLTU1RdngyVVI3ZjQxU3ZtLXVxRDUzN21VUk5Qa0IxcUlYZl9Hb01ET08ta2hEc2xRMFgxSmliZmFKSzBoa1dCazB5SXlObzNGeVRDN3JmWlB2NjVwN3IwQWJXa2xwenl4VG5IdUd5WkgwOTNVaF9DNG4zUEc1RUdLSjV5ZzI4Nm9TUXhNd3pzS3hMM0tTRk9iMlpUVHBXNEtPbFJodm9IeDRmTzhWdw?oc=5",
+      "trend_score": 9,
+      "fetched_at": "2026-11-03T18:33:24.450981+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "Websolute obtient 334 000 EUR pour industrialiser sa plateforme d’intelligence artificiell",
-      "topic": "Websolute obtient 334 000 EUR pour industrialiser sa plateforme d’intelligence artificielle",
-      "question_phrase": "Websolute obtient 334 000 EUR pour industrialiser sa plateforme d’intelligence artificielle",
-      "angle": "Websolute obtient 334 000 EUR pour industrialiser sa plateforme d’intelligence artificielle",
-      "thumbnail_text": "Websolute obtient 334 000 EUR pour industrialiser sa plateforme d’inte",
-      "demand_note": "google_news_fr | 2026-11-02T07:08:36+00:00",
+      "series_title": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificiell",
+      "topic": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
+      "question_phrase": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
+      "angle": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
+      "thumbnail_text": "Les actions européennes reculent sur fond d’inquiétudes liées à l’inte",
+      "demand_note": "google_news_fr | 2026-11-03T07:27:08+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi5wFBVV95cUxPY3ctU3pnc3JMSktFUFM2LW9nVjA3OWgzWlN4THNadEFNUU5fRTBGR0g5REwzbzU3RGl5bjUtdGF5NUM2VFo0MUNVNnd3S0xOYTZaUWVERm1FZVA2REsxajl6Q1dJa2owVHh5S0RBTFI0ZWRKNm1mcklxeGhwbEI2X3RqdmcxcmlIN2xOclc1aHFST3Vrcmh5dUxlbC1nY2dsT2xubGo0X082U09yY2lRWEpJLWd6N3VzbHZaQl9RSDhUSzNBbEdrYm9WWWNCODNtd1BwMTRoSU1FM1lIZGZEVDZ6YjRyR0k?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQbG02QkRjTEpzT1A4MmUyd2hXVkdoTjdRTUpnT1VUQkprTmpSZDRnZ0wtSlBqdjJNTWxWNEtVLV9fZFc2b2s0OWNfVUc0MlF5NExDMWxpUDZxYzQ3X3djLS1rXzF5U3JkaDBnLXJ0aDVORW5ieEc0R25iQnhOMlJoeXh1RjR2ZDZOYllPTnoyTXk0RjJiLWJqekRicDVIRzlKN3dtdGU3dVhET1VPY3BZTTFlTXZqdXY3TkhidjRIV1VSUVdHbDZIbmpNRXBWcERwTWJjU2h6eGZ5Tzd5ejk3SmJnZDdWTEJ6WlRDbXhUVQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523134+00:00"
+      "fetched_at": "2026-11-03T18:33:24.451013+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "L'intelligence artificielle et les médias",
-      "topic": "L'intelligence artificielle et les médias",
-      "question_phrase": "L'intelligence artificielle et les médias",
-      "angle": "L'intelligence artificielle et les médias",
-      "thumbnail_text": "L'intelligence artificielle et les médias",
-      "demand_note": "google_news_fr | 2026-11-02T11:51:53+00:00",
+      "series_title": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence art",
+      "topic": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
+      "question_phrase": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
+      "angle": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
+      "thumbnail_text": "AustralianSuper renforce ses positions sur les « pioches et pelles » d",
+      "demand_note": "google_news_fr | 2026-11-03T01:13:35+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiSkFVX3lxTE93SkJoVUVqTmRNRFBaNkhkcjZNbUFpeDB5dVhzU1FSLXVmdWlMMTZwaG9sRURyRjIweGpmS2lhbEtzYUtrZFVNRGxn?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNNnlnaWpNRTBKcmhfWFB2Uml2R1M5OEVmX1Q2UlRDTUpaTEtrb1c3RDBNTk9oMzVJcGlaUUhyclpGQTBTOG1nc1I0a0ZkTGFuQmU5bEtjLTRGbVZ6ZkFWWTFQSFdaeVlCencxS1V0V25ibGpHMFY3MTVhcFRJOEM3LWY3NmRjdG5RYlh2SjVyRnl4T0NDbjZoU2VSeDB4NjhXVFhFaUVDTzZPSnpBVy1KamlQZ2hqSEhfMUlyangtQk84M1pXVFltVTlOX21CLVoydXNONWV5WXRQeEx2NFY1VWViWGswejlUMkVCdA?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523154+00:00"
+      "fetched_at": "2026-11-03T18:33:24.451045+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Cette IA qui menace la chanson et la culture corses",
-      "topic": "Cette IA qui menace la chanson et la culture corses",
-      "question_phrase": "Cette IA qui menace la chanson et la culture corses",
-      "angle": "Cette IA qui menace la chanson et la culture corses",
-      "thumbnail_text": "Cette IA qui menace la chanson et la culture corses",
-      "demand_note": "google_news_fr | 2026-11-02T06:05:01+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNZXdqMkwtaThWMGxUUm5JMGJkclZTM2d0UTJ0T0tydmhfU3JYX3VHaUgwR3ZYWlk2c1NBYTFXQjZxTUNRakx1OEhWb3RLSTBUV0pQQV9scUFhMEZCVUt5R0pqTHB6b1ljZlpOajdUSmlROC1nOGlUbUFuWXQ3dC1qRkQ1WnBpNVVqQ011Ui1Yb3pZME8zNWFuNmdmc1dHMzlMeG10OGtLbmNkOVhuRmNBTDJDZkMyMnZ3Mm5r?oc=5",
+      "series_title": "Vieillissement du cerveau",
+      "topic": "Vieillissement du cerveau",
+      "question_phrase": "Vieillissement du cerveau",
+      "angle": "Vieillissement du cerveau",
+      "thumbnail_text": "Vieillissement du cerveau",
+      "demand_note": "futura_sciences | 2026-11-03T11:33:35+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/memoire-vieillissement-cerveau-cette-star-apero-aurait-effet-inattendu-memoire-selon-etude-139034/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-11-02T20:50:51.523177+00:00"
+      "fetched_at": "2026-11-03T18:33:24.451056+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "Un morceau de viande oublié dans un frigo",
-      "topic": "Un morceau de viande oublié dans un frigo",
-      "question_phrase": "Un morceau de viande oublié dans un frigo",
-      "angle": "Un morceau de viande oublié dans un frigo",
-      "thumbnail_text": "Un morceau de viande oublié dans un frigo",
-      "demand_note": "futura_sciences | 2026-11-01T19:08:00+00:00",
+      "series_title": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
+      "topic": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
+      "question_phrase": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
+      "angle": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
+      "thumbnail_text": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
+      "demand_note": "futura_sciences | 2026-11-03T11:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sciences/actualites/batisseurs-demain-morceau-viande-oublie-frigo-pilar-granado-fait-invention-gaspillage-138439/#xtor%3DRSS-8",
-      "trend_score": 7,
-      "fetched_at": "2026-11-02T20:50:51.523196+00:00"
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-amazon-met-grand-coup-frein-prix-xiaomi-poco-x8-30-11735/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-11-03T18:33:24.451071+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "« Les IA sont conscientes »",
-      "topic": "« Les IA sont conscientes »",
-      "question_phrase": "« Les IA sont conscientes »",
-      "angle": "« Les IA sont conscientes »",
-      "thumbnail_text": "« Les IA sont conscientes »",
-      "demand_note": "futura_sciences | 2026-11-01T11:23:01+00:00",
+      "series_title": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière périod",
+      "topic": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
+      "question_phrase": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
+      "angle": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
+      "thumbnail_text": "Une poignée de poussière révèle les secrets génétiques des Européens d",
+      "demand_note": "futura_sciences | 2026-11-03T04:23:30+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/tech/actualites/intelligence-artificielle-ia-sont-conscientes-prix-nobel-geoffrey-hinton-souleve-peut-etre-question-plus-difficile-science-138921/#xtor%3DRSS-8",
-      "trend_score": 7,
-      "fetched_at": "2026-11-02T20:50:51.523216+00:00"
+      "source_url": "https://www.futura-sciences.com/sciences/actualites/homo-sapiens-poignee-poussiere-revele-secrets-genetiques-europeens-derniere-periode-glaciaire-139014/#xtor%3DRSS-8",
+      "trend_score": 9,
+      "fetched_at": "2026-11-03T18:33:24.451093+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-11-02T20:50:51.621611+00:00"
+  "filtered_at": "2026-11-03T18:33:24.531263+00:00"
 }
