@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-11-07T16:58:15.942005+00:00",
+  "topic": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+  "title": "Votre poids pourrait influencer la vitesse à laquelle ?",
+  "duration": 20.032333,
+  "hook_score": 90,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "ee0e43703c0a25c1805967d6373316a13fb04773b4837e49ac6e1c142d656361",
+    "42358d088de59c41560b681c8a6e0594439ac559ff3785ada61feed64b2b7869",
+    "2c40ecde4b5de2ba4eef38dc1354de0e65c9bf85c8fdde4749bad835a87de598",
+    "2da3ca23ad475615d01200f91fa6e631f48748d1b2f1cb744631178477b21dbc",
+    "74e50e2924fdde2ed5799252d45b21dc79d65810a9d8a31e8b25b7db7e7caf17",
+    "f43e53d630d0ab7b9bc3989fb9464f8cf5ba98c06b4929ee46f48804184f0326",
+    "fcb4a2208f305a887f798f8129763fe7285cc3248f0b71ff7f67477c70f62fa0",
+    "e314a1b4240faeaa5993066f539ab7ab9320da780b823be0b1e9a0a6d6487fc8"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "42b366881ee6be98f960168e527f6ac459c01b6b7428fe7f5647063ec14142a8",
+  "status": "uploaded",
+  "youtube_video_id": "VQimN4h4zvc",
+  "url": "https://youtu.be/VQimN4h4zvc",
+  "thumbnail_status": "uploaded"
+}

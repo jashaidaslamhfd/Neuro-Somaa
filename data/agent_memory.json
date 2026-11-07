@@ -943,10 +943,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/My2JAFz53ew",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 74,
+      "timestamp": "2026-11-07T16:58:23.492040+00:00",
+      "title": "Votre poids pourrait influencer la vitesse à laquelle ?",
+      "topic": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+      "duration": 20.032333,
+      "hook_score": 90,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/VQimN4h4zvc",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 73,
-  "last_cycle_at": "2026-11-03T18:34:47.634243+00:00",
+  "total_cycles": 74,
+  "last_cycle_at": "2026-11-07T16:58:23.492070+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

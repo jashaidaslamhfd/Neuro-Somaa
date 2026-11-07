@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-11-03T18:33:24.450418+00:00",
+  "mined_at": "2026-11-07T16:56:29.278848+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-11-03T18:33:24.450439+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278872+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450468+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278907+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450482+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278925+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450499+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278944+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450515+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278962+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450530+00:00"
+      "fetched_at": "2026-11-07T16:56:29.278978+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-03T18:33:24.450559+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279012+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450574+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279028+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450587+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279045+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450601+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279060+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450616+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279077+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450643+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279107+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450657+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279123+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450680+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279140+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450698+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279160+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450712+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279176+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450728+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279194+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450744+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279211+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450759+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279229+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,113 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-03T18:33:24.450790+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279263+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes le",
-      "topic": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes les mêmes faiblesses",
-      "question_phrase": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes les mêmes faiblesses",
-      "angle": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures IA pointent toutes les mêmes faiblesses",
-      "thumbnail_text": "Que pense l'intelligence artificielle de l'humanité ? Les meilleures I",
-      "demand_note": "google_news_fr | 2026-11-01T14:07:00+00:00",
+      "series_title": "Le Goncourt Philippe Jaenada défend son utilisation \"ironique\" de l'intelligence artificie",
+      "topic": "Le Goncourt Philippe Jaenada défend son utilisation \"ironique\" de l'intelligence artificielle et révèle quel passage de son roman a été écrit par l'IA",
+      "question_phrase": "Le Goncourt Philippe Jaenada défend son utilisation \"ironique\" de l'intelligence artificielle et révèle quel passage de son roman a été écrit par l'IA",
+      "angle": "Le Goncourt Philippe Jaenada défend son utilisation \"ironique\" de l'intelligence artificielle et révèle quel passage de son roman a été écrit par l'IA",
+      "thumbnail_text": "Le Goncourt Philippe Jaenada défend son utilisation \"ironique\" de l'in",
+      "demand_note": "google_news_fr | 2026-11-07T14:31:23+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi_gFBVV95cUxOZFN6UWdoVnNoUEI3Vm93WTNmNWVjLWlKd2Viek1mNjM0czhrV2lLX3dTM2h5OTJrT0lPMEN0TDd4cVg5a3k5bm9teUphQld3Yjh2U2gtU2xlei1SR09EWDZMOTJQeGRqU3ltSHFBMnMwbklWT0VwbHktaEQxWmNTa2RvZnFwNzNJMW9QeEotRzRtTGxxOGY2SGYwOE9SUVRtX29CRVFiMkJuTFdYSlhUbTZtaUxBQ3pXM3RRRFI5a0toNlRCSjdrbVlfYjVoYm9kRTF6dFpBQS1FZ2JIOG12RmhsRkFac25SYjBfRVB3RzFCSVJPZzJYRk5uLThpUQ?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiswJBVV95cUxNcVA1VzFVRnlzOTNjVjR4d052dFo2WlViYVV3SHJNdHlqQ0RYZmRuSjhlTDAyRmZkZ1lUNV9WaHlZRHEwVWpjbjBxUURvb011M0xyc1llUTUxQXFyZ2hkaTViTHB3RnhBZURNQ0tPTjJfX1JIeVFWemo5czE2dEJHZWtTUnBSdDB2Ukx0allITFZycWhwdm1kZWRMTmlHMEo1X19FbDZDaGNCcURHN2ZYSUdJNmxmNWhqdlM0ZGFTc2wwdDFqT2wzV0NZWFdHWGtMTnBCbU41NkRvUnpPNGlZVGhaTFJ3N3lLNXIyMi1HYjFxMDN0R0c0YlVOVm4temo0d09sclZiTDBTSTYtME40bnFDT21UY2VMZWl3NEtWVUJyeF9jVS1GbVJ3MXVEejQ2cW1z?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.450925+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279421+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement rout",
-      "topic": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
-      "question_phrase": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
-      "angle": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant l’environnement routier pour les robotaxis",
-      "thumbnail_text": "Le chinois Baidu lance un modèle d’intelligence artificielle simulant ",
-      "demand_note": "google_news_fr | 2026-11-03T12:40:35+00:00",
+      "series_title": "L’IA pense de plus en plus à notre place. Que devient notre cerveau",
+      "topic": "L’IA pense de plus en plus à notre place. Que devient notre cerveau",
+      "question_phrase": "L’IA pense de plus en plus à notre place. Que devient notre cerveau",
+      "angle": "L’IA pense de plus en plus à notre place. Que devient notre cerveau",
+      "thumbnail_text": "L’IA pense de plus en plus à notre place. Que devient notre cerveau",
+      "demand_note": "google_news_fr | 2026-11-07T07:00:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxQM2l5bU5BcUs2cDg0MENTOHV3c3BhUEFPU1c0TlY4NTBzT24tM196bGFxcTRPSGZnWXZEc0V6cWVRZVhDRVE3ZHJDWXhGSHhDVFZ0ekdNd1IyUUdDTG5LR3FHWkx4R0gyRjlhSF9KVHpPbnJFQ25aRjRtRkQ4S3hPN3RjOG9DcUhtcU1JcmY0VG9kc0hlV0ltb1h1cUxWeHU0TmRNUDVRWVVhSUhHRmx2bFFSWExkYlRyU2JQNlFETGNtT2JoOVU5ZFZBSmNzeTMyaUlVaXNzV2N4eUVIWFJTS2hZNjFjMTQ4QlpJZDhn?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTFBnVWFGa3cwMjFqWFJDNHUxM2lwNmxHRE9NdlZNMjFQQUlBeTNfLUkycmxua3BSazRIY2M1NXV6ZnlGWE55SUZ4RkE0Uk5ZakxGSElaUE10TQ?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.450954+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279446+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’u",
-      "topic": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
-      "question_phrase": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
-      "angle": "Aisin et l’université de Tohoku développent une puce d’intelligence artificielle dotée d’une mémoire intégrée",
-      "thumbnail_text": "Aisin et l’université de Tohoku développent une puce d’intelligence ar",
-      "demand_note": "google_news_fr | 2026-11-03T01:25:15+00:00",
+      "series_title": "Des robots IA pour alléger le travail des services administratifs",
+      "topic": "Des robots IA pour alléger le travail des services administratifs",
+      "question_phrase": "Des robots IA pour alléger le travail des services administratifs",
+      "angle": "Des robots IA pour alléger le travail des services administratifs",
+      "thumbnail_text": "Des robots IA pour alléger le travail des services administratifs",
+      "demand_note": "google_news_fr | 2026-11-07T08:00:00+00:00",
       "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxPY3A4dzFTeXBhaEgyVVRSYmlaclA0WTlOQTFEMkJGc3NmLUxiaW0zX200b2NmU3pWT2xZZlpCTkVENlNQMGdlSzRLTU1RdngyVVI3ZjQxU3ZtLXVxRDUzN21VUk5Qa0IxcUlYZl9Hb01ET08ta2hEc2xRMFgxSmliZmFKSzBoa1dCazB5SXlObzNGeVRDN3JmWlB2NjVwN3IwQWJXa2xwenl4VG5IdUd5WkgwOTNVaF9DNG4zUEc1RUdLSjV5ZzI4Nm9TUXhNd3pzS3hMM0tTRk9iMlpUVHBXNEtPbFJodm9IeDRmTzhWdw?oc=5",
+      "source_url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNcl80YndLb1RtTkp3VTEtMkp1eDZiWFFqMFFGSEhnWDMzRThqVGo3c2RQTFVMSkxjMy1TcWJGQmdmRTEzem05ZXFwczhtU09xRFVXR2d3aTlvOHlYNnJQVjd5MGs4V1hKZXBySGNZY1YtWkk0VDE3TEUtTzZOSlpPQlJKTmpWTUZsVFBoeV9EWU91Z3dKQXI2bkxXdlE2bzJNN0E?oc=5",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.450981+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279479+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificiell",
-      "topic": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
-      "question_phrase": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
-      "angle": "Les actions européennes reculent sur fond d’inquiétudes liées à l’intelligence artificielle, les tensions avec l’Iran s’intensifiant",
-      "thumbnail_text": "Les actions européennes reculent sur fond d’inquiétudes liées à l’inte",
-      "demand_note": "google_news_fr | 2026-11-03T07:27:08+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7wFBVV95cUxQbG02QkRjTEpzT1A4MmUyd2hXVkdoTjdRTUpnT1VUQkprTmpSZDRnZ0wtSlBqdjJNTWxWNEtVLV9fZFc2b2s0OWNfVUc0MlF5NExDMWxpUDZxYzQ3X3djLS1rXzF5U3JkaDBnLXJ0aDVORW5ieEc0R25iQnhOMlJoeXh1RjR2ZDZOYllPTnoyTXk0RjJiLWJqekRicDVIRzlKN3dtdGU3dVhET1VPY3BZTTFlTXZqdXY3TkhidjRIV1VSUVdHbDZIbmpNRXBWcERwTWJjU2h6eGZ5Tzd5ejk3SmJnZDdWTEJ6WlRDbXhUVQ?oc=5",
+      "series_title": "Une IA a créé des virus pour détruire des bactéries résistantes aux antibiotiques",
+      "topic": "Une IA a créé des virus pour détruire des bactéries résistantes aux antibiotiques",
+      "question_phrase": "Une IA a créé des virus pour détruire des bactéries résistantes aux antibiotiques",
+      "angle": "Une IA a créé des virus pour détruire des bactéries résistantes aux antibiotiques",
+      "thumbnail_text": "Une IA a créé des virus pour détruire des bactéries résistantes aux an",
+      "demand_note": "futura_sciences | 2026-11-07T11:27:10+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/virus-ia-cree-virus-detruire-bacteries-resistantes-antibiotiques-patient-deja-recus-139097/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.451013+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279500+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence art",
-      "topic": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
-      "question_phrase": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
-      "angle": "AustralianSuper renforce ses positions sur les « pioches et pelles » de l’intelligence artificielle pour traverser les bouleversements mondiaux",
-      "thumbnail_text": "AustralianSuper renforce ses positions sur les « pioches et pelles » d",
-      "demand_note": "google_news_fr | 2026-11-03T01:13:35+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMi7AFBVV95cUxNNnlnaWpNRTBKcmhfWFB2Uml2R1M5OEVmX1Q2UlRDTUpaTEtrb1c3RDBNTk9oMzVJcGlaUUhyclpGQTBTOG1nc1I0a0ZkTGFuQmU5bEtjLTRGbVZ6ZkFWWTFQSFdaeVlCencxS1V0V25ibGpHMFY3MTVhcFRJOEM3LWY3NmRjdG5RYlh2SjVyRnl4T0NDbjZoU2VSeDB4NjhXVFhFaUVDTzZPSnpBVy1KamlQZ2hqSEhfMUlyangtQk84M1pXVFltVTlOX21CLVoydXNONWV5WXRQeEx2NFY1VWViWGswejlUMkVCdA?oc=5",
+      "series_title": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+      "topic": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+      "question_phrase": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+      "angle": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire décline",
+      "thumbnail_text": "Votre poids pourrait influencer la vitesse à laquelle votre mémoire dé",
+      "demand_note": "futura_sciences | 2026-11-07T05:03:57+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/maladie-alzheimer-votre-poids-pourrait-influencer-vitesse-laquelle-votre-memoire-decline-ce-revelent-24-ans-suivi-139101/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.451045+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279520+00:00"
     },
     {
       "series_number": "TREND-38",
-      "series_title": "Vieillissement du cerveau",
-      "topic": "Vieillissement du cerveau",
-      "question_phrase": "Vieillissement du cerveau",
-      "angle": "Vieillissement du cerveau",
-      "thumbnail_text": "Vieillissement du cerveau",
-      "demand_note": "futura_sciences | 2026-11-03T11:33:35+00:00",
+      "series_title": "Moins de 400 € pour ce Xiaomi 5G à batterie géante ? Amazon frappe fort",
+      "topic": "Moins de 400 € pour ce Xiaomi 5G à batterie géante ? Amazon frappe fort",
+      "question_phrase": "Moins de 400 € pour ce Xiaomi 5G à batterie géante ? Amazon frappe fort",
+      "angle": "Moins de 400 € pour ce Xiaomi 5G à batterie géante ? Amazon frappe fort",
+      "thumbnail_text": "Moins de 400 € pour ce Xiaomi 5G à batterie géante ? Amazon frappe for",
+      "demand_note": "futura_sciences | 2026-11-06T11:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sante/actualites/memoire-vieillissement-cerveau-cette-star-apero-aurait-effet-inattendu-memoire-selon-etude-139034/#xtor%3DRSS-8",
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-moins-400-ce-xiaomi-5g-batterie-geante-amazon-frappe-fort-11773/#xtor%3DRSS-8",
       "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.451056+00:00"
+      "fetched_at": "2026-11-07T16:56:29.279544+00:00"
     },
     {
       "series_number": "TREND-39",
-      "series_title": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
-      "topic": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
-      "question_phrase": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
-      "angle": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
-      "thumbnail_text": "Amazon met un grand coup de frein au prix du Xiaomi Poco X8 avec",
-      "demand_note": "futura_sciences | 2026-11-03T11:00:00+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-smartphones-amazon-met-grand-coup-frein-prix-xiaomi-poco-x8-30-11735/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.451071+00:00"
+      "series_title": "Flux numériques connectés et intelligence artificielle",
+      "topic": "Flux numériques connectés et intelligence artificielle",
+      "question_phrase": "Flux numériques connectés et intelligence artificielle",
+      "angle": "Flux numériques connectés et intelligence artificielle",
+      "thumbnail_text": "Flux numériques connectés et intelligence artificielle",
+      "demand_note": "google_news_fr | 2026-11-06T15:55:56+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQRVEyOFQ3RWIydG5zYmFwcEozM1gwYTMydUVSTm5zaVhIU1NISzlyUTNNN3JidzVYZVRjek1CRk84Rl9mcWdrSjBoU1E5aHYwTWFNRldENW92SGlrdVRNckN3Zk5ocGpTdU5kN05oV21SQ1J1bW9LUTlMZlJLOUxEMThJV19GRGhZUGM3YkxmLVRpMEtxM0w1anp6THVpbUpqTGg2aFN3TF9NWENTQmxiS29n?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-11-07T16:56:29.279572+00:00"
     },
     {
       "series_number": "TREND-40",
-      "series_title": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière périod",
-      "topic": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
-      "question_phrase": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
-      "angle": "Une poignée de poussière révèle les secrets génétiques des Européens de la dernière période glaciaire",
-      "thumbnail_text": "Une poignée de poussière révèle les secrets génétiques des Européens d",
-      "demand_note": "futura_sciences | 2026-11-03T04:23:30+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sciences/actualites/homo-sapiens-poignee-poussiere-revele-secrets-genetiques-europeens-derniere-periode-glaciaire-139014/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-11-03T18:33:24.451093+00:00"
+      "series_title": "VIDÉO. L'entreprise de collecte de déchets Veolia met l’intelligence artificielle dans ses",
+      "topic": "VIDÉO. L'entreprise de collecte de déchets Veolia met l’intelligence artificielle dans ses camions",
+      "question_phrase": "VIDÉO. L'entreprise de collecte de déchets Veolia met l’intelligence artificielle dans ses camions",
+      "angle": "VIDÉO. L'entreprise de collecte de déchets Veolia met l’intelligence artificielle dans ses camions",
+      "thumbnail_text": "VIDÉO. L'entreprise de collecte de déchets Veolia met l’intelligence a",
+      "demand_note": "google_news_fr | 2026-11-06T16:01:35+00:00",
+      "source": "google_news_fr",
+      "source_url": "https://news.google.com/rss/articles/CBMipAJBVV95cUxPMTNtVE5SUExTVGVoeTRfYUNhSjlzODJORlF0LVlJRDJ0SmsxWTZ0NjZESldFZTY3SndLMGg1ZFA4TUtpblZySzZHM2JtRGgxNEhaYU5NRjh4UEJ2ajFkb3NWeFJWSTNsYXlVQzV2azlQTmVCanJxallaWEl3TGZVV21sS3RJYWxhMjEwd0NDeXIxYndoTjk4c1hsX3VRY1VmODM4V0dkTWRZRDZoMVBNSmJSZ2pUZUJac0ktYzVBNmxKS1laWk56Mk5TM0ZRZnZnUjJ0Qmp6U2NZaDdGSXR1SnBJeklsd2xaakRJVGxndVBxVHREdVVpdTBfbU9vZ0pfVmlkOTFHZWlreTh5SlMxV3R2NVZ0ZjdFc1hqcDBZd2s1OU5R?oc=5",
+      "trend_score": 7,
+      "fetched_at": "2026-11-07T16:56:29.279602+00:00"
     }
   ],
   "source_errors": [],
-  "filtered_at": "2026-11-03T18:33:24.531263+00:00"
+  "filtered_at": "2026-11-07T16:56:29.356672+00:00"
 }
