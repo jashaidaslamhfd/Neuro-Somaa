@@ -955,10 +955,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/VQimN4h4zvc",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 75,
+      "timestamp": "2026-11-17T19:58:32.411121+00:00",
+      "title": "La Chine au centre de l'attention mondiale durant deux ?",
+      "topic": "La Chine au centre de l'attention mondiale durant deux jours",
+      "duration": 20.0,
+      "hook_score": 90,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/htelIPPti-U",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 74,
-  "last_cycle_at": "2026-11-07T16:58:23.492070+00:00",
+  "total_cycles": 75,
+  "last_cycle_at": "2026-11-17T19:58:32.411150+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",

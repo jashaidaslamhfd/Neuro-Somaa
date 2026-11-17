@@ -1,0 +1,37 @@
+{
+  "created_at": "2026-11-17T19:58:27.891814+00:00",
+  "topic": "La Chine au centre de l'attention mondiale durant deux jours",
+  "title": "La Chine au centre de l'attention mondiale durant deux ?",
+  "duration": 20.0,
+  "hook_score": 90,
+  "quality_score": 90,
+  "growth_optimized": true,
+  "video_path": "output/neuro_somaa_fr.mp4",
+  "audio_segments": 8,
+  "clip_hashes": [
+    "f1fb850fe006227a497a01206def4d67c5a163001388039608f69a4861be940b",
+    "5bfb84b212dfaf226271d239d27d847b09d60021e9bcdd0c78f256ee06a78b5e",
+    "4a73642d4b917b6c0e04416804d4fbcc61e82f809fe6ffe69e220c995bebd2cd",
+    "9d753a41d31af43522de135ea99ae4ee52f4dafdea8a84242a58b4a2d57496d3",
+    "696643303825b2edc439c65e3d7ca6c202c7e013e8a889e35573ea2046ebe3bc",
+    "e5420e4ab027fe82b1ae202679f3191a75329eecd1033d08a332fd7cffb4636c",
+    "544cda19da3aee66404b53744d689620b8f4831cf7b9fefecb0e0a0ce9c32b0f",
+    "def44cea055f2b826f4d28cf75256950283d9bcb9f2da80163f49ffbb3226b64"
+  ],
+  "visual_providers": [
+    "ai_editorial",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion",
+    "procedural_motion"
+  ],
+  "thumbnail_path": "output/thumbnail.jpg",
+  "fingerprint": "6557233b34e881e0810c31923871e5938e5a5b68039d75ec7a484d40373c9b07",
+  "status": "uploaded",
+  "youtube_video_id": "htelIPPti-U",
+  "url": "https://youtu.be/htelIPPti-U",
+  "thumbnail_status": "uploaded"
+}
