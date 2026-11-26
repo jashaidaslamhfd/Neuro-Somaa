@@ -7164,5 +7164,44 @@
     "analytics_fetched_at": "2026-11-26T08:12:24.917606+00:00",
     "analytics_via": "data_api",
     "posted_at": "2026-11-17T20:52:46.294441+00:00"
+  },
+  {
+    "created_at": "2026-11-26T20:22:19.747703+00:00",
+    "topic": "Décrivez le logiciel dont vous rêvez, puis installez",
+    "title": "Décrivez le logiciel dont vous rêvez, puis installez ?",
+    "duration": 20.011333,
+    "hook_score": 90,
+    "quality_score": 90,
+    "growth_optimized": true,
+    "video_path": "output/neuro_somaa_fr.mp4",
+    "audio_segments": 8,
+    "clip_hashes": [
+      "2595c1cef1785f6471267b722dd2c8b879015317fb7ec98b5d93555beffc99e3",
+      "2d8bd74193bc26d083258ec1ad1c0aa3da3c456eaa98322d45969fee0533b5bc",
+      "cfdc1d1dbb9dd6d2ef648a9eaeebd108ce950a3d7bc68a26194eadfad3fd5670",
+      "2d82bb869e6d5b89c3345a381f8b0fbcd4ad2a75ef13acdba70cfc3a1b7c8965",
+      "1e157cf6d88b9633b6cd13bd4b76770c1cd0e7b85e9d896476fc1caca83a5e6e",
+      "c8a42061ca14e6cd9b1b53ca35dd5d4b2b3635aed5e4584aa148dc8f8b686c87",
+      "e3adbc36f7f0426a771ec1a6979c7a0472f30eca591d3c80494ef6903c2cab52",
+      "d9b34b8e4c8c9db73fa748a5b59d2828459ededebeb09dc216c1ebdb84e6515e"
+    ],
+    "visual_providers": [
+      "pexels_clip",
+      "procedural_motion",
+      "pexels_clip",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion",
+      "procedural_motion"
+    ],
+    "thumbnail_path": "output/thumbnail.jpg",
+    "fingerprint": "dd074012313a3ad501206adb28bf3ba65f2d138149ba0fbc66ce17a80886d49e",
+    "status": "uploaded",
+    "youtube_video_id": "K3SGq83C1bM",
+    "url": "https://youtu.be/K3SGq83C1bM",
+    "thumbnail_status": "uploaded",
+    "facebook_success": false,
+    "facebook_note": "Dry run, render only, or Meta credentials not configured"
   }
 ]

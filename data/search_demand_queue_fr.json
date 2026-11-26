@@ -1,6 +1,6 @@
 {
   "source": "Evergreen science bank + Google Trends France + French science RSS (filtered)",
-  "mined_at": "2026-11-17T19:57:18.664994+00:00",
+  "mined_at": "2026-11-26T20:21:16.629489+00:00",
   "topics": [
     {
       "series_number": "TREND-1",
@@ -13,7 +13,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 25,
-      "fetched_at": "2026-11-17T19:57:18.665017+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629514+00:00"
     },
     {
       "series_number": "TREND-3",
@@ -26,7 +26,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665051+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629549+00:00"
     },
     {
       "series_number": "TREND-4",
@@ -39,7 +39,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665068+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629566+00:00"
     },
     {
       "series_number": "TREND-5",
@@ -52,7 +52,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665087+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629585+00:00"
     },
     {
       "series_number": "TREND-6",
@@ -65,7 +65,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665106+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629611+00:00"
     },
     {
       "series_number": "TREND-7",
@@ -78,7 +78,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665124+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629640+00:00"
     },
     {
       "series_number": "TREND-9",
@@ -91,7 +91,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 22,
-      "fetched_at": "2026-11-17T19:57:18.665165+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629675+00:00"
     },
     {
       "series_number": "TREND-10",
@@ -104,7 +104,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665182+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629692+00:00"
     },
     {
       "series_number": "TREND-11",
@@ -117,7 +117,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665211+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629707+00:00"
     },
     {
       "series_number": "TREND-12",
@@ -130,7 +130,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665227+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629722+00:00"
     },
     {
       "series_number": "TREND-13",
@@ -143,7 +143,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665244+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629739+00:00"
     },
     {
       "series_number": "TREND-15",
@@ -156,7 +156,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665275+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629769+00:00"
     },
     {
       "series_number": "TREND-16",
@@ -169,7 +169,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665292+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629785+00:00"
     },
     {
       "series_number": "TREND-17",
@@ -182,7 +182,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665309+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629804+00:00"
     },
     {
       "series_number": "TREND-18",
@@ -195,7 +195,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665329+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629824+00:00"
     },
     {
       "series_number": "TREND-19",
@@ -208,7 +208,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665345+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629841+00:00"
     },
     {
       "series_number": "TREND-20",
@@ -221,7 +221,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665363+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629859+00:00"
     },
     {
       "series_number": "TREND-21",
@@ -234,7 +234,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665380+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629876+00:00"
     },
     {
       "series_number": "TREND-22",
@@ -247,7 +247,7 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665397+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629893+00:00"
     },
     {
       "series_number": "TREND-24",
@@ -260,113 +260,77 @@
       "source": "evergreen_seed",
       "source_url": "",
       "trend_score": 19,
-      "fetched_at": "2026-11-17T19:57:18.665432+00:00"
+      "fetched_at": "2026-11-26T20:21:16.629928+00:00"
     },
     {
       "series_number": "TREND-33",
-      "series_title": "L’IA maîtrise les sciences du climat… jusqu’à ce que les utilisateurs la contredisent",
-      "topic": "L’IA maîtrise les sciences du climat… jusqu’à ce que les utilisateurs la contredisent",
-      "question_phrase": "L’IA maîtrise les sciences du climat… jusqu’à ce que les utilisateurs la contredisent",
-      "angle": "L’IA maîtrise les sciences du climat… jusqu’à ce que les utilisateurs la contredisent",
-      "thumbnail_text": "L’IA maîtrise les sciences du climat… jusqu’à ce que les utilisateurs ",
-      "demand_note": "google_news_fr | 2026-11-17T07:00:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiV0FVX3lxTE9SU2w1RXFGbDFMdWdybHlkaFlRUkN5c3dxX0Y1ZkdSdndNR0c5RUVvYTM0bVBpcF93YmZJMjdJUVRaRm9iaFBtVGpLd0xXQzJoMDlOUnVQMA?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665591+00:00"
+      "series_title": "Les télescopes spatiaux Euclid et James",
+      "topic": "Les télescopes spatiaux Euclid et James",
+      "question_phrase": "Les télescopes spatiaux Euclid et James",
+      "angle": "Les télescopes spatiaux Euclid et James",
+      "thumbnail_text": "Les télescopes spatiaux Euclid et James",
+      "demand_note": "futura_sciences | 2026-11-25T20:02:29+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sciences/actualites/astronomie-telescopes-spatiaux-euclid-james-webb-decouvrent-monstre-cosmique-bouscule-theories-trous-noirs-139633/#xtor%3DRSS-8",
+      "trend_score": 7,
+      "fetched_at": "2026-11-26T20:21:16.630069+00:00"
     },
     {
       "series_number": "TREND-34",
-      "series_title": "Risques et intelligence artificielle, les toulousains de Previsia financent leur croissanc",
-      "topic": "Risques et intelligence artificielle, les toulousains de Previsia financent leur croissance",
-      "question_phrase": "Risques et intelligence artificielle, les toulousains de Previsia financent leur croissance",
-      "angle": "Risques et intelligence artificielle, les toulousains de Previsia financent leur croissance",
-      "thumbnail_text": "Risques et intelligence artificielle, les toulousains de Previsia fina",
-      "demand_note": "google_news_fr | 2026-11-17T15:00:33+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOMVRSX1VIX2tvV0xYUXh6UGtSVlRhX3k0c2xwUDdhRkQyQ2t4VjlPWHh5Z1pocWpIY2VuUjMxOTBaV2RlRklSNlU2dGVxWTl1cGhXdGpOMmV3b2VzeGVQSS11NDNyZUdsay1XOXRhQzRfRDFfRVh4ZkJVVlRJYXZBSUFTTGhLM1hjSGpkOVkza0VLMno1WG9oWjNXcGdsakVJc3FRWXRxTVM5MFVOek9LX1VaaUFZYl9qVkpyUnA2UUJYZw?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665614+00:00"
+      "series_title": "Les réseaux sociaux, meilleurs alliés des fabricants de tabac",
+      "topic": "Les réseaux sociaux, meilleurs alliés des fabricants de tabac",
+      "question_phrase": "Les réseaux sociaux, meilleurs alliés des fabricants de tabac",
+      "angle": "Les réseaux sociaux, meilleurs alliés des fabricants de tabac",
+      "thumbnail_text": "Les réseaux sociaux, meilleurs alliés des fabricants de tabac",
+      "demand_note": "futura_sciences | 2026-11-25T17:27:00+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/sante/actualites/tabac-reseaux-sociaux-meilleurs-allies-fabricants-tabac-139596/#xtor%3DRSS-8",
+      "trend_score": 7,
+      "fetched_at": "2026-11-26T20:21:16.630087+00:00"
     },
     {
       "series_number": "TREND-35",
-      "series_title": "La Chine au centre de l'attention mondiale durant deux jours",
-      "topic": "La Chine au centre de l'attention mondiale durant deux jours",
-      "question_phrase": "La Chine au centre de l'attention mondiale durant deux jours",
-      "angle": "La Chine au centre de l'attention mondiale durant deux jours",
-      "thumbnail_text": "La Chine au centre de l'attention mondiale durant deux jours",
-      "demand_note": "google_news_fr | 2026-11-17T05:34:00+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxQQUtIUDVYSGxod25KNUtVRFNmRTJZY2JYWlZpTVZsN1p6Q1ZSXzN5bldCNW1KVGtqLTMwczFSUXQ0RnJKdzh0TlhpY2hRRXpJc1U0TlpjdkhLN0o4cjVhTFdoY3NDUkZsRGZ2Z2NyNk1jLUVoSVJhdm9Sblo1S0YxRUJqVjcxeUoxendCZ3lIeU1LMFMyNGgwTk9JMW9GMk9pQmlMN2xOY1JBMlQzbzVpM2xhTnRydGlxQkJYWkdRVmRSYVViOEtMX1BreXY4NUlhczJWR3M5VkR2eGJNUWdUSC1NY0ZBUWhCMGRhenBDMjNhdnlldWhwbWJhMWhjRXVvRVhpRmZB?oc=5",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665631+00:00"
+      "series_title": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "topic": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "question_phrase": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "angle": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "thumbnail_text": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "demand_note": "futura_sciences | 2026-11-25T16:31:38+00:00",
+      "source": "futura_sciences",
+      "source_url": "https://www.futura-sciences.com/tech/actualites/claude-decrivez-logiciel-vous-revez-puis-installez-anthropic-vient-franchir-nouvelle-etape-claude-139641/#xtor%3DRSS-8",
+      "trend_score": 7,
+      "fetched_at": "2026-11-26T20:21:16.630103+00:00"
     },
     {
       "series_number": "TREND-36",
-      "series_title": "Un couple de monstres cosmiques découvert dans l'Univers primordial",
-      "topic": "Un couple de monstres cosmiques découvert dans l'Univers primordial",
-      "question_phrase": "Un couple de monstres cosmiques découvert dans l'Univers primordial",
-      "angle": "Un couple de monstres cosmiques découvert dans l'Univers primordial",
-      "thumbnail_text": "Un couple de monstres cosmiques découvert dans l'Univers primordial",
-      "demand_note": "futura_sciences | 2026-11-17T14:29:07+00:00",
+      "series_title": "Robot pâtissier, blender et hachoir",
+      "topic": "Robot pâtissier, blender et hachoir",
+      "question_phrase": "Robot pâtissier, blender et hachoir",
+      "angle": "Robot pâtissier, blender et hachoir",
+      "thumbnail_text": "Robot pâtissier, blender et hachoir",
+      "demand_note": "futura_sciences | 2026-11-25T13:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/sciences/actualites/astronomie-couple-monstres-cosmiques-decouvert-univers-primordial-astronomes-nont-toujours-aucune-explication-leur-presence-si-tot-139372/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665649+00:00"
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-petit-electromenager-robot-patissier-blender-hachoir-vevor-brade-son-appareil-multifonction-quelques-jours-black-friday-11950/#xtor%3DRSS-8",
+      "trend_score": 7,
+      "fetched_at": "2026-11-26T20:21:16.630117+00:00"
     },
     {
       "series_number": "TREND-37",
-      "series_title": "Enfants, ados et IA",
-      "topic": "Enfants, ados et IA",
-      "question_phrase": "Enfants, ados et IA",
-      "angle": "Enfants, ados et IA",
-      "thumbnail_text": "Enfants, ados et IA",
-      "demand_note": "futura_sciences | 2026-11-17T05:00:00+00:00",
+      "series_title": "Écran 16 pouces, SSD de 512 Go",
+      "topic": "Écran 16 pouces, SSD de 512 Go",
+      "question_phrase": "Écran 16 pouces, SSD de 512 Go",
+      "angle": "Écran 16 pouces, SSD de 512 Go",
+      "thumbnail_text": "Écran 16 pouces, SSD de 512 Go",
+      "demand_note": "futura_sciences | 2026-11-25T11:00:00+00:00",
       "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/tech/actualites/intelligence-artificielle-enfants-ados-ia-liens-affectifs-chatbots-inquietent-specialistes-138296/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665661+00:00"
-    },
-    {
-      "series_number": "TREND-38",
-      "series_title": "Alexandre Duval, ou comment l'IA conçoit des molécules pour rendre l’industrie plus propre",
-      "topic": "Alexandre Duval, ou comment l'IA conçoit des molécules pour rendre l’industrie plus propre",
-      "question_phrase": "Alexandre Duval, ou comment l'IA conçoit des molécules pour rendre l’industrie plus propre",
-      "angle": "Alexandre Duval, ou comment l'IA conçoit des molécules pour rendre l’industrie plus propre",
-      "thumbnail_text": "Alexandre Duval, ou comment l'IA conçoit des molécules pour rendre l’i",
-      "demand_note": "futura_sciences | 2026-11-15T19:01:10+00:00",
-      "source": "futura_sciences",
-      "source_url": "https://www.futura-sciences.com/tech/actualites/intelligence-artificielle-alexandre-duval-ia-concoit-molecules-rendre-industrie-plus-propre-138273/#xtor%3DRSS-8",
-      "trend_score": 9,
-      "fetched_at": "2026-11-17T19:57:18.665686+00:00"
-    },
-    {
-      "series_number": "TREND-39",
-      "series_title": "LinkedIn part à la chasse aux commentaires générés par intelligence artificielle",
-      "topic": "LinkedIn part à la chasse aux commentaires générés par intelligence artificielle",
-      "question_phrase": "LinkedIn part à la chasse aux commentaires générés par intelligence artificielle",
-      "angle": "LinkedIn part à la chasse aux commentaires générés par intelligence artificielle",
-      "thumbnail_text": "LinkedIn part à la chasse aux commentaires générés par intelligence ar",
-      "demand_note": "google_news_fr | 2026-11-17T14:10:35+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxQTTFvVmJNVUl3MUJLb2RKeFA3Vm5uNGwyaThHd1pJSllsVjFock1maXRzS2hZdXZ3SVY4allWaW5haUtMQVFIVXRYZGRzVDFfaGN6SkFta1ZiY19VMTlMOWJNS3hMa094T2J2Sm1pbThRbUNwZzdTUE9XVXNTb0VzS1p4bWZDVlZLbDAyb21VbFFKbDZxZl9wcW9odFNJUU5EeW1POXZTcDM5Wjl1cWRkSjhyX0dQY2dx?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-11-17T19:57:18.665707+00:00"
-    },
-    {
-      "series_number": "TREND-40",
-      "series_title": "Quel prix vaut l’IA ? Le casse",
-      "topic": "Quel prix vaut l’IA ? Le casse",
-      "question_phrase": "Quel prix vaut l’IA ? Le casse",
-      "angle": "Quel prix vaut l’IA ? Le casse",
-      "thumbnail_text": "Quel prix vaut l’IA ? Le casse",
-      "demand_note": "google_news_fr | 2026-11-17T09:50:55+00:00",
-      "source": "google_news_fr",
-      "source_url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxPM2QxeDJTUjdVREdTX250VTIzbWNxU1hUdjY2aEdFQXhEUm5FYWN3UmFMQVNwUEtlMXpDbmpTdG03U3h3THI0VVlRako1QXZBRUktbEo4V3VhX1JSNTl0WmR2TVpRVjhTVnVYX3BzVkRBQ18zTlBDTjk0cE85ZGVhVl84UWpVQ0NqRVFFWFhDSUlOV3hpdklPbUI2TTdmZ0dTVmZiN044amFNOUE2dWJyZ3pzNEd0V1REMU9pajhIR1NZZ2g3cVBMX19NV0dmR3dodE9RNUZ0aGt1ZE5oWTVqTXhsUzRsVmJFWUd4V2FvMHJyRDM0YmlSZTEwX01CUjZieTQ5b2hqZw?oc=5",
-      "trend_score": 8,
-      "fetched_at": "2026-11-17T19:57:18.665738+00:00"
+      "source_url": "https://www.futura-sciences.com/conso/bons-plans/guides-pc-tablettes-ecran-16-pouces-ssd-512-go-cdiscount-casse-prix-ce-pc-hp-black-friday-11948/#xtor%3DRSS-8",
+      "trend_score": 7,
+      "fetched_at": "2026-11-26T20:21:16.630131+00:00"
     }
   ],
-  "source_errors": [],
-  "filtered_at": "2026-11-17T19:57:18.750010+00:00"
+  "source_errors": [
+    "google_news_fr: HTTP Error 503: Service Unavailable",
+    "inserm: HTTP Error 415: Unsupported Media Type"
+  ],
+  "filtered_at": "2026-11-26T20:21:16.718245+00:00"
 }

@@ -967,10 +967,22 @@
       "status": "uploaded",
       "url": "https://youtu.be/htelIPPti-U",
       "tempo": "MYSTERY_BUILD"
+    },
+    {
+      "cycle": 76,
+      "timestamp": "2026-11-26T20:22:26.726976+00:00",
+      "title": "Décrivez le logiciel dont vous rêvez, puis installez ?",
+      "topic": "Décrivez le logiciel dont vous rêvez, puis installez",
+      "duration": 20.011333,
+      "hook_score": 90,
+      "quality_score": 90,
+      "status": "uploaded",
+      "url": "https://youtu.be/K3SGq83C1bM",
+      "tempo": "MYSTERY_BUILD"
     }
   ],
-  "total_cycles": 75,
-  "last_cycle_at": "2026-11-17T19:58:32.411150+00:00",
+  "total_cycles": 76,
+  "last_cycle_at": "2026-11-26T20:22:26.727004+00:00",
   "reference_hooks": [
     "Ton téléphone vibre dans le vide ?",
     "Pourquoi oublie-t-on nos rêves ?",
